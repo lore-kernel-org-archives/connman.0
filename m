@@ -1,75 +1,73 @@
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from forward2-smtp.messagingengine.com (forward2-smtp.messagingengine.com [66.111.4.226])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1775070
-	for <connman@lists.linux.dev>; Thu,  3 Jun 2021 12:04:23 +0000 (UTC)
-Received: by mail-lf1-f50.google.com with SMTP id t7so1291072lff.0
-        for <connman@lists.linux.dev>; Thu, 03 Jun 2021 05:04:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:from:date:message-id:subject:to;
-        bh=WPuGEVzKNtkDS4P8ttUybUnW5mg3H1X1XLRz4JgTkmI=;
-        b=pTYllL40/mZZ6AafZaq84kdha032g1pYLBGiUeWeYMgGAScbbIg8H7nk1Pew4KoGi/
-         u5NlxTLaKLP3OedzkrTuwZd0ecOHKxf4HLqOhCi2Ws7xzMpmorBx7niUJKPK2hzYFyL/
-         AoWfDrNSeqeTSnbUm1gUvBuSe9iSYpTOe+dGW1J7feDLR4RQh7zVfJu9Uae6S5vSfr9M
-         PsatgzkGfs5aMJVd//RT6/iq+h6ofjSh1jHBI3WdP5p16xAD3sjXM4Tjj/B2zRoxndAe
-         vvfvbQ/YILwQkb8as2MAX3nA3VpMZfON8lHIoi86lWGx8w6Aw/MsUJBzBMTGay64/v78
-         OMxA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-        bh=WPuGEVzKNtkDS4P8ttUybUnW5mg3H1X1XLRz4JgTkmI=;
-        b=BjCx65krLCeD64migmOml9bdovf8F5PyjfL547+tWJXMjFYHdf68JKLNR4w71gbJt7
-         IWf2XLMWnvTWwFo9ARtV9EAJaHsdhEPV+s2XCOumc9ROD1JugZt3yuM4mxoQ5j09gBUc
-         YSrS7NONam1f67T/Qn//CMbQYOXrewiyF5kQSimcCXu/Y0X1yCp0g/C7ztXnrMwW75S0
-         OcauTowOixe9ZtLjuJFt0js4xUMVEofpYocKfHljyWQaXzrK66LdWNUELNR1FJZvTDVu
-         QV9XgUMty0GPiS1SLX8ta9G2FJywUXoMxRt8yAJ0zOlDr9juIqiuB6TWqZOrwej8LFuc
-         bxWQ==
-X-Gm-Message-State: AOAM5322OPsp7r7icTurkHBWX2K8H90WLLOYSQLUZX3edAWR9ozDonq/
-	LtxMAFnifjGqcxEjyHJZx9QbFcHctSDLeX8M/ZLZr6+hVK09PQ==
-X-Google-Smtp-Source: ABdhPJySTMcD46H2ZJV7qyGh1PYigZOtlmWbAwHo9TwsQUN6eYz+bi6pJIdqMrNXD92Yy/mD2e9fOymD1IJs/pJKcas=
-X-Received: by 2002:ac2:5493:: with SMTP id t19mr1745025lfk.145.1622721861070;
- Thu, 03 Jun 2021 05:04:21 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 067D970
+	for <connman@lists.linux.dev>; Tue,  8 Jun 2021 15:39:47 +0000 (UTC)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+	by mailforward.nyi.internal (Postfix) with ESMTP id 396451940BE1;
+	Tue,  8 Jun 2021 11:39:47 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute6.internal (MEProxy); Tue, 08 Jun 2021 11:39:47 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:content-transfer-encoding:date:from
+	:message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=f+YvdfO284R1MdAy9
+	e8zYWmT9RKLB+1Y7vkyDE3C6/k=; b=XMZD+hb2MORh6QBDJjDxOcNu/BwVXcgnq
+	zZ3fy3KRkOTWcNsWCz4aCri6AMZ4Bq8FSaSHH5e2dhhewZ4GIrLtTQV2DTE+QLEa
+	dZ/Uzv2zKtp9WBXqna9HGTdnJClxhu3KDd6KdQU+KZwkWlHJjIbeJaNSSUjUdwIB
+	oLk0pcGPzLYr3AygM1JLLt1eHImBZ7sXPHDbfp03LZLB3tRG3lU+U7aLSWB8lKv2
+	yXaD7kMYWOmCzy9ivpjkMUUmLvCgsam6cSO6IrlmrBsH76+9R5iD1nmZB0DSFHpL
+	kMyfG2cwUaJaQ1IABSOhHx7SYTHrMli1jPRlJJzIHHxg7dwavDiQw==
+X-ME-Sender: <xms:Qo-_YM7AeNMFOqCiZ40xkN-j78xD482J-BqPyY9fL5Fei9qEEVSLaw>
+    <xme:Qo-_YN5HgTFibYbzBjH9RKmkUp37jxR0YHla4VrvqIe_dBxuUdRmQkDao_BJc3f7e
+    2ap3YR-l1ltmPKaUA>
+X-ME-Received: <xmr:Qo-_YLdlpfYCtE2eXun36tcTt3YvCv3-1gkQbeZZZ_HSxiUOyfho-sfeK-PmPijxI9MNl6ZjU8s3g15iVQa3-Kx6O6A7qUgy>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrfedtledgjeeiucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucenucfjughrpefhvffufffkofgggfestdekredtre
+    dttdenucfhrhhomheptehlhihsshgrucftohhsshcuoehhihesrghlhihsshgrrdhisheq
+    necuggftrfgrthhtvghrnhephefgtdelieffueevgeekueffhedvvefhteefheefffelte
+    etvddvgeekuddugefgnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushht
+    vghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehqhihlihhsshesvghvvg
+    drqhihlhhishhsrdhnvght
+X-ME-Proxy: <xmx:Qo-_YBIlZln1Q0Rw6TfupulYEslu8Uk1RMsiuO5lBecSZWe0KK0LZA>
+    <xmx:Qo-_YAK5p9r36in0-Mexm6_I3b_CjjDhFeEhGH962Qh6x-bowhGzBQ>
+    <xmx:Qo-_YCwuYJQ-O01IZJHWs92QniBVPRUBvVJOz6A5jim3lY99_-ZAMw>
+    <xmx:Q4-_YKziPgpX4qAtSwvY6l8oZEO1BrCFJwfJHt7mXFpsy3lw_5F1sw>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 8 Jun 2021 11:39:46 -0400 (EDT)
+Received: by eve.qyliss.net (Postfix, from userid 1000)
+	id 6CD66E9D; Tue,  8 Jun 2021 15:39:45 +0000 (UTC)
+From: Alyssa Ross <hi@alyssa.is>
+To: connman@lists.linux.dev
+Cc: Daniel Wagner <wagi@monom.org>
+Subject: [PATCH] README: fix typo
+Date: Tue,  8 Jun 2021 15:39:35 +0000
+Message-Id: <20210608153935.746482-1-hi@alyssa.is>
+X-Mailer: git-send-email 2.31.0
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-From: Andrei Datcu <datcuandrei@gmail.com>
-Date: Thu, 3 Jun 2021 15:04:10 +0300
-Message-ID: <CAAmFs7nJNeKJG0Bitgwy4dpautH9hV1pCiSRiHoj8fX_b5ksvg@mail.gmail.com>
-Subject: Manager::ServicesChanged properties
-To: connman@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Currently, the documentation states that
+Signed-off-by: Alyssa Ross <hi@alyssa.is>
+---
+ README | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-The dictionary with the properties might be empty in case none of
-the properties have changed. Or only contains the
-properties that have changed.
-For newly added services the whole set of properties will be present.
+diff --git a/README b/README
+index e36d796c..b8154e67 100644
+--- a/README
++++ b/README
+@@ -451,5 +451,5 @@ send a (empty) message from your email account to
+ 
+ 	connman+subscribe@lists.linux.dev
+ 
+-Maling list archive:
++Mailing list archive:
+ 	https://lore.kernel.org/connman
+-- 
+2.31.0
 
-
-Yet, the final paragraph also says:
-
-This signal will only be triggered when the sort
-order of the service list or the number of services
-changes. It will not be emitted if only a property
-of the service object changes.
-
-
-Combining the two rules, I understand that the props dictionary is
-either empty (for existing services) or it either contains the entire
-props dict of the newly added service.
-
-My question:
-
-Since by inspecting the code (service.c::service_send_changed) this
-seems to currently be the case, is there any particular reason why the
-documentation doesn't state it explicitly? Was there ever the
-possibility to get a partial dictionary? If not, would you consider a
-patch to the documentation to make it clearer for the future?
-
-Thanks,
-
-Andrei Datcu
