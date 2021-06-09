@@ -1,73 +1,74 @@
-Received: from forward2-smtp.messagingengine.com (forward2-smtp.messagingengine.com [66.111.4.226])
+Received: from mail.monom.org (mail.monom.org [188.138.9.77])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 067D970
-	for <connman@lists.linux.dev>; Tue,  8 Jun 2021 15:39:47 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
-	by mailforward.nyi.internal (Postfix) with ESMTP id 396451940BE1;
-	Tue,  8 Jun 2021 11:39:47 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute6.internal (MEProxy); Tue, 08 Jun 2021 11:39:47 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-transfer-encoding:date:from
-	:message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=f+YvdfO284R1MdAy9
-	e8zYWmT9RKLB+1Y7vkyDE3C6/k=; b=XMZD+hb2MORh6QBDJjDxOcNu/BwVXcgnq
-	zZ3fy3KRkOTWcNsWCz4aCri6AMZ4Bq8FSaSHH5e2dhhewZ4GIrLtTQV2DTE+QLEa
-	dZ/Uzv2zKtp9WBXqna9HGTdnJClxhu3KDd6KdQU+KZwkWlHJjIbeJaNSSUjUdwIB
-	oLk0pcGPzLYr3AygM1JLLt1eHImBZ7sXPHDbfp03LZLB3tRG3lU+U7aLSWB8lKv2
-	yXaD7kMYWOmCzy9ivpjkMUUmLvCgsam6cSO6IrlmrBsH76+9R5iD1nmZB0DSFHpL
-	kMyfG2cwUaJaQ1IABSOhHx7SYTHrMli1jPRlJJzIHHxg7dwavDiQw==
-X-ME-Sender: <xms:Qo-_YM7AeNMFOqCiZ40xkN-j78xD482J-BqPyY9fL5Fei9qEEVSLaw>
-    <xme:Qo-_YN5HgTFibYbzBjH9RKmkUp37jxR0YHla4VrvqIe_dBxuUdRmQkDao_BJc3f7e
-    2ap3YR-l1ltmPKaUA>
-X-ME-Received: <xmr:Qo-_YLdlpfYCtE2eXun36tcTt3YvCv3-1gkQbeZZZ_HSxiUOyfho-sfeK-PmPijxI9MNl6ZjU8s3g15iVQa3-Kx6O6A7qUgy>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrfedtledgjeeiucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucenucfjughrpefhvffufffkofgggfestdekredtre
-    dttdenucfhrhhomheptehlhihsshgrucftohhsshcuoehhihesrghlhihsshgrrdhisheq
-    necuggftrfgrthhtvghrnhephefgtdelieffueevgeekueffhedvvefhteefheefffelte
-    etvddvgeekuddugefgnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushht
-    vghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehqhihlihhsshesvghvvg
-    drqhihlhhishhsrdhnvght
-X-ME-Proxy: <xmx:Qo-_YBIlZln1Q0Rw6TfupulYEslu8Uk1RMsiuO5lBecSZWe0KK0LZA>
-    <xmx:Qo-_YAK5p9r36in0-Mexm6_I3b_CjjDhFeEhGH962Qh6x-bowhGzBQ>
-    <xmx:Qo-_YCwuYJQ-O01IZJHWs92QniBVPRUBvVJOz6A5jim3lY99_-ZAMw>
-    <xmx:Q4-_YKziPgpX4qAtSwvY6l8oZEO1BrCFJwfJHt7mXFpsy3lw_5F1sw>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 8 Jun 2021 11:39:46 -0400 (EDT)
-Received: by eve.qyliss.net (Postfix, from userid 1000)
-	id 6CD66E9D; Tue,  8 Jun 2021 15:39:45 +0000 (UTC)
-From: Alyssa Ross <hi@alyssa.is>
-To: connman@lists.linux.dev
-Cc: Daniel Wagner <wagi@monom.org>
-Subject: [PATCH] README: fix typo
-Date: Tue,  8 Jun 2021 15:39:35 +0000
-Message-Id: <20210608153935.746482-1-hi@alyssa.is>
-X-Mailer: git-send-email 2.31.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B85970
+	for <connman@lists.linux.dev>; Wed,  9 Jun 2021 06:54:11 +0000 (UTC)
+Received: from mail.monom.org (localhost [127.0.0.1])
+	by filter.mynetwork.local (Postfix) with ESMTP id 41044500517;
+	Wed,  9 Jun 2021 08:54:03 +0200 (CEST)
+X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on mail.monom.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.5 required=5.0 tests=ALL_TRUSTED,BAYES_00
+	autolearn=ham autolearn_force=no version=3.4.2
+Received: from localhost (unknown [94.31.103.148])
+	by mail.monom.org (Postfix) with ESMTPSA id 0A4645002C0;
+	Wed,  9 Jun 2021 08:54:03 +0200 (CEST)
+Date: Wed, 9 Jun 2021 08:54:02 +0200
+From: Daniel Wagner <wagi@monom.org>
+To: Andrei Datcu <datcuandrei@gmail.com>
+Cc: connman@lists.linux.dev
+Subject: Re: Manager::ServicesChanged properties
+Message-ID: <20210609065402.xy2ggiiv3ohcccqo@beryllium.lan>
+References: <CAAmFs7nJNeKJG0Bitgwy4dpautH9hV1pCiSRiHoj8fX_b5ksvg@mail.gmail.com>
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAAmFs7nJNeKJG0Bitgwy4dpautH9hV1pCiSRiHoj8fX_b5ksvg@mail.gmail.com>
 
-Signed-off-by: Alyssa Ross <hi@alyssa.is>
----
- README | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Hi Andrei,
 
-diff --git a/README b/README
-index e36d796c..b8154e67 100644
---- a/README
-+++ b/README
-@@ -451,5 +451,5 @@ send a (empty) message from your email account to
- 
- 	connman+subscribe@lists.linux.dev
- 
--Maling list archive:
-+Mailing list archive:
- 	https://lore.kernel.org/connman
--- 
-2.31.0
+On Thu, Jun 03, 2021 at 03:04:10PM +0300, Andrei Datcu wrote:
+> Currently, the documentation states that
+> 
+> The dictionary with the properties might be empty in case none of
+> the properties have changed. Or only contains the
+> properties that have changed.
+> For newly added services the whole set of properties will be present.
+> 
+> 
+> Yet, the final paragraph also says:
+> 
+> This signal will only be triggered when the sort
+> order of the service list or the number of services
+> changes. It will not be emitted if only a property
+> of the service object changes.
+> 
+> 
+> Combining the two rules, I understand that the props dictionary is
+> either empty (for existing services) or it either contains the entire
+> props dict of the newly added service.
+> 
+> My question:
+> 
+> Since by inspecting the code (service.c::service_send_changed) this
+> seems to currently be the case, is there any particular reason why the
+> documentation doesn't state it explicitly?
 
+Don't know, but I suspect Marcel wanted to stress the points
+independently.
+
+> Was there ever the possibility to get a partial dictionary?
+
+As far I understand the current situation, this is not the case.
+
+> If not, would you consider a
+> patch to the documentation to make it clearer for the future?
+
+Yes sure, please just send a patch.
+
+Thanks,
+Daniel
