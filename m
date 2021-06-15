@@ -1,126 +1,134 @@
-Received: from EUR05-AM6-obe.outbound.protection.outlook.com (mail-am6eur05on2080.outbound.protection.outlook.com [40.107.22.80])
+Received: from EUR01-DB5-obe.outbound.protection.outlook.com (mail-eopbgr150077.outbound.protection.outlook.com [40.107.15.77])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D12D2FB2
-	for <connman@lists.linux.dev>; Tue, 15 Jun 2021 09:15:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71DCF2FB2
+	for <connman@lists.linux.dev>; Tue, 15 Jun 2021 09:51:41 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=oC3HXs19kI86BiHNLRqHWwbSTI1dGkQ/C/fF6Lsx9HAkZ2f/B/wx8CW8M/XBytl4Bk1ePyqbqwp023di2zZNGK+jKOgE8HEzBXnFzj+mjHDBBBQSQxyPxrB5TZt6xwdQhM/dkcVkrx9e4THNq6OPnSo0yBsDasJu6QU+LLc5n4zu3RxgFdyn9EKdi15bHI83O3JvBq/G1B+Oc3ZPnuipoPpygQHfOZ9wL6Bd+ICRtE8aOEytiJ4LlLaKKKX78rJJ6wU6aZgAXdMmnZqIg6QU9MmwOP9911yu5oDcuHmwNcCMOxtil1y1E0IJDYM5tyVF5KYa92qof3v4sT9f38srVA==
+ b=hU/W/EdccotU5pPhc+ROvwGM0j9eBm9KUff7EGlJVMT7C0GX6Eyke3NkFRlvW592jWY57IctWpf0caTamslBm7C7vZPkKs0OOZGCMgJZPzwTIXja3ACcHNSaw2rqGaPA4K5Hsj2yI+5Y13SpoVVa3ZKFEdOp2YMuaQiYGOd9iYOOUpMTREkrmyMWW2CyQ9hCwMsf7z7okkzQhaHyRN3Nig6BRo4wslPXlRLKXwrF6CMjBG7ofQY4xzZ/yryPucHqXAUeBkoSIpRSw1Jvq0o/XaajVF8wPLqlMTg2JWOlgZ0KC1M72v++RRck0KuSIHqef5pA2MAKX3G8soHzoFYBLw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=BXaj169Rg/52iYru65wiqr4QUu1CdvLHH0JF6Ab6qxQ=;
- b=JP0uuYZmnlBCZB/+//To0WE8vOTa3C2vg3vUiGOnY8kb5Ok6V/UUpKSxQ4xtE3uHQGqfU9ID3GcvX9+wBJXnVE6rsoHiubFbtBC9kBU2ET5yXJj9ALje8bUOpxmghTM1htyMTY5n8b6G0iwOXiqOD0jHtT35S51fsSCl2xbsWYudXiCTFEp1kY3p8gJyWeJgZ7yIZa6xr7MXfbYwjoXFv4bGSfPoJA2kpOd7qIz1ljp40bsrZkhYHu7e4sbHQ7jKvbMP9W3K3TSzDz59RK3sQi9qJXpSd7fRCwpKczMF5eMdV0QCrQ4DNqzZJVUfaQXfc9yg4dqFB1ec7Qv8GVrSZg==
+ bh=Bzz6TaKDJ0ln89oi2DN4cNQ+EsakIshOkuIDfMtxzrI=;
+ b=Pb2mw09P/hLENSamXF869FpkffqseEjJUBBvzY3F4EW5+rBNGouaIOsNHt3cwmMSoT+was9+KPPx3JqfYn/EQ3d5cf5tgc2WfTB5llCawB16pqbR5DjHFVNgRe6ffyJPHjPQMIdXne5XiqF45izqZPDUGjLFb/i23K3kHaEJDQexkxpiVAe0KQM7aDQRmIOZh/om/HHaaklY83c0jxSshpSYvD0F2l2BFqK5HJ17yisMBUojRxuefq5mPsgnZ0gKKoYnLSiwnYhrWfXzhss6Xq2CapDH3j8XSSCYG2V8FXAAghvv2J89CP5/PTdPEjrS9FWKP6RBFoLiGzSyJdjPxQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=jolla.com; dmarc=pass action=none header.from=jolla.com;
- dkim=pass header.d=jolla.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jolla.com;
- s=selector1;
+ smtp.mailfrom=cpexterne.org; dmarc=pass action=none
+ header.from=cpexterne.org; dkim=pass header.d=cpexterne.org; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cpexterne.org;
+ s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=BXaj169Rg/52iYru65wiqr4QUu1CdvLHH0JF6Ab6qxQ=;
- b=Gq3G8Sshn/Hj+erSJsCgVuUnlrQgu2nh95njtcvNXWaUeebddjNjSN4OWpB/ne02+vVoRvVU1WgJe9i3g+CdaIrmTGwv4wbHopRBeOJySjzcGAfJGkiwBv0sUbXABwh5OWybamcQIfTzysRWIerItfZbyQWWdGg9OIQYa3uo0pJGAnSoQk50MahsfXWMcUiyS4qL96z63goasbRAYw99GHx3+DuySI4+sW/2hT9X4VraOtxasB6K1OuVUzkZdVaD53xFcLLC+RDpM+80beqQfE9TbCH4Q0rcZJbMI6R7Y37KbUqFiCUUzoKPyoM8Zc4vBy/fqdOA2+AxMCwQkZMFOg==
-Authentication-Results: lists.linux.dev; dkim=none (message not signed)
- header.d=none;lists.linux.dev; dmarc=none action=none header.from=jolla.com;
-Received: from PR1PR06MB6076.eurprd06.prod.outlook.com (2603:10a6:102:d::27)
- by PAXPR06MB7919.eurprd06.prod.outlook.com (2603:10a6:102:1a2::16) with
+ bh=Bzz6TaKDJ0ln89oi2DN4cNQ+EsakIshOkuIDfMtxzrI=;
+ b=MYE8iaUW5uPWlMrJ9B0ypA/KHFt4zUyabU0GlP8lgvdv97gI/W8zM5pnkx1TLqZe/G6BPWn4IU7ri9NNzWY47mtokdLHoIHHhDzIb1hZ8LnVk309kf1zfXIFUkPa2XU6pUASPs0OagSEteF4aoamLid17F1EPvdA/xM6HKMPGnk=
+Received: from PR1PR02MB4794.eurprd02.prod.outlook.com (2603:10a6:102:5::13)
+ by PA4PR02MB6768.eurprd02.prod.outlook.com (2603:10a6:102:fe::20) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4219.22; Tue, 15 Jun
- 2021 09:15:16 +0000
-Received: from PR1PR06MB6076.eurprd06.prod.outlook.com
- ([fe80::1c1f:b489:43f6:973c]) by PR1PR06MB6076.eurprd06.prod.outlook.com
- ([fe80::1c1f:b489:43f6:973c%6]) with mapi id 15.20.4219.025; Tue, 15 Jun 2021
- 09:15:16 +0000
-Subject: Re: [PATCH] dnsproxy: Suppress GCC warning stringop-overflow
-To: =?UTF-8?B?THVrw6HFoSBLYXJhcw==?= <lukas.karas@centrum.cz>,
- connman@lists.linux.dev
-References: <2664831.oeSPPojSJB@latitudemachine>
-From: Santtu Lakkala <santtu.lakkala@jolla.com>
-Message-ID: <71ce6b97-7f8c-1f0b-4497-41036acd05bd@jolla.com>
-Date: Tue, 15 Jun 2021 12:15:13 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
-In-Reply-To: <2664831.oeSPPojSJB@latitudemachine>
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [109.240.145.232]
-X-ClientProxiedBy: HE1PR1001CA0005.EURPRD10.PROD.OUTLOOK.COM
- (2603:10a6:3:f7::15) To PR1PR06MB6076.eurprd06.prod.outlook.com
- (2603:10a6:102:d::27)
+ 2021 09:51:39 +0000
+Received: from PR1PR02MB4794.eurprd02.prod.outlook.com
+ ([fe80::9d55:7c70:8262:f830]) by PR1PR02MB4794.eurprd02.prod.outlook.com
+ ([fe80::9d55:7c70:8262:f830%3]) with mapi id 15.20.4219.025; Tue, 15 Jun 2021
+ 09:51:39 +0000
+From: "VAUTRIN Emmanuel (Canal Plus Prestataire)"
+	<Emmanuel.VAUTRIN@cpexterne.org>
+To: =?Windows-1252?Q?Luk=E1=9A_Karas?= <lukas.karas@centrum.cz>,
+	"connman@lists.linux.dev" <connman@lists.linux.dev>
+Subject: RE: [PATCH] dnsproxy: Suppress GCC warning stringop-overflow
+Thread-Topic: [PATCH] dnsproxy: Suppress GCC warning stringop-overflow
+Thread-Index: AQHXYbra7GMZXSnru0uGp22q94vg7A==
+Date: Tue, 15 Jun 2021 09:51:39 +0000
+Message-ID:
+ <PR1PR02MB479414C6FC276ADEE776118493309@PR1PR02MB4794.eurprd02.prod.outlook.com>
+Accept-Language: fr-FR, en-US
+Content-Language: fr-FR
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: centrum.cz; dkim=none (message not signed)
+ header.d=none;centrum.cz; dmarc=none action=none header.from=cpexterne.org;
+x-originating-ip: [194.4.243.22]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 7e72ecc5-8ea3-4452-5e32-08d92fe32c1f
+x-ms-traffictypediagnostic: PA4PR02MB6768:
+x-microsoft-antispam-prvs:
+ <PA4PR02MB6768447DCFF7C1956716351A93309@PA4PR02MB6768.eurprd02.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:127;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info:
+ 3d0hxZY7Hq4f4xHN7VHKcc04s+NYJLpdgQP7BsJwsG4LCteZ1spwh3PeTxvE2rbFvfTN/lBTnpZCtbcVAXCU0L7ask/mpb4SSO2qL32YtPR1dAClTPc7e0JrFnzWkwSfp1MEKWb2LzkSHcjEusZfmv9SUASE7Cuc7Xp2YuLoeo3zrod+6kyLeISSyKeGNlOFE12xp7upo3fjE7Rsq1kT5ed2xlBLCWkxxz4hhUkiwnTM+/NjKI0VwnoFkeyU0EsiwdJXIn4YvKbswSXJOQV5eSbjjuO0uvn4eEq29pfGQPjmljqRzdiqOqwckJATNI8c0Nw0OZKd6iDWY1waMUDhVXHStIoaTXZD1lQyh/jmSSJcWAGQUU6V8213goMtcCjk6C6Qk0sI+vmAbzPYB01XAvOjzxlc9PJ5rEXHivwXzvE02HTYTi3w17auHTkcEYhsaD6plPM3ee00ldPS1uAS9SxfEGDAAFWkuKWgSnvJlYcVe6ElnsRKqy5IUiuAvYLdWHW/je44Y5opzFjbwIQYichmwMwsggAkUp6XvzKRbEmSG/9Z/kWcWgLxxCC6qHkKLhi8hShxl/NBKyYHuRV6uzNz9LLbPywbJtg4AytFdi4=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PR1PR02MB4794.eurprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(136003)(396003)(376002)(346002)(39860400002)(38100700002)(186003)(55016002)(110136005)(33656002)(26005)(8936002)(83380400001)(478600001)(8676002)(9686003)(71200400001)(5660300002)(76116006)(66556008)(66446008)(64756008)(86362001)(52536014)(4744005)(316002)(6506007)(122000001)(2906002)(7696005)(66946007)(66476007);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?Windows-1252?Q?ZvXQ5wPVKJVRcL0EFYOHlgmsiKKxxyUxhd+7Xqk7JEt2mSyL5chrwp6B?=
+ =?Windows-1252?Q?Go0uP0R2+R13FjNyFn/KtuOX3nEFjBAbszQV5pUPzd0EL3J+xfV1y59A?=
+ =?Windows-1252?Q?LNJNYzznOyPqaRIxQJ2FlA0KR8V1VMR4GPRZTMopzFcufXAmSJ+GwLak?=
+ =?Windows-1252?Q?Hl9vlyaSwaNMSuA0x8OnocFW6mSBL4VwW1utI+qG55pvGxM9jlmNdXSn?=
+ =?Windows-1252?Q?fHy62F4j0x5GiLbxr/9sLcBKlAv1uDuHzbQGVzWzeIJ+Zu3fIpEO3ZmN?=
+ =?Windows-1252?Q?Xvej5DZ40PxlczH9QKF5OC54le28TyVwY4vUuoTP7QGG/P2LNv7DCNTY?=
+ =?Windows-1252?Q?yas0h1ZjI6UkCPT/l5k0zqpw72BvTl5fK6/6OXakdsDxNTMYlzCZTWmx?=
+ =?Windows-1252?Q?AtEW933AGeC2jEeZtgr3w21g2KMfiPaEF5wCRQn5ouP9O8F11TKeWWeh?=
+ =?Windows-1252?Q?5Wbg+6AGFBrlWgDgFUYbX2gbFyyO1njAsIjwq+2dqwmbKp++efR84Yij?=
+ =?Windows-1252?Q?Y8QWi/2f70KTufayPf/OBw2zK4PtOpHF3krZg2tOipwvhWvGVp3Bb4QX?=
+ =?Windows-1252?Q?nIkSlkfJmQ5TkyrK9xGZgMLehz9UrjDLDbAc5WJlnhkPW+w5itVs9IZV?=
+ =?Windows-1252?Q?2ekVTSAmxPr40mILbuL/yLJrEgD/3WYKSwy4qbXysyr+zDjGSyiq+YXP?=
+ =?Windows-1252?Q?jgTgygXxU+8pZryNSIR8BfJ+/Victa01Py6Zeo1kc195VD1TiR1Lc1WI?=
+ =?Windows-1252?Q?T5IxXA5s7xc1ubukoaRcAXBVdC9Tmp7VT4xIc5u3nDBVppXZHS7KpDql?=
+ =?Windows-1252?Q?G3U0KPUcs5hqFFl3irbLWjlMUhG1SPOl5gFPWjWFRuHvNydsWr1jV8N6?=
+ =?Windows-1252?Q?R6WuXYTOD547TGRNzwshJpMcS+MKYCafYgHpQ51r39nZfZUniRYw4fW4?=
+ =?Windows-1252?Q?mBOfdaRyG46pnkONWAdX7x992Q6yK9pal/oYVRGnWfETm+vzf6FTMYjF?=
+ =?Windows-1252?Q?bO1iHwRg5aS2erDifu4uHHvW2ebKDl1nwTBFBGnu5PXgT1rn+Jq4YXIM?=
+ =?Windows-1252?Q?b7mnT/3s4Moy/8/pYYVJziAxU8rSrBDGDQqBRDgTolNUGaGQTXmNBney?=
+ =?Windows-1252?Q?luJOWwuUe/48faiYAtVH2ZhvDjnTlmLwM3wpb7Y+ieExzABNK3kYhILx?=
+ =?Windows-1252?Q?GB924Z3iO6kTUO0URKxppwSNhFLBLyq/ZNNeEI1LH+SFnHffkJU5jd5J?=
+ =?Windows-1252?Q?7Akrk5WwKDdAJNpM7ywJ2sMwK5rNS4wuJGFzZ+Ih9f5dV/RMQCvEhYwn?=
+ =?Windows-1252?Q?4y4iUmQwFRvH4vxrW3VKwbWeYaLjFfy7sHrv6czJu9q6V1eOhMzJ7J9+?=
+ =?Windows-1252?Q?NsN8fqNGo9CltDm9H1lgQRXa43+Q1LqW/tY=3D?=
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="Windows-1252"
+Content-Transfer-Encoding: quoted-printable
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [172.28.172.2] (109.240.145.232) by HE1PR1001CA0005.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:3:f7::15) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4219.22 via Frontend Transport; Tue, 15 Jun 2021 09:15:15 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 435b0215-2e9c-4187-fb79-08d92fde16d8
-X-MS-TrafficTypeDiagnostic: PAXPR06MB7919:
-X-Microsoft-Antispam-PRVS:
-	<PAXPR06MB791925C1BDDF776F64C5BE9E97309@PAXPR06MB7919.eurprd06.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	+O5IcZc6pDUOoBY61s6+53ONbCtLeAOr5d9iSNN1JZDgLVsvGot+VNn7+5tcTuOlSJqv/Te5bsEpP5UXCFJ3RV/6S8oO2OLvDjsVpm31NzT78ZE3GGi1mCNzXVd9lnGnmxkbFM/KbkrDd2QawCWyRT7FkNoXg5LjnPNU3/Zhnl+snm7/pwI1cJMkkfV/fNdq7GE9lbX5LIB4HDIOqunfoH1DqA6pnHfuub3JMQST4DKW4IgmH2HFLuf53lnIhwfsiUr6ohFdWcjuXlwyFlFRsP1rJo9Ztwj/jUzbC+mK7tlfWb5+ma8fccCgn7i8nxuEe290Am8jaSf4cE4DeyZ7dJ9fVsrDIaaOnDrLDB8ddB0d+TNKSah8/4qRyz2OhogwLgxiNwMTVVQ6ykXnOYLKLcApmbaeDzevexuqzk8Xgliwx1YkfXxFmd8RoBrPougXxrPqKq0WtU+n4WRJhTIYplfJ30qByRg8iaC3FTeK/wzUW3NUqXu206Nd01uyWrlBpH6hgSZ5gHwGSuK0beqfgF+U4eWVxuu/ZuBJjCudjpX5KhvfknUarh4LSqzz+1O9+Y2zAxMshk/mHGWbZKO3cNSMqwaMzbXQ4WvpmW9f6t1P+j5sl3tr89epd5kNYWlmuHOOsfCs1eiGwefZRHtuuHUBfx5YNDogJaSIvEbrVrwamgE/1omK4drxFWlBNFMm31IooXSsWyPjP58zhru0ug==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PR1PR06MB6076.eurprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(39830400003)(136003)(396003)(366004)(376002)(346002)(2906002)(956004)(186003)(5660300002)(86362001)(36756003)(52116002)(2616005)(4744005)(31696002)(6486002)(31686004)(26005)(8676002)(16526019)(66946007)(316002)(16576012)(83380400001)(38100700002)(8936002)(66476007)(38350700002)(44832011)(478600001)(66556008)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?Windows-1252?Q?nB6/FU30F0Y39SHb8bpzss+xQFy0lj0BwnXAlW5z53YgnVx+dubbmjgd?=
- =?Windows-1252?Q?Roy6AP7IWVZ1LzAcr4ik/Ntzgw1VCG4wQcDBV/dGt/La1+0otcXyo6f6?=
- =?Windows-1252?Q?zOxhV/Hj7xe4TUsBJptlNI3Qc/ImIA4d8E5OJVuAMDiwNpsgR4xC99zK?=
- =?Windows-1252?Q?VK5biJrOZcTXm9JHnqrHCr6vCtqcQ/oSNq1f15UUVAbNRn57AIqCtkEE?=
- =?Windows-1252?Q?QvvNZKj63DjckT9kT4iWxayZokTH1dv55BwsFoHxVav1Nls9zSJypaFS?=
- =?Windows-1252?Q?bfxEWPQsgEoL8o8gHQ0X7t++DjM6GyEvvweJXtfBtpQGSdezYfx0g+lR?=
- =?Windows-1252?Q?OLxw81BAGgTB4+qizvZv/1wZZdw2xbsvJ6IS9ZIhk+1/ss3yhjCsPEJZ?=
- =?Windows-1252?Q?WJ9Q9OGLpM5lXux8OxPEIy+vpYk9/ulCIjV7MUuIYtctLuqsjUYiVPuo?=
- =?Windows-1252?Q?JLEu4VeB0DYS+rHAxfk5FtXlUKjujeNgxACHz8eVYBN2djrVO2dOytIa?=
- =?Windows-1252?Q?nMa5FnN0d219ub3Cn0RNmNMjgdim36bG9o9CT2LLhOz6KhZH+m434wmb?=
- =?Windows-1252?Q?fkUEG9nqDQ6dsOP7APTX+xCoFCLVI370KUpF1+szud2p9WgF03XOf/5H?=
- =?Windows-1252?Q?OwpfKa4vNOI9xnY7wZmbxhMf+GlglP9DpdqL7tADtK2AglKAKLQBxTT7?=
- =?Windows-1252?Q?8My5Y/LYrrOB3+9neSx6hIzQbU9ibOMrppYb3a9rlCc0TskiBF2CfrNz?=
- =?Windows-1252?Q?GvPMddzi6kUloVO7S3PAGi/ooTP6pbkm3y0ivorIgqCbRgyZIjjZ/cQC?=
- =?Windows-1252?Q?BFeHA5eAQEef3pYN1LjiJcehTyzr5UeE6BZ+sN1fQQyMhurNm1z9b7VS?=
- =?Windows-1252?Q?oBTdhZMhqMiwqEQ1n+2L17nSEapWPWQbvHK/9mrsvS69szZOP7sOk66D?=
- =?Windows-1252?Q?f9MXtqjsd4TdKsJVKsX2ICQG9+uVbDV4j4egphqROe+slLV+1JURs9iP?=
- =?Windows-1252?Q?7HDod534i7BZK5d95sGx+dP07KVpjzc/HAxlVQfkPTVRqtnkgMMs+cad?=
- =?Windows-1252?Q?nEPnyb1+6uX382ZVPnBdl63Lb00RCiFK0SJ+qZPofukDbiRBtasiuze5?=
- =?Windows-1252?Q?yMbC3nODZ8mp5R142qoPq70ujBjmf6D13TPBr4kQSRMvo84TcQiT8H98?=
- =?Windows-1252?Q?Q+E0eENU32pMA6y4HgAT/89kB+66FYpTGnOrBNToNP0rfbCGR8+xxylU?=
- =?Windows-1252?Q?Mdx/QawgtWUP3beEL1CsHagXv1X9FRKK76iM9koCtUTl8awUXMzKq9pp?=
- =?Windows-1252?Q?4EBkyRqMHnDe0IKJqcrpNT+ejOmNsrQRUQNzGmDmo9WqqsNgWYbFnZhC?=
- =?Windows-1252?Q?5jG6+YPHpL/mLD4cSz8D8Iat2/MBf+74zMbRHYYMrYUsdy+FVd8AMDpO?=
-X-OriginatorOrg: jolla.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 435b0215-2e9c-4187-fb79-08d92fde16d8
-X-MS-Exchange-CrossTenant-AuthSource: PR1PR06MB6076.eurprd06.prod.outlook.com
+X-OriginatorOrg: cpexterne.org
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Jun 2021 09:15:16.3692
+X-MS-Exchange-CrossTenant-AuthSource: PR1PR02MB4794.eurprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7e72ecc5-8ea3-4452-5e32-08d92fe32c1f
+X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Jun 2021 09:51:39.2891
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: b6cd1562-9512-488f-a364-34d46554c96a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: eRKVw9BK6DkRaef/wmWNrsqS5hfWxuDprGXh8YPhCGW66Lz1BU83wKd8h3bd/8K+QSt5Yjbw+5JtVx2piZjhoXih0UcLekE4CWNa/XdjgsM=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR06MB7919
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: bf5c5de1-6a54-4091-a72f-90e32801628c
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 9zJ7klqtdxFzAOvDZ4QjRI02avf0CYv+BwJa3pAOcCkQl5vQVwFZtz6LixlIfbdxdPRNgDNhPeMegfPVtoYnwBO7v1E1llWlYD19MFAJyDo=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA4PR02MB6768
 
-On 15.6.2021 10.40, Lukáš Karas wrote:
-> Recently added check for buffer size breaks build
-> with GCC 10.3.0, its internal analysis suspect that code
-> is not correct. Build fails with error:
-> 
->    '__builtin_strncpy' specified bound depends on the length
->    of the source argument [-Werror=stringop-overflow=]
-> 
-> on src/dnsproxy.c:1794
-> 
-> I not sure if suppressing compiler warning is a good practice
-> in Connman, but it fixes build for me :-)
-
-I would say replacing the strncpy call with a memcpy call would be a 
-better approach. Since all the checks have already been done before the 
-call there's no functional difference, but the compiler wouldn't need to 
-complain about the logic (while from security PoV there's no issue, the 
-warning from the compiler has certain merit).
-
--- 
-Santtu
+> Recently added check for buffer size breaks build=0A=
+> with GCC 10.3.0, its internal analysis suspect that code=0A=
+> is not correct. Build fails with error:=0A=
+> '__builtin_strncpy' specified bound depends on the length=0A=
+>  of the source argument [-Werror=3Dstringop-overflow=3D]=0A=
+> on src/dnsproxy.c:1794=0A=
+=0A=
+Thank you Luk=E1=9A for your concern.=0A=
+=0A=
+> I not sure if suppressing compiler warning is a good practice =0A=
+> in Connman, but it fixes build for me :-)=0A=
+=0A=
+In fact, the warning are useful to detect potential issues,=0A=
+and normally you can trust them, so inhibiting them is a bad=0A=
+practice.=0A=
+Moreover, an overflow can lead to security issues,=0A=
+so it shall be fixed instead of been ignored.=0A=
+The better is to specify the correct size during the copy.=0A=
+=0A=
+These kind of work (warning fixes on gcc update) is =0A=
+usually done frequently by the team, the related commit=0A=
+will probably appear soon, as it was done with=0A=
+90f0e412569b327d8b25b834623b814f1fddbd19=0A=
+& 3dbcc963a66d43e4ac51c97de4fe116ec72eb9f6).=0A=
+=0A=
+=0A=
+=0A=
+Best Regards,=0A=
+=0A=
+Emmanuel=0A=
