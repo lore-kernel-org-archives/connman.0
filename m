@@ -1,141 +1,126 @@
-Received: from gmmr1.centrum.cz (gmmr1.centrum.cz [46.255.225.252])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+Received: from EUR05-AM6-obe.outbound.protection.outlook.com (mail-am6eur05on2080.outbound.protection.outlook.com [40.107.22.80])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DEC870
-	for <connman@lists.linux.dev>; Tue, 15 Jun 2021 07:42:02 +0000 (UTC)
-Received: from gmmr-4.centrum.cz (unknown [10.255.254.33])
-	by gmmr1.centrum.cz (Postfix) with ESMTP id 5F7928043C2F
-	for <connman@lists.linux.dev>; Tue, 15 Jun 2021 09:40:37 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=centrum.cz; s=mail;
-	t=1623742837; bh=cK4/Y1TfnSLcPuJ40So+1+ibxNj1WretFfr2UjbgbQQ=;
-	h=From:To:Subject:Date:From;
-	b=AQBiPLms/oeIEG4Akm4ZvFiC9paDUvtKT/1SXkU8vTenly0MpLlDy72PTQ06v8lVK
-	 v5JPIE1vg6aDcftrWjj5s04JbbD92l5rSFEm3KjP16y0SWtZOBK8rFkkUabRruRUUF
-	 bGDAaaMJTonD/avYv6bHyMYWiOTARIDe/pQLv8zY=
-Received: from vm2.excello.cz (vm2.excello.cz [212.24.139.173])
-	by gmmr-4.centrum.cz (Postfix) with QMQP id 5DA7A100009C3
-	for <connman@lists.linux.dev>; Tue, 15 Jun 2021 09:40:37 +0200 (CEST)
-Received: from vm2.excello.cz by vm2.excello.cz
- (VF-Scanner: Clear:RC:0(2a00:da80:0:502::7):SC:0(-7.7/5.0):CC:0:;
- processed in 0.4 s); 15 Jun 2021 07:40:37 +0000
-X-VF-Scanner-ID: 20210615074036.934736.5588.vm2.excello.cz.0
-X-Spam-Status: No, hits=-7.7, required=5.0
-Received: from gmmr-1.centrum.cz (2a00:da80:0:502::7)
-  by out1.virusfree.cz with ESMTPS (TLSv1.3, TLS_AES_256_GCM_SHA384); 15 Jun 2021 09:40:36 +0200
-Received: from gm-smtp11.centrum.cz (unknown [10.255.254.36])
-	by gmmr-1.centrum.cz (Postfix) with ESMTP id DD9F92005B982
-	for <connman@lists.linux.dev>; Tue, 15 Jun 2021 09:40:36 +0200 (CEST)
-Received: from latitudemachine.localnet (unknown [193.165.137.202])
-	by gm-smtp11.centrum.cz (Postfix) with ESMTPA id D18D118054D37
-	for <connman@lists.linux.dev>; Tue, 15 Jun 2021 09:40:36 +0200 (CEST)
-From: =?utf-8?B?THVrw6HFoQ==?= Karas <lukas.karas@centrum.cz>
-To: connman@lists.linux.dev
-Subject: [PATCH] dnsproxy: Suppress GCC warning stringop-overflow
-Date: Tue, 15 Jun 2021 09:40:36 +0200
-Message-ID: <2664831.oeSPPojSJB@latitudemachine>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D12D2FB2
+	for <connman@lists.linux.dev>; Tue, 15 Jun 2021 09:15:19 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=oC3HXs19kI86BiHNLRqHWwbSTI1dGkQ/C/fF6Lsx9HAkZ2f/B/wx8CW8M/XBytl4Bk1ePyqbqwp023di2zZNGK+jKOgE8HEzBXnFzj+mjHDBBBQSQxyPxrB5TZt6xwdQhM/dkcVkrx9e4THNq6OPnSo0yBsDasJu6QU+LLc5n4zu3RxgFdyn9EKdi15bHI83O3JvBq/G1B+Oc3ZPnuipoPpygQHfOZ9wL6Bd+ICRtE8aOEytiJ4LlLaKKKX78rJJ6wU6aZgAXdMmnZqIg6QU9MmwOP9911yu5oDcuHmwNcCMOxtil1y1E0IJDYM5tyVF5KYa92qof3v4sT9f38srVA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=BXaj169Rg/52iYru65wiqr4QUu1CdvLHH0JF6Ab6qxQ=;
+ b=JP0uuYZmnlBCZB/+//To0WE8vOTa3C2vg3vUiGOnY8kb5Ok6V/UUpKSxQ4xtE3uHQGqfU9ID3GcvX9+wBJXnVE6rsoHiubFbtBC9kBU2ET5yXJj9ALje8bUOpxmghTM1htyMTY5n8b6G0iwOXiqOD0jHtT35S51fsSCl2xbsWYudXiCTFEp1kY3p8gJyWeJgZ7yIZa6xr7MXfbYwjoXFv4bGSfPoJA2kpOd7qIz1ljp40bsrZkhYHu7e4sbHQ7jKvbMP9W3K3TSzDz59RK3sQi9qJXpSd7fRCwpKczMF5eMdV0QCrQ4DNqzZJVUfaQXfc9yg4dqFB1ec7Qv8GVrSZg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=jolla.com; dmarc=pass action=none header.from=jolla.com;
+ dkim=pass header.d=jolla.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jolla.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=BXaj169Rg/52iYru65wiqr4QUu1CdvLHH0JF6Ab6qxQ=;
+ b=Gq3G8Sshn/Hj+erSJsCgVuUnlrQgu2nh95njtcvNXWaUeebddjNjSN4OWpB/ne02+vVoRvVU1WgJe9i3g+CdaIrmTGwv4wbHopRBeOJySjzcGAfJGkiwBv0sUbXABwh5OWybamcQIfTzysRWIerItfZbyQWWdGg9OIQYa3uo0pJGAnSoQk50MahsfXWMcUiyS4qL96z63goasbRAYw99GHx3+DuySI4+sW/2hT9X4VraOtxasB6K1OuVUzkZdVaD53xFcLLC+RDpM+80beqQfE9TbCH4Q0rcZJbMI6R7Y37KbUqFiCUUzoKPyoM8Zc4vBy/fqdOA2+AxMCwQkZMFOg==
+Authentication-Results: lists.linux.dev; dkim=none (message not signed)
+ header.d=none;lists.linux.dev; dmarc=none action=none header.from=jolla.com;
+Received: from PR1PR06MB6076.eurprd06.prod.outlook.com (2603:10a6:102:d::27)
+ by PAXPR06MB7919.eurprd06.prod.outlook.com (2603:10a6:102:1a2::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4219.22; Tue, 15 Jun
+ 2021 09:15:16 +0000
+Received: from PR1PR06MB6076.eurprd06.prod.outlook.com
+ ([fe80::1c1f:b489:43f6:973c]) by PR1PR06MB6076.eurprd06.prod.outlook.com
+ ([fe80::1c1f:b489:43f6:973c%6]) with mapi id 15.20.4219.025; Tue, 15 Jun 2021
+ 09:15:16 +0000
+Subject: Re: [PATCH] dnsproxy: Suppress GCC warning stringop-overflow
+To: =?UTF-8?B?THVrw6HFoSBLYXJhcw==?= <lukas.karas@centrum.cz>,
+ connman@lists.linux.dev
+References: <2664831.oeSPPojSJB@latitudemachine>
+From: Santtu Lakkala <santtu.lakkala@jolla.com>
+Message-ID: <71ce6b97-7f8c-1f0b-4497-41036acd05bd@jolla.com>
+Date: Tue, 15 Jun 2021 12:15:13 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
+In-Reply-To: <2664831.oeSPPojSJB@latitudemachine>
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [109.240.145.232]
+X-ClientProxiedBy: HE1PR1001CA0005.EURPRD10.PROD.OUTLOOK.COM
+ (2603:10a6:3:f7::15) To PR1PR06MB6076.eurprd06.prod.outlook.com
+ (2603:10a6:102:d::27)
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="nextPart5366202.sj8mIoeC0D"; micalg="pgp-sha512"; protocol="application/pgp-signature"
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [172.28.172.2] (109.240.145.232) by HE1PR1001CA0005.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:3:f7::15) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4219.22 via Frontend Transport; Tue, 15 Jun 2021 09:15:15 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 435b0215-2e9c-4187-fb79-08d92fde16d8
+X-MS-TrafficTypeDiagnostic: PAXPR06MB7919:
+X-Microsoft-Antispam-PRVS:
+	<PAXPR06MB791925C1BDDF776F64C5BE9E97309@PAXPR06MB7919.eurprd06.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	+O5IcZc6pDUOoBY61s6+53ONbCtLeAOr5d9iSNN1JZDgLVsvGot+VNn7+5tcTuOlSJqv/Te5bsEpP5UXCFJ3RV/6S8oO2OLvDjsVpm31NzT78ZE3GGi1mCNzXVd9lnGnmxkbFM/KbkrDd2QawCWyRT7FkNoXg5LjnPNU3/Zhnl+snm7/pwI1cJMkkfV/fNdq7GE9lbX5LIB4HDIOqunfoH1DqA6pnHfuub3JMQST4DKW4IgmH2HFLuf53lnIhwfsiUr6ohFdWcjuXlwyFlFRsP1rJo9Ztwj/jUzbC+mK7tlfWb5+ma8fccCgn7i8nxuEe290Am8jaSf4cE4DeyZ7dJ9fVsrDIaaOnDrLDB8ddB0d+TNKSah8/4qRyz2OhogwLgxiNwMTVVQ6ykXnOYLKLcApmbaeDzevexuqzk8Xgliwx1YkfXxFmd8RoBrPougXxrPqKq0WtU+n4WRJhTIYplfJ30qByRg8iaC3FTeK/wzUW3NUqXu206Nd01uyWrlBpH6hgSZ5gHwGSuK0beqfgF+U4eWVxuu/ZuBJjCudjpX5KhvfknUarh4LSqzz+1O9+Y2zAxMshk/mHGWbZKO3cNSMqwaMzbXQ4WvpmW9f6t1P+j5sl3tr89epd5kNYWlmuHOOsfCs1eiGwefZRHtuuHUBfx5YNDogJaSIvEbrVrwamgE/1omK4drxFWlBNFMm31IooXSsWyPjP58zhru0ug==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PR1PR06MB6076.eurprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(39830400003)(136003)(396003)(366004)(376002)(346002)(2906002)(956004)(186003)(5660300002)(86362001)(36756003)(52116002)(2616005)(4744005)(31696002)(6486002)(31686004)(26005)(8676002)(16526019)(66946007)(316002)(16576012)(83380400001)(38100700002)(8936002)(66476007)(38350700002)(44832011)(478600001)(66556008)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?Windows-1252?Q?nB6/FU30F0Y39SHb8bpzss+xQFy0lj0BwnXAlW5z53YgnVx+dubbmjgd?=
+ =?Windows-1252?Q?Roy6AP7IWVZ1LzAcr4ik/Ntzgw1VCG4wQcDBV/dGt/La1+0otcXyo6f6?=
+ =?Windows-1252?Q?zOxhV/Hj7xe4TUsBJptlNI3Qc/ImIA4d8E5OJVuAMDiwNpsgR4xC99zK?=
+ =?Windows-1252?Q?VK5biJrOZcTXm9JHnqrHCr6vCtqcQ/oSNq1f15UUVAbNRn57AIqCtkEE?=
+ =?Windows-1252?Q?QvvNZKj63DjckT9kT4iWxayZokTH1dv55BwsFoHxVav1Nls9zSJypaFS?=
+ =?Windows-1252?Q?bfxEWPQsgEoL8o8gHQ0X7t++DjM6GyEvvweJXtfBtpQGSdezYfx0g+lR?=
+ =?Windows-1252?Q?OLxw81BAGgTB4+qizvZv/1wZZdw2xbsvJ6IS9ZIhk+1/ss3yhjCsPEJZ?=
+ =?Windows-1252?Q?WJ9Q9OGLpM5lXux8OxPEIy+vpYk9/ulCIjV7MUuIYtctLuqsjUYiVPuo?=
+ =?Windows-1252?Q?JLEu4VeB0DYS+rHAxfk5FtXlUKjujeNgxACHz8eVYBN2djrVO2dOytIa?=
+ =?Windows-1252?Q?nMa5FnN0d219ub3Cn0RNmNMjgdim36bG9o9CT2LLhOz6KhZH+m434wmb?=
+ =?Windows-1252?Q?fkUEG9nqDQ6dsOP7APTX+xCoFCLVI370KUpF1+szud2p9WgF03XOf/5H?=
+ =?Windows-1252?Q?OwpfKa4vNOI9xnY7wZmbxhMf+GlglP9DpdqL7tADtK2AglKAKLQBxTT7?=
+ =?Windows-1252?Q?8My5Y/LYrrOB3+9neSx6hIzQbU9ibOMrppYb3a9rlCc0TskiBF2CfrNz?=
+ =?Windows-1252?Q?GvPMddzi6kUloVO7S3PAGi/ooTP6pbkm3y0ivorIgqCbRgyZIjjZ/cQC?=
+ =?Windows-1252?Q?BFeHA5eAQEef3pYN1LjiJcehTyzr5UeE6BZ+sN1fQQyMhurNm1z9b7VS?=
+ =?Windows-1252?Q?oBTdhZMhqMiwqEQ1n+2L17nSEapWPWQbvHK/9mrsvS69szZOP7sOk66D?=
+ =?Windows-1252?Q?f9MXtqjsd4TdKsJVKsX2ICQG9+uVbDV4j4egphqROe+slLV+1JURs9iP?=
+ =?Windows-1252?Q?7HDod534i7BZK5d95sGx+dP07KVpjzc/HAxlVQfkPTVRqtnkgMMs+cad?=
+ =?Windows-1252?Q?nEPnyb1+6uX382ZVPnBdl63Lb00RCiFK0SJ+qZPofukDbiRBtasiuze5?=
+ =?Windows-1252?Q?yMbC3nODZ8mp5R142qoPq70ujBjmf6D13TPBr4kQSRMvo84TcQiT8H98?=
+ =?Windows-1252?Q?Q+E0eENU32pMA6y4HgAT/89kB+66FYpTGnOrBNToNP0rfbCGR8+xxylU?=
+ =?Windows-1252?Q?Mdx/QawgtWUP3beEL1CsHagXv1X9FRKK76iM9koCtUTl8awUXMzKq9pp?=
+ =?Windows-1252?Q?4EBkyRqMHnDe0IKJqcrpNT+ejOmNsrQRUQNzGmDmo9WqqsNgWYbFnZhC?=
+ =?Windows-1252?Q?5jG6+YPHpL/mLD4cSz8D8Iat2/MBf+74zMbRHYYMrYUsdy+FVd8AMDpO?=
+X-OriginatorOrg: jolla.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 435b0215-2e9c-4187-fb79-08d92fde16d8
+X-MS-Exchange-CrossTenant-AuthSource: PR1PR06MB6076.eurprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Jun 2021 09:15:16.3692
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: b6cd1562-9512-488f-a364-34d46554c96a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: eRKVw9BK6DkRaef/wmWNrsqS5hfWxuDprGXh8YPhCGW66Lz1BU83wKd8h3bd/8K+QSt5Yjbw+5JtVx2piZjhoXih0UcLekE4CWNa/XdjgsM=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR06MB7919
 
---nextPart5366202.sj8mIoeC0D
-Content-Type: multipart/mixed; boundary="nextPart6772910.5jC5zRqg1M"; protected-headers="v1"
-Content-Transfer-Encoding: 7Bit
-From: =?utf-8?B?THVrw6HFoQ==?= Karas <lukas.karas@centrum.cz>
-To: connman@lists.linux.dev
-Subject: [PATCH] dnsproxy: Suppress GCC warning stringop-overflow
-Date: Tue, 15 Jun 2021 09:40:36 +0200
-Message-ID: <2664831.oeSPPojSJB@latitudemachine>
+On 15.6.2021 10.40, Lukáš Karas wrote:
+> Recently added check for buffer size breaks build
+> with GCC 10.3.0, its internal analysis suspect that code
+> is not correct. Build fails with error:
+> 
+>    '__builtin_strncpy' specified bound depends on the length
+>    of the source argument [-Werror=stringop-overflow=]
+> 
+> on src/dnsproxy.c:1794
+> 
+> I not sure if suppressing compiler warning is a good practice
+> in Connman, but it fixes build for me :-)
 
-This is a multi-part message in MIME format.
+I would say replacing the strncpy call with a memcpy call would be a 
+better approach. Since all the checks have already been done before the 
+call there's no functional difference, but the compiler wouldn't need to 
+complain about the logic (while from security PoV there's no issue, the 
+warning from the compiler has certain merit).
 
---nextPart6772910.5jC5zRqg1M
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-
-Hi all. 
-
-Recently added check for buffer size breaks build
-with GCC 10.3.0, its internal analysis suspect that code
-is not correct. Build fails with error:
-
-  '__builtin_strncpy' specified bound depends on the length
-  of the source argument [-Werror=stringop-overflow=]
-
-on src/dnsproxy.c:1794
-
-I not sure if suppressing compiler warning is a good practice 
-in Connman, but it fixes build for me :-)
-
-Lukas
-
---nextPart6772910.5jC5zRqg1M
-Content-Disposition: attachment; filename="0001-dnsproxy-Suppress-GCC-warning-stringop-overflow.patch"
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/x-patch; charset="utf-8"; name="0001-dnsproxy-Suppress-GCC-warning-stringop-overflow.patch"
-
-=46rom 3c605b7c2798ba5cb3ae8afdadc31f68337228b0 Mon Sep 17 00:00:00 2001
-=46rom: =3D?UTF-8?q?Luk=3DC3=3DA1=3DC5=3DA1=3D20Karas?=3D <lukas.karas@cent=
-rum.cz>
-Date: Tue, 15 Jun 2021 09:23:39 +0200
-Subject: [PATCH] dnsproxy: Suppress GCC warning stringop-overflow
-MIME-Version: 1.0
-Content-Type: text/plain; charset=3DUTF-8
-Content-Transfer-Encoding: 8bit
-
-Recently added check for buffer size breaks build
-with GCC 10.3.0, its internal analysis suspect that code
-is not correct. Build fails with error:
-
-  '__builtin_strncpy' specified bound depends on the length
-  of the source argument [-Werror=3Dstringop-overflow=3D]
-
-on src/dnsproxy.c:1794
-
-Signed-off-by: Luk=C3=A1=C5=A1 Karas <lukas.karas@centrum.cz>
-=2D--
- src/dnsproxy.c | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/src/dnsproxy.c b/src/dnsproxy.c
-index 38dbdd71..035593e9 100644
-=2D-- a/src/dnsproxy.c
-+++ b/src/dnsproxy.c
-@@ -41,6 +41,8 @@
-=20
- #include "connman.h"
-=20
-+#pragma GCC diagnostic ignored "-Wstringop-overflow"
-+
- #define debug(fmt...) do { } while (0)
-=20
- #if __BYTE_ORDER =3D=3D __LITTLE_ENDIAN
-=2D-=20
-2.27.0
-
-
---nextPart6772910.5jC5zRqg1M--
-
---nextPart5366202.sj8mIoeC0D
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part.
-Content-Transfer-Encoding: 7Bit
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEHpwLEdVNCIHcrTqZhcquo3dMC18FAmDIWXQACgkQhcquo3dM
-C18kHwgAtxeuM6TT9nPJVBmr3UaGirVXG2tOK3VBp+FU/FltjW4xxO0c2J5mir2v
-UqWARtZqOY5k8Wo0HQ7zeJTBw0wQ0/KqbBb0rsjVWo2Yu9qNaUgO23hxuq4rGAP/
-XQi7cWArAMwPb5STEzG4PtzWT9UOnyQAiN1bvlILYldIJGlraJ0OlwPuvws8oWQM
-2bk0Jk5KeuP6ZRcjMYPIAP/970kjyxPSC1XCG84lru1P3WGAghEkyulvSHZwxTPS
-pYXwRCIyhU5+wuBGIqxNfZNbfgCk10s8d17qnDWBPuYf6rxWi7XI1hX0R4/bmMDU
-i9WYn1mvvPQIZpG/Ymex/xAahBiTDw==
-=VVq8
------END PGP SIGNATURE-----
-
---nextPart5366202.sj8mIoeC0D--
-
-
-
+-- 
+Santtu
