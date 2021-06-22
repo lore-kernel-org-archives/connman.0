@@ -1,55 +1,55 @@
-Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA35E70
-	for <connman@lists.linux.dev>; Tue, 22 Jun 2021 18:10:18 +0000 (UTC)
-Received: by mail-lj1-f174.google.com with SMTP id k8so31224712lja.4
-        for <connman@lists.linux.dev>; Tue, 22 Jun 2021 11:10:18 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 091A670
+	for <connman@lists.linux.dev>; Tue, 22 Jun 2021 18:15:36 +0000 (UTC)
+Received: by mail-lf1-f53.google.com with SMTP id r5so37498747lfr.5
+        for <connman@lists.linux.dev>; Tue, 22 Jun 2021 11:15:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:from:date:message-id:subject:to;
-        bh=ZjLYwIOYpGyHiYsySBcQ2+1UdD+tmfRnkTBSxdQUCOo=;
-        b=jx37PbVycaNwCgDOvk/DUpf1ViAa13U1mYBQFeqAK/nS3MFAr5H0fT+PvSg1WFJj5m
-         HLqBEcjsgeYvYbEMDWlSSJj6eH4eDVyXJxNNTIEVLs037fgH29zEglQSgnxsMBGFFZXQ
-         2VDl7AR7W6nF+GZWBQIGCI9VlfRVdh2n2f2fwFjZmfjZRdyLitalFhxDqlyU+6Qa9jcS
-         KjVvpZ53rNBzGJ1lG3B6d3MH1nQ0k49vDGtTSsjKWtdrhSFFrfV6w8deMOQQf3pM96nX
-         ZBrOqMXltXmOiBQRBYzrMLPEcSr16Xj3fPL9jgvAfdD7aj94pbkPbXoHjoaKE/kuDhGg
-         oJww==
+        bh=MrzuMQPPFad2KKHcS60PtKsyJByQx/uBdk7ms+upbcc=;
+        b=m8Y7gPhpsZcMr5MAor9OI0ktVpsoQF6DOsQ0ZFIQGjKzGEZ7MGLT7At7uqO9kLtxcE
+         PnrZEQjY8d6DQrQeWAwP9G2HPd/bEPiCm6TaGP+OYmr9R5wMSTV5M3c5pSW+qodYTZPm
+         0gNLGAPLX/zOrsS1dHUi91bvdMmmpUwULaw3QuJFuCSOyTU8GSWhMtd+OEBOIJuShWXr
+         42NIXMCiv4Z1QGrIepRZ+5r2oVMc8Ruij26a+3epgpT+7w3cwszek1hu79SRQDGDS8TV
+         MVL/tD8GaXxJaG3MwpTKoSaOkDbo2z0OznG7+pNc9IgPvLmlR4koRSxt54GDE287V6kD
+         6Pfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-        bh=ZjLYwIOYpGyHiYsySBcQ2+1UdD+tmfRnkTBSxdQUCOo=;
-        b=kPM5p0k3AonsuTnrEK+E0EkW+zExDhCzzUJYnJVamA39fw/q4A7E0I79Zy7p+1IhNo
-         AIiQeViMuUj+tlr2G4ZLyFJHgE9q44QwzmoPo5aRgR0NW/xvrUdG3ZQxyDji1IRTO+Ol
-         CKotjy20yV3uxbN7Br046noLdU+nYnFEzTBJsJM18N/xdnAprSkqtD42ryMNLT1Pn9AI
-         HpuhIkuSAjsbHPL+Leiholr7m3lNbtD60Ukz651oidKNZjRsLIZWWr7867nwzO9inoCE
-         5Nd3JJ9rLlzSFIpffgUoQ3llXdEmjsJVhapUtJtnlvSt+2LVQee5WiqTi8kfipQX79W6
-         Wx+g==
-X-Gm-Message-State: AOAM531HXC7h5NpMCIKoXGZDuoZ3wZ8jUeX4nX9RYTETEc80fPB3RdVj
-	ApwVbLwIIXdVBD5R8J4WheCXXIw9D4cs0hUwQdxmnQcx6BA=
-X-Google-Smtp-Source: ABdhPJzEIUE5/qksRicvDBExEasvYwHaogW1xWrtUlvoXuWQnuUZ2mmlq9flmaL8LDI3c6NB5tgdHjEdiLKFY3+Z6xU=
-X-Received: by 2002:a2e:9cd:: with SMTP id 196mr4231478ljj.457.1624385416662;
- Tue, 22 Jun 2021 11:10:16 -0700 (PDT)
+        bh=MrzuMQPPFad2KKHcS60PtKsyJByQx/uBdk7ms+upbcc=;
+        b=OCU80exmS6jFi9mUScdLaw0P22KiKNb0XiqUKaw8UgJa9Uw4JcGU6ppl+ySYrbBmhY
+         K32jf7hlC0r/yeXdvfwkXF9i2l5KmnShyAh3bXSTNvsF0Ci7nIOzi+e143jgqWgpFKAs
+         WwO9mY1smQfMZMkVRJHz4BXZW16BV9ydlqZW23NQJIyc1czj6MkVxWEgOKOltc3rBET0
+         bHYs7Gw7kXppSvSHA2toDUvXEE+BM3ZmtdEu2fvs3lAD5qHVcyFZ3A2f955ss/GTFhsd
+         7ZG+AxTts1K0r6/oXTXcp0vroPkjlB0g3t6t1FjjQRSIs1MqFfh8DsjEdCouSwDfCiwt
+         O7sA==
+X-Gm-Message-State: AOAM5316TXLaaYTs2Xi9I7mzNSJVMbU59FwB2K/WhuURuQPOvfmXi9rA
+	gVAZ4sJg+RDnpCjlM/FQEZ+Qk73Sd3ER0gthDXPfvRNiWCk=
+X-Google-Smtp-Source: ABdhPJxb0aAilv+KtPHpmTBJ1QDn7IUpFr84RsqcAz8ZlqG72wFDE00O8T8tUg0Mu1zM3Y/uWEyZ41PmtSs54uguT2k=
+X-Received: by 2002:ac2:5970:: with SMTP id h16mr3941295lfp.145.1624385735070;
+ Tue, 22 Jun 2021 11:15:35 -0700 (PDT)
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 From: Andrei Datcu <datcuandrei@gmail.com>
-Date: Tue, 22 Jun 2021 21:10:05 +0300
-Message-ID: <CAAmFs7=AcOmoNWVaGEoi_9FPgh3NBS1LiceWOVQgL0xS=hnKYw@mail.gmail.com>
-Subject: Clearing service error from invalid-key will not invoke the agent anymore
+Date: Tue, 22 Jun 2021 21:15:24 +0300
+Message-ID: <CAAmFs7kfnSfLbUo2dvBQD9cGyNz-Bmro144JSxWsALZat3L5uQ@mail.gmail.com>
+Subject: Calling Service::Remove will not raise the Service::PropertyChanged event
 To: connman@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 
-Using version 1.40, I'm trying to connect to a basic psk wifi hotspot.
-If I input a wrong key to the agent request, the service will
-correctly get Error == "invalid-key" (and State == "idle"). Invoking
-Service::ClearProperty("Error") will put the service in a weird state:
-every subsequent Service::Connect() call will fail without ever
-requesting any agent input. To leave this state, one has to call
-`Service::Remove()`.
-Is this expected or is this a bug?
+I'm having a wifi service with:
+State == "idle"
+Error == "invalid-key"
+
+Calling Service::Remove() will correctly reset the "Error" property.
+There will be no Service::PropertyChanged signal emitted however. Is
+this a bug or is this technically not considered a property change
+since the property is now missing all together from the property set?
 
 Thanks,
-Andrei
+Andrei Datcu
