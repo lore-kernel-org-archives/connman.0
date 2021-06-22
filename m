@@ -1,24 +1,24 @@
 Received: from mail.monom.org (mail.monom.org [188.138.9.77])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D7262FB2
-	for <connman@lists.linux.dev>; Tue, 22 Jun 2021 07:49:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A57C2FB3
+	for <connman@lists.linux.dev>; Tue, 22 Jun 2021 07:49:48 +0000 (UTC)
 Received: from mail.monom.org (localhost [127.0.0.1])
-	by filter.mynetwork.local (Postfix) with ESMTP id C226F500650;
-	Tue, 22 Jun 2021 09:49:39 +0200 (CEST)
+	by filter.mynetwork.local (Postfix) with ESMTP id 6E74250068A;
+	Tue, 22 Jun 2021 09:49:40 +0200 (CEST)
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on mail.monom.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-2.5 required=5.0 tests=ALL_TRUSTED,BAYES_00
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from localhost (unknown [94.31.103.148])
-	by mail.monom.org (Postfix) with ESMTPSA id 9595A500196;
-	Tue, 22 Jun 2021 09:49:39 +0200 (CEST)
+	by mail.monom.org (Postfix) with ESMTPSA id 1402C50065D;
+	Tue, 22 Jun 2021 09:49:40 +0200 (CEST)
 From: Daniel Wagner <wagi@monom.org>
 To: connman@lists.linux.dev
 Cc: Daniel Wagner <wagi@monom.org>
-Subject: [PATCH v1 1/2] rtnl: Fix netlink message alignment
-Date: Tue, 22 Jun 2021 09:49:32 +0200
-Message-Id: <20210622074933.5406-2-wagi@monom.org>
+Subject: [PATCH v1 2/2] vpn-rtnl: Fix netlink message alignment
+Date: Tue, 22 Jun 2021 09:49:33 +0200
+Message-Id: <20210622074933.5406-3-wagi@monom.org>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210622074933.5406-1-wagi@monom.org>
 References: <20210622074933.5406-1-wagi@monom.org>
@@ -34,16 +34,16 @@ Recent versions of gcc complain with outside of bounds access.
 Between the netlink header and the message there is padding. Refactor
 the code and open code the message generation.
 ---
- src/rtnl.c | 125 ++++++++++++++++++++++++++---------------------------
+ vpn/vpn-rtnl.c | 125 ++++++++++++++++++++++++-------------------------
  1 file changed, 62 insertions(+), 63 deletions(-)
 
-diff --git a/src/rtnl.c b/src/rtnl.c
-index c9e84daba458..a87296ffe921 100644
---- a/src/rtnl.c
-+++ b/src/rtnl.c
-@@ -1308,75 +1308,71 @@ static const char *type2string(uint16_t type)
+diff --git a/vpn/vpn-rtnl.c b/vpn/vpn-rtnl.c
+index 295c05ce5363..5a02d779a0ab 100644
+--- a/vpn/vpn-rtnl.c
++++ b/vpn/vpn-rtnl.c
+@@ -797,75 +797,71 @@ static const char *type2string(uint16_t type)
+ 
  static GIOChannel *channel = NULL;
- static guint channel_watch = 0;
  
 -struct rtnl_request {
 -	struct nlmsghdr hdr;
@@ -79,7 +79,7 @@ index c9e84daba458..a87296ffe921 100644
  	struct sockaddr_nl addr;
  	int sk;
  
- 	DBG("%s len %d type %d flags 0x%04x seq %d",
+ 	debug("%s len %d type %d flags 0x%04x seq %d",
 -				type2string(req->hdr.nlmsg_type),
 -				req->hdr.nlmsg_len, req->hdr.nlmsg_type,
 -				req->hdr.nlmsg_flags, req->hdr.nlmsg_seq);
@@ -115,7 +115,7 @@ index c9e84daba458..a87296ffe921 100644
 -	struct rtnl_request *req;
 +	struct nlmsghdr *hdr;
  
- 	DBG("seq %d", seq);
+ 	debug("seq %d", seq);
  
 -	req = find_request(seq);
 -	if (req) {
@@ -138,7 +138,7 @@ index c9e84daba458..a87296ffe921 100644
  }
  
  static void rtnl_message(void *buf, size_t len)
-@@ -1474,62 +1470,65 @@ static gboolean netlink_event(GIOChannel *chan, GIOCondition cond, gpointer data
+@@ -960,62 +956,65 @@ static gboolean netlink_event(GIOChannel *chan, GIOCondition cond, gpointer data
  
  static int send_getlink(void)
  {
@@ -146,7 +146,7 @@ index c9e84daba458..a87296ffe921 100644
 +	struct nlmsghdr *hdr;
 +	struct rtgenmsg *msg;
  
- 	DBG("");
+ 	debug("");
  
 -	req = g_try_malloc0(RTNL_REQUEST_SIZE);
 -	if (!req)
@@ -178,7 +178,7 @@ index c9e84daba458..a87296ffe921 100644
 +	struct nlmsghdr *hdr;
 +	struct rtgenmsg *msg;
  
- 	DBG("");
+ 	debug("");
  
 -	req = g_try_malloc0(RTNL_REQUEST_SIZE);
 -	if (!req)
@@ -210,7 +210,7 @@ index c9e84daba458..a87296ffe921 100644
 +	struct nlmsghdr *hdr;
 +	struct rtgenmsg *msg;
  
- 	DBG("");
+ 	debug("");
  
 -	req = g_try_malloc0(RTNL_REQUEST_SIZE);
 -	if (!req)
@@ -237,14 +237,14 @@ index c9e84daba458..a87296ffe921 100644
  }
  
  static gboolean update_timeout_cb(gpointer user_data)
-@@ -1673,14 +1672,14 @@ void __connman_rtnl_cleanup(void)
+@@ -1158,14 +1157,14 @@ void __vpn_rtnl_cleanup(void)
  	update_list = NULL;
  
  	for (list = request_list; list; list = list->next) {
 -		struct rtnl_request *req = list->data;
-+		struct nlmsghdr *hdr= list->data;
++		struct nlmsghdr *hdr = list->data;
  
- 		DBG("%s len %d type %d flags 0x%04x seq %d",
+ 		debug("%s len %d type %d flags 0x%04x seq %d",
 -				type2string(req->hdr.nlmsg_type),
 -				req->hdr.nlmsg_len, req->hdr.nlmsg_type,
 -				req->hdr.nlmsg_flags, req->hdr.nlmsg_seq);
