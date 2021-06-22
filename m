@@ -1,86 +1,62 @@
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from metanate.com (dougal.metanate.com [90.155.101.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C50A71
-	for <connman@lists.linux.dev>; Tue, 22 Jun 2021 18:39:16 +0000 (UTC)
-Received: by mail-lf1-f50.google.com with SMTP id j2so37569695lfg.9
-        for <connman@lists.linux.dev>; Tue, 22 Jun 2021 11:39:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=RuXoEWKunhFTxfMA9+NvMWX/h30106TQQDvgHod/UU0=;
-        b=dDIYGh7vfEgbqVaK3AVaX1DtyUdmZypK0NR72Cq5GCgqyUSJDp7k36rHiv3wwca2u4
-         cNCdKHvHUF+7GERWEbC5IxHunVw+C1AerDK47PgZ26e+krf0VVdApBznXwpPC4pr9pIt
-         UQT3csBwZVFOL48E6cPEwXuw7uXtbo2O9ogq/8i64XdXYUY2wfm6/a5rdoL2Fjs9GaRs
-         /ISPKIgsOXHRIH9nlTND+IN9MiALk425RVXPkMyHlq6+Io8BSu1k/c41bkQ7u8+fGuMX
-         B98Qpp5SXOIH2MMsrEeubZjmNkzI8vAaWu2vrtLyuCuMNz5ecIW5xlZvJOFuLBr3Fcc+
-         90+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=RuXoEWKunhFTxfMA9+NvMWX/h30106TQQDvgHod/UU0=;
-        b=pJweXMHYJaXzSPI4i1AX2qMpdA2FjHXUX15j0GD6AqVV57WcQu5TcdT0HwI8gKsFSm
-         Il4rVkl49W3DeNbBeHZTrsKnKtDNSaOccGZ5/aSsZOQCelxHvzw2MGO+bJg6cGVWUg2g
-         J15emV7waOYiJ0THCopiherBvpvwDt7jf6qkLIzBVTMbQAnNBNH87AOP9G5NkNyziF6i
-         RYlz0pS/ApGHiiEhibT5Lbd8R824PYaIUJ8pmIOAB3JmSV0DmdEbKeMBzL7XDkA+3W99
-         MAFY1MsDS3UDrcFYC0+YXBt7dVW9N30G04vEpFsCl8IoL24OUdZU9YNVYG99uK24Zvr0
-         wvNA==
-X-Gm-Message-State: AOAM533YgaCDTN0xwgZmooAxvpRK3/ZlNSo/vYr3/IqJjZoD/eVmAx4Z
-	obm11NkK4msSlJrh6leY4ARHBgFs1fvub9QMfH4=
-X-Google-Smtp-Source: ABdhPJx6nlbfXE54d5pGb4SaM6MWhU1fQVTv6oyy6WTPhFeXhaFxSA0FRRdi6wq/DY89+EJa5gqF3HlIgEWKkn+gjlI=
-X-Received: by 2002:a05:6512:3b27:: with SMTP id f39mr3775968lfv.360.1624387154322;
- Tue, 22 Jun 2021 11:39:14 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D44071
+	for <connman@lists.linux.dev>; Tue, 22 Jun 2021 18:51:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=metanate.com; s=stronger; h=Content-Transfer-Encoding:Content-Type:
+	References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID
+	:Content-Description; bh=GWQH/4feX1sadg/0ruyI15lXIlyVbSEVF6pHWBIOBj0=; b=jhoQ
+	A0KnqTACGYHJlD1VKLbREIhiZCcxOkCJN7VyaTyKdqoSSvvPLIwmPHCUi8Ca1WTYGndQ0Y7ewWWJT
+	gb+Dmgf0aeAyK2q/LU23TWTiG2I6cQ1RP9EKFjq9QJnLJ5uvPFQukmGrAY+ueOXP25T/cbd6N6u74
+	qk7Vu4D7iI9xmhZ13aKKXT8Y5HlsCPxTdBYH4b5fgwKRhfdwKqZLRIc114Wh7GTq1c647CxllBw1n
+	OdrgS9KPklDaFyA8tI6Nhln4SMLuPGsgf2RgTJQwO45ejGrlvB5dTh5yq9goZFyoUn+N2OTC+/B9/
+	EfHBmc4U4wDGbK+fim8sMSPXpUXeew==;
+Received: from [81.174.171.191] (helo=donbot)
+	by email.metanate.com with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.93)
+	(envelope-from <john@metanate.com>)
+	id 1lvlBN-0005x8-L6; Tue, 22 Jun 2021 19:31:33 +0100
+Date: Tue, 22 Jun 2021 19:31:32 +0100
+From: John Keeping <john@metanate.com>
+To: Andrei Datcu <datcuandrei@gmail.com>
+Cc: connman@lists.linux.dev
+Subject: Re: Clearing service error from invalid-key will not invoke the
+ agent anymore
+Message-ID: <20210622193132.5cd53815.john@metanate.com>
+In-Reply-To: <CAAmFs7=AcOmoNWVaGEoi_9FPgh3NBS1LiceWOVQgL0xS=hnKYw@mail.gmail.com>
+References: <CAAmFs7=AcOmoNWVaGEoi_9FPgh3NBS1LiceWOVQgL0xS=hnKYw@mail.gmail.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <CAAmFs7=AcOmoNWVaGEoi_9FPgh3NBS1LiceWOVQgL0xS=hnKYw@mail.gmail.com>
- <20210622193132.5cd53815.john@metanate.com>
-In-Reply-To: <20210622193132.5cd53815.john@metanate.com>
-From: Andrei Datcu <datcuandrei@gmail.com>
-Date: Tue, 22 Jun 2021 21:39:03 +0300
-Message-ID: <CAAmFs7k-MPU3KXAD7JJUuwL-LXJtjTXnYC8e10Bfs2kdtvxMkw@mail.gmail.com>
-Subject: Re: Clearing service error from invalid-key will not invoke the agent anymore
-To: John Keeping <john@metanate.com>
-Cc: connman@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Authenticated: YES
 
-Hello John,
+Hi Andrei,
 
-Even though they share a great deal, these are not similar, because
-a) I'm calling Service::ClearProperty("Error"); // there's no way to
-do this from connman afaik
-b) I'm getting operation aborted as an error
+On Tue, 22 Jun 2021 21:10:05 +0300
+Andrei Datcu <datcuandrei@gmail.com> wrote:
 
-If I skip a) then I get subsequent agent calls. Also I'm able to
-reproduce the issue on 1.36.
+> Using version 1.40, I'm trying to connect to a basic psk wifi hotspot.
+> If I input a wrong key to the agent request, the service will
+> correctly get Error == "invalid-key" (and State == "idle"). Invoking
+> Service::ClearProperty("Error") will put the service in a weird state:
+> every subsequent Service::Connect() call will fail without ever
+> requesting any agent input. To leave this state, one has to call
+> `Service::Remove()`.
+> Is this expected or is this a bug?
 
-On Tue, Jun 22, 2021 at 9:31 PM John Keeping <john@metanate.com> wrote:
->
-> Hi Andrei,
->
-> On Tue, 22 Jun 2021 21:10:05 +0300
-> Andrei Datcu <datcuandrei@gmail.com> wrote:
->
-> > Using version 1.40, I'm trying to connect to a basic psk wifi hotspot.
-> > If I input a wrong key to the agent request, the service will
-> > correctly get Error == "invalid-key" (and State == "idle"). Invoking
-> > Service::ClearProperty("Error") will put the service in a weird state:
-> > every subsequent Service::Connect() call will fail without ever
-> > requesting any agent input. To leave this state, one has to call
-> > `Service::Remove()`.
-> > Is this expected or is this a bug?
->
-> This sounds like the issue I reported here:
->
->         https://lore.kernel.org/connman/20210615120930.2970caef.john@metanate.com/
->
-> I have reverted 8ea2d67a6e8935d06f71b1ec77a2f89d72be49eb locally and
-> that fixes this scenario.
->
->
-> Regards,
-> John
+This sounds like the issue I reported here:
+
+	https://lore.kernel.org/connman/20210615120930.2970caef.john@metanate.com/
+
+I have reverted 8ea2d67a6e8935d06f71b1ec77a2f89d72be49eb locally and
+that fixes this scenario.
+
+
+Regards,
+John
