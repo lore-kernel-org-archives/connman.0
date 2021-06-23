@@ -1,62 +1,65 @@
-Received: from metanate.com (dougal.metanate.com [90.155.101.14])
+Received: from mail.monom.org (mail.monom.org [188.138.9.77])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D44071
-	for <connman@lists.linux.dev>; Tue, 22 Jun 2021 18:51:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=metanate.com; s=stronger; h=Content-Transfer-Encoding:Content-Type:
-	References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID
-	:Content-Description; bh=GWQH/4feX1sadg/0ruyI15lXIlyVbSEVF6pHWBIOBj0=; b=jhoQ
-	A0KnqTACGYHJlD1VKLbREIhiZCcxOkCJN7VyaTyKdqoSSvvPLIwmPHCUi8Ca1WTYGndQ0Y7ewWWJT
-	gb+Dmgf0aeAyK2q/LU23TWTiG2I6cQ1RP9EKFjq9QJnLJ5uvPFQukmGrAY+ueOXP25T/cbd6N6u74
-	qk7Vu4D7iI9xmhZ13aKKXT8Y5HlsCPxTdBYH4b5fgwKRhfdwKqZLRIc114Wh7GTq1c647CxllBw1n
-	OdrgS9KPklDaFyA8tI6Nhln4SMLuPGsgf2RgTJQwO45ejGrlvB5dTh5yq9goZFyoUn+N2OTC+/B9/
-	EfHBmc4U4wDGbK+fim8sMSPXpUXeew==;
-Received: from [81.174.171.191] (helo=donbot)
-	by email.metanate.com with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.93)
-	(envelope-from <john@metanate.com>)
-	id 1lvlBN-0005x8-L6; Tue, 22 Jun 2021 19:31:33 +0100
-Date: Tue, 22 Jun 2021 19:31:32 +0100
-From: John Keeping <john@metanate.com>
-To: Andrei Datcu <datcuandrei@gmail.com>
-Cc: connman@lists.linux.dev
-Subject: Re: Clearing service error from invalid-key will not invoke the
- agent anymore
-Message-ID: <20210622193132.5cd53815.john@metanate.com>
-In-Reply-To: <CAAmFs7=AcOmoNWVaGEoi_9FPgh3NBS1LiceWOVQgL0xS=hnKYw@mail.gmail.com>
-References: <CAAmFs7=AcOmoNWVaGEoi_9FPgh3NBS1LiceWOVQgL0xS=hnKYw@mail.gmail.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 647DB173
+	for <connman@lists.linux.dev>; Wed, 23 Jun 2021 07:21:37 +0000 (UTC)
+Received: from mail.monom.org (localhost [127.0.0.1])
+	by filter.mynetwork.local (Postfix) with ESMTP id E2DBC50064D;
+	Wed, 23 Jun 2021 09:21:34 +0200 (CEST)
+X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on mail.monom.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.5 required=5.0 tests=ALL_TRUSTED,BAYES_00
+	autolearn=ham autolearn_force=no version=3.4.2
+Received: from localhost (unknown [94.31.100.41])
+	by mail.monom.org (Postfix) with ESMTPSA id 4E0C3500412;
+	Wed, 23 Jun 2021 09:21:34 +0200 (CEST)
+From: Daniel Wagner <wagi@monom.org>
+To: connman@lists.linux.dev
+Cc: Carsten Haitzler <raster@rasterman.com>,
+	Daniel Wagner <wagi@monom.org>
+Subject: [PATCH] service: Ask for password when using native autoconnect
+Date: Wed, 23 Jun 2021 09:21:30 +0200
+Message-Id: <20210623072130.29852-1-wagi@monom.org>
+X-Mailer: git-send-email 2.32.0
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Authenticated: YES
+Content-Transfer-Encoding: 8bit
 
-Hi Andrei,
+When the native mode is activated we still need to ask for the
+password if it's unknown.
 
-On Tue, 22 Jun 2021 21:10:05 +0300
-Andrei Datcu <datcuandrei@gmail.com> wrote:
+Fixes: 561f318003c1 ("service: Teach autoconnect algorithm native mode")
+---
 
-> Using version 1.40, I'm trying to connect to a basic psk wifi hotspot.
-> If I input a wrong key to the agent request, the service will
-> correctly get Error == "invalid-key" (and State == "idle"). Invoking
-> Service::ClearProperty("Error") will put the service in a weird state:
-> every subsequent Service::Connect() call will fail without ever
-> requesting any agent input. To leave this state, one has to call
-> `Service::Remove()`.
-> Is this expected or is this a bug?
+Hi Carsten,
 
-This sounds like the issue I reported here:
+Sorry it took so long. There were some fallouts from recent gcc
+warnings I had to look after first. Anyway, this patch fixed the
+problem you reported for me. Please, let me know if there is still a
+problem after this patch.
 
-	https://lore.kernel.org/connman/20210615120930.2970caef.john@metanate.com/
+Thanks,
+Daniel
 
-I have reverted 8ea2d67a6e8935d06f71b1ec77a2f89d72be49eb locally and
-that fixes this scenario.
+ src/service.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-
-Regards,
-John
+diff --git a/src/service.c b/src/service.c
+index 20917a8923a4..eb74a85d6e32 100644
+--- a/src/service.c
++++ b/src/service.c
+@@ -6756,7 +6756,8 @@ int __connman_service_connect(struct connman_service *service,
+ 				service->provider)
+ 			connman_provider_disconnect(service->provider);
+ 
+-	if (service->connect_reason == CONNMAN_SERVICE_CONNECT_REASON_USER) {
++	if (reason == CONNMAN_SERVICE_CONNECT_REASON_USER ||
++			reason == CONNMAN_SERVICE_CONNECT_REASON_NATIVE) {
+ 		if (err == -ENOKEY || err == -EPERM) {
+ 			DBusMessage *pending = NULL;
+ 			const char *dbus_sender = get_dbus_sender(service);
+-- 
+2.32.0
