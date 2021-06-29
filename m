@@ -1,52 +1,55 @@
-Received: from mail.monom.org (mail.monom.org [188.138.9.77])
+Received: from metanate.com (dougal.metanate.com [90.155.101.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F93517F
-	for <connman@lists.linux.dev>; Tue, 29 Jun 2021 07:35:32 +0000 (UTC)
-Received: from mail.monom.org (localhost [127.0.0.1])
-	by filter.mynetwork.local (Postfix) with ESMTP id 9871C50051C;
-	Tue, 29 Jun 2021 09:35:30 +0200 (CEST)
-X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on mail.monom.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.5 required=5.0 tests=ALL_TRUSTED,BAYES_00
-	autolearn=ham autolearn_force=no version=3.4.2
-Received: from localhost (unknown [94.31.100.41])
-	by mail.monom.org (Postfix) with ESMTPSA id 69D455003CD;
-	Tue, 29 Jun 2021 09:35:30 +0200 (CEST)
-Date: Tue, 29 Jun 2021 09:35:30 +0200
-From: Daniel Wagner <wagi@monom.org>
-To: John Keeping <john@metanate.com>
-Cc: "VAUTRIN Emmanuel (Canal Plus Prestataire)" <Emmanuel.VAUTRIN@cpexterne.org>,
-	connman@lists.linux.dev
-Subject: Re: [PATCH] service: Complete only after user connection retries
-Message-ID: <20210629073530.fyu2jzkcxwm6fvya@beryllium.lan>
-References: <PR1PR02MB4794EB6ADA4A23AA374EE58493909@PR1PR02MB4794.eurprd02.prod.outlook.com>
- <20210327124254.iorhou27y3u4pwih@beryllium.lan>
- <20210615120930.2970caef.john@metanate.com>
- <20210628075835.dvlm6bnrzmknr56i@beryllium.lan>
- <20210628160413.416f51e4.john@metanate.com>
- <20210628195411.innzcyprpozgtuag@beryllium.lan>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A73C9177
+	for <connman@lists.linux.dev>; Tue, 29 Jun 2021 10:48:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=metanate.com; s=stronger; h=Content-Transfer-Encoding:Content-Type:
+	References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID
+	:Content-Description; bh=75HjOqYDOq+Bfj84Plg6yh5+JmQ+wvdTQysh9srEbMs=; b=BCsw
+	xF+/d2icsRd3tJsu5LyfNs9KmAfsMApYil+jgpHrggDOh2gBSU35VeHaJOzVmXQH4UFXkbF75mUo1
+	naMMYpOPKpNOHU31im4QEL++wl+LbrT9L66YaFi4XKnQ9voISasxxtwsbdTBUMSjhpWNlsjeahOzB
+	C4N3V3ZeAR679xo0x30irzVQ4sbOJV+0nZ1FU9dRtNzBrxdc38G9ue8eEft5DhqItQD35dspuoInE
+	Aqf7p2k4hc0TpVJ/rOhg0Gtl37xlTHFFCOBG1/5Y+xkFdUFw52VvZaVcZ4+v8iE3frqSHlQmS7o+e
+	EbB2mpltclnNE8I84YCN6NIu0TZx7w==;
+Received: from [81.174.171.191] (helo=donbot)
+	by email.metanate.com with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.93)
+	(envelope-from <john@metanate.com>)
+	id 1lyBIJ-00022E-Dd; Tue, 29 Jun 2021 11:48:43 +0100
+Date: Tue, 29 Jun 2021 11:48:42 +0100
+From: John Keeping <john@metanate.com>
+To: Daniel Wagner <wagi@monom.org>
+Cc: connman@lists.linux.dev
+Subject: Re: [PATCH] agent: Always inform upper layer via callback
+Message-ID: <20210629114842.2d8a486d.john@metanate.com>
+In-Reply-To: <20210629073326.22689-1-wagi@monom.org>
+References: <20210629073326.22689-1-wagi@monom.org>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210628195411.innzcyprpozgtuag@beryllium.lan>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Authenticated: YES
 
-Hi John,
+On Tue, 29 Jun 2021 09:33:26 +0200
+Daniel Wagner <wagi@monom.org> wrote:
 
-On Mon, Jun 28, 2021 at 09:54:11PM +0200, Daniel Wagner wrote:
-> Alright, we are getting closer. Hmm, just an idea what could happen is
-> the agent state machine gets canceled (the supplicant is likely to say,
-> password is not working) and this it eats up the pending callback.
+> The upper state machine expects to be called in all cases. Do not
+> silenty eat up the callback.
+> 
+> Fixes: 8ea2d67a6e89 ("service: Complete only after user connection retries")
+> Reported by John Keeping
 
-I think I found the place were lost the callback. I just send out the
-patch. Please give it a go. If possible please also test some other use
-cases. I am not sure if this change is not introduce another
-regression...
+Tested-by: John Keeping <john@metanate.com>
 
-Thanks,
-Daniel
+I've run through a few tests with this patch and it looks good!
+
+Thanks for tracking down the issue here.
+
+
+John
