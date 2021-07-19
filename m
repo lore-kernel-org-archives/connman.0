@@ -1,86 +1,151 @@
-Received: from mailout1.samsung.com (mailout1.samsung.com [203.254.224.24])
+Received: from FRA01-PR2-obe.outbound.protection.outlook.com (mail-eopbgr120047.outbound.protection.outlook.com [40.107.12.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C27770
-	for <connman@lists.linux.dev>; Wed, 14 Jul 2021 09:08:07 +0000 (UTC)
-Received: from epcas5p4.samsung.com (unknown [182.195.41.42])
-	by mailout1.samsung.com (KnoxPortal) with ESMTP id 20210714090800epoutp01eea2c05ce4870b7977d9aa3fe946897c~RnRsYMyIt0496204962epoutp01T
-	for <connman@lists.linux.dev>; Wed, 14 Jul 2021 09:08:00 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20210714090800epoutp01eea2c05ce4870b7977d9aa3fe946897c~RnRsYMyIt0496204962epoutp01T
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1626253680;
-	bh=sS3ban9qfHUQAz98jdxaezik5IiXcYuKDT5fKcfmFy0=;
-	h=Subject:Reply-To:From:To:CC:Date:References:From;
-	b=DFe27MIYoXXyYeLf/3Gpv/anCtqHn/SprTSz7+fPThfhXXY1kIUnTkwt4Zr6Yh5iM
-	 e+cuMOwvjVhLpw8ZMZXXk/fZ5cqp3V+sV+1kweeoZVhYjNa8RxasTcVHyKaVyh5zt4
-	 B4XuXeAqRQtWAq+RPv7ozQS765DOmuKFBNTE1Olw=
-Received: from epsmges5p1new.samsung.com (unknown [182.195.42.73]) by
-	epcas5p3.samsung.com (KnoxPortal) with ESMTP id
-	20210714090759epcas5p3ce6c6fad3cfb690ca6197d9aa1a76bba~RnRr_V1DZ1875418754epcas5p3m;
-	Wed, 14 Jul 2021 09:07:59 +0000 (GMT)
-X-AuditID: b6c32a49-6b7ff70000002504-a6-60eea96f2a67
-Received: from epcas5p3.samsung.com ( [182.195.41.41]) by
-	epsmges5p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	63.FF.09476.F69AEE06; Wed, 14 Jul 2021 18:07:59 +0900 (KST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 215DA173
+	for <connman@lists.linux.dev>; Mon, 19 Jul 2021 09:01:51 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=NiVvAGpKGRUEUt/LIBcJsuuYDBf+4XXkH9IrOcMcsukCcLFLmslhxr0qmt7z3Vru/Uu98uEYc9vf34l5vKg4FMuCGpUCqGOzL5cSOpa87riDHsj1inB3/ULGmrWVLTKTyHkLfsoWtsPt2MG67izYjUkNPKtcvfm4Hqccy9/fT+kLMQh4fnrLyb7Y4LkEaHENTYJ9xC+VGerNlid8NcFEpbrjGyhy/FcLh7LDFwXe2nofm0jv2XXk9Uo5E9rHTp5O+An5eZnyopJkHVtakKTcfJTu1nOdtLKQGS1b9DkdXCol1MQeKXsE+LS4R0JrpQR3Hei6+a8rwqGQq7YDGdz5vA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=KDIQJkNSowcAlEDNfbKlFp58v+8N5K+uXw1h/MkwQEs=;
+ b=njsW4ncFIUazumR9DdlUmo1G5494c4ueL95mi7kvbkqERHVxrVUu31r08RCs5MRjsZ0ckdK7V24HZWRzdYRXtQZCoePAIfQiaHszN1PItSLiduRzuXTD470bopodK9j5/VV5YTNLdS5qWKIaT606e7IGqBRqBIpOY0K8bnfv6UqKFxZBl64Dr4eAwdT7WH5lnnH0nTbIEcn57N7rl3WuCN0xH6eyjo5gpABZ8dyZajJGE3tuCksS80zT1oQiRLE0hPr9rBQVqXWucX6pfjwVy6Ms9Vx+Lwjq4+wV2DXZu8z16Wtf8s8zHJY6nkytg0eXoPw4dF4VHYApq8wyFSUNWw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=cpexterne.org; dmarc=pass action=none
+ header.from=cpexterne.org; dkim=pass header.d=cpexterne.org; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cpexterne.org;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=KDIQJkNSowcAlEDNfbKlFp58v+8N5K+uXw1h/MkwQEs=;
+ b=uC+8I2hyqHELQUOvQRbv7SojTTCjRdTexDLJhGYU/B4E34FpemGiazPOD81rGCPS3IGUIVfs+PiDY31gxJqT6B7E5y674IgDAhJvY9KINCYJEZNUupl5F1RkMmPEUE1bl1lqQIQqj4LG018PV17UBY5KUSFrzOllfEBAm7TJGoU=
+Received: from MRZP264MB1544.FRAP264.PROD.OUTLOOK.COM (2603:10a6:501:a::7) by
+ MR1P264MB2164.FRAP264.PROD.OUTLOOK.COM (2603:10a6:501:14::6) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4331.21; Mon, 19 Jul 2021 09:01:49 +0000
+Received: from MRZP264MB1544.FRAP264.PROD.OUTLOOK.COM
+ ([fe80::9cf6:f40b:bff0:c682]) by MRZP264MB1544.FRAP264.PROD.OUTLOOK.COM
+ ([fe80::9cf6:f40b:bff0:c682%6]) with mapi id 15.20.4331.032; Mon, 19 Jul 2021
+ 09:01:49 +0000
+From: "VAUTRIN Emmanuel (Canal Plus Prestataire)"
+	<Emmanuel.VAUTRIN@cpexterne.org>
+To: "connman@lists.linux.dev" <connman@lists.linux.dev>
+Subject: [PATCH] service: service_update_preferred_order cleanup
+Thread-Topic: [PATCH] service: service_update_preferred_order cleanup
+Thread-Index: AQHXfHxclevzH83B+0aj5OadKVoo/A==
+Date: Mon, 19 Jul 2021 09:01:49 +0000
+Message-ID:
+ <MRZP264MB1544B944E70E53B4B1A9287693E19@MRZP264MB1544.FRAP264.PROD.OUTLOOK.COM>
+Accept-Language: fr-FR, en-US
+Content-Language: fr-FR
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: lists.linux.dev; dkim=none (message not signed)
+ header.d=none;lists.linux.dev; dmarc=none action=none
+ header.from=cpexterne.org;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 2d2e1d49-5965-4ebe-edf1-08d94a93d81f
+x-ms-traffictypediagnostic: MR1P264MB2164:
+x-microsoft-antispam-prvs:
+ <MR1P264MB2164F149473068267C0DA21293E19@MR1P264MB2164.FRAP264.PROD.OUTLOOK.COM>
+x-ms-oob-tlc-oobclassifiers: OLM:4714;
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info:
+ +GVsvFVyB/qNnI0N9wFTkIW5LC8xbwczBvrlGX27kr65LGaMwFMgt8U6SaUpto2cWWepFc3W97dttcI6zg/25OZsz3bjuksvPgLOEBwDV6BjfxE0Zmdr/qTx5l4qhybm3Uv1X6ohTcUlQtY2W73tv49WUHuFesx5dhDqEUOhir9B4rzLUxOqhkqe0AOXaPvOMnuxkvUVXblMzWdMRkfLmCrAKNxJtM1bpoTwYxN2Jv3uCI241AnKmxl08W0RI7Uz7sNyCajd5i9EfiajhgVG5pnocy1+Vfzsl9YIrLnLBFFamyNQJUKt5EwA2+XQtIf7xbh0rqATrAcecBn8oNtnWh9eXOXFO9Lvnd+LpamiQmdYhsuIH3p1Qbse4tdkzHFyQ51reYQXyTF+oa/kyaxvjLgf66TSAxelTbk9OGupMC/Bkv4GviwaCyJy1pcAFnYR18+41aNElcKElrwIxiGbw5H0Rx2CLuO0ENy1Cizmwxc66PfnAHwTx5KNHGrh6FNDaPTKtTAjac1ih4SjQUlLxzhwbhuuD7MZpEsaWV6mOmRRmku6AOb+iZiNwMa0t2x49YJu7L1L0cfPrj2QBR2pc2B+GiWvHZB/9o7I/EVPMP5527UrvOb0siw2Hg/S1B70btPdbZSuVN3LTdnXkgxq6Keb2OIhuiv07vPlkyhG55z/znuwfII5KCxt0os7BmajzLYTM9M9oi4bWNGzXh1Q7g==
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MRZP264MB1544.FRAP264.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(4636009)(396003)(136003)(346002)(366004)(39860400002)(376002)(55016002)(8936002)(478600001)(52536014)(76116006)(91956017)(316002)(64756008)(66476007)(9686003)(66556008)(26005)(66946007)(66446008)(8676002)(2906002)(33656002)(122000001)(83380400001)(6506007)(186003)(5660300002)(6916009)(7696005)(86362001)(38100700002)(71200400001)(38070700004);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?iso-8859-1?Q?AIce7Wp7xESz3IOmUJGZYGLeuy5DXBrrca5bW2FYOIPR+c5Xj2ldptrePm?=
+ =?iso-8859-1?Q?x7afdFBCOqXrGKhUuIUPbtbV8RUx8virDKoJWE4lzC1u2ItueqECFJRR1W?=
+ =?iso-8859-1?Q?y2lpGK+wd34kvZnZMFu/085r+1p8fTp3Muu1HdJ5FBLOxop5hMSkeBVHoX?=
+ =?iso-8859-1?Q?PjOIfIHI8OUBMbi5dVnmCoCe1jnl7qLJZ+rQAomm8Qq0Nwqi96z+epIXei?=
+ =?iso-8859-1?Q?Oqnz//MG1wxTm6lUTnR7hGC5wt/nG+p9jI0B3kywyf06KOjN+8si4EkC9/?=
+ =?iso-8859-1?Q?15A5bgqytf6fNStZgpkxdU72iHDlEw2PV63P2WvwV/oDaUqotQPGZLstiv?=
+ =?iso-8859-1?Q?4/yuzQmYVWNpIDv0a86kfNyYOKapxw6nzWvA1FiI8IO4totR9VQRWhEXc+?=
+ =?iso-8859-1?Q?2NROT9ZVk3P6QzIpUgLqtTZswTurvOre/x7tYwZ5c2KaL5p+UW4CZF+aem?=
+ =?iso-8859-1?Q?l1oOEF646AIPoBfgkkzC40GmM4XUB+oPjAi6KjJBznc1e0Ln1gTDXNPLCn?=
+ =?iso-8859-1?Q?q0xXP0rGpA3zs8ZR7f0wzSZMk+xe5n1p5RFKpmkt9c+ZTci1UayXNxHarM?=
+ =?iso-8859-1?Q?GsOXffbdrmKbnq/ms0NgTJKTOGVZI403jv8XNPQO/dmmHylu2TQ0xAN1UH?=
+ =?iso-8859-1?Q?73l6faAiVOMERK0dmzymKgGv2t5+kkM1YV1yRMfk72JlHoVB8uUxhmjIUc?=
+ =?iso-8859-1?Q?YlnNoXj4ftUyQO6DmFzppV3s4Jjzd6nskKZcqcAKIrTUg+mc09S3w/XP7+?=
+ =?iso-8859-1?Q?0I0O9W/upl/Hir/mTrDxjwOTdSQypWGhHWSjad8vgs6+imeNIzakVCruMa?=
+ =?iso-8859-1?Q?8HEMNzElEEH6zlmvCZdY6v68JxAnjxmoJm/Od11UN2ZRYNzuhVZtzUKO/N?=
+ =?iso-8859-1?Q?TjdjBcLk+HIk+3C3H8RAPLlsZqT1KBL/l8wjqpUaJIWFOIRTGkdQcViw97?=
+ =?iso-8859-1?Q?W8yODE/RUPLnyILLJoysYvrB1U6fWLMdPEDSRR9gMcF+aboYSk0ZCtWvch?=
+ =?iso-8859-1?Q?OLbVVvTz4LZDhjUDOYI7/tzJZgqrd7GpO8pBc8HGl/IJ1oc3jPJbqgLYzY?=
+ =?iso-8859-1?Q?tNf/gNMouFhaHEj4hK8+vwhqmdokGO8C0PEPMNVV3+DpVFTAOhp2dQPmyI?=
+ =?iso-8859-1?Q?9PyWWo33mFXawVnXbsakcS6dFjKcrodzj5WlbllHNN7gKjFkNX9aZT/vsL?=
+ =?iso-8859-1?Q?QarRhtzvRJiT+lwpEG6omsNAAyfejVfmfD6VkHdb9QaGoeeq9lGeWcvdGZ?=
+ =?iso-8859-1?Q?Ca9OiuNUdejfLsB2wEz7icWaKmtuWi5tptp5AnCBFGIJ2sYCgn5dHgvGKq?=
+ =?iso-8859-1?Q?6cs2UGR7AVL7E07/e8yMjedUVwzi7hHiMIexFmzxLlGytBk=3D?=
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Subject: main: Fix a memory leak for str_list in parse_config
-Reply-To: rahul.jain@samsung.com
-Sender: Rahul Jain <rahul.jain@samsung.com>
-From: Rahul Jain <rahul.jain@samsung.com>
-To: "connman@lists.linux.dev" <connman@lists.linux.dev>
-CC: AMIT KUMAR JAISWAL <amit.jaiswal@samsung.com>
-X-Priority: 3
-X-Content-Kind-Code: NORMAL
-X-Drm-Type: N,general
-X-Msg-Generator: Mail
-X-Msg-Type: PERSONAL
-X-Reply-Demand: N
-Message-ID: <20210714090411epcms5p810fc79bcbc4f7a7d48028cb1f4d3ab27@epcms5p8>
-Date: Wed, 14 Jul 2021 14:34:11 +0530
-X-CMS-MailID: 20210714090411epcms5p810fc79bcbc4f7a7d48028cb1f4d3ab27
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="utf-8"
-X-Sendblock-Type: REQ_APPROVE
-CMS-TYPE: 105P
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrFIsWRmVeSWpSXmKPExsWy7bCmpm7+yncJBhNeiFi865rOZvFhS5wD
-	k8eLzTMZPfq2rGIMYIrisklJzcksSy3St0vgyjhwZgJTwUzWigf/etkaGNtZuhg5OSQETCSO
-	H//BDGILCexmlJg4VbmLkYODV0BQ4u8OYZCwsICtxJuzB5kgShQkbm3fwAwR15bY+/kf2Bg2
-	AU2JZZcngtWICJhLPP07hRFkDLOAocTnJVIQm3glZrQ/hdoqLbF9+VZGCFtU4ubqt+ww9vtj
-	86HiIhKt984yQ9iCEg9+7maE6b0waz2QzQVkdzNKzHm6kxXCmcIo8fnXOjaIKnOJ/91vwTp4
-	BXwlOjZcAouzCKhKnLjwDWqSi8TM3lNgFzELyEtsfzuHGeJoTYn1u/QhSmQlpp5axwRRwifR
-	+/sJE8wzO+bB2CoSC+behbKlJNo33oAa7yFxteEzNNwCJS5OvsM8gVF+FiJ0ZyFZPAth8QJG
-	5lWMkqkFxbnpqcWmBYZ5qeV6xYm5xaV56XrJ+bmbGMHRr+W5g/Hugw96hxiZOBgPMUpwMCuJ
-	8C41epsgxJuSWFmVWpQfX1Sak1p8iFGag0VJnHcp+6EEIYH0xJLU7NTUgtQimCwTB6dUA1PN
-	ol1a36SXLPtcwxV88Vflip99zMWau42i3+xYxzDjcNj5m5kRHzxu1gSdmGVjyL6o00j/4PTp
-	T9LPb7Q6o/e/0/Lotr/Blz847Oc4+Xr2RGGh8FXMYge5Mu+8W2f8Tit+7rcevq0/5jJ+uFFf
-	5xAsvv15xx9R4w0Hb4fr2bA/v2Kfceitcbnl9m9s/vt2pKwtS/r7oefJDcnZNd8YzLxfGKud
-	v7S992266XIDtce6m1pZ59526VBbt9zXWeH7TffA1zN2K3O4FDqZxl5otNAqelVcLpga/nj/
-	8SsMrv/X1izjqddIkovtemphu/afl6BQY+VdhfQl5Wc3PdqQY+6wbMHHfo29HjebEz7/e75B
-	iaU4I9FQi7moOBEAAEXbb20DAAA=
-X-CMS-RootMailID: 20210714090411epcms5p810fc79bcbc4f7a7d48028cb1f4d3ab27
-References: <CGME20210714090411epcms5p810fc79bcbc4f7a7d48028cb1f4d3ab27@epcms5p8>
+MIME-Version: 1.0
+X-OriginatorOrg: cpexterne.org
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: MRZP264MB1544.FRAP264.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2d2e1d49-5965-4ebe-edf1-08d94a93d81f
+X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Jul 2021 09:01:49.5299
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: bf5c5de1-6a54-4091-a72f-90e32801628c
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: g4T+ShIudvGVrIWsPIIR0b592iIjagbarwXMeDyaaoGfI5Il9k6e0XrZ2IfuWntjGQ7lw54ZUhMup3YPj0hWuqidTSNXzG1PquXkpNhwm+w=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MR1P264MB2164
 
-commit 6e7844d37588612aa52722da6fa17468bd677b8c
-Author: Rahul Jain <rahul.jain@samsung.com>
-Date:   Wed Jul 14 14:30:48 2021 +0530
-
-    main: Fix a memory leak for str_list in parse_config
-
-diff --git a/src/main.c b/src/main.c
-index 6480caa..25854e8 100644
---- a/src/main.c
-+++ b/src/main.c
-@@ -341,6 +341,8 @@ static void parse_config(GKeyFile *config)
-                connman_settings.auto_connect =
-                        parse_service_types(default_auto_connect, CONF_ARRAY_SIZE(default_auto_connect));
- 
-+       g_strfreev(str_list);
-+
-        g_clear_error(&error);
- 
-        str_list = __connman_config_get_string_list(config, "General",
+For uniformity reasons, the service_update_preferred_order shall rely=0A=
+on service_compare_preferred generic function, instead of processing=0A=
+itself the preferred service comparison.=0A=
+---=0A=
+ src/service.c | 22 +++++-----------------=0A=
+ 1 file changed, 5 insertions(+), 17 deletions(-)=0A=
+=0A=
+diff --git a/src/service.c b/src/service.c=0A=
+index 149b66ecfbe0..182a1905c32d 100644=0A=
+--- a/src/service.c=0A=
++++ b/src/service.c=0A=
+@@ -5917,27 +5917,15 @@ static int service_update_preferred_order(struct co=
+nnman_service *default_servic=0A=
+ 		struct connman_service *new_service,=0A=
+ 		enum connman_service_state new_state)=0A=
+ {=0A=
+-	unsigned int *tech_array;=0A=
+-	int i;=0A=
+-=0A=
+ 	if (!default_service || default_service =3D=3D new_service ||=0A=
+ 			default_service->state !=3D new_state)=0A=
+ 		return 0;=0A=
+ =0A=
+-	tech_array =3D connman_setting_get_uint_list("PreferredTechnologies");=0A=
+-	if (tech_array) {=0A=
+-=0A=
+-		for (i =3D 0; tech_array[i] !=3D 0; i +=3D 1) {=0A=
+-			if (default_service->type =3D=3D tech_array[i])=0A=
+-				return -EALREADY;=0A=
+-=0A=
+-			if (new_service->type =3D=3D tech_array[i]) {=0A=
+-				switch_default_service(default_service,=0A=
+-						new_service);=0A=
+-				__connman_connection_update_gateway();=0A=
+-				return 0;=0A=
+-			}=0A=
+-		}=0A=
++	if (service_compare_preferred(default_service, new_service) > 0) {=0A=
++		switch_default_service(default_service,=0A=
++				new_service);=0A=
++		__connman_connection_update_gateway();=0A=
++		return 0;=0A=
+ 	}=0A=
+ =0A=
+ 	return -EALREADY;=0A=
+-- =0A=
+2.25.1=0A=
+=0A=
