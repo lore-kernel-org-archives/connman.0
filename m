@@ -1,56 +1,69 @@
-Received: from mail.nearlyone.de (mail.nearlyone.de [46.163.114.145])
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E16970
-	for <connman@lists.linux.dev>; Thu,  5 Aug 2021 06:15:00 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 63F965E354;
-	Thu,  5 Aug 2021 08:14:58 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=monom.org; s=dkim;
-	t=1628144098; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=AVBwOXSE1M+5hmBwp0MVfxlczCKfxu/j4K0S7salY9s=;
-	b=SD/99bzfKKbZib7KfnKqaWgtNfdQALM3BLi2HnUDiwYOrVBpXNAdVHCmx5SrjmK3jK9tui
-	H4yU0mI8IsLV+s6GKL43ol+CAuuilN/wzU3AUOQGQKdFXQY33y13EuJVtQ0tCOIwRpSa/O
-	idGE+IuAwCjG7OLwuO7Ix1kxDMlEo6qhA19z23IhY/douj9JOT67ESYcItI4XFVAuXa6HA
-	QAlqE1GW6UC0kTzCQNcESisqdaQt1YdDaIDWpKHMZbok+t3itfgvBGsAc5UZ2Z0615qBmN
-	EGwR3Gdv4As7Y28w+1z/cFmw7ASgCyHM7A1Cis3CJfwt5Zy9kMAstIUNmPTbIA==
-Date: Thu, 5 Aug 2021 08:14:57 +0200
-From: Daniel Wagner <wagi@monom.org>
-To: =?utf-8?B?THVrw6HFoQ==?= Karas <lukas.karas@centrum.cz>
-Cc: connman@lists.linux.dev, Santtu Lakkala <santtu.lakkala@jolla.com>,
-	Jussi Laakkonen <jussi.laakkonen@jolla.com>
-Subject: Re: [PATCH] make possible to use alternative auth group with 2nd
- password
-Message-ID: <20210805061457.abhvax5ow55z4hwt@beryllium.lan>
-References: <1666033.JRX4bv1jlI@latitudemachine>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 792E370
+	for <connman@lists.linux.dev>; Thu,  5 Aug 2021 11:15:35 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(Authenticated sender: adalessandro)
+	with ESMTPSA id 781101F40DCC
+Subject: Re: [RFC connman v1 1/1] gsupplicant: Add support for WPA3-Personal
+To: Daniel Wagner <wagi@monom.org>
+Cc: connman@lists.linux.dev, iwd@lists.01.org, Sven.Dembianny@bshg.com
+References: <20210804212315.265376-1-ariel.dalessandro@collabora.com>
+ <20210805060704.maeaww6q75x4obqy@beryllium.lan>
+From: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
+Message-ID: <d4e6e9ee-0f0b-1fa2-c814-4eebaac304ce@collabora.com>
+Date: Thu, 5 Aug 2021 08:15:27 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+In-Reply-To: <20210805060704.maeaww6q75x4obqy@beryllium.lan>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <1666033.JRX4bv1jlI@latitudemachine>
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-Hi Lukas,
+Hi Daniel,
 
-On Wed, Aug 04, 2021 at 06:39:39PM +0200, Lukáš Karas wrote:
-> Some servers are configured with multiple authentication groups.
-> OpenConnect request just authentication entries that are valid
-> for specific group (process_auth_form method). So, authentication
-> group have to setup first, and new form have to be requested then.
+On 8/5/21 3:07 AM, Daniel Wagner wrote:
+> Hi Ariel,
 > 
-> Some authentication groups may require secondary password.
-> For example one-time password from Google Authenticator app.
+> On Wed, Aug 04, 2021 at 06:23:14PM -0300, Ariel D'Alessandro wrote:
+>> Hi all, Daniel:
+>>
+>> WPA3 support has been recently added to connman (wpa_supplicant). As
+>> we've been discussing on a previous thread, this only supports
+>> WPA3-Personal-only mode.
+>>
+>> This RFC patchset adds support for WPA3-Personal transition mode, which
+>> supports both WPA2-Personal (PSK) and WPA3-Personal (SAE).
+>>
+>> Based on the AP accepted key management protocols, connman configures
+>> wpa_supplicant as follows:
+>>
+>> * WPA3-Personal-only mode: key_mgmt="SAE" ; ieee80211w=2
+>> * WPA3-Personal transition mode: key_mgmt="SAE WPA-PSK" ; ieee80211w=1
+>>
+>> This patch applies cleanly on top of current master branch (commit
+>> e36a38d8).
+>>
+>> I'd like to hear any thoughts you might have about this.
+>> For reference, see wpa_supplicant configuration [0].
+> 
+> This looks good. If no one speaks up I am going to apply it.
 
-From my quick glance it looks reasonable.
+Sounds good.
 
-@Santtu, as you have done some serious work recently on the plugin, do
-have any objections?
+> 
+> Daniel
+> 
+> ps: we have a new mailing list (connman@lists.linux.dev). The old one
+> was shutdown.
 
-Daniel
+Thanks for pointing that out!
 
-
+Ariel
