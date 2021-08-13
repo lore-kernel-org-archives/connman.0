@@ -1,52 +1,52 @@
-Received: from mail.nearlyone.de (mail.nearlyone.de [46.163.114.145])
+Received: from fgw23-4.mail.saunalahti.fi (fgw23-4.mail.saunalahti.fi [62.142.5.110])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4408272
-	for <connman@lists.linux.dev>; Fri, 13 Aug 2021 07:09:44 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id D3C965E2F1;
-	Fri, 13 Aug 2021 09:02:55 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=monom.org; s=dkim;
-	t=1628838176; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 in-reply-to:references; bh=RtcqHfwWtRv1fls3J3Aqe3tTUZ/KyTFk8D2vEt4k9os=;
-	b=DjbmP3b7itZtSgSlotOU2VaUD0WdfKbKyqrV9nkB/A0CDMrGvN6RIeJBRHh2aieZjH6aR8
-	3OM4WrL/+vrtdEzePzVEZHdB1O1fnMpWhSDOUxY0vvHgDPkYwgG1uWL1eO80VOazAOuYbO
-	m4tww4cwcf03bjWZMtb/om0Q6ZsfE/dn6sO82MhrgXQUyUoTNzlTs9m/NBmqQV2NBxmZ7A
-	6ALCResRSqOEqKuta6lU1TekSdh1LUagdCPzx1IXrJKRStjDIUdOSe3xVgRBlE9Ky9MBNP
-	rTYLLjLyRN7NMoROvaU4p3oA+OtrbXNX7H3vV9bCtEXw8v6R0729WINHHzniCA==
-Date: Fri, 13 Aug 2021 09:02:53 +0200
-From: Daniel Wagner <wagi@monom.org>
-To: Michal Zatloukal <myxal.mxl@gmail.com>
-Cc: connman@lists.linux.dev
-Subject: Re: IPv6 Online check broken/down?
-Message-ID: <20210813070253.ebpxxyupaa7c5v7m@carbon.lan>
-References: <CAKKZj2B6uwmwpAtAFgW7Av1Qasb6Yg1h2q-pHW17svwdQJE_Rg@mail.gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5A40173
+	for <connman@lists.linux.dev>; Fri, 13 Aug 2021 13:43:20 +0000 (UTC)
+Received: from localhost.localdomain (88-113-61-133.elisa-laajakaista.fi [88.113.61.133])
+	by fgw23.mail.saunalahti.fi (Halon) with ESMTP
+	id 4203dc0a-fc3c-11eb-b1af-005056bdfda7;
+	Fri, 13 Aug 2021 16:42:10 +0300 (EEST)
+From: Jussi Laakkonen <jussi.laakkonen@jolla.com>
+To: connman@lists.linux.dev
+Subject: [PATCH 0/3] Improve invalid auth and disconnect notify on l2tp and pptp
+Date: Fri, 13 Aug 2021 16:42:06 +0300
+Message-Id: <20210813134209.23253-1-jussi.laakkonen@jolla.com>
+X-Mailer: git-send-email 2.20.1
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAKKZj2B6uwmwpAtAFgW7Av1Qasb6Yg1h2q-pHW17svwdQJE_Rg@mail.gmail.com>
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Transfer-Encoding: 8bit
 
-Hi Michal
+Both l2tp and pptp have the symptom that when authentication is invalid
+the binary keeps on looping disconnect notify. As a solution to this the
+task can be stopped to ensure that binary also dies. And to further make
+the process better adapt similar connect done -approach that is used in,
+e.g., OpenVPN to ensure the callback (vpn-provider.c:connect_cb()) will
+get called only once.
 
-On Thu, Aug 12, 2021 at 02:52:42PM +0200, Michal Zatloukal wrote:
-> Hello.
-> (Please Cc me into replies, I'm not subscribed)
-> 
-> I recently got IPv6 connectivity at home and soon noticed that connman
-> on LibreELEC is continuously (every 3 minutes) trying to reach
-> http://ipv6.connman.net/online/status.html - an "online connectivity
-> check", as described by the documentation. The IPv6 host from that URL
-> (currently 2001:8d8:8b4:c861:5826:fa5f:6690::, hosted by IONOS)
-> appears to be completely dead (no response to ping, or TCP_SYN on port
-> 80). Curiously, the hostname also resolves to an IPv4 address (also
-> hosted by IONOS), where the HTTP server responds with "502 Bad
-> gateway" (and ping responds as usual).
+This change makes both plugins to respond with 0 ("ok") only after the
+notify from the binary is received that connection is established. Both
+of the plugins did reply with 0 right after run_connect() which was not
+the proper way.
 
-I get the same response here. Marcel said he is looking into it.
+Also add support for using ConnMan specific control file with xl2tpd
+using -C switch. 
 
-Daniel
+Jussi Laakkonen (2):
+  l2tp: Improve invalid auth and disconnect notify, fix cb use
+  pptp: Improve invalid auth and disconnect notify, fix cb use
+
+Matt Vogt (1):
+  l2tp: Create control file for xl2tpd
+
+ vpn/plugins/l2tp.c | 133 +++++++++++++++++++++++++++++++--------------
+ vpn/plugins/pptp.c | 127 ++++++++++++++++++++++++++++---------------
+ 2 files changed, 175 insertions(+), 85 deletions(-)
+
+-- 
+2.20.1
+
