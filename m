@@ -1,282 +1,494 @@
-Received: from EUR05-DB8-obe.outbound.protection.outlook.com (mail-db8eur05on2074.outbound.protection.outlook.com [40.107.20.74])
+Received: from fgw23-4.mail.saunalahti.fi (fgw23-4.mail.saunalahti.fi [62.142.5.110])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BC71168
-	for <connman@lists.linux.dev>; Wed, 18 Aug 2021 09:21:29 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=SKdHN4+YVHv7APPpguFTAtgVZK3rUl2J1M+u0CO0BcJQ4xvgaAm3tE29TcYl6DQa7wbBpnlrRHrdSi9LSOOPRjIgZP43FuPm9qwJa5anyP3Zey3EBPb8NrtakHiGlIv1bm5P6BB3rQjucrxB4hZwOQ2H++uUGl2GHbedqArGs6HmtrkqH1zv4c5DZ/SXI5QbQS7bjln0ZMxP1nauHjZzN8ik6GY/Yi9uqshCkFueIrs+k9MTd1mgoootbmCfb80Ju3RYIbuNS/Yjb6vEB5h6uvmmjqFkFlR7gXjph7fTIDWDcebSIHj+owKJPRb0hGcMoTOqpfFKSwhY64N/A72Oyg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=YejjxFn1/PRfsAUQgGgUJFMpaT83UTmx9+pR9On9J1Y=;
- b=nLUxBizD31DgWbpUcA0ZV1Jwf7vbEMwvV2KAFaG+4L3rT4CFeCPC4PSTGL9VhnKLU224Q2HC+qa+FOZhgS+AFH0YpEbrPdQ5sxAIXAKZiim6lGEpF6nZ50iQyyo+R7qHiH2H9+3DSh3Z2efRzqpWqZw7G9QLCSNQnehH0WDc3r/mklY5jfyGf/YIjz7esNSU+96lXyexW9roDTrqZ6UNMVMCCrlZDmKp7NO/yJA9yzs2cTkXQcNKzBayXtz1ccAfwf9N4gopB2V2ZqBvZ3TMXrOncaFozNpb6XKXZAthh0ILza6H+IuytBfglc3jGcpjVgcP7XamuhFfM1ktBIpPqA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=jolla.com; dmarc=pass action=none header.from=jolla.com;
- dkim=pass header.d=jolla.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jolla.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=YejjxFn1/PRfsAUQgGgUJFMpaT83UTmx9+pR9On9J1Y=;
- b=ghb7jT0P6uhuYe9Cowlumk6gRflmGumzUUaJaMRQk62WcXangf9LZ+JIwKmwxGQwC5PI/m8jN7LfpvpZOBPSikbiFyx/e5/8MT7RQk0dbTCefOw+pUR002I2ml2olCMP6cfVPT/e9mBF/AibWF+Yabw1JvICkvx1QGf1su6Lnj84T5kbSrh3u5TwgZCf5OgHarS2QkVUb+u8z8PTc+TIPN3LDAzZztskt0DjsRdILYuMzME03xDK/YV4BkpP20imwvZjWzz8AV8H1TyY7gHLZQgOmB1zrGzhnZ6wSql7hsUmWRyxzPl1pAno3FpXsGYcabwuWRjg1XGQo4PLPDeJow==
-Authentication-Results: lists.linux.dev; dkim=none (message not signed)
- header.d=none;lists.linux.dev; dmarc=none action=none header.from=jolla.com;
-Received: from HE1PR0602MB3420.eurprd06.prod.outlook.com (2603:10a6:7:89::11)
- by HE1PR0601MB2604.eurprd06.prod.outlook.com (2603:10a6:3:54::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4415.21; Wed, 18 Aug
- 2021 09:21:26 +0000
-Received: from HE1PR0602MB3420.eurprd06.prod.outlook.com
- ([fe80::d084:24c1:485a:bdd9]) by HE1PR0602MB3420.eurprd06.prod.outlook.com
- ([fe80::d084:24c1:485a:bdd9%7]) with mapi id 15.20.4415.024; Wed, 18 Aug 2021
- 09:21:25 +0000
-Subject: Re: [PATCH 1/2] vpn-provider: Implement connmand online state
- checking
-To: Daniel Wagner <wagi@monom.org>
-Cc: connman@lists.linux.dev
-References: <20210817151443.32305-1-jussi.laakkonen@jolla.com>
- <20210817151443.32305-2-jussi.laakkonen@jolla.com>
- <20210817165528.amfp4fyf22ljaehz@carbon.lan>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20CDC173
+	for <connman@lists.linux.dev>; Wed, 18 Aug 2021 10:31:41 +0000 (UTC)
+Received: from localhost.localdomain (88-113-61-133.elisa-laajakaista.fi [88.113.61.133])
+	by fgw23.mail.saunalahti.fi (Halon) with ESMTP
+	id 77eca183-000f-11ec-b1af-005056bdfda7;
+	Wed, 18 Aug 2021 13:31:38 +0300 (EEST)
 From: Jussi Laakkonen <jussi.laakkonen@jolla.com>
-Message-ID: <7f6eb47b-85fb-4bd8-2be2-dff6518f6a4a@jolla.com>
-Date: Wed, 18 Aug 2021 12:21:24 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.12.0
-In-Reply-To: <20210817165528.amfp4fyf22ljaehz@carbon.lan>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: HE1PR0401CA0096.eurprd04.prod.outlook.com
- (2603:10a6:7:54::25) To HE1PR0602MB3420.eurprd06.prod.outlook.com
- (2603:10a6:7:89::11)
+To: connman@lists.linux.dev
+Subject: [PATCH v2 1/2] vpn-provider: Implement connmand online state checking
+Date: Wed, 18 Aug 2021 13:31:37 +0300
+Message-Id: <20210818103137.17409-1-jussi.laakkonen@jolla.com>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20210817151443.32305-2-jussi.laakkonen@jolla.com>
+References: <20210817151443.32305-2-jussi.laakkonen@jolla.com>
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [10.8.0.5] (194.110.84.60) by HE1PR0401CA0096.eurprd04.prod.outlook.com (2603:10a6:7:54::25) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4436.19 via Frontend Transport; Wed, 18 Aug 2021 09:21:25 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 1c5f4fa5-68ec-4530-fd91-08d962298d6b
-X-MS-TrafficTypeDiagnostic: HE1PR0601MB2604:
-X-Microsoft-Antispam-PRVS:
-	<HE1PR0601MB2604BE9006BD79BD53F94053EFFF9@HE1PR0601MB2604.eurprd06.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:3383;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	sgS/kfyXPsu3KTuHnUmQxdIVerX4iB/FYWB32ucoKQBT5O8IwydxX7xfqScdTNrNYpaet/lUwyZr73waqTSKeJEgRcfYUzLt8jt6QVFz5isaaNCaFPTzFmTZ7wFPcObDPJH1Lu1qpX5P/sfkw1kBNiTaH+POTgU6/kq2v9Dncgo5xMi++scewKWVSlli+IFuSgzAnR1J5giQfH2H+6fj9g6ouGdvOW1mRuabSMw8UXJtMqvMSqsKbV64eDAdqg0P7v6lz6Szkj6V1Wgs9m+BJFAjPHoIhEQuuNANew6hoHdTld6sQ6EL23EOILCPGhHaV8HbguDMwpajWVmyZyKighzoa77HcBg84RTzmwQqRD95/MLxGFYjf4eJoDSwDbBgYQ5uIkgINwwbpuM/fusUpYv97kbxO7QinHAOPcBfix5UOzCcyXpx/HqCjOMYlmuCVwjD+r0e0XlW7o/g6fGPRjBWS7qH1xNGuDu7RoNreSLRPg8a4kY50wv0+8WWdTmbTSUDvo4avbKJs2+yqpk6oAgdqqB/Ohoazqwpoj0pYymJcvGKDhthRXiwNy/ChvXWTkgfqs3X5bwtcgBPAvhxduNPZwPZc+7lnitxJueq+xJW0Z8pGi1a1kjW2dBqn8K9q5e0VmIDQE5cZmzMR7/A6NxRsYkPdS+LSiXSRIBreZCMBfVOkt55K6ikZQubegSeQG4OVe5tO/JZ2cx1AAYfgJJQwlcPK//MbZEYCoZ2CB7+glq1uc5BVsb4pbQUHi+ENIQWEcYDb3Ea6rELtCVzsg==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:HE1PR0602MB3420.eurprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(376002)(136003)(396003)(39830400003)(346002)(36756003)(8936002)(6916009)(31686004)(26005)(316002)(2616005)(16576012)(8676002)(4326008)(5660300002)(83380400001)(53546011)(6486002)(186003)(956004)(44832011)(66556008)(38350700002)(66476007)(2906002)(31696002)(66946007)(38100700002)(478600001)(86362001)(52116002)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?eVBqVDA0S05pTkdVa3BWRFV5cG1BeEFCa2JoS2NXZXo5TjAvcnFsWjZVQ3dU?=
- =?utf-8?B?K2h3UTh2bXByaWdIWHd2bHRtS1ZlUHpwb1dNRFhRZHUyc040ZmJLajUzZHc4?=
- =?utf-8?B?azJCL1BINW4xMDhrSUk2N0tGY0h4cXQyUkEzNHZPdi9YNWVZYWtnY0huT3Zk?=
- =?utf-8?B?QU1yUlozUE53c2xFNitRVjBRckNYMWUyRDJsZVRJclBaY1FtL3dpQ1ZSWTU5?=
- =?utf-8?B?RlhUVnZ2SFdLZ3ZyL1JZT2lEZ3Y4bTR3Q1A4cStGMDJsbDd2bVlWWThkVm0r?=
- =?utf-8?B?ZlJkSDFRWTZPNDlqaWltY2VnKzMraFpXR2IvS1JuNVRnRzZ6MzVOZ3ZYaU9D?=
- =?utf-8?B?Mmd1OHJCZnhLRjNNRmp1dlBpR0ZNMDR0VXc3dUxFMThFdlZzMDhGMHBaeTR6?=
- =?utf-8?B?ZTd6MmlMbXNGdU5EZmtoRVc2NVhCMkExYnk2RkcyRGh6MnI1RkV0b2YvaXFM?=
- =?utf-8?B?bnVGd1VDQ1hQWDdiRXN6MXdzbUVNK2xkZGx0QUNFNXZZcStHV2ptRENMZ08r?=
- =?utf-8?B?VHNpcXlMT1RQaWMvOXlXNzZLRFlhV05yS29KN3FKQzg5Y2w0Y0FvYTlFb2JM?=
- =?utf-8?B?YUIzSVk5MnhzTUJsVktXMlF5ZkVvQldQR1l6Y3lVczhIRk5MR2NCWFBHS3ZJ?=
- =?utf-8?B?VWlkcFMyS052cXIyU05hYnlTZzZwenpmOU9QcnhhNFhpdDljTUpVeUFobWdK?=
- =?utf-8?B?U2ZwTVVhUzlhV2Y0bmFNUkVDNkVlL1E0REx1Zkpqa3lCcml6WFpCdThkVEx4?=
- =?utf-8?B?a3l0SFE4M2pyOTNkeFNvSGoxVXJVbGQ1Qk4va29ISG5JcXQwRGhJaElNRnJq?=
- =?utf-8?B?bkg4U0t4SDdDRGlGc2dCN1NERjYvT0pRMGtTUlhsdFRBMTFGN2t2OUJlTXA5?=
- =?utf-8?B?THRFY2lHYVpzRUR5emNsS29pdzRZQ2xiVU4rM2FBR0JwNGp6OGw1V1dHMUNJ?=
- =?utf-8?B?N2NPN0ZaSmVLdEVlN292aGdqYXh4amNzZTFEbmpvV0FjUEphM1NFeEdPUXNZ?=
- =?utf-8?B?RTA4QUp2YVR2RjVjNnFJUHF5N1pvdldrV1lTL0djbnZjZHNTOUZzQXB6TmJ4?=
- =?utf-8?B?UzlJMm9iWk5KSXUxOEt2a05KYVlkek9nenVWd3JoaHJXTDZrSTh0WGJCbDAr?=
- =?utf-8?B?Y0xRSnVBMCtWNXJ0UGE0NGc0MzErejA1MElQQTF4WnpOTm8zTHVudWtrbFdl?=
- =?utf-8?B?QkV1Tjg0TmRybk1KTDZkVVRvU2t4Y2gwZ21JdW41YjdqUEltNjYyNlFTVjVt?=
- =?utf-8?B?dFNpeDFGNGREWHova1EwaEcwQUlCN2JaanZ6bDI5WVJUWW1FaDVTUXRVcGtM?=
- =?utf-8?B?Zm5Yd1NRNk9meHFRMGJZMDBLZWtmUml6dDkzdTc5U0t0YVhZNHJueXYyUTFG?=
- =?utf-8?B?RFBVSUdEQk82Sk5PNVh1WVMya29vSVUwdTVqNnJGY1EwVUpxdlJZZFp5YTJq?=
- =?utf-8?B?ZDA3MUl1Q0xYU1NMaW4vOVVYOThqVE5sRkRaRXByZCtQdzI5UllnNDFTU2VL?=
- =?utf-8?B?U2RwL0Z3YnJFci9reTJPL1RKajhZdUpuTUI4VDVsZWFhRXZnbWowZ0RDMHhv?=
- =?utf-8?B?Z2QyMTRjTVkzRlJzNGZhZHRBcmdOcktQMFdkQkRNeHVUZHJrMVpxbjVlTE5Y?=
- =?utf-8?B?cUpnK1RoNWJiUTlaL1NBam9Wdkt2MVhucHNEMmhVcnQ1aGZUUWltOHhWdHl0?=
- =?utf-8?B?WXQwdU1BMUpKdUV6bDc3SjM4S0ExV0NCaEZKK2pSMW1HWXZ2OXpSZTBPWEJF?=
- =?utf-8?Q?bctEHx6t79u8lH4j7Iz6KMZCf15H6BYz4X7I4Iu?=
-X-OriginatorOrg: jolla.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1c5f4fa5-68ec-4530-fd91-08d962298d6b
-X-MS-Exchange-CrossTenant-AuthSource: HE1PR0602MB3420.eurprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Aug 2021 09:21:25.7450
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: b6cd1562-9512-488f-a364-34d46554c96a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: XVUOYsPneQwz9f7lASMsB5shHA7rExOpYeN999rOnq+UrpFzP34gvm3i5y7kBBiYgYznDKRVSorHe2fx9fWXpXzwAEdYtdfedOCKimYMUuI=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: HE1PR0601MB2604
+Content-Transfer-Encoding: 8bit
 
-Hi Daniel,
+Add a complete mechanism to track connmand state and query it if
+necessary to avoid connecting VPNs when there is either no connmand or
+no network to use. This also makes VPNs to disconnect when connmand
+loses its online state or disappears.
 
-Thanks for the comments. This piece of code has been running in our fork 
-for approx. 3 years but that does not mean there wouldn't be any issues 
-to fix or to improve.
+The connmand state listener uses net.connman.Manager interface to get
+the state using GetProperties at startup. PropertyChanged signal is
+monitored for state changes to update the state. State is changed and
+queried when the D-Bus service listener is notified. Connmand state is
+tracked within vpnd with a boolean: "true" = online/ready, "false" =
+offline/idle.
 
-On 8/17/21 7:55 PM, Daniel Wagner wrote:
-> Hi Jussi,
-> 
-> Just a bunch of small nits.
-> 
-> On Tue, Aug 17, 2021 at 06:14:42PM +0300, Jussi Laakkonen wrote:
->> +static gboolean do_connect_timeout_function(gpointer data)
->> +{
->> +	DBG("");
->> +
->> +	/*
->> +	 * Keep in main loop if no agents are present yet or if connman is not
->> +	 * yet online
->> +	 */
->> +	if (!connman_agent_get_info(NULL, NULL, NULL) || !connman_online) {
->> +		return G_SOURCE_CONTINUE;
-> 
-> Doesn't this get the mainloop busy looping?
-> 
+Also a feature to support delayed connecting of VPNs is added. It may
+happen in a situation where ConnMan status is not queried yet and
+a request to connect is received over D-Bus. In this case a timeout
+function is added to the main loop that runs with 1s interval. When the
+delayed connect function is running it keeps on trying until connmand
+state is online/ready. If connection request comes when the state is
+queried and it is not online/ready ENOLINK is returned as an error
+("NoCarrier" D-Bus msg).
+---
+Changes since v2:
+ * Cleanups and fixes to follow coding style.
+ * Refactor run_get_connman_state().
+ * Replace g_try_new0() with g_new().
 
-As far as I can remember this is intentional. This is added to mainloop 
-with 1s delay in do_connect_later() for the delayed VPN connect so I 
-guess looping with 1s interval is not too busy?
+ vpn/vpn-provider.c | 362 ++++++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 361 insertions(+), 1 deletion(-)
 
->> +	} else {
-> 
-> As there is a return above, no need to do a else statement. Makes also
-> the indention one less :)
+diff --git a/vpn/vpn-provider.c b/vpn/vpn-provider.c
+index 59c805c5..72245794 100644
+--- a/vpn/vpn-provider.c
++++ b/vpn/vpn-provider.c
+@@ -3,7 +3,7 @@
+  *  ConnMan VPN daemon
+  *
+  *  Copyright (C) 2012-2013  Intel Corporation. All rights reserved.
+- *  Copyright (C) 2019  Jolla Ltd. All rights reserved.
++ *  Copyright (C) 2019-2021  Jolla Ltd. All rights reserved.
+  *
+  *  This program is free software; you can redistribute it and/or modify
+  *  it under the terms of the GNU General Public License version 2 as
+@@ -24,6 +24,13 @@
+ #include <config.h>
+ #endif
+ 
++#define STATE_INTERVAL_DEFAULT		0
++
++#define CONNMAN_STATE_ONLINE 		"online"
++#define CONNMAN_STATE_OFFLINE 		"offline"
++#define CONNMAN_STATE_READY 		"ready"
++#define CONNMAN_STATE_IDLE 		"idle"
++
+ #include <errno.h>
+ #include <stdio.h>
+ #include <string.h>
+@@ -89,15 +96,55 @@ struct vpn_provider {
+ 	struct connman_ipaddress *prev_ipv4_addr;
+ 	struct connman_ipaddress *prev_ipv6_addr;
+ 	void *plugin_data;
++	unsigned int do_connect_timeout;
+ 	unsigned int auth_error_counter;
+ 	unsigned int conn_error_counter;
+ 	unsigned int signal_watch;
+ };
+ 
++struct vpn_provider_connect_data {
++	DBusConnection *conn;
++	DBusMessage *msg;
++	struct vpn_provider *provider;
++};
++
++static unsigned int get_connman_state_timeout = 0;
++
++static guint connman_signal_watch;
++static guint connman_service_watch;
++
++static bool connman_online = false;
++static bool state_query_completed = false;
++
+ static void append_properties(DBusMessageIter *iter,
+ 				struct vpn_provider *provider);
+ static int vpn_provider_save(struct vpn_provider *provider);
+ 
++static void get_connman_state();
++
++static void set_state(const char* new_state)
++{
++	if (!new_state || !*new_state)
++		return;
++
++	DBG("old state %s new state %s",
++				connman_online ?
++				CONNMAN_STATE_ONLINE "/" CONNMAN_STATE_READY :
++				CONNMAN_STATE_OFFLINE "/" CONNMAN_STATE_IDLE,
++				new_state);
++
++	/* States "online" and "ready" mean connman is online */
++	if (!g_ascii_strcasecmp(new_state, CONNMAN_STATE_ONLINE) ||
++			!g_ascii_strcasecmp(new_state, CONNMAN_STATE_READY))
++		connman_online = true;
++	/* Everything else means connman is offline */
++	else
++		connman_online = false;
++
++	DBG("set state %s connman_online=%s ", new_state,
++				connman_online ? "true" : "false");
++}
++
+ static void free_route(gpointer data)
+ {
+ 	struct vpn_route *route = data;
+@@ -740,6 +787,64 @@ static DBusMessage *clear_property(DBusConnection *conn, DBusMessage *msg,
+ 	return g_dbus_create_reply(msg, DBUS_TYPE_INVALID);
+ }
+ 
++static gboolean do_connect_timeout_function(gpointer data)
++{
++	struct vpn_provider_connect_data *cdata = data;
++	struct vpn_provider *provider = cdata->provider;
++	int err;
++
++	DBG("");
++
++	/*
++	 * Keep in main loop if no agents are present yet or if connman is not
++	 * yet online.
++	 */
++	if (!connman_agent_get_info(NULL, NULL, NULL) || !connman_online)
++		return G_SOURCE_CONTINUE;
++
++	provider->do_connect_timeout = 0;
++	err = __vpn_provider_connect(provider, cdata->msg);
++
++	if (err < 0 && err != -EINPROGRESS) {
++		g_dbus_send_message(cdata->conn,
++				__connman_error_failed(cdata->msg, -err));
++		cdata->msg = NULL;
++	}
++
++	return G_SOURCE_REMOVE;
++}
++
++static void do_connect_timeout_free(gpointer data)
++{
++	struct vpn_provider_connect_data *cdata = data;
++
++	if (cdata->msg)
++		g_dbus_send_message(cdata->conn,
++				__connman_error_operation_aborted(cdata->msg));
++
++	dbus_connection_unref(cdata->conn);
++	g_free(data);
++}
++
++static void do_connect_later(struct vpn_provider *provider,
++					DBusConnection *conn, DBusMessage *msg)
++{
++	struct vpn_provider_connect_data *cdata =
++				g_new0(struct vpn_provider_connect_data, 1);
++
++	cdata->conn = dbus_connection_ref(conn);
++	cdata->msg = dbus_message_ref(msg);
++	cdata->provider = provider;
++
++	if (provider->do_connect_timeout)
++		g_source_remove(provider->do_connect_timeout);
++
++	provider->do_connect_timeout =
++			g_timeout_add_seconds_full(G_PRIORITY_DEFAULT, 1,
++					do_connect_timeout_function, cdata,
++					do_connect_timeout_free);
++}
++
+ static DBusMessage *do_connect(DBusConnection *conn, DBusMessage *msg,
+ 								void *data)
+ {
+@@ -748,6 +853,29 @@ static DBusMessage *do_connect(DBusConnection *conn, DBusMessage *msg,
+ 
+ 	DBG("conn %p provider %p", conn, provider);
+ 
++	/* Check if any agents have been added, otherwise delay connecting */
++	if (!connman_agent_get_info(NULL, NULL, NULL)) {
++		DBG("Provider %s start delayed because no VPN agent is present",
++							provider->identifier);
++		do_connect_later(provider, conn, msg);
++		return NULL;
++	}
++
++	if (!connman_online) {
++		if (state_query_completed) {
++			DBG("Provider %s not started because connman "
++						"not online/ready",
++						provider->identifier);
++			return __connman_error_failed(msg, ENOLINK);
++		} else {
++			DBG("Provider %s start delayed because connman "
++						"state not queried",
++						provider->identifier);
++			do_connect_later(provider, conn, msg);
++			return NULL;
++		}
++	}
++
+ 	err = __vpn_provider_connect(provider, msg);
+ 	if (err < 0 && err != -EINPROGRESS)
+ 		return __connman_error_failed(msg, -err);
+@@ -1269,6 +1397,9 @@ static void provider_destruct(struct vpn_provider *provider)
+ {
+ 	DBG("provider %p", provider);
+ 
++	if (provider->do_connect_timeout)
++		g_source_remove(provider->do_connect_timeout);
++
+ 	if (provider->notify_id != 0)
+ 		g_source_remove(provider->notify_id);
+ 
+@@ -3214,6 +3345,213 @@ static void remove_unprovisioned_providers(void)
+ 	g_strfreev(providers);
+ }
+ 
++static gboolean connman_property_changed(DBusConnection *conn,
++				DBusMessage *message,
++				void *user_data)
++{
++	DBusMessageIter iter, value;
++	const char *key;
++	const char *signature = DBUS_TYPE_STRING_AS_STRING
++				DBUS_TYPE_VARIANT_AS_STRING;
++
++	if (!dbus_message_has_signature(message, signature)) {
++		connman_error("vpn connman property signature \"%s\" "
++					"does not match expected \"%s\"",
++					dbus_message_get_signature(message),
++					signature);
++		return TRUE;
++	}
++
++	if (!dbus_message_iter_init(message, &iter))
++		return TRUE;
++
++	dbus_message_iter_get_basic(&iter, &key);
++
++	dbus_message_iter_next(&iter);
++	dbus_message_iter_recurse(&iter, &value);
++
++	DBG("key %s", key);
++
++	if (g_str_equal(key, "State")) {
++		const char *str;
++
++		if (dbus_message_iter_get_arg_type(&value) != DBUS_TYPE_STRING)
++			return TRUE;
++
++		dbus_message_iter_get_basic(&value, &str);
++		set_state(str);
++	}
++
++	return TRUE;
++}
++
++static void get_connman_state_reply(DBusPendingCall *call, void *user_data)
++{
++	DBusMessage *reply = NULL;
++	DBusError error;
++	DBusMessageIter iter, array, dict, value;
++
++	const char *signature = DBUS_TYPE_ARRAY_AS_STRING
++				DBUS_DICT_ENTRY_BEGIN_CHAR_AS_STRING
++				DBUS_TYPE_STRING_AS_STRING
++				DBUS_TYPE_VARIANT_AS_STRING
++				DBUS_DICT_ENTRY_END_CHAR_AS_STRING;
++
++	const char *key;
++	const char *str;
++
++	DBG("");
++
++	if (!dbus_pending_call_get_completed(call))
++		goto done;
++
++	reply = dbus_pending_call_steal_reply(call);
++
++	dbus_error_init(&error);
++
++	if (dbus_set_error_from_message(&error, reply)) {
++		connman_error("%s", error.message);
++
++		/*
++		 * In case of timeout re-add the state function to main
++		 * event loop.
++		 */
++		if (g_ascii_strcasecmp(error.name, DBUS_ERROR_TIMEOUT) == 0) {
++			DBG("D-Bus timeout, re-add get_connman_state()");
++			get_connman_state();
++		} else {
++			dbus_error_free(&error);
++			goto done;
++		}
++	}
++
++	if (!dbus_message_has_signature(reply, signature)) {
++		connman_error("vpnd signature \"%s\" does not match "
++					"expected \"%s\"",
++					dbus_message_get_signature(reply),
++					signature);
++		goto done;
++	}
++
++	if (!dbus_message_iter_init(reply, &array))
++		goto done;
++
++	dbus_message_iter_recurse(&array, &dict);
++
++	while (dbus_message_iter_get_arg_type(&dict) == DBUS_TYPE_DICT_ENTRY) {
++		dbus_message_iter_recurse(&dict, &iter);
++
++		dbus_message_iter_get_basic(&iter, &key);
++
++		dbus_message_iter_next(&iter);
++		dbus_message_iter_recurse(&iter, &value);
++
++		if (g_ascii_strcasecmp(key, "State") == 0 &&
++				dbus_message_iter_get_arg_type(&value) ==
++						DBUS_TYPE_STRING) {
++			dbus_message_iter_get_basic(&value, &str);
++
++			DBG("Got initial state %s", str);
++
++			set_state(str);
++
++			/* No need to process further */
++			break;
++		}
++
++		dbus_message_iter_next(&dict);
++	}
++
++	state_query_completed = true;
++
++done:
++	if (reply)
++		dbus_message_unref(reply);
++
++	if (call)
++		dbus_pending_call_unref(call);
++}
++
++static gboolean run_get_connman_state(gpointer user_data)
++{
++	const char *path = "/";
++	const char *method = "GetProperties";
++	gboolean rval = FALSE;
++
++	DBusMessage *msg = NULL;
++	DBusPendingCall *call = NULL;
++
++	DBG("");
++
++	msg = dbus_message_new_method_call(CONNMAN_SERVICE, path,
++					CONNMAN_MANAGER_INTERFACE, method);
++	if (!msg)
++		goto out;
++
++	rval = g_dbus_send_message_with_reply(connection, msg, &call, -1);
++	if (!rval) {
++		connman_error("Cannot call %s on %s", method,
++						CONNMAN_MANAGER_INTERFACE);
++		goto out;
++	}
++
++	if (!call) {
++		connman_error("set pending call failed");
++		rval = FALSE;
++		goto out;
++	}
++
++	if (!dbus_pending_call_set_notify(call, get_connman_state_reply,
++								NULL, NULL)) {
++		connman_error("set notify to pending call failed");
++
++		if (call)
++			dbus_pending_call_unref(call);
++
++		rval = FALSE;
++	}
++
++out:
++	if (msg)
++		dbus_message_unref(msg);
++
++	/* In case sending was success, unset timeout function id */
++	if (rval) {
++		DBG("unsetting get_connman_state_timeout id");
++		get_connman_state_timeout = 0;
++	}
++
++	/* Return FALSE in case of success to remove from main event loop */
++	return !rval;
++}
++
++static void get_connman_state()
++{
++	if (get_connman_state_timeout)
++		return;
++
++	get_connman_state_timeout = g_timeout_add(STATE_INTERVAL_DEFAULT,
++						run_get_connman_state, NULL);
++}
++
++static void connman_service_watch_connected(DBusConnection *conn,
++				void *user_data)
++{
++	DBG("");
++	get_connman_state();
++}
++
++static void connman_service_watch_disconnected(DBusConnection *conn,
++				void *user_data)
++{
++	DBG("");
++
++	set_state(CONNMAN_STATE_IDLE);
++
++	/* Set state query variable to initial state */
++	state_query_completed = false;
++}
++
+ int __vpn_provider_init(void)
+ {
+ 	int err;
+@@ -3233,6 +3571,20 @@ int __vpn_provider_init(void)
+ 
+ 	provider_hash = g_hash_table_new_full(g_str_hash, g_str_equal,
+ 						NULL, unregister_provider);
++
++	connman_service_watch = g_dbus_add_service_watch(connection,
++					CONNMAN_SERVICE,
++					connman_service_watch_connected,
++					connman_service_watch_disconnected,
++					NULL, NULL);
++
++	connman_signal_watch = g_dbus_add_signal_watch(connection,
++					CONNMAN_SERVICE, NULL,
++					CONNMAN_MANAGER_INTERFACE,
++					PROPERTY_CHANGED,
++					connman_property_changed,
++					NULL, NULL);
++
+ 	return 0;
+ }
+ 
+@@ -3247,5 +3599,13 @@ void __vpn_provider_cleanup(void)
+ 	g_hash_table_destroy(provider_hash);
+ 	provider_hash = NULL;
+ 
++	if (get_connman_state_timeout) {
++		if (!g_source_remove(get_connman_state_timeout))
++			connman_error("connman state timeout not removed");
++	}
++
++	g_dbus_remove_watch(connection, connman_service_watch);
++	g_dbus_remove_watch(connection, connman_signal_watch);
++
+ 	dbus_connection_unref(connection);
+ }
+-- 
+2.20.1
 
-Yep, that cleans up the rest as well a bit.
-
-> 
->> +		struct vpn_provider_connect_data *cdata = data;
->> +		struct vpn_provider *provider = cdata->provider;
->> +		int err;
->> +
->> +		provider->do_connect_timeout = 0;
->> +		err = __vpn_provider_connect(provider, cdata->msg);
->> +
->> +		if (err < 0 && err != -EINPROGRESS) {
->> +			g_dbus_send_message(cdata->conn,
->> +				__connman_error_failed(cdata->msg, -err));
->> +			cdata->msg = NULL;
->> +		}
->> +
->> +		return G_SOURCE_REMOVE;
->> +	}
->> +}
-> 
-> [...]
-> 
->> +static void do_connect_later(struct vpn_provider *provider,
->> +					DBusConnection *conn, DBusMessage *msg)
->> +{
->> +	struct vpn_provider_connect_data *cdata =
->> +		g_try_new0(struct vpn_provider_connect_data, 1);
-> 
-> Do a g_new0() instead of a g_try_new0().
-
-Right, will do this was following the old coding style :).
-
-> 
->> +
->> +	cdata->conn = dbus_connection_ref(conn);
->> +	cdata->msg = dbus_message_ref(msg);
->> +	cdata->provider = provider;
->> +
->> +	if (provider->do_connect_timeout)
->> +		g_source_remove(provider->do_connect_timeout);
->> +
->> +	provider->do_connect_timeout =
->> +		g_timeout_add_seconds_full(G_PRIORITY_DEFAULT, 1,
->> +					do_connect_timeout_function, cdata,
->> +					do_connect_timeout_free);
->> +}
->> +
-> 
-> [...]
-> 
->> +static gboolean run_get_connman_state(gpointer user_data)
->> +{
->> +	const char *path = "/";
->> +	const char *method = "GetProperties";
->> +	gboolean rval = FALSE;
->> +
->> +	DBusMessage *msg = NULL;
->> +	DBusPendingCall *call = NULL;
->> +
->> +	DBG("");
->> +
->> +	msg = dbus_message_new_method_call(CONNMAN_SERVICE, path,
->> +		CONNMAN_MANAGER_INTERFACE, method);
->> +
->> +	if (!msg)
->> +		goto out;
->> +
->> +	if (!(rval = g_dbus_send_message_with_reply(connection, msg,
->> +		&call, -1))) {
-> 
-> Move the 'rval = ...' outside the if condition.
-
-Thanks for pointing that out. It looks indeed messy.
-
-> 
->> +		connman_error("Cannot call %s on %s",
->> +			method, CONNMAN_MANAGER_INTERFACE);
->> +		goto out;
->> +	}
->> +
->> +	if (!call) {
->> +		connman_error("set pending call failed");
->> +		goto error;
->> +	}
->> +
->> +	if (!dbus_pending_call_set_notify(call, get_connman_state_reply,
->> +		NULL, NULL)) {
->> +		connman_error("set notify to pending call failed");
->> +		goto error;
->> +	}
->> +
->> +out:
->> +	if (msg)
->> +		dbus_message_unref(msg);
->> +
->> +	/* In case sending was success, unset timeout function id */
->> +	if (rval) {
->> +		DBG("unsetting get_connman_state_timeout id");
->> +		get_connman_state_timeout = 0;
->> +	}
->> +
->> +	/* Return FALSE in case of success to remove from main event loop */
->> +	return !rval;
->> +
->> +error:
->> +	if (call)
->> +		dbus_pending_call_unref(call);
->> +
->> +	rval = G_SOURCE_REMOVE;
-> 
-> This looks wrong. Shouldn't this be either TRUE or FALSE?
-> 
-
-Hm, as a return from a GSourceFunc G_SOURCE_{REMOVE,CONTINUE} is 
-documented to be a more memorable name. But I think as well that in this 
-case use of those as mixed, in addition to the comment, just creates 
-more confusion. Yeah, maybe it is better to use here that as clear 
-TRUE/FALSE.
-
->> +	goto out;
-> 
-> Please try to avoid jumping up again. Forward goto's are easy to read
-> but the backwards one tend to be hard to grasp (at least for me).
-> 
-
-Ouch, that indeed looks a bit messy, hah. I'll refactor that a lot. 
-There seems to be indentation refactoring needed as well.
-
-I'll send v2 today at some point.
-
-Cheers,
-  Jussi
