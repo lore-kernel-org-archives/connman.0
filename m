@@ -1,73 +1,72 @@
-Received: from host35.dwhost.net (host35.dwhost.net [88.99.219.151])
+Received: from mail.nearlyone.de (mail.nearlyone.de [46.163.114.145])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D323D3FC4
-	for <connman@lists.linux.dev>; Sun, 29 Aug 2021 19:32:39 +0000 (UTC)
-Received: from [178.148.156.23] (port=55896 helo=localhost)
-	by host35.dwhost.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <contact@strahinja.org>)
-	id 1mKQXf-0004OV-Ns
-	for connman@lists.linux.dev; Sun, 29 Aug 2021 21:32:31 +0200
-Date: Sun, 29 Aug 2021 21:32:30 +0200
-From: =?utf-8?B?0KHRgtGA0LDRhdC40ZrQsCDQoNCw0LTQuNGb?= <contact@strahinja.org>
-To: connman <connman@lists.linux.dev>
-Subject: Re: [PATCH] Respect EnableOnlineCheck globally
-Message-ID: <20210829193230.rmpb6ks3ocim5c62@prancingpony>
-References: <20210828171657.2qxolbym36hdiuhu@prancingpony>
- <20210828173427.7ctqrpj2w2ldrkla@prancingpony>
- <20210829175411.u7gfenrvleehvp7v@beryllium.lan>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDBF629CA
+	for <connman@lists.linux.dev>; Sun, 29 Aug 2021 19:32:49 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 8257C61667;
+	Sun, 29 Aug 2021 21:32:47 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=monom.org; s=dkim;
+	t=1630265568; h=from:subject:date:message-id:to:cc:mime-version:
+	 content-transfer-encoding; bh=MUqCwr6dTl9ES11MBiYqhpnOo/OOK3itelWLtOIleLM=;
+	b=WWpsTjz2IZn9G8+rpe2oaHLfnynrY45/qjh+jv4AuZ5Jsnw2BADO95dpeKq9u0STAHhZoQ
+	K5ea0I4i+j9pYQ8au4G6KBSyou4Y+3/FE2Ur388bTMk7fqecsIVzLCrQ+X7kFuI4Quvem0
+	YjQ1xo5jBWC7XXxJgJv9rN1yxMkIVOyNEZGej7+RsXDX+KV74W2rzEnWlGuXCcupwFg0p8
+	1hfadtrwA3CasyeCG0hzy2luYl9mSeqyODDSiMqhedFp3ULDEutmL5o1c0uUjplXs4RMcB
+	1Jvh2v3P+h7fVzl5D97qg9PCy9l+21Hdc0mNyfPaMzWzWqjCFXcdk9vg17Uw3w==
+From: Daniel Wagner <wagi@monom.org>
+To: connman@lists.linux.dev
+Cc: Athimoolam Rajkumar <Rajkumar.A2@in.bosch.com>,
+	Daniel Wagner <wagi@monom.org>
+Subject: [PATCH] network: Do not disconnect decice on network connect
+Date: Sun, 29 Aug 2021 21:32:40 +0200
+Message-Id: <20210829193240.19095-1-wagi@monom.org>
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="k3vko57qn7tqutwm"
-Content-Disposition: inline
-In-Reply-To: <20210829175411.u7gfenrvleehvp7v@beryllium.lan>
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - host35.dwhost.net
-X-AntiAbuse: Original Domain - lists.linux.dev
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - strahinja.org
-X-Get-Message-Sender-Via: host35.dwhost.net: authenticated_id: contact@strahinja.org
-X-Authenticated-Sender: host35.dwhost.net: contact@strahinja.org
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
+Content-Transfer-Encoding: 8bit
+X-Last-TLS-Session-Version: TLSv1.3
 
+Initially, commit 3b6dd9aa9030 ("Add support for disconnecting
+networks first") introduce the __connman_device_disconnect() in
+__connman_network_connect(). It was there to allow autoconnect to
+work. The initial code was checking if only one device should be
+connected:
 
---k3vko57qn7tqutwm
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+    mode = connman_device_get_mode(network->device);
+    if (mode == CONNMAN_DEVICE_MODE_NETWORK_SINGLE)
+            __connman_device_disconnect(network->device);
 
-On 21/08/29 07:54, Daniel Wagner wrote:
-> This was the only place I found where we call
-> __connman_service_wispr_start() without the EnableOnlineCheck test.
+The service state machine has evolved over the time and this
+check is now part of the main service state machine. Though
+the code snippet in __connman_network_connect() was updated
+(the mode bits got removed) the disconnect was not removed.
 
-There's one more place, src/service.c:3728-3734 (set_property function).
+For 1:1 mapping between device and network this is no issues. But in
+the case of oFono we can have several APN/networks per device. Due to
+this disconnect call it's not possible to have several networks per
+device. Let's remove it.
 
+Reported by Athimoolam Rajkumar.
+---
+ src/network.c | 2 --
+ 1 file changed, 2 deletions(-)
 
---k3vko57qn7tqutwm
-Content-Type: application/pgp-signature; name="signature.asc"
+diff --git a/src/network.c b/src/network.c
+index b12bbc091b0c..1cbdf9cfed95 100644
+--- a/src/network.c
++++ b/src/network.c
+@@ -1797,8 +1797,6 @@ int __connman_network_connect(struct connman_network *network)
+ 	if (!network->device)
+ 		return -ENODEV;
+ 
+-	__connman_device_disconnect(network->device);
+-
+ 	network->connecting = true;
+ 
+ 	err = network->driver->connect(network);
+-- 
+2.32.0
 
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEnVz5QZIXdcnu/26GySjVAu4cWEAFAmEr4M0ACgkQySjVAu4c
-WEBFVQ/+I8lfayyDmdRpkXtydvTA7XIL4iK2qYcUo17FM1o5jpPg/IaEh8w8MHZ8
-yS53MMVP5noPmGQ/jsMEqiGnNxcqRYscQErShwLdTOKBm6ybLjzK02ab1nBn+xGM
-u9iss6UTh1oYMA6FHU+LkbZijWXcLJC+ebhGmW/kvKIHRxYo6aJnkt/yC31EsmMi
-bFB2uK+O9Wk5ZG2KOJUS3fYZONzpkrts6HCAveMow4SAzTcgv1/ftFsBYB6jBw62
-tvIBrOhMVJ1JIhzZSoRbNFYXvwDZ/2VCVHusxyDH9fvPABRVRSiwSZcWFzbIUujp
-z5nIAG+u5oE2zNorV91ZxpZdwN0TXg7SgAmlcuoCkTzTI2oQwsqmUfPbAekyX3gh
-XNSUgLbcXKDHNXv94ZfS5WRgVhgTqoBYY/oKzw3o7Es7MCHWjzp0zjQoXKp3BjxX
-O3MqF8fjkglPiURzV6enqoEFVQdrHdLfSeSkQmUTbS4MDnDtOKny4u8YKdqTr79h
-DyeroAna7hzQ0yhSlmdu16wFGXyNxREVeEJRTgXr20y+hb+OUc2I7nhhKKwSRr5M
-FkVD1KUHa76sAzsz1SdmJtzP6/3gLzAc7CnUf4AckbUzBzeBOvA1F3FfIUJ6Z+SF
-k3ybACC3AaF+zOATHp15/d/DDVUT/V9O9PzROXoMFds6tdYgeyo=
-=7D/0
------END PGP SIGNATURE-----
-
---k3vko57qn7tqutwm--
