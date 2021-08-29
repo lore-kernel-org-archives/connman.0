@@ -1,100 +1,107 @@
-Received: from host35.dwhost.net (host35.dwhost.net [88.99.219.151])
+Received: from mail.nearlyone.de (mail.nearlyone.de [46.163.114.145])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A48F072
-	for <connman@lists.linux.dev>; Sat, 28 Aug 2021 17:34:30 +0000 (UTC)
-Received: from [178.148.156.23] (port=37370 helo=localhost)
-	by host35.dwhost.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <contact@strahinja.org>)
-	id 1mK2Ds-00012t-UJ
-	for connman@lists.linux.dev; Sat, 28 Aug 2021 19:34:29 +0200
-Date: Sat, 28 Aug 2021 19:34:27 +0200
-From: =?utf-8?B?0KHRgtGA0LDRhdC40ZrQsCDQoNCw0LTQuNGb?= <contact@strahinja.org>
-To: connman <connman@lists.linux.dev>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36BCF72
+	for <connman@lists.linux.dev>; Sun, 29 Aug 2021 17:54:22 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id C392C5E30B;
+	Sun, 29 Aug 2021 19:54:13 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=monom.org; s=dkim;
+	t=1630259654; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=c9LVCbDWWkDxD/mvdteWXuWnsdHBr7IRp/na0guMu5I=;
+	b=ck1/P2TsROeHuLgVFkENZRJD45vJCAIe04tz2mN3d0GlNKMgq47tUNGnpEdTZ6JMihjs86
+	7zY3lkWLeWQGTpwnyKLsJ9i8zqcq/DUi49RwmGd65HKHy5W0g9eaEJKEOU1R1b4ccIQKL2
+	8L8bQD5URh9bZ+/QBzO3QQihkvcXf8UOR6a4MvJA01WQYqgBDeiCa9zVdbxUe5NvRrH2Ie
+	MDq6g35PkPDVSbmOsiEpuW5aTgslmrM0XS50Hrk0dK5wI+1++EUQq2l11QiFrWE+txo/6r
+	ZCdhRyCr+C+ap/UBug8Tww4CnJ8WzPYj/o0IK2CTMQzGZNmOvD4vUiRTSdS9gQ==
+Date: Sun, 29 Aug 2021 19:54:11 +0200
+From: Daniel Wagner <wagi@monom.org>
+To: =?utf-8?B?0KHRgtGA0LDRhdC40ZrQsCDQoNCw0LTQuNGb?= <contact@strahinja.org>
+Cc: connman <connman@lists.linux.dev>
 Subject: Re: [PATCH] Respect EnableOnlineCheck globally
-Message-ID: <20210828173427.7ctqrpj2w2ldrkla@prancingpony>
+Message-ID: <20210829175411.u7gfenrvleehvp7v@beryllium.lan>
 References: <20210828171657.2qxolbym36hdiuhu@prancingpony>
+ <20210828173427.7ctqrpj2w2ldrkla@prancingpony>
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="q2opdbjukhns7l76"
-Content-Disposition: inline
-In-Reply-To: <20210828171657.2qxolbym36hdiuhu@prancingpony>
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - host35.dwhost.net
-X-AntiAbuse: Original Domain - lists.linux.dev
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - strahinja.org
-X-Get-Message-Sender-Via: host35.dwhost.net: authenticated_id: contact@strahinja.org
-X-Authenticated-Sender: host35.dwhost.net: contact@strahinja.org
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-
-
---q2opdbjukhns7l76
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210828173427.7ctqrpj2w2ldrkla@prancingpony>
+X-Last-TLS-Session-Version: TLSv1.3
 
-On 21/08/28 07:16, =D0=A1=D1=82=D1=80=D0=B0=D1=85=D0=B8=D1=9A=D0=B0 =D0=A0=
-=D0=B0=D0=B4=D0=B8=D1=9B wrote:
-> +	if (connman_setting_get_bool("EnableOnlineCheck")) {
+Hi Страхиња,
 
-This should read
+On Sat, Aug 28, 2021 at 07:34:27PM +0200, Страхиња Радић wrote:
+> On 21/08/28 07:16, Страхиња Радић wrote:
+> > +	if (connman_setting_get_bool("EnableOnlineCheck")) {
+> 
+> This should read
+> 
+> +       if (!connman_setting_get_bool("EnableOnlineCheck")) {
+> 
+> sorry. I'm sending the modified patch with this email.
+> 
+> ---
+>  src/wispr.c | 5 +++++
+>  1 file changed, 5 insertions(+)
+> 
+> diff --git a/src/wispr.c b/src/wispr.c
+> index c63dc819..7b52914e 100644
+> --- a/src/wispr.c
+> +++ b/src/wispr.c
+> @@ -916,6 +916,11 @@ static int wispr_portal_detect(struct
+> connman_wispr_portal_context *wp_context)
+>                 wp_context->status_url = STATUS_URL_IPV6;
+>         }
+> 
+> +       /* Respect EnableOnlineCheck globally */
+> +       if (!connman_setting_get_bool("EnableOnlineCheck")) {
+> +               wp_context->status_url = "localhost";
+> +       }
+> +
 
-+       if (!connman_setting_get_bool("EnableOnlineCheck")) {
+This looks like the wrong place to break the online check. We should not
+start the online check state machine at all. What about something like:
 
-sorry. I'm sending the modified patch with this email.
-
----
- src/wispr.c | 5 +++++
- 1 file changed, 5 insertions(+)
-
-diff --git a/src/wispr.c b/src/wispr.c
-index c63dc819..7b52914e 100644
---- a/src/wispr.c
-+++ b/src/wispr.c
-@@ -916,6 +916,11 @@ static int wispr_portal_detect(struct
-connman_wispr_portal_context *wp_context)
-                wp_context->status_url =3D STATUS_URL_IPV6;
-        }
-
-+       /* Respect EnableOnlineCheck globally */
-+       if (!connman_setting_get_bool("EnableOnlineCheck")) {
-+               wp_context->status_url =3D "localhost";
-+       }
+diff --git a/src/service.c b/src/service.c
+index eb74a85d6e32..d04933070c61 100644
+--- a/src/service.c
++++ b/src/service.c
+@@ -1618,15 +1618,18 @@ static void default_changed(void)
+ 				connman_setting_get_bool("AllowDomainnameUpdates"))
+ 			__connman_utsname_set_domainname(service->domainname);
+ 
+-		if (__connman_service_is_connected_state(service,
++		if (connman_setting_get_bool("EnableOnlineCheck")) {
 +
-        for (i =3D 0; nameservers[i]; i++)
-                g_web_add_nameserver(wp_context->web, nameservers[i]);
++			if (__connman_service_is_connected_state(service,
+ 						CONNMAN_IPCONFIG_TYPE_IPV4))
+-			__connman_service_wispr_start(service,
+-						CONNMAN_IPCONFIG_TYPE_IPV4);
++				__connman_service_wispr_start(service,
++							CONNMAN_IPCONFIG_TYPE_IPV4);
+ 
+-		if (__connman_service_is_connected_state(service,
++			if (__connman_service_is_connected_state(service,
+ 						CONNMAN_IPCONFIG_TYPE_IPV6))
+-			__connman_service_wispr_start(service,
+-						CONNMAN_IPCONFIG_TYPE_IPV6);
++				__connman_service_wispr_start(service,
++							CONNMAN_IPCONFIG_TYPE_IPV6);
++		}
+ 
+ 		/*
+ 		 * Connect VPN automatically when new default service
 
---
-2.33.0
 
+This was the only place I found where we call
+__connman_service_wispr_start() without the EnableOnlineCheck test.
 
---q2opdbjukhns7l76
-Content-Type: application/pgp-signature; name="signature.asc"
+Could you give this patch a spin?
 
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEnVz5QZIXdcnu/26GySjVAu4cWEAFAmEqc6MACgkQySjVAu4c
-WEDuqxAA4gAyL3j+BqLkvzmkoK0xeDIPhJxCN9UkISBhoyWcXou052253SAAZxHa
-1PWKhZbmJZjEGcLHdHDjpbMl/a1VA8DhpinGmJ0mQV8an6O//fbaye5vVQFcGmWE
-vZKOWXOF5gvx4pk09jUTYfu28GRMQmM9JHGxssDJNPFqY2GxQAyas+WmIIEBPiWq
-+tUvfwcVeRh+8JPZt3VTomDyZUg7EmFYaS03OQpNFXn8/pTIldQcFhdY297xPaOM
-EJn0ng0A37me4XRqxVkRiugAWed5iRE0LXzF3rZbmMxmg/+1srjejluVX9WyBD2c
-1oBkHWfJRoemGT3z/ytmqUWD31v6PsJ47WD9WCwOsWQhMZZlGRcRly83OdmK2/m7
-dujlFXw3xJQb1vlCAplwHO2oT2LWTKUyazBKfGHuj3MjjZ70hURAz0/fVBvWtyvK
-YzW9v8/al3oQ0u0f00CpeA3zJDRIaFlXun80hkYTT6dMn5hR/GuOufA2mnBU25Zz
-ncARb5LRl3Edh8rOsMR6fZ432lX+x4RuLwko5HvtK3hRDTE2/1igFTblPD+G2pJ3
-KtpX5bluQiZmD5Do0myHgSXe25vC7OhjHNtca6ccKkLYVX7D4fqC4ckahq7SoLg2
-Ym3zzTr3vjt6CrWXDop8RvDTYsQbI/InsE3RroVIt6K953a76U0=
-=5ZUa
------END PGP SIGNATURE-----
-
---q2opdbjukhns7l76--
+Daniel
