@@ -1,66 +1,70 @@
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 406283FE1
-	for <connman@lists.linux.dev>; Thu,  9 Sep 2021 11:18:44 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(Authenticated sender: adalessandro)
-	with ESMTPSA id BC32A1F41FE2
-Subject: Re: [RFC connman v1 1/1] gsupplicant: Add support for WPA3-Personal
-From: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
-To: Daniel Wagner <wagi@monom.org>
-Cc: connman@lists.linux.dev, iwd@lists.01.org, Sven.Dembianny@bshg.com
-References: <20210804212315.265376-1-ariel.dalessandro@collabora.com>
- <20210805060704.maeaww6q75x4obqy@beryllium.lan>
- <d4e6e9ee-0f0b-1fa2-c814-4eebaac304ce@collabora.com>
-Message-ID: <9186c76b-f2e7-03ec-55ad-2bc5c3177db2@collabora.com>
-Date: Thu, 9 Sep 2021 08:10:10 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E06443FC3
+	for <connman@lists.linux.dev>; Sat, 11 Sep 2021 08:40:12 +0000 (UTC)
+Received: by mail-pj1-f41.google.com with SMTP id rj12-20020a17090b3e8c00b001991428ded8so2504091pjb.1
+        for <connman@lists.linux.dev>; Sat, 11 Sep 2021 01:40:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=amarulasolutions.com; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
+        bh=SDpCmmCHVAS8pza1eWqTsfT1UjfgCzkL+T3o6JM7z8A=;
+        b=mXEFYPEUHR0CIC2WVrumgAX6JfTmtmQwN5W86joIBsSgqHBUEOU4Y8vIlFNgfDHubF
+         upl0qg+AZ0YyptUN9KIC4ZEU8PtbVK0lQDhEaMh9E2hBgwZl91uQpf6t9OBB3WE9WPQU
+         dZzWVjWkk+KhpBZ5NBG8L4bQtS4gs+CtfhGwA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to;
+        bh=SDpCmmCHVAS8pza1eWqTsfT1UjfgCzkL+T3o6JM7z8A=;
+        b=7f2OHfBsbZmMUZh8ppW5tZN/wljCCAmkaTRlUCldUIM0CZFrP4Rfk/WeQEC+WzXvOV
+         EscGTWPEO6J4a44P0EimXV37ZBK+bpILWCQVwpOadlcDb9qxeWybfoEEkqnJLBRRSwma
+         W9SBVWIHvjv4amScDvWRAmrgcA05wvtFFias7Zz2dRRfEOVWySEURXMcRij+mhFcatD2
+         ENW1MPOqQzUQjzo2oA2Aj1Za9X6LaVFxnfQRPEn3AzZxYSBAfneMJlQUnWdgnL4+MkcT
+         IDTNxl5RylL/fWwG0DTO0TP7sM2e4RvW94kADPH40QD8NWlhMZpv4tJJbHFp5tDo8ras
+         pTbw==
+X-Gm-Message-State: AOAM531nAqa4SH8LTkvXRQ+V4djUtlI+MgWjAbmGpSR0T1cEDdCQKa3u
+	Qrl8ISZJ95giUARLmDSGsJQxw9mlA3I/4fo7OmTNrwln9hQ=
+X-Google-Smtp-Source: ABdhPJw6DLu+Q/XfC7GkjWjTFv0mHScIM7dE6HD9bN18bO1hULYRdeG1fAsUwf6/zVGCrOJFoNKLOfe5DufnvtBUkRw=
+X-Received: by 2002:a17:90a:7342:: with SMTP id j2mr1927992pjs.59.1631349611605;
+ Sat, 11 Sep 2021 01:40:11 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <d4e6e9ee-0f0b-1fa2-c814-4eebaac304ce@collabora.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <CAOf5uwkzZU-vofxOZyNBDu=5emmkoewjPtAAZPhhapumKdh_gQ@mail.gmail.com>
+In-Reply-To: <CAOf5uwkzZU-vofxOZyNBDu=5emmkoewjPtAAZPhhapumKdh_gQ@mail.gmail.com>
+From: Michael Nazzareno Trimarchi <michael@amarulasolutions.com>
+Date: Sat, 11 Sep 2021 10:40:00 +0200
+Message-ID: <CAOf5uwkQLTfdZBGvXwBUMEA4Lx00BuzL-uEJRDzrLWp4HFQXYg@mail.gmail.com>
+Subject: SIgnalPoll dbus function
+To: connman@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Daniel,
+Hi all
 
-On 8/5/21 8:15 AM, Ariel D'Alessandro wrote:
-> Hi Daniel,
-> 
-> On 8/5/21 3:07 AM, Daniel Wagner wrote:
->> Hi Ariel,
->>
->> On Wed, Aug 04, 2021 at 06:23:14PM -0300, Ariel D'Alessandro wrote:
->>> Hi all, Daniel:
->>>
->>> WPA3 support has been recently added to connman (wpa_supplicant). As
->>> we've been discussing on a previous thread, this only supports
->>> WPA3-Personal-only mode.
->>>
->>> This RFC patchset adds support for WPA3-Personal transition mode, which
->>> supports both WPA2-Personal (PSK) and WPA3-Personal (SAE).
->>>
->>> Based on the AP accepted key management protocols, connman configures
->>> wpa_supplicant as follows:
->>>
->>> * WPA3-Personal-only mode: key_mgmt="SAE" ; ieee80211w=2
->>> * WPA3-Personal transition mode: key_mgmt="SAE WPA-PSK" ; ieee80211w=1
->>>
->>> This patch applies cleanly on top of current master branch (commit
->>> e36a38d8).
->>>
->>> I'd like to hear any thoughts you might have about this.
->>> For reference, see wpa_supplicant configuration [0].
->>
->> This looks good. If no one speaks up I am going to apply it.
+I would like to know if is there a more simple way to get the bitrate
+of the link
 
-Any other feedback on this one? Can we merge it?
+ iw dev  wlp2s0 link
+Connected to d8:8a:dc:58:99:57 (on wlp2s0)
+    SSID: HUAWEI_B818_9952
+    freq: 5180
+    RX: 1592950584 bytes (727134 packets)
+    TX: 121351631 bytes (625159 packets)
+    signal: -56 dBm
+    rx bitrate: 585.1 MBit/s VHT-MCS 6 80MHz short GI VHT-NSS 2
+    tx bitrate: 650.0 MBit/s VHT-MCS 7 80MHz short GI VHT-NSS 2
 
-Thanks,
-Ariel
+    bss flags:    short-preamble short-slot-time
+    dtim period:    1
+    beacon int:    100
+
+Some equivalents come with SignalPoll of dbus interface of
+wpa_supplicant. I have implemented already a way to put in the
+dictionary the frequency where we are connected because is already
+stored in the /var directory. Can this be added with a proper patch?
+
+Michael
