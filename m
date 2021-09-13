@@ -1,27 +1,28 @@
 Received: from mail.nearlyone.de (mail.nearlyone.de [46.163.114.145])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07D7E3FC4
-	for <connman@lists.linux.dev>; Mon, 13 Sep 2021 06:32:33 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id CCC8D5E363;
-	Mon, 13 Sep 2021 08:32:31 +0200 (CEST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29D513FC4
+	for <connman@lists.linux.dev>; Mon, 13 Sep 2021 06:37:06 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 7EDA15E30A;
+	Mon, 13 Sep 2021 08:27:42 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=monom.org; s=dkim;
-	t=1631514751; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 in-reply-to:references; bh=McO0cn2M60egIgA2B8C7ECEWUaBt2AJLXtLq+h5awC8=;
-	b=cf9HA084DdY8HXK5ugCJBQ/LOOh4WfMLqc4UDEI9iYdlo5ugP7C6gYDpPVmlGk+a0pKaHr
-	n2GlYEv2WvtuhY+UetKLiebjt7mW+PzAAHZRgrhqHgP5C99opr6LDt4YPzHLP5qnuB6h2L
-	QZEKhn/2LifiIEwbUbAps/UWrdN6zk9T0FQPD1UDqCnNT88aTgnTLaMQABKxTn4zRHwRxd
-	/zJLc5uYCtLGq01obbq1KdIDxMdXREchTAMqEM7thbkhiHUuGMKzl+tcQ3svhLE0VZxhSZ
-	gdiYYOxHDEtCBuPQdV+PSctJIr5gQS9PwUMQQxdx4DPdbCtN/SiY3IEFAeNJCw==
-Date: Mon, 13 Sep 2021 08:32:31 +0200
+	t=1631514464; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 in-reply-to:references; bh=62L37lh4Ws6IQILlUgrIex2YCvulbs0BpZ9TdVzHX7M=;
+	b=nbu9I28eJXGLfDHqckFSS8GXnrb2a+Hb69Ql5zbaic2+ZJQwAp+Gwp0rWwenswDalr329V
+	jjeGIwy5LUuKjuu/LU1jEHrUPE4ArHPMNSFn/k+9xZysnuFAroErbpbm6qFXu59UB7E6Y7
+	5Cl7S74IDLrnLIzaoJ3PjgbrXgcEbbQReIOPUIfvjg9D+8wNT24aqBPOjzsuYWARLZPgsS
+	u+3H10pc3CWP72fd3u3yxZPcC5Pud/KW+Xt/caOkR0NOWMYJEAA2wJxG90yraa0KbkgiCb
+	Vuzf6xoHs/v2XeCjCbBhi9/oPCZXpi/vjOP69QRAWNvedFtXP7kiOCPbQZypRg==
+Date: Mon, 13 Sep 2021 08:27:39 +0200
 From: Daniel Wagner <wagi@monom.org>
-To: Jussi Laakkonen <jussi.laakkonen@jolla.com>
-Cc: connman@lists.linux.dev
-Subject: Re: [PATCH 2/5] vpn-provider: Ignore error adding when state is
- idle/unknown
-Message-ID: <20210913063231.la2wfnnm5jh65hrd@beryllium.lan>
-References: <20210902151124.4983-1-jussi.laakkonen@jolla.com>
- <20210902151124.4983-3-jussi.laakkonen@jolla.com>
+To: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
+Cc: connman@lists.linux.dev, iwd@lists.01.org, Sven.Dembianny@bshg.com
+Subject: Re: [RFC connman v1 1/1] gsupplicant: Add support for WPA3-Personal
+Message-ID: <20210913062739.ltsywwgs7lzsz7mp@beryllium.lan>
+References: <20210804212315.265376-1-ariel.dalessandro@collabora.com>
+ <20210805060704.maeaww6q75x4obqy@beryllium.lan>
+ <d4e6e9ee-0f0b-1fa2-c814-4eebaac304ce@collabora.com>
+ <9186c76b-f2e7-03ec-55ad-2bc5c3177db2@collabora.com>
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
@@ -30,46 +31,19 @@ List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210902151124.4983-3-jussi.laakkonen@jolla.com>
+In-Reply-To: <9186c76b-f2e7-03ec-55ad-2bc5c3177db2@collabora.com>
 X-Last-TLS-Session-Version: TLSv1.3
 
-On Thu, Sep 02, 2021 at 06:11:21PM +0300, Jussi Laakkonen wrote:
-> Do not allow to add errors for provider that is already set into idle
-> state or is in unknown state. This case may happen when networks are
-> rapidly changed and VPN did not call the callback connect_cb() until the
-> VPN is died and vpn.c:vpn_died() initiates cleanup in the VPN which
-> eventually calls connect_cb() with an error.
+Hi Ariel,
 
-I wonder if we should set the VPN state immediately when starting the
-connection process to some value != unknown.
+[back from holiday :)]
 
-> ---
->  vpn/vpn-provider.c | 15 +++++++++++++++
->  1 file changed, 15 insertions(+)
+On Thu, Sep 09, 2021 at 08:10:10AM -0300, Ariel D'Alessandro wrote:
+> >> This looks good. If no one speaks up I am going to apply it.
 > 
-> diff --git a/vpn/vpn-provider.c b/vpn/vpn-provider.c
-> index f30ce04f..90e21e95 100644
-> --- a/vpn/vpn-provider.c
-> +++ b/vpn/vpn-provider.c
-> @@ -2026,6 +2026,21 @@ int vpn_provider_indicate_error(struct vpn_provider *provider,
->  	DBG("provider %p id %s error %d", provider, provider->identifier,
->  									error);
->  
-> +	/*
-> +	 * Ignore adding of errors when the VPN is idle or not set. Calls may
-> +	 * happen in a case when networks are rapidly changed and the call to
-> +	 * vpn_died() is done before executing the connect_cb() from the
-> +	 * plugin. Then vpn.c:vpn_died() executes the plugin specific died()
-> +	 * function which may free the plugin private data, containing also
-> +	 * the callback which hasn't yet been called. As a result the provider
-> +	 * might already been reset to idle state when the callback is executed
-> +	 * resulting in unnecessary reset of the previous successful connect
-> +	 * timer and adding of an error for already disconnected VPN.
-> +	 */
-> +	if (provider->state == VPN_PROVIDER_STATE_IDLE ||
-> +				provider->state == VPN_PROVIDER_STATE_UNKNOWN)
-> +		return 0;
+> Any other feedback on this one? Can we merge it?
 
-Checking the unknown state looks here a bit strange. The usual meaning
-of unknown is it hasn't been initialized. But then this is exactly
-what's happening here I assume.
+Sure, patch applied.
+
+Thanks!
+Daniel
