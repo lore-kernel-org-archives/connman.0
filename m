@@ -1,70 +1,75 @@
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.nearlyone.de (mail.nearlyone.de [46.163.114.145])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E06443FC3
-	for <connman@lists.linux.dev>; Sat, 11 Sep 2021 08:40:12 +0000 (UTC)
-Received: by mail-pj1-f41.google.com with SMTP id rj12-20020a17090b3e8c00b001991428ded8so2504091pjb.1
-        for <connman@lists.linux.dev>; Sat, 11 Sep 2021 01:40:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amarulasolutions.com; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
-        bh=SDpCmmCHVAS8pza1eWqTsfT1UjfgCzkL+T3o6JM7z8A=;
-        b=mXEFYPEUHR0CIC2WVrumgAX6JfTmtmQwN5W86joIBsSgqHBUEOU4Y8vIlFNgfDHubF
-         upl0qg+AZ0YyptUN9KIC4ZEU8PtbVK0lQDhEaMh9E2hBgwZl91uQpf6t9OBB3WE9WPQU
-         dZzWVjWkk+KhpBZ5NBG8L4bQtS4gs+CtfhGwA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to;
-        bh=SDpCmmCHVAS8pza1eWqTsfT1UjfgCzkL+T3o6JM7z8A=;
-        b=7f2OHfBsbZmMUZh8ppW5tZN/wljCCAmkaTRlUCldUIM0CZFrP4Rfk/WeQEC+WzXvOV
-         EscGTWPEO6J4a44P0EimXV37ZBK+bpILWCQVwpOadlcDb9qxeWybfoEEkqnJLBRRSwma
-         W9SBVWIHvjv4amScDvWRAmrgcA05wvtFFias7Zz2dRRfEOVWySEURXMcRij+mhFcatD2
-         ENW1MPOqQzUQjzo2oA2Aj1Za9X6LaVFxnfQRPEn3AzZxYSBAfneMJlQUnWdgnL4+MkcT
-         IDTNxl5RylL/fWwG0DTO0TP7sM2e4RvW94kADPH40QD8NWlhMZpv4tJJbHFp5tDo8ras
-         pTbw==
-X-Gm-Message-State: AOAM531nAqa4SH8LTkvXRQ+V4djUtlI+MgWjAbmGpSR0T1cEDdCQKa3u
-	Qrl8ISZJ95giUARLmDSGsJQxw9mlA3I/4fo7OmTNrwln9hQ=
-X-Google-Smtp-Source: ABdhPJw6DLu+Q/XfC7GkjWjTFv0mHScIM7dE6HD9bN18bO1hULYRdeG1fAsUwf6/zVGCrOJFoNKLOfe5DufnvtBUkRw=
-X-Received: by 2002:a17:90a:7342:: with SMTP id j2mr1927992pjs.59.1631349611605;
- Sat, 11 Sep 2021 01:40:11 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07D7E3FC4
+	for <connman@lists.linux.dev>; Mon, 13 Sep 2021 06:32:33 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id CCC8D5E363;
+	Mon, 13 Sep 2021 08:32:31 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=monom.org; s=dkim;
+	t=1631514751; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 in-reply-to:references; bh=McO0cn2M60egIgA2B8C7ECEWUaBt2AJLXtLq+h5awC8=;
+	b=cf9HA084DdY8HXK5ugCJBQ/LOOh4WfMLqc4UDEI9iYdlo5ugP7C6gYDpPVmlGk+a0pKaHr
+	n2GlYEv2WvtuhY+UetKLiebjt7mW+PzAAHZRgrhqHgP5C99opr6LDt4YPzHLP5qnuB6h2L
+	QZEKhn/2LifiIEwbUbAps/UWrdN6zk9T0FQPD1UDqCnNT88aTgnTLaMQABKxTn4zRHwRxd
+	/zJLc5uYCtLGq01obbq1KdIDxMdXREchTAMqEM7thbkhiHUuGMKzl+tcQ3svhLE0VZxhSZ
+	gdiYYOxHDEtCBuPQdV+PSctJIr5gQS9PwUMQQxdx4DPdbCtN/SiY3IEFAeNJCw==
+Date: Mon, 13 Sep 2021 08:32:31 +0200
+From: Daniel Wagner <wagi@monom.org>
+To: Jussi Laakkonen <jussi.laakkonen@jolla.com>
+Cc: connman@lists.linux.dev
+Subject: Re: [PATCH 2/5] vpn-provider: Ignore error adding when state is
+ idle/unknown
+Message-ID: <20210913063231.la2wfnnm5jh65hrd@beryllium.lan>
+References: <20210902151124.4983-1-jussi.laakkonen@jolla.com>
+ <20210902151124.4983-3-jussi.laakkonen@jolla.com>
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <CAOf5uwkzZU-vofxOZyNBDu=5emmkoewjPtAAZPhhapumKdh_gQ@mail.gmail.com>
-In-Reply-To: <CAOf5uwkzZU-vofxOZyNBDu=5emmkoewjPtAAZPhhapumKdh_gQ@mail.gmail.com>
-From: Michael Nazzareno Trimarchi <michael@amarulasolutions.com>
-Date: Sat, 11 Sep 2021 10:40:00 +0200
-Message-ID: <CAOf5uwkQLTfdZBGvXwBUMEA4Lx00BuzL-uEJRDzrLWp4HFQXYg@mail.gmail.com>
-Subject: SIgnalPoll dbus function
-To: connman@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210902151124.4983-3-jussi.laakkonen@jolla.com>
+X-Last-TLS-Session-Version: TLSv1.3
 
-Hi all
+On Thu, Sep 02, 2021 at 06:11:21PM +0300, Jussi Laakkonen wrote:
+> Do not allow to add errors for provider that is already set into idle
+> state or is in unknown state. This case may happen when networks are
+> rapidly changed and VPN did not call the callback connect_cb() until the
+> VPN is died and vpn.c:vpn_died() initiates cleanup in the VPN which
+> eventually calls connect_cb() with an error.
 
-I would like to know if is there a more simple way to get the bitrate
-of the link
+I wonder if we should set the VPN state immediately when starting the
+connection process to some value != unknown.
 
- iw dev  wlp2s0 link
-Connected to d8:8a:dc:58:99:57 (on wlp2s0)
-    SSID: HUAWEI_B818_9952
-    freq: 5180
-    RX: 1592950584 bytes (727134 packets)
-    TX: 121351631 bytes (625159 packets)
-    signal: -56 dBm
-    rx bitrate: 585.1 MBit/s VHT-MCS 6 80MHz short GI VHT-NSS 2
-    tx bitrate: 650.0 MBit/s VHT-MCS 7 80MHz short GI VHT-NSS 2
+> ---
+>  vpn/vpn-provider.c | 15 +++++++++++++++
+>  1 file changed, 15 insertions(+)
+> 
+> diff --git a/vpn/vpn-provider.c b/vpn/vpn-provider.c
+> index f30ce04f..90e21e95 100644
+> --- a/vpn/vpn-provider.c
+> +++ b/vpn/vpn-provider.c
+> @@ -2026,6 +2026,21 @@ int vpn_provider_indicate_error(struct vpn_provider *provider,
+>  	DBG("provider %p id %s error %d", provider, provider->identifier,
+>  									error);
+>  
+> +	/*
+> +	 * Ignore adding of errors when the VPN is idle or not set. Calls may
+> +	 * happen in a case when networks are rapidly changed and the call to
+> +	 * vpn_died() is done before executing the connect_cb() from the
+> +	 * plugin. Then vpn.c:vpn_died() executes the plugin specific died()
+> +	 * function which may free the plugin private data, containing also
+> +	 * the callback which hasn't yet been called. As a result the provider
+> +	 * might already been reset to idle state when the callback is executed
+> +	 * resulting in unnecessary reset of the previous successful connect
+> +	 * timer and adding of an error for already disconnected VPN.
+> +	 */
+> +	if (provider->state == VPN_PROVIDER_STATE_IDLE ||
+> +				provider->state == VPN_PROVIDER_STATE_UNKNOWN)
+> +		return 0;
 
-    bss flags:    short-preamble short-slot-time
-    dtim period:    1
-    beacon int:    100
-
-Some equivalents come with SignalPoll of dbus interface of
-wpa_supplicant. I have implemented already a way to put in the
-dictionary the frequency where we are connected because is already
-stored in the /var directory. Can this be added with a proper patch?
-
-Michael
+Checking the unknown state looks here a bit strange. The usual meaning
+of unknown is it hasn't been initialized. But then this is exactly
+what's happening here I assume.
