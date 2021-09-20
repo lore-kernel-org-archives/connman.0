@@ -1,88 +1,76 @@
 Received: from mail.nearlyone.de (mail.nearlyone.de [46.163.114.145])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E3B272
-	for <connman@lists.linux.dev>; Mon, 20 Sep 2021 07:13:01 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id D43A75F1AB;
-	Mon, 20 Sep 2021 09:12:53 +0200 (CEST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E564772
+	for <connman@lists.linux.dev>; Mon, 20 Sep 2021 07:22:25 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 1B6E461756;
+	Mon, 20 Sep 2021 09:22:23 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=monom.org; s=dkim;
-	t=1632121974; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 in-reply-to:references; bh=Qb9RPFimI87I9oUZRrEW8Z+eRG1MXJM2C5r3ZqaLlNI=;
-	b=RgEdy7wztKPgxxsHmeq3E+UMjeTu9DoWnHG6L0LR+VIh/ZZl8xeaGd+HlQvS8itckqvfJf
-	u8Ha9QUpq/SQZqec5R5+ahH/r7ff/kwWBXIBpu1dmEaOCe5M69rYvT/OJ5V5p/PdgWjETL
-	WywAusW0XiDrzHhfoOQDGiezICNWmpvdZL9XU/dzEyKGK41q1w5yOtCyvUh0tW9SPvuK7Y
-	oPHmaSzPyGLDJr1oZ1IgYBBLNv1q9nZk5275JJt0nP4gjSq/nVEolkUsFKU9vlXWIckoWh
-	VHFMljJlmjJ5hn2mTY/nlfPhxPVBOuq51YntuuwTrbQDurKm04WlPKdyyTCu4Q==
-Date: Mon, 20 Sep 2021 09:12:51 +0200
+	t=1632122544; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=gymkvu06rE6sqd4n5A9MG79kMzA22CJaIvZbAdWc/ac=;
+	b=lvxIisbNxXthRZRMmuXDKl3JTpV7+NsDuV7bSK8+i4cJd7Xo1AhNWOSFSCpqVcDECovzTs
+	6EKMaxXUYwC4h/MolDEa9MqngljhQV0jOswMQ5A6Vgm0Fpu0MHxJ0yxLqjwNAZ+GwxfHYh
+	qGwwo3pSFxMjFmAeHzJZ6jlbYXk30a/jmpZrRmP1Y5I5QNo03zMxmX9PUs8hM2XQHcCB8A
+	h4dN/RIGCslhzFYm+OLnteTbd5lDNnW85qb2boXP+4v2aVxkNi6IBeW4kcfzsyKF+jEOp0
+	VS7vlaYXjhFUuj2w6KZzhwOKSA21wq6exdx/mQEtSIJGzmj1jaYYqnRmyapEDA==
+Date: Mon, 20 Sep 2021 09:22:23 +0200
 From: Daniel Wagner <wagi@monom.org>
-To: Jupiter <jupiter.hce@gmail.com>
-Cc: connman <connman@lists.linux.dev>
-Subject: Re: Connman stability degraded upgrading new versions
-Message-ID: <20210920071251.qwix47owh7ybajdc@beryllium.lan>
-References: <CAA=hcWQTDvN-vh+UgXx8jpV--NPBrXWWsd1O6Sg=FVufPapDWw@mail.gmail.com>
+To: "VAUTRIN Emmanuel (Canal Plus Prestataire)" <Emmanuel.VAUTRIN@cpexterne.org>
+Cc: "connman@lists.linux.dev" <connman@lists.linux.dev>
+Subject: Re: [PATCH] build: Fix compiler maybe-uninitialized warnings
+Message-ID: <20210920072223.l4pgmhaqsfgee6m6@beryllium.lan>
+References: <MRZP264MB15449CB6E42AF281B16F54FE93D99@MRZP264MB1544.FRAP264.PROD.OUTLOOK.COM>
+ <20210913072719.3qlnsqjzplntm265@beryllium.lan>
+ <MRZP264MB1544BB065A7FADD9BC38F69693D99@MRZP264MB1544.FRAP264.PROD.OUTLOOK.COM>
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <CAA=hcWQTDvN-vh+UgXx8jpV--NPBrXWWsd1O6Sg=FVufPapDWw@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <MRZP264MB1544BB065A7FADD9BC38F69693D99@MRZP264MB1544.FRAP264.PROD.OUTLOOK.COM>
 X-Last-TLS-Session-Version: TLSv1.3
 
-Hi Jupiter
+Hi Emmanuel,
 
-On Tue, Sep 14, 2021 at 04:58:15PM +1000, Jupiter wrote:
-> When I used connman v1.35, it was very stable, it could switch to 4G
-> LTE automatically and reliably when the WiFi was not available.
+On Mon, Sep 13, 2021 at 07:45:19AM +0000, VAUTRIN Emmanuel (Canal Plus Prestataire) wrote:
+> > > -             provision_service_wifi(config, service, network,
+> > > -                                                     ssid, ssid_len);
+> > > +             provision_service_wifi(config, service, network);
 > 
-> After upgrading to version 1.37, that network automatic switch is
-> gone, I have to restart connman to make it work.
+> > Could you split this into cleanup patch with a commit message?
+> In fact, all my modifications are fixes of maybe-uninitialized warnings.
 
-Right, did anything else change in your setup? 1.37 is pretty outdated,
-it was released early in 2019.
+My compiler doesn't report them (gcc11). What compiler do you use and
+what are the compile flags?
 
-> After trying to upgrade to version 1.39 in the Hardknott branch, I
-> cannot not even get WiFi and 4G LTE work, the WiFi network was
-> assigned with a fake IP address 10.x.x.x, it could not get the 4G LTE
-> interface.
+> In this case, ssid is not initialized.
+> I thought title was explicit enough, what can I had in my comment?
 
-An 10.x.x.x is not something ConnMan would do. It only auto assigns link
-local addresses if the DHCP does not work. This IP seems to be handed
-out by a DHCP server.
+Something like
 
-> I have to abandon the upgrading. I was told that connman
-> 1.39 did not work well with Hardknott libraries, I have no idea who is
-> managing the connman release on OE Yocto build.
+"""
+config: Remove unused arguments from provision_service_wifi()
 
-I don't know either. This is the first time I hear of it.
 
-> What has been changed in connman new versions?
+gcc-10 complains with:
 
-Between 1.35 and 1.37 there a lot of changes. I really urge you to
-update the latest version of ConnMan. I don't have time to debug older
-versions of ConnMan.
+  ...
 
-> I must miss something,
-> I was told that connman uses WPA supplicant for WiFi, I have used WPA
-> supplicant v2.6 for the connman v1.37, could it be WPA_supplicant
-> problem, or Yocto build problem or connman problem?
+Remove the ssid and ssid_len argument from provision_service() as they
+are not used.
+"""
 
-wpa_supplicant might be a problem but as we had a lot of changes between
-the two version I really don't know.
+I know it's pretty obvious right now, but having ten commits in a row
+with 'fix foo' and 'fix bar' without any explanation makes any 'git
+blame' 'git log' operation really painful in two months from now. Been
+there done that.
 
-> My apology, I don't have good debug skills to debug it, but if you
-> could instruct me debug technique I'll provide more testing and debug
-> information.
+BTW, I tried to trigger the warnings and I was not able to. Now I am
+trying to fix up clang compile errors...
 
-I see two option what you could try to do:
-
-- Try to bissect the offending commit. This is pretty simple to do but
-  takes awhile.
-
-- The first step is to enable the logs and try to match this with the
-  source code. This is hard and takes a long time.
-
-Hope this helps,
 Daniel
