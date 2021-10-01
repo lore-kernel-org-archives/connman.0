@@ -1,45 +1,47 @@
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A391A3FCC
-	for <connman@lists.linux.dev>; Fri,  1 Oct 2021 12:26:12 +0000 (UTC)
-Received: by mail-ed1-f52.google.com with SMTP id g7so33420651edv.1
-        for <connman@lists.linux.dev>; Fri, 01 Oct 2021 05:26:12 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 920D73FCC
+	for <connman@lists.linux.dev>; Fri,  1 Oct 2021 12:26:14 +0000 (UTC)
+Received: by mail-ed1-f43.google.com with SMTP id ba1so34169572edb.4
+        for <connman@lists.linux.dev>; Fri, 01 Oct 2021 05:26:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=amarulasolutions.com; s=google;
-        h=from:to:subject:date:message-id:mime-version
+        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=qk84zpg3TKz4sx8hbBz8tgGjRNW2TGzknfzefLxB39c=;
-        b=Xyd8F1UeqVjpJXxIvsTCc7AcK6o2iax9+Vl72NXP4Q6bE9+wi54JA+1Wr1AIaOKDbn
-         ZtP9rP1PdXVyD2jufD+8mTjuxHpynBfu3Ay6QQpsYb6H+LbjblaCH9mTCgaEMjcHIGRP
-         rswzV4Nsc/q+C3+VQrFtBRd0a/crvVDs7YkuI=
+        bh=bpjOJW1jQG8fjBkxPqir9Vu7dQgB4C1TGozo64yKan0=;
+        b=cpNq0/kUg/XSWnIJAtIeKfffZCB6jx55TZSY4oDfZK+zSh9m+pXKyV9r617YsUYvwP
+         fH50jLRxQd2/iyMEdTfQaAUaQ3tFnUwIZtXbDL09CM4oQe28WS9D/rCsv14k4GmEsUzY
+         VFdpV2K92z6BS/l79mdVVdabc7c413sprlFFI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=qk84zpg3TKz4sx8hbBz8tgGjRNW2TGzknfzefLxB39c=;
-        b=my2DCz0rSnxS6o0aGaEMJTfWCHUEgxb/qZMSwNq6PvlqqgC+CZKOBPwvxwpvmv5lWB
-         PyngjElrll71K8Fce8+K61GhboJfGgtF7BQswSGMl0xhnL0DjTOmOR4bx1oR+zrUcZ5p
-         r0E9SU1rChL/nHC1Kug/DAmMKzc2MSTBF36xszaUF1e6QVe4rRLSwakirEAkhVC8nqEB
-         BTzj5isOtJWaZhQdJoPUE+Xg/shsINPX6sF2Sd5XOqBFXGYfwoAWQChIn5XXhzZr69q5
-         QYWq7LDhy4eOKl17is28EfKK19vP7lV4CdWjTHvSvXwvxf/BZJVUMbsxbyzRRT+4lxeH
-         TXMQ==
-X-Gm-Message-State: AOAM53032eMb643qQLmn0orFMZkwyLY2JV8CUmISWg6Rb4KUlV/1Thi9
-	2vBqqYOUhrQTuRnTxe4KrLMyYa61yAYrCQ==
-X-Google-Smtp-Source: ABdhPJwRbXuD9jIn8Ng7XfKwbkPl9gh/0QATLtf6UvIf9JxjHPo2lXbb7h+eHr6SQ0Mx6mlEW5G5rQ==
-X-Received: by 2002:aa7:c2d3:: with SMTP id m19mr14168751edp.267.1633091169984;
-        Fri, 01 Oct 2021 05:26:09 -0700 (PDT)
+        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=bpjOJW1jQG8fjBkxPqir9Vu7dQgB4C1TGozo64yKan0=;
+        b=4z6aqFHU+0tNOe3UvjcGeG2IBBjijzKNJep2hvZc6HsRs9A5wjJ8Zk3mAs11xfxml9
+         ILDXlGiht+4LxdqiT8eV0dkzM62fZ3Ncjh4iVBckDWFVAIHynhnPvIetlIYK16wIptHo
+         9zI9vfX/NdbL5uPS+c1zwjidL4P/jnFBjfOOQZirewe7v50OByU7KX8TNIhz9wVhg60m
+         9TSl7xkgXeD0nBwkwPnWhbvl7u/PAuHjdI9hkDuYTvau1jPdM52p3DHCGJdXAEouX67M
+         /1K2cWH9+Ot3zI2FGZWW5gBTv5P4NOjL+QMhWGU4/Dbvvw4m8LaYnBw2MMIvaQlOs2bt
+         WQjw==
+X-Gm-Message-State: AOAM533VRZWu86n6nO5umumK7YpNxt51J01gHUb1wXVnvRu1+pr6bf7H
+	oCo/zG8ngWaxz7Zqeh+Q4+pP365LqRuueQ==
+X-Google-Smtp-Source: ABdhPJx8Hf3F1ojEVrVFN9brm52togag6kKeReJcFrX1E4GBWKFnMSVHWKI/z+GvrdCbAuJKWjJfMA==
+X-Received: by 2002:a17:906:c009:: with SMTP id e9mr5878250ejz.509.1633091171161;
+        Fri, 01 Oct 2021 05:26:11 -0700 (PDT)
 Received: from localhost.localdomain (mob-2-43-201-216.net.vodafone.it. [2.43.201.216])
-        by smtp.gmail.com with ESMTPSA id t15sm2218366ejy.74.2021.10.01.05.26.08
+        by smtp.gmail.com with ESMTPSA id t15sm2218366ejy.74.2021.10.01.05.26.10
         for <connman@lists.linux.dev>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 01 Oct 2021 05:26:09 -0700 (PDT)
+        Fri, 01 Oct 2021 05:26:10 -0700 (PDT)
 From: Michael Trimarchi <michael@amarulasolutions.com>
 To: connman@lists.linux.dev
-Subject: [PATCH 1/2] iwd: Set the network index add_network
-Date: Fri,  1 Oct 2021 12:26:06 +0000
-Message-Id: <20211001122607.34360-1-michael@amarulasolutions.com>
+Subject: [PATCH 2/2] manager: Add TetheringClientsChanged GBUS_SIGNAL
+Date: Fri,  1 Oct 2021 12:26:07 +0000
+Message-Id: <20211001122607.34360-2-michael@amarulasolutions.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20211001122607.34360-1-michael@amarulasolutions.com>
+References: <20211001122607.34360-1-michael@amarulasolutions.com>
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
@@ -48,62 +50,28 @@ List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-In order to have compatibility with wpa_supplicant
-configuration and fill the dictionary as was before
-we need to set index not when the wireless is connected
-but when it's registered. This allow to understand
-what wireless card is using each services
+Add TetheringClientsChanged as dbus signal. This can be
+seen using d-feet or other tool
 
 Signed-off-by: Michael Trimarchi <michael@amarulasolutions.com>
 ---
- plugins/iwd.c | 20 +++++++-------------
- 1 file changed, 7 insertions(+), 13 deletions(-)
+ src/manager.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/plugins/iwd.c b/plugins/iwd.c
-index 14a442a7..48097a1f 100644
---- a/plugins/iwd.c
-+++ b/plugins/iwd.c
-@@ -208,19 +208,6 @@ static int cm_network_probe(struct connman_network *network)
+diff --git a/src/manager.c b/src/manager.c
+index 3bf8f4e4..892d3a42 100644
+--- a/src/manager.c
++++ b/src/manager.c
+@@ -600,6 +600,9 @@ static const GDBusSignalTable manager_signals[] = {
+ 	{ GDBUS_SIGNAL("PeersChanged",
+ 			GDBUS_ARGS({ "changed", "a(oa{sv})" },
+ 					{ "removed", "ao" })) },
++	{ GDBUS_SIGNAL("TetheringClientsChanged",
++			GDBUS_ARGS({ "registered", "as" },
++					{ "removed", "as" })) },
+ 	{ },
+ };
  
- static void update_network_connected(struct iwd_network *iwdn)
- {
--	struct iwd_device *iwdd;
--	int index;
--
--	iwdd = g_hash_table_lookup(devices, iwdn->device);
--	if (!iwdd)
--		return;
--
--	index = connman_inet_ifindex(iwdd->name);
--	if (index < 0)
--		return;
--
--	DBG("interface name %s index %d", iwdd->name, index);
--	connman_network_set_index(iwdn->network, index);
- 	connman_network_set_connected(iwdn->network, true);
- }
- 
-@@ -911,6 +898,7 @@ static char *create_identifier(const char *path, const char *security)
- static void add_network(const char *path, struct iwd_network *iwdn)
- {
- 	struct iwd_device *iwdd;
-+	int index;
- 	char *identifier;
- 
- 	iwdd = g_hash_table_lookup(devices, iwdn->device);
-@@ -920,6 +908,12 @@ static void add_network(const char *path, struct iwd_network *iwdn)
- 	identifier = create_identifier(path, iwdn->type);
- 	iwdn->network = connman_network_create(identifier,
- 					CONNMAN_NETWORK_TYPE_WIFI);
-+
-+	index = connman_inet_ifindex(iwdd->name);
-+	if (index < 0)
-+		return;
-+
-+	connman_network_set_index(iwdn->network, index);
- 	connman_network_set_data(iwdn->network, iwdn);
- 
- 	connman_network_set_name(iwdn->network, iwdn->name);
 -- 
 2.25.1
 
