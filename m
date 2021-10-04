@@ -1,46 +1,49 @@
 Received: from mail.nearlyone.de (mail.nearlyone.de [46.163.114.145])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1FC63FED
-	for <connman@lists.linux.dev>; Mon,  4 Oct 2021 06:32:16 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id C07065E30A;
-	Mon,  4 Oct 2021 08:32:14 +0200 (CEST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBEFE3FED
+	for <connman@lists.linux.dev>; Mon,  4 Oct 2021 06:34:13 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 1EA0D60E52;
+	Mon,  4 Oct 2021 08:34:11 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=monom.org; s=dkim;
-	t=1633329134; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 in-reply-to:references; bh=48Q9eDpCmxSnBeKMdMbGi6iihh5Ss4A6WNoa2NNlnXU=;
-	b=gWC7v/whEdvk6yoJi3ohjq1JesDYKLVMqta/6CNIJ0SrAJZwrZR1GrOZYHFmL9mNNFpmsU
-	LJZ8//c8cMqpeVLMRpvjx7NY86NH3XkmafHc51JcqyCya/o/AcsatZNjxe3eWhxarDiDMN
-	hcJia1gRul/tFUuepRAj/rt1WEn7PaL9Kb4+lnQ/8Do6f0lshMGWNGlXNCkVxN6ArsWxXj
-	5BgDi5NESUZxYD3YUmmf9DPRGDZEF2FqMrS0TwqbjmYpBgwdD4xz0Yu0DgqTon1WSS5ge/
-	TSCebUVARVFD54MU52p6cxThHzSf5Aj8YrSXkufUXvf4iMYgcseK7HEv5m1EGA==
-Date: Mon, 4 Oct 2021 08:32:14 +0200
+	t=1633329251; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=xlCIlO/VI2gpu43WntjzB9SpiMwQ5MNTnqfUwS0WTG8=;
+	b=vwZ+3ZAFmXuL6mYLEfT3kvVweVxHAq+wO7Bl0vbUy7CivydWkL175sTo1HsirkY6wRfKfs
+	fnw/pF8FFFC/nQBE/IwQL/TXk7rfn3OzB+pXcLbBvAyjc1qFSMC6IHILSNw9kEQIToZzMh
+	RFotpsSe86d+YtT3cTBPs+wyZSCB5ovQGWgRH/om209WDz7Jw00hu8iYcYbijtJT7swf/r
+	yv8RdpiiwPNscd+pe9n89NUIPDRM03sGSEl0POHoTpHnvzrcqGMil0ezqCe1UqqrU659Ea
+	Kvquu3xYqxJGQjkqkHAfjbKcfMpFEUJjAQw3q/5w1ugtJEldshnFfe0zPi3avA==
 From: Daniel Wagner <wagi@monom.org>
-To: Michael Trimarchi <michael@amarulasolutions.com>
-Cc: connman@lists.linux.dev
-Subject: Re: [PATCH 1/2] iwd: Set the network index add_network
-Message-ID: <20211004063214.r4a2ie5njhk4y7hz@beryllium.lan>
-References: <20211001122607.34360-1-michael@amarulasolutions.com>
+To: connman@lists.linux.dev,
+	"VAUTRIN Emmanuel (Canal Plus Prestataire)" <Emmanuel.VAUTRIN@cpexterne.org>
+Cc: Daniel Wagner <wagi@monom.org>
+Subject: Re: [PATCH] iwd: Fix improper IPv4/6 attributes when disconnecting
+Date: Mon,  4 Oct 2021 08:34:07 +0200
+Message-Id: <163332924025.22211.8396936022812080972.b4-ty@monom.org>
+In-Reply-To: <MRZP264MB15442C715B7A20922755637493AB9@MRZP264MB1544.FRAP264.PROD.OUTLOOK.COM>
+References: <MRZP264MB15442C715B7A20922755637493AB9@MRZP264MB1544.FRAP264.PROD.OUTLOOK.COM>
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211001122607.34360-1-michael@amarulasolutions.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-Last-TLS-Session-Version: TLSv1.3
 
-Hi Michael,
+On Fri, 1 Oct 2021 12:17:20 +0000, VAUTRIN Emmanuel (Canal Plus Prestataire) wrote:
+> The Method, Address, Netmask and Gateway attributes of IPv4/6 Service
+> property were not flushed at network disconnection, because its
+> associating state was not reset.
+> 
 
-On Fri, Oct 01, 2021 at 12:26:06PM +0000, Michael Trimarchi wrote:
-> In order to have compatibility with wpa_supplicant
-> configuration and fill the dictionary as was before
-> we need to set index not when the wireless is connected
-> but when it's registered. This allow to understand
-> what wireless card is using each services
+Applied, thanks!
 
-I've applied the version from Emmanuel. Hope that is okay.
+[1/1] iwd: Fix improper IPv4/6 attributes when disconnecting
+      commit: ea8a6b45cc489c59a08950eae86a09e1db02e316
 
-Thanks,
-Daniel
+Best regards,
+-- 
+Daniel Wagner <wagi@monom.org>
