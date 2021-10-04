@@ -1,79 +1,51 @@
 Received: from mail.nearlyone.de (mail.nearlyone.de [46.163.114.145])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76B543FED
-	for <connman@lists.linux.dev>; Mon,  4 Oct 2021 07:06:13 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id ABE5C5E368;
-	Mon,  4 Oct 2021 09:06:11 +0200 (CEST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3D6D3FED
+	for <connman@lists.linux.dev>; Mon,  4 Oct 2021 07:09:08 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id D0E3760E52;
+	Mon,  4 Oct 2021 09:09:06 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=monom.org; s=dkim;
-	t=1633331171; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=AtB9RG5YF3bDUFHEl0hIITfdyQcaNXM7Cj3rjf+TwxM=;
-	b=Opv3KUWpSG65V5x/qZtANYj5bjkmafNXYqs72tWXH9TbDr2qirtZoSEH2A2NqosUluioCW
-	d0wbw1qkoCY+O2F6/MIY/CBkSW+5hMcZIT+J60lYRrSzjjK8u/0R0riJKE49vrpHl9/8V/
-	q3mhSyOOsfazZGhCB5BLiugt2cAqUinTmagkjZhSOXxpD5OJFBjj4X21AsqcHPR1HchUVI
-	pTR2SHUnM0IzGmjOq5MEoR9ot0YmemcxafyNRR4MyMgFeurMvKOqn0p1FfrPW7mR6KKjXN
-	gPYXUVFWpTFSjnj2xrnzeCPY2DXX6GRKs1KI288/qy6YDyyfOvOXbgonyuLxLQ==
-Date: Mon, 4 Oct 2021 09:06:11 +0200
+	t=1633331347; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 in-reply-to:references; bh=IQ8dCXUA+YH5EBHe7fc4ZzIICbGnEZC3JG/Ypa01UCk=;
+	b=euPPmIwC2yUMEN5YKTKFpCL6dZRdLXrOOM3hGGPOuP2/ONsB6TJ4gstbdo4uKNxwXt1jS/
+	YHIpZGAqzddss8MaKRQoDY6ruZHmFFzvaArF42gGSY9OJ3FRfBdiFTovBgXgV5Vl4N35nV
+	TupAlhJ8DzB+SNK2aVXvfZcAGAaKdrYPvaVXYrHkxA8CZw05AQvNJ9muEZonTiPTC9zc20
+	BYebFk/ar3ULObuNwsiAE5u4vtIeOPZ2yMDZrpy9/q3NPghg7Gw3VfMkwob0wQYxJk7y2z
+	7Y7GNDIrQP4d8KC6rP/RVuySSS004vhV8Wz9D5sfoam9+2gzVMJFCWmRq4u1dQ==
+Date: Mon, 4 Oct 2021 09:09:06 +0200
 From: Daniel Wagner <wagi@monom.org>
-To: "VAUTRIN Emmanuel (Canal Plus Prestataire)" <Emmanuel.VAUTRIN@cpexterne.org>
-Cc: "connman@lists.linux.dev" <connman@lists.linux.dev>
-Subject: Re: [PATCH 3/3] iwd: Ensure hidden services connectable after removed
-Message-ID: <20211004070611.usnxi6bbmkfanxs6@beryllium.lan>
-References: <MRZP264MB154491FD5A024CBCF0147E5B93AB9@MRZP264MB1544.FRAP264.PROD.OUTLOOK.COM>
+To: Michael Nazzareno Trimarchi <michael@amarulasolutions.com>
+Cc: HENRIET Vivien <vivien.henriet@overkiz.com>,
+	"connman@lists.linux.dev" <connman@lists.linux.dev>
+Subject: Re: [PATCH] wifi: Choose a random channel when opening an ap
+Message-ID: <20211004070906.625dlmzqv57r7mac@beryllium.lan>
+References: <20210923124429.1123-1-v.henriet@overkiz.com>
+ <bd9eda8f-02c8-7ae0-7fa7-5bf8b2127db8@overkiz.com>
+ <20210929091641.fg4v7pbol2nysgrd@carbon.lan>
+ <CAOf5uwmft+2ToGW8cOVF9_5S-S4G6Jc5CgjgZk=VtJPBd0aAQg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <MRZP264MB154491FD5A024CBCF0147E5B93AB9@MRZP264MB1544.FRAP264.PROD.OUTLOOK.COM>
+In-Reply-To: <CAOf5uwmft+2ToGW8cOVF9_5S-S4G6Jc5CgjgZk=VtJPBd0aAQg@mail.gmail.com>
 X-Last-TLS-Session-Version: TLSv1.3
 
-On Fri, Oct 01, 2021 at 03:29:16PM +0000, VAUTRIN Emmanuel (Canal Plus Prestataire) wrote:
-> Hidden services shall always be connectable, even after been removed.
-> When a hidden service is removed, the associated iwd network stays as
-> known and thus shall be connected as a visible network.
-> ---
->  plugins/iwd.c | 71 +++++++++++++++++++++++++++++++++++++++------------
->  1 file changed, 54 insertions(+), 17 deletions(-)
+Hi Michael,
+
+On Mon, Oct 04, 2021 at 08:45:57AM +0200, Michael Nazzareno Trimarchi wrote:
+> > Generally I would like to avoid adding more config option if there is a
+> > way to figure it out.
+> >
 > 
-> diff --git a/plugins/iwd.c b/plugins/iwd.c
-> index 961d53196207..9bd27e90c346 100644
-> --- a/plugins/iwd.c
-> +++ b/plugins/iwd.c
-> @@ -140,6 +140,7 @@ struct iwd_station {
->  	bool scanning;
->  
->  	GHashTable *hidden_aps;
-> +	GHashTable *hidden_networks;
->  	struct hidden_params *hidden;
->  	bool postpone_hidden;
->  };
-> @@ -646,6 +647,37 @@ static void hidden_params_free(gpointer data)
->  	g_free(hidden);
->  }
->  
-> +static int connect_hidden(struct iwd_station *iwds)
-> +{
-> +	struct iwd_network *iwdn;
-> +	char *ssid_security;
-> +	int err = 0;
-> +
-> +	ssid_security = g_strdup_printf("%s_%s",
-> +				iwds->hidden->ssid, iwds->hidden->security);
-> +	iwdn = g_hash_table_lookup(iwds->hidden_networks, ssid_security);
-> +	if (iwdn) {
-> +		err = connman_network_connect_hidden(iwdn->network,
-> +				iwds->hidden->identity,
-> +				iwds->hidden->passphrase,
-> +				iwds->hidden->user_data);
-> +		iwds->hidden->user_data = NULL;
-> +	if (err == -EINPROGRESS)
-> +		err = 0;
+> I have sent a patch long time ago in order to add the possibility to
+> set the frequency of access point. Can I resend?
 
-You could do a 'return 0' here.
+Oh, my bad. Sure please resend.
 
+Thanks,
+Daniel
