@@ -1,102 +1,543 @@
-Received: from NAM04-DM6-obe.outbound.protection.outlook.com (mail-dm6nam08on2084.outbound.protection.outlook.com [40.107.102.84])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2ADC73FE6
-	for <connman@lists.linux.dev>; Mon,  4 Oct 2021 19:50:13 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=bMjyR+E5j7qK5CZhavBgDPBSeUMdhdDOF+1/qVbkikff1xNvzM3n25KDBxl9MdFOIhjguH3mqTPnF+t9fiRzfWH0rOz1UYY7mdbqu5xEyiGwJDv/vjIkn5ZUDtlMjAAbhZK+x8si5z4mmN8msrnSv0mzPVErCNAkW5NmzIB7fQMoSOvZs48Y8VPfdUbRXUFWCNWOSX454IZCGy/o9MTUqcLFHaE3qxwYtYLJJc7czYfzMUSCaf4Y8cZEOytietYaRgIo6l5VCqaiG7ixgeGZ88jFGbTLRTp7cT9vbOxCm8Ff5plRJCIFFcCmvNL8IoMmqmGcAK/wmuVnC4NvezJALQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=He69erPWQYUiFffBRSZJELKPzpt/2VRGWcUZWKKXN0s=;
- b=duYyc4TxLqpiGQqpQJRWHAGjrYX6VDQRkpYe5gAkt7UyrQUaAAhLJpgwabMDtBPBz//qYTqTxhlNE2V96Z4qG5ZfkzAH9oLe2iIHUaMRpfvr71abfQ7ENoqD2Kx+L/7dkR9Va3SufOmw4JfQ3m6MLoVzwIkR5maxRAZyx8SZyC/Cx4gNV7d20Vme197FZZXm8+EmlKNQJVKMvq0D8HRz8VOAiBngdCKLhDPdecnK+RLMwil2gneWupfRc/wxMcFQ2nlC/FbDRSMv1WIEASGnBnls1eK6xFO96WMp+5eDfb1zGQvTm4LNRb+ioXnmVVvEX7YdRrmwHtJl74ectdhacQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=sorenson.com; dmarc=pass action=none header.from=sorenson.com;
- dkim=pass header.d=sorenson.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sorenson.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=He69erPWQYUiFffBRSZJELKPzpt/2VRGWcUZWKKXN0s=;
- b=QqvWpLILLVqGsd8I2GF354RLEQ895ZVdcgbHUKtT+w0wn4wID/Kwo8GIb/foqR5xJlP48uaHZt6rnE3gKi0assreotKP9dPQc2qN/nmQXfhlTU8fIsL5RFjWpAJQwKtjOJNbghw8vU8XGmLvuGLw0fjh7FBLfVZCfhL7etfyW5ozy+zaNh0ylv+mOE3F4ptb/uDxmK1BSnppgaakGtinjpl/A1283xZbHOPeyEtJmziZCX2O99NrXYy95FOt5uGmD9nMpDooUV/8cKQofIudG9h+hDem7bk4DrcG/O9HiRSVc7ltpa+bLRu5iQlDiSD8ZNA1J3hXlE46Ci3tvUohdQ==
-From: Thomas Green <TGreen2@Sorenson.com>
-To: "connman@lists.linux.dev" <connman@lists.linux.dev>
-Subject: Removing old service directories
-Thread-Topic: Removing old service directories
-Thread-Index: Ade5WQam3u0k8Z6ISO2Ff9MvCRAmkQ==
-Date: Mon, 4 Oct 2021 19:50:11 +0000
-Message-ID:
- <DM6PR04MB700338BA0F2EBF84D07EF5759FAE9@DM6PR04MB7003.namprd04.prod.outlook.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: lists.linux.dev; dkim=none (message not signed)
- header.d=none;lists.linux.dev; dmarc=none action=none
- header.from=Sorenson.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 07a3d241-a39b-45bb-fab3-08d987702d84
-x-ms-traffictypediagnostic: DM5PR04MB0972:
-x-microsoft-antispam-prvs:
- <DM5PR04MB0972163F157C380C67DD9CA69FAE9@DM5PR04MB0972.namprd04.prod.outlook.com>
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR04MB7003.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(366004)(38070700005)(316002)(71200400001)(5660300002)(6916009)(38100700002)(2906002)(4744005)(122000001)(42186006)(3480700007)(186003)(33656002)(8936002)(83380400001)(9686003)(26005)(52536014)(66946007)(66446008)(66556008)(508600001)(86362001)(76116006)(64756008)(8676002)(66476007);DIR:OUT;SFP:1101;
-x-ms-oob-tlc-oobclassifiers: OLM:9508;
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info:
- krhwP6xUkqd9oLb487RTtwKhJwWigViNFf0YyOLY1smdz7JE+bkf0zaiw7soTnizFzYBzvBPyeW0aLiGJH0WULRRMXcHcqCPYqmKEGoey0FSFfbMAuLf0ccZpSXOcrGenoHeEjp4glxF8qr/hKsKLS9FE/saX/Jtnec98eCWS3g28c4KXjlGj3jPXa81gHO+gbEWt3Ip/BDSwg2M4Skq4LLLy/w+jW4lDgbR0z2U1aEzLsuSkHk+aD69npOUAtYfNyx/lHX29tuyIgsnwh+ENrdnauzunctrigdTWUrLSvgQbNu5g3RpWUfX/WLB6Zt4QRxj8uSEn2JvkxxuQovACE2p58AfFgBfkLtImxd19vGEbwoQF+AdhIhRSB2HxXHNKcMF2yjCTxv8TbO/h3VpYC2bLSSnNywSFq4WEfm6vV+/zBkKRGL7cGFBU5aobesH7hPjz90U16OMIgVrqeFXjPIIbfXh/oHVp6EjkCUFNak/l6/JD7bvySyqvGpqsc/XahdoddKLgIleM112nbtonpAs/r9XVUqZ/jIj9bfoAVRrgngwupPIhnlKodS7MYlozLHZ2jZI3aqCCsQhRvChT8GTw+3dxpZOr/XE7OWtg4XSsrzaL5aIeKoGdpzie6O94WGgEVS0/Wk/vucvhLWSsIAMNQVz7KH20Xkv36E/kzB6YcFIboGL48Vu1grnT2rx4vJU2/EWg0NypDZafwYKag==
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?4wFM5V354l65yqVJhkZZb20c+2unTjNYL7xWGHdL4g38eGaUomtzllKrudSv?=
- =?us-ascii?Q?azB/hYAJ1ztQO/QzXL6s1+EjKLxzPmIkSYvjjAcqs7r45E0rCVWCTjYX1lMP?=
- =?us-ascii?Q?+HO/0w8WlOod30Oydaxwu6hkNzQ9vaKqQHYggkK/1j7YefOJzbLaxMQ/37ws?=
- =?us-ascii?Q?KBtnueX+ZEHaKbNUjrbr9jfjR3/yk52IzSO4SibJbLWjdqRG5e00+N3oXQCF?=
- =?us-ascii?Q?SH1y6RE3t7xzeOmbsfEP3RKq10ZqI7az0DHGHipSe8Q9jmXIEfmh2oFS4aCm?=
- =?us-ascii?Q?ynFf6s4DcnkisdBGVuIUmU5HXEByDuhmbii46GZ0uGRg/mjkl2kY6t7RjlW1?=
- =?us-ascii?Q?YKLObFeyEjOExWid35c1GtVZSD04JxnWvPbaInNd7uNijEEItJKG4ev2JE2s?=
- =?us-ascii?Q?erPYC0rOmjYq63DdwgTeXMFSBOCGhXEfOqAn0QovbWk14Jbjx7anu91+8Kh2?=
- =?us-ascii?Q?QMPWpm7UKnp5sdYbgQhodu+2BTegGvdiUDyXvx7gX1h9kHJeh6TsECV63o6y?=
- =?us-ascii?Q?ENBayj9eGSImWDKy2gqZt6whRdGFNsZ5Vbv0CbyhPd8XjZtYs1UFIZ3FM88g?=
- =?us-ascii?Q?3JjPChnf+yTP3KNhJJIRl3o5TshRVhtyKorgbYZfzS1BbnnG9VfloLMpi1zR?=
- =?us-ascii?Q?K4LfcUcB4ca2dkH3TGEE4YYwRzAeFwF3P0VfxeQNjjjFW/leXatuJpFMrOpU?=
- =?us-ascii?Q?hsEr4jn6hHzrg60XagimM4Ti4MfiiNxYio1zsOMs12fP5nzn4Enj2lZgq1NE?=
- =?us-ascii?Q?es4mp4WXTn5vpgxhJ8xrLm1i+BeH3uhSFky5CJ9hvyUfPqc7eIBdeonj6LQ9?=
- =?us-ascii?Q?3baPXp5xRbKFmFGaWUnO5XxhuW0kbLPIdBMgURaF1HEZsccfWoluz2I6Oytg?=
- =?us-ascii?Q?bMNPmSeYVExzkn+vCHvc1DH6P5ljDMpXL1Yz+BCs0unsAS8RVOhelCkfOPEC?=
- =?us-ascii?Q?jPYF73IZpddvS/7YxJIgp07PLAGA1r14HjN4xHKAdIdnI7fw9ObURACIYIUC?=
- =?us-ascii?Q?R4W/1KS+xwNI/Amd7QUi3OJn7ayL7Ik11DeGUQ8In0UKdQomFJg50QUvciYa?=
- =?us-ascii?Q?TThYNzkCgV8nMA0SC74rorGS3ed3mAfsskwb8mfMDOUGAXm3DtV17J56wo+W?=
- =?us-ascii?Q?5lEPkxTum/I8QaOpMyDiDp1cIWD8aoePlRUeZoyQfDdrS3uuvUBe+iGJFa/D?=
- =?us-ascii?Q?aF4w3gbWR7UyX88Svn/M/rc2u9lls4pyp87Iz5DQ/+3/6OkbLjzsjCTfy/ce?=
- =?us-ascii?Q?+79pO6Gbg7MHRmXvtSpuoGQms6rR1BSufcoBmFAq9lgqmsHlVDnF1pi7fsFv?=
- =?us-ascii?Q?fCnsBAHDOccymhH7LALrbXOL?=
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76EC83FDE
+	for <connman@lists.linux.dev>; Mon,  4 Oct 2021 21:00:23 +0000 (UTC)
+Received: by mail-wr1-f44.google.com with SMTP id m22so27747021wrb.0
+        for <connman@lists.linux.dev>; Mon, 04 Oct 2021 14:00:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=amarulasolutions.com; s=google;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=PdfXceIR2r8llJnwcsjfdbfwEwgIiLtklFpOKBQxHM4=;
+        b=Jk6xed2vgZXJIsJEsZjiGnzcIP+wlrBy4wTFWsYbl7aEupIaVmZFquOUHPsb5Zm3vc
+         6VwFuh6pPKKPPi5WeeEckN5d4+WTRogpUvy6Nbo9oCmo2zmSyXhpaR5s8l3JuP25AIOF
+         gjXPDrt/Apaf1d6I4IRQu7bczFpWIdVSbfREQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=PdfXceIR2r8llJnwcsjfdbfwEwgIiLtklFpOKBQxHM4=;
+        b=ZIiWQEWlKJUCpzx3O25inxWj/mjJlVRqJ4rdOlIjAkd+MVgoKy4m/tdSpN44ZwRAgb
+         6Dfzo9owILiOt9KwxH1vpcmgHjmjdzNMROnx/mm+PPZZ/xXOFoIuzIQnBBk9Lk4utMZ5
+         VFrLX72BaLwBZVvFHEamJI/9NE3KzM/cheihbh23clZ7BTMLvWVEtvXbneBTxrFENDxS
+         RJCbDHBXOCp1liZi+L79omuowNigVRSNQzm02eVombtNwz2oUUnGWHv6goXDO4pmaA3C
+         UnUpZvzHpaKaGHgHVfbZh7ZCtPXQqoEvSu48gES33Eirv1pHwPVMD+F4QNA8SzC9nLTe
+         zaeA==
+X-Gm-Message-State: AOAM530bYkU99T8lzh5b0RDbz5chayMD8EI9Ivdyivu7SCaoGzvpcMrM
+	2rOQUhTlEkAn6To7KhofjWUC6X6Uh3GQCoy9
+X-Google-Smtp-Source: ABdhPJwo+3xWNNSQMDIeSmanvpO4+KVHNBEFWJN7rZgPaGAQu6V5fT328AWMBx7Hkn+PnNtFkWSaDw==
+X-Received: by 2002:adf:b353:: with SMTP id k19mr17061224wrd.325.1633381220772;
+        Mon, 04 Oct 2021 14:00:20 -0700 (PDT)
+Received: from panicking.amarulasolutions.com ([2.196.209.192])
+        by smtp.gmail.com with ESMTPSA id d5sm15548134wra.38.2021.10.04.14.00.18
+        for <connman@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 04 Oct 2021 14:00:19 -0700 (PDT)
+From: Michael Trimarchi <michael@amarulasolutions.com>
+To: connman@lists.linux.dev
+Subject: [RFC PATCH] tether: Add a way to define a tethering frequency
+Date: Mon,  4 Oct 2021 23:00:16 +0200
+Message-Id: <20211004210016.1579481-1-michael@amarulasolutions.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-OriginatorOrg: sorenson.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR04MB7003.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 07a3d241-a39b-45bb-fab3-08d987702d84
-X-MS-Exchange-CrossTenant-originalarrivaltime: 04 Oct 2021 19:50:11.8944
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: d0f7f33f-8d1f-4ac0-bccd-2ecda8bf422b
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: P2z60lpmQWrxqexDtRZB329TQQl+g3v+Rsdx/7ZxkeubJUPBs7baIAs7R+evaCKlvdDkslb42EtB8lRQE8EvYw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR04MB0972
+Content-Transfer-Encoding: 8bit
 
-In connman I would like to be able to get a list of all wireless services t=
-hat have been previously connected, whether or not they are currently in ra=
-nge, and be able to optionally remove or 'forget' that service.  I've tried=
- to manually remove the the directory /var/lib/connman/wifi_xxxxxxxx but wh=
-en I shutdown and restart my system, that service and related information h=
-as been restored.  How, at this point can I do this?
+Add an optional parameter to set the frequency of access point. Need to
+be splitted in multiple patches. This is used as initial idea.
 
-Tom
+TODO:
+- split
+- add freq constraints
+- move to unsigned int
+- ...
+
+Signed-off-by: Michael Trimarchi <michael@amarulasolutions.com>
+---
+ client/commands.c      | 57 ++++++++++++++++++++++++++--------
+ doc/technology-api.txt |  6 ++++
+ include/technology.h   |  8 +++--
+ plugins/bluetooth.c    |  1 -
+ plugins/ethernet.c     |  1 -
+ plugins/gadget.c       |  1 -
+ plugins/neard.c        |  3 +-
+ plugins/wifi.c         | 32 +++++++++++---------
+ src/technology.c       | 69 ++++++++++++++++++++++++++++++++++--------
+ 9 files changed, 133 insertions(+), 45 deletions(-)
+
+diff --git a/client/commands.c b/client/commands.c
+index 94c375dd..b2bed200 100644
+--- a/client/commands.c
++++ b/client/commands.c
+@@ -550,20 +550,23 @@ struct tether_properties {
+ 	int ssid_result;
+ 	int passphrase_result;
+ 	int set_tethering;
++	int freq_result;
+ };
+ 
+ static int tether_update(struct tether_properties *tether)
+ {
+ 	int ret;
+ 
+-	if (tether->ssid_result == 0 && tether->passphrase_result == 0) {
++	if (tether->ssid_result == 0 && tether->passphrase_result == 0 &&
++			tether->freq_result == 0) {
+ 		ret = tether_set("wifi", tether->set_tethering);
+ 		g_free(tether);
+ 		return ret;
+ 	}
+ 
+ 	if (tether->ssid_result != -EINPROGRESS &&
+-			tether->passphrase_result != -EINPROGRESS) {
++			tether->passphrase_result != -EINPROGRESS &&
++			tether->freq_result != -EINPROGRESS) {
+ 		g_free(tether);
+ 		return 0;
+ 	}
+@@ -603,9 +606,25 @@ static int tether_set_passphrase_return(DBusMessageIter *iter, int errnum,
+ 	return tether_update(tether);
+ }
+ 
+-static int tether_set_ssid(char *ssid, char *passphrase, int set_tethering)
++static int tether_set_freq_return(DBusMessageIter *iter, int errnum,
++				  const char *error, void *user_data)
+ {
+-	struct tether_properties *tether = g_new(struct tether_properties, 1);
++	struct tether_properties *tether = user_data;
++
++	if (!error) {
++		fprintf(stdout, "Wifi access point frequency set\n");
++		tether->freq_result = 0;
++	} else {
++		fprintf(stderr, "Error setting wifi frequency: %s\n", error);
++		tether->freq_result = -EINVAL;
++	}
++
++	return tether_update(tether);
++}
++
++static int tether_set_ssid(char *ssid, char *passphrase, int set_tethering, int freq)
++{
++	struct tether_properties *tether = g_new0(struct tether_properties, 1);
+ 
+ 	tether->set_tethering = set_tethering;
+ 
+@@ -621,6 +640,14 @@ static int tether_set_ssid(char *ssid, char *passphrase, int set_tethering)
+ 			tether_set_passphrase_return, tether,
+ 			"TetheringPassphrase", DBUS_TYPE_STRING, &passphrase);
+ 
++	if (freq > 0) {
++		tether->passphrase_result =__connmanctl_dbus_set_property(connection,
++				"/net/connman/technology/wifi",
++				"net.connman.Technology",
++				tether_set_freq_return, tether,
++				"TetheringFreq", DBUS_TYPE_INT32, &freq);
++	}
++
+ 	if (tether->ssid_result != -EINPROGRESS &&
+ 			tether->passphrase_result != -EINPROGRESS) {
+ 		g_free(tether);
+@@ -638,24 +665,30 @@ static int cmd_tether(char *args[], int num, struct connman_option *options)
+ 	if (num < 3)
+ 		return -EINVAL;
+ 
+-	passphrase = args[num - 1];
+-	ssid = args[num - 2];
+-
+ 	set_tethering = parse_boolean(args[2]);
+ 
+ 	if (strcmp(args[1], "wifi") == 0) {
++		int freq = 0;
+ 
+-		if (num > 5)
++		if (num > 6)
+ 			return -E2BIG;
+ 
+-		if (num == 5 && set_tethering == -1)
++		if (num >= 5 && set_tethering == -1)
+ 			return -EINVAL;
+ 
+ 		if (num == 4)
+ 			set_tethering = -1;
+ 
++		if (num == 6) {
++			freq = atoi(args[num - 1]);
++			num --;
++		}
++
++		passphrase = args[num - 1];
++		ssid = args[num - 2];
++
+ 		if (num > 3)
+-			return tether_set_ssid(ssid, passphrase, set_tethering);
++			return tether_set_ssid(ssid, passphrase, set_tethering, freq);
+ 	}
+ 
+ 	if (num > 3)
+@@ -1425,7 +1458,6 @@ static void monitor_del(char *interface)
+ 	int i;
+ 	char *rule;
+ 
+-
+ 	for (i = 0; monitor[i].interface; i++) {
+ 		if (g_strcmp0(interface, monitor[i].interface) == 0) {
+ 			if (monitor[i].enabled == false)
+@@ -1811,7 +1843,6 @@ static int session_connect_cb(DBusMessageIter *iter, int errnum,
+ 	return -EINPROGRESS;
+ }
+ 
+-
+ static int session_connect(void)
+ {
+ 	return __connmanctl_dbus_method_call(connection, "net.connman",
+@@ -2768,7 +2799,7 @@ static const struct {
+ 	  "Disables given technology or offline mode",
+ 	  lookup_technology_offline },
+ 	{ "tether", "<technology> on|off\n"
+-	            "            wifi [on|off] <ssid> <passphrase> ",
++	            "            wifi [on|off] <ssid> <passphrase> [<freq>]",
+ 	                                  NULL,            cmd_tether,
+ 	  "Enable, disable tethering, set SSID and passphrase for wifi",
+ 	  lookup_tether },
+diff --git a/doc/technology-api.txt b/doc/technology-api.txt
+index f22e9b29..32f6a6ca 100644
+--- a/doc/technology-api.txt
++++ b/doc/technology-api.txt
+@@ -100,3 +100,9 @@ Properties	boolean Powered [readwrite]
+ 			This property is only valid for the WiFi technology,
+ 			and is then mapped to the WPA pre-shared key clients
+ 			will have to use in order to establish a connection.
++
++		int TetheringFreq [readwrite]
++
++			The tethering access point frequency
++
++			This property is only valid for the WiFi technology,
+diff --git a/include/technology.h b/include/technology.h
+index 7508a9a1..d89c8164 100644
+--- a/include/technology.h
++++ b/include/technology.h
+@@ -44,8 +44,13 @@ void connman_technology_regdom_notify(struct connman_technology *technology,
+ 
+ enum connman_service_type connman_technology_get_type
+ 				(struct connman_technology *technology);
++
++bool connman_get_wifi_tethering_from_technology(const struct connman_technology *technology,
++						const char **ssid, const char **psk, int *freq);
++
+ bool connman_technology_get_wifi_tethering(const char **ssid,
+-							const char **psk);
++						const char **psk, int *freq);
++
+ bool connman_technology_is_tethering_allowed(enum connman_service_type type);
+ 
+ struct connman_technology_driver {
+@@ -60,7 +65,6 @@ struct connman_technology_driver {
+ 	void (*remove_interface) (struct connman_technology *technology,
+ 								int index);
+ 	int (*set_tethering) (struct connman_technology *technology,
+-				const char *identifier, const char *passphrase,
+ 				const char *bridge, bool enabled);
+ 	int (*set_regdom) (struct connman_technology *technology,
+ 						const char *alpha2);
+diff --git a/plugins/bluetooth.c b/plugins/bluetooth.c
+index 53361034..57cc8a29 100644
+--- a/plugins/bluetooth.c
++++ b/plugins/bluetooth.c
+@@ -882,7 +882,6 @@ static void bluetooth_tech_remove(struct connman_technology *technology)
+ }
+ 
+ static int bluetooth_tech_set_tethering(struct connman_technology *technology,
+-		const char *identifier, const char *passphrase,
+ 		const char *bridge, bool enabled)
+ {
+ 	GHashTableIter hash_iter;
+diff --git a/plugins/ethernet.c b/plugins/ethernet.c
+index 6146b1c0..0bf7fc41 100644
+--- a/plugins/ethernet.c
++++ b/plugins/ethernet.c
+@@ -407,7 +407,6 @@ static void eth_tech_disable_tethering(struct connman_technology *technology,
+ }
+ 
+ static int eth_tech_set_tethering(struct connman_technology *technology,
+-				const char *identifier, const char *passphrase,
+ 				const char *bridge, bool enabled)
+ {
+ 	if (!connman_technology_is_tethering_allowed(
+diff --git a/plugins/gadget.c b/plugins/gadget.c
+index 1b44bbb5..2d58df3e 100644
+--- a/plugins/gadget.c
++++ b/plugins/gadget.c
+@@ -294,7 +294,6 @@ static void gadget_tech_disable_tethering(struct connman_technology *technology,
+ }
+ 
+ static int gadget_tech_set_tethering(struct connman_technology *technology,
+-				const char *identifier, const char *passphrase,
+ 				const char *bridge, bool enabled)
+ {
+ 	DBG("bridge %s enabled %d", bridge, enabled);
+diff --git a/plugins/neard.c b/plugins/neard.c
+index 45effd44..b0cdbde0 100644
+--- a/plugins/neard.c
++++ b/plugins/neard.c
+@@ -222,10 +222,11 @@ static DBusMessage *create_request_oob_reply(DBusMessage *message)
+ 	DBusMessageIter iter;
+ 	DBusMessageIter dict;
+ 	const char *ssid, *psk;
++	int freq;
+ 	uint8_t *tlv_msg;
+ 	int length;
+ 
+-	if (!connman_technology_get_wifi_tethering(&ssid, &psk))
++	if (!connman_technology_get_wifi_tethering(&ssid, &psk, &freq))
+ 		return get_reply_on_error(message, ENOTSUP);
+ 
+ 	tlv_msg = encode_to_tlv(ssid, psk, &length);
+diff --git a/plugins/wifi.c b/plugins/wifi.c
+index 578b4be7..4f859e31 100644
+--- a/plugins/wifi.c
++++ b/plugins/wifi.c
+@@ -183,7 +183,6 @@ static bool wfd_service_registered = false;
+ 
+ static void start_autoscan(struct connman_device *device);
+ static int tech_set_tethering(struct connman_technology *technology,
+-				const char *identifier, const char *passphrase,
+ 				const char *bridge, bool enabled);
+ 
+ static int p2p_tech_probe(struct connman_technology *technology)
+@@ -2791,8 +2790,6 @@ static void ap_create_fail(GSupplicantInterface *interface)
+ 		wifi->tethering = false;
+ 
+ 		ret = tech_set_tethering(wifi->tethering_param->technology,
+-				wifi->tethering_param->ssid->ssid,
+-				wifi->tethering_param->ssid->passphrase,
+ 				wifi->bridge, true);
+ 
+ 		if ((ret == -EOPNOTSUPP) && (wifi_technology)) {
+@@ -3336,19 +3333,30 @@ static void tech_remove(struct connman_technology *technology)
+ 	wifi_technology = NULL;
+ }
+ 
+-static GSupplicantSSID *ssid_ap_init(const char *ssid, const char *passphrase)
++static GSupplicantSSID *ssid_ap_init(const struct connman_technology *technology)
+ {
+ 	GSupplicantSSID *ap;
++	const char *ssid, *passphrase;
++	int freq;
++	bool ret;
+ 
+ 	ap = g_try_malloc0(sizeof(GSupplicantSSID));
+ 	if (!ap)
+ 		return NULL;
+ 
++	ret = connman_get_wifi_tethering_from_technology(technology, &ssid, &passphrase,
++							 &freq);
++	if (ret == false)
++		return NULL;
++
+ 	ap->mode = G_SUPPLICANT_MODE_MASTER;
+ 	ap->ssid = ssid;
+ 	ap->ssid_len = strlen(ssid);
+ 	ap->scan_ssid = 0;
+-	ap->freq = 2412;
++	if (freq)
++		ap->freq = freq;
++	else
++		ap->freq = 2412;
+ 
+ 	if (!passphrase || strlen(passphrase) == 0) {
+ 		ap->security = G_SUPPLICANT_SECURITY_NONE;
+@@ -3458,8 +3466,7 @@ static void sta_remove_callback(int result,
+ }
+ 
+ static int enable_wifi_tethering(struct connman_technology *technology,
+-				const char *bridge, const char *identifier,
+-				const char *passphrase, bool available)
++				const char *bridge, bool available)
+ {
+ 	GList *list;
+ 	GSupplicantInterface *interface;
+@@ -3512,14 +3519,14 @@ static int enable_wifi_tethering(struct connman_technology *technology,
+ 		info->wifi = wifi;
+ 		info->technology = technology;
+ 		info->wifi->bridge = bridge;
+-		info->ssid = ssid_ap_init(identifier, passphrase);
++		info->ssid = ssid_ap_init(technology);
+ 		if (!info->ssid)
+ 			goto failed;
+ 
+ 		info->ifname = g_strdup(ifname);
+ 
+ 		wifi->tethering_param->technology = technology;
+-		wifi->tethering_param->ssid = ssid_ap_init(identifier, passphrase);
++		wifi->tethering_param->ssid = ssid_ap_init(technology);
+ 		if (!wifi->tethering_param->ssid)
+ 			goto failed;
+ 
+@@ -3561,7 +3568,6 @@ static int enable_wifi_tethering(struct connman_technology *technology,
+ }
+ 
+ static int tech_set_tethering(struct connman_technology *technology,
+-				const char *identifier, const char *passphrase,
+ 				const char *bridge, bool enabled)
+ {
+ 	GList *list;
+@@ -3589,13 +3595,11 @@ static int tech_set_tethering(struct connman_technology *technology,
+ 	}
+ 
+ 	DBG("trying tethering for available devices");
+-	err = enable_wifi_tethering(technology, bridge, identifier, passphrase,
+-				true);
++	err = enable_wifi_tethering(technology, bridge, true);
+ 
+ 	if (err < 0) {
+ 		DBG("trying tethering for any device");
+-		err = enable_wifi_tethering(technology, bridge, identifier,
+-					passphrase, false);
++		err = enable_wifi_tethering(technology, bridge, false);
+ 	}
+ 
+ 	return err;
+diff --git a/src/technology.c b/src/technology.c
+index 672d6ea8..c4b9b0f7 100644
+--- a/src/technology.c
++++ b/src/technology.c
+@@ -66,6 +66,7 @@ struct connman_technology {
+ 					      */
+ 	char *tethering_ident;
+ 	char *tethering_passphrase;
++	int tethering_freq;
+ 
+ 	bool enable_persistent; /* Save the tech state */
+ 
+@@ -192,6 +193,13 @@ static void technology_save(struct connman_technology *technology)
+ 		g_free(enc);
+ 	}
+ 
++	if (technology->tethering_freq == 0)
++		technology->tethering_freq = 2412;
++
++	g_key_file_set_integer(keyfile, identifier,
++				"Tethering.Freq",
++				technology->tethering_freq);
++
+ done:
+ 	g_free(identifier);
+ 
+@@ -264,8 +272,7 @@ static int set_tethering(struct connman_technology *technology,
+ 		if (!driver || !driver->set_tethering)
+ 			continue;
+ 
+-		err = driver->set_tethering(technology, ident, passphrase,
+-				bridge, enabled);
++		err = driver->set_tethering(technology, bridge, enabled);
+ 
+ 		if (result == -EINPROGRESS)
+ 			continue;
+@@ -356,17 +363,9 @@ enum connman_service_type connman_technology_get_type
+ 	return technology->type;
+ }
+ 
+-bool connman_technology_get_wifi_tethering(const char **ssid,
+-							const char **psk)
++bool connman_get_wifi_tethering_from_technology(const struct connman_technology *technology,
++						const char **ssid, const char **psk, int *freq)
+ {
+-	struct connman_technology *technology;
+-
+-	if (!ssid || !psk)
+-		return false;
+-
+-	*ssid = *psk = NULL;
+-
+-	technology = technology_find(CONNMAN_SERVICE_TYPE_WIFI);
+ 	if (!technology)
+ 		return false;
+ 
+@@ -375,10 +374,26 @@ bool connman_technology_get_wifi_tethering(const char **ssid,
+ 
+ 	*ssid = technology->tethering_ident;
+ 	*psk = technology->tethering_passphrase;
++	*freq = technology->tethering_freq;
+ 
+ 	return true;
+ }
+ 
++bool connman_technology_get_wifi_tethering(const char **ssid,
++					const char **psk, int *freq)
++{
++	struct connman_technology *technology;
++
++	if (!ssid || !psk)
++		return false;
++
++	*ssid = *psk = NULL;
++
++	technology = technology_find(CONNMAN_SERVICE_TYPE_WIFI);
++
++	return connman_get_wifi_tethering_from_technology(technology, ssid, psk, freq);
++}
++
+ static void free_rfkill(gpointer data)
+ {
+ 	struct connman_rfkill *rfkill = data;
+@@ -443,6 +458,10 @@ static void technology_load(struct connman_technology *technology)
+ 				identifier, "Tethering.Passphrase", NULL);
+ 	if (enc)
+ 		technology->tethering_passphrase = g_strcompress(enc);
++
++	technology->tethering_freq = g_key_file_get_integer(keyfile,
++				identifier, "Tethering.Freq", NULL);
++
+ done:
+ 	g_free(identifier);
+ 
+@@ -554,6 +573,11 @@ static void append_properties(DBusMessageIter *iter,
+ 					DBUS_TYPE_STRING,
+ 					&technology->tethering_passphrase);
+ 
++	if (technology->tethering_freq)
++		connman_dbus_dict_append_basic(&dict, "TetheringFreq",
++					DBUS_TYPE_INT32,
++					&technology->tethering_freq);
++
+ 	connman_dbus_dict_close(iter, &dict);
+ }
+ 
+@@ -968,6 +992,27 @@ static DBusMessage *set_property(DBusConnection *conn,
+ 					DBUS_TYPE_STRING,
+ 					&technology->tethering_passphrase);
+ 		}
++	} else if (g_str_equal(name, "TetheringFreq")) {
++		dbus_int32_t freq;
++
++		if (type != DBUS_TYPE_INT32)
++			return __connman_error_invalid_arguments(msg);
++
++		dbus_message_iter_get_basic(&value, &freq);
++
++		if (technology->type != CONNMAN_SERVICE_TYPE_WIFI)
++			return __connman_error_not_supported(msg);
++
++		if (freq >= 0) {
++			technology->tethering_freq = freq;
++			technology_save(technology);
++
++			connman_dbus_property_changed_basic(technology->path,
++					CONNMAN_TECHNOLOGY_INTERFACE,
++					"TetheringFreq",
++					DBUS_TYPE_INT32,
++					&technology->tethering_freq);
++		}
+ 	} else if (g_str_equal(name, "Powered")) {
+ 		dbus_bool_t enable;
+ 
+-- 
+2.25.1
+
