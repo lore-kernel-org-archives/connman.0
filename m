@@ -1,91 +1,91 @@
-Received: from FRA01-PR2-obe.outbound.protection.outlook.com (mail-eopbgr120089.outbound.protection.outlook.com [40.107.12.89])
+Received: from FRA01-PR2-obe.outbound.protection.outlook.com (mail-eopbgr120071.outbound.protection.outlook.com [40.107.12.71])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF7B03FED
-	for <connman@lists.linux.dev>; Mon,  4 Oct 2021 08:08:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73A193FED
+	for <connman@lists.linux.dev>; Mon,  4 Oct 2021 08:18:30 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=h1BJSfGM+1RiIQPW0qM9TqvFRvrNJFYS0HFlngIXmEZj+ZitN7eSu4rOt7folACSelv+TULo2gjTO+v5dtui1kToPn8bdqvN/C+i4EtlxBKNK8OfcS+faDfaf79Q0HDLvegAqeAfDt6FX3up4tZ8gZa+828Uosq2d4Lkc1/mfKPLJh7l4J+lUUT0deh6Q5GWZV1igLnj/nhngUxdVyhfb4DTYiO+nSRqvj3h4m1TeDmG503PWVXRUUNwH65PcBJ0C2gwdYWB8xTzEJxVyV6mG+GzSzXDzaUwqrXp9RMlhk3EUoX+tSJfWdt/cciXigQgLak0f0Q5UYX5GcPKwNSXhw==
+ b=ApitUv50CFITq5SK5nk7GCIx3PtBy2Yt8Q0dWtuJ8Wl+rstySTlPFO9+BrLBFHA/chGvtOZ34dpHAyvaYyD6rN1rDoSAl475gaZIG716lOWA4MsF11A6ca0yj4DcYYZ0lj+eLK3VxWeuoZDIzZy+Q5T7iT4K3bBF9cDgYDhSp3w+kNrgmkAj7x2UCwYF9u+NSwbdHH5gM1OSVZ8Zg9kpzPJaQCyM181ngDxhpWqahWNuWKR5AVEbRjANdmIrbXRkQm9ZQd7DG1r/KQ6qKw9Rfziwxkigr/+i2oR2qyIrm14vLl9Kxfq4jlNHcJClzhTJXkptLAYZ5VRD3yllpt30NA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=j8mNqYVjxOBph4eyBjk0RlTQ+00zz5ZyAL6udzV1Ww4=;
- b=WunVWajnP+fLppEXzOjA5e5DmX9QtOxCEtFxvY4qEbJ7w8fg9XxEAEj+Nv5JsO+6AvN2MBch2iGJlDMpJHQdfJNBOx4LrqQk1Xb/66+i8LQK88jlKVV9te302BJM6iYlup5ryvxETlk6zXIfX0uG3u0U2DU0ZrvguvP+gL1qSGd/O332nyAIiqb1uJjKSKdvP4YsSx+1xSQl1MEBaALdzoaIyYUJsDs1nRydk+PJdF7nMn2VM0TDFKX3aJvgiTLdRKYS21flarQy3RDfeZ+bAzgQcB0ln/NmdUgskhEzysnnRaE71++h40xLQEUUxBYto9518abf0edGop3hf3U6/A==
+ bh=jBYGITAqIUtz4Q8sswZSpWleXDBqbBvmZxeV+MsTxAU=;
+ b=nE5pdBSp8fQGv9QnbdayDRPGDJPn64i824k7txE98SR60IFFIMmOhGddscHQ5oj+Pv3FLczf/+VjE2SZrity8ZHJa4+FSdxmlG+sCmwyLmkBsYY+WSEUk368WzgWCDpOTkNgAtjWRicULF07wuVV2dreUIWmsFs2f8h10PQBVGJjW/cKheu09I7qS/rH6dHzTE8G8rc9am4Ibi45f9KC1d8MF2GbcHzT1hW4XLk4a8OMGH46OMcTNF8oV32KxC88rVexpW047Rr3poSwbCKeO/K9xoYgMKMhI3kO8j+CsNAiDYtWOq8YH8qubsK0DycLi2waPWDrEhmVsCQNJEaM2g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=cpexterne.org; dmarc=pass action=none
  header.from=cpexterne.org; dkim=pass header.d=cpexterne.org; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cpexterne.org;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=j8mNqYVjxOBph4eyBjk0RlTQ+00zz5ZyAL6udzV1Ww4=;
- b=zEVh+klxWg4IEF6WxLzCFeOaaiTyfMnys0y/ybHC3nBbiBL0tlJj4gFpJ/L1KLHmRkmH8MwZoyN5Q/jg1gl5FCQVUgU6KG5DEk57O0ty1EXIFNcd1/Yk86DedBi3guv8xUmYdW4JY5CTLU6u1QfgghQh9RXpIBODfy23yz1H4eE=
+ bh=jBYGITAqIUtz4Q8sswZSpWleXDBqbBvmZxeV+MsTxAU=;
+ b=gIxntVhf+TTVQPr/2hOe7vAIDR67+pp6m6pOLGs+hDNXYhgoCveudFnDLaogqk085qNzG8UPN6hrvUGbVsgofnSjP3nkK04xGZWOidqFFwZKU/6IHuwsLQ9Sk0JL1juzcDnRahwns3hu9FDAy17iXMN2lbpAN/Vf5ACqVIsbhmo=
 Received: from MRZP264MB1544.FRAP264.PROD.OUTLOOK.COM (2603:10a6:501:a::7) by
- MRZP264MB2332.FRAP264.PROD.OUTLOOK.COM (2603:10a6:501:1d::20) with Microsoft
+ MR1P264MB3121.FRAP264.PROD.OUTLOOK.COM (2603:10a6:501:3a::20) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4566.17; Mon, 4 Oct 2021 08:08:38 +0000
+ 15.20.4566.20; Mon, 4 Oct 2021 08:18:28 +0000
 Received: from MRZP264MB1544.FRAP264.PROD.OUTLOOK.COM
  ([fe80::b87b:d837:2702:1acd]) by MRZP264MB1544.FRAP264.PROD.OUTLOOK.COM
  ([fe80::b87b:d837:2702:1acd%5]) with mapi id 15.20.4566.022; Mon, 4 Oct 2021
- 08:08:38 +0000
+ 08:18:28 +0000
 From: "VAUTRIN Emmanuel (Canal Plus Prestataire)"
 	<Emmanuel.VAUTRIN@cpexterne.org>
-To: Daniel Wagner <wagi@monom.org>, "connman@lists.linux.dev"
-	<connman@lists.linux.dev>
-Subject: RE: [PATCH] service: Report errors to user in native mode
-Thread-Topic: [PATCH] service: Report errors to user in native mode
-Thread-Index: AQHXtr6T3NUblXLl20K2GhnbRyD0SavCZi+AgAAaA+I=
-Date: Mon, 4 Oct 2021 08:08:38 +0000
+To: Daniel Wagner <wagi@monom.org>
+CC: "connman@lists.linux.dev" <connman@lists.linux.dev>
+Subject: RE: [PATCH 1/3] iwd: Scan hidden networks
+Thread-Topic: [PATCH 1/3] iwd: Scan hidden networks
+Thread-Index: AQHXttb22udP+HIkKU+24JHu2+bUZqvCaKQAgAAYSy0=
+Date: Mon, 4 Oct 2021 08:18:27 +0000
 Message-ID:
- <MRZP264MB1544C9BDFA1AF5DC3557934493AE9@MRZP264MB1544.FRAP264.PROD.OUTLOOK.COM>
+ <MRZP264MB154403ECD6C153C2492C665193AE9@MRZP264MB1544.FRAP264.PROD.OUTLOOK.COM>
 References:
- <MRZP264MB1544E59B5B25F0CF95C7A07993AB9@MRZP264MB1544.FRAP264.PROD.OUTLOOK.COM>
- <163332924025.22211.16547270907956272336.b4-ty@monom.org>
-In-Reply-To: <163332924025.22211.16547270907956272336.b4-ty@monom.org>
+ <MRZP264MB154441C6059B4972B76730FF93AB9@MRZP264MB1544.FRAP264.PROD.OUTLOOK.COM>
+ <20211004064338.wcqkjiw5u2ywkbrb@beryllium.lan>
+In-Reply-To: <20211004064338.wcqkjiw5u2ywkbrb@beryllium.lan>
 Accept-Language: fr-FR, en-US
 Content-Language: fr-FR
 X-MS-Has-Attach:
 X-MS-TNEF-Correlator:
-suggested_attachment_session_id: a8eada6c-b8a5-2986-27e6-994a95b277b5
+suggested_attachment_session_id: c29aa700-0c2e-c7ff-c03f-40f4f3638d06
 authentication-results: monom.org; dkim=none (message not signed)
  header.d=none;monom.org; dmarc=none action=none header.from=cpexterne.org;
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 9f5099d2-b85f-4cfb-a1cc-08d9870e2bca
-x-ms-traffictypediagnostic: MRZP264MB2332:
+x-ms-office365-filtering-correlation-id: 316eb1ef-1ac4-4b89-89ce-08d9870f8b49
+x-ms-traffictypediagnostic: MR1P264MB3121:
 x-microsoft-antispam-prvs:
- <MRZP264MB2332EAC5679F355AB2624C2093AE9@MRZP264MB2332.FRAP264.PROD.OUTLOOK.COM>
-x-ms-oob-tlc-oobclassifiers: OLM:6108;
+ <MR1P264MB312127CE754B6ECCF9DA91F993AE9@MR1P264MB3121.FRAP264.PROD.OUTLOOK.COM>
+x-ms-oob-tlc-oobclassifiers: OLM:569;
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam: BCL:0;
 x-microsoft-antispam-message-info:
- A4vF4orbyfBigo1P50VD0fKsxU4zNPQ3Pj0xWwUZkHzUyTuFu3KrL23CBypV4brhg5fAtiGL7Ln/Im5T3hfBzS7BZuBY9tPBaEWZRPa0rwhM4hvIlhiNJsiYdWXJcF4W+2s54mZH0msA8nm1lQPTaCktKkw59KCNm18ssUwq+bswNLUrBC56ySeCOLImlclmpZnowz8/DfBQ0MvDhLD0bGQZClGhzYl5fdOM/bsr2w0PsitU3b8TDEZXdVQPoJ23mkaZHT8ELcYtTMccOBv41Yrl7fU5eqd0j6kErPSq71mwsfZ66B3MRlEgN7XYWe6XTeDhiXiXLl1LlfqjAX6yhg2GnB4hL9uZrCVYyO7wXMxS4a6Wt9a/Dd+8+mqMBgywKQhWx81cUhx019aSSK7bfx49OsKzBHhERke9Grg2+erlqz0Qc5bW5nWVkNovq83Qzgvp6o++KyKSmSjJuGOKku7VLjUNkFM40IQBbNAfhVSNYRzaZuEFJjYA1qnAFqxLmK3kAJKqfvMJUzsPndlr6XdCJQQONAn37C1G13pLvqY0qNd62OXJEkjugfmnLeCa0jHK5LJps5NPzAGmUxfCRWVJtxhmUYSRAd5/1QVgaITZ5rDM5undjdhmlyBFdGwgMYaUeY3blnAWVlpHnGnp/AegQJRRRWNP/CdIrQQLpJ+3a9qH/tfbYHOfHUb6SmERB7QiqWAECIrql7VBcJQAPg==
+ sZGahcPjpzqr4SMoGOWnfqiWMCfyD6VOGjobPSLhESYqBsLgHnPP13khvvi7mk4P08VMtsy946ZKgm32U9sJpHpJKISY3jXspXMCzhn3c8b236deuHr72tAhXUvGgoIry3kPhzX3JQ54Mttcul4vrJOJkNOcJAns0isAoC+98V8ynvmHFdoWAs2NikzcrTaU+JwmESylUDfqsqO8nr1fXsJ9cM5tDlKEMEZXK00p7U/XopF2OVQlPKLy4n4vF/RklraIYIIl+GhOCN0/afeJL3rQpBuyB4AZH1src3z7D5GydZaj0KgkfQm7cY8/f7/hbtl2pNGlOPjYbfi4MKOXtX/iQM9LJbhoacyPwQzmMP2erkmU8krABIJoHFl8jmpUX1WEeiPhUg0ZGMxAg33V/j0G/PGZiKpMpx++D7GOGj7j0xvHSkbYSEfN6miyP9PbdnN2qFmFZ/4lQv2bLhnu/mHO0stVLo90Acv7aAJlPYzzzD0Qmz7XFtwfk3sCq1KeneORNHWE0a8Jj/OUGDKvhJ+BoEyrUbSsj1EkV+Q9DimbcoZ83oLclStBjGGdheuG7VHE6TXm05xPWGbwRu07lYWdRhpahteptfcH79gIz9GH8qJ1FqBGSZqD8qvaLM2ehnDKSwcajeAnghc69gTw7uC5BhQp9tN/uD39wxwzQZ1iSK01elzqyU94QgelBOK2gkFpe1GJvN1bV07b4hANDg==
 x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MRZP264MB1544.FRAP264.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(4636009)(366004)(7696005)(33656002)(71200400001)(6506007)(9686003)(122000001)(38100700002)(8936002)(76116006)(8676002)(91956017)(55016002)(2906002)(86362001)(508600001)(52536014)(316002)(66446008)(38070700005)(64756008)(66476007)(66556008)(66946007)(110136005)(186003)(5660300002)(558084003);DIR:OUT;SFP:1101;
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MRZP264MB1544.FRAP264.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(4636009)(366004)(5660300002)(38100700002)(33656002)(83380400001)(122000001)(186003)(52536014)(64756008)(66556008)(66476007)(8676002)(66446008)(8936002)(91956017)(7696005)(86362001)(316002)(9686003)(55016002)(76116006)(4326008)(38070700005)(71200400001)(6506007)(66946007)(6916009)(508600001)(2906002);DIR:OUT;SFP:1101;
 x-ms-exchange-antispam-messagedata-chunkcount: 1
 x-ms-exchange-antispam-messagedata-0:
- =?iso-8859-1?Q?D7GBxi48mJfOj73Qgi6KWwTWR4fHFlcVt1Bd9hDLNrpiCFqDDGt+zU5FCl?=
- =?iso-8859-1?Q?VlhDfJPVuJZZq9uxdR/zvPK37T5sty6UVeOd0HF+FvYJ7SdVgjxsVzPbou?=
- =?iso-8859-1?Q?bOqJiTAYr5WZFW/Cu8WH5wS7Cog1n0Lcmcvaouh0R+EoclFU+8R5GoXe0v?=
- =?iso-8859-1?Q?MmOu+3pLxgLVCw/am1FXFqb5Lwvo7MCuEtnYr8hCcnuMi6sOxQgpdAgc7k?=
- =?iso-8859-1?Q?JE6WScVRehVMb2QNd76OZ4i0w/Uq7+SuEwd2hi5YMrnx8x2nWYBT3POvGE?=
- =?iso-8859-1?Q?VbaEOauumIRsIeh80JisZKMQUJESHC9ZXkGXOS2wZLDlzQ7jRIo9orTMWz?=
- =?iso-8859-1?Q?GrdZOl1bi0I7AMxHLZFFvGDP/s70VdTq+hV14vpvih341MMXZUJqeHYwbV?=
- =?iso-8859-1?Q?1iJ5XfdiuzQrJHl46gtSK7krt8ASXPlY/zLpkrCQ88pMZeAVUS6KiJ6d1b?=
- =?iso-8859-1?Q?bgmfgmqIV6kH9p9rMhI6kjA46nS3ddkbSNUBdMTOJwXTMNfBFg3Mrt+/oS?=
- =?iso-8859-1?Q?RzV0nSsIBPKYH9K2d5SSOt9EOuJNIG52HpByuZ3CFhJE1ZsvDZptmwbKR1?=
- =?iso-8859-1?Q?q2nST7Cmd6HRCqqdZKWqg8y0uxquetDyRiNIQM400vjgcA/ZCDrMC0Yaz8?=
- =?iso-8859-1?Q?lbpA8euQ0AjwN2eTFHbWE2gMP+hVBcGhFYaKweYJY6QyOXC/Zhe+oRjCRT?=
- =?iso-8859-1?Q?Az5tcvDxy9tbZ3+/GiI0N7VuPD/U4hgmZXw+e/Z896MVEKYOvXW2uQx6uf?=
- =?iso-8859-1?Q?XJssTHu/xAiRxPzB7kXnOl2nM7kVZT5Ewg6oEm7HMEETp4obhLU+mFfpne?=
- =?iso-8859-1?Q?pDSDn5qbCjdt2P7A+ag0b3fvkAMilWpIwPb2oliH0EJJLYlksYH7DFhb70?=
- =?iso-8859-1?Q?8/fOYi9iapOUWBxAuHC7MTsgDRUp54Joysijr/KAlaLK17mBAhOwhcakvH?=
- =?iso-8859-1?Q?py5eW5BcxWNCS1K1fxIgnq/6i9+U3C0mTpxzafybTXYzIKLjbzXVyciXTm?=
- =?iso-8859-1?Q?VN4/vXjcNgEtjHMA1iwDz2ntMKUxHY0HuJM/Bz06QKRO0BIVFROIeO6HuQ?=
- =?iso-8859-1?Q?prGChXHHKTf42mYrqF/lqQH3cvDP4Xr7x9ZCXwdWH1ZbOGJ6c7bHMPd5fA?=
- =?iso-8859-1?Q?hct/8hGxnEFqt1EyCv2DGoGRmiXExc7A/XRm0G13RaPm0CtK7GOXvijbNd?=
- =?iso-8859-1?Q?IPnoLodDduOqx5NXziCRP2tpusTjZ0hFK27ttAs94mBORRI9E0JaeFxlM+?=
- =?iso-8859-1?Q?geRb5QC+k1flW2l9O2STrQNkqBVw4CrA2YDFEYJIEurE3RmnuGCJbjJ55E?=
- =?iso-8859-1?Q?gAcZUBYMUzarNdFU5zxaAGkIc+fJ4jUKkqcHVAU3jor5gkBRIZKANBIKmx?=
- =?iso-8859-1?Q?pCgtWYyEVaNmNmw7g8hPmL0Celin6zgswZNrZ2DoIiII47yyl1sOw=3D?=
+ =?iso-8859-1?Q?WkQjajX+EYBFcCdbZwsP3UJvRzd6j+cr92mf+O4m4jlTHSk5Xj0h3xCEEw?=
+ =?iso-8859-1?Q?/cyY1EDKBmtkF8zrrLYUsUrqoHA1qsI1HMSPNMr9gw34wfvi1qONoudEh6?=
+ =?iso-8859-1?Q?EpcBF49niriMaFp0yTGyABh6m3cJ/6dq910+Otax3HkItrVid+gZd7jeuC?=
+ =?iso-8859-1?Q?BDvEHFUdHWyJGhEQDt5T5a+xLDQ5Qjzgw8Y07hw1Evyld54oJLGIYEubWB?=
+ =?iso-8859-1?Q?oiEfo+Sy1wdYE9D4K3aQ60k0SJqBCzHrQV+DT62jCrQDmU+68MAkgob+F7?=
+ =?iso-8859-1?Q?YWi9M/qb2iP8EbwH2HHJz7iWcg1Jljx4dLRbtMX7VPilkw5GutXuM8o285?=
+ =?iso-8859-1?Q?HbPQftRh2XsN2OsyyKf1lFwA8OqG+8HNECMkZF8xAkTgVZIFwe+Wrsjpok?=
+ =?iso-8859-1?Q?/zG9YKJVYRDCsjWo8nhzBgK4Mo1OCLSI/MxmJNKEXcY+bPg23jiYz/GoZ8?=
+ =?iso-8859-1?Q?APQSgsYMYNsLVEMsLJTVHMUtoVB8DC7GXRgzv73qvEcQ3voKMTMpjP339f?=
+ =?iso-8859-1?Q?tpDYt1JY58SCSun508xYFkzJuki/tlwUlKxs8j6kacHhEJ5mPb5W9o+K+B?=
+ =?iso-8859-1?Q?3UYKZKz5CeUs2cstdkdNpCmxfhokC4rwidLhjoqarLCHNysAATlcBbgJt/?=
+ =?iso-8859-1?Q?Rwha1jaH9kyFdswyJJJg/kW7g5sajMpoc1iiuapglNv+5KoCr5UgubEwhC?=
+ =?iso-8859-1?Q?EC3rVJGP2D+KFf2bpWnhK2H9ODk2mmfpKolKiF25kaHWCiFDfI4Fvxb16K?=
+ =?iso-8859-1?Q?sOF29BDkpV5GfaJhZGGtsU7YgV/+WErkPdFsTgy5mGjQplYO0amteUl+5J?=
+ =?iso-8859-1?Q?w4G+2ii8XrkQ7Rj71MgSkLHhyMOWvuXMboI5mqkEgVPiWzRCHqbDsgU8wv?=
+ =?iso-8859-1?Q?8bnkG0ICtkSlk0Ihle+AGSa9K7fWC4yvaD6c7ikANciFlxKWjMj/Ke1R5c?=
+ =?iso-8859-1?Q?jG3M00TarpUWlzgcdWwoJWgt6vjFSlfo1AFJUkftePP0yciSm3yALudAqX?=
+ =?iso-8859-1?Q?/B/uu64jDwBq9Nql6LXZtbkuAu7IpvFmfWkvJOXomJnYlPMfpK69vFI6BP?=
+ =?iso-8859-1?Q?CK3Hvqv/4B3YPPVVy8mP7IMJWH+oONYNPwRBzV8IDBH+gidsYhfckuMywc?=
+ =?iso-8859-1?Q?iWc2bTD5LeqVSukpyc2UUFVsTRpOGPANx4dxRRYB2XZaaJenQPwIojpzLs?=
+ =?iso-8859-1?Q?c4Gcrz9XmTTFEX2qaZUtGKN+ODPrImE2SChjcGvwDlX2UFVo2EW5s3sPv/?=
+ =?iso-8859-1?Q?0WzJtRHk4YKoKL9GralwU2eIcSUbAClJbiSKSZsJzpAsl2LyxM1DaNkiki?=
+ =?iso-8859-1?Q?8tuNyNw2JEjGInIzv91/I0HYznfc+lZtccZXBD3KxUoBUxE+zDjEIHEWRw?=
+ =?iso-8859-1?Q?qPVCZ7Cw0uU5gB210BxQZTz6NEs5+9+kqzKsHcxjAsEi3QeIPsr4I=3D?=
 x-ms-exchange-transport-forked: True
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
@@ -98,16 +98,244 @@ MIME-Version: 1.0
 X-OriginatorOrg: cpexterne.org
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: MRZP264MB1544.FRAP264.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9f5099d2-b85f-4cfb-a1cc-08d9870e2bca
-X-MS-Exchange-CrossTenant-originalarrivaltime: 04 Oct 2021 08:08:38.2134
+X-MS-Exchange-CrossTenant-Network-Message-Id: 316eb1ef-1ac4-4b89-89ce-08d9870f8b49
+X-MS-Exchange-CrossTenant-originalarrivaltime: 04 Oct 2021 08:18:27.9941
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: bf5c5de1-6a54-4091-a72f-90e32801628c
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: Wv6p4hFZMQyQ/rgW5kWxh+vWF3MTcQlXiq2KdzTxfSFo6pzg7uI8kFMAGVFOiypdQL7gMJPTHh6DFxnALbvDU8iYQzJWm1cwV4lkx2BmsH8=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MRZP264MB2332
+X-MS-Exchange-CrossTenant-userprincipalname: YDVz/vbSjv4CRTPS8y3kDI+CgcP+/oWqv/vMpbuaEas2BEKWHi39hjZ2W8LUitKiCN0na+6qvY6Qa0UanpbeuNp9yHNEOqTQ463klMQvw6o=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MR1P264MB3121
 
-> Applied, thanks!=0A=
-Great news for this patch and the others! Thank you Daniel!=0A=
+Only visible networks were retrieved by a scan, via GetOrderedNetworks()=0A=
+iwd function. A call to GetHiddenAccessPoints() is necessary to=0A=
+retrieve the hidden ones.=0A=
+---=0A=
+=A0plugins/iwd.c | 141 +++++++++++++++++++++++++++++++++++++++++++++++++-=
+=0A=
+=A01 file changed, 140 insertions(+), 1 deletion(-)=0A=
+=0A=
+diff --git a/plugins/iwd.c b/plugins/iwd.c=0A=
+index ec9a4574cf2d..0f2b638caceb 100644=0A=
+--- a/plugins/iwd.c=0A=
++++ b/plugins/iwd.c=0A=
+@@ -113,12 +113,22 @@ struct iwd_known_network {=0A=
+=A0	bool autoconnect;=0A=
+=A0};=0A=
+=A0=0A=
++struct iwd_hidden_ap {=0A=
++	char *path;=0A=
++	char *device;=0A=
++	char *address;=0A=
++	char *type;=0A=
++	int16_t signal_strength;=0A=
++};=0A=
++=0A=
+=A0struct iwd_station {=0A=
+=A0	GDBusProxy *proxy;=0A=
+=A0	char *path;=0A=
+=A0	char *state;=0A=
+=A0	char *connected_network;=0A=
+=A0	bool scanning;=0A=
++=0A=
++	GHashTable *hidden_aps;=0A=
+=A0};=0A=
+=A0=0A=
+=A0struct iwd_ap {=0A=
+@@ -926,7 +936,8 @@ static void add_network(const char *path, struct iwd_ne=
+twork *iwdn)=0A=
+=A0	connman_network_set_data(iwdn->network, iwdn);=0A=
+=A0=0A=
+=A0	connman_network_set_name(iwdn->network, iwdn->name);=0A=
+-	connman_network_set_blob(iwdn->network, "WiFi.SSID", iwdn->name,=0A=
++	if (iwdn->name)=0A=
++		connman_network_set_blob(iwdn->network, "WiFi.SSID", iwdn->name,=0A=
+=A0					strlen(iwdn->name));=0A=
+=A0	connman_network_set_string(iwdn->network, "WiFi.Security",=0A=
+=A0					security_remap(iwdn->type));=0A=
+@@ -1189,6 +1200,113 @@ static void update_signal_strength(struct iwd_stati=
+on *iwds)=0A=
+=A0		DBG("GetOrderedNetworks() failed");=0A=
+=A0}=0A=
+=A0=0A=
++static void create_hidden_network(struct iwd_hidden_ap *iwdh)=0A=
++{=0A=
++	struct iwd_network *iwdn;=0A=
++=0A=
++	iwdn =3D g_new0(struct iwd_network, 1);=0A=
++	if (!iwdn) {=0A=
++		connman_error("Out of memory creating IWD network");=0A=
++		return;=0A=
++	}=0A=
++=0A=
++	iwdn->proxy =3D NULL;=0A=
++	iwdn->path =3D g_strdup(iwdh->path);=0A=
++	iwdn->device =3D g_strdup(iwdh->device);=0A=
++	iwdn->name =3D NULL;=0A=
++	iwdn->type =3D g_strdup(iwdh->type);=0A=
++	iwdn->connected =3D false;=0A=
++	iwdn->known_network =3D NULL;=0A=
++=0A=
++	DBG("device %s type %s",=0A=
++		iwdn->device, iwdn->type);=0A=
++=0A=
++	g_hash_table_replace(networks, iwdn->path, iwdn);=0A=
++=0A=
++	add_network(iwdn->path, iwdn);=0A=
++=0A=
++	_update_signal_strength(iwdn->path, iwdh->signal_strength);=0A=
++}=0A=
++=0A=
++static void create_hidden_ap(char *path, DBusMessageIter *array)=0A=
++{=0A=
++	struct iwd_hidden_ap *iwdh;=0A=
++	const char *address, *type;=0A=
++	struct iwd_station *iwds;=0A=
++	int16_t signal_strength;=0A=
++	DBusMessageIter value;=0A=
++=0A=
++	dbus_message_iter_recurse(array, &value);=0A=
++=0A=
++	dbus_message_iter_get_basic(&value, &address);=0A=
++=0A=
++	dbus_message_iter_next(&value);=0A=
++	dbus_message_iter_get_basic(&value, &signal_strength);=0A=
++=0A=
++	dbus_message_iter_next(&value);=0A=
++	dbus_message_iter_get_basic(&value, &type);=0A=
++=0A=
++	dbus_message_iter_next(array);=0A=
++=0A=
++	DBG("device '%s' address '%s' type %s signal_strength %d",=0A=
++		path, address, type, signal_strength);=0A=
++=0A=
++	iwds =3D g_hash_table_lookup(stations, path);=0A=
++	if (!iwds) {=0A=
++		connman_error("Related IWD station not found %s", path);=0A=
++		return;=0A=
++	}=0A=
++=0A=
++	iwdh =3D g_new0(struct iwd_hidden_ap, 1);=0A=
++	if (!iwdh) {=0A=
++		connman_error("Out of memory creating IWD hidden ap");=0A=
++		return;=0A=
++	}=0A=
++=0A=
++	iwdh->device =3D g_strdup(path);=0A=
++	iwdh->type =3D g_strdup(type);=0A=
++	iwdh->path =3D g_strdup_printf("%s/hidden_%s", iwdh->device, iwdh->type);=
+=0A=
++	iwdh->address =3D g_strdup(address);=0A=
++	iwdh->signal_strength =3D signal_strength;=0A=
++=0A=
++	g_hash_table_replace(iwds->hidden_aps, iwdh->path, iwdh);=0A=
++=0A=
++	create_hidden_network(iwdh);=0A=
++}=0A=
++=0A=
++static void hidden_access_points_cb(DBusMessage *message, void *user_data)=
+=0A=
++{=0A=
++	DBusMessageIter array, entry;=0A=
++	struct iwd_station *iwds;=0A=
++	char *path =3D user_data;=0A=
++=0A=
++	DBG("");=0A=
++=0A=
++	if (!dbus_message_iter_init(message, &array))=0A=
++		return;=0A=
++=0A=
++	if (dbus_message_iter_get_arg_type(&array) !=3D DBUS_TYPE_ARRAY)=0A=
++		return;=0A=
++=0A=
++	iwds =3D g_hash_table_lookup(stations, path);=0A=
++	if (iwds)=0A=
++		g_hash_table_remove_all(iwds->hidden_aps);=0A=
++=0A=
++	dbus_message_iter_recurse(&array, &entry);=0A=
++	while (dbus_message_iter_get_arg_type(&entry) =3D=3D DBUS_TYPE_STRUCT) {=
+=0A=
++		create_hidden_ap(path, &entry);=0A=
++	}=0A=
++}=0A=
++=0A=
++static void update_hidden_networks(struct iwd_station *iwds)=0A=
++{=0A=
++	if (!g_dbus_proxy_method_call(iwds->proxy,=0A=
++					"GetHiddenAccessPoints",=0A=
++					NULL, hidden_access_points_cb,=0A=
++					g_strdup(iwds->path), g_free))=0A=
++		DBG("GetHiddenAccessPoints() failed");=0A=
++}=0A=
++=0A=
+=A0static void station_property_change(GDBusProxy *proxy, const char *name,=
+=0A=
+=A0		DBusMessageIter *iter, void *user_data)=0A=
+=A0{=0A=
+@@ -1234,6 +1352,7 @@ static void station_property_change(GDBusProxy *proxy=
+, const char *name,=0A=
+=A0					CONNMAN_SERVICE_TYPE_WIFI, true);=0A=
+=A0		} else {=0A=
+=A0			update_signal_strength(iwds);=0A=
++			update_hidden_networks(iwds);=0A=
+=A0		}=0A=
+=A0=0A=
+=A0=0A=
+@@ -1354,9 +1473,26 @@ static void station_free(gpointer data)=0A=
+=A0	}=0A=
+=A0	g_free(iwds->path);=0A=
+=A0	g_free(iwds->connected_network);=0A=
++	g_hash_table_destroy(iwds->hidden_aps);=0A=
+=A0	g_free(iwds);=0A=
+=A0}=0A=
+=A0=0A=
++static void hidden_ap_free(gpointer data)=0A=
++{=0A=
++	struct iwd_hidden_ap *iwdh =3D data;=0A=
++	struct iwd_network *iwdn;=0A=
++=0A=
++	iwdn =3D g_hash_table_lookup(networks, iwdh->path);=0A=
++	if (iwdn)=0A=
++		remove_network(iwdn);=0A=
++=0A=
++	g_free(iwdh->path);=0A=
++	g_free(iwdh->device);=0A=
++	g_free(iwdh->address);=0A=
++	g_free(iwdh->type);=0A=
++	g_free(iwdh);=0A=
++}=0A=
++=0A=
+=A0static void ap_free(gpointer data)=0A=
+=A0{=0A=
+=A0	struct iwd_ap *iwdap =3D data;=0A=
+@@ -1717,6 +1853,9 @@ static void create_station(GDBusProxy *proxy)=0A=
+=A0	iwds->connected_network =3D g_strdup(proxy_get_string(proxy, "Connected=
+Network"));=0A=
+=A0	iwds->scanning =3D proxy_get_bool(proxy, "Scanning");=0A=
+=A0=0A=
++	iwds->hidden_aps =3D g_hash_table_new_full(g_str_hash, g_str_equal, NULL,=
+=0A=
++			hidden_ap_free);=0A=
++=0A=
+=A0	DBG("state '%s' connected_network %s scanning %d",=0A=
+=A0		iwds->state, iwds->connected_network, iwds->scanning);=0A=
+=A0=0A=
+-- =0A=
+2.25.1=0A=
+=0A=
+---------------------------------------------------------------------------=
+-------------------------=0A=
+> Thanks for the feature. The patch looks pretty good. Just a minor nitpick=
+ for=0A=
+> this and the other 2 patches.=0A=
+Great.=0A=
+=0A=
+> Just use g_new0(). There is no use to try to work around small memory=0A=
+> allocation failures. First they are very likely never to be observed and=
+=0A=
+> if they do our failure path is not tested. Even more...=0A=
+I have fixed it in the patch, but a cleanup of the former sources of iwd.c=
+=0A=
+is probably still necessary.=0A=
 =0A=
 Emmanuel=
