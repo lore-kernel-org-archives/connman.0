@@ -1,106 +1,65 @@
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.nearlyone.de (mail.nearlyone.de [46.163.114.145])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA1053FED
-	for <connman@lists.linux.dev>; Mon,  4 Oct 2021 06:46:09 +0000 (UTC)
-Received: by mail-pj1-f46.google.com with SMTP id pf6-20020a17090b1d8600b0019fa884ab85so2814977pjb.5
-        for <connman@lists.linux.dev>; Sun, 03 Oct 2021 23:46:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amarulasolutions.com; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=FJwEckt9A75cindn5lv8AMRX5FuFVYtC4ig7Btf9bsw=;
-        b=iWNdgzHggRi5uzXrOv6V7m231uisEWcMtEqj61ItrcKH+bqHFA3aQoUXopgibSqydf
-         zXXImYQ4QI+byHJq9sQaxuovCwyPXGmnCraj3zDj2KD9eccADomyL2VhezrFJzheFmHj
-         IgNoos8p+6nKwEq3deb6WrQVcoB9/ZEmeM86w=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=FJwEckt9A75cindn5lv8AMRX5FuFVYtC4ig7Btf9bsw=;
-        b=vD63QuIOq+/O3ntyBpV44wMuXFQEcZeqKn0vhIF1Q+emvg9p/bexPdGp7w1+1Rm5/n
-         N2n12TRdqp1rjaF+gFZAH9DkpAuEy7j1LFjZrn4sTTpi8ppVA2yceV5xUSrjbPTUrunu
-         Yp1ZLRUSMNruveTB1mrLIyImlsxhxp09+CnrpCtS3gOPD3WkFdfmHKYhfewJE7f95L+s
-         MKKlungKN3YWBE02lakD3sNJ1/LhCSZc3+wVwtHTRLrbnMnvd6kIqp4n1pH5DlgpLtky
-         6D9DaLLs/O9dttzUQyeZ5rulfdTLiHbOKYLnOZvxaKEhXtHCjIDt0jdmNxVMndagV2oq
-         9q7A==
-X-Gm-Message-State: AOAM530Pg76VVGQ6GzDhjcXmPYhD5XhmHbdUR0naMY0iyAw2+SDiSdYd
-	CA+DPIBEJ51xuZh6L7OFlV/P8jLzmt2DYhIv/yKIKFmMlXNdRw==
-X-Google-Smtp-Source: ABdhPJxYlI8ACvAo0gumEIrdp/IhFBVUXVyddLAlW7cEpX8a/UfzH6OGasDpBu9Tu3pnveqChefvP0Z40PJIs89tMxc=
-X-Received: by 2002:a17:90a:191a:: with SMTP id 26mr35404301pjg.118.1633329969070;
- Sun, 03 Oct 2021 23:46:09 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9AA03FED
+	for <connman@lists.linux.dev>; Mon,  4 Oct 2021 07:03:18 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id D7B975E30A;
+	Mon,  4 Oct 2021 09:03:16 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=monom.org; s=dkim;
+	t=1633330996; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 in-reply-to:references; bh=WT3zhy+p/+5jpTlt2TwuLoVTNCrQiJMZ/HihLpTfrZ8=;
+	b=wo/vxpiBOtszPp3VmAqIDFpI4xNFAnnuuFSc32hCox1wgk3QxQYMebiwq5EHTgXmY+HGDZ
+	Yqu2soZdGlTGl94Jn74P8awK5mFjG2ylKhcEw3F3QrpxcIkvyB6UOiCDWGwU46w2X6ZxsD
+	mPCOzmZ6O9Bitra/9fwEgt92WpmzQflMcPgLV1f5f4jtUIjvSHRWO7m9PJe/0d2a1+T7Gu
+	+27ZWJGjg++GT/DBkqGq89Y1vcBIKu+C3xrwxJHq4kCoObnYPrG75jdCl1C+hESm1Xjap8
+	MvMQyyEuSF17co9iczI+fkQ4qUbkEsh30Y+vU3XwUrWAAa5i06f7Po7NS5BBqA==
+Date: Mon, 4 Oct 2021 09:03:14 +0200
+From: Daniel Wagner <wagi@monom.org>
+To: "VAUTRIN Emmanuel (Canal Plus Prestataire)" <Emmanuel.VAUTRIN@cpexterne.org>
+Cc: "connman@lists.linux.dev" <connman@lists.linux.dev>
+Subject: Re: [PATCH 2/3] iwd: Connection of hidden networks
+Message-ID: <20211004070314.ehj6a5wjkhexu4xb@beryllium.lan>
+References: <MRZP264MB1544676D5E67A464DCECB27493AB9@MRZP264MB1544.FRAP264.PROD.OUTLOOK.COM>
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20210923124429.1123-1-v.henriet@overkiz.com> <bd9eda8f-02c8-7ae0-7fa7-5bf8b2127db8@overkiz.com>
- <20210929091641.fg4v7pbol2nysgrd@carbon.lan>
-In-Reply-To: <20210929091641.fg4v7pbol2nysgrd@carbon.lan>
-From: Michael Nazzareno Trimarchi <michael@amarulasolutions.com>
-Date: Mon, 4 Oct 2021 08:45:57 +0200
-Message-ID: <CAOf5uwmft+2ToGW8cOVF9_5S-S4G6Jc5CgjgZk=VtJPBd0aAQg@mail.gmail.com>
-Subject: Re: [PATCH] wifi: Choose a random channel when opening an ap
-To: Daniel Wagner <wagi@monom.org>
-Cc: HENRIET Vivien <vivien.henriet@overkiz.com>, 
-	"connman@lists.linux.dev" <connman@lists.linux.dev>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <MRZP264MB1544676D5E67A464DCECB27493AB9@MRZP264MB1544.FRAP264.PROD.OUTLOOK.COM>
+X-Last-TLS-Session-Version: TLSv1.3
 
-Hi Daniel
+Hi Emmanuel,
 
-On Wed, Sep 29, 2021 at 11:23 AM Daniel Wagner <wagi@monom.org> wrote:
->
-> Hi Vivien,
->
-> On Wed, Sep 29, 2021 at 08:57:25AM +0000, HENRIET Vivien wrote:
-> > Hi Daniel,
-> >
-> > Could you have a look to this patch?
->
-> Sorry for the delay. Anyway, I think it would be better to make this
-> configurable or smarter instead of a random channel selection. I just
-> checked what iwd is doing and if I got it right, the iwd daemon does the
-> channel selection itself.
->
-> > I would like to be able to open the WiFi AP on different channel.
-> > The simplest way to do it, is to select a random channel, which fit my need.
-> > Do you think its acceptable to integrate this way?
->
-> Random channel selection is a bit a wild solution :).
->
-> > I've got also other ideas to achieve the same goal:
-> > - Add an optional channel parameter when opening the AP
->
-> This is what I would suggest. Alternatively, can't we use some metrics
-> from the last scan to figure out which channel is crowded?
->
-> > - Add a global config to set the channel
->
-> Generally I would like to avoid adding more config option if there is a
-> way to figure it out.
->
+On Fri, Oct 01, 2021 at 03:27:06PM +0000, VAUTRIN Emmanuel (Canal Plus Prestataire) wrote:
+> Implementation of hidden networks connection.
+> +static void update_signal_strength(struct iwd_station *iwds);
+> +static void cm_hidden_network_connect_cb(DBusMessage *message, void *user_data)
+> +{
+> +	struct hidden_params *hidden = user_data;
+> +	struct iwd_network *iwdn = NULL;
+> +	struct iwd_station *iwds;
+> +	const char *dbus_error;
+> +
+> +	if (!hidden)
+> +		return;
+> +
+> +	iwds = g_hash_table_lookup(stations, hidden->station_path);
+> +	if (!iwds)
+> +		return;
+> +
+> +	iwds->hidden = NULL;
 
-I have sent a patch long time ago in order to add the possibility to
-set the frequency of
-access point. Can I resend?
+I assume iwds->hidden is supposed to NULL, right? If it's not there is
+bug? If this is the case it might be better to add a check and
+warn/error.
 
-Michael
+I skimmed through the rest of the patch. Most looks straight forward,
+but I have to say the hidden network feature always screws up the code
+base. Thought this is not your fault, it's the stupid spec.
 
-> Daniel
->
->
+Thanks,
+Daniel
 
-
--- 
-Michael Nazzareno Trimarchi
-Co-Founder & Chief Executive Officer
-M. +39 347 913 2170
-michael@amarulasolutions.com
-__________________________________
-
-Amarula Solutions BV
-Joop Geesinkweg 125, 1114 AB, Amsterdam, NL
-T. +31 (0)85 111 9172
-info@amarulasolutions.com
-www.amarulasolutions.com
