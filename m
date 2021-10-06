@@ -1,86 +1,70 @@
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.nearlyone.de (mail.nearlyone.de [46.163.114.145])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 879B33FF9
-	for <connman@lists.linux.dev>; Mon,  4 Oct 2021 21:21:21 +0000 (UTC)
-Received: by mail-pf1-f181.google.com with SMTP id m26so2361006pff.3
-        for <connman@lists.linux.dev>; Mon, 04 Oct 2021 14:21:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amarulasolutions.com; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=P5kHEszIpqKV3FTSPNChruI+yP8g8F+q4tOGa+iCD0w=;
-        b=lfYvX4AVXJkiv5AEEK5LFCrrCvCtDHbb0W/xnuljlalKRiUuOYvV87V7uCMHBVnWsv
-         KHFyLvmDHNuAYB6PsPyLlcuTwfPcoYwm8Z9/eaMjIqh/VD91Bam5MX/QTdE6hmM1Fxmb
-         +SnFXGeci37PqMSQ/L78M1sI2UMMSpyUU37pI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=P5kHEszIpqKV3FTSPNChruI+yP8g8F+q4tOGa+iCD0w=;
-        b=rjSfpwtzODeMC5X70Uz0Aq+fqbRztr7RbrxSgR8eJjfNkkqmBr/FzEMGZ3avJnj7OC
-         5TSysM8Pw+d6asGMKAnASRN7YSlHuQHNqCZd+s2S5VEwO0zpwuPKgNUDxoyqeCxVYr31
-         jjXqNoIE+Z04vKA3ag8wMYOdzGQAn3YVX1zNwld1S3GSkHh7ttgv4X+28G1ZwXpde1oO
-         EUXOgjDBFcguIaNikxWIR+f9zX/ncHYsoPngZ6Dr2Qv1ii+k4Huuw65DA2V5bI1Uxr7F
-         q3k3ahNYE3Hxlwzx9JLHPtBKjJRx5Tux/W+/BHKIA1duXzoTonBQSxeSZi5+YoLfdHg3
-         slUg==
-X-Gm-Message-State: AOAM530C4np+IcWxiJFVgTShXROwr6b56BzVrVnGLb3OGpKiTrQvrYcJ
-	MUvWGdqxZuZVPQAD2SXBATMgMTLSV1o/wnpYfAVJ5FGA/TbPOQ==
-X-Google-Smtp-Source: ABdhPJzEuxupKJROw7FaWUPmAwtU/G/ajMxk99bPYkhbK/LJMuMaOCgwTS2wIDT6mwjzPT+TwsaxQCSs9V59om2SEw0=
-X-Received: by 2002:a63:334c:: with SMTP id z73mr12939388pgz.160.1633382480819;
- Mon, 04 Oct 2021 14:21:20 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C656A2C89
+	for <connman@lists.linux.dev>; Wed,  6 Oct 2021 11:59:37 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 17AE45E415;
+	Wed,  6 Oct 2021 13:59:29 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=monom.org; s=dkim;
+	t=1633521570; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=f0pn3OAZW6LBTwYeIfkHHHLOWHfAHkwAfeI7fcODsl4=;
+	b=FJXwM0E8V9carPcnJWrT1/d5UWOAjHcTCTwBM7Lnfg3kFwh0NZszygbmlJ1la6GKuyPFvh
+	OxmoqT1qnIY2ascB0lDgwImcvVcJMnk9mYi1Kt1MxUFLZAu1xtB8RZw+eelyKak3KaDioM
+	KeNUio2I8C1ngK9Z/MLPwEqvbun85PEbCcYdQZhsQmX2UYqruRtTLVNGhNsRY0TssvjHDk
+	pOZDx4U5GPRczsRfa1WmPHGZk3hcsUdqBVaJRAp0qurUUgEpiAvLUg8O8ZKto1y9vQcihq
+	q3IaAA3NnfALwusF/o55KepkN7YQVBMd1mS26VYQzGZmuBurEv03+mNdSGowbQ==
+Date: Wed, 6 Oct 2021 13:59:27 +0200
+From: Daniel Wagner <wagi@monom.org>
+To: "VAUTRIN Emmanuel (Canal Plus Prestataire)" <Emmanuel.VAUTRIN@cpexterne.org>
+Cc: "connman@lists.linux.dev" <connman@lists.linux.dev>
+Subject: Re: [PATCH 2/3] iwd: Connection of hidden networks
+Message-ID: <20211006115927.lfqei7bai5slvyup@carbon.fritz.box>
+References: <MRZP264MB1544676D5E67A464DCECB27493AB9@MRZP264MB1544.FRAP264.PROD.OUTLOOK.COM>
+ <20211004070314.ehj6a5wjkhexu4xb@beryllium.lan>
+ <MRZP264MB1544E27898924DAB6CBBF9E793AE9@MRZP264MB1544.FRAP264.PROD.OUTLOOK.COM>
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20210923124429.1123-1-v.henriet@overkiz.com> <bd9eda8f-02c8-7ae0-7fa7-5bf8b2127db8@overkiz.com>
- <20210929091641.fg4v7pbol2nysgrd@carbon.lan> <CAOf5uwmft+2ToGW8cOVF9_5S-S4G6Jc5CgjgZk=VtJPBd0aAQg@mail.gmail.com>
- <20211004070906.625dlmzqv57r7mac@beryllium.lan> <CAOf5uwnB3QQYRiMG5HtKVVeE8cL-MWh_5G94RM7FmZ+NeLpf=A@mail.gmail.com>
- <6f009b7c-d7ef-6800-f0d8-67f045d6ae4f@monom.org>
-In-Reply-To: <6f009b7c-d7ef-6800-f0d8-67f045d6ae4f@monom.org>
-From: Michael Nazzareno Trimarchi <michael@amarulasolutions.com>
-Date: Mon, 4 Oct 2021 23:21:09 +0200
-Message-ID: <CAOf5uw=dsGdFmSEBhhQBFY0CkUuAcky=YhouHaOa2zHnaVNE0g@mail.gmail.com>
-Subject: Re: [PATCH] wifi: Choose a random channel when opening an ap
-To: Daniel Wagner <wagi@monom.org>
-Cc: HENRIET Vivien <vivien.henriet@overkiz.com>, 
-	"connman@lists.linux.dev" <connman@lists.linux.dev>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <MRZP264MB1544E27898924DAB6CBBF9E793AE9@MRZP264MB1544.FRAP264.PROD.OUTLOOK.COM>
+X-Last-TLS-Session-Version: TLSv1.3
 
-Hi
+Hi Emmanuel
 
-On Mon, Oct 4, 2021 at 9:46 AM Daniel Wagner <wagi@monom.org> wrote:
->
-> On 04.10.21 09:34, Michael Nazzareno Trimarchi wrote:
-> > I can create a function to get
+On Mon, Oct 04, 2021 at 09:10:47AM +0000, VAUTRIN Emmanuel (Canal Plus Prestataire) wrote:
+> Implementation of hidden networks connection.
+
+Please send them as new patch. Thanks.
+
+> > +     iwds->hidden = NULL;
 > >
-> > ident = technology->tethering_ident;
-> > passphrase = technology->tethering_passphrase;
-> > freq = technology->tethering_freq;
-> >
-> > connman_tethering_get_params(techonology, &ident, &passphrase, &freq);
->
-> Yes, that is what I had in mind. We need to retrieve these values from
-> the core/config somehow.
+> > I assume iwds->hidden is supposed to NULL, right? If it's not there is
+> > bug? If this is the case it might be better to add a check and
+> > warn/error.
+> It is NOT supposed to be NULL here. Where do you think it has been reset
+> before?
 
-I send an RFC in the mailing list just rebase some old patch and
-adjust a bit to be more complete. I did not
-time to test. I need to know if it can be a starting point or not.
+In this case, why do you not release the resources associated with the
+pointer? Isn't this a leak?
 
-Michael
+> It only can be reset in case of errors in connect_hidden(), but the
+> callback shall not be called in this case. In the other case, if the network
+> is reached (good SSID, passphrase, ...), add_network() is called and hidden
+> is processed. In the other hand, hidden is ignored. In all cases, to inform
+> the end of the request, iwds->hidden shall be reset by cm_hidden_network_connect_cb.
+> 
+> > I skimmed through the rest of the patch. Most looks straight forward,
+> > but I have to say the hidden network feature always screws up the code
+> > base. Thought this is not your fault, it's the stupid spec.
+> Indeed, it is a tricky subject. At least, I have succeeded to pass my network
+> test campaign based on wpa-supplicant with this implementation and iwd 1.18.
 
+Ah this is good to know!
 
--- 
-Michael Nazzareno Trimarchi
-Co-Founder & Chief Executive Officer
-M. +39 347 913 2170
-michael@amarulasolutions.com
-__________________________________
-
-Amarula Solutions BV
-Joop Geesinkweg 125, 1114 AB, Amsterdam, NL
-T. +31 (0)85 111 9172
-info@amarulasolutions.com
-www.amarulasolutions.com
+Daniel
