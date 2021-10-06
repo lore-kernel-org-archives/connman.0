@@ -1,70 +1,50 @@
 Received: from mail.nearlyone.de (mail.nearlyone.de [46.163.114.145])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C656A2C89
-	for <connman@lists.linux.dev>; Wed,  6 Oct 2021 11:59:37 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 17AE45E415;
-	Wed,  6 Oct 2021 13:59:29 +0200 (CEST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65CF82C87
+	for <connman@lists.linux.dev>; Wed,  6 Oct 2021 12:36:47 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id E27AD60A44;
+	Wed,  6 Oct 2021 14:36:44 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=monom.org; s=dkim;
-	t=1633521570; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=f0pn3OAZW6LBTwYeIfkHHHLOWHfAHkwAfeI7fcODsl4=;
-	b=FJXwM0E8V9carPcnJWrT1/d5UWOAjHcTCTwBM7Lnfg3kFwh0NZszygbmlJ1la6GKuyPFvh
-	OxmoqT1qnIY2ascB0lDgwImcvVcJMnk9mYi1Kt1MxUFLZAu1xtB8RZw+eelyKak3KaDioM
-	KeNUio2I8C1ngK9Z/MLPwEqvbun85PEbCcYdQZhsQmX2UYqruRtTLVNGhNsRY0TssvjHDk
-	pOZDx4U5GPRczsRfa1WmPHGZk3hcsUdqBVaJRAp0qurUUgEpiAvLUg8O8ZKto1y9vQcihq
-	q3IaAA3NnfALwusF/o55KepkN7YQVBMd1mS26VYQzGZmuBurEv03+mNdSGowbQ==
-Date: Wed, 6 Oct 2021 13:59:27 +0200
+	t=1633523805; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 in-reply-to:references; bh=SBsWeddRpN0vQC5uo66lB3EI2GpzDmrpCKeZsVVC3f8=;
+	b=PSBTn4GEzfWbq85VdIuSJMA2I76n+BVi0JO54BlJAHMYnQ+SBWbvbnvoA0QTg6cxRC1r9H
+	qB/tsPwKM2VkbhNMIX1IvCDUKZVS1hsRId00jLH1z/W/ZQ8IDw5+ncSIMwvI4fl8t7u6Y1
+	dVJBthR7tu3Wb0jKYpgvUrP5G7iFFu41y0aPojpmP4sPBc+87yWf8XGZNlyuq+h37XlS9D
+	mD+XKdVnO2+IZO2f2ZwJYewVDMaI84Xt6TxBp4tRsmVs/hGGesFNqWjM+3iaSVzrYvR5h+
+	IWZMhccx3fND1iZuLP8ooU6JLNfi7GWPc/sa2B9k4XF2JbEKUOmxMKURYFsNAg==
+Date: Wed, 6 Oct 2021 14:36:43 +0200
 From: Daniel Wagner <wagi@monom.org>
-To: "VAUTRIN Emmanuel (Canal Plus Prestataire)" <Emmanuel.VAUTRIN@cpexterne.org>
+To: Thomas Green <TGreen2@Sorenson.com>
 Cc: "connman@lists.linux.dev" <connman@lists.linux.dev>
-Subject: Re: [PATCH 2/3] iwd: Connection of hidden networks
-Message-ID: <20211006115927.lfqei7bai5slvyup@carbon.fritz.box>
-References: <MRZP264MB1544676D5E67A464DCECB27493AB9@MRZP264MB1544.FRAP264.PROD.OUTLOOK.COM>
- <20211004070314.ehj6a5wjkhexu4xb@beryllium.lan>
- <MRZP264MB1544E27898924DAB6CBBF9E793AE9@MRZP264MB1544.FRAP264.PROD.OUTLOOK.COM>
+Subject: Re: Removing old service directories
+Message-ID: <20211006123643.txym4njkm7pqnken@carbon.fritz.box>
+References: <DM6PR04MB700338BA0F2EBF84D07EF5759FAE9@DM6PR04MB7003.namprd04.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <MRZP264MB1544E27898924DAB6CBBF9E793AE9@MRZP264MB1544.FRAP264.PROD.OUTLOOK.COM>
+In-Reply-To: <DM6PR04MB700338BA0F2EBF84D07EF5759FAE9@DM6PR04MB7003.namprd04.prod.outlook.com>
 X-Last-TLS-Session-Version: TLSv1.3
 
-Hi Emmanuel
+On Mon, Oct 04, 2021 at 07:50:11PM +0000, Thomas Green wrote:
+> In connman I would like to be able to get a list of all wireless services
+> that have been previously connected, whether or not they are currently
+> in range, and be able to optionally remove or 'forget' that service.
+> I've tried to manually remove the the directory
+> /var/lib/connman/wifi_xxxxxxxx but when I shutdown and restart my
+> system, that service and related information has been restored.  How,
+> at this point can I do this?
 
-On Mon, Oct 04, 2021 at 09:10:47AM +0000, VAUTRIN Emmanuel (Canal Plus Prestataire) wrote:
-> Implementation of hidden networks connection.
+There were a couple of attempts to add a D-Bus interface to expose the
+known services and allow them to be removed. I gave some feedback
+on those patches but never got any new version. I didn't find the latest
+attempt, but IIRC it was based on this one here:
 
-Please send them as new patch. Thanks.
-
-> > +     iwds->hidden = NULL;
-> >
-> > I assume iwds->hidden is supposed to NULL, right? If it's not there is
-> > bug? If this is the case it might be better to add a check and
-> > warn/error.
-> It is NOT supposed to be NULL here. Where do you think it has been reset
-> before?
-
-In this case, why do you not release the resources associated with the
-pointer? Isn't this a leak?
-
-> It only can be reset in case of errors in connect_hidden(), but the
-> callback shall not be called in this case. In the other case, if the network
-> is reached (good SSID, passphrase, ...), add_network() is called and hidden
-> is processed. In the other hand, hidden is ignored. In all cases, to inform
-> the end of the request, iwds->hidden shall be reset by cm_hidden_network_connect_cb.
-> 
-> > I skimmed through the rest of the patch. Most looks straight forward,
-> > but I have to say the hidden network feature always screws up the code
-> > base. Thought this is not your fault, it's the stupid spec.
-> Indeed, it is a tricky subject. At least, I have succeeded to pass my network
-> test campaign based on wpa-supplicant with this implementation and iwd 1.18.
-
-Ah this is good to know!
+https://lists.01.org/hyperkitty/list/connman@lists.01.org/message/4RJBOEEVYDAWFDT4PJ64FJ3PSAQ2SBMM/
 
 Daniel
