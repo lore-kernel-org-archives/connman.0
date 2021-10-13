@@ -1,77 +1,82 @@
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2072.outbound.protection.outlook.com [40.107.93.72])
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2071.outbound.protection.outlook.com [40.107.223.71])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D9C72C81
-	for <connman@lists.linux.dev>; Wed, 13 Oct 2021 22:33:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE3402C81
+	for <connman@lists.linux.dev>; Wed, 13 Oct 2021 22:47:43 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=cXD7veLyQY5J3g09oynhjxeA93gE2zVInwq/8gMG8CSib9J5rZSqN/jf+uswBqf+WowcIn4c0OKJXuweIgsLUV5hp+PVdQ8pJWIWBfgeSjza02PpTxtNoUiV+Omqa3hTFRWM5KunRy9dF0dak8Z+K54E44JDlx2qJhNSyMO+M93Y+v6G9WbLBYhWZxbai/3dDVoy1lgP7RIGRmFEiJbK0k7HOM4pxJJUyiKB4hHaWdjkd4aJMx4DuottgngGwVnZenjcQyUOv0CHFioNf0TsqpwRGwluyUzmVmOfsotpP7rhkAn96leBz3oqXm1xCYZQ0+vjNabcGOyJYuN5YLQ9Yg==
+ b=VAT7WKWQwIj50liVmTzg5fBYAQTpDmXW6PO3QRHtqmTA3TZHooxyZzfx+INSShRXf4V7ixos3WQajmAh5nG7EeFm3cNl+r3d84HTE1ByYmodtYR1Ppxwf19/s/ndJyyJNNAbDXlfoNM3AqilZ3L5aPlz7J4vxRdHyOyTtoU2KVGhYxH6to8xIfb+XSChP4Ij5s49pDeBtRH2bnzv41o+90BY4W/GeGWpiHuhDV2l2GpGC5NHt88p/9bfUu+D7yXe/cxuCD8yNAp3T+Z/2MXVSaa/GvxzmYmgHlTmoL+NEOwiCx3bhV56gg6BueHJIHMIXeB/e3ghmDwvfJ/fpYp+SA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=dqOQgeh4HORyTV7tPG5W0NSxg3IxhmEfnO3qDJOXhbo=;
- b=L5iaraVpJOVtH2mQc6fVPncnSrcocPxv2z02Vm6XvMT3B0zIJQse+tTUIRTyZHla23qr/RAf0zKvRprsgvzDG/yGMjTH00DDrpKxh6eXR+S6bcge8t1vq+wTAh/BFGbBZTyXHpGNVqZG7sEuM02gswA5F0tU0Hh5WnHPhEqxem/8GOAbdJSGulZ6C46so6JDShqR1o1lSYBcN8jwwuy4QhXrjcLe+zUSVHJdG8LBxk7AZD7dfebQyMmFLxxshQUl3W9zD5LGFXqZYYggLOfbjGuNshl+ItIsTPCVTEx02qv0t7KyX6gsBFTeCAzl1qBtNE11Py+PCJZLa43x7AnNuQ==
+ bh=OnxyACZGX+UdRsx0S3EhDIpr1NVQhCf42JjnFWadbsU=;
+ b=e733jZ1YlaNK/N5tv9DglU35PW4z5AuzIP5c+nl1hb4uTGy51tC8gBc6YVXaCdUkOlPF/O11tpmYGihfkeVtfQ+14h+vXmnz5dFK+4OGs0R2zk+xmvtAL2q4jaJJ1wc39f7Y7cBrsLQkOH0Efwm1pgaz9431cKFqZ16B3rjFstLievEMncn6c/LRc7LYUfusDcmgGFpVNlqnbfIWikHrbXEL3MSplHYSsgOUFTOm4/mtCpukpc4HijgMt02TelowXxI2nDBJSINple4pqe1eQHGdOlZSJJEfQnHsMnyr0y1wQa8+gFEZm58tJLcmw5jMkOF6TVEswByviHe5GIDCFA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=sorenson.com; dmarc=pass action=none header.from=sorenson.com;
  dkim=pass header.d=sorenson.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sorenson.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=dqOQgeh4HORyTV7tPG5W0NSxg3IxhmEfnO3qDJOXhbo=;
- b=jx8oj5FHEoGQzUR2QUkFBg0OeNAT0+dgsE9RHiYBDTJvIcboLoiZvVotRjfiz1N+vliWIkm43z24KMdlLnwNgaPzc4RNfrcjW8aqXIJzJO9vuVNErpCMR46MB/ePY9O3a5CCD5MXK2HRl7rxjquMkNX07rUHN8NB9/EblZlf0DSkEpjZC/fHqOZZexQh3bz6hRRSiCLUBVz/kFUlQu7+QlZDTFxUDJs4+9BfnP2RoS+178B9dWuVACkRCLwbyKLiCtHGLl7O7dYkrMfdevxDUhkUbGq1E11yYLGrRx8OP+vWLtOH1H1HcoPmTZahBStmYsbTeTAt3LK0zT9j1PCiRA==
+ bh=OnxyACZGX+UdRsx0S3EhDIpr1NVQhCf42JjnFWadbsU=;
+ b=S7Otkt2HfRkUsUqM0yQ4AKdmIIxv7q2vm8Z7aiv+SLlnAfbHkqCXSAqibWOzS+IWPat8PProe88CbI1QgBvfxo4iJx6mwltjhiPVs3G5G4TSfwoQ6knllSUCZCHl1BFwIefwNj2XTbYEmM37h+kgaCPBT7kudIFSrsxSwJxgI6JhLu5bMAL7z3RiTBJj/QBajmvQQI+TWTvXRBv1LoVXocCpmblEkrCY5SE2jUC1mxp75TgoxNi3QIUIOj/HMhSqo4D+emaOZwdMKk2aq7yejjMI07umlZnyvPLpqWUBGpbycCYtkp4vBt7Dc8HnfmcZXLy8Y9Tp0sixYEZ9PCAfsg==
 From: Thomas Green <TGreen2@Sorenson.com>
-To: "connman@lists.linux.dev" <connman@lists.linux.dev>
-Subject: origin of the settings file
-Thread-Topic: origin of the settings file
-Thread-Index: AQHXwIHSpj+zfHJTxkCCSCnWnTvlgQ==
-Date: Wed, 13 Oct 2021 22:33:39 +0000
+To: Daniel Wagner <wagi@monom.org>
+CC: "connman@lists.linux.dev" <connman@lists.linux.dev>
+Subject: Re: Removing old service directories
+Thread-Topic: Removing old service directories
+Thread-Index: Ade5WQam3u0k8Z6ISO2Ff9MvCRAmkQBVcqyAAXU6UEY=
+Date: Wed, 13 Oct 2021 22:47:42 +0000
 Message-ID:
- <DM6PR04MB7003B851E2E4CD0BEDAAA5BE9FB79@DM6PR04MB7003.namprd04.prod.outlook.com>
+ <DM6PR04MB7003F49568682041E308855A9FB79@DM6PR04MB7003.namprd04.prod.outlook.com>
+References:
+ <DM6PR04MB700338BA0F2EBF84D07EF5759FAE9@DM6PR04MB7003.namprd04.prod.outlook.com>
+ <20211006123643.txym4njkm7pqnken@carbon.fritz.box>
+In-Reply-To: <20211006123643.txym4njkm7pqnken@carbon.fritz.box>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach:
 X-MS-TNEF-Correlator:
-suggested_attachment_session_id: 1914b546-0227-d4a9-f47d-3683de29c545
-authentication-results: lists.linux.dev; dkim=none (message not signed)
- header.d=none;lists.linux.dev; dmarc=none action=none
- header.from=Sorenson.com;
+suggested_attachment_session_id: 2350df2e-1239-a08e-da56-41290e350ffd
+authentication-results: monom.org; dkim=none (message not signed)
+ header.d=none;monom.org; dmarc=none action=none header.from=Sorenson.com;
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: c3365cce-4694-41cb-8753-08d98e998119
-x-ms-traffictypediagnostic: DM5PR04MB0410:
+x-ms-office365-filtering-correlation-id: 2db7d096-3fa6-49ce-d876-08d98e9b7761
+x-ms-traffictypediagnostic: DM6PR04MB6923:
 x-microsoft-antispam-prvs:
- <DM5PR04MB041041C44A489C140AFC93EC9FB79@DM5PR04MB0410.namprd04.prod.outlook.com>
+ <DM6PR04MB692327CC539005A1CCE12ECB9FB79@DM6PR04MB6923.namprd04.prod.outlook.com>
 x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR04MB7003.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(366004)(316002)(33656002)(76116006)(26005)(91956017)(4744005)(186003)(8936002)(2906002)(52536014)(42186006)(66946007)(8676002)(6916009)(38070700005)(64756008)(66446008)(66556008)(5660300002)(9686003)(86362001)(508600001)(71200400001)(66476007)(38100700002)(122000001);DIR:OUT;SFP:1101;
-x-ms-oob-tlc-oobclassifiers: OLM:8882;
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR04MB7003.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(366004)(122000001)(508600001)(2906002)(33656002)(42186006)(83380400001)(966005)(6916009)(316002)(64756008)(52536014)(76116006)(66476007)(38070700005)(66446008)(4326008)(8676002)(9686003)(38100700002)(71200400001)(91956017)(53546011)(66946007)(5660300002)(86362001)(186003)(3480700007)(66556008)(8936002)(26005);DIR:OUT;SFP:1101;
+x-ms-oob-tlc-oobclassifiers: OLM:9508;
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam: BCL:0;
 x-microsoft-antispam-message-info:
- Mik+COdlpGS3ncu5/59ltY0YYLhXEzfwmZ22ZA0Bde1yr2Xs+27N61q2YtdooXhgbapOEM00iM3DF47QYk8DZiucPpaB4lXatDiwDTvYREnwTu4yw0TobZXPmNYy687KA+q/EupXMU2qh2HF+l4FW1uc6uJzEpSoPQPm+5DaAlFFcjkdu9ZZTlhNEczbLlhZmcsqAMXPwLGPaaN2UT4FCyUx+qNNTY3b+3odxl5WvDUbxoqzaYz56PFHvfu4oJr7HMeE+wy6gKY8EKvxPUDi+rpeVb3CDWWUIgWE+n97A3UdZDMKnyfTzJQChVmr+rv0yTAXsMy3n6g59xh83V35liVyuGCfOjYhYW1XsQGjMCQpQnnUXqGyeCcB8Re0/rgyXOsnwcquWo+G6N28BgEhvZLW2K20s0gIwDcgRL+TT4s8mINGoTz1rUx70GhPp4cuKOGSHSwLIYMziHcqaGlFQRwW/pDJNc1IMndSvJzOEX359WjEv8GgoKeiQFJnviowKhBGrFTEseZKCVbaBTxqabNgD/rYVsJl+BAFdNrR8XAi8wu32qkXWQ6uP2ushCwQlSuQ1PjCDilnyY/KJnAk7OgJvNcuqwufmR0vtCDONEgMPYjsjTnQU2T9blgiUxW2zgkwyYwDA3b6a0Dc/3tPWDQjSJ9lfnJ9l3tx2y1NrlGhyYFb/unveOxmGyhmGR+e1PE5V21mSTn+I9iJ0bvK7w==
+ pc8dnrg3YUH9XTPO6WZQC2hEM5ODLgJbiILt6ARZJD7Tz+TePcfIM4it+OQk8Pha+K12sNveBhoNkZ4b0ZUhoPhERXq71dWtb0Ebd5+XTuyq61TNEtZLXAPUdZfkXgNxmnObFclXmHEk0OjoxM+nHHkutpEi2JOXBIgN4MKfo0E9XTvkuPpJOBnijtb/iR3bS16IDUpIo54RobtxZgOlzeDxRW7AxkDIOHIB0LQ6JOtFbt5PRLnn37hoLtfrkRS65GHWXwVTOz3rffxQRMwDIo4kAlVN8b9jgg0xhC+6/KnXWwwwoBPs6sp9MCsKG17mjgkRiiM7NUGoehvEVIS20M2AGx/2sr7Dy/BmmIaZSmM9epbJvp4MrSh12WBURBSPVxbbVQo2u30qHr7p+ZzadWliyrGssyhFCKSvttP0WoSzKhiMfP/m+HNkBzl2cvqUsl0STofIAqBX5cWe8p9xl1SYS97tjyzas+IX3yZUEQanQKUZv1lHnWdDt1g9YZpoOuEyykHwLK538LAL7afI9bsHmM9+fGynOYKnZmizZF7TmqKnhgH3FXFADyz7FSC4XLsDtdwJtsB8RbYORRnMMxT7Nu00aUYm41S0ODdX0KcNsnLOHLEqANnM5JYW9eoFWJ59mrXhYlRbEiwzZDSwE74pL/Gmy8119ZaB5qe7qXAtiFbJXAQJPDkSAFL91lEXyepuHnmOCK/9Qpyv05Uym9GlEhq/wLaMC8uz/JWCWr+rb1qIIr9dRZriYSuWksG5x5OsO/g0x+YZevW4kIkNp2qZgQb84nANLVj9fR47Ebk=
 x-ms-exchange-antispam-messagedata-chunkcount: 1
 x-ms-exchange-antispam-messagedata-0:
- =?iso-8859-1?Q?M1tBnvsaPp8QIBZiF8855u/G+8Rzwy/vdxvumV0JdFIXbAfGJl3mP16rh/?=
- =?iso-8859-1?Q?f/pp6nOrKrnrLe+JOhWT2XwkZW16GQk+5Pg69Gu4MgvFm7gWGalIVx19HH?=
- =?iso-8859-1?Q?Yd+XsNT9vl6exJGHegtnaDtfc59WEP41hOMiKMVy3Ov4u7MI/DhSnsqsvv?=
- =?iso-8859-1?Q?48n5N1VxDpTPkvK+ThXZYRY2qztE1etUUdSGIP8USWAchWzgDjsps6EvU1?=
- =?iso-8859-1?Q?TeU9A2saVTFnuzJ/xoYlPytRbEZVrRy+mOS8whn3uabYbDRA2lwkZnh8Ms?=
- =?iso-8859-1?Q?HEXxz2iNbrs0X+upovDgdxZw/7/qJq+fMiosclImIRdTxMwdNntKnhnD1A?=
- =?iso-8859-1?Q?UYX+jVsrpgDwGLLt209IvlrpD9zDx3zbnLjCtfKgsW/VnreZ1/twO3wTbo?=
- =?iso-8859-1?Q?ZuuMZE76wEtU/yDgAn1TybWkw8Bk1yeSYV5UCtbTYqVlzXCN/GiNa2eydI?=
- =?iso-8859-1?Q?B+0SSY9obIT48gi+hIiGI1akhLPyxovWKuf4UHa0pTEEHD0VJatIre3LUO?=
- =?iso-8859-1?Q?Oo2BSGXb3mGoYSu6+2olUu3XkMZPCmN7aoUKhmOokfm34aoCf9kNX8ov8Z?=
- =?iso-8859-1?Q?Lws5QLw43zsXYcIm0RP2cU2uZiP8rTrChgWDJDIFeqiPTG15DmxG+6TlZa?=
- =?iso-8859-1?Q?QL1YrYA8tVCUnN5VaIL5wyti+mI14/FC5ORxA/5ku2f2A4QyYmpFoPKwM+?=
- =?iso-8859-1?Q?dd1QJJU3DyrL0thAgz1POn6F4uZlGSg8iBYchkGEwMTAmW/vnTH4WnNNWq?=
- =?iso-8859-1?Q?wSB0giHGG2lcNnFTezJrcQ/eXI9Z0BG9fuH/7bMZhoQFDhrLohKyoE9g9B?=
- =?iso-8859-1?Q?FMyQfm0E4bTMN6RQpo+tvYhiCL01W8ehzKRWNEQrN3WeBAqHg+bmrXL5bK?=
- =?iso-8859-1?Q?bzAp/jx/e+A7GVDsKNum1Oo21v3CdAC4JxhWmKnQsF9Al7YZaOW/9s/bVz?=
- =?iso-8859-1?Q?t0VpKUkUvCDx8AMJzJ9n8rSyihUN3RvCDfsbMoTA/LnYF2XY1fZaJ+/0om?=
- =?iso-8859-1?Q?196yd5jV7ItqbGbgZ1bKGI1LPCh0nrwRqADjuzH6WvBgBWsDbjzdBj9y3H?=
- =?iso-8859-1?Q?Pj8kYdWdLFhvp3oI7fEOYi4Eaw3oN0JWfRfJ2gv3rnTIzFDkjRuDqpluXA?=
- =?iso-8859-1?Q?V0EsVKFUkOXXdyCAJpcpXT2Ndn0ESWnWb4OWPq27zOBAdJxl/22Kmv88c1?=
- =?iso-8859-1?Q?OMAmVE0hHulSRXjBT3cfIm6i5r5ntjsDMDvDJ2qNmke1tbhxqWS3K801X4?=
- =?iso-8859-1?Q?c0z7YfSvmpCxkfbn2kP2FfoyGqBK9/66nuCBBtsdZWty0yz7b3RGmtP4MQ?=
- =?iso-8859-1?Q?iy1DEomsNvbL37hkEGICSuA620h+vM0e/2iiRsHMBybPXds=3D?=
+ =?iso-8859-1?Q?HlbJ8H4NhRd19Uobji9u2VJ7Z5QKJ2K9gbfMUfiVSzGK3FIczrlk3DWrhp?=
+ =?iso-8859-1?Q?iJ7IZepHUMhZZEnZ3x2Imdwu/3dkEN+RuNYH6F8gdsagUu+Ut6LXgCdqT6?=
+ =?iso-8859-1?Q?K0LvLXLHbTWAgksvBqlXlRJBmb0c3bB+En3d2atgS+AVZhIbNIpmtJK0kH?=
+ =?iso-8859-1?Q?Fa62bQphGLM8n288eN1eh9s9BGZEiRKqN+BsVLfW4H8850xza4TbX7lTRI?=
+ =?iso-8859-1?Q?8X4EPdx4rr33o627DBygu39Z1fmOrZtN82m7WENU2Sf0AcxlIT6lS3+wr+?=
+ =?iso-8859-1?Q?f3EU6CyCArIqxg1GnzTr7ckoIQuHXN9rDyJva1X6Rh+uVE3FikD5t3JUER?=
+ =?iso-8859-1?Q?D5XN03yGjHvxZQzTnCfzsCEffANTzxeS5V2RkB+WQuw/AWl0RBi55OCydA?=
+ =?iso-8859-1?Q?SKZxlnM2oCelaMF783qyFIxcO1LUXXzZImVOGplosr8HijmmWbqYGp98zO?=
+ =?iso-8859-1?Q?TWfgJVK8NOjjof2lEzjru6n3eR/6PpB6dv7nBoJa2wg7FGgbO+uWznxVR4?=
+ =?iso-8859-1?Q?ua2quN2QR/IEP7KAYuZP6Oa/mwlWM2FI8lpAPEEWsu4Dhd/jMO1qYQ+qdi?=
+ =?iso-8859-1?Q?FWjObRCrqWCbQ59Hhoeoh4rYmWYZXL1ENvSaMUP1PUioDOmpAmIBArQ+4x?=
+ =?iso-8859-1?Q?Boa4xBRexMhMRAo4fKnvGkvXlfoVXLcz4SppHqiMjhEh1C44+AxBGx6mN8?=
+ =?iso-8859-1?Q?uLrAGNXRgeDRcP1xV35DHpRgfJLf8PTSqgdvWI8wWWkTykFnUMUesvHHXS?=
+ =?iso-8859-1?Q?NrSvysBnQlhj0VMAuWQzg92dTagjDYEvlREkei1PbcEUXNB2JK3dFQZgZS?=
+ =?iso-8859-1?Q?YT5gInBfFveBhBL+jAhvPGIr4NNScs2UhhD1mz39V4gINq/I/q8fvoQc/l?=
+ =?iso-8859-1?Q?BDUNamFk1pUGL/2NGFZg/kJQRiVgB/XP3VgK9qF3lXgRSuSXUCvGhvainu?=
+ =?iso-8859-1?Q?JLptLlbD2cRdwTLamU7KGAJ9Q8+zjSKqSrVwQh36rMkclcJJ3osupGs+/L?=
+ =?iso-8859-1?Q?jOjpZnFdqa1o4aezFC6C2XzoEbmytwBmBxaKCOCAarNcQWsutVmvF+c388?=
+ =?iso-8859-1?Q?vGwjPpKDiIhx0up3d6sC/LeBh7kiekHCKjvSbnpYessgzoeN6v1GddxG8L?=
+ =?iso-8859-1?Q?HLW1ixWhfMTZKbYmG3kA2WWMck84TPY3BTbXOhd7Akrvf3LO2yPVVw0Fqs?=
+ =?iso-8859-1?Q?7YHhgJx1T4JR9NTMmNfwNWPGU2pjIhyO//MbZ9rLSPVBd0bhbzS2UdBCTk?=
+ =?iso-8859-1?Q?jznqy4087vLUM00RN7SCVzNv/tXdgI3sQEXIEl/uaMJegL0dmDvnVFTqgP?=
+ =?iso-8859-1?Q?FvXdJEQqrmjgM8NY/XdG5M72wFpOvb6DbYRzX6C5Tmb33DqDQYBmcCeI/R?=
+ =?iso-8859-1?Q?wVFRY/722a?=
 x-ms-exchange-transport-forked: True
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
@@ -84,20 +89,49 @@ MIME-Version: 1.0
 X-OriginatorOrg: sorenson.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: DM6PR04MB7003.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c3365cce-4694-41cb-8753-08d98e998119
-X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Oct 2021 22:33:39.5774
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2db7d096-3fa6-49ce-d876-08d98e9b7761
+X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Oct 2021 22:47:42.2636
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: d0f7f33f-8d1f-4ac0-bccd-2ecda8bf422b
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: Ug12dKxT4sVmAPpHJlD8jOtpGMn0uPy22UNamEm8BnOKsTPzUEkroe669xjOr+xhCamiZAUojTVdXOkt9u7B4Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR04MB0410
+X-MS-Exchange-CrossTenant-userprincipalname: e41rin2n/lHtv4hfKwq8CMa77DPe2GqR0xFireodYQP9enHDGf4zFmWYRXOK4gQAOrACJ7wei9p224cAPRV+qA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR04MB6923
 
-I'm looking at the file ${LIBDIR}/connman/settings, and trying to figure ou=
-t where it is coming from.=A0 I look in the recipe and don't see it, and in=
- the install portion of the .bb file, and don't see it.=A0 Where does it co=
-me from, when is it created, and how do I make it default to Enable=3Dtrue?=
+Thank you=A0so=A0much for this information.=A0 Is there any plan to take th=
+is up again?=A0 Is it something that would be better for me to take up, or =
+for your group?=A0 Currently the only work around I can think of is to shut=
+down connman, remove the files, then restart connman.=A0 This is really not=
+ the option I was hoping for.=0A=
+=0A=
+Tom=0A=
 =0A=
 =0A=
-Thanks=0A=
-Tom=
+From: Daniel Wagner <wagi@monom.org>=0A=
+Sent: Wednesday, October 6, 2021 6:36 AM=0A=
+To: Thomas Green <TGreen2@Sorenson.com>=0A=
+Cc: connman@lists.linux.dev <connman@lists.linux.dev>=0A=
+Subject: Re: Removing old service directories =0A=
+=A0=0A=
+[EXTERNAL] =0A=
+=0A=
+On Mon, Oct 04, 2021 at 07:50:11PM +0000, Thomas Green wrote:=0A=
+> In connman I would like to be able to get a list of all wireless services=
+=0A=
+> that have been previously connected, whether or not they are currently=0A=
+> in range, and be able to optionally remove or 'forget' that service.=0A=
+> I've tried to manually remove the the directory=0A=
+> /var/lib/connman/wifi_xxxxxxxx but when I shutdown and restart my=0A=
+> system, that service and related information has been restored.=A0 How,=
+=0A=
+> at this point can I do this?=0A=
+=0A=
+There were a couple of attempts to add a D-Bus interface to expose the=0A=
+known services and allow them to be removed. I gave some feedback=0A=
+on those patches but never got any new version. I didn't find the latest=0A=
+attempt, but IIRC it was based on this one here:=0A=
+=0A=
+https://lists.01.org/hyperkitty/list/connman@lists.01.org/message/4RJBOEEVY=
+DAWFDT4PJ64FJ3PSAQ2SBMM/=0A=
+=0A=
+Daniel=0A=
