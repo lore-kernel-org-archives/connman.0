@@ -1,137 +1,268 @@
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2071.outbound.protection.outlook.com [40.107.223.71])
+Received: from web-bm.overkiz.com (web-bm.overkiz.com [92.222.103.135])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE3402C81
-	for <connman@lists.linux.dev>; Wed, 13 Oct 2021 22:47:43 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=VAT7WKWQwIj50liVmTzg5fBYAQTpDmXW6PO3QRHtqmTA3TZHooxyZzfx+INSShRXf4V7ixos3WQajmAh5nG7EeFm3cNl+r3d84HTE1ByYmodtYR1Ppxwf19/s/ndJyyJNNAbDXlfoNM3AqilZ3L5aPlz7J4vxRdHyOyTtoU2KVGhYxH6to8xIfb+XSChP4Ij5s49pDeBtRH2bnzv41o+90BY4W/GeGWpiHuhDV2l2GpGC5NHt88p/9bfUu+D7yXe/cxuCD8yNAp3T+Z/2MXVSaa/GvxzmYmgHlTmoL+NEOwiCx3bhV56gg6BueHJIHMIXeB/e3ghmDwvfJ/fpYp+SA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=OnxyACZGX+UdRsx0S3EhDIpr1NVQhCf42JjnFWadbsU=;
- b=e733jZ1YlaNK/N5tv9DglU35PW4z5AuzIP5c+nl1hb4uTGy51tC8gBc6YVXaCdUkOlPF/O11tpmYGihfkeVtfQ+14h+vXmnz5dFK+4OGs0R2zk+xmvtAL2q4jaJJ1wc39f7Y7cBrsLQkOH0Efwm1pgaz9431cKFqZ16B3rjFstLievEMncn6c/LRc7LYUfusDcmgGFpVNlqnbfIWikHrbXEL3MSplHYSsgOUFTOm4/mtCpukpc4HijgMt02TelowXxI2nDBJSINple4pqe1eQHGdOlZSJJEfQnHsMnyr0y1wQa8+gFEZm58tJLcmw5jMkOF6TVEswByviHe5GIDCFA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=sorenson.com; dmarc=pass action=none header.from=sorenson.com;
- dkim=pass header.d=sorenson.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sorenson.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=OnxyACZGX+UdRsx0S3EhDIpr1NVQhCf42JjnFWadbsU=;
- b=S7Otkt2HfRkUsUqM0yQ4AKdmIIxv7q2vm8Z7aiv+SLlnAfbHkqCXSAqibWOzS+IWPat8PProe88CbI1QgBvfxo4iJx6mwltjhiPVs3G5G4TSfwoQ6knllSUCZCHl1BFwIefwNj2XTbYEmM37h+kgaCPBT7kudIFSrsxSwJxgI6JhLu5bMAL7z3RiTBJj/QBajmvQQI+TWTvXRBv1LoVXocCpmblEkrCY5SE2jUC1mxp75TgoxNi3QIUIOj/HMhSqo4D+emaOZwdMKk2aq7yejjMI07umlZnyvPLpqWUBGpbycCYtkp4vBt7Dc8HnfmcZXLy8Y9Tp0sixYEZ9PCAfsg==
-From: Thomas Green <TGreen2@Sorenson.com>
-To: Daniel Wagner <wagi@monom.org>
-CC: "connman@lists.linux.dev" <connman@lists.linux.dev>
-Subject: Re: Removing old service directories
-Thread-Topic: Removing old service directories
-Thread-Index: Ade5WQam3u0k8Z6ISO2Ff9MvCRAmkQBVcqyAAXU6UEY=
-Date: Wed, 13 Oct 2021 22:47:42 +0000
-Message-ID:
- <DM6PR04MB7003F49568682041E308855A9FB79@DM6PR04MB7003.namprd04.prod.outlook.com>
-References:
- <DM6PR04MB700338BA0F2EBF84D07EF5759FAE9@DM6PR04MB7003.namprd04.prod.outlook.com>
- <20211006123643.txym4njkm7pqnken@carbon.fritz.box>
-In-Reply-To: <20211006123643.txym4njkm7pqnken@carbon.fritz.box>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-suggested_attachment_session_id: 2350df2e-1239-a08e-da56-41290e350ffd
-authentication-results: monom.org; dkim=none (message not signed)
- header.d=none;monom.org; dmarc=none action=none header.from=Sorenson.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 2db7d096-3fa6-49ce-d876-08d98e9b7761
-x-ms-traffictypediagnostic: DM6PR04MB6923:
-x-microsoft-antispam-prvs:
- <DM6PR04MB692327CC539005A1CCE12ECB9FB79@DM6PR04MB6923.namprd04.prod.outlook.com>
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR04MB7003.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(366004)(122000001)(508600001)(2906002)(33656002)(42186006)(83380400001)(966005)(6916009)(316002)(64756008)(52536014)(76116006)(66476007)(38070700005)(66446008)(4326008)(8676002)(9686003)(38100700002)(71200400001)(91956017)(53546011)(66946007)(5660300002)(86362001)(186003)(3480700007)(66556008)(8936002)(26005);DIR:OUT;SFP:1101;
-x-ms-oob-tlc-oobclassifiers: OLM:9508;
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info:
- pc8dnrg3YUH9XTPO6WZQC2hEM5ODLgJbiILt6ARZJD7Tz+TePcfIM4it+OQk8Pha+K12sNveBhoNkZ4b0ZUhoPhERXq71dWtb0Ebd5+XTuyq61TNEtZLXAPUdZfkXgNxmnObFclXmHEk0OjoxM+nHHkutpEi2JOXBIgN4MKfo0E9XTvkuPpJOBnijtb/iR3bS16IDUpIo54RobtxZgOlzeDxRW7AxkDIOHIB0LQ6JOtFbt5PRLnn37hoLtfrkRS65GHWXwVTOz3rffxQRMwDIo4kAlVN8b9jgg0xhC+6/KnXWwwwoBPs6sp9MCsKG17mjgkRiiM7NUGoehvEVIS20M2AGx/2sr7Dy/BmmIaZSmM9epbJvp4MrSh12WBURBSPVxbbVQo2u30qHr7p+ZzadWliyrGssyhFCKSvttP0WoSzKhiMfP/m+HNkBzl2cvqUsl0STofIAqBX5cWe8p9xl1SYS97tjyzas+IX3yZUEQanQKUZv1lHnWdDt1g9YZpoOuEyykHwLK538LAL7afI9bsHmM9+fGynOYKnZmizZF7TmqKnhgH3FXFADyz7FSC4XLsDtdwJtsB8RbYORRnMMxT7Nu00aUYm41S0ODdX0KcNsnLOHLEqANnM5JYW9eoFWJ59mrXhYlRbEiwzZDSwE74pL/Gmy8119ZaB5qe7qXAtiFbJXAQJPDkSAFL91lEXyepuHnmOCK/9Qpyv05Uym9GlEhq/wLaMC8uz/JWCWr+rb1qIIr9dRZriYSuWksG5x5OsO/g0x+YZevW4kIkNp2qZgQb84nANLVj9fR47Ebk=
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?iso-8859-1?Q?HlbJ8H4NhRd19Uobji9u2VJ7Z5QKJ2K9gbfMUfiVSzGK3FIczrlk3DWrhp?=
- =?iso-8859-1?Q?iJ7IZepHUMhZZEnZ3x2Imdwu/3dkEN+RuNYH6F8gdsagUu+Ut6LXgCdqT6?=
- =?iso-8859-1?Q?K0LvLXLHbTWAgksvBqlXlRJBmb0c3bB+En3d2atgS+AVZhIbNIpmtJK0kH?=
- =?iso-8859-1?Q?Fa62bQphGLM8n288eN1eh9s9BGZEiRKqN+BsVLfW4H8850xza4TbX7lTRI?=
- =?iso-8859-1?Q?8X4EPdx4rr33o627DBygu39Z1fmOrZtN82m7WENU2Sf0AcxlIT6lS3+wr+?=
- =?iso-8859-1?Q?f3EU6CyCArIqxg1GnzTr7ckoIQuHXN9rDyJva1X6Rh+uVE3FikD5t3JUER?=
- =?iso-8859-1?Q?D5XN03yGjHvxZQzTnCfzsCEffANTzxeS5V2RkB+WQuw/AWl0RBi55OCydA?=
- =?iso-8859-1?Q?SKZxlnM2oCelaMF783qyFIxcO1LUXXzZImVOGplosr8HijmmWbqYGp98zO?=
- =?iso-8859-1?Q?TWfgJVK8NOjjof2lEzjru6n3eR/6PpB6dv7nBoJa2wg7FGgbO+uWznxVR4?=
- =?iso-8859-1?Q?ua2quN2QR/IEP7KAYuZP6Oa/mwlWM2FI8lpAPEEWsu4Dhd/jMO1qYQ+qdi?=
- =?iso-8859-1?Q?FWjObRCrqWCbQ59Hhoeoh4rYmWYZXL1ENvSaMUP1PUioDOmpAmIBArQ+4x?=
- =?iso-8859-1?Q?Boa4xBRexMhMRAo4fKnvGkvXlfoVXLcz4SppHqiMjhEh1C44+AxBGx6mN8?=
- =?iso-8859-1?Q?uLrAGNXRgeDRcP1xV35DHpRgfJLf8PTSqgdvWI8wWWkTykFnUMUesvHHXS?=
- =?iso-8859-1?Q?NrSvysBnQlhj0VMAuWQzg92dTagjDYEvlREkei1PbcEUXNB2JK3dFQZgZS?=
- =?iso-8859-1?Q?YT5gInBfFveBhBL+jAhvPGIr4NNScs2UhhD1mz39V4gINq/I/q8fvoQc/l?=
- =?iso-8859-1?Q?BDUNamFk1pUGL/2NGFZg/kJQRiVgB/XP3VgK9qF3lXgRSuSXUCvGhvainu?=
- =?iso-8859-1?Q?JLptLlbD2cRdwTLamU7KGAJ9Q8+zjSKqSrVwQh36rMkclcJJ3osupGs+/L?=
- =?iso-8859-1?Q?jOjpZnFdqa1o4aezFC6C2XzoEbmytwBmBxaKCOCAarNcQWsutVmvF+c388?=
- =?iso-8859-1?Q?vGwjPpKDiIhx0up3d6sC/LeBh7kiekHCKjvSbnpYessgzoeN6v1GddxG8L?=
- =?iso-8859-1?Q?HLW1ixWhfMTZKbYmG3kA2WWMck84TPY3BTbXOhd7Akrvf3LO2yPVVw0Fqs?=
- =?iso-8859-1?Q?7YHhgJx1T4JR9NTMmNfwNWPGU2pjIhyO//MbZ9rLSPVBd0bhbzS2UdBCTk?=
- =?iso-8859-1?Q?jznqy4087vLUM00RN7SCVzNv/tXdgI3sQEXIEl/uaMJegL0dmDvnVFTqgP?=
- =?iso-8859-1?Q?FvXdJEQqrmjgM8NY/XdG5M72wFpOvb6DbYRzX6C5Tmb33DqDQYBmcCeI/R?=
- =?iso-8859-1?Q?wVFRY/722a?=
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A48F2C80
+	for <connman@lists.linux.dev>; Thu, 14 Oct 2021 06:31:13 +0000 (UTC)
+Received: from [10.0.1.137] (unknown [185.81.55.234])
+	(Authenticated sender: julien.barrault.external@overkiz.com)
+	by web-bm.overkiz.com (Postfix) with ESMTPSA id B09BC1BF29D;
+	Thu, 14 Oct 2021 08:31:05 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=overkiz.com;
+	s=202003; t=1634193065;
+	bh=254kUaZ1uPSIJL5/VCX5XrhwSLK0xLwNI1cMnVzBAdQ=;
+	h=Subject:To:References:From:Date:In-Reply-To:From;
+	b=TtlJ/x/opRJfoS+DE0NIO+HjYRxl6JxpMyYaad24qcBu4hp8k/TEmBTFmTiV1KO1M
+	 vkq9yPrgm3VCCWquHSaetrEN4C8LFBdbGa0zOzKW9TvAjAjHjQ4ZOYeqV21ByKxKEz
+	 0LfMKnQSNP0AtMjpgy93mD+/t46tHVp0BvNuXGTvpY+oFKRIbqPf4YPwJt7SUgW8yr
+	 vDBGMUP9J0zmmWX51+bRA78PdQ0p48qqy/lfXt6Uxow36OxHfwTY8kaIQdg72xvGse
+	 AotaehAoqvx36vpNhxEAn28tfJlHWNYThA2IkmpbblO3dm5Jek4fmIHULHhGCe8l0J
+	 3FPdc5p4MHr1g==
+Subject: Re: [PATCH 1/4] tethering: Reduce the number of parameters of
+ tech_set_tethering
+To: Michael Trimarchi <michael@amarulasolutions.com>,
+ connman@lists.linux.dev, Daniel Wagner <wagi@monom.org>
+References: <20211007213021.58712-1-michael@amarulasolutions.com>
+From: Julien Barrault <julien.barrault.external@overkiz.com>
+Message-ID: <65509ce0-a5d9-9161-7454-a93b8147c4ed@overkiz.com>
+Date: Thu, 14 Oct 2021 08:31:04 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.13.0
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-OriginatorOrg: sorenson.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR04MB7003.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2db7d096-3fa6-49ce-d876-08d98e9b7761
-X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Oct 2021 22:47:42.2636
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: d0f7f33f-8d1f-4ac0-bccd-2ecda8bf422b
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: e41rin2n/lHtv4hfKwq8CMa77DPe2GqR0xFireodYQP9enHDGf4zFmWYRXOK4gQAOrACJ7wei9p224cAPRV+qA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR04MB6923
+In-Reply-To: <20211007213021.58712-1-michael@amarulasolutions.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-Bm-Milter-Handled: f125012e-72d2-4729-b87c-a5ab9341072c
+X-Bm-Transport-Timestamp: 1634193065799
 
-Thank you=A0so=A0much for this information.=A0 Is there any plan to take th=
-is up again?=A0 Is it something that would be better for me to take up, or =
-for your group?=A0 Currently the only work around I can think of is to shut=
-down connman, remove the files, then restart connman.=A0 This is really not=
- the option I was hoping for.=0A=
-=0A=
-Tom=0A=
-=0A=
-=0A=
-From: Daniel Wagner <wagi@monom.org>=0A=
-Sent: Wednesday, October 6, 2021 6:36 AM=0A=
-To: Thomas Green <TGreen2@Sorenson.com>=0A=
-Cc: connman@lists.linux.dev <connman@lists.linux.dev>=0A=
-Subject: Re: Removing old service directories =0A=
-=A0=0A=
-[EXTERNAL] =0A=
-=0A=
-On Mon, Oct 04, 2021 at 07:50:11PM +0000, Thomas Green wrote:=0A=
-> In connman I would like to be able to get a list of all wireless services=
-=0A=
-> that have been previously connected, whether or not they are currently=0A=
-> in range, and be able to optionally remove or 'forget' that service.=0A=
-> I've tried to manually remove the the directory=0A=
-> /var/lib/connman/wifi_xxxxxxxx but when I shutdown and restart my=0A=
-> system, that service and related information has been restored.=A0 How,=
-=0A=
-> at this point can I do this?=0A=
-=0A=
-There were a couple of attempts to add a D-Bus interface to expose the=0A=
-known services and allow them to be removed. I gave some feedback=0A=
-on those patches but never got any new version. I didn't find the latest=0A=
-attempt, but IIRC it was based on this one here:=0A=
-=0A=
-https://lists.01.org/hyperkitty/list/connman@lists.01.org/message/4RJBOEEVY=
-DAWFDT4PJ64FJ3PSAQ2SBMM/=0A=
-=0A=
-Daniel=0A=
+Hi Michael,
+
+I've tested these 4 patches, it seems to work perfectly
+
+I'm keen to see it approved and released :)
+
+Julien
+
+
+On 07/10/2021 23:30, Michael Trimarchi wrote:
+> connman_echnology is an opaque type but has all the parameters to handle
+> the connection. Those parameters are only used in wifi tethering
+> one and not in other technologies
+>
+> Signed-off-by: Michael Trimarchi <michael@amarulasolutions.com>
+> ---
+>   include/technology.h |  8 ++++++--
+>   plugins/bluetooth.c  |  1 -
+>   plugins/ethernet.c   |  1 -
+>   plugins/gadget.c     |  1 -
+>   plugins/wifi.c       | 25 ++++++++++++-------------
+>   src/technology.c     | 20 ++++++++++++--------
+>   6 files changed, 30 insertions(+), 26 deletions(-)
+>
+> diff --git a/include/technology.h b/include/technology.h
+> index 7508a9a1..7febd109 100644
+> --- a/include/technology.h
+> +++ b/include/technology.h
+> @@ -44,8 +44,13 @@ void connman_technology_regdom_notify(struct connman_technology *technology,
+>   
+>   enum connman_service_type connman_technology_get_type
+>   				(struct connman_technology *technology);
+> +
+> +bool connman_get_wifi_tethering_from_technology(const struct connman_technology *technology,
+> +						const char **ssid, const char **psk);
+> +
+>   bool connman_technology_get_wifi_tethering(const char **ssid,
+> -							const char **psk);
+> +						const char **psk);
+> +
+>   bool connman_technology_is_tethering_allowed(enum connman_service_type type);
+>   
+>   struct connman_technology_driver {
+> @@ -60,7 +65,6 @@ struct connman_technology_driver {
+>   	void (*remove_interface) (struct connman_technology *technology,
+>   								int index);
+>   	int (*set_tethering) (struct connman_technology *technology,
+> -				const char *identifier, const char *passphrase,
+>   				const char *bridge, bool enabled);
+>   	int (*set_regdom) (struct connman_technology *technology,
+>   						const char *alpha2);
+> diff --git a/plugins/bluetooth.c b/plugins/bluetooth.c
+> index 53361034..57cc8a29 100644
+> --- a/plugins/bluetooth.c
+> +++ b/plugins/bluetooth.c
+> @@ -882,7 +882,6 @@ static void bluetooth_tech_remove(struct connman_technology *technology)
+>   }
+>   
+>   static int bluetooth_tech_set_tethering(struct connman_technology *technology,
+> -		const char *identifier, const char *passphrase,
+>   		const char *bridge, bool enabled)
+>   {
+>   	GHashTableIter hash_iter;
+> diff --git a/plugins/ethernet.c b/plugins/ethernet.c
+> index 6146b1c0..0bf7fc41 100644
+> --- a/plugins/ethernet.c
+> +++ b/plugins/ethernet.c
+> @@ -407,7 +407,6 @@ static void eth_tech_disable_tethering(struct connman_technology *technology,
+>   }
+>   
+>   static int eth_tech_set_tethering(struct connman_technology *technology,
+> -				const char *identifier, const char *passphrase,
+>   				const char *bridge, bool enabled)
+>   {
+>   	if (!connman_technology_is_tethering_allowed(
+> diff --git a/plugins/gadget.c b/plugins/gadget.c
+> index 1b44bbb5..2d58df3e 100644
+> --- a/plugins/gadget.c
+> +++ b/plugins/gadget.c
+> @@ -294,7 +294,6 @@ static void gadget_tech_disable_tethering(struct connman_technology *technology,
+>   }
+>   
+>   static int gadget_tech_set_tethering(struct connman_technology *technology,
+> -				const char *identifier, const char *passphrase,
+>   				const char *bridge, bool enabled)
+>   {
+>   	DBG("bridge %s enabled %d", bridge, enabled);
+> diff --git a/plugins/wifi.c b/plugins/wifi.c
+> index 578b4be7..cebe6886 100644
+> --- a/plugins/wifi.c
+> +++ b/plugins/wifi.c
+> @@ -183,7 +183,6 @@ static bool wfd_service_registered = false;
+>   
+>   static void start_autoscan(struct connman_device *device);
+>   static int tech_set_tethering(struct connman_technology *technology,
+> -				const char *identifier, const char *passphrase,
+>   				const char *bridge, bool enabled);
+>   
+>   static int p2p_tech_probe(struct connman_technology *technology)
+> @@ -2791,8 +2790,6 @@ static void ap_create_fail(GSupplicantInterface *interface)
+>   		wifi->tethering = false;
+>   
+>   		ret = tech_set_tethering(wifi->tethering_param->technology,
+> -				wifi->tethering_param->ssid->ssid,
+> -				wifi->tethering_param->ssid->passphrase,
+>   				wifi->bridge, true);
+>   
+>   		if ((ret == -EOPNOTSUPP) && (wifi_technology)) {
+> @@ -3336,14 +3333,20 @@ static void tech_remove(struct connman_technology *technology)
+>   	wifi_technology = NULL;
+>   }
+>   
+> -static GSupplicantSSID *ssid_ap_init(const char *ssid, const char *passphrase)
+> +static GSupplicantSSID *ssid_ap_init(const struct connman_technology *technology)
+>   {
+>   	GSupplicantSSID *ap;
+> +	const char *ssid, *passphrase;
+> +	bool ret;
+>   
+>   	ap = g_try_malloc0(sizeof(GSupplicantSSID));
+>   	if (!ap)
+>   		return NULL;
+>   
+> +	ret = connman_get_wifi_tethering_from_technology(technology, &ssid, &passphrase);
+> +	if (ret == false)
+> +		return NULL;
+> +
+>   	ap->mode = G_SUPPLICANT_MODE_MASTER;
+>   	ap->ssid = ssid;
+>   	ap->ssid_len = strlen(ssid);
+> @@ -3458,8 +3461,7 @@ static void sta_remove_callback(int result,
+>   }
+>   
+>   static int enable_wifi_tethering(struct connman_technology *technology,
+> -				const char *bridge, const char *identifier,
+> -				const char *passphrase, bool available)
+> +				const char *bridge, bool available)
+>   {
+>   	GList *list;
+>   	GSupplicantInterface *interface;
+> @@ -3512,14 +3514,14 @@ static int enable_wifi_tethering(struct connman_technology *technology,
+>   		info->wifi = wifi;
+>   		info->technology = technology;
+>   		info->wifi->bridge = bridge;
+> -		info->ssid = ssid_ap_init(identifier, passphrase);
+> +		info->ssid = ssid_ap_init(technology);
+>   		if (!info->ssid)
+>   			goto failed;
+>   
+>   		info->ifname = g_strdup(ifname);
+>   
+>   		wifi->tethering_param->technology = technology;
+> -		wifi->tethering_param->ssid = ssid_ap_init(identifier, passphrase);
+> +		wifi->tethering_param->ssid = ssid_ap_init(technology);
+>   		if (!wifi->tethering_param->ssid)
+>   			goto failed;
+>   
+> @@ -3561,7 +3563,6 @@ static int enable_wifi_tethering(struct connman_technology *technology,
+>   }
+>   
+>   static int tech_set_tethering(struct connman_technology *technology,
+> -				const char *identifier, const char *passphrase,
+>   				const char *bridge, bool enabled)
+>   {
+>   	GList *list;
+> @@ -3589,13 +3590,11 @@ static int tech_set_tethering(struct connman_technology *technology,
+>   	}
+>   
+>   	DBG("trying tethering for available devices");
+> -	err = enable_wifi_tethering(technology, bridge, identifier, passphrase,
+> -				true);
+> +	err = enable_wifi_tethering(technology, bridge, true);
+>   
+>   	if (err < 0) {
+>   		DBG("trying tethering for any device");
+> -		err = enable_wifi_tethering(technology, bridge, identifier,
+> -					passphrase, false);
+> +		err = enable_wifi_tethering(technology, bridge, false);
+>   	}
+>   
+>   	return err;
+> diff --git a/src/technology.c b/src/technology.c
+> index 672d6ea8..e0457890 100644
+> --- a/src/technology.c
+> +++ b/src/technology.c
+> @@ -264,8 +264,7 @@ static int set_tethering(struct connman_technology *technology,
+>   		if (!driver || !driver->set_tethering)
+>   			continue;
+>   
+> -		err = driver->set_tethering(technology, ident, passphrase,
+> -				bridge, enabled);
+> +		err = driver->set_tethering(technology, bridge, enabled);
+>   
+>   		if (result == -EINPROGRESS)
+>   			continue;
+> @@ -356,8 +355,16 @@ enum connman_service_type connman_technology_get_type
+>   	return technology->type;
+>   }
+>   
+> -bool connman_technology_get_wifi_tethering(const char **ssid,
+> -							const char **psk)
+> +bool connman_get_wifi_tethering_from_technology(const struct connman_technology *technology,
+> +						const char **ssid, const char **psk)
+> +{
+> +	*ssid = technology->tethering_ident;
+> +	*psk = technology->tethering_passphrase;
+> +
+> +	return true;
+> +}
+> +
+> +bool connman_technology_get_wifi_tethering(const char **ssid, const char **psk)
+>   {
+>   	struct connman_technology *technology;
+>   
+> @@ -373,10 +380,7 @@ bool connman_technology_get_wifi_tethering(const char **ssid,
+>   	if (!technology->tethering)
+>   		return false;
+>   
+> -	*ssid = technology->tethering_ident;
+> -	*psk = technology->tethering_passphrase;
+> -
+> -	return true;
+> +	return connman_get_wifi_tethering_from_technology(technology, ssid, psk);
+>   }
+>   
+>   static void free_rfkill(gpointer data)
