@@ -1,49 +1,51 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFB5F2C88
-	for <connman@lists.linux.dev>; Mon, 18 Oct 2021 08:16:42 +0000 (UTC)
-Received: by mail-wm1-f52.google.com with SMTP id v127so7942076wme.5
-        for <connman@lists.linux.dev>; Mon, 18 Oct 2021 01:16:42 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0A452C88
+	for <connman@lists.linux.dev>; Mon, 18 Oct 2021 08:16:44 +0000 (UTC)
+Received: by mail-wm1-f54.google.com with SMTP id n7-20020a05600c4f8700b00323023159e1so685347wmq.2
+        for <connman@lists.linux.dev>; Mon, 18 Oct 2021 01:16:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=SVU3yXE9RU04kOQuKJfc/vuggM25AEO2OFnzTKd2pkY=;
-        b=Dmq3POGkd7JjQq68osORefSOzAiQh+RfYO2ZTDTkJy6t3asmmc7s60FayjaKpnRr2l
-         m9A7jmOyBJbMXaPeoGLNYnzHNyXQ6MQ6T43rzV4TRRZrdtSklvfwn7gH6/VvXVKjS7Y/
-         qvX3W9MBrucKSJP/CRRfIDsuneXIrqBrw49Nm4OQftqiFwRaS1VADsFGgDrZGuPmBaut
-         T9jpFTLptQN8I3NULgbP+JskP3KATjEtZLMOzSKhpFuNbLI5OpQlwYMs24hBPwTaoplK
-         zwDVsKY+TpVkvv1A9pacy5iWPvkGp3zJFNM2B+LDMDA5joGvnuKGN9a5dyIUphY92cgd
-         Ob+g==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=gHkdnMqD8j2aTsGHju9uPe+PTMhu/jIVWDEzlG7OUeY=;
+        b=DbjALjabt6Pbf3zDeqh7sgcaNRgIWe/+8N7ww2hTn0MHo3CQ7dJkYdaf6olIgBq8/y
+         UT5SPurhIoW6XkKR5di3bAIrfndqpU3us8DktNBX//pNEbUkEcPjKW+1rq1tv5RB6/D+
+         lkdgkUgg08Z1X3Q8ii5gfFjWqdqDZQvVgHm1gOULe/7faFX+DoHos6ADAGEuX51ftzGQ
+         WYIyj8pcNKA2ArODD3dSM/jZfjSP0p2CX78+lqCqQNDazLFyJUay4GlvO00eto4jKfdu
+         PAzjhInIdOpJ6l5ezb0/8G/xbO8b9QslIivgvZTU6NrFAQTybgNjbg60zOyOcSXrgk2T
+         K5VA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=SVU3yXE9RU04kOQuKJfc/vuggM25AEO2OFnzTKd2pkY=;
-        b=bP6CGHQ8j7o0ITqWXXdFD9t8+IwUH5e9Hk/47GQKB4ReVNdqwnsTfSdUvd6r5jqIsi
-         CV85czg2PqKKCB2f8flct147dVWr5OKFX/89ad6v3xvMZnzIghBImousTtKMvCUegHaw
-         u0S1oyggD49RAZ+sGVBH2pNVm1sOqI6n6ZPCQ3YUUwi3TUkAe23cuhvIcrwboxeRoC/K
-         5RWjjIVdcSC3m4AVtvhbRYaKZOef5Twegk3yjSt/7Kczy9DLgdjUqBz/qxpNIbShEFHv
-         EiQ/sYr0lV8skMrNIlXW6DtjG2J48wtwL+H7R68ONdWi9dSVnjJX1/EXiiRRAF2mu0o4
-         AIug==
-X-Gm-Message-State: AOAM531Od+wW9SmO8yEqmuH07047La3wMd8vTaGnF586DTtzmY7vS1tt
-	KFnb5Xo0r/RUCWrtZxHHRaSafy1Wdm7jCg==
-X-Google-Smtp-Source: ABdhPJx6qG6yovUVuyrdxQ2vJfszSJnZwQpBavhIlph4bwxRU4Myorjee5k4fOeHfirwclG2SIBWVA==
-X-Received: by 2002:a05:600c:3546:: with SMTP id i6mr43010332wmq.146.1634545001251;
-        Mon, 18 Oct 2021 01:16:41 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=gHkdnMqD8j2aTsGHju9uPe+PTMhu/jIVWDEzlG7OUeY=;
+        b=SiN/SwNLZiFTDkO4lPQu31jp+/fPeihuQZ9GTSJHHod9c/GuMSfLfDHAtuoxtDyfCL
+         MOGVKefUajqlN9n5dQnp1m8vAUfBUTNEBZAsjeGoTy2gkStgyQfVULkCNPjaicPpLOv5
+         S2LKPXSCtbgBwNRbMVVPczogRQ0Y6PJqmY2qoDc4DaLVFWN8QmDQXofEZz7IDLbDjNBq
+         ux057NqrIBEH6aAQCUkNZUIJR1WOytumx7GGC0CboKYrtRdoW7ovcPaDE/2RXBpBnxaR
+         CqKGNIaN5IuX/bp9Vy5nHOWHGoTvB0NZdSF6mYJI9u4XLrBo+qap+F22DtlEmwbe1uqJ
+         GT7A==
+X-Gm-Message-State: AOAM5308+2s35tAA+udwKH8H4tJiQx1JAFkPEsFwX1nn7tFB6rN226Mk
+	ndx39EHeUUnKj4aP+rHuqVY8vbjxLzK3uA==
+X-Google-Smtp-Source: ABdhPJy+0TtLp5vLKM56jIpWyq3gqJENglN+L6+owBXSlhArBFCuM4+VqOfFsTTObU67P0NEqkFYwg==
+X-Received: by 2002:a1c:7415:: with SMTP id p21mr26820778wmc.159.1634545003422;
+        Mon, 18 Oct 2021 01:16:43 -0700 (PDT)
 Received: from localhost.localdomain ([2a01:e0a:958:8af0:83c2:ab5b:663:7b6d])
-        by smtp.gmail.com with ESMTPSA id q7sm11991500wrs.73.2021.10.18.01.16.40
+        by smtp.gmail.com with ESMTPSA id q7sm11991500wrs.73.2021.10.18.01.16.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 Oct 2021 01:16:40 -0700 (PDT)
+        Mon, 18 Oct 2021 01:16:43 -0700 (PDT)
 From: Emmanuel VAUTRIN <emmanuel.vautrin@gmail.com>
 X-Google-Original-From: Emmanuel VAUTRIN <Emmanuel.VAUTRIN@cpexterne.org>
 To: connman@lists.linux.dev
 Cc: Emmanuel VAUTRIN <Emmanuel.VAUTRIN@cpexterne.org>
-Subject: [PATCH 1/3] build: Cleanup of iwd provision_service_wifi()
-Date: Mon, 18 Oct 2021 10:16:00 +0200
-Message-Id: <20211018081602.82984-1-Emmanuel.VAUTRIN@cpexterne.org>
+Subject: [PATCH 2/3] build: Fix uninitialized errors in iptables tests
+Date: Mon, 18 Oct 2021 10:16:01 +0200
+Message-Id: <20211018081602.82984-2-Emmanuel.VAUTRIN@cpexterne.org>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20211018081602.82984-1-Emmanuel.VAUTRIN@cpexterne.org>
+References: <20211018081602.82984-1-Emmanuel.VAUTRIN@cpexterne.org>
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
@@ -54,43 +56,45 @@ Content-Transfer-Encoding: 8bit
 
 gcc reports with:
 
- src/config.c: In function 'try_provision_service':
- src/config.c:1421:3: error: 'ssid' may be used uninitialized in this
-function [-Werror=maybe-uninitialized]
-  1421 |   provision_service_wifi(config, service, network,
-       |   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  1422 |        ssid, ssid_len);
-       |        ~~~~~~~~~~~~~~~
-
-Removing the useless ssid and ssid_len parameters solves the problem.
+ tools/iptables-test.c: In function 'main':
+ tools/iptables-test.c:148:3: error: 'err' may be used uninitialized in this function [-Werror=maybe-uninitialized]
+   148 |   exit(err);
+       |   ^~~~~~~~~
+ tools/ip6tables-test.c: In function 'main':
+ tools/ip6tables-test.c:149:3: error: 'err' may be used uninitialized in this function [-Werror=maybe-uninitialized]
+   149 |   exit(err);
+       |   ^~~~~~~~~
 ---
- src/config.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ tools/ip6tables-test.c | 2 +-
+ tools/iptables-test.c  | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/src/config.c b/src/config.c
-index 62023b1072da..33fdc7375c15 100644
---- a/src/config.c
-+++ b/src/config.c
-@@ -1106,8 +1106,7 @@ static char *config_pem_fsid(const char *pem_file)
- 
- static void provision_service_wifi(struct connman_config_service *config,
- 				struct connman_service *service,
--				struct connman_network *network,
--				const void *ssid, unsigned int ssid_len)
-+				struct connman_network *network)
+diff --git a/tools/ip6tables-test.c b/tools/ip6tables-test.c
+index 41e842dd64af..a52f4af04edf 100644
+--- a/tools/ip6tables-test.c
++++ b/tools/ip6tables-test.c
+@@ -45,7 +45,7 @@ int main(int argc, char *argv[])
  {
- 	if (config->eap)
- 		__connman_service_set_string(service, "EAP", config->eap);
-@@ -1418,8 +1417,7 @@ static int try_provision_service(struct connman_config_service *config,
- 						config->timeservers);
+ 	enum iptables_command cmd = IPTABLES_COMMAND_UNKNOWN;
+ 	char *table = NULL, *chain = NULL, *rule = NULL, *tmp;
+-	int err, c, i;
++	int err = -EINVAL, c, i;
  
- 	if (type == CONNMAN_SERVICE_TYPE_WIFI) {
--		provision_service_wifi(config, service, network,
--							ssid, ssid_len);
-+		provision_service_wifi(config, service, network);
- 	}
+ 	opterr = 0;
  
- 	__connman_service_mark_dirty();
+diff --git a/tools/iptables-test.c b/tools/iptables-test.c
+index e9b7cb224d7a..f9d091eb9490 100644
+--- a/tools/iptables-test.c
++++ b/tools/iptables-test.c
+@@ -44,7 +44,7 @@ int main(int argc, char *argv[])
+ {
+ 	enum iptables_command cmd = IPTABLES_COMMAND_UNKNOWN;
+ 	char *table = NULL, *chain = NULL, *rule = NULL, *tmp;
+-	int err, c, i;
++	int err = -EINVAL, c, i;
+ 
+ 	opterr = 0;
+ 
 -- 
 2.25.1
 
