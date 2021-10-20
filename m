@@ -1,49 +1,27 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.nearlyone.de (mail.nearlyone.de [46.163.114.145])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7C4C168
-	for <connman@lists.linux.dev>; Mon, 18 Oct 2021 08:16:46 +0000 (UTC)
-Received: by mail-wm1-f44.google.com with SMTP id b189-20020a1c1bc6000000b0030da052dd4fso7735602wmb.3
-        for <connman@lists.linux.dev>; Mon, 18 Oct 2021 01:16:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=BmJu+FtZezyJwLGc8PHveSoP1HV3HiS2hZfSrq5qx2o=;
-        b=pCKhMhLxy1nTTgTekhwasONiLPjIjcL7f30509fMTgyEfbbpJt91m2KZ5V8QVnV1+K
-         A2HNvr4ywS3nGF9OHc87GaWZ4EYDKGSNfF4AIdy2W870Z8z/zP/uzTvKF0avu0wQiT9L
-         Wu4KscHrVfGaJpiyy8//BBi3h7hsyRZ//+DHoxkdqPLMhaHiWFEqSHKPqyFRrGzFSfhg
-         Pi4jMN929jFS6pldYLQW52nlwEd6YUs9JZL6R+RKIa4pEKJ3KOuEprXAdV32TXW16hPR
-         UBo42jv0kuIFdqbSkDhN4nI8vwkJ8CGnSaleA+IGlNCa5LnOdWuRpTLdE4WjMNVV+4U7
-         KEBA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=BmJu+FtZezyJwLGc8PHveSoP1HV3HiS2hZfSrq5qx2o=;
-        b=2hSM+OkOacqeL1cZo6iMoIDBmhT8lP5FAovZwrJSx2EdZv3tihugpLvDliBD5k6mKp
-         o7qFriT59UrGXu4kj4zN9TVYBmIrWju/02pJVjBgPmlUvhxoNChskFEn5Yb/O7Qo8GoQ
-         5APsRIXGezGqIRcqQGFwdAsXK4AdO+VShd1y+vJ/ODAfZMMf10ZpaGEaH+FsL+UG8n2z
-         ZmfQ/MGYVbxZMPVkMRlEgViRUp0bzBuxuQsp2zYPoHgCBnTYT5mLgQN7Pu1Cykf2GKNR
-         RAckzBdxvvdeKtJ6MVhufuAB7w5brmJPqA7H/bp5fdh3UzF9Hdt0ZeIao+0HM8iMoP7e
-         /QYQ==
-X-Gm-Message-State: AOAM5307hhaHFoNvhmR20bVTs1mvSBKZOXVnWlNB0CBzKEFYHCiiUgHd
-	hy9pLVfzhywtWdvDDoSy2IOl6jD7mDxeYw==
-X-Google-Smtp-Source: ABdhPJwD2FjNxNOvvh7lxMbnoKu3b0gkIDOP9u4YoKnWrN2nFazTesLTxJzeE6YRa1wAJJozOhkwUg==
-X-Received: by 2002:a1c:ed1a:: with SMTP id l26mr43636359wmh.119.1634545005253;
-        Mon, 18 Oct 2021 01:16:45 -0700 (PDT)
-Received: from localhost.localdomain ([2a01:e0a:958:8af0:83c2:ab5b:663:7b6d])
-        by smtp.gmail.com with ESMTPSA id q7sm11991500wrs.73.2021.10.18.01.16.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 Oct 2021 01:16:44 -0700 (PDT)
-From: Emmanuel VAUTRIN <emmanuel.vautrin@gmail.com>
-X-Google-Original-From: Emmanuel VAUTRIN <Emmanuel.VAUTRIN@cpexterne.org>
-To: connman@lists.linux.dev
-Cc: Emmanuel VAUTRIN <Emmanuel.VAUTRIN@cpexterne.org>
-Subject: [PATCH 3/3] build: Fix uninitialized false positive in dnsproxy
-Date: Mon, 18 Oct 2021 10:16:02 +0200
-Message-Id: <20211018081602.82984-3-Emmanuel.VAUTRIN@cpexterne.org>
-X-Mailer: git-send-email 2.25.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B87232C8B
+	for <connman@lists.linux.dev>; Wed, 20 Oct 2021 06:08:30 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 7ABF65E359;
+	Wed, 20 Oct 2021 08:08:21 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=monom.org; s=dkim;
+	t=1634710102; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=5nUUZP/ybB+ca3olpk9GhBPo08edYJfrMcrYexpwQ2k=;
+	b=MMkmK3bqWFzXu0+HpMEEm/gQl5Yv+CqibgRKK1AjrpaFzMX+peWHVH6x5NzxKw7r0Bn7o+
+	VDeOW1wCmJI40J8O9AGD0smeQNIbsEh4pKOXNHAqBXIYM+iasQ1jvoqpC8LfaShWe9KZnK
+	OVYqhNzaCNn1ZaFBYdOUX17fAd+0begvXoebbrJbspNFyV4tiCWsvfvSDby/AY/HzWWawh
+	f3rNGaId7X92mLkXo+fuWxNPyZYMs+giTHNVrpDJUDxWzpUOuHbQc6HImYDc5qOVb1TyNw
+	ODycqUrFyFgZDf2Huxem/fdnShRZoHrWPhsh99oSgaTTwlkV8ppCynn8IFljNQ==
+From: Daniel Wagner <wagi@monom.org>
+To: connman@lists.linux.dev,
+	Emmanuel VAUTRIN <emmanuel.vautrin@gmail.com>
+Cc: Daniel Wagner <wagi@monom.org>,
+	Emmanuel VAUTRIN <Emmanuel.VAUTRIN@cpexterne.org>
+Subject: Re: [PATCH 1/3] build: Cleanup of iwd provision_service_wifi()
+Date: Wed, 20 Oct 2021 08:08:16 +0200
+Message-Id: <163471007023.5510.6880163764440514969.b4-ty@monom.org>
 In-Reply-To: <20211018081602.82984-1-Emmanuel.VAUTRIN@cpexterne.org>
 References: <20211018081602.82984-1-Emmanuel.VAUTRIN@cpexterne.org>
 Precedence: bulk
@@ -52,31 +30,32 @@ List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
+X-Last-TLS-Session-Version: TLSv1.3
 
-gcc reports with:
+On Mon, 18 Oct 2021 10:16:00 +0200, Emmanuel VAUTRIN wrote:
+> gcc reports with:
+> 
+>  src/config.c: In function 'try_provision_service':
+>  src/config.c:1421:3: error: 'ssid' may be used uninitialized in this
+> function [-Werror=maybe-uninitialized]
+>   1421 |   provision_service_wifi(config, service, network,
+>        |   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>   1422 |        ssid, ssid_len);
+>        |        ~~~~~~~~~~~~~~~
+> 
+> [...]
 
- git/src/dnsproxy.c: In function 'update_domain':
- git/src/dnsproxy.c:2735:4: error: 'dom' may be used uninitialized in this function [-Werror=maybe-uninitialized]
-  2735 |    g_free(dom);
-       |    ^~~~~~~~~~~
----
- src/dnsproxy.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Applied, thanks!
 
-diff --git a/src/dnsproxy.c b/src/dnsproxy.c
-index 4b65b3790bb9..fbbee0413f8f 100644
---- a/src/dnsproxy.c
-+++ b/src/dnsproxy.c
-@@ -2707,7 +2707,7 @@ static void update_domain(int index, const char *domain, bool append)
- 	for (list = server_list; list; list = list->next) {
- 		struct server_data *data = list->data;
- 		GList *dom_list;
--		char *dom;
-+		char *dom = NULL;
- 		bool dom_found = false;
- 
- 		if (data->index < 0)
+[1/3] build: Cleanup of iwd provision_service_wifi()
+      commit: a75b0693ace6e226cfc15e0a1534f7e2cbf3f47c
+[2/3] build: Fix uninitialized errors in iptables tests
+      commit: dff52fff9b26065e433fedb73ed259d82f06ac73
+[3/3] build: Fix uninitialized false positive in dnsproxy
+      commit: fdbdaab520726afdb07cc042eb159392aa4fc9d6
+
+Best regards,
 -- 
-2.25.1
-
+Daniel Wagner <wagi@monom.org>
