@@ -1,91 +1,92 @@
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C33652C8B
-	for <connman@lists.linux.dev>; Fri, 22 Oct 2021 15:33:40 +0000 (UTC)
-Received: by mail-pf1-f174.google.com with SMTP id d9so3962618pfl.6
-        for <connman@lists.linux.dev>; Fri, 22 Oct 2021 08:33:40 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 163AD2CA1
+	for <connman@lists.linux.dev>; Sat, 23 Oct 2021 21:50:08 +0000 (UTC)
+Received: by mail-ed1-f50.google.com with SMTP id l13so4093923edi.8
+        for <connman@lists.linux.dev>; Sat, 23 Oct 2021 14:50:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=amarulasolutions.com; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=ddGH+g7X+liFJYs3pHJxxBLKagiCf4tbRM31YS6X8RE=;
-        b=ifkmtbvGynw4N6JAu6EmVf6WGfINN0ngarvaFXVe3MpxebXOStP3KoUvJbbltpU2EC
-         ugQdJv3ss5UgrOy2ULb2RtnF4QhE3o9LiELF03lIHDpRi6V1LIOBbAPaeyiJDs3aBxmR
-         V6WGxgNY6LLzU06/onIN6M6fuRnIrwlniNUaQ=
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=UaD46f7HMCzL19xh82NOEs4vrgcc0/CGiDZsyd4E5AA=;
+        b=KVABxuRFQYeqsPcDq3YlBBCL5W8+OO+Vgrt12UobvUiqW/fo2YetfdTq3OWb0P4oLl
+         s3nTNRj2YotgWpKb5ZRlhRzUHEvhrXZnmLO5U02sjxcJhkAZIrnCVq8tH+9mio4zjuyB
+         Z+RR6BIuQVFpWdxcYQzJyskss8LDSTW645N3o=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ddGH+g7X+liFJYs3pHJxxBLKagiCf4tbRM31YS6X8RE=;
-        b=0ucVysfRKVlRduodGQgm6RXKBsuhn3bB9zKhRH8E0bENjYoOBE6Cs2f5GW1FYe/Dbi
-         mSyWsD0/950fSLlknz5K+ecED4mthT18rWXrj6OfUzFGJWkw8UKcuDegNvqGZ2DU+XBL
-         ZUdPU8ZbSRi7az1FQxGT20qsk17OnrZuGijydt3lKW84MySuKSOD8mlJ3zj17gX3/Ww8
-         n+Ke14T2ne8zVfSm69Jdf9KpLfBFPiYKj3Xx3hBtBqqJ4zUa0KF4xlGOe/Rdj6B9XYLf
-         wnyDSe/DkegeAEaVhms0NR3639Rzc/rXERVB5ql4TQe+czdAHIGfT8xMVwiwMZJsaQwm
-         FmoA==
-X-Gm-Message-State: AOAM531BaKozBGz4wkntWMHlKrCrWSDp5QL79dxgYSSsvtUtz6RIbsMW
-	qQ1SJFWodE74cPqYFSqOQ8mZrC/DAOunKf36C0el6A==
-X-Google-Smtp-Source: ABdhPJxcGiYuyLL9tWwAUxzsAuGPbrBLbzkbGJ2+pQxT2+IVuZNuyiG0c+w+11JOh4+Y/X88F0W+Bszi4M05qU+xbQM=
-X-Received: by 2002:aa7:93ca:0:b0:44c:da51:38ac with SMTP id
- y10-20020aa793ca000000b0044cda5138acmr673150pff.67.1634916819784; Fri, 22 Oct
- 2021 08:33:39 -0700 (PDT)
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=UaD46f7HMCzL19xh82NOEs4vrgcc0/CGiDZsyd4E5AA=;
+        b=egVCrXXIxSwHirOGOPRzXcTbIeDCKW51g54IZ5QDzcIbzrPKAQ+m2QVz6792IRUdfJ
+         nFJcqE49vO6FCIFfo2kjUfTf8lFsIMdm9dKABgeQjvpVZbEQ1X2voyVsSPhQyPFq5DFX
+         0yUR7n/uUW4wE8RI2gtAJ95AmfLsIirWopoF67B18XZXXHHu39GitYAxqRUfAlTVxhmi
+         0E4Vm1Q9jbHeea9fisG8hiKzyb2lAiVF5g/MSzyd569SmTXaQtO+l6sc1697zNVwD3uT
+         LDiPmmYe8zWCrfqm9nuAhooqg8w8gBKZcJMSSfNPaetiCrpRJxvuc8QmLYj6Hw55BNmr
+         Y3sQ==
+X-Gm-Message-State: AOAM53158fnE8yCVKv7fNZPNqB4ksTbA9JStc0+J7hYhxsjHbn2kXXXN
+	mUQAAivcVBTfzqmoGUwX/2XFfm5hyC1uiA==
+X-Google-Smtp-Source: ABdhPJwojmtcSotIb/yTClQr9HO73+/il6WQeTf9qZUMVkMOzULtffI+5YnK7A1+JGqXpNPQorGXJA==
+X-Received: by 2002:aa7:de91:: with SMTP id j17mr11760829edv.335.1635025806488;
+        Sat, 23 Oct 2021 14:50:06 -0700 (PDT)
+Received: from localhost.localdomain (142-158-13-149.static.cpe.unicatlc.net. [149.13.158.142])
+        by smtp.gmail.com with ESMTPSA id v9sm130682ejq.55.2021.10.23.14.50.05
+        for <connman@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 23 Oct 2021 14:50:05 -0700 (PDT)
+From: Michael Trimarchi <michael@amarulasolutions.com>
+To: connman@lists.linux.dev
+Subject: [PATCH] tether: Fix connman_technology_get_wifi_tethering
+Date: Sat, 23 Oct 2021 21:49:53 +0000
+Message-Id: <20211023214953.5606-1-michael@amarulasolutions.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20211007213021.58712-1-michael@amarulasolutions.com>
- <65509ce0-a5d9-9161-7454-a93b8147c4ed@overkiz.com> <20211015065350.wpf6qqcdfsmvt3q2@beryllium.lan>
- <aac98118-9caa-25a9-e41d-eac205624cbb@overkiz.com>
-In-Reply-To: <aac98118-9caa-25a9-e41d-eac205624cbb@overkiz.com>
-From: Michael Nazzareno Trimarchi <michael@amarulasolutions.com>
-Date: Fri, 22 Oct 2021 17:33:28 +0200
-Message-ID: <CAOf5uwmzOsNpSWrneXvHFgEFHWtCEqu4EQ3AXh0Rfa7-fnK2Fg@mail.gmail.com>
-Subject: Re: [PATCH 1/4] tethering: Reduce the number of parameters of tech_set_tethering
-To: 20211015065350.wpf6qqcdfsmvt3q2@beryllium.lan
-Cc: Daniel Wagner <wagi@monom.org>, connman@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Hi
+The function is called from tethering, so the tethering is not
+yet enabled. We need to workaround in order to get the right
+value
 
-On Fri, Oct 22, 2021 at 5:20 PM Julien Barrault
-<julien.barrault.external@overkiz.com> wrote:
->
-> Hi Daniel,
->
-> I am using the version 1.39 on which I applied the patch
->
-> > Thanks for testing. Could you retest the current HEAD. I've done some
-> > stylistic changes, they should not change the patches but who knows :)
->
-> I've applied the 4 patches committed on master, but it does not work anymore
->
-> There are probably few typos in the patch ("Tethering.Freq" instead of
-> "TetheringFreq" in the second patch), but not only (correcting
-> Tethering.Freq twice didn't solve the problem)
->
-> Unfortunately I didn't have time yet to investigate further, I keep you
-> posted if I find what went wrong
+Signed-off-by: Michael Trimarchi <michael@amarulasolutions.com>
+---
+ src/technology.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
-Sorry not have time to check them again. I will try to fix them later today
-
-Michael
->
-> Julien
->
-
-
+diff --git a/src/technology.c b/src/technology.c
+index 97419150..5c469111 100644
+--- a/src/technology.c
++++ b/src/technology.c
+@@ -367,19 +367,23 @@ bool connman_technology_get_wifi_tethering(const struct connman_technology *tech
+ 					const char **ssid, const char **psk,
+ 					int *freq)
+ {
++	bool force = true;
++
+ 	if (!ssid || !psk)
+ 		return false;
+ 
+ 	*ssid = *psk = NULL;
+ 
+ 	/* Workaround for the neard plugin */
+-	if (!technology)
++	if (!technology) {
+ 		technology = technology_find(CONNMAN_SERVICE_TYPE_WIFI);
++		force = false;
++	}
+ 
+ 	if (!technology)
+ 		return false;
+ 
+-	if (!technology->tethering)
++	if (!force && !technology->tethering)
+ 		return false;
+ 
+ 	*ssid = technology->tethering_ident;
 -- 
-Michael Nazzareno Trimarchi
-Co-Founder & Chief Executive Officer
-M. +39 347 913 2170
-michael@amarulasolutions.com
-__________________________________
+2.25.1
 
-Amarula Solutions BV
-Joop Geesinkweg 125, 1114 AB, Amsterdam, NL
-T. +31 (0)85 111 9172
-info@amarulasolutions.com
-www.amarulasolutions.com
