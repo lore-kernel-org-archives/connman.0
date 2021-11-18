@@ -1,61 +1,51 @@
-Received: from mail.holtmann.org (coyote.holtmann.net [212.227.132.17])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 54F7D2C82
-	for <connman@lists.linux.dev>; Wed, 17 Nov 2021 09:06:54 +0000 (UTC)
-Received: from smtpclient.apple (p4fefc15c.dip0.t-ipconnect.de [79.239.193.92])
-	by mail.holtmann.org (Postfix) with ESMTPSA id BE905CECED;
-	Wed, 17 Nov 2021 09:57:52 +0100 (CET)
-Content-Type: text/plain;
-	charset=utf-8
+Received: from mail.nearlyone.de (mail.nearlyone.de [46.163.114.145])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E73B72
+	for <connman@lists.linux.dev>; Thu, 18 Nov 2021 21:05:17 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 066C360F75;
+	Thu, 18 Nov 2021 22:05:14 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=monom.org; s=dkim;
+	t=1637269515; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 in-reply-to:references; bh=NTBxjAItzixiCxcUiRc13nVxhuaTlvlYL7OoQ0V4uvo=;
+	b=XKEKwvz6eOVrMiOq94ru2l6UHRqlI5/kL0ZFMu77TnNBHg+Z8VtMh4hIh2QISSBqMOaKB9
+	rgjqO81n7i+wphV4nsWmJ/Yb3efy6q0/lQcIZFVb/xKsqoxbdGPhICJCAWhYpOSozwLJ+P
+	Cfg6557LGSqLE8JKErj7LDK04qkceYuvILB5TUWIxHzgm0yg8Honufb3ChJfoLnMW8PT4s
+	78gKzGN+bo2HQy61l9dHJyuGriIUxzAOxXLUFW1Vnr6g5hy4QajttOpExcfc2JPvAEbiKV
+	cbv7KZBjKWFon6wubOp2wHycNmfPXHhx5r16FeJ+esOy7eY+r6sJc4WpM1K8PQ==
+Date: Thu, 18 Nov 2021 22:05:14 +0100
+From: Daniel Wagner <wagi@monom.org>
+To: Jussi Laakkonen <jussi.laakkonen@jolla.com>
+Cc: connman@lists.linux.dev
+Subject: Re: [PATCH] service: Support hot-plug of technologies by updating
+ ipconfig index
+Message-ID: <20211118210514.bvd4i7erdjn53erq@beryllium.lan>
+References: <20211116153435.17073-1-jussi.laakkonen@jolla.com>
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0 (Mac OS X Mail 15.0 \(3693.20.0.1.32\))
-Subject: Re: Next Connman version and OWE support?
-From: Marcel Holtmann <marcel@holtmann.org>
-In-Reply-To: <FRYP281MB1071B616037CC5361DD75CACEB9A9@FRYP281MB1071.DEUP281.PROD.OUTLOOK.COM>
-Date: Wed, 17 Nov 2021 09:57:52 +0100
-Cc: "connman@lists.linux.dev" <connman@lists.linux.dev>
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <9452C777-5E6E-46DD-AA24-4FC4A42DE5C3@holtmann.org>
-References: <FRYP281MB1071B616037CC5361DD75CACEB9A9@FRYP281MB1071.DEUP281.PROD.OUTLOOK.COM>
-To: Lars George <lars.george@biotronik.com>
-X-Mailer: Apple Mail (2.3693.20.0.1.32)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211116153435.17073-1-jussi.laakkonen@jolla.com>
+X-Last-TLS-Session-Version: TLSv1.3
 
-Hi Lars,
+Hi Jussi,
 
-> First of all thanks for the great work with Connman.
->=20
-> I saw that Connman now also supports SAE (WPA3), but this is currently =
-only available in the master branch. Are there any plans of releasing =
-the current changes in the near future?
->=20
-> It would also be great if OWE (Opportunistic Wireless Encryption) =
-would be supported at some point. Connman would need to identify it as =
-=E2=80=98none=E2=80=99 type security and when connecting the =
-key_mgmt=3DOWE is needed (at least when using wpa_supplicant). The =
-information about this can be found in the Information Element data of =
-the BSS in the AKM Suite List (see IEEE Std 802.11 chapter 9.4.2.25 =
-RSNE). OWE has suite type 18.
->=20
-> When parsing the Information Element is already implemented in Connman =
-(I am not yet familiar with the code) the usage of the IEEE80211w could =
-also be read from it. The Management Frame Protection Required =
-(IEEE80211w=3D2) and Management Frame Protection Capable can be found in =
-the RSN capabilities (9.4.2.25.4 RSN capabilities - Bits 6 and 7). =
-Currently this is only hard coded set within Connman when connecting to =
-WPA3-SAE as this is required there and needs to be optional =
-(IEEE80211w=3D1) for the transition mode.
+On Tue, Nov 16, 2021 at 05:34:35PM +0200, Jussi Laakkonen wrote:
+> It is important to update the index of the ipconfig belonging to the
+> service that is to be created from network after re-inserting a
+> technology that supports hot-plug (e.g., an USB ethernet adapter). The
+> service does exist in such case but the interface index is not updated
+> which results in DHCP failing to start. This is because the old index
+> would be used.
+> 
+> With this change index update is always done regardless of the existing
+> path for the service.
 
-frankly, I think you are better served switching to iwd as backend and =
-ditching wpa_supplicant. I doubt that it makes sense to copy the logic =
-of OWE and OWE transition mode to ConnMan. I think it will be really =
-complicated for OWE transition mode and a big mess. The wpa_supplicant =
-APIs are not really meant for this kind of handling. And in iwd you have =
-this all handled internally. No extra work needed.
+Patch applied.
 
-Regards
-
-Marcel
-
+Thanks,
+Daniel
