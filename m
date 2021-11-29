@@ -1,168 +1,128 @@
-Received: from mail-ua1-f51.google.com (mail-ua1-f51.google.com [209.85.222.51])
+Received: from mail-vk1-f170.google.com (mail-vk1-f170.google.com [209.85.221.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67F912C81
-	for <connman@lists.linux.dev>; Sat, 27 Nov 2021 05:51:35 +0000 (UTC)
-Received: by mail-ua1-f51.google.com with SMTP id w23so22672074uao.5
-        for <connman@lists.linux.dev>; Fri, 26 Nov 2021 21:51:35 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30BF92C81
+	for <connman@lists.linux.dev>; Mon, 29 Nov 2021 06:52:43 +0000 (UTC)
+Received: by mail-vk1-f170.google.com with SMTP id j1so10355168vkr.1
+        for <connman@lists.linux.dev>; Sun, 28 Nov 2021 22:52:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=A+UUrMyDLtA+XjLXsJSwBQlAxznyKLH+X2j/VhK39Ag=;
-        b=lHUd0OfiGCisXIZKuX+tRNpQb7bpImrx1eb2VZnySJlsUgd8uW6jSZrF9zAUGMpoFq
-         shh7CZ3SKDA5SNvCTrrktuDBdX1Lvk9YB1fI3ydXeYuwb8BRmupeJfHhiBq7d+GLCyLB
-         b5YGJW11R2XVnehp6IUq6jCxuauxEgBdrZufcE4QjEg1KerzO7LLu7GAUKmIQe9/Mkot
-         nvY6wdE+/A6mE9JF4aMAoeVQUZ30KHdQtF7j84nSddErwqntFGuizqjhcQ5cGbnOFHwz
-         4kNG27Y/QslmyGu21sbxsYUcptyeuypKbNyi1SVp59Ck/hE5wDWItZ3Dqe13EDEx7E7q
-         72Cw==
+         :cc;
+        bh=kr67qqo2EUa43+5HWa7M8b77MIs2OpiibDYwwVPVNQM=;
+        b=msItRb4NZa5YDAUijuo7PQJSWp0RJJEcp03epVhIvt9e7QUOWcwmF9tYDfmuYf8CXB
+         jOqn4JGNRpkB67rzRfcmbYxyRp5RqQdMSkKEFetnESD2BrmiF5r7kGQyWlPIs0SZfEPc
+         G4QJr/PBpNif1bm8lWHDWGRPpD2m0wUVgB16ye+o9F/+MAWyaa1UYGgE+9zbTX5ciuEo
+         mho/eN7zLsOyI9aucLi7Nuo9ET1N9uVJtrZSuGAKF9TIwDQfFOLl7pTJeMuFjExnAzll
+         Es7oop6WM5NbFbIs0Ute+bhpBFnYRyxOQJX5odigJCcH8w53coPmkV/oIB3t7+httJkL
+         vvFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=A+UUrMyDLtA+XjLXsJSwBQlAxznyKLH+X2j/VhK39Ag=;
-        b=zeKlUfUzUawD/+Ec+pceXywhBDhpljIeiO4Wgy8/mxt7LFGPY22nAHHA+dfsKovjV2
-         DsLrC31qjF9+1t3CmfVCMH5jK6OxuhPdCCZtX4SABAima5nX4e8Ejyz0UADYhKEv7fcx
-         gFlFFyB68h4ttytk+hMfYSldTl0QWcL8bh/nJM81lF/5OKsUsqNeJEohdK6Ce0PTUBgq
-         R5FCJzOExwpHP0lVmce5jq273bCDi9fRIyZAOHVuJZdssZrwDhl7KQneEehuOEnVfr9x
-         kDTlM3PnxlRe2e3Modei0wUIwaE+8Y+Wwrc6BqvjIiku/yLFhfuS9Ix+uYrDzScSc28L
-         NS6A==
-X-Gm-Message-State: AOAM530em2NjXvhAcS32tCXkH9CmmI2SIQ3A0pAKDlJDDzwTJOkmf0JH
-	8A2JmKcNvskTgQy29n65C4Vh086dUbUk/UN8Foo8KwqptCI0nA==
-X-Google-Smtp-Source: ABdhPJxCDQMDE1PzYhOV5NV9iDFpcjT4eN/Xl41+CpScDlFvbNqtabouvw3xcPVLzwIjQJOTKiWy9p9MzBuWk0geBUE=
-X-Received: by 2002:a05:6102:a46:: with SMTP id i6mr21286778vss.19.1637992294356;
- Fri, 26 Nov 2021 21:51:34 -0800 (PST)
+         :message-id:subject:to:cc;
+        bh=kr67qqo2EUa43+5HWa7M8b77MIs2OpiibDYwwVPVNQM=;
+        b=2UVryILz2KYsqyFjrTzFKh4y3dTV6AVMW18TNwDs0JiPPz/E4mVt6hVeG39dfaj4ub
+         MKF2QVANI814O7z4MjgoiFuUFxbdj1OPULbwR69um5739PS3txCH7Gs23uNUAlF58OLE
+         jt52AMeWOcm/pvKPftN4wm4wcDtBDWIXJESvE6esmPg/JFRhZ5ixXhXy/E7D7+XnKmoB
+         0po+NZbhm0UeQH+VYbayFfrHIw+bLO2ApsEOcnPl1CCABbaPbvJLoVjOA5TBr7XmLZI0
+         7eaNUXimaP9z3tlKU0Y9QI1xMrbevp9hvg94guyLi39sGqNkKH7hib8zKnFYVWSdcGI4
+         qEBQ==
+X-Gm-Message-State: AOAM530GYhwC/GbsBd7E+7kKPOLcmPSXu94a8+DelHB05/IMPqb8wOa3
+	IAjxPjWb/s41SNKPWiUCJyHHj8w7V/Jrimx5nqMs644THTk=
+X-Google-Smtp-Source: ABdhPJzkL4BtGKvzCmed6WHkavbaUsqfPOpVYUZhxmRqf7vOQ78CkwXS9JiQwj6yPxKYDzNRQFWWs1N/cONyCaxZpac=
+X-Received: by 2002:a05:6122:218b:: with SMTP id j11mr34397204vkd.11.1638168762142;
+ Sun, 28 Nov 2021 22:52:42 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <16BAEC7B11896AEA.23256@lists.yoctoproject.org>
- <CAA=hcWSA8-8TCJDD8_Zib11Vaizok-xZvQMqSevjKJLrQ+GuhA@mail.gmail.com>
- <16BB4412EB9EABB0.15594@lists.yoctoproject.org> <CANx9H-BczVumN8LwcH6+4SmobRJz=Hxmand2soVyfuoYZVmMQw@mail.gmail.com>
-In-Reply-To: <CANx9H-BczVumN8LwcH6+4SmobRJz=Hxmand2soVyfuoYZVmMQw@mail.gmail.com>
+References: <CAA=hcWSCzvpeqPWMjuTo9kCrE3cS14F7_+_XW-=PU5omTUKvEw@mail.gmail.com>
+ <20211126163040.ai2euhv6yf4esnhn@carbon> <CAA=hcWQMThadP0TQDhqEoREroP8TNx1yQkFHC3a0=TNv9FR3DQ@mail.gmail.com>
+In-Reply-To: <CAA=hcWQMThadP0TQDhqEoREroP8TNx1yQkFHC3a0=TNv9FR3DQ@mail.gmail.com>
 From: Jupiter <jupiter.hce@gmail.com>
-Date: Sat, 27 Nov 2021 16:50:58 +1100
-Message-ID: <CAA=hcWTwe9WM2CoaMyrxWX3zHRRa3QyzgMQd5AC5QPGE61o3rA@mail.gmail.com>
-Subject: Re: [yocto] [OE-core] How to create connman_1.40.bbappend to enable
- and to build connman with iwd?
-To: Tim Orling <ticotimo@gmail.com>
-Cc: Alexander Kanavin <alex.kanavin@gmail.com>, Armin Kuster <akuster808@gmail.com>, 
-	Daniel Wagner <wagi@monom.org>, comman <connman@lists.linux.dev>, 
-	oe-core <openembedded-core@lists.openembedded.org>, 
-	yocto <yocto@lists.yoctoproject.org>
+Date: Mon, 29 Nov 2021 17:52:06 +1100
+Message-ID: <CAA=hcWQB7t8GK8h0kQ1gW8iF-eO_Df2G6C354d2jh4jAxJcfSQ@mail.gmail.com>
+Subject: Re: How to create connman_1.40.bbappend to enable and to build
+ connman with iwd?
+To: Daniel Wagner <wagi@monom.org>
+Cc: comman <connman@lists.linux.dev>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-Thanks Tim for the link, I have built the iwd.
+Hi Daniel,
 
-According to Daniel's advice to configure with "--disable-wifi,
---enable-iwd", I added PACKAGECONFIG[wifi] =3D "--disable-wifi,
---enable-iwd", to override PACKAGECONFIG[wifi] in oe-core
-connman_1.40.bb. The intention is to remove wpa-supplicant and to add
-iwd to connman_1.40.bbappend, it built the image without error, I
-believe that the syntax is OK, but the wpa-supplicant was still built
-and packaged. Any idea from OE/Yocto insiders why PACKAGECONFIG[wifi]
-in bbappend is not effective?
-
-Daniel, how can I verify in the Linux console if the connmand is
-running with iwd or with wpa_supplicant? I have disabled
-wpa_supplicant.service, and I'll remove wpa_supplicant completely when
-I find a way to do it.
+I finally built and managed to run connman 1.40 with iwd, the
+wpa_supplicant is disabled, but there is no WiFi IP address, who is
+running DHCP, connman or iwd? Running  CONNMAN_DHCP_DEBUG=1 connmand
+-n -d src/dhcp.c:src/network.c, it did not send DHCP discover
+requests, something is broken or not configured properly.
 
 Thank you.
 
-Kind regards,
+- jupiter
 
-- jh
-On 11/27/21, Tim Orling <ticotimo@gmail.com> wrote:
-> On Fri, Nov 26, 2021 at 5:48 PM Tim Orling via lists.yoctoproject.org
-> <ticotimo=3Dgmail.com@lists.yoctoproject.org> wrote:
+
+
+On 11/27/21, Jupiter <jupiter.hce@gmail.com> wrote:
+> Hi Daniel,
 >
->>
->>
->> On Thu, Nov 25, 2021 at 10:26 PM JH <jupiter.hce@gmail.com> wrote:
->>
->>> Hi,
->>>
->>> Given the high profile of iwd and advocating connman with iwd, I
->>> believe someone have already built Yocto connman and iwd,
->>> surprisingly, I could not even find an iwd recipe in
->>> https://github.com/openembedded/openembedded/tree/master/recipes, nor
->>> can I find connman document and instructions to replace wpa_supplicant
->>> by iwd, what could I be missing here?
->>>
->>
->> Please look at the layer index for recipes:
->> https://layers.openembedded.org/layerindex/branch/master/layers/
->>
->> I don=E2=80=99t have any advice for building it however.
->>
+> Greatly appreciate your kind response, please see my comments and
+> clarifications:
 >
-> I forgot to include the recipe link:
-> https://layers.openembedded.org/layerindex/recipe/89268/
+>> Indeed, I recommend to use iwd instead of wpa_supplicant. There is no
+>> active development happening in ConnMan on the wpa_supplicant
+>> plugin. That means the wpa_supplicant plugin might work perfectly fine
+>> for your use case and there is no need to use iwd. But don't expect any
+>> big help if there are problems with wpa_supplicant.
 >
+> Yes, I indeed have issues with 1.40 after upgrading to OE Honister,
+> the WiFi connection is broken, the connman 1.40 assigned a
+> 169.154.0.0/16 range IP address, no DHCP message received:
 >
->>
->>> Appreciate your kind advice.
->>>
->>> Thank you.
->>>
->>> Kind regards,
->>>
->>> - jh
->>>
->>>
->>> On 11/26/21, JH via lists.yoctoproject.org
->>> <jupiter.hce=3Dgmail.com@lists.yoctoproject.org> wrote:
->>> > Hi,
->>> >
->>> > Please correct me, but it seems to me the connman is moving to a
->>> > direction to ditch out wpa_supplicant and to use iwd, but the Honiste=
-r
->>> > still configure connman with wpa_supplicant by default, appreciate
->>> > your advice:
->>> >
->>> > - Is connman with iwd stable enough?
->>> >
->>> > - How can I create a connman_1.40.bbappend  to replace wpa_supplicant
->>> > by iwd configure?
->>> >
->>> > - Where are the documents for configuring and building connman with
->>> > iwd? Where is the operational guidance to run connman with iwd? Can I
->>> > use the same connman dbus APIs or are there any dbus API changes to
->>> > run connman with iwd?
->>> >
->>> > My apology for FAQs.
->>> >
->>> > Thank you very much.
->>> >
->>> > Kind regards,
->>> >
->>> > - JH
->>> >
->>>
->>>
->>> --
->>> "A man can fail many times, but he isn't a failure until he begins to
->>> blame somebody else."
->>> -- John Burroughs
->>>
->>>
->>>
->>>
->> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->> Links: You receive all messages sent to this group.
->> View/Reply Online (#55430):
->> https://lists.yoctoproject.org/g/yocto/message/55430
->> Mute This Topic: https://lists.yoctoproject.org/mt/87331141/924729
->> Group Owner: yocto+owner@lists.yoctoproject.org
->> Unsubscribe: https://lists.yoctoproject.org/g/yocto/unsub [
->> ticotimo@gmail.com]
->> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->>
->>
+> connmand[9988]: DHCP index 3: switch listening mode (0 ==> 1)
+> connmand[9988]: DHCP index 3: sending DHCP discover request
+> connmand[9988]: DHCP index 3: sending DHCP discover request
+> connmand[9988]: DHCP index 3: sending DHCP discover request
+>
+> No DHCP packet response received.
+>
+> Please correct me, but I believe dhcp server is managed by connmand as
+> I found dhcp.c in the connman source, the dhcp issue is not related to
+> wpa-supplicant, right?
+>
+> I am running CONNMAN_DHCP_DEBUG=1 connmand -n -d
+> src/dhcp.c:src/network.c, please let me know if you need more debug
+> messages.
+>
+>> Hard to answer as there is not definition of 'stable enough'. The best
+>> advice is to test your use cases and figure out if it fits your
+>> requirements.
+>
+> That is fine, I can see clearly the connman direction, I'll move to
+> using iwd for testing, I am still learning connman, not in the
+> position to contribute in development, but at least I can contribute
+> for testing and debugging :-).
+>
+>> ./configure --disble-wifi --enable-iwd
+>
+> I'll try it in Yocto build.
+>
+>> There is no change in ConnMan's D-Bus APIs. Depending on your use cases
+>> you might be able to remove the ConnMan from your design and only use
+>> iwd. This is the case when you are only interested in WiFi networks. I
+>> know some project went this way as it makes their system simpler and
+>> more robust.
+>
+> My IoT device is running both WiFi and 4G LTE network interfaces, I
+> definitely need connman to manage network switching between 4G LTE and
+> WiFi .
+>
+> Thank you very much Daniel.
+>
+> Kind regards,
+>
+> - jupiter
 >
 
 
