@@ -1,151 +1,284 @@
-Received: from FRA01-MR2-obe.outbound.protection.outlook.com (mail-eopbgr90074.outbound.protection.outlook.com [40.107.9.74])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ua1-f47.google.com (mail-ua1-f47.google.com [209.85.222.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DAD772
-	for <connman@lists.linux.dev>; Mon, 29 Nov 2021 09:04:56 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=alfUUMJAC2P3MQm1lLnGZySkrlP1EDZFcwMKBCjsMPtfAfBp+2M/knzwrJEFyRFpP3lJmb0u6mcQoDNuuFSTRf1GkX0H3J9AcnmOcWN13KHD6c78B/6GSCo/GCgR77QDK7XYzhji+MyWTCTXlz4Emx8jes8TQhwImEN8GHuA3k+3wggcG7OawHtheyUYHARQyU0/SVavTCT4BdBbjAtaXPAqeumjHtb0BKwTDkSSVtv2X0OOsBlDAg6X9DOLIbmK2Zw1wEHMH4A/gliK24aW+3mzx9n/ZCDU38LmHMhdccZCbCl8Jm5UTmgjNTUdjFQnb4B9u0XjvRsHFLdhvSkuXw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=jxj86fAvgEyKs6qn+M9/K80k9+SU/OqK+fjyGNjnL3A=;
- b=bN7WMFVNkz+yJE+b0HvlgXxaZETWN8yeixPzegHhlFyz/A7ZeHcOQW9SuauluwT6FPlQM6PWDUMeF43fOrQZ7oke4CIxQxnMaYlNq3evzpsGgPT9d+Xjma8RjKPwgaYMeoHKK8dnc0tpIhIHYeTlt62ylqNo6sf1/xKFWxryZPyFvPqr84agmvmL8gCPxEI6fMfkddcx7VjWCLCxXCOhaBYf4lFwZSiOr6nVmzELthcJZtCfTw5i3j/uF8GihbI2aWASQVJKgmhV3V53QwSsiBXffzcGLO+BkTXkfXJSqUuGcuJ+T2HuF8XZUSGEGUVnndEHFbWmIqtr9eURuLEJrw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=cpexterne.org; dmarc=pass action=none
- header.from=cpexterne.org; dkim=pass header.d=cpexterne.org; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cpexterne.org;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jxj86fAvgEyKs6qn+M9/K80k9+SU/OqK+fjyGNjnL3A=;
- b=ca05BLnaYouzFtOOd0aS+agcwcLLWc1DFnG5czoO9JrtHl8XyHehvciI/XtA8hIZUHMWa9oM/18xcKeXgc/KN0gt6xeAJWlI4Rne5zlS6KMAn4TuMqrPfla9GzjOxioa+N0kO98WX+v/6EsFzrzuJZ4a7fW8yxHqogpj6oCgEyU=
-Received: from MRZP264MB1544.FRAP264.PROD.OUTLOOK.COM (2603:10a6:501:a::7) by
- MRZP264MB1734.FRAP264.PROD.OUTLOOK.COM (2603:10a6:501:e::17) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4734.21; Mon, 29 Nov 2021 09:04:53 +0000
-Received: from MRZP264MB1544.FRAP264.PROD.OUTLOOK.COM
- ([fe80::f8f2:5a2d:be60:ce07]) by MRZP264MB1544.FRAP264.PROD.OUTLOOK.COM
- ([fe80::f8f2:5a2d:be60:ce07%6]) with mapi id 15.20.4734.024; Mon, 29 Nov 2021
- 09:04:53 +0000
-From: "VAUTRIN Emmanuel (Canal Plus Prestataire)"
-	<Emmanuel.VAUTRIN@cpexterne.org>
-To: comman <connman@lists.linux.dev>
-Subject: RE: How to create connman_1.40.bbappend to enable and to build
- connman with iwd?
-Thread-Topic: How to create connman_1.40.bbappend to enable and to build
- connman with iwd?
-Thread-Index: AQHX4lC3A7XrSe5BI02rfKjJZn9+U6wWAUQAgABZJ4CAA7wxAIAAG4X4
-Date: Mon, 29 Nov 2021 09:04:53 +0000
-Message-ID:
- <MRZP264MB154446BAABD22138868B793A93669@MRZP264MB1544.FRAP264.PROD.OUTLOOK.COM>
-References:
- <CAA=hcWSCzvpeqPWMjuTo9kCrE3cS14F7_+_XW-=PU5omTUKvEw@mail.gmail.com>
- <20211126163040.ai2euhv6yf4esnhn@carbon>
- <CAA=hcWQMThadP0TQDhqEoREroP8TNx1yQkFHC3a0=TNv9FR3DQ@mail.gmail.com>
- <CAA=hcWQB7t8GK8h0kQ1gW8iF-eO_Df2G6C354d2jh4jAxJcfSQ@mail.gmail.com>
-In-Reply-To:
- <CAA=hcWQB7t8GK8h0kQ1gW8iF-eO_Df2G6C354d2jh4jAxJcfSQ@mail.gmail.com>
-Accept-Language: fr-FR, en-US
-Content-Language: fr-FR
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-suggested_attachment_session_id: 8432443e-4817-15fe-e7c4-6dbdc250b4bc
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=cpexterne.org;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: bab97272-0e86-4840-1c19-08d9b3174ebc
-x-ms-traffictypediagnostic: MRZP264MB1734:
-x-microsoft-antispam-prvs:
- <MRZP264MB1734C7DFC362312952184EAF93669@MRZP264MB1734.FRAP264.PROD.OUTLOOK.COM>
-x-ms-oob-tlc-oobclassifiers: OLM:8882;
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info:
- WR3vLrBTMdQBZaoemifdwX7C6NeHgHvzDU8+1MdWfGvbGr/44rcQ7+1kVUGs3p/WyBtF3Sxy/vYVlIaaOXtxVB1/s3F9xTxVxVKA8q4oswHTwpoacB7fkYC7ba+5rD55iAo29sKllJO03/5cCk5Bis4wrPSwulmAOZULxQrr2/YGARsVa1YMGBH8UnMjVHcsqLOpKvihwKKWpirGdKIfMyRwWzTsJJlEJk9FgEQYsYVtqoSttQCF6SnlT/N3F01YNnaevCmOm6i6aEq/f82YY26LhXcmzxpMcscB7f4aQc114OqzOG3W2QZIhanNiOuxKkqu3LwGemvlsZPi+DyV3zNVqsr8SM0sn/q51GhHFMW09ADz6vSpbCF47NQRM0imKC5l+X1KTztSkNcoJyZ5CfeelarWztyxTTmWhY3YaIXlmDYNE4xXKTL0f9YC50aAnsx2HfSBDSEQcIken50hgheXHyBvX48VHbdhGcIqWLwlxcR6YjGfelI3D++WMEWndP+UC6mu6iN3adDi/OGPvyIhzD1le/Vt5UJyyVYA5or/JKIC8eUS8UFl5TumNDM8xNAJePr5TiHvEBfZa0RQuBEhTTcAk3xxkXYv9WKgD/4OMngI9xswxoR3Wl5l80VrF8BM71ABWK4lx/Mt+CDPTnSuY+T+wsQQCADEhvuNv3QniUUwUXZScxCPaiwZwz/clOK1sKYrKx62N55ti8HCfg==
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MRZP264MB1544.FRAP264.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(4636009)(366004)(91956017)(8936002)(7696005)(86362001)(316002)(71200400001)(9686003)(55016003)(76116006)(66556008)(2906002)(8676002)(38070700005)(186003)(6506007)(5660300002)(6916009)(66446008)(66946007)(38100700002)(508600001)(33656002)(83380400001)(66476007)(122000001)(64756008)(52536014);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?iso-8859-1?Q?Ja34dSz4dwSxG3mT6Jz9dVGAm0Y6XdX7Hq2dPrcwEYWo8XrJgiqo1rJ1ty?=
- =?iso-8859-1?Q?eQejptU6EdHyncPm9eGGN0moxu/YIfyq9duIPg0RCoAQTM+DlCp6MH/t16?=
- =?iso-8859-1?Q?0pkNAVcp4OnJakyDULTTqULmYICfqhSJKxlikypwIwI0UpP2R6S79KyX2X?=
- =?iso-8859-1?Q?AYnMOVhrjZiGT5jwvGqjhrVSVHyuW6XWRvCIddgJmqyETcOzgrBuXYYIav?=
- =?iso-8859-1?Q?d8Wsyz2Absr00dIZs+qurpKqxjU18hrlF3xw1wN0OaO64SZ1WfrE1wnmxI?=
- =?iso-8859-1?Q?TDqMWIRSwmhsAstq/HoJ2N5fUu7tz89vN9qKm3tRuGz7Y2I7Sh44+qdfkf?=
- =?iso-8859-1?Q?WHPzcqGCjRc3hQspYUDnX4AT+BpIW+QrB7N7FJ8wfjIZv6/u+j+X3owsX6?=
- =?iso-8859-1?Q?CC/yaVIxViZVLCjcBWB/cWsgvCu28fQG45vM+fIOkZ2hkQcpcUpSoC3ZZo?=
- =?iso-8859-1?Q?BsAUKmTovcpzL2Sy8blkbXRtlO3BbuMm6Oh/j3aBhGb5G+ieyqx2M/vvMo?=
- =?iso-8859-1?Q?gCeNNpLyKN/y50IelBZLKw3PB1tlxnyPuvSTrRFVArdMiDupcxy8Q8cQ4o?=
- =?iso-8859-1?Q?+UGXePa+SiEdhi0yGXFpHCAVsn7DVhHSFM1o6T+jzwOixlIu+KNDWwULPi?=
- =?iso-8859-1?Q?64zygKLLrUBhJJiLTyVJ+qGQ3y8VH/J8g4DW6JEvyRSX7UuZ3hg+NqNB1W?=
- =?iso-8859-1?Q?rN4ALY7/zH9j6dPQZDkLE+Uk+1xhUFexHHwJ592m3Z/YB/Vx0HHuAPmqnk?=
- =?iso-8859-1?Q?DCcniHtU1oMi1eHOEBUjTeRbTF+9LSUWIPoI+7JtnyPm5p2UZMiUo8Kkfo?=
- =?iso-8859-1?Q?Gsgswrh94vKksvh149kiv+N6RoSnLy+shq2wSrUfeAWQI29AeBr980+Xi3?=
- =?iso-8859-1?Q?2RiTRtFX5mwL/tgn9neEnydPDGVJTTJEqbaOjuancDjOY9baK1Tm4B+XxL?=
- =?iso-8859-1?Q?JMaN4fKZ5of17HSM44QGnTLhFDzn3d3G2hB4UbGTAAGjlnTeZrYRSQb4Pl?=
- =?iso-8859-1?Q?j8fpr7ISCo7isQWm3WqQcdiZQyM9NERM6CBZonrtesKYrdOshyiEupnBRq?=
- =?iso-8859-1?Q?GsWbiC92jKoJvGktClRCH/1u93Ltpk8zb4zqk3X3FM2Nnj9gC/wWMgAEFD?=
- =?iso-8859-1?Q?lXIu8UZTeVtiqaaj7sCEEOrHFZ3T5CreO+bpi0Ahwy0Bem65ZLzdovAoqi?=
- =?iso-8859-1?Q?2SCW3onay9G0usMbiGurkYS+ZHkMk+cHnm+9BmfXbdVx5DZqtz2q2Vrmas?=
- =?iso-8859-1?Q?GkzL8mS3NJ0urAjMCGWPY2g3RMX7knR6nSxp5g+74+JN8isIsSQsztBWu+?=
- =?iso-8859-1?Q?Qnu9KyXvpi6kkzbpqnU97JWy0SevUH+O88uyCvBk3lLYM2jJ9XmOeCQEc5?=
- =?iso-8859-1?Q?BiQ0PsixEa1Ui+O8rS9SI0HmQb8TbSZG15AtgcLWDUhNr0fqhqDrbPeYZF?=
- =?iso-8859-1?Q?IZ1y4oV2m4e1aiADVWZPPink+mf8RQKmA2KWY38+3vY9OenRNBXhXhqYIl?=
- =?iso-8859-1?Q?QNnly2HYYc9YgDxwlhajsVoTT7WDpJvK/IotxEicGFM2YeLnoiQP8Hrjbg?=
- =?iso-8859-1?Q?MvCc+vCs63GFDOV8BnIP3zw8cK0Slqj5xeBVnk0DaHOJtT6XozrTPeuMud?=
- =?iso-8859-1?Q?8pKNoRcf0Thw+cqV5KBQiv9yKCL8m/e3IlFv/1kUt+JA1ToJEACwODOhuk?=
- =?iso-8859-1?Q?TcYvTGZz6pTweaKhzjGrmjr18l3UxMROKBmYO6L4uInRo5U/YoBw88Ddre?=
- =?iso-8859-1?Q?ngSCct7v+m2903EpMqZ0JfXoUffEwP3JJ3kr16e0g/gUJ41WcHS0Oz+3dD?=
- =?iso-8859-1?Q?DlkWEL2oug=3D=3D?=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CA2868
+	for <connman@lists.linux.dev>; Mon, 29 Nov 2021 21:07:06 +0000 (UTC)
+Received: by mail-ua1-f47.google.com with SMTP id l24so37026738uak.2
+        for <connman@lists.linux.dev>; Mon, 29 Nov 2021 13:07:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=nfwaNIS5GFQvIeStJuVKvTTAmqD4TCZxvQ5PXWEZJD4=;
+        b=mgY151cLpc5EjL8D8FIxhxmlDHmFxkPKHYwXJF6EoAJtNVYQWEYSqbM47FwYgyArY0
+         QPbf8bdaxkbxzLe8T1OPK30HjYwE9bXXITm5v0sIWjftvhxF4y42YYY3/IKbdNKG7Chr
+         HAShYNlRn6LTWngPXfa44uG0ofjJHgo27v2cAHTLnhem6wR/sXb7xAjKN+IQxhx0gIvc
+         ruxQaFmZ+NbqDSZa81AS0qzkW2WJTTdQ+9PRcXJ03AatNuMrQPxntClpHNu8MQYIw/G2
+         ewy+REdxh4bnzan0Kd99Xj56yftaKsBdC+QizFqPe1qFEbIIk8F5zjbZP6ovxdrm0r9S
+         sw8Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=nfwaNIS5GFQvIeStJuVKvTTAmqD4TCZxvQ5PXWEZJD4=;
+        b=mP25xBIOYc5UWbQE5OYfoEN+rmOLKGjfEcX1t000uENcYnBZvfu3OJjZ21CMv/2668
+         u3054LIxDAXMEfH0rRc1WZwh4yH4KrL34zMb+u/XUZW71tUvnbrScUnm10V1Fsb0mtPz
+         l/CbzihGcPQJX2T5omg21muBlRPRRxP8dr2I58BK8oCXXvcRCiu6dk1e9fEeqdmcBAsT
+         43toWoRewO/NZAZwqCsaDHbo4Jt1rj97IIDTL22fUfRQaTXw54U9C7KSOAobgaaz553M
+         iC8bnUT7YJ4OIRwQji8dHgCbo/96UXgjmyUV1t/7QtSr2w+lzV8iNMuDSAW4DqfmRAFT
+         GN5g==
+X-Gm-Message-State: AOAM533pMjSt2dq5kZVY6TzbW9BWi0HBFM55MDwFzXt5RB02iahUqOp7
+	Yu8DSnxK1p5s3GmkOwlV12uw3rUpNiXeVXs9+SQMu38GWjE=
+X-Google-Smtp-Source: ABdhPJxz7B92rZEqggZBLak95mt52IlgdKTsSzFwYDnyUgW44TttlmaKgU7idXfnopCCjMfzIq+xHqe8337LooJvQoc=
+X-Received: by 2002:a05:6102:e82:: with SMTP id l2mr36861693vst.37.1638220025065;
+ Mon, 29 Nov 2021 13:07:05 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-OriginatorOrg: cpexterne.org
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MRZP264MB1544.FRAP264.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: bab97272-0e86-4840-1c19-08d9b3174ebc
-X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Nov 2021 09:04:53.4384
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: bf5c5de1-6a54-4091-a72f-90e32801628c
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: embkm3zV0qAGu7ya0PEHvEM0NK0g3nZfBuaKmkX8dMf9yzAQuV6WbBH7hF1rRI258nerd7/jye0KzGOJFMTHFEJzNd3E+gLCU43I7yib3Ks=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MRZP264MB1734
+References: <CAA=hcWSCzvpeqPWMjuTo9kCrE3cS14F7_+_XW-=PU5omTUKvEw@mail.gmail.com>
+ <20211126163040.ai2euhv6yf4esnhn@carbon> <CAA=hcWQMThadP0TQDhqEoREroP8TNx1yQkFHC3a0=TNv9FR3DQ@mail.gmail.com>
+ <CAA=hcWQB7t8GK8h0kQ1gW8iF-eO_Df2G6C354d2jh4jAxJcfSQ@mail.gmail.com> <MRZP264MB154446BAABD22138868B793A93669@MRZP264MB1544.FRAP264.PROD.OUTLOOK.COM>
+In-Reply-To: <MRZP264MB154446BAABD22138868B793A93669@MRZP264MB1544.FRAP264.PROD.OUTLOOK.COM>
+From: Jupiter <jupiter.hce@gmail.com>
+Date: Tue, 30 Nov 2021 08:06:29 +1100
+Message-ID: <CAA=hcWS5eXKLMUrTC=MTKUOERiR7eT_J+WdeJL=k8y=i-T40CA@mail.gmail.com>
+Subject: Re: How to create connman_1.40.bbappend to enable and to build
+ connman with iwd?
+To: "VAUTRIN Emmanuel (Canal Plus Prestataire)" <Emmanuel.VAUTRIN@cpexterne.org>
+Cc: comman <connman@lists.linux.dev>
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Jupiter,=0A=
-=0A=
-Pretty strange that you are facing such problems on dhcp,=0A=
-which is a basic major feature.=0A=
-By my side, I have been using wpa_supplicant, via yocto, for years,=0A=
-on set-top-boxes deployed projects and it works perfectly, after few patche=
-s,=0A=
-maybe you can try the HEAD.=0A=
-=0A=
-Have you checked that your IP configuration method is hdcp?=0A=
-Maybe checking the services list will give a clue:=0A=
-dbus-send --system --print-reply --dest=3Dnet.connman / net.connman.Manager=
-.GetServices=0A=
-=0A=
-I have started the migration to iwd, which required some fixes, and I have =
-still=0A=
-not reached the same behavior as with wpa_supplicant (but I am close).=0A=
-Unfortunately, I had no more time to spend on this activity, but I hope giv=
-ing=0A=
-a new try before Christmas.=0A=
-=0A=
-To integrate iwd on yocto (hardknott), in connman recipe, we are using this=
- line:=0A=
-PACKAGECONFIG[iwd] =3D "--enable-iwd --enable-wifi, --disable-iwd, iwd, iwd=
-"=0A=
-And to activate it via the local.conf=0A=
-PACKAGECONFIG_remove_pn-connman =3D "wifi"=0A=
-PACKAGECONFIG_append_pn-connman =3D " iwd"=0A=
-=0A=
-Best Regards,=0A=
-=0A=
-Emmanuel=0A=
+Hi Emmanuel,
+
+Thanks for your advice.
+
+> Have you checked that your IP configuration method is hdcp?
+
+When I built connman 1.37 with wpa_supplicant on Zeus, it managed both
+WiFi and 4G LTE network interfaces well. I did not configure anything
+for DHCP, I did not even find DHCP package and running dhcpd service,
+I thought that wpa_supplicant managed DHCP server and connman managed
+DHCP client, is it correct? I only had DHCP issues when I upgraded to
+Honister connman 1.40.
+
+Could you please elaborate how the DHCP works in connman with iwd and
+how to configure DHCP?
+
+> Maybe checking the services list will give a clue:
+> dbus-send --system --print-reply --dest=net.connman /
+> net.connman.Manager.GetServices
+
+The dbus is indeed broken, any clues how to debug it further?
+
+# dbus-send --system --print-reply --dest=net.connman / net.connman.
+Manager.GetServices
+method return time=1628090207.390874 sender=:1.3 -> destination=:1.39 serial=522
+   array [
+   ]
+
+> I have started the migration to iwd, which required some fixes, and I have
+> still
+> not reached the same behavior as with wpa_supplicant (but I am close).
+> Unfortunately, I had no more time to spend on this activity, but I hope
+> giving
+> a new try before Christmas.
+>
+> To integrate iwd on yocto (hardknott), in connman recipe, we are using this
+> line:
+> PACKAGECONFIG[iwd] = "--enable-iwd --enable-wifi, --disable-iwd, iwd, iwd"
+> And to activate it via the local.conf
+> PACKAGECONFIG_remove_pn-connman = "wifi"
+> PACKAGECONFIG_append_pn-connman = " iwd"
+
+Thanks for tips, I added those and rebuilt them, but it does not make
+any difference. here are more debug logs:
+
+# systemctl status connman -l
+* connman.service - Connection service
+     Loaded: loaded
+(8;;file://solar/lib/systemd/system/connman.service/lib/systemd/system/connman.service8;;;
+enabled; vendor preset: enabled)
+     Active: active (running) since Wed 2021-08-04 15:11:21 UTC; 7min ago
+   Main PID: 203 (connmand)
+     CGroup: /system.slice/connman.service
+             `-203 /usr/sbin/connmand -n
+
+Aug 04 15:11:31 solar connmand[203]: wwan0 {create} index 5 type 1 <ETHER>
+Aug 04 15:11:31 solar connmand[203]: wwan0 {update} flags 4098 <DOWN>
+Aug 04 15:11:31 solar connmand[203]: wwan0 {newlink} index 5 address
+52:20:05:11:99:CB mtu 1500
+Aug 04 15:11:31 solar connmand[203]: wwan0 {newlink} index 5 operstate 2 <DOWN>
+Aug 04 15:11:31 solar connmand[203]: Adding interface wwan0 [ cellular ]
+Aug 04 15:11:33 solar connmand[203]: wwan0 {newlink} index 5 address
+5E:9C:83:62:CB:D4 mtu 1500
+Aug 04 15:11:33 solar connmand[203]: wwan0 {newlink} index 5 operstate 2 <DOWN>
+Aug 04 15:11:37 solar connmand[203]: wwan0 {update} flags 4240 <DOWN>
+Aug 04 15:11:37 solar connmand[203]: wwan0 {newlink} index 5 address
+00:00:00:00:00:00 mtu 1500
+Aug 04 15:11:37 solar connmand[203]: wwan0 {newlink} index 5 operstate 2 <DOWN>
+
+# systemctl status iwd -l
+* iwd.service - Wireless service
+     Loaded: loaded
+(8;;file://solar/lib/systemd/system/iwd.service/lib/systemd/system/iwd.service8;;;
+enabled; vendor preset: enabled)
+     Active: active (running) since Wed 2021-08-04 15:11:22 UTC; 7min ago
+   Main PID: 206 (iwd)
+     CGroup: /system.slice/iwd.service
+             `-206 /usr/libexec/iwd
+
+Aug 04 15:11:24 solar iwd[206]:                         48.0 Mbps
+Aug 04 15:11:24 solar iwd[206]:                         54.0 Mbps
+Aug 04 15:11:24 solar iwd[206]:                 HT Capabilities:
+Aug 04 15:11:24 solar iwd[206]:                         HT20
+Aug 04 15:11:24 solar iwd[206]:                         Short GI for 20Mhz
+Aug 04 15:11:24 solar iwd[206]:                 HT RX MCS indexes:
+Aug 04 15:11:24 solar iwd[206]:                         0-7
+Aug 04 15:11:24 solar iwd[206]:                         32
+Aug 04 15:11:24 solar iwd[206]:         Ciphers: CCMP TKIP BIP
+Aug 04 15:11:24 solar iwd[206]:         Supported iftypes: station ap
+p2p-client p2p-go
+
+#  CONNMAN_DHCP_DEBUG=1 connmand -n -d src/dhcp.c:src/network.c
+connmand[3865]: Connection Manager version 1.40
+connmand[3865]: Adding configuration wifi
+connmand[3865]: Adding configuration cellular
+connmand[3865]: Ignore group named 'global' because prefix is not 'service_'
+connmand[3865]: Adding service configuration cellular
+connmand[3865]: Checking loopback interface settings
+connmand[3865]: System hostname is solar
+connmand[3865]: lo {newlink} index 1 address 00:00:00:00:00:00 mtu 65536
+connmand[3865]: lo {newlink} index 1 operstate 0 <UNKNOWN>
+connmand[3865]: sit0 {newlink} index 2 address 00:00:00:00:08:00 mtu 1480
+connmand[3865]: sit0 {newlink} index 2 operstate 2 <DOWN>
+connmand[3865]: wlan0 {create} index 4 type 1 <ETHER>
+connmand[3865]: wlan0 {update} flags 4099 <UP>
+connmand[3865]: wlan0 {newlink} index 4 address D4:CA:6E:A4:E8:B4 mtu 1500
+connmand[3865]: wlan0 {newlink} index 4 operstate 2 <DOWN>
+connmand[3865]: Adding interface wlan0 [ wifi ]
+connmand[3865]: wwan0 {create} index 5 type 65534 <NONE>
+connmand[3865]: wwan0 {update} flags 4240 <DOWN>
+connmand[3865]: wwan0 {newlink} index 5 address 00:00:00:00:00:00 mtu 1500
+connmand[3865]: wwan0 {newlink} index 5 operstate 2 <DOWN>
+
+# journalctl -xeu connman.service
+-- Journal begins at Wed 2021-08-04 15:10:56 UTC, ends at Wed
+2021-08-04 15:30:41 UTC. --
+Aug 04 15:11:18 solar systemd[1]: Starting Connection service...
+Aug 04 15:11:21 solar systemd[1]: Started Connection service.
+Aug 04 15:11:21 solar connmand[203]: Connection Manager version 1.40
+Aug 04 15:11:22 solar connmand[203]: Adding configuration wifi
+Aug 04 15:11:22 solar connmand[203]: Adding configuration cellular
+Aug 04 15:11:22 solar connmand[203]: Ignore group named 'global'
+because prefix is not 'service_'
+Aug 04 15:11:22 solar connmand[203]: Adding service configuration cellular
+Aug 04 15:11:22 solar connmand[203]: Checking loopback interface settings
+Aug 04 15:11:22 solar connmand[203]: System hostname is solar
+Aug 04 15:11:23 solar connmand[203]: lo {newlink} index 1 address
+00:00:00:00:00:00 mtu 65536
+Aug 04 15:11:23 solar connmand[203]: lo {newlink} index 1 operstate 0 <UNKNOWN>
+Aug 04 15:11:23 solar connmand[203]: sit0 {newlink} index 2 address
+00:00:00:00:08:00 mtu 1480
+Aug 04 15:11:23 solar connmand[203]: sit0 {newlink} index 2 operstate 2 <DOWN>
+Aug 04 15:11:23 solar connmand[203]: mlan0 {create} index 3 type 1 <ETHER>
+Aug 04 15:11:23 solar connmand[203]: mlan0 {update} flags 4098 <DOWN>
+Aug 04 15:11:23 solar connmand[203]: mlan0 {newlink} index 3 address
+D4:CA:6E:A4:E8:B4 mtu 1500
+Aug 04 15:11:23 solar connmand[203]: mlan0 {newlink} index 3 operstate 2 <DOWN>
+Aug 04 15:11:23 solar connmand[203]: Adding interface mlan0 [ wifi ]
+Aug 04 15:11:24 solar connmand[203]: mlan0 {dellink} index 3 operstate 2 <DOWN>
+Aug 04 15:11:24 solar connmand[203]: (null) {remove} index 3
+Aug 04 15:11:24 solar connmand[203]: Remove interface (null) [ wifi ]
+Aug 04 15:11:25 solar connmand[203]: wlan0 {create} index 4 type 1 <ETHER>
+Aug 04 15:11:25 solar connmand[203]: wlan0 {update} flags 4098 <DOWN>
+Aug 04 15:11:25 solar connmand[203]: wlan0 {newlink} index 4 address
+D4:CA:6E:A4:E8:B4 mtu 1500
+Aug 04 15:11:25 solar connmand[203]: wlan0 {newlink} index 4 operstate 2 <DOWN>
+Aug 04 15:11:25 solar connmand[203]: Adding interface wlan0 [ wifi ]
+Aug 04 15:11:25 solar connmand[203]: wlan0 {update} flags 4163 <UP,RUNNING>
+Aug 04 15:11:25 solar connmand[203]: wlan0 {newlink} index 4 address
+D4:CA:6E:A4:E8:B4 mtu 1500
+Aug 04 15:11:25 solar connmand[203]: wlan0 {newlink} index 4 operstate
+0 <UNKNOWN>
+Aug 04 15:11:26 solar connmand[203]: wlan0 {newlink} index 4 address
+D4:CA:6E:A4:E8:B4 mtu 1500
+Aug 04 15:11:26 solar connmand[203]: wlan0 {newlink} index 4 operstate
+0 <UNKNOWN>
+Aug 04 15:11:26 solar connmand[203]: wlan0 {update} flags 4099 <UP>
+Aug 04 15:11:26 solar connmand[203]: wlan0 {newlink} index 4 address
+D4:CA:6E:A4:E8:B4 mtu 1500
+Aug 04 15:11:26 solar connmand[203]: wlan0 {newlink} index 4 operstate 2 <DOWN>
+Aug 04 15:11:31 solar connmand[203]: wwan0 {create} index 5 type 1 <ETHER>
+Aug 04 15:11:31 solar connmand[203]: wwan0 {update} flags 4098 <DOWN>
+Aug 04 15:11:31 solar connmand[203]: wwan0 {newlink} index 5 address
+52:20:05:11:99:CB mtu 1500
+Aug 04 15:11:31 solar connmand[203]: wwan0 {newlink} index 5 operstate 2 <DOWN>
+Aug 04 15:11:31 solar connmand[203]: Adding interface wwan0 [ cellular ]
+Aug 04 15:11:33 solar connmand[203]: wwan0 {newlink} index 5 address
+5E:9C:83:62:CB:D4 mtu 1500
+Aug 04 15:11:33 solar connmand[203]: wwan0 {newlink} index 5 operstate 2 <DOWN>
+Aug 04 15:11:37 solar connmand[203]: wwan0 {update} flags 4240 <DOWN>
+Aug 04 15:11:37 solar connmand[203]: wwan0 {newlink} index 5 address
+00:00:00:00:00:00 mtu 1500
+Aug 04 15:11:37 solar connmand[203]: wwan0 {newlink} index 5 operstate 2 <DOWN>
+Aug 04 15:24:07 solar connmand[203]: Terminating
+Aug 04 15:24:07 solar systemd[1]: Stopping Connection service...
+Aug 04 15:24:07 solar connmand[203]: Remove interface wlan0 [ wifi ]
+Aug 04 15:24:07 solar connmand[203]: Remove interface wwan0 [ cellular ]
+Aug 04 15:24:07 solar connmand[203]: Removing configuration wifi
+Aug 04 15:24:07 solar connmand[203]: Removing configuration cellular
+Aug 04 15:24:07 solar connmand[203]: wlan0 {remove} index 4
+Aug 04 15:24:07 solar connmand[203]: wwan0 {remove} index 5
+Aug 04 15:24:07 solar connmand[203]: Exit
+Aug 04 15:24:07 solar systemd[1]: connman.service: Deactivated successfully.
+Aug 04 15:24:07 solar systemd[1]: Stopped Connection service.
+Aug 04 15:30:39 solar systemd[1]: Starting Connection service...
+Aug 04 15:30:39 solar systemd[1]: Started Connection service.
+Aug 04 15:30:39 solar connmand[4713]: Connection Manager version 1.40
+Aug 04 15:30:39 solar connmand[4713]: Adding configuration wifi
+Aug 04 15:30:39 solar connmand[4713]: Adding configuration cellular
+Aug 04 15:30:39 solar connmand[4713]: Ignore group named 'global'
+because prefix is not 'service_'
+Aug 04 15:30:39 solar connmand[4713]: Adding service configuration cellular
+Aug 04 15:30:39 solar connmand[4713]: Checking loopback interface settings
+Aug 04 15:30:39 solar connmand[4713]: System hostname is solar
+Aug 04 15:30:39 solar connmand[4713]: lo {newlink} index 1 address
+00:00:00:00:00:00 mtu 65536
+Aug 04 15:30:40 solar connmand[4713]: lo {newlink} index 1 operstate 0 <UNKNOWN>
+Aug 04 15:30:40 solar connmand[4713]: sit0 {newlink} index 2 address
+00:00:00:00:08:00 mtu 1480
+Aug 04 15:30:40 solar connmand[4713]: sit0 {newlink} index 2 operstate 2 <DOWN>
+Aug 04 15:30:40 solar connmand[4713]: wlan0 {create} index 4 type 1 <ETHER>
+Aug 04 15:30:40 solar connmand[4713]: wlan0 {update} flags 4099 <UP>
+Aug 04 15:30:40 solar connmand[4713]: wlan0 {newlink} index 4 address
+D4:CA:6E:A4:E8:B4 mtu 1500
+Aug 04 15:30:40 solar connmand[4713]: wlan0 {newlink} index 4 operstate 2 <DOWN>
+Aug 04 15:30:40 solar connmand[4713]: Adding interface wlan0 [ wifi ]
+Aug 04 15:30:40 solar connmand[4713]: wwan0 {create} index 5 type 65534 <NONE>
+Aug 04 15:30:40 solar connmand[4713]: wwan0 {update} flags 4240 <DOWN>
+Aug 04 15:30:40 solar connmand[4713]: wwan0 {newlink} index 5 address
+00:00:00:00:00:00 mtu 1500
+Aug 04 15:30:40 solar connmand[4713]: wwan0 {newlink} index 5 operstate 2 <DOWN>
+
+
+connman should send dhcp requests repeatedly, that seems another issue.
+
+~# ip route show
+
+# ifconfig
+wlan0     Link encap:Ethernet  HWaddr D4:CA:6E:A4:E8:B4
+          UP BROADCAST MULTICAST  MTU:1500  Metric:1
+          RX packets:0 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000
+          RX bytes:0 (0.0 B)  TX bytes:0 (0.0 B)
+
+
+Thank you very much Emmanuel.
+
+Kind regards,
+
+- jupiter
