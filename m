@@ -1,109 +1,84 @@
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com [209.85.128.68])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 345502C99
-	for <connman@lists.linux.dev>; Sat, 11 Dec 2021 16:58:30 +0000 (UTC)
-Received: by mail-pl1-f174.google.com with SMTP id b13so8301338plg.2
-        for <connman@lists.linux.dev>; Sat, 11 Dec 2021 08:58:30 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D778173
+	for <connman@lists.linux.dev>; Thu, 16 Dec 2021 10:23:18 +0000 (UTC)
+Received: by mail-wm1-f68.google.com with SMTP id i12so18590929wmq.4
+        for <connman@lists.linux.dev>; Thu, 16 Dec 2021 02:23:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amarulasolutions.com; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
-        bh=1QJ5afi4HDwXwsDtTAkeJGROEsEjSYsiKqDlAIGxB/o=;
-        b=HpfhYlfGw8gRNY8eM0s2NL0NJYAMKj7QGog6rhB0JFSPfimsId8qUV0IAUO8nH7vuW
-         VkUHtSU7ZCQCe3y9vD6jVaDhsNtyPGbtXJ7QaUyMeMl2mdccOWor25DJ5QpMS74KiVxm
-         o30YnQGEG61g20p5w9rZ8HCjfMzBegi0MjIn8=
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=FDO81eVUnK7aH3R0lXtjF0dOA3QqjWhbdMn/37ZMym8=;
+        b=flbfv55LAYCsiMScjBUiXq/tcZ+6ZDBVShQ1YRo/DooeOjNgiam6XZkOQt90RH50mJ
+         1wgP7NHIxkxmGz33nZI3c8OCS4EBxVr8knWa/aDezA9EoMuXSDkBkM7X6vJNzybqFmRD
+         SHgCGHpBmyc90pzOS4r+GdPVE9532Amipurm0524OKrR7pZdzR5QD15KABrcCFYXI8q7
+         Tcp0t0CtIsanK1VdhCTUKFa9nA5TgPBt4gs4IhVHkeciX/NdDSz1npIM4a7Pb8E9BTm3
+         EUkd30vUWLJAcVlILqL4VG3540xo2nQ3tWy23BtX9X0IQ3Ngrr8TZAB5gJeaDg+Hms6S
+         DXeg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to;
-        bh=1QJ5afi4HDwXwsDtTAkeJGROEsEjSYsiKqDlAIGxB/o=;
-        b=CN0aAt73AFwGBNwM6180hsBny3xYxiT/6it3AJI0KnoFzsky2+JxxMfsSOfRDj1/Ud
-         lBi2ZIbKvXW0p818B4RQjM1o06m8t+B8mvsDyvoaB4me56te+XAPzV2z6JZ6Wj80WjlA
-         MmpHwi/fECqseR6tHkmMKnU/X4wblzgTNV5YSDUgaedUpn7uJRA2to9eMr/K/B7tBekl
-         kroznDky2EWqVRt8lmvMLLaeheMuoeqYIFSxvZejO+2RhU7L/UGb7m9Tw88YpK3ZnBOx
-         IQSqrUXKjaeBy2NcjqhFlud+VrpfHKgTDUCSzYl87nVS1Oi9lk+3WM1XswxZMXoB1rCO
-         8OmQ==
-X-Gm-Message-State: AOAM5317Jt6z3aJ5E1cXrpRLJDfqZNBB/bQNXmZOEWauBeTN3xC0uEdp
-	33pDrVBoBv4i1iaBH9gK+YrfUrr+tB5/pNg7SGCyDjYFvQ0=
-X-Google-Smtp-Source: ABdhPJyaTdukndS1g0D7j3J6F9uEyI+spxjUgFc2dtLU1K0TKzhjQPCCMbc3ICBYwAD9+6PL5rEt8dms7rnQklWdmvs=
-X-Received: by 2002:a17:90b:3ec1:: with SMTP id rm1mr32115220pjb.171.1639241909618;
- Sat, 11 Dec 2021 08:58:29 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=FDO81eVUnK7aH3R0lXtjF0dOA3QqjWhbdMn/37ZMym8=;
+        b=ECYDG5lltiFqADHn5Q0ya4fB5NBIzKlgbf+95agjYiIA/FbLhz4SsKSLIBfIPrrykk
+         fPuAzwOPXdnYpSbW7b909TFrUusL8AKjc/Gu+Qagk8kR3/jrcMbqnapc4UNpWnmw/r4H
+         +UOuWoxxZbmzMFmIF7wZ5aY28GnPQWQ636EiZ5Mn57oZV/9nTNtFlz0c7InYiSWBs2rc
+         gMpWcP2ejyN+EG0RekJzo2ZU7OLmIskXO0OQK6acwZr/BVStm4VwBwjpxI80rkz8HIoH
+         DBKscTeDWe/DOfGAA/Pznv2pIdiFelJCLZxTla2dOutwydz7Ugc16ZDwZ+U2PzhUQ4P4
+         aGbA==
+X-Gm-Message-State: AOAM533MB6SZLlhDVsT3DLPmUVNSf5IFeTtgaS6Dgqz8UW3C8GSyrGnv
+	xZtx1CW0i2jQDhM1onZdFRrD7w4udLF4KA==
+X-Google-Smtp-Source: ABdhPJzCvoI9dJnHniJQrPjQMkdKpDeESX3U1qu9EWXummIqbtJv3YdqVLleKPnv+RfYKE/8eRRZ1A==
+X-Received: by 2002:a1c:f217:: with SMTP id s23mr4280779wmc.70.1639650196714;
+        Thu, 16 Dec 2021 02:23:16 -0800 (PST)
+Received: from localhost.localdomain ([2a01:e0a:958:8af0:83c2:ab5b:663:7b6d])
+        by smtp.gmail.com with ESMTPSA id m36sm4217997wms.25.2021.12.16.02.23.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 16 Dec 2021 02:23:16 -0800 (PST)
+From: Emmanuel VAUTRIN <emmanuel.vautrin@gmail.com>
+X-Google-Original-From: Emmanuel VAUTRIN <Emmanuel.VAUTRIN@cpexterne.org>
+To: connman@lists.linux.dev
+Cc: Emmanuel VAUTRIN <Emmanuel.VAUTRIN@cpexterne.org>
+Subject: [PATCH] service: Fix native connection with wrong passphrase
+Date: Thu, 16 Dec 2021 11:22:49 +0100
+Message-Id: <20211216102249.502964-1-Emmanuel.VAUTRIN@cpexterne.org>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20211211135028.11355-1-michael@amarulasolutions.com>
-In-Reply-To: <20211211135028.11355-1-michael@amarulasolutions.com>
-From: Michael Nazzareno Trimarchi <michael@amarulasolutions.com>
-Date: Sat, 11 Dec 2021 17:58:18 +0100
-Message-ID: <CAOf5uwkatFgqV+YT+s5_rKg_xRYzq6QE7xBQv_N_Ud=Rd8ydoA@mail.gmail.com>
-Subject: Re: [PATCH] Add ObjectManager interface to connman
-To: connman@lists.linux.dev, Daniel Wagner <wagi@monom.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Hi
+When a native connection fails with a wrong passphrase, the user still
+needs to be informed, via the agent.
+However, in this case, the associated service is automatically
+disconnected, canceling the pending agent requests.
+The invalid key error shall be reported before this cancellation.
 
-Sorry Daniel for the signed-off. I will try to adjust my policy here
+Commit b9a0a039ccc5 ("service: Report errors to user in native mode")
+---
+ src/service.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-On Sat, Dec 11, 2021 at 2:50 PM Michael Trimarchi
-<michael@amarulasolutions.com> wrote:
->
-> ObjectManager let us to understand if the connman interface
-> is up before use it. InterfacesAdded and InterfacesRemoved
-> signals will then be emitted.
->
-> int main()
-> {
->     auto connection = sdbus::createSystemBusConnection();
->
->     auto managerProxy = std::make_unique<ManagerProxy>(*connection, "net.connman", "/");
->     try {
->         managerProxy->handleExistingObjects();
->     }
->     catch (const sdbus::Error& e) {
->         if (e.getName() == "org.freedesktop.DBus.Error.ServiceUnknown") {
->             std::cout << "Waiting for server to start ..." << std::endl;
->         }
->     }
->
->     connection->enterEventLoop();
->     return 0;
-> }
->
-> Signed-off-by: Michael Trimarchi <michael@amarulasolutions.com>
-> ---
->  src/dbus.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/src/dbus.c b/src/dbus.c
-> index c454a581..74b3157b 100644
-> --- a/src/dbus.c
-> +++ b/src/dbus.c
-> @@ -687,7 +687,7 @@ int __connman_dbus_init(DBusConnection *conn)
->
->         connection = conn;
->
-> -       return 0;
-> +       return g_dbus_attach_object_manager(conn);
->  }
->
->  void __connman_dbus_cleanup(void)
-> --
-> 2.25.1
->
-
-
+diff --git a/src/service.c b/src/service.c
+index 9141b85dbe9c..202816ae8980 100644
+--- a/src/service.c
++++ b/src/service.c
+@@ -6023,6 +6023,11 @@ static int service_indicate_state(struct connman_service *service)
+ 		break;
+ 
+ 	case CONNMAN_SERVICE_STATE_IDLE:
++		if (old_state == CONNMAN_SERVICE_STATE_FAILURE && 
++	service->connect_reason == CONNMAN_SERVICE_CONNECT_REASON_NATIVE &&
++	service->error == CONNMAN_SERVICE_ERROR_INVALID_KEY)
++		report_error_cb(service, false, NULL);
++
+ 		if (old_state != CONNMAN_SERVICE_STATE_DISCONNECT)
+ 			__connman_service_disconnect(service);
+ 
 -- 
-Michael Nazzareno Trimarchi
-Co-Founder & Chief Executive Officer
-M. +39 347 913 2170
-michael@amarulasolutions.com
-__________________________________
+2.25.1
 
-Amarula Solutions BV
-Joop Geesinkweg 125, 1114 AB, Amsterdam, NL
-T. +31 (0)85 111 9172
-info@amarulasolutions.com
-www.amarulasolutions.com
