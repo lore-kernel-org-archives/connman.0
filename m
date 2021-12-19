@@ -1,50 +1,49 @@
 Received: from mail.nearlyone.de (mail.nearlyone.de [46.163.114.145])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A159F2CA0
-	for <connman@lists.linux.dev>; Sun, 19 Dec 2021 17:48:22 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id CBF1F5CD87;
-	Sun, 19 Dec 2021 18:48:20 +0100 (CET)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 058112CA0
+	for <connman@lists.linux.dev>; Sun, 19 Dec 2021 17:49:05 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id DA53A5CDA0;
+	Sun, 19 Dec 2021 18:49:03 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=monom.org; s=dkim;
-	t=1639936101; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 in-reply-to:references; bh=zJgb++aHlvW0ngHFtHABDb2uMdRtMlvT9BDAsrBN6Yc=;
-	b=rzxhAMm2WKy4ZJf9KBbJv9vQ4uZ9GCZAlYItsGHmkK8SIfjGRBxgxdmlUbOCNdOCqFlLOq
-	vD+P1zvcfXSkgPvPPxP1V1dtxzslTG4TS08PVo9GcyN2PCOzw3ypVOCq9i0VXjuGPUUBUi
-	44gvtucDNnKhp7hYW4CCx5cwZX2hH5LN3U1nAgc5tOJ9K+XnMQsOlALu8ic1UDvHIWnKM7
-	KrnwkQyss4fbFuj/pgolqlUwzp+056xC8ToP6P3pggtBLwzUKc8Mx6kB+5DeSzerhT2x3V
-	MwNMGIoCV3vC0udsS9QNY+L6DX3amtbyDULUMz+lvOHhSX7gsEeJmBaLhcFw1A==
-Date: Sun, 19 Dec 2021 18:48:20 +0100
+	t=1639936144; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=O/eCCIBVlCUTezXPvG25r27wioAqTPyYGDR/iOcLqL0=;
+	b=YrIblvgfDchhVe/9naOGkoq5pR5TVYFPcs4892MQQbn+YAUSJSYMIEoR+oAHbX7Fir4LXH
+	pkc3PkxG6ETsjX9sebfh0OHlCVkCIGPu9ajiduOoCqGIrK5gLbUduf5jGlTgBBlqwE7lrv
+	6Eqr1Q1BOwebH1fy2YBpcVpSeDpoS1AFO9ekP8biWsG/eapyNDhOXlx84w0G7MKD7+sMH1
+	C5VK1zkaNtWOqAQ9S5EiXL32WpGIaqgdbqZYtCBLgzJoDfOA8jqsasvugcTOAZyQVA/0Bh
+	gdrIzMeshEmG+927eTdt9HSPq6Lo8XuutxBOjckmH/D6Eo/PNbnweupknxEUVg==
 From: Daniel Wagner <wagi@monom.org>
-To: Jussi Laakkonen <jussi.laakkonen@jolla.com>
-Cc: Christian Taedcke <christian.taedcke@lemonbeat.com>,
-	connman@lists.linux.dev
+To: connman@lists.linux.dev,
+	Christian Taedcke <christian.taedcke@lemonbeat.com>
+Cc: Daniel Wagner <wagi@monom.org>
 Subject: Re: [PATCH] ipconfig: Do not enable/disable ipv6 for all ifs
-Message-ID: <20211219174820.4a22ybjsc2pmesob@beryllium.lan>
+Date: Sun, 19 Dec 2021 18:49:02 +0100
+Message-Id: <163993613448.32043.4737927088344398634.b4-ty@monom.org>
+In-Reply-To: <20211122130346.114768-1-christian.taedcke@lemonbeat.com>
 References: <20211122130346.114768-1-christian.taedcke@lemonbeat.com>
- <eaf58704-04c3-b6be-54b9-88ef707f95d2@jolla.com>
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <eaf58704-04c3-b6be-54b9-88ef707f95d2@jolla.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-Last-TLS-Session-Version: TLSv1.3
 
-On Mon, Nov 22, 2021 at 05:10:09PM +0200, Jussi Laakkonen wrote:
-> Good find. This indeed fixes this particular issue, IPv6 does seem to get
-> disabled after removing a USB ethernet device. Surprising side effect.
+On Mon, 22 Nov 2021 14:03:46 +0100, Christian Taedcke wrote:
+> If the interface name could not be determined (e.g. because the usb
+> device was unplugged and removed from the system), do not disable ipv6
+> for all devices.
+> 
 
-Indeed :)
+Applied, thanks!
 
-> With a quick glance I cannot see any problems related to this, I'm not 100%
-> sure if there is a case where this disable_ipv6() is used via
-> __connman_ipconfig_disable_ipv6() to completely disable IPv6, Daniel?
+[1/1] ipconfig: Do not enable/disable ipv6 for all ifs
+      commit: 53732ed09689736e6a06c48cfc0435a1e3eb1aa2
 
-As far I can tell, ConnMan is operating on per interface level (if using
-this interface). So this should be okay.
-
-I am going to apply the patch.
-Daniel
+Best regards,
+-- 
+Daniel Wagner <wagi@monom.org>
