@@ -1,27 +1,26 @@
 Received: from mail.nearlyone.de (mail.nearlyone.de [46.163.114.145])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DDD32CA0
-	for <connman@lists.linux.dev>; Sun, 19 Dec 2021 17:31:16 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 8C7BE5CD17;
-	Sun, 19 Dec 2021 18:31:14 +0100 (CET)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A32512CA0
+	for <connman@lists.linux.dev>; Sun, 19 Dec 2021 17:41:04 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 3AEA85CD76;
+	Sun, 19 Dec 2021 18:41:00 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=monom.org; s=dkim;
-	t=1639935074; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 in-reply-to:references; bh=9+hm6ElcGhjpm/8dY6Trx39mbW1sp/0n+LSo/meWrQk=;
-	b=JfXdIOpuTIfv8lNLJkLXUBxDd7YesmHkgP+jAZ9CK5so0ABHjbdwDEeAzQa9i3nhvwh4r1
-	+vKIk1oT2O/I8+TdsRQ+I7IqBu1WwcRBX3kEmmglThxj1Jl7deGBrCTy3UAZdmqz4EP2mO
-	Plihx0qRikiCQdDMSaFsBtxLJhbe7KiJu20Ytpe9q49RxMYSVhyDwRxQMzsIomlQP3nIQ3
-	w7JpW9hugqQ8C0MZCZORhjyA5H+sKVdsjzYS9aAeNHIO3qqxAYU9lVdXURhnlRDJ0wjYFN
-	sw6X6a7ejRlA6iS9Kh4+GWsiL5hzBcLZwciT0koVvMwDkomas2Qs5lgqYBBVOg==
-Date: Sun, 19 Dec 2021 18:31:14 +0100
+	t=1639935662; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 in-reply-to:references; bh=EXNDih5UF5NRNhA+SKOvsWRoayjdkaz/SqFJghAYHHA=;
+	b=zN2e3ewVnj0bLhhJn1p/GW3T00yOy/CGvZehlyk71leQimXwHVzpOPf6DJMAiIyo2fiEbX
+	hbmM1U4a68MK/6bcIG3fs1SACUQvDonYcMEROZVaRyD6MLjxtqa0LFVtYbr9Rat9Vftaur
+	lCMUiFBK61D/GVv6gOi91MNcOmG3QxId3aDLA4+mWzsyBmQHLn2B8MsmhoI/ouY9Umzwnc
+	oTuO9Ftw4g8KTCR6NwA4JhowRlDHbq0wGNhgWOlYu8do5ga1cVD2O7szdHvWixihzXy/0s
+	ZcDuEZwqzpI0t2WEHb5u+F8s6k8NuLYc6zzayFqsNwjOohCujchTX+YABpf/lQ==
+Date: Sun, 19 Dec 2021 18:40:59 +0100
 From: Daniel Wagner <wagi@monom.org>
-To: Michael Nazzareno Trimarchi <michael@amarulasolutions.com>
-Cc: Klaus Ethgen <klaus@ethgen.ch>, connman@lists.linux.dev
-Subject: Re: Too many wlans
-Message-ID: <20211219173114.nmbtxjmzxee2izbk@beryllium.lan>
-References: <Ya4LuuATLuB7waD6@ikki.ethgen.ch>
- <20211219172226.73tupsi7z24hkiiy@beryllium.lan>
- <CAOf5uwnvYzk0ZX3Ca_FSQLM4sf4mp_UtBStoUcdoeH9L8DJvOQ@mail.gmail.com>
+To: Emmanuel VAUTRIN <emmanuel.vautrin@gmail.com>
+Cc: connman@lists.linux.dev,
+	Emmanuel VAUTRIN <Emmanuel.VAUTRIN@cpexterne.org>
+Subject: Re: [PATCH] service: Fix native connection with wrong passphrase
+Message-ID: <20211219174059.c62hjgjym6frrnln@beryllium.lan>
+References: <20211216102249.502964-1-Emmanuel.VAUTRIN@cpexterne.org>
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
@@ -30,14 +29,46 @@ List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAOf5uwnvYzk0ZX3Ca_FSQLM4sf4mp_UtBStoUcdoeH9L8DJvOQ@mail.gmail.com>
+In-Reply-To: <20211216102249.502964-1-Emmanuel.VAUTRIN@cpexterne.org>
 X-Last-TLS-Session-Version: TLSv1.3
 
-On Sun, Dec 19, 2021 at 06:23:55PM +0100, Michael Nazzareno Trimarchi wrote:
-> > I think by deleting all known networks and previously corrupted? entry
-> > got removed which prevented the proper working before.
-> >
-> 
-> I have respin the patches on network removal. I will send
+Hi Emmanuel,
 
-That would be great. IIRC the patch was almost ready.
+On Thu, Dec 16, 2021 at 11:22:49AM +0100, Emmanuel VAUTRIN wrote:
+> When a native connection fails with a wrong passphrase, the user still
+> needs to be informed, via the agent.
+> However, in this case, the associated service is automatically
+> disconnected, canceling the pending agent requests.
+> The invalid key error shall be reported before this cancellation.
+> 
+> Commit b9a0a039ccc5 ("service: Report errors to user in native mode")
+> ---
+>  src/service.c | 5 +++++
+>  1 file changed, 5 insertions(+)
+> 
+> diff --git a/src/service.c b/src/service.c
+> index 9141b85dbe9c..202816ae8980 100644
+> --- a/src/service.c
+> +++ b/src/service.c
+> @@ -6023,6 +6023,11 @@ static int service_indicate_state(struct connman_service *service)
+>  		break;
+>  
+>  	case CONNMAN_SERVICE_STATE_IDLE:
+> +		if (old_state == CONNMAN_SERVICE_STATE_FAILURE && 
+> +	service->connect_reason == CONNMAN_SERVICE_CONNECT_REASON_NATIVE &&
+> +	service->error == CONNMAN_SERVICE_ERROR_INVALID_KEY)
+> +		report_error_cb(service, false, NULL);
+
+There is whitespace damaged and a pretty idention. I was about to fix
+this, but stopped because the 'report_error_cb()' doesn't make sense
+with the commit message. If you want to properly report you need
+
+			connman_agent_report_error(service, service->path,
+						error2string(service->error),
+						report_error_cb,
+						get_dbus_sender(service),
+						NULL);
+
+IMO. report_error_cb() doesn't do any agent stuff.
+
+Daniel
