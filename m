@@ -1,202 +1,128 @@
-Received: from tschil.ethgen.ch (tschil.ethgen.ch [5.9.7.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com [209.85.219.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FC2E2CA0
-	for <connman@lists.linux.dev>; Sun, 19 Dec 2021 18:15:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=ethgen.ch;
-	 s=mail; h=Content-Type:MIME-Version:Message-ID:Subject:To:From:Date:Sender:
-	Reply-To:Cc:Content-Transfer-Encoding:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-	List-Post:List-Owner:List-Archive;
-	bh=DgUgCJAEoea7YeR/x+2m+BCfedsXXFaqVcZ+0b/nUCU=; b=H8e+GetsnUYGuyLTOws1C9kL7w
-	T43YKVbCawopm8P4g+zsqzBDuvZiP2eySjYfo9yL4z04oHBy7rmF4tJdmzu+GKZ2eWIQlic1gJLq4
-	YsO+Z1eQztZkOK2XSsVAnpVhrZr9W7u6YBqnn8qfA5UN4rF+boDP0votAFjSgfLXEgfec+SN7S0sf
-	eC9k6yb6ezIHAPoE2v2R070r/bQC9s/QhSGJtW/qfcPCfeoF51qfqJJs8kr4gID0C0gAoRHzJkHFS
-	Tp954oSOb1o/dqMrmOUQPGgSrCz+M0Nv1eRRpMb9P3ntnpc6XAMxRbgCInXPT0KggYLcxxHk1dEep
-	G2PuNjlynxtGE5M+Ws8YDyU7RPR1dD/lf6OTCbIhEocsp9ZHR6hWOHj16rmedTChU8TIzG5AwulOu
-	y3/Uumu2DjrwJm8vAT/mP4eutJ/OyuGQYbvNAb3838+kSP/WSJ3LqT6C1j82DFW64fZcS6c1sVHRr
-	TtVRBp9++/VjAuuAfE4ata9NdgacpSXP/ExYWbtZY+IaFUftYkJqG3YSrHBMxPR4faASfeL7QCRT1
-	uuMyU5glm2rAYyyhhj9R2a8N9DJg1jdQeewYiEAqfmnSSvrCp0nw5evvWaDZqUB73wVInud3y/IEf
-	FoQf0MqLaXGpmrpfcyH1iLT9uuJD6Ux28Mpa13eaM=;
-Received: from [192.168.17.4] (helo=ikki.ket)
-	by tschil.ethgen.ch with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <Klaus@ethgen.ch>)
-	id 1mz05i-0008Mh-6a
-	for connman@lists.linux.dev; Sun, 19 Dec 2021 17:35:22 +0000
-Received: from klaus by ikki.ket with local (Exim 4.95)
-	(envelope-from <Klaus@ethgen.ch>)
-	id 1mz05i-0000wt-0E
-	for connman@lists.linux.dev;
-	Sun, 19 Dec 2021 18:35:22 +0100
-Date: Sun, 19 Dec 2021 18:35:21 +0100
-From: Klaus Ethgen <Klaus@ethgen.ch>
-To: connman@lists.linux.dev
-Subject: [Klaus@ethgen.ch: Re: Too many wlans]
-Message-ID: <Yb9tWbma3JWG+Ah+@ikki.ethgen.ch>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21EBA173
+	for <connman@lists.linux.dev>; Tue, 21 Dec 2021 17:59:13 +0000 (UTC)
+Received: by mail-yb1-f177.google.com with SMTP id q74so41002806ybq.11
+        for <connman@lists.linux.dev>; Tue, 21 Dec 2021 09:59:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
+        bh=Q2rXFYMmn3FmeSMT+AyqbMRq3KXrvVy3kUp7KPMZsZ4=;
+        b=eLC4hT8s0BW7xJ6X8xpcD496+mp2sIjDZS51weeeUcZrAT4Pw26MvEPF7PQYqruXLP
+         hmE13iB0B1sGQNAdRtq6JLrkHovtPKzZeXQs4X+ItyW6Ahe4wOPDdiNpeaImitWDq/ZV
+         57Z+lTE8j4eREmV+1VxLhQP2eTz1BnFVYYFaHilsTACrBZI/aXhl/CJK1FYMSRHSX4EM
+         dA8DxWQ+exp207QhTrFsPkkZt8znEBvr7JnJF6cyK4jY3hbSzeMhKooeUQMALTp3wnk1
+         xOgxulo4JP+4u//tGgdywanRRML2/tgDxcbL4BSuU3lp9XBjklLv9BrbYt965U5nwl8I
+         Milg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to;
+        bh=Q2rXFYMmn3FmeSMT+AyqbMRq3KXrvVy3kUp7KPMZsZ4=;
+        b=PJ8EIJEMyD46PTMLfAUBni+TTrKvWa/HyIckfKTcQ1bg+NLfzVHFGhvs1szaqxNELN
+         F6Sc7y7e6WO0eRDppJuYtfbUDJrjLpU+0Q9ZvGuAFOE3/n/kAnQpu5VINLTXj6KNuv2d
+         Tp6B+PsgPhRYbYfmbVbksvNg3ysbVWGEbFjo53n445fIzpEm2knJKhAA6cAitjngyvbm
+         nAvlo5wvCyEP1Pq+Kf5q1TpzrNqg7GhiyAAjTZSJDhNRbK/9vCg6FoExjVZOYrsCYVmM
+         +FH9Kz07y1jxFSzFxJuPTboYxnfI1YBmLvUNbfhASUa37+8NLmnh7jNIVuTHeD85jbi9
+         iFSw==
+X-Gm-Message-State: AOAM530CxYTLUsj+nTZappnF8jtnyauwon4bUMG1ht/hn8nstXVAdGjo
+	1TDMnD56MAoxw+/NXPtcnltQ6LtfCqtGCEERKPbigGgnjhf5Vw==
+X-Google-Smtp-Source: ABdhPJwANJwN9t9JknDc6g4n7sXe7Zb1xLC77VBmujrPoEj4qk6uBo72xoTFsbAxzJkCFRWBOps9OIWmxuo5/cxMkR8=
+X-Received: by 2002:a25:acd4:: with SMTP id x20mr5997209ybd.416.1640109552050;
+ Tue, 21 Dec 2021 09:59:12 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="zatSe5BDJ886xvG8"
-Content-Disposition: inline
-OpenPGP: id=79D0B06F4E20AF1C;
- url=http://www.ethgen.ch/~klaus/79D0B06F4E20AF1C.txt; preference=signencrypt
+References: <20211216102249.502964-1-Emmanuel.VAUTRIN@cpexterne.org> <20211219174059.c62hjgjym6frrnln@beryllium.lan>
+In-Reply-To: <20211219174059.c62hjgjym6frrnln@beryllium.lan>
+From: Emmanuel Vautrin <emmanuel.vautrin@gmail.com>
+Date: Tue, 21 Dec 2021 18:59:00 +0100
+Message-ID: <CAGYU+QVC9-RwGYXQMtpx6iJNOhQCJkbZsQckaZHqE0rou2_xmg@mail.gmail.com>
+Subject: Re: [PATCH] service: Fix native connection with wrong passphrase
+To: connman@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+
+Hi Daniel,
+
+> There is whitespace damaged and a pretty idention.
+Indeed, you are right. I am trying to follow your advice and using
+send-email now, via gmail.
+When displaying my original message via the gmail client, the
+formatting seems to be
+the expected one, so it seems not to be related to git send-email
+command itself.
+Unfortunately, I have not found how to prevent gmail post-formatting the mail,
+and I doubt it can be configured. Do you have any idea how I can move
+on this subject?
+
+> I was about to fix this, but stopped because the 'report_error_cb()' doesn't make sense
+> with the commit message. If you want to properly report you need
+>
+>                        connman_agent_report_error(service, service->path,
+>                                                error2string(service->error),
+>                                                report_error_cb,
+>                                                get_dbus_sender(service),
+>                                                NULL);
+
+> IMO. report_error_cb() doesn't do any agent stuff.
+In fact, the connman_agent_report_error is well called, but the report_error_cb
+is not. As my solution is probably far from a clean one, the best is
+to explain the issue.
+
+I am focusing on 2 close cases, connection to a secured network via iwd with
+rejected (wrong length / content) passphrases.
+
+**Connection with a wrong passphrase length **
+The error is directly managed in request_input_cb, due to a failing call to
+__connman_service_check_passphrase (length < 8 || length > 63):
+#0  connman_agent_report_error at ../git/src/agent.c:437
+#1  service_indicate_state at ../git/src/service.c:6139
+#2  __connman_service_ipconfig_indicate_state at ../git/src/service.c:6492
+#3  __connman_service_indicate_error at ../git/src/service.c:6183
+#4  request_input_cb at ../git/src/service.c:5875
+#5  request_input_passphrase_reply at ../git/src/agent-connman.c:204
+#6  agent_finalize_pending at ../git/src/agent.c:121
+#7  agent_receive_message at ../git/src/agent.c:208
+
+then the reply pending is done, as expected:
+#0  reply_pending at ../git/src/service.c:3963
+#1 service_complete at ../git/src/service.c:3980
+#2 report_error_cb at ../git/src/service.c:5752
+#3 report_error_reply at ../git/src/agent.c:369
+#4 agent_finalize_pending at ../git/src/agent.c:121
+#5 agent_receive_message at ../git/src/agent.c:208
+
+**Connection with a wrong passphrase**
+The error is managed in native cm_network_connect_cb:
+#0 connman_agent_report_error  at ../git/src/agent.c:437
+#1 service_indicate_state  at ../git/src/service.c:6139
+#2 __connman_service_ipconfig_indicate_state  at ../git/src/service.c:6492
+#3 __connman_service_indicate_error at ../git/src/service.c:6183
+#4 set_invalid_key_error at ../git/src/network.c:1582
+#5 connman_network_set_error at ../git/src/network.c:1655
+#6 in cm_network_connect_cb at ../git/plugins/iwd.c:245
+#7 in method_call_reply at ../git/gdbus/client.c:831
+
+But, unfortunately, the native __connman_network_disconnect is called,
+canceling the request, what prevents the report_error_cb to be called:
+#0  send_cancel_request at ../git/src/agent.c:166
+#1  connman_agent_cancel at ../git/src/agent.c:547
+#2  __connman_service_disconnect at ../git/src/service.c:6817
+#3  service_indicate_state at ../git/src/service.c:6022
+#4  __connman_service_ipconfig_indicate_state at ../git/src/service.c:6492
+#5  set_disconnected at ../git/src/network.c:1044
+#6  __connman_network_disconnect at ../git/src/network.c:1848
+#7  connman_network_set_error at ../git/src/network.c:1665
+#8  cm_network_connect_cb at ../git/plugins/iwd.c:245
+#9  method_call_reply at ../git/gdbus/client.c:831
+
+I hope having clarified the problem.
 
 
---zatSe5BDJ886xvG8
-Content-Type: multipart/mixed; boundary="LaHmGiY4WP1fyJpH"
-Content-Disposition: inline
+Best Regards,
 
-
---LaHmGiY4WP1fyJpH
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-
-FYI...
--- 
-Klaus Ethgen                                       http://www.ethgen.ch/
-pub  4096R/4E20AF1C 2011-05-16            Klaus Ethgen <Klaus@Ethgen.ch>
-Fingerprint: 85D4 CA42 952C 949B 1753  62B3 79D0 B06F 4E20 AF1C
-
---LaHmGiY4WP1fyJpH
-Content-Type: message/rfc822
-Content-Disposition: inline
-
-Date: Sun, 19 Dec 2021 18:32:34 +0100
-From: Klaus Ethgen <Klaus@ethgen.ch>
-To: Daniel Wagner <wagi@monom.org>
-Subject: Re: Too many wlans
-Message-ID: <Yb9sska+Eeu2bwUt@ikki.ethgen.ch>
-References: <Ya4LuuATLuB7waD6@ikki.ethgen.ch>
- <20211219172226.73tupsi7z24hkiiy@beryllium.lan>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="bUUkUXVtN2L9Bxj4"
-Content-Disposition: inline
-In-Reply-To: <20211219172226.73tupsi7z24hkiiy@beryllium.lan>
-OpenPGP: id=79D0B06F4E20AF1C;
- url=http://www.ethgen.ch/~klaus/79D0B06F4E20AF1C.txt; preference=signencrypt
-
-
---bUUkUXVtN2L9Bxj4
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-
-Hi,
-
-Am So den 19. Dez 2021 um 18:22 schrieb Daniel Wagner:
-> On Mon, Dec 06, 2021 at 02:10:18PM +0100, Klaus Ethgen wrote:
-> > Hello,
-> > 
-> > I found a bug in connman when too many networks are stored into
-> > /var/lib/connman.
-> > 
-> > I shuttle between different locations and today, connman stopped showing
-> > networks at all. After some debugging, I found the following Messages in
-> > wpa_supplicant debug output:
-> > ```
-> > wlan0: Event SCAN_RESULTS (3) received
-> > Scan results did not fit - trying larger buffer (8192 bytes)
-> > Scan results did not fit - trying larger buffer (16384 bytes)
-> > Scan results did not fit - trying larger buffer (32768 bytes)
-> > Scan results did not fit - trying larger buffer (65535 bytes)
-> > ioctl[SIOCGIWSCAN]: Argument list too long
-> > wlan0: Failed to get scan results
-> > wlan0: Failed to get scan results - try scanning again
-> > ```
-> > 
-> > The `Argument list too long` got my interest and I looked into
-> > /var/lib/connman finding 104 directories in the form
-> > wifi_XXXXXXXXXXXX_XXXXXXXX_managed_XXXXXXXXX.
-> 
-> Do you have the exact log for this? ConnMan uses GLib APIs for iterating
-> over files and directory. I would be very surprised if GLib is not able
-> to deal with this small numbers of entries.
-
-Well, not more than I already wrote.
-
-It id really hard to get usable debugging informations from connman.
-Usually, log messages are not of any use. I got the above info only via
-killing the dbus started wpa_supplicant and starting it manually via
-`wpa_supplicant -dddd -u -K`.
-
-In the past I did debug (a still not working) problem with openvpn and I
-also stumbled with how to get useful informations.
-
-> > After deleting all directories and restarting connman, everything went
-> > back to working state.
-> 
-> I don't think 104 known networks are a real resource problem as long
-> there is enough memory in the system. But even then, I don't think
-> ConnMan needs more than a few kb per known network.
-
-The above messages suggests that wpa_supplicant gets all that infos and
-use it with ioctl, which has some limitations (64kb). So, this could
-indeed be a problem. However, just as I wrote, removing all that old
-dirs and restarting connman fixed the issue.
-
-> > So, if that directories is an issue, could it be cleaned up?
-> 
-> Yes you can cleanup the directories but it's recommended not to do this
-> while ConnMan is running.
-> 
-> I think by deleting all known networks and previously corrupted? entry
-> got removed which prevented the proper working before.
-
-I don't understand that sentence. Could you be -v?
-
-Regards
-   Klaus
--- 
-Klaus Ethgen                                       http://www.ethgen.ch/
-pub  4096R/4E20AF1C 2011-05-16            Klaus Ethgen <Klaus@Ethgen.ch>
-Fingerprint: 85D4 CA42 952C 949B 1753  62B3 79D0 B06F 4E20 AF1C
-
---bUUkUXVtN2L9Bxj4
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-Comment: Charset: ISO-8859-1
-
-iQGzBAABCgAdFiEEMWF28vh4/UMJJLQEpnwKsYAZ9qwFAmG/bK0ACgkQpnwKsYAZ
-9qzdPQwAj67RMUCTHHS2/2avMRp/7l94D9eOc+vPjmTEr3ywtMhxmsBgB8HUW815
-h6uQBlg8phBKrrbqjdZ3s7YaDY2C2oyFO6v/G+XSdYAb1cRmQwBCajLgpJJ1rWZ7
-KMMqp5f2Hm66ZJ+BbSwEfvxkqhFzckJAawy7VCv/cQC0yx2nthKKEygKA7v72v2V
-ZQ7PQpttqmtQpqVYSQvBDC64XVYBF6vdnDsnL6w2xMc96ke+SNGA8VAIuj1RgfvW
-zXqOOGK7ma57cYCGD/e6GgiysyvQORFb3FXRdDGun7Vty9XyQ7HWM+3Zc1Y+n5gc
-/pjDrIdPUwDwrvy9WvwaKPGJGu29nrxk7q4NEDR70BLf0LECbtDLVUN6FM3gIQXO
-yuPJ5B81hObE/2ichUaZrO4MM9/ZnhiFL2j9ZI0Aajc2Mt2Nr0ejtIidlTg11AHA
-D5ONQc/BmfyYe8d9Ya6o7NHjBJDJaEaNJCFPchUDlYLg9xnJEEY0Grj5VsHKhWol
-purMTxbT
-=0BoG
------END PGP SIGNATURE-----
-
---bUUkUXVtN2L9Bxj4--
-
---LaHmGiY4WP1fyJpH--
-
---zatSe5BDJ886xvG8
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-Comment: Charset: ISO-8859-1
-
-iQGzBAABCgAdFiEEMWF28vh4/UMJJLQEpnwKsYAZ9qwFAmG/bVkACgkQpnwKsYAZ
-9qzlegwArn8wFIGBa98Hf8DqrZds5Ph4K3MOc/awTHEkajhePqol3nvgCVXdDH4x
-l3U86LQVxRCjiRACOPMxyAr8Gnj9dN9InQWIdE1E6MiLk8HnvdGNNw1wukJDhIUM
-iWJHRNUbjWbT9DDkP064jJ3OaLWhE4ag9oZS1uIq5gc72ecz8GGzUC7UV1d2dKq9
-CsikAxON8GxwbIdB/ItiWCOeWcVB1NgPwGpPfu5AtDG6slJYOy87ySoRH1VAtClU
-3avKlNDsBZvFji3hUerASCPeRtV+qgm7ViLo0kqyO43snv463goU5m2kHT+YugZk
-/BZGmGtIbDLVXdmjL7lr9UpPDh1ICYJ/J3IGViGp7xLBURI31Mn4WPVP2xi3M6s7
-Kq9C6qTNcv6HrrRa+7Fzz6jEC9jakVneWWoW96uEB2NV0T9sowEnR0OseSMgUnaa
-PzCFSigLr6j0c1mFebbqhq/3klgIBKNzsAVaVfa46vYPXMbdx+t/t0+OqSk4uht1
-Vhrg9CVg
-=R6U6
------END PGP SIGNATURE-----
-
---zatSe5BDJ886xvG8--
+Emmanuel
