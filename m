@@ -1,25 +1,25 @@
 Received: from mail.nearlyone.de (mail.nearlyone.de [46.163.114.145])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 421992CAB
-	for <connman@lists.linux.dev>; Tue, 25 Jan 2022 09:00:39 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 06C805D1A3;
-	Tue, 25 Jan 2022 10:00:31 +0100 (CET)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7790173
+	for <connman@lists.linux.dev>; Tue, 25 Jan 2022 09:11:06 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 239FE5CFE7;
+	Tue, 25 Jan 2022 10:11:04 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=monom.org; s=dkim;
-	t=1643101231; h=from:subject:date:message-id:to:cc:mime-version:
+	t=1643101864; h=from:subject:date:message-id:to:mime-version:content-type:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=lt3AOzUtaYOv7p9+m+Gy/CgibBOyPOfgs/jSVbMWUB8=;
-	b=fp2yO5ckGy3gsxY/VGItOPmNvnVh8Nl5gZysEAZfXjais1R2cOuS4fsIxiOr8htpNoVQzk
-	1casRrJwztlyutu+LLEGchXv8LWEvI93u9btFQ+5PtIyv5dECx3KobB4FW5655cIlXmlro
-	1Hk9DARU9sS0toXeGay6sT9FDvMLjBh7dUbOsPLg0zIOvEAcojC3Z4cMhUChUAclSr3mXc
-	MXc/RakNmr1mwz3fSOhtrWG0cQAORFfGm2cJoySb6YAUvpKNlbJmfe5g0SQeY/5gIbxTDb
-	RH+HyxVouRQjWNCjpAxREna+1q2kRKxZagJfAu4rMGSGnsD7gzNiXLJQb5AP4g==
+	bh=7lIUlR2ApStG/w7et4TJXANnsYoYI87Rlv4yS0H/EZc=;
+	b=Z/f/611UUd3Q8Hnif2w8RhEV88hBLmHxO/g0xpUD7Gw/FYXHnZOHCFh1aSddy9zvCyfe2x
+	SoZfUBpd64dJXWGlcz/VDEX8Un3HGnuU1oClUnbPUQtQxliPxtq6VjQ7H4g3qZiOgc8coz
+	X6Nr/OQkY88FSXFUDbL/OR8jeDxRBNqTORmuA6iqLAbXpE4/TKA78x1XHXSYRHAwpbj5Gk
+	gaxDB+eucvjMjTlDDR3RP4CX6oLAy3D+T0s9Gro9TuDZ4xNywspcxJS1pUhRoKIHsIQONq
+	1o6YGAW6l7WuV5XeYe+ZM4DnFQ46cyd7jq3Zclcbga1Nwl3hlV4bJyP3ycumGw==
 From: Daniel Wagner <wagi@monom.org>
-To: connman@lists.linux.dev
-Cc: Daniel Wagner <wagi@monom.org>
-Subject: [PATCH 3/5] dnsproxy: Validate input data before using them
-Date: Tue, 25 Jan 2022 10:00:24 +0100
-Message-Id: <20220125090026.5108-4-wagi@monom.org>
+To: connman@lists.linux.dev,
+	Daniel Wagner <wagi@monom.org>
+Subject: Re: [PATCH 0/5] dnsproxy: Add input validation checks
+Date: Tue, 25 Jan 2022 10:10:57 +0100
+Message-Id: <164310183482.5859.115642148699929952.b4-ty@monom.org>
 In-Reply-To: <20220125090026.5108-1-wagi@monom.org>
 References: <20220125090026.5108-1-wagi@monom.org>
 Precedence: bulk
@@ -28,115 +28,36 @@ List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-Last-TLS-Session-Version: TLSv1.3
 
-dnsproxy is not validating various input data. Add a bunch of checks.
+On Tue, 25 Jan 2022 10:00:21 +0100, Daniel Wagner wrote:
+> Matthias Gerstner was busy testing the dnsproxy code and found a bunch
+> of bugs. With a lot of input and help from him we came up with the
+> following patches.
+> 
+> dnsproxy.c is in a pretty bad shape and needs a complete rewrite with
+> proper tests added. This will take time and brave soul to do so.
+> Though things aren't that bad as there is the option to use
+> systemd-resolved as DNS proxy. I haven't looked at the code of it but
+> I am pretty sure it is way better than dnsproxy.c :)
+> 
+> [...]
 
-Fixes: CVE-2022-23097
-Fixes: CVE-2022-23096
----
- src/dnsproxy.c | 31 ++++++++++++++++++++++++++-----
- 1 file changed, 26 insertions(+), 5 deletions(-)
+Applied, thanks!
 
-diff --git a/src/dnsproxy.c b/src/dnsproxy.c
-index cdfafbc292f2..c027bcb972c4 100644
---- a/src/dnsproxy.c
-+++ b/src/dnsproxy.c
-@@ -1951,6 +1951,12 @@ static int forward_dns_reply(unsigned char *reply, int reply_len, int protocol,
- 
- 	if (offset < 0)
- 		return offset;
-+	if (reply_len < 0)
-+		return -EINVAL;
-+	if (reply_len < offset + 1)
-+		return -EINVAL;
-+	if ((size_t)reply_len < sizeof(struct domain_hdr))
-+		return -EINVAL;
- 
- 	hdr = (void *)(reply + offset);
- 	dns_id = reply[offset] | reply[offset + 1] << 8;
-@@ -1986,23 +1992,31 @@ static int forward_dns_reply(unsigned char *reply, int reply_len, int protocol,
- 		 */
- 		if (req->append_domain && ntohs(hdr->qdcount) == 1) {
- 			uint16_t domain_len = 0;
--			uint16_t header_len;
-+			uint16_t header_len, payload_len;
- 			uint16_t dns_type, dns_class;
- 			uint8_t host_len, dns_type_pos;
- 			char uncompressed[NS_MAXDNAME], *uptr;
- 			char *ptr, *eom = (char *)reply + reply_len;
-+			char *domain;
- 
- 			/*
- 			 * ptr points to the first char of the hostname.
- 			 * ->hostname.domain.net
- 			 */
- 			header_len = offset + sizeof(struct domain_hdr);
-+			if (reply_len < header_len)
-+				return -EINVAL;
-+			payload_len = reply_len - header_len;
-+
- 			ptr = (char *)reply + header_len;
- 
- 			host_len = *ptr;
-+			domain = ptr + 1 + host_len;
-+			if (domain > eom)
-+				return -EINVAL;
-+
- 			if (host_len > 0)
--				domain_len = strnlen(ptr + 1 + host_len,
--						reply_len - header_len);
-+				domain_len = strnlen(domain, eom - domain);
- 
- 			/*
- 			 * If the query type is anything other than A or AAAA,
-@@ -2011,6 +2025,8 @@ static int forward_dns_reply(unsigned char *reply, int reply_len, int protocol,
- 			 */
- 			dns_type_pos = host_len + 1 + domain_len + 1;
- 
-+			if (ptr + (dns_type_pos + 3) > eom)
-+				return -EINVAL;
- 			dns_type = ptr[dns_type_pos] << 8 |
- 							ptr[dns_type_pos + 1];
- 			dns_class = ptr[dns_type_pos + 2] << 8 |
-@@ -2040,6 +2056,8 @@ static int forward_dns_reply(unsigned char *reply, int reply_len, int protocol,
- 				int new_len, fixed_len;
- 				char *answers;
- 
-+				if (len > payload_len)
-+					return -EINVAL;
- 				/*
- 				 * First copy host (without domain name) into
- 				 * tmp buffer.
-@@ -2054,6 +2072,8 @@ static int forward_dns_reply(unsigned char *reply, int reply_len, int protocol,
- 				 * Copy type and class fields of the question.
- 				 */
- 				ptr += len + domain_len + 1;
-+				if (ptr + NS_QFIXEDSZ > eom)
-+					return -EINVAL;
- 				memcpy(uptr, ptr, NS_QFIXEDSZ);
- 
- 				/*
-@@ -2063,6 +2083,8 @@ static int forward_dns_reply(unsigned char *reply, int reply_len, int protocol,
- 				uptr += NS_QFIXEDSZ;
- 				answers = uptr;
- 				fixed_len = answers - uncompressed;
-+				if (ptr + offset > eom)
-+					return -EINVAL;
- 
- 				/*
- 				 * We then uncompress the result to buffer
-@@ -2257,8 +2279,7 @@ static gboolean udp_server_event(GIOChannel *channel, GIOCondition condition,
- 
- 	len = recv(sk, buf, sizeof(buf), 0);
- 
--	if (len >= 12)
--		forward_dns_reply(buf, len, IPPROTO_UDP, data);
-+	forward_dns_reply(buf, len, IPPROTO_UDP, data);
- 
- 	return TRUE;
- }
+[1/5] main: Use g_strdup for online_check_ipv{4,6}_url config
+      commit: 8bed0e22cb59468e773b247724a114d6764bd0a6
+[2/5] dnsproxy: Update TCP length header
+      commit: f65b6c233dd9f91723ea6993dca59fcf303d001b
+[3/5] dnsproxy: Validate input data before using them
+      commit: e5a313736e13c90d19085e953a26256a198e4950
+[4/5] dnsproxy: Avoid 100 % busy loop in TCP server case
+      commit: d8708b85c1e8fe25af7803e8a20cf20e7201d8a4
+[5/5] dnsproxy: Keep timeout in TCP case even after connection is established
+      commit: 5c34313a196515c80fe78a2862ad78174b985be5
+
+Best regards,
 -- 
-2.34.1
-
+Daniel Wagner <wagi@monom.org>
