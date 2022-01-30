@@ -1,59 +1,77 @@
 Received: from mail.nearlyone.de (mail.nearlyone.de [46.163.114.145])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 513EA2CA5
-	for <connman@lists.linux.dev>; Sun, 30 Jan 2022 14:36:39 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 969415CFFF
-	for <connman@lists.linux.dev>; Sun, 30 Jan 2022 15:36:30 +0100 (CET)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 569162CA5
+	for <connman@lists.linux.dev>; Sun, 30 Jan 2022 14:51:13 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 4DE115CFFF;
+	Sun, 30 Jan 2022 15:51:11 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=monom.org; s=dkim;
-	t=1643553390; h=from:subject:date:message-id:to:mime-version:content-type:
-	 content-transfer-encoding; bh=0C45ySCMBygJjgJEmC3dOTGerJjhEVSofPZQzjRSnJ4=;
-	b=fDvIRaOBbpzaMROKaXIQKdpGRnvkZs2ou1fNT7aRFxdU6b3mBjm3oNsVX4qv2OAUMv64bX
-	wudkogvgwdyixxOgdHO+Go+4LYz92vDUvwvNv3sfh9K3PLJiA3+ZY/JwfJG3qxZKu5/KHj
-	1XaqKp2fyIblqog1CcbMMzhobUOsrvhQK7nWCEo632Abtnymy0qZ4nOeCZ3EutDcjLqm4Q
-	tzPq1/PtAuUEdBYJx0n+a8pVVSCij50nzs8aYRBnkfTN+2rCrylgjPRwm77jwBfqPF03lm
-	QeGI54DM9T7/0Jr6Cce1KH7K25fniND5E+twJSBa6JRGbdV0yXgFLQJdtZkHYQ==
-Date: Sun, 30 Jan 2022 15:36:28 +0100
+	t=1643554271; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 in-reply-to:references; bh=g6m9He1bs/hJNWT3pIvgPEKh81kPwVAlDp611dv5Qb0=;
+	b=NqMlAm3nYnAqATdV96YHGltMj+1yAqjA1td5S7BKa3pgJCk+CaiEURSy4rCQB85FJdCCu8
+	tpqcW/ckqcIUBQYIqYKH5ydlFAnTZAUZuxCIIgMqCkhdYm+jdFUvu5UQyudizHDNxL/i2s
+	cnsg0G3azQsMpdOfc+VpFktpzq38+nyS5HKWsejG8BYNgd7cPRiVRgszUjZK62bTgjk311
+	kFRjklylyfUcg9M4yKof6038/+02HZZZj9MDY0RYcrQCBw98gZn0ISBFGNlL3RUrcdK1v7
+	qQldfO6vhgxWWV6iYMwG8ErhOFkww1+vERdPyOC2tJCfcghBmVCUlVPmQ4B33w==
+Date: Sun, 30 Jan 2022 15:51:10 +0100
 From: Daniel Wagner <wagi@monom.org>
-To: connman@lists.linux.dev
-Subject: ConnMan release 1.41
-Message-ID: <20220130143628.rccsvpb34hwcayff@beryllium.lan>
+To: Piotr Karbowski <piotr.karbowski@protonmail.ch>
+Cc: connman@lists.linux.dev
+Subject: Re: Unification to connman configuration? Now it 3 separated places.
+Message-ID: <20220130145110.ax6aio73c6le7xrk@beryllium.lan>
+References: <e69350dd-6028-841f-8f0a-069cb4ec16d1@protonmail.ch>
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <e69350dd-6028-841f-8f0a-069cb4ec16d1@protonmail.ch>
 X-Last-TLS-Session-Version: TLSv1.3
 
-A bit late to announce it but we have a new release of ConnMan. Again it's a
-CVE driven release. So if you are using the built in dnsproxy you should
-upgrade now.
+Hi Piotr,
 
-If you are an iwd user, this update also brings a bunch of bug
-fixes. Overall, the iwd plugin seems to be usable. So no reason not
-to switch over to iwd.
+On Wed, Jan 26, 2022 at 10:40:19PM +0000, Piotr Karbowski wrote:
+> 
+> Currently there are three places where one configure connman:
+> 
+> - Command line arguments to deamon
+> - /etc/connman/main.conf file
+> - /var/lib/connman/settings
+> 
+> Which is quite a hassle to maintain.
 
-For wpa_supplicant users there is now WPA3-SAE support.
+Yes, indeed. Let's start with the simplest one:
 
-There rest are bug fixes all over the place. Nothing too serious but
-still
+- /var/lib/connman/settings
 
-A big thanks to all contributors:
+This is file is under control of ConnMan. The user is not supposed to
+edit. But it keeps the default settings how ConnMan should behave when
+started for the first time. I suppose we could add those defaults
+settings to /etc/connman/main.conf.
 
-Ariel D'Alessandro, Christian Taedcke, Emmanuel VAUTRIN, Jussi
-Laakkonen, Lukáš Karas, Marcel Holtmann, Matt Vogt, Matthias Gerstner,
-Michael Trimarchi, Rahul Jain
+- /etc/connman/main.conf file
+
+This contains the more 'static' configuration bits for ConnMan. I think
+we need a config file for the defaults. Don think we get away without one.
+
+> To go with actual examples
+> 
+> - disable dns proxy -- only via command line argument.
+
+This should go into the /etc/connman/main.conf. This should be fairly
+simple to do as well.
+
+> - disable hostname updates via dhcp -- /etc/connman/main.conf file
+> - disable NTP client -- /var/lib/connman/settings file
+> 
+> Would it be possible to unify those into a single interface?
+
+Yes sure. 
+
+For any global default setting we should add/move it to main.conf. The
+difficult bits are the dynamic bits for newly discovered services.
 
 Daniel
-
-ver 1.41:
-       Fix issue with RTNL netlink message alignment.
-       Fix issue with dnsproxy and timeout for TCP feature.
-       Fix issue with dnsproxy and busy loop in TCP server.
-       Fix issue with WiFi connection with no passphrase.
-       Add support for wpa_supplicant and WPA3-SAE functionality.
-       Add support for D-Bus ObjectManager interface.
