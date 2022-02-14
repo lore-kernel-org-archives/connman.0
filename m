@@ -1,85 +1,91 @@
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+Received: from mail-vs1-f42.google.com (mail-vs1-f42.google.com [209.85.217.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 831C27C
-	for <connman@lists.linux.dev>; Mon, 14 Feb 2022 10:39:35 +0000 (UTC)
-Received: by mail-ej1-f53.google.com with SMTP id qk11so16075088ejb.2
-        for <connman@lists.linux.dev>; Mon, 14 Feb 2022 02:39:35 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75A317C
+	for <connman@lists.linux.dev>; Mon, 14 Feb 2022 11:31:15 +0000 (UTC)
+Received: by mail-vs1-f42.google.com with SMTP id g20so6182027vsb.9
+        for <connman@lists.linux.dev>; Mon, 14 Feb 2022 03:31:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:from:date:message-id:subject:to;
-        bh=aP2AeX9Re8aZS+jJUZ/KYV7Fbx+hd3QH08ai2xNeLl0=;
-        b=Iabcqdj1tSCMkssYpuJwwRqbC4AtCkSZ8HaOxU0zLBWQuCpoon11LPIiTPdTRBvZ05
-         7N9QI8iin+jdbb1JifNU+0jlUB7oYZjERSX9/EkCrRElqPqy4fXW+eGCZQVIo3UMryXl
-         Hd0Nyg25MF2SumdKtNXPqYqR7QFAkMr80ilgYEqh2a/FFspycrUlJYgvFoTH+e14O04F
-         oNilhviro+LHgbkGP2umovhZJlCBz2FpPgd7aGf9TILzwdoQmeM9vcYUfhm/bLAPSCUW
-         3SzZdJ4rnU1h9JpzegaklX+5GpnZCZ6pQoK4/Di8ltz/zyjNs6OfZIJ4ijUsMSMIqScl
-         ttGA==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=9zVBfOak9pmLt7GKAempUcZ0kd2YyZPGkEZJ1du6Y4M=;
+        b=MtOkMSYaXLVYZZnmo9o01x15nCvvpbtugmR03Zg6tGII3A18Xul3BS7EYh1eJ4jE6F
+         zFzBH4B0AJVedpE+vJuAVYlITDIoYnSVgmQouRR5ej3+9z52YYVOMmg8ut4oLw5RgLuy
+         +t6ZZ5XmlXq7Db6o3PsilN1lIjP6aTynV0ZXCioOfoctZ8urKEOW15PghL2SWVS+MqV8
+         hwiqrXW+8ypZ73LNFa0k8YokAxDANXfH36tz37O2EjZ5xlQYtifv0rJsDcSbFIrzp1q1
+         l1OAHvstrG/GDDe5qCmoPWJXQeuDRBzOwuCfzIY/DmFehIrfpgBWBVl6KoHXQwGCG4w5
+         PUHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-        bh=aP2AeX9Re8aZS+jJUZ/KYV7Fbx+hd3QH08ai2xNeLl0=;
-        b=6H7TVGk+578CPvBdzdSa00GnUb5ePsJDpwJ6McGmXi8ldyw0d33+gEPboSR3NP5VeR
-         xBOSJRj/NYPwLl00HEKFu26mNTHgzCo+4Pnqea2RMHEuEml3aL3XOubn4RH6Mz2PoiRD
-         JwxqBP7o8U87FkLmwE974i36eS9nrX7rmopR/huSjnsB3ioUwf3w3tBrmAvIw+dCoXEb
-         SncKsi1c6ppSMR3jS+0kKllQ9NiWaKrw/es/6KdNm83LfNjNha/UaazzRUi4cRCeMaGD
-         KLlRX7Fn7ywEqM1EBSilhpFkjSsNVa89qAMXarBiKrXCJtjtJ6B5gByy7OJWC3tIoEIO
-         z4Qg==
-X-Gm-Message-State: AOAM533GD4bVUWyv/NZsJuMYqTuElS2C2e4qsYGgYwDaEx6VO9dU/YR8
-	U89I/IdFgVkThB/5FYwn7ffPpoBON5mB2GXuQKQ=
-X-Google-Smtp-Source: ABdhPJyM7lVmLfRiH820DQn+NHWfjFUImDvVaKnLa8oP0JiyvYOsy6MwthChZZJdbV8gvbx3QZbr6t51foRrM0Cwelw=
-X-Received: by 2002:a17:907:6e28:: with SMTP id sd40mr11101326ejc.746.1644835173765;
- Mon, 14 Feb 2022 02:39:33 -0800 (PST)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=9zVBfOak9pmLt7GKAempUcZ0kd2YyZPGkEZJ1du6Y4M=;
+        b=jqS+NWsq1OyqZtYtPjKfYlba21xd9bkSMpUAVVajcddIvksqqNgBEOpNiDMOJ220Pl
+         X2Aztn7rLdsKissngjxo6r5uygxaJD8SX6GwNDKPVF0SwGCruZEWTCPrtqnCpLqOHPQy
+         pJKv0ZhajlV6qklxngPvm8+ZYuZzVbJpgQdJ7uXcOklumYIKdK/8UYsKmklrLVtpt4Bl
+         2l1NBeaQ0uxvLJBCpDynVQ0uR1zT/V6qPKRsZUiQ3qOeggtflT5KZZ3el5H7k55UPz0x
+         fHB3na5WlxFDeE8XagIioZsDejFNR7nD/wd8l0g+qXL5Mmt7+PCWaM0ujrCVXuQgFrSA
+         Zs6Q==
+X-Gm-Message-State: AOAM533NpF2dA3g3AXSDPAR1ppNGzDbAe1eZXmqlWi06BHckx1nENxgV
+	mFbabpeBfLb2pKmES8kPCAX/Nq3pWrW9YzOYC4nuGGLW5c4t1A==
+X-Google-Smtp-Source: ABdhPJx9BRhjZaEVoMG4/5OGwAZy3alCBeZL3L28Xi9CiXeeiTlH0jiSsDAm3JleYhVX8h8uaXlOfkS+dVJFeYKEAqI=
+X-Received: by 2002:a05:6102:418c:: with SMTP id cd12mr4150639vsb.83.1644838274331;
+ Mon, 14 Feb 2022 03:31:14 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-From: daniel antoine <univac55@gmail.com>
-Date: Mon, 14 Feb 2022 11:39:23 +0100
-Message-ID: <CA+iibzD638TEqqCJ+c2_KvRaeXST745nwq+N1a8MvZtvxUzQ-A@mail.gmail.com>
-Subject: connman issues with enlightenment since last upgrade to version 1.41
-To: Daniel Wagner <wagi@monom.org>, connman@lists.linux.dev, Emmanuel.VAUTRIN@cpexterne.org
+References: <20220214021357.522946-1-net147@gmail.com> <20220214073654.5wwvht6ntswylci5@carbon.lan>
+In-Reply-To: <20220214073654.5wwvht6ntswylci5@carbon.lan>
+From: Jonathan Liu <net147@gmail.com>
+Date: Mon, 14 Feb 2022 22:31:03 +1100
+Message-ID: <CANwerB32EdUdktYrPx36X2XBrO366s6mHCcy0da0FUm6LMH8ig@mail.gmail.com>
+Subject: Re: [PATCH] iwd: Use same signal strength calculation as wpa_supplicant
+To: Daniel Wagner <wagi@monom.org>
+Cc: connman@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 
-I use a systemd linux distribution with enlightenment, connman as
-communication manager and iwd as wifi controller. Since the last
-upgrade at 1.41 I have observed
-two things:
+Hi Daniel,
 
-First, the connman icons (wifi or ethernet) are not blue anymore and
-remain grey. When I look at the parameters, the wifi or ethernet
-interface is ready and not online . I notice that in the journal
-records that there is no more unknown route 82.165.8.211 as described
-in the archlinux wiki (unknown route on connection).
+It is the same mapping of dBm to 0-100 range as
+https://git.kernel.org/pub/scm/network/connman/connman.git/tree/plugins/wifi.c#n2805
+For wpa_supplicant,
+g_supplicant_network_get_signal(supplicant_network) returns the dBm
+value.
+For iwd, you need to divide the number by 100 to get dBm value.
 
-The connection itself is still functional. I can access the internet.
+Regards,
+Jonathan
 
-Second, My laptop is connected via a wifi connection and I use virtual
-machines (virt-manager). When I start one of the VM, on the host an
-ethernet connection is opened and connected, a vnet0 interface
-associated with a virbr0 interface. As the host interface is connected
-and in a ready state, I suppose that connman tries to connect to the
-vnet0 interface. The side effect of this is no dns resolution in the
-virtual machine and sometimes even on the host until I disconnect the
-ethernet connection vnet0 on the host with econnman.
-
-Reloading the connman version 1.40 makes the problem disappear but it
-falls down with the 100% cpu usage (corrected by the last commit in
-the 1.41 version).
-
-Finally I have reloaded the version 1.41 and have created a
-/etc/connman/main.conf file with
-[General]
-EnableOnlineCheck=true
-
-Now everything works, The icons are blue, the interfaces online, and
-the dns problem has disappeared. It seems that EnableOnlineCheck is
-turned false by default despite the fact that in the git in the
-src/make.c EnableOnlineCheck is set to true.
-
-I don't want to worry you anymore with that.
-
-Best Regards
-Dania
+On Mon, 14 Feb 2022 at 18:36, Daniel Wagner <wagi@monom.org> wrote:
+>
+> Hi Jonathan,
+>
+> On Mon, Feb 14, 2022 at 01:13:57PM +1100, Jonathan Liu wrote:
+> > Fixes the signal strength reported by connman being lower when using iwd
+> > compared to wpa_supplicant.
+> > ---
+> >  plugins/iwd.c | 4 +++-
+> >  1 file changed, 3 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/plugins/iwd.c b/plugins/iwd.c
+> > index ac3d1e17..2a245fe2 100644
+> > --- a/plugins/iwd.c
+> > +++ b/plugins/iwd.c
+> > @@ -1128,7 +1128,9 @@ static unsigned char calculate_strength(int strength)
+> >        * ConnMan expects it in the range from 100 (strongest) to 0
+> >        * (weakest).
+> >        */
+> > -     res = (unsigned char)((strength + 10000) / 100);
+> > +     res = (unsigned char)(120 + strength / 100);
+> > +     if (res > 100)
+> > +             res = 100;
+>
+> Can you explain your math here? The original code maps the reported
+> signal strength linearly to the ConnMan's range.
+>
+> Daniel
+>
