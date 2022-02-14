@@ -1,66 +1,85 @@
-Received: from mail.nearlyone.de (mail.nearlyone.de [46.163.114.145])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4035F7A
-	for <connman@lists.linux.dev>; Mon, 14 Feb 2022 07:45:48 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 267115D36B;
-	Mon, 14 Feb 2022 08:45:45 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=monom.org; s=dkim;
-	t=1644824746; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 in-reply-to:references; bh=5P6uW27jZy5Mtzq7c2aQlz4nnE6k5rKj9ZigWHuiCg4=;
-	b=niZhdRXmEzE0Lui3ebfGJyZwSF05PqPZr/4ff/zvfwjMeMCiR4BRk48pVIoDjuj/v7J91e
-	E4NzwZehx1oHskdxKGOR1hnVc3LcOvztcPY27sM/W0uDMPyDMtXlgmC6TBPLlvTiJjrIco
-	auCFjVIiuw2wgPDbuKvMDaPAEsPmToqyLl6MgRgIweGobsvJs/GAGmZkfYAcaRG7RbXjOx
-	0Fm9pzU7/Fs5HFkYWb5rfSrb5PjxZ0TbnYy9KsE+PtUQgwQ7GmWisaIVUZaYbyDkCpf8K+
-	kczZLp9P2z+tVPrjS8+LW+EhukI5a8WmgxAB4C9duevXWr1qwBYpp7mXxsHA8w==
-Date: Mon, 14 Feb 2022 08:45:45 +0100
-From: Daniel Wagner <wagi@monom.org>
-To: Piotr Karbowski <piotr.karbowski@protonmail.ch>
-Cc: connman@lists.linux.dev
-Subject: Re: Unification to connman configuration? Now it 3 separated places.
-Message-ID: <20220214074545.47utpy7s6afeohwq@carbon.lan>
-References: <e69350dd-6028-841f-8f0a-069cb4ec16d1@protonmail.ch>
- <20220130145110.ax6aio73c6le7xrk@beryllium.lan>
- <42368e37-a297-5a1b-193f-b350b58f6d64@protonmail.ch>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 831C27C
+	for <connman@lists.linux.dev>; Mon, 14 Feb 2022 10:39:35 +0000 (UTC)
+Received: by mail-ej1-f53.google.com with SMTP id qk11so16075088ejb.2
+        for <connman@lists.linux.dev>; Mon, 14 Feb 2022 02:39:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:from:date:message-id:subject:to;
+        bh=aP2AeX9Re8aZS+jJUZ/KYV7Fbx+hd3QH08ai2xNeLl0=;
+        b=Iabcqdj1tSCMkssYpuJwwRqbC4AtCkSZ8HaOxU0zLBWQuCpoon11LPIiTPdTRBvZ05
+         7N9QI8iin+jdbb1JifNU+0jlUB7oYZjERSX9/EkCrRElqPqy4fXW+eGCZQVIo3UMryXl
+         Hd0Nyg25MF2SumdKtNXPqYqR7QFAkMr80ilgYEqh2a/FFspycrUlJYgvFoTH+e14O04F
+         oNilhviro+LHgbkGP2umovhZJlCBz2FpPgd7aGf9TILzwdoQmeM9vcYUfhm/bLAPSCUW
+         3SzZdJ4rnU1h9JpzegaklX+5GpnZCZ6pQoK4/Di8ltz/zyjNs6OfZIJ4ijUsMSMIqScl
+         ttGA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+        bh=aP2AeX9Re8aZS+jJUZ/KYV7Fbx+hd3QH08ai2xNeLl0=;
+        b=6H7TVGk+578CPvBdzdSa00GnUb5ePsJDpwJ6McGmXi8ldyw0d33+gEPboSR3NP5VeR
+         xBOSJRj/NYPwLl00HEKFu26mNTHgzCo+4Pnqea2RMHEuEml3aL3XOubn4RH6Mz2PoiRD
+         JwxqBP7o8U87FkLmwE974i36eS9nrX7rmopR/huSjnsB3ioUwf3w3tBrmAvIw+dCoXEb
+         SncKsi1c6ppSMR3jS+0kKllQ9NiWaKrw/es/6KdNm83LfNjNha/UaazzRUi4cRCeMaGD
+         KLlRX7Fn7ywEqM1EBSilhpFkjSsNVa89qAMXarBiKrXCJtjtJ6B5gByy7OJWC3tIoEIO
+         z4Qg==
+X-Gm-Message-State: AOAM533GD4bVUWyv/NZsJuMYqTuElS2C2e4qsYGgYwDaEx6VO9dU/YR8
+	U89I/IdFgVkThB/5FYwn7ffPpoBON5mB2GXuQKQ=
+X-Google-Smtp-Source: ABdhPJyM7lVmLfRiH820DQn+NHWfjFUImDvVaKnLa8oP0JiyvYOsy6MwthChZZJdbV8gvbx3QZbr6t51foRrM0Cwelw=
+X-Received: by 2002:a17:907:6e28:: with SMTP id sd40mr11101326ejc.746.1644835173765;
+ Mon, 14 Feb 2022 02:39:33 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <42368e37-a297-5a1b-193f-b350b58f6d64@protonmail.ch>
-X-Last-TLS-Session-Version: TLSv1.3
+From: daniel antoine <univac55@gmail.com>
+Date: Mon, 14 Feb 2022 11:39:23 +0100
+Message-ID: <CA+iibzD638TEqqCJ+c2_KvRaeXST745nwq+N1a8MvZtvxUzQ-A@mail.gmail.com>
+Subject: connman issues with enlightenment since last upgrade to version 1.41
+To: Daniel Wagner <wagi@monom.org>, connman@lists.linux.dev, Emmanuel.VAUTRIN@cpexterne.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Sun, Jan 30, 2022 at 09:50:31PM +0000, Piotr Karbowski wrote:
-> If you were to move the /var/lib/connman/<SERVICE_NAME>/settings to
-> perhaps subdirectory in /etc/connman/networks/ it could work. One of the
-> example could be NetworkManager that actually dynamically create files
-> in /etc.
+I use a systemd linux distribution with enlightenment, connman as
+communication manager and iwd as wifi controller. Since the last
+upgrade at 1.41 I have observed
+two things:
 
-/var/lib/connman/* are not configuration files. These files contain the
-state. The are under control of ConnMan and will be overwritten.
+First, the connman icons (wifi or ethernet) are not blue anymore and
+remain grey. When I look at the parameters, the wifi or ethernet
+interface is ready and not online . I notice that in the journal
+records that there is no more unknown route 82.165.8.211 as described
+in the archlinux wiki (unknown route on connection).
 
-That means these files need to live in space where ConnMan can write to
-(/etc will not work). Furthermore, embedded devices tend to be vary
-cautions about write updates and often move such things to a tmpfs.
+The connection itself is still functional. I can access the internet.
 
-Another problem is the id used to apply to a newly discovered
-services. The path is constructed using the MAC. In my opinion not very
-convenient and not really future proof.
+Second, My laptop is connected via a wifi connection and I use virtual
+machines (virt-manager). When I start one of the VM, on the host an
+ethernet connection is opened and connected, a vnet0 interface
+associated with a virbr0 interface. As the host interface is connected
+and in a ready state, I suppose that connman tries to connect to the
+vnet0 interface. The side effect of this is no dns resolution in the
+virtual machine and sometimes even on the host until I disconnect the
+ethernet connection vnet0 on the host with econnman.
 
-All this is solvable but it is a bit more work than just moving the dirs
-around. I think we would need to introduce a new configuration logic here.
+Reloading the connman version 1.40 makes the problem disappear but it
+falls down with the 100% cpu usage (corrected by the last commit in
+the 1.41 version).
 
-> That would be pretty clean interface to configure connman. Especially if
-> you need to pre-create some configs for services manually like 802.1X
-> that I think is not supported by any userspace utils that ships with
-> connman.
+Finally I have reloaded the version 1.41 and have created a
+/etc/connman/main.conf file with
+[General]
+EnableOnlineCheck=true
 
-Yes, I do understand the need for something like this. Ideally we
-wouldn't come up with yet another config file format. Maybe we could
-reuse the one from systemd-networkd? No idea if this would work, just an
-idea.
+Now everything works, The icons are blue, the interfaces online, and
+the dns problem has disappeared. It seems that EnableOnlineCheck is
+turned false by default despite the fact that in the git in the
+src/make.c EnableOnlineCheck is set to true.
 
-Daniel
+I don't want to worry you anymore with that.
+
+Best Regards
+Dania
