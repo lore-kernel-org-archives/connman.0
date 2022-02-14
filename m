@@ -1,26 +1,26 @@
 Received: from mail.nearlyone.de (mail.nearlyone.de [46.163.114.145])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FED97A
-	for <connman@lists.linux.dev>; Mon, 14 Feb 2022 07:36:57 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 115AC5D336;
-	Mon, 14 Feb 2022 08:36:54 +0100 (CET)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FA3F7A
+	for <connman@lists.linux.dev>; Mon, 14 Feb 2022 07:37:27 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id DC0355CFE8;
+	Mon, 14 Feb 2022 08:31:11 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=monom.org; s=dkim;
-	t=1644824215; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 in-reply-to:references; bh=Uh2HDanN7fVqMqnqxuNMsIngaCj2OFfCmzidrNVZpF8=;
-	b=aXUyQWTl2ywwiMmUy7EYCucBCexbAmzwRfDdvg7Hoy6pGgXaAu+iUpa6yACBVpVZFeDNQs
-	QEMSZeFeJ7qc4G6m1ZMEGHE+FdbOz1m09FABAlEGqV8Izaq3KAPCZ4cMfTMAyBeAfAndO4
-	A/Y4+V4N6F7k5X9Ms7xRtdYMgQp1kCZZJ+xhYZRWNCR1EeKbbOU4320MvPOE/aRdOfRmYc
-	8XOVKLPb3FeP5vM9cDmpMMOj5/JQwmBMa7mgY5UxgfN1Peb/AmdPnuuc5x1DhAGuZwQ9Yj
-	9GugtR10cSxM6DdrtJuwE7CM/u6c7GT/GXErPc12NFrt5WD4MfwTsdaGQw75oA==
-Date: Mon, 14 Feb 2022 08:36:54 +0100
+	t=1644823872; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 in-reply-to:references; bh=L+59yYmDaa6P7qFIl4OKr2XhWlENlnf4ZxA7XviSJ9Y=;
+	b=p+wiRTRS7c7ZVjKt1oib0i7N4svQoq4BGuEvJrFAi9c9A2N6jEebZ1N0PxRydRsm697rty
+	pOukRmaijUGrkHNmoHnl+JTqXCnZF/GyZ4eRuSRpi/b8N/M+qBIY8c0eolvnxS51Aqy6c9
+	w2JYYTekCAGLGxuH6emRYsgAlZkLBdU8bTMlTbwOBXOoikVndg0xExDMARDdszHHGrSJm5
+	MuMrjC8cCaR7qPXkH51/StH0B7XQFGPClzTBLY3k9sBU3CARRK5C5iVE1ojv3jy5OHksj3
+	lACl3QwXffBTScL0tmiDfBtMRY8cgkGOecwvwKV3ixbxYxpbzjth2b0WUf4S1g==
+Date: Mon, 14 Feb 2022 08:31:10 +0100
 From: Daniel Wagner <wagi@monom.org>
-To: Jonathan Liu <net147@gmail.com>
+To: daniel antoine <univac55@gmail.com>
 Cc: connman@lists.linux.dev
-Subject: Re: [PATCH] iwd: Use same signal strength calculation as
- wpa_supplicant
-Message-ID: <20220214073654.5wwvht6ntswylci5@carbon.lan>
-References: <20220214021357.522946-1-net147@gmail.com>
+Subject: Re: connman issues with enlightenment since last upgrade to version
+ 1.41
+Message-ID: <20220214073110.wrne4navzuyocjka@carbon.lan>
+References: <CA+iibzDhfvFgjaUdKvXw8_WKcYwkzr5n0n0NFqOeEpU8ujqYpw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
@@ -29,33 +29,51 @@ List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220214021357.522946-1-net147@gmail.com>
+In-Reply-To: <CA+iibzDhfvFgjaUdKvXw8_WKcYwkzr5n0n0NFqOeEpU8ujqYpw@mail.gmail.com>
 X-Last-TLS-Session-Version: TLSv1.3
 
-Hi Jonathan,
+Hi Dania,
 
-On Mon, Feb 14, 2022 at 01:13:57PM +1100, Jonathan Liu wrote:
-> Fixes the signal strength reported by connman being lower when using iwd
-> compared to wpa_supplicant.
-> ---
->  plugins/iwd.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
+On Tue, Feb 08, 2022 at 06:17:15PM +0100, daniel antoine wrote:
+> Hi gentlemen
 > 
-> diff --git a/plugins/iwd.c b/plugins/iwd.c
-> index ac3d1e17..2a245fe2 100644
-> --- a/plugins/iwd.c
-> +++ b/plugins/iwd.c
-> @@ -1128,7 +1128,9 @@ static unsigned char calculate_strength(int strength)
->  	 * ConnMan expects it in the range from 100 (strongest) to 0
->  	 * (weakest).
->  	 */
-> -	res = (unsigned char)((strength + 10000) / 100);
-> +	res = (unsigned char)(120 + strength / 100);
-> +	if (res > 100)
-> +		res = 100;
+> I use a systemd linux distribution with enlightenment, conman as
+> communication manager and iwd as wifi controler. Since the last
+> upgrade at 1.14 I have observed
+> two things:
+> 
+> First, the connman icons (wifi or ethernet) are not blue anymore and
+> remain grey. When I look at the parameters wifi or ethernet are READY
+> and not ONLINE . I notice that in the journal records that there is no
+> more unknown route 82.165.8.211 as described in the archlinux wiki
+> (unknown route on connection).
+> 
+> The connection itself is still functional. I can access internet.
 
-Can you explain your math here? The original code maps the reported
-signal strength linearly to the ConnMan's range.
+ConnMan has two 'online' states. READY and ONLINE. The READY state means
+the interface has been successfully configured (e.g. DHCP was
+successful). Then ConnMan tries to figure out if a remote IP is
+reachable (so there is an uplink to the internet) the will go to the
+ONLINE state.
+
+There a bunch of knobs which control the ONLINE check.
+
+We had some changes in the ordering and updating logic for the service
+list. It's possible there is something wrong. Could you post a log
+output from ConnMan? Maybe I can spot what's wrong.
+
+> Second, My laptop is connected via a wifi connection and I use virtual
+> machines (virt-manager). When I start one of the VM, on the host an
+> ethernet connection is opened and connected despite there is no
+> ethernet cable connected.
+
+Does ConnMan assign a IPv4 link local address (169.254.0.0/16)?
+
+> The side effect of this is that there is no
+> dns resolution in the virtual machine until I disconnect the ethernet
+> connection on the host with econnman. I suppose that It has something
+> to do with the fact that the host connections are READY and not ONLINE
+
+Not sure if this is related to the above ONLINE check.
 
 Daniel
-
