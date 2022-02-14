@@ -1,60 +1,61 @@
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.nearlyone.de (mail.nearlyone.de [46.163.114.145])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54F43A2C
-	for <connman@lists.linux.dev>; Mon, 14 Feb 2022 16:33:38 +0000 (UTC)
-Received: by mail-ed1-f50.google.com with SMTP id m17so3027931edc.13
-        for <connman@lists.linux.dev>; Mon, 14 Feb 2022 08:33:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:from:date:message-id:subject:to;
-        bh=VYeBaEdDe5VuYyrTtd5d/OIyMtXc9usMDiidCRdKmJo=;
-        b=eEuNqpcIKLkU2cwexNHUUc/XHR6KnSm/UYt5DI3gPbkwFBhOVOho8AeZDqUfTLDstk
-         bHVrLV1XaO2PJ18iRRwOu3rjbbLk6Eo+Y1EPYWatC+BUxYfNZMAnJvDDvDQ2MgmSD42b
-         U41zAjvYsg70lUuUuwKVk80Na+XuNgFQppeueEIa47WZpIyBqTc4KV2dBOhtM3FlbCsG
-         Ew7ZRSYRIO66ctykDQPETsE4JaObqMaIpiaqJseKD7KYw4ejcTqEtUHFCCUNEb2+2HgY
-         vb9pDVVa87xrk1hTdNSWz3IF6kMutt0qaNWqqnXNXbpULzjooCPw6guUSBA0Oj1pBCuv
-         NfJg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-        bh=VYeBaEdDe5VuYyrTtd5d/OIyMtXc9usMDiidCRdKmJo=;
-        b=nNfogPqCrFMJTKkYzxbLHA/9XQqVMSgTVbU5l0InTe83m1vO30iMnaKGC/VE38/WKd
-         VousDBRjyUQ/ytynZKBZUpnmXjlz0iItlwvJKl66jyW5gKxEK0TGJYbWdKUXk8VL/ITu
-         T4pm2ZfQI4I71AYGntPnwl1v8qiC/rvsg4UftbLMgfiL6YzKUw4xuKx0vUehD7IbFE3G
-         KDBFTVRQ1KTg8cet+jIY0+iW1w1wSaHiQPBvxLfp3CQhy3HmqDHkyXVxVirHI5Iqa5F4
-         p5QK9+aZIocmi1qkiRmxgObNhcO9RAE12rrO1kQL/8MqoKqIOSU+IdtPbP4fzfAZ8Dew
-         XbsA==
-X-Gm-Message-State: AOAM532nMWvDPnXhhHjGesYM2xyFJBRQQWvbjxe5iNlk2dtyXT2BXQLH
-	BRQRG+qu1HxRYwNntK2nU+6f+5JWDHoUiteLl64IcOTMAzsiUg==
-X-Google-Smtp-Source: ABdhPJzQnXgpSBg02wJ+ukYGvvXE51taPtZtzWTMmzCO1vhY5v5EFGnnmFBkwLzP4ZUREB23B6y52kz0WfTi2va8pBg=
-X-Received: by 2002:aa7:cb17:: with SMTP id s23mr450649edt.172.1644856416524;
- Mon, 14 Feb 2022 08:33:36 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D690AA2C
+	for <connman@lists.linux.dev>; Mon, 14 Feb 2022 17:46:02 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id DF19E5D323;
+	Mon, 14 Feb 2022 18:45:59 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=monom.org; s=dkim;
+	t=1644860760; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 in-reply-to:references; bh=YzhvhpcPhG3P1m8Mfo7ZqS4g3UZ2tU+mly+qa8nHb44=;
+	b=s+TK4uvpVpnoRE9d0m7KZi1G34ZJUZgar2UBwhGw2bZtS9vluWfjt3JA3X+H7/H4vFqkJr
+	QaY/G3IJybA99LgHt8nDvNa18ocAaNX7sTbzqJNjIaJGv3K1RpiUG90hQfvNKet41aMzfE
+	Tp/p5GDAy6Qc33nxQN/xoN5vYfj3pWyucfVrfSkJzN2wWn693PZJCyrEfevpGYl6+G/Um/
+	PIxCAy7SoQKFtPm0oVM6wPHdPG/QY3o5FV3LzP/EwhIM7c/bRbaOB/JQXCaNPOeaTKwdQl
+	UEreK8W8qw04RnoW9CdnLJHV3K9VGDQWVDpag2Y/Gt64nHh/TutZkbgRvmYv3g==
+Date: Mon, 14 Feb 2022 18:45:58 +0100
+From: Daniel Wagner <wagi@monom.org>
+To: daniel antoine <univac55@gmail.com>
+Cc: connman@lists.linux.dev
+Subject: Re: connman issues with enlightenment since last =?utf-8?Q?upgrad?=
+ =?utf-8?Q?e_to_version_1=2E41_Bo=C3=AEte_de_r=C3=A9ception?=
+Message-ID: <20220214174558.tuvtbfwohy3e63qu@carbon.lan>
+References: <CA+iibzAqa2-xPiddMfjX-EmsvMt7dYV39mW5WBLnUNN=B9gYAA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-From: daniel antoine <univac55@gmail.com>
-Date: Mon, 14 Feb 2022 17:33:25 +0100
-Message-ID: <CA+iibzAqa2-xPiddMfjX-EmsvMt7dYV39mW5WBLnUNN=B9gYAA@mail.gmail.com>
-Subject: =?UTF-8?Q?connman_issues_with_enlightenment_since_last_upgrade?=
-	=?UTF-8?Q?_to_version_1=2E41_Bo=C3=AEte_de_r=C3=A9ception?=
-To: connman@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CA+iibzAqa2-xPiddMfjX-EmsvMt7dYV39mW5WBLnUNN=B9gYAA@mail.gmail.com>
+X-Last-TLS-Session-Version: TLSv1.3
 
-I have seen your answer on lore.kernel.org/connman but not on my
-e-mail. How can I do a log ? by adding /usr/bin/connman -n -d
-/home/user/connmanlog.txt in the connman.service file ? I have tried
-manually, it has functionned but not written the file.I can reproduce
-the problem by just removing the main.conf file with
-EnableCheckOnline=true
+On Mon, Feb 14, 2022 at 05:33:25PM +0100, daniel antoine wrote:
+> I have seen your answer on lore.kernel.org/connman but not on my
+> e-mail. How can I do a log ? by adding /usr/bin/connman -n -d
+> /home/user/connmanlog.txt in the connman.service file ? I have tried
+> manually, it has functionned but not written the file.
 
-in both cases (host wifi interface ready or online) when I start a
-virtual machine and when I do an upgrade in the VM and reach the repo
-server the vnet0 interface on the host get an address 169.254.xxx.xxx
+ConnMan writes to stderr for logging, so you need to redirect the stderr
+to stdout:
 
-BR
+  # connmand -n -d 2>&1 > cm-log.txt
 
-Dania
+
+> I can reproduce the problem by just removing the main.conf file with
+> EnableCheckOnline=true
+
+Alright, sounds something is not getting the default setup correctly.
+
+> in both cases (host wifi interface ready or online) when I start a
+> virtual machine and when I do an upgrade in the VM and reach the repo
+> server the vnet0 interface on the host get an address 169.254.xxx.xxx
+
+So there is no DHCP server. ConnMan tries on default to get a DHCP lease
+if this fails it will setup the interface using IPv4LL (a.k.a IPv4 link
+local or bonjour). Anyway you can configure ConnMan not to use
+DHCP/IPv4LL.
+
+Daniel
