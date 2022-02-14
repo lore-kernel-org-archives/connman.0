@@ -1,62 +1,47 @@
-Received: from mail.holtmann.org (coyote.holtmann.net [212.227.132.17])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 943FA7A
-	for <connman@lists.linux.dev>; Mon, 14 Feb 2022 14:30:21 +0000 (UTC)
-Received: from smtpclient.apple (p4fefcd07.dip0.t-ipconnect.de [79.239.205.7])
-	by mail.holtmann.org (Postfix) with ESMTPSA id 0369FCED32;
-	Mon, 14 Feb 2022 15:30:18 +0100 (CET)
-Content-Type: text/plain;
-	charset=us-ascii
+Received: from mail.nearlyone.de (mail.nearlyone.de [46.163.114.145])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7ACE7A
+	for <connman@lists.linux.dev>; Mon, 14 Feb 2022 15:23:32 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 1E2FB5D381;
+	Mon, 14 Feb 2022 16:23:29 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=monom.org; s=dkim;
+	t=1644852210; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 in-reply-to:references; bh=ZRPt45KeM/VCx5IuqavqdOxbl0GBsZmJHsixSbcUtcE=;
+	b=phO39uxJstse0bRHbPEvh4FtPt/LLapdjXT7N1UXPHMfR4tMc05aSvENLJfnGjJ+Ztc9fF
+	CHJu/QrvYypKR+bsvPNTEc45hHcoq0dXeJ3d/WhnasR7uMBj6ER3aUNUkrCEKrH/Ca+R3h
+	uK+Paqqd8d+7pfhUA09QVWXWlVSP7+8krIiYqXiIAIRA+34xKp+oBw9Kj6e//2peA7Asu4
+	LQpKkBtfJo8k5FVpBxV2wZx94YJge253kpHu1srTuT513Je3mp9KvyfzQHm2a/zsoEM9fo
+	hVc8OfegCMvypNIVSVkagnws4DOCzTwvYrgLLcdYMtl88gzrSxb7qH1nRZbq5w==
+Date: Mon, 14 Feb 2022 16:23:29 +0100
+From: Daniel Wagner <wagi@monom.org>
+To: Jonathan Liu <net147@gmail.com>
+Cc: connman@lists.linux.dev
+Subject: Re: [PATCH] iwd: Use same signal strength calculation as
+ wpa_supplicant
+Message-ID: <20220214152329.g27nz7ennzsj5ked@carbon.lan>
+References: <20220214021357.522946-1-net147@gmail.com>
+ <20220214073654.5wwvht6ntswylci5@carbon.lan>
+ <CANwerB32EdUdktYrPx36X2XBrO366s6mHCcy0da0FUm6LMH8ig@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0 (Mac OS X Mail 15.0 \(3693.60.0.1.1\))
-Subject: Re: [PATCH] iwd: Use same signal strength calculation as
- wpa_supplicant
-From: Marcel Holtmann <marcel@holtmann.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 In-Reply-To: <CANwerB32EdUdktYrPx36X2XBrO366s6mHCcy0da0FUm6LMH8ig@mail.gmail.com>
-Date: Mon, 14 Feb 2022 15:30:18 +0100
-Cc: Daniel Wagner <wagi@monom.org>,
- connman@lists.linux.dev
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <7BEE7C10-D87C-4D53-8DAF-8C7CCCAC06D5@holtmann.org>
-References: <20220214021357.522946-1-net147@gmail.com>
- <20220214073654.5wwvht6ntswylci5@carbon.lan>
- <CANwerB32EdUdktYrPx36X2XBrO366s6mHCcy0da0FUm6LMH8ig@mail.gmail.com>
-To: Jonathan Liu <net147@gmail.com>
-X-Mailer: Apple Mail (2.3693.60.0.1.1)
+X-Last-TLS-Session-Version: TLSv1.3
 
-Hi Jonathan,
-
+On Mon, Feb 14, 2022 at 10:31:03PM +1100, Jonathan Liu wrote:
 > It is the same mapping of dBm to 0-100 range as
-> =
-https://git.kernel.org/pub/scm/network/connman/connman.git/tree/plugins/wi=
-fi.c#n2805
+> https://git.kernel.org/pub/scm/network/connman/connman.git/tree/plugins/wifi.c#n2805
 > For wpa_supplicant,
 > g_supplicant_network_get_signal(supplicant_network) returns the dBm
 > value.
 > For iwd, you need to divide the number by 100 to get dBm value.
 
-from iwd documentation.
+Please add this information to the commit message.
 
-                        int16 SignalStrength                             =
-       =20
-                                                                         =
-       =20
-                                Network's maximum signal strength =
-expressed
-                                in 100 * dBm.  The value is the range of =
-0
-                                (strongest signal) to -10000 (weakest =
-signal)
-
-Anyway, the signal strength in % expression is a total mess since every =
-hardware reports different value and none of them are normalized.
-
-It is better to fix the GSupplicant code to do exactly what iwd does.
-
-Regards
-
-Marcel
-
+Daniel
