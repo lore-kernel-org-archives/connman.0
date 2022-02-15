@@ -1,26 +1,27 @@
 Received: from mail.nearlyone.de (mail.nearlyone.de [46.163.114.145])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DE741376
-	for <connman@lists.linux.dev>; Tue, 15 Feb 2022 09:26:02 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 4BF185CE2D;
-	Tue, 15 Feb 2022 10:26:00 +0100 (CET)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 510D11376
+	for <connman@lists.linux.dev>; Tue, 15 Feb 2022 09:27:53 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 209305D381;
+	Tue, 15 Feb 2022 10:27:51 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=monom.org; s=dkim;
-	t=1644917160; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 in-reply-to:references; bh=kg/bMVlYyRj1NclySpd5r48Q/i6IG1EYvHcPh1y7nV0=;
-	b=iJb7q3ni8/GH4/1iZptQo4dhN7o+qL50RHhCZNdxPb8UiW2MXixHQZ6kLFB5OiOoj5iGcF
-	Tj6CLBJD0fpNDDiZwv8nQ9JjD2i6Uekia0DAjkFXAkReTspJT5sP6SdpsbSstwuFKB6GDV
-	Nh7SVegV3dmX8JMFvTC7fPUP7yugfElSTW54gclK4Q71r2e9w3EX59v5/58o1ZkniwUaGo
-	0JiRIe29IZ3tSW6+kwdwj6qxmyiPMxpy8P6RtIwF0lL99vcDWIwK3suNMjrB3Uk7VaunKf
-	RXAClu71XEUZyUZZirZFu1+Ko1rcLd6nazeQ5M6+hW6+XRvWD1b4yK+50NZ1TQ==
-Date: Tue, 15 Feb 2022 10:25:59 +0100
+	t=1644917271; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 in-reply-to:references; bh=kzGEdajjA46MAl1KzaablKFSA+VIh328sASrzrDfnHc=;
+	b=jOpFwjuc/rcqnwVt7QvYV2RyLpV37eszMKb/u37SxD3RPa0m9fJReTq+tNONIT1zdncgrT
+	cLAYEMGaOMq+NV9jF5BgxBWv84K/eK85SbHcsMWUE5YPlWPbMw3uodjL87kMBCwqOqaB4j
+	mB3sdjY3wETnz41SRttzM4lAHvVuiYUR5mtosIvBoiaS7AnyG9+sVSrrzE/BKdk+DoXIZZ
+	eU/rMGc7AaRS8aksC5fDNuRaO9fQ3f9iTQZU/2N8yqrdnt/ZD8lt5VAzgxH7fjzxBMTtjc
+	3fNUvRWHT3KCoEDP6HwsYER16HuREkbYdxuy/ztzp3UY5cN3z6R/rUxCoNGkUQ==
+Date: Tue, 15 Feb 2022 10:27:50 +0100
 From: Daniel Wagner <wagi@monom.org>
 To: daniel antoine <univac55@gmail.com>
 Cc: connman@lists.linux.dev
 Subject: Re: connman issues with enlightenment since last upgrade to version
  1.41
-Message-ID: <20220215092559.hyguybu6tyhvmtxx@carbon.lan>
+Message-ID: <20220215092750.npu4prptazpxygna@carbon.lan>
 References: <CA+iibzDUEYihPT=odxjLrggdHTNBeDqh4KAYbCCMX+Tn5BkPKw@mail.gmail.com>
+ <20220215092559.hyguybu6tyhvmtxx@carbon.lan>
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
@@ -29,17 +30,15 @@ List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CA+iibzDUEYihPT=odxjLrggdHTNBeDqh4KAYbCCMX+Tn5BkPKw@mail.gmail.com>
+In-Reply-To: <20220215092559.hyguybu6tyhvmtxx@carbon.lan>
 X-Last-TLS-Session-Version: TLSv1.3
 
-Hi,
+On Tue, Feb 15, 2022 at 10:26:00AM +0100, Daniel Wagner wrote:
+> You mentioned in the other mail that you remove the main.conf file for
+> the bad case. Is there anything else in main.conf?
 
-On Mon, Feb 14, 2022 at 08:47:51PM +0100, daniel antoine wrote:
-> I send you two logs one when the wifi interface is ready
-> (cm-log_bad.txt) and one when the interface is online
-> (cm-log_good.txt)
+BTW, this is missing in the bad case:
 
-You mentioned in the other mail that you remove the main.conf file for
-the bad case. Is there anything else in main.conf?
+connman_proxy_lookup() interface wlan0 url http://ipv4.connman.net/online/status.html
 
-Daniel
+I have an idea what could be wrong.
