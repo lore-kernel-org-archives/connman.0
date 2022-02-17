@@ -1,84 +1,90 @@
-Received: from mail-vs1-f52.google.com (mail-vs1-f52.google.com [209.85.217.52])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7ECCC1386
-	for <connman@lists.linux.dev>; Tue, 15 Feb 2022 10:37:03 +0000 (UTC)
-Received: by mail-vs1-f52.google.com with SMTP id g20so9900903vsb.9
-        for <connman@lists.linux.dev>; Tue, 15 Feb 2022 02:37:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
-        bh=PT/jGjVOEJ3/JbqyiiQmie/SJAZqtyuPD5jHdBMFwAg=;
-        b=RSqya5AsxlhEOyheKgDaEqvlxMOsj8sDQpFBaTTc/UXpo13WYRhLH5RfT58RbvrlGz
-         IUxdjMlat2+1T9XqIM4YD4w5TB6r2I97q1uWrEyAB927cQotdvWJl06xsINwl+EDHrAT
-         xe5K8bgrLo/hKbWvs1CjFZ3E+b+Ca+Nao2eOvj4ccLuGe82sh5qYV34RyGqEXeeZ8XO+
-         snz3Gr9quqXuXSC1l4bsomRwYbfg2f09rDircbLbUzU7aQ/CtSYQbqUqXFlDPpotqA6z
-         xOcZUgD9m+MOkuTgvKLaOGpJmtUx7pO6EaF6eR8Y1ia7t0BJV9/20HBBPQjQJ8OmdVxR
-         e6BQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to;
-        bh=PT/jGjVOEJ3/JbqyiiQmie/SJAZqtyuPD5jHdBMFwAg=;
-        b=s2Padldmk7QfW7l4Obhuk1s9ElzyLJSy22mRQZOQwEgIslfbqY7GdgS5MQJYyVaETn
-         5zjmrAUVsJRlDHG8vctjDcbxvl+sQZ5NDn6k7FIE/6UxLDY9XQgOGr9aR2c710EvVhFU
-         SMf7Mls9yBOTysvEVac1esIarsVS656KbLdXESWSZnTSquyLNiv/HbFd3tZAum4llArQ
-         r9gZF5/HkAu2rtb1OCn7kV2ROcxOTFiK4K7MELR3AmBkmibrzB0/WrbeBCPT45NOCvyA
-         ft3r639k4LtR08nm+pXW0UPVlrstaW761rRpNkxGVoEfpJPua5XD4pocmpeNxP3brr8X
-         LKTQ==
-X-Gm-Message-State: AOAM532lmEGAalcpeFzzq461SQAJl6kEUGH7KxI4vzNTfR1Q5L+fydEK
-	aVCUTt7eQXDJB20TfX//DwXduB9JfaYlr3nfMxLpRq2Tv8AdOA==
-X-Google-Smtp-Source: ABdhPJzJkIG8uKEc5oeZ5pC8Ad2+5FYj0Xoe9ARPOK+sTWWR38HIH6erRAjF1O/AvTij7QsvyqM//79HrUhFnvT9rLQ=
-X-Received: by 2002:a05:6102:ed0:: with SMTP id m16mr1224829vst.71.1644921422085;
- Tue, 15 Feb 2022 02:37:02 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56DC81FD3
+	for <connman@lists.linux.dev>; Thu, 17 Feb 2022 11:31:26 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 25AB421119
+	for <connman@lists.linux.dev>; Thu, 17 Feb 2022 11:31:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1645097484; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=echYZxuNr5H7xbNuVHU1rnsyEvn7XY/VbIB8am22sxs=;
+	b=rfomZPa4ykSOQV2kIjZU5UR9Xd8YRflGlOgMXbkS0v5OLAwPJ7wsG9u6/IWODnvxDUmvuf
+	gzXZottHKsFUBvNyH6J9Ox85MNs30QpWgVMwpJzY/bgX0HHFHD0Sv0ND4xMh0xXW0m/RLU
+	gt7twYv2GlAczS0gjXuSvgrY9gZAcLE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1645097484;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=echYZxuNr5H7xbNuVHU1rnsyEvn7XY/VbIB8am22sxs=;
+	b=SjwYWTQHnPv155mqa1XBAd1/hfNgF8T9b80QLL4bjFY6lTgCkNbKtiq1j/JtwdSQ1T1FxT
+	4UdeO2ryG24TpaBQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 0E3B813BBF
+	for <connman@lists.linux.dev>; Thu, 17 Feb 2022 11:31:24 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id nTYAAgwyDmJBXgAAMHmgww
+	(envelope-from <mgerstner@suse.de>)
+	for <connman@lists.linux.dev>; Thu, 17 Feb 2022 11:31:24 +0000
+From: matthias.gerstner@suse.de
+To: connman@lists.linux.dev
+Subject: [PATCH 1/7] dnsproxy: remove unused domain parameter from `remove_server()`
+Date: Thu, 17 Feb 2022 12:31:07 +0100
+Message-Id: <20220217113113.24088-2-matthias.gerstner@suse.de>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220217113113.24088-1-matthias.gerstner@suse.de>
+References: <20220217113113.24088-1-matthias.gerstner@suse.de>
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220215102638.599189-1-net147@gmail.com>
-In-Reply-To: <20220215102638.599189-1-net147@gmail.com>
-From: Jonathan Liu <net147@gmail.com>
-Date: Tue, 15 Feb 2022 21:36:49 +1100
-Message-ID: <CANwerB0jFWpnTkpF1qispnAw5K1X__OQjMP=xEEGe9UHLDMd1g@mail.gmail.com>
-Subject: Re: [WIP PATCH v2] iwd: Fix disabling tethering not working for brcmfmac
-To: connman@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Hi,
+From: Matthias Gerstner <matthias.gerstner@suse.de>
 
-On Tue, 15 Feb 2022 at 21:27, Jonathan Liu <net147@gmail.com> wrote:
->
-> For Broadcom BCM4356 chipset with brcmfmac driver, changing from AP mode
-> to station mode returns -EBUSY if the wireless interface is a member of
-> a bridge.
->
-> To resolve the issue, the wireless interface is removed from the tether
-> bridge before changing the mode rather than after.
->
-> Fixes: 648ed549f0ac ("iwd: Add support for tethering")
-> ---
->  plugins/iwd.c | 9 ++++-----
->  1 file changed, 4 insertions(+), 5 deletions(-)
+---
+ src/dnsproxy.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-This is a work in progress patch. I needed to make these changes
-otherwise disabling tethering would not work for my brcmfmac wireless.
-This patch seems to result in a "no ap object found" debug message
-when disabling tethering. It seems by the time it tries to lookup the
-ap object in the access_points hash table in
-tech_disable_tethering_cb() function, it has already been removed.
-The connman_technology_tethering_notify(cbd->tech, false) line had to
-be moved up before the ap object lookup as otherwise the lookup
-failing would cause the tethering property to not be updated from true
-to false when disabling tethering.
+diff --git a/src/dnsproxy.c b/src/dnsproxy.c
+index cf1d36c7..ad8c5da2 100644
+--- a/src/dnsproxy.c
++++ b/src/dnsproxy.c
+@@ -2843,8 +2843,7 @@ int __connman_dnsproxy_append(int index, const char *domain,
+ 	return 0;
+ }
+ 
+-static void remove_server(int index, const char *domain,
+-			const char *server, int protocol)
++static void remove_server(int index, const char *server, int protocol)
+ {
+ 	struct server_data *data;
+ 	GSList *list;
+@@ -2885,8 +2884,8 @@ int __connman_dnsproxy_remove(int index, const char *domain,
+ 	if (g_str_equal(server, "::1"))
+ 		return -ENODEV;
+ 
+-	remove_server(index, domain, server, IPPROTO_UDP);
+-	remove_server(index, domain, server, IPPROTO_TCP);
++	remove_server(index, server, IPPROTO_UDP);
++	remove_server(index, server, IPPROTO_TCP);
+ 
+ 	return 0;
+ }
+-- 
+2.34.1
 
-I guess that means Stop is not called on the iwd ap object as it was
-already removed.
-
-Any suggestions on how to improve this?
-
-Thanks.
-
-Regards,
-Jonathan
