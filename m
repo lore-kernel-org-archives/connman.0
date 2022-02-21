@@ -1,27 +1,27 @@
 Received: from mail.nearlyone.de (mail.nearlyone.de [46.163.114.145])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CA846129
-	for <connman@lists.linux.dev>; Mon, 21 Feb 2022 08:33:02 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 7619A5D345;
-	Mon, 21 Feb 2022 09:33:00 +0100 (CET)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1144F2568
+	for <connman@lists.linux.dev>; Mon, 21 Feb 2022 08:48:15 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id CA3695D365;
+	Mon, 21 Feb 2022 09:48:13 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=monom.org; s=dkim;
-	t=1645432380; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 in-reply-to:references; bh=Rya4xbLZLv92KRFCJRur/bvG9ayeF10aafRO8AQ1BVk=;
-	b=Mp4bGrxmyNs5EFOse0G28aLgwzb59wwpbtD8XJWEiJJWHU4gMBqqdUq+g/ewoUgkOCpiR9
-	s7uxmNJrtUm0+2GW5o9OeAFr7HxAWPHJBDbtKlxZcPEZ7vZU+u1fhYVs1/9QZw3QQ9fHIR
-	qhDHPH5KnN9elo8E44fNvkmaCqAP6LE2M6fLA5xSASZ7x+osoli7FR4V4xfptVpThUCnah
-	IJ2cHtWVuujovWFvwz2XawT3U7bB16hivoT+cBHDG04UkiwHV1r0yqYPf+2d0/IiFBCDkb
-	w9On4J7KsP89XqTlRy2jd8ATUIqScoDyAeYHDxiHsshleZv6nVmkTYQ+Y1Y4Cw==
-Date: Mon, 21 Feb 2022 09:32:59 +0100
+	t=1645433293; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 in-reply-to:references; bh=NNB3Xmv3t6Tf8zkPGNt86Glzn8YqMGqg5gvALuEMhDc=;
+	b=vld0xdA0WkLXKcUhuHrdcyiNUOhGqZSAcUVNjSzBogYlwRsdWON0PWGRvR2ZWJzL3GOr0O
+	HBeuppOPreqW83myVoMQmFgi47Aih1hJb/n6B2aPnBRA8QL/pEfw4SAFmQlNa7EOqRUs9p
+	NAj9TwCFn8zUG3UM0RI2KvF/mAh/sxvDRwGDpKsbBJr7T5qmExlKkxW55NL8I3bG/K2Tlp
+	9zQSyoQBsex01ALfRpKVYaD4WeToXTYE71r2KmgBPYJ8co8r0R7xpeE40AzHT1EMIIkrid
+	eQc6IGgknv9/KOSskj853knZXOYinfGaEbXoNKp92Gc4xWHl1EA3L5WGplsUhg==
+Date: Mon, 21 Feb 2022 09:48:13 +0100
 From: Daniel Wagner <wagi@monom.org>
-To: Jonathan Liu <net147@gmail.com>
+To: matthias.gerstner@suse.de
 Cc: connman@lists.linux.dev
-Subject: Re: [WIP PATCH v2] iwd: Fix disabling tethering not working for
- brcmfmac
-Message-ID: <20220221083259.yj2gjrqbeplny645@beryllium.lan>
-References: <20220215102638.599189-1-net147@gmail.com>
- <CANwerB0jFWpnTkpF1qispnAw5K1X__OQjMP=xEEGe9UHLDMd1g@mail.gmail.com>
+Subject: Re: [PATCH 7/7] dnsproxy: add standalone test version of dnsproxy
+ and a test script for it
+Message-ID: <20220221084813.sk5thg5pj24ym3db@beryllium.lan>
+References: <20220217113113.24088-1-matthias.gerstner@suse.de>
+ <20220217113113.24088-8-matthias.gerstner@suse.de>
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
@@ -30,51 +30,80 @@ List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CANwerB0jFWpnTkpF1qispnAw5K1X__OQjMP=xEEGe9UHLDMd1g@mail.gmail.com>
+In-Reply-To: <20220217113113.24088-8-matthias.gerstner@suse.de>
 X-Last-TLS-Session-Version: TLSv1.3
 
-Hi Jonathan,
+Hi Matthias,
 
-On Tue, Feb 15, 2022 at 09:36:49PM +1100, Jonathan Liu wrote:
-> Hi,
-> 
-> On Tue, 15 Feb 2022 at 21:27, Jonathan Liu <net147@gmail.com> wrote:
-> >
-> > For Broadcom BCM4356 chipset with brcmfmac driver, changing from AP mode
-> > to station mode returns -EBUSY if the wireless interface is a member of
-> > a bridge.
-> >
-> > To resolve the issue, the wireless interface is removed from the tether
-> > bridge before changing the mode rather than after.
-> >
-> > Fixes: 648ed549f0ac ("iwd: Add support for tethering")
-> > ---
-> >  plugins/iwd.c | 9 ++++-----
-> >  1 file changed, 4 insertions(+), 5 deletions(-)
-> 
-> This is a work in progress patch. I needed to make these changes
-> otherwise disabling tethering would not work for my brcmfmac wireless.
-> This patch seems to result in a "no ap object found" debug message
-> when disabling tethering. It seems by the time it tries to lookup the
-> ap object in the access_points hash table in
-> tech_disable_tethering_cb() function, it has already been removed.
-> The connman_technology_tethering_notify(cbd->tech, false) line had to
-> be moved up before the ap object lookup as otherwise the lookup
-> failing would cause the tethering property to not be updated from true
-> to false when disabling tethering.
-> 
-> I guess that means Stop is not called on the iwd ap object as it was
-> already removed.
-> 
-> Any suggestions on how to improve this?
+On Thu, Feb 17, 2022 at 12:31:13PM +0100, matthias.gerstner@suse.de wrote:
+> +tools_dnsproxy_standalone_CFLAGS = $(src_connmand_CFLAGS) -I$(srcdir)/src
+> +tools_dnsproxy_standalone_SOURCES = tools/dnsproxy-standalone.c $(src_connmand_SOURCES)
+> +# for EXTRA_PROGRAMS the BUILT_SOURCES aren't automatically added as
+> +# dependency, so let's do it explicitly
+> +tools/dnsproxy-standalone.c: $(BUILT_SOURCES)
+> +tools_dnsproxy_standalone_LDADD = $(src_connmand_LDADD)
+> +# pass -zmuldefs to let the linker tolerate the duplicate definition of
+> +# main(), the first definition from dnsproxy-standalone should be used
+> +tools_dnsproxy_standalone_LDFLAGS = $(src_connmand_LDFLAGS) -Wl,-zmuldefs
+> +
+> +EXTRA_PROGRAMS += tools/dnsproxy-standalone
 
-I think your approach is correct. The order of cleanup should be in the
-in reverse to the setup steps. We add the interface to the bridge when
-we get the Started signal. If I am not completely mistaken we should
-first undo this operation and then call Stop.
+I would move this part just under the other tools section. These 'tools'
+are not supposed to be installed.
 
-The only thing I need to double check if we do not leak any resources
-due to the -EIO I saw there when I quickly looked at.
+> --- /dev/null
+> +++ b/tools/dnsproxy-simple-test
+> @@ -0,0 +1,112 @@
+> +#!/bin/bash
+> +
+> +# this script runs the dnsproxy-standalone test program and runs a couple of
+> +# standard DNS queries against it, using the currently configured DNS server
+> +# in the system as dnsproxy configuration.
+> +
+> +echoerr() {
+> +	echo $@ 1>&2
+> +	exit 1
+> +}
+> +
+> +while [ $# -gt 0 ]; do
+> +	case "$1" in
+> +	"--valgrind")
+> +		VALGRIND=`which valgrind`
+> +		if [ -z "$VALGRIND" ]; then
+> +			echoerr "no valgrind executable found"
+> +		fi
+> +		;;
+> +	"-h")
+> +		echo "$0 [--valgrind]"
+> +		echo "--valgrind: run dnsproxy-standalone in valgrind"
+> +		exit 2
+> +		;;
+> +	*)
+> +		echoerr "Unknown argument $1"
+> +		;;
+> +	esac
+> +	shift
+> +done
+> +
+> +if [ -e "Makefile" ]; then
+> +	BUILDROOT="$PWD"
+> +else
+> +	if [ ! -n "$BUILDROOT" ]; then
+> +		echoerr "You need to set the BUILDROOT environment variable or run this script from the connman build tree root"
+> +	fi
+> +
+> +	pushd "$BUILDROOT" >/dev/null || echoerr "couldn't enter $BUILDROOT"
+> +fi
+> +make tools/dnsproxy-standalone || echoerr "failed to build dnsproxy-standalone"
+
+Just build this tool along with the other tools. No need for this
+special casing IMO. It's also not working in my setup:
+
+$ ./tools/dnsproxy-simple-test
+gcc -Wall -O2 -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=2 -O0 -U_FORTIFY_SOURCE -g    tools/dnsproxy-standalone.c   -o tools/dnsproxy-standalone
+tools/dnsproxy-standalone.c:7:10: fatal error: glib.h: No such file or directory
+    7 | #include <glib.h>
+      |          ^~~~~~~~
 
 Thanks,
 Daniel
