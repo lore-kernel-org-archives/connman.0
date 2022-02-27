@@ -1,20 +1,25 @@
-Received: from fgw22-4.mail.saunalahti.fi (fgw22-4.mail.saunalahti.fi [62.142.5.109])
+Received: from mail.nearlyone.de (mail.nearlyone.de [46.163.114.145])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCFCB1FC3
-	for <connman@lists.linux.dev>; Fri, 25 Feb 2022 10:59:12 +0000 (UTC)
-Received: from localhost.localdomain (88-113-60-36.elisa-laajakaista.fi [88.113.60.36])
-	by fgw22.mail.saunalahti.fi (Halon) with ESMTP
-	id cd440e12-9629-11ec-ae1c-005056bdf889;
-	Fri, 25 Feb 2022 12:58:02 +0200 (EET)
-From: Jussi Laakkonen <jussi.laakkonen@jolla.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63B3E4A91
+	for <connman@lists.linux.dev>; Sun, 27 Feb 2022 17:16:04 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id DDF425D1B9;
+	Sun, 27 Feb 2022 18:15:55 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=monom.org; s=dkim;
+	t=1645982156; h=from:subject:date:message-id:to:cc:mime-version:
+	 content-transfer-encoding; bh=Ll+IVND1VppAs8Ehz7iyqljYNCyAMsp39gYlv/Rkjb0=;
+	b=mjwCTxW0tiBj6t5kEU+IjwZvFZcxL+sHROfTl5AbEGODZQ0+eF9Dm4fGNiOJJ5WYPIXmTh
+	oNG0AD5gsLYANNqTAj/X9E5UQdA/iG8xh89ziMrzeCh8Gp2w76tIVoMHQ5pksLxjh1nf4z
+	4DqM+k1EMgYwXMddUST+lTRJIMNf6DFYJbGseYO23iTeorZG0q3N+b4t4IeGpdxLdkNf9k
+	vlCQhxL9tm0vv+etONgMYbLSQCvSjAECuX+0DoIRmg5iBUAg9cSYFVq+hnohC0m8Po0pT0
+	yaZZt6tJmcmH674IgCPlAYk2kl6gVixLEi6ys4zT5qwdPQ7U15a6SdjZ5H+YXA==
+From: Daniel Wagner <wagi@monom.org>
 To: connman@lists.linux.dev
-Subject: [PATCH 2/2] service: Check if hidden service has a pending request on agent
-Date: Fri, 25 Feb 2022 12:58:00 +0200
-Message-Id: <20220225105800.501005-3-jussi.laakkonen@jolla.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20220225105800.501005-1-jussi.laakkonen@jolla.com>
-References: <20220225105800.501005-1-jussi.laakkonen@jolla.com>
+Cc: daniel antoine <univac55@gmail.com>,
+	Daniel Wagner <wagi@monom.org>
+Subject: [PATCH] main: Set default online check URL also when no config provided
+Date: Sun, 27 Feb 2022 18:15:49 +0100
+Message-Id: <20220227171549.32664-1-wagi@monom.org>
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
@@ -22,37 +27,41 @@ List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Last-TLS-Session-Version: TLSv1.3
 
-Hidden (WiFi) services do not save the pending request to the service
-struct and this utilizes agent-connman.c to check if there is a agent
-request already set for the service. In such case this reports in
-progress error back to the caller as with visible service.
+We need to set the default URL also when no config exist.
 
-Otherwise there would be a possibility to request connect for at least
-twice for a hidden WiFi network. And when agent is in use this would
-result in two requests to be sent, first one is the current active one
-and the second would be waiting in agent queue, which in case of
-time-out would be then be sent to the agent as a duplicate request.
+Reported by: Daniel Antoine <univac55@gmail.com>
+
+Fixes: 9d7e55f40e80 ("wispr: Add online check url config options")
 ---
- src/service.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ src/main.c | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
 
-diff --git a/src/service.c b/src/service.c
-index 1d2b78a6..f1abb963 100644
---- a/src/service.c
-+++ b/src/service.c
-@@ -4562,7 +4562,10 @@ static DBusMessage *connect_service(DBusConnection *conn,
+diff --git a/src/main.c b/src/main.c
+index e209cf261300..bf6ccad5fc08 100644
+--- a/src/main.c
++++ b/src/main.c
+@@ -318,11 +318,17 @@ static void parse_config(GKeyFile *config)
  
- 	DBG("service %p", service);
+ 	if (!config) {
+ 		connman_settings.auto_connect =
+-			parse_service_types(default_auto_connect, CONF_ARRAY_SIZE(default_auto_connect));
++			parse_service_types(default_auto_connect,
++					CONF_ARRAY_SIZE(default_auto_connect));
+ 		connman_settings.favorite_techs =
+-			parse_service_types(default_favorite_techs, CONF_ARRAY_SIZE(default_favorite_techs));
++			parse_service_types(default_favorite_techs,
++					CONF_ARRAY_SIZE(default_favorite_techs));
+ 		connman_settings.blacklisted_interfaces =
+ 			g_strdupv(default_blacklist);
++		connman_settings.online_check_ipv4_url =
++			g_strdup(DEFAULT_ONLINE_CHECK_IPV4_URL);
++		connman_settings.online_check_ipv6_url =
++			g_strdup(DEFAULT_ONLINE_CHECK_IPV6_URL);
+ 		return;
+ 	}
  
--	if (service->pending)
-+	/* Hidden services do not keep the pending msg, check it from agent */
-+	if (service->pending || (service->hidden &&
-+				__connman_agent_is_request_pending(service,
-+						dbus_message_get_sender(msg))))
- 		return __connman_error_in_progress(msg);
- 
- 	index = __connman_service_get_index(service);
 -- 
-2.30.2
+2.35.1
 
