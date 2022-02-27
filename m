@@ -1,28 +1,28 @@
 Received: from mail.nearlyone.de (mail.nearlyone.de [46.163.114.145])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C55134A91
-	for <connman@lists.linux.dev>; Sun, 27 Feb 2022 17:18:21 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 1B0555D404;
-	Sun, 27 Feb 2022 18:18:19 +0100 (CET)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E02E14A91
+	for <connman@lists.linux.dev>; Sun, 27 Feb 2022 17:45:27 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 0F2A65D30E;
+	Sun, 27 Feb 2022 18:45:24 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=monom.org; s=dkim;
-	t=1645982299; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	t=1645983925; h=from:subject:date:message-id:to:cc:mime-version:content-type:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=TQA5h82QsOi57ogO5bmFEgCwTX5GDPI+orTG5VLIOiE=;
-	b=o0KAeiPsDfDHeSealST84ceHZzQEdM6pRIa/jFo8Qg8koLmdYxAIvo1xcmKl64u9Qo0w9i
-	gp4CH/hK9rCsk75mzKrz3EOkUicAo3CcGFijSKIW+uF5ro2fMR+TgBDM8iQhkR55GECZQB
-	rjyQSoNcZr0nA71+sXG/6usIdv9wGlGsRrjCTZ5nrfzffIC7Ie9YzNXjwTGNppEfiuL1wO
-	jAdyTT4JOnG0Fdzbpsvhs014V6Bgi9kBXcMDi23bpadKxElccWDzc+azrit5y5QM5jAmYL
-	e7JuwOAqyXb9Neb+Aq3H+kcKjQzyim5g3l9zXdRyPMX10G84YFE2QQLTyLPOtg==
+	bh=dFTgdxW/zk+8ERjreZf6qXDHbiaX2D14CUNkSZf5rV4=;
+	b=zaayeA77+WmDmRxNXWpKLIH4znH4LU8j8siwnpbt3SlP7EiJJ5HMY/JwErIui1bIMGfbpT
+	xvlgCUcGntyMwOdbjfj7BGvpSPVtWF7sJX5IHuB8NVaON3VWuGiQ9UDPm+cFPxY7QS+Sz7
+	LIJpogKoVpWjLZT7aI/SD13TcvuN7syHmkzQIOdUYSE28Cs0QgfMeAyWPu0+HdUxgJo9Ci
+	pcg16fuhGJN25EpbNXESAsml1s0TTil/EWZjcKtKXOEJLVtNwtZHipizFDgEa4y8ozCl8k
+	aqZq5DZab8vMrd6IYKAwVerN3PSImUD5UF+NvLmIsyDkz+QgA0xh6p8Gw0vHfg==
 From: Daniel Wagner <wagi@monom.org>
-To: Daniel Wagner <wagi@monom.org>,
+To: Jonathan Liu <net147@gmail.com>,
 	connman@lists.linux.dev
-Cc: daniel antoine <univac55@gmail.com>
-Subject: Re: [PATCH] main: Set default online check URL also when no config provided
-Date: Sun, 27 Feb 2022 18:18:17 +0100
-Message-Id: <164598228862.1233.12680005743478517305.b4-ty@monom.org>
-In-Reply-To: <20220227171549.32664-1-wagi@monom.org>
-References: <20220227171549.32664-1-wagi@monom.org>
+Cc: Daniel Wagner <wagi@monom.org>
+Subject: Re: [WIP PATCH v2] iwd: Fix disabling tethering not working for brcmfmac
+Date: Sun, 27 Feb 2022 18:45:23 +0100
+Message-Id: <164598391365.21419.4482762881203885138.b4-ty@monom.org>
+In-Reply-To: <20220215102638.599189-1-net147@gmail.com>
+References: <20220215102638.599189-1-net147@gmail.com>
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
@@ -33,17 +33,20 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-Last-TLS-Session-Version: TLSv1.3
 
-On Sun, 27 Feb 2022 18:15:49 +0100, Daniel Wagner wrote:
-> We need to set the default URL also when no config exist.
+On Tue, 15 Feb 2022 21:26:38 +1100, Jonathan Liu wrote:
+> For Broadcom BCM4356 chipset with brcmfmac driver, changing from AP mode
+> to station mode returns -EBUSY if the wireless interface is a member of
+> a bridge.
 > 
-> Reported by: Daniel Antoine <univac55@gmail.com>
+> To resolve the issue, the wireless interface is removed from the tether
+> bridge before changing the mode rather than after.
 > 
-> 
+> [...]
 
 Applied, thanks!
 
-[1/1] main: Set default online check URL also when no config provided
-      commit: d48584aa8bed06f9b728579ea64deb8d30b03b86
+[1/1] iwd: Fix disabling tethering not working for brcmfmac
+      commit: 5d1eebad7cffeae7d7b6b11d03d04f73bdd503bc
 
 Best regards,
 -- 
