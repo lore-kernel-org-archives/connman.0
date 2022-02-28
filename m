@@ -1,47 +1,47 @@
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B4B6559B
-	for <connman@lists.linux.dev>; Mon, 28 Feb 2022 12:49:41 +0000 (UTC)
-Received: by mail-ej1-f47.google.com with SMTP id p15so24528726ejc.7
-        for <connman@lists.linux.dev>; Mon, 28 Feb 2022 04:49:41 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DA39559B
+	for <connman@lists.linux.dev>; Mon, 28 Feb 2022 12:49:43 +0000 (UTC)
+Received: by mail-ed1-f52.google.com with SMTP id i11so17399939eda.9
+        for <connman@lists.linux.dev>; Mon, 28 Feb 2022 04:49:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=f6vukLHIEWumeNdbY7mo1YMydGNuuFC6nRgOwTbf2e8=;
-        b=maX30mUCv9/qvIlopmQQ+85IowvkaWiVPY7ZOCtFrC2rP9vCBCAr/DA4hyo4yhemBy
-         oRIp+ubE9mL0KUpEMQwz5rjuFi0Dpwgo9GswDv5I0dsPddTJclDauco3mSd3LUWP7SkE
-         aHslpG9ah1h94IrZsb4X12qrVhlCGDV/coy9F4bNHUTK+aZUsSalynamEC/8BN7FpEYv
-         e4AO/Mb+drYRgVQ/5NxX7m+ARTAc9QtQss4qltpQL8NZg74NbAr/SVLbHZcgjmXexQV6
-         qZDo3Ul6MCc0nqHvfSEdNVIExfkyAFt1ZdeN83KyADOFKXQYIXGwshyUmA20DvxDHqJe
-         pqlg==
+        bh=8j+9vHgMiqe1Urr/afKFvGOnRAhI/ENqrbNSIV6SuKQ=;
+        b=Z1ohtcDebijyr/Qw/G6xjwxgQ/MPcElxnYNPryVls9uZN/H6ZSFjUOHdtSkCfL035S
+         wxhpSGbzZ3ssDfbP28j4cXC0TkU+/cKTKrcFzIe0qcOzD8AXz71YNdkiUYSaeil9pbTk
+         RE7qXHqF0wv/mLZYV2GKlAqO2h4bi0HeXT1rAe+hkf+6PNoWFht41YnL4tTs0bcpP9yE
+         7CoSnkbXB6rtR4DfG3/hqlhDvd5UUBE0vC17kuVgxwU3Cvq4urZL+C7Nb98L8JWSb3oo
+         B0uJMdPqlukeVuPPLUSbPIvGU584x2xXfb6+HA+OYF/qUtetdXshX3qteGFZH0VmAW6a
+         WTPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=f6vukLHIEWumeNdbY7mo1YMydGNuuFC6nRgOwTbf2e8=;
-        b=zuuPtkINdJuDF8SDax+bPJPkYB7GOBA2H1xP2bWswmUAyi9G6rzC8b7ei3BwlPERj3
-         M9jICwyRkigjcUmN2k/RjIA/qbHBNs22FTaNjH7b0ioeHeL3U3fINSjYNsm8TBIvd8hx
-         5KOpuSAZlrvhDWgWtoknt0NG0NK9T/DKsXc0lERbtH3YcxzFYZPGXHALsaO85Xdrn3NB
-         4TIQeo10GDpuPKmzvVtRgudZons3/HFBFGWoRRbfFq2aV7d4H8XYvfyXBLF+5Da8qMDt
-         3RDD344vZPubsGt/Izk5MyfZZ93Hm3gVAFvvp5jIWD+Cke5ai5O3x8Z4c+c2ea+w3hcE
-         mHAw==
-X-Gm-Message-State: AOAM5327OQWwxpg85OP6yk5JWfm2iikLmAMJpPEA7poOCOdVKXytSj4w
-	W3qxfmogZaZVyDB9R5r36DRYJykWCt1abg==
-X-Google-Smtp-Source: ABdhPJxpgtf96a/tVAB5YaTcIP7IFX/ibkTI4gVjT07W9+BSDmLsVR6Dfh60rR1dmwVkFG9koPGyMA==
-X-Received: by 2002:a17:906:2bc1:b0:6cf:d009:7f6b with SMTP id n1-20020a1709062bc100b006cfd0097f6bmr14947330ejg.17.1646052579996;
-        Mon, 28 Feb 2022 04:49:39 -0800 (PST)
+        bh=8j+9vHgMiqe1Urr/afKFvGOnRAhI/ENqrbNSIV6SuKQ=;
+        b=QUnqTEMF7IzhhJeilDH0AQ1LDYnUVZiGdZ2LYMwmiL0RVT0x0fCVI0lfceqs1/WCH9
+         dhjHkzF47/lHd4dQRTxe1XhzvxQRRMuNqdX26P/YbLipiYI3stYkT79sGJqKtLN4t8M+
+         OztTDa4Z7HmpCjp0l+HsUnq5Rdn5VmYIheQBctkZuZQ+y3QQM7fw9CWZArYVTyr2vcWC
+         eINc9/BrHyAcU6y6G+0FcAewJ0hk1PzQc5Tt/A4qer5+EuqdkvTB9+lVeYi6a2FNTtdD
+         zEPYVMPbvPvB1BhPf7t+5FTHqVDqgsWyp7q4bjP0o+B4onJcf8+eKB5UFAH6Zi+YUj+H
+         XDLA==
+X-Gm-Message-State: AOAM530woSOO2jb6c2iMQBqLQDvGQeLqK29mPAkAQMA6y90msM5nGaPi
+	znaEuTnza4k8oSkdHHqXNTmL4JhMRSLS5A==
+X-Google-Smtp-Source: ABdhPJynS1jIv87fAoFt30vtCt4SJ5yMzG3DSDe/ZGafdTyT/XTOOC6mLsrg7nuk+f95vViEL4mEMw==
+X-Received: by 2002:a05:6402:845:b0:412:ad14:863e with SMTP id b5-20020a056402084500b00412ad14863emr19459864edz.380.1646052581574;
+        Mon, 28 Feb 2022 04:49:41 -0800 (PST)
 Received: from localhost.localdomain (ptr-gppolqqj1pmj1s3xvfl.18120a2.ip6.access.telenet.be. [2a02:1812:2d0c:4800:5a95:daff:d376:c061])
-        by smtp.gmail.com with ESMTPSA id r11-20020aa7cfcb000000b00412c58c43ccsm5981484edy.37.2022.02.28.04.49.38
+        by smtp.gmail.com with ESMTPSA id r11-20020aa7cfcb000000b00412c58c43ccsm5981484edy.37.2022.02.28.04.49.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Feb 2022 04:49:39 -0800 (PST)
+        Mon, 28 Feb 2022 04:49:40 -0800 (PST)
 From: Nicky Geerts <nicky.geerts@gmail.com>
 To: connman@lists.linux.dev
 Cc: Nicky Geerts <nicky.geerts@gmail.com>
-Subject: [PATCH 1/2] timeserver: refresh the nameservers before each lookup
-Date: Mon, 28 Feb 2022 13:49:29 +0100
-Message-Id: <20220228124930.4010311-2-nicky.geerts@gmail.com>
+Subject: [PATCH 2/2] timeserver: include the reason why a timeserver sync is requested
+Date: Mon, 28 Feb 2022 13:49:30 +0100
+Message-Id: <20220228124930.4010311-3-nicky.geerts@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220228124930.4010311-1-nicky.geerts@gmail.com>
 References: <20220228124930.4010311-1-nicky.geerts@gmail.com>
@@ -53,162 +53,131 @@ List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-There is a possibility where the UDP channel connections in the resolv
-instance are being closed because of how the external DNS service might
-respond, and are never opened again.  The DNS resolve will keep failing,
-and there is no automatic recovery from this.
+Except for the initial connman_timeserver_start call, and potential
+updated of the default service, all subsequent calls to resynchronise
+the timeserver are blocked because of the check whether service equals
+ts_service in __connman_timeserver_sync.
 
-Similar to the behavior of the WISPR module, refresh the nameservers in
-the resolv instance before each DNS request.
+DHCP updates, which could replace the timeserver and nameservers, and state
+change updates are ignored.
+
+As previously suggested by Daniel Wagner on Nov 19th 2019 in a mail to
+Vivien Henriet, it would be best to pass the reason of the sync call,
+and add the logic in __connman_timeserver_sync.
 
 ---
- src/timeserver.c | 93 ++++++++++++++++++++++++++----------------------
- 1 file changed, 51 insertions(+), 42 deletions(-)
+ include/timeserver.h |  7 +++++++
+ src/connman.h        |  2 +-
+ src/service.c        |  4 ++--
+ src/timeserver.c     | 25 ++++++++++++++++++++-----
+ 4 files changed, 30 insertions(+), 8 deletions(-)
 
-diff --git a/src/timeserver.c b/src/timeserver.c
-index feef8e83..968739c3 100644
---- a/src/timeserver.c
-+++ b/src/timeserver.c
-@@ -47,6 +47,7 @@ static GResolv *resolv = NULL;
- static int resolv_id = 0;
+diff --git a/include/timeserver.h b/include/timeserver.h
+index 48ea1945..f1d6f1e8 100644
+--- a/include/timeserver.h
++++ b/include/timeserver.h
+@@ -26,6 +26,13 @@
+ extern "C" {
+ #endif
  
- static void sync_next(void);
-+static void ts_set_nameservers(struct connman_service *service);
++enum connman_timeserver_sync_reason {
++    CONNMAN_TIMESERVER_SYNC_REASON_START = 0,
++    CONNMAN_TIMESERVER_SYNC_REASON_ADDRESS_UPDATE = 1,
++    CONNMAN_TIMESERVER_SYNC_REASON_STATE_UPDATE = 2,
++    CONNMAN_TIMESERVER_SYNC_REASON_TS_CHANGE = 3,
++};
++
+ int __connman_timeserver_system_set(char **server);
  
- static void resolv_debug(const char *str, void *data)
- {
-@@ -183,6 +184,7 @@ static void sync_next(void)
+ #ifdef __cplusplus
+diff --git a/src/connman.h b/src/connman.h
+index 33dbec69..0985cb11 100644
+--- a/src/connman.h
++++ b/src/connman.h
+@@ -451,7 +451,7 @@ char **__connman_timeserver_system_get();
+ GSList *__connman_timeserver_add_list(GSList *server_list,
+ 		const char *timeserver);
+ GSList *__connman_timeserver_get_all(struct connman_service *service);
+-void __connman_timeserver_sync(struct connman_service *service);
++void __connman_timeserver_sync(struct connman_service *service, enum connman_timeserver_sync_reason reason);
+ void __connman_timeserver_conf_update(struct connman_service *service);
+ 
+ bool __connman_timeserver_is_synced(void);
+diff --git a/src/service.c b/src/service.c
+index f1abb963..52c4ee4c 100644
+--- a/src/service.c
++++ b/src/service.c
+@@ -1476,7 +1476,7 @@ static void address_updated(struct connman_service *service,
+ 		nameserver_add_all(service, type);
+ 		start_online_check(service, type);
+ 
+-		__connman_timeserver_sync(service);
++		__connman_timeserver_sync(service, CONNMAN_TIMESERVER_SYNC_REASON_ADDRESS_UPDATE);
  	}
- 
- 	__connman_ntp_stop();
-+    ts_set_nameservers(ts_service);
- 
- 	while (ts_list) {
- 		ts_current = ts_list->data;
-@@ -347,24 +349,35 @@ static void ts_recheck_enable(void)
- 			NULL);
  }
  
--static void ts_reset(struct connman_service *service)
-+static int ts_setup_resolv(struct connman_service *service)
- {
--	char **nameservers;
--	int i;
-+    int i;
+@@ -6504,7 +6504,7 @@ int __connman_service_ipconfig_indicate_state(struct connman_service *service,
+ 	if (!is_connected(old_state) && is_connected(new_state))
+ 		nameserver_add_all(service, type);
  
--	if (!resolv)
--		return;
-+   	i = __connman_service_get_index(service);
-+	if (i < 0)
-+		return -EINVAL;
-+ 
-+   	if (resolv) {
-+		g_resolv_unref(resolv);
-+		resolv = NULL;
-+	}
+-	__connman_timeserver_sync(service);
++	__connman_timeserver_sync(service, CONNMAN_TIMESERVER_SYNC_REASON_STATE_UPDATE);
  
--	__connman_timeserver_set_synced(false);
-+	resolv = g_resolv_new(i);
-+	if (!resolv) {
-+		return -ENOMEM;
-+	}
+ 	return service_indicate_state(service);
+ }
+diff --git a/src/timeserver.c b/src/timeserver.c
+index 968739c3..3bae9074 100644
+--- a/src/timeserver.c
++++ b/src/timeserver.c
+@@ -309,7 +309,7 @@ static gboolean ts_recheck(gpointer user_data)
+ 		g_slist_free_full(ts, g_free);
  
--	/*
--	 * Before we start creating the new timeserver list we must stop
--	 * any ongoing ntp query and server resolution.
--	 */
-+   	if (getenv("CONNMAN_RESOLV_DEBUG"))
-+		g_resolv_set_debug(resolv, resolv_debug, "RESOLV");
+ 		service = connman_service_get_default();
+-		__connman_timeserver_sync(service);
++		__connman_timeserver_sync(service, CONNMAN_TIMESERVER_SYNC_REASON_TS_CHANGE);
  
--	__connman_ntp_stop();
-+    return 0;
-+}
- 
--	ts_recheck_disable();
-+
-+static void ts_set_nameservers(struct connman_service *service)
-+{
-+	char **nameservers;
-+    int i;
- 
- 	if (resolv_id > 0)
- 		g_resolv_cancel_lookup(resolv, resolv_id);
-@@ -378,6 +391,27 @@ static void ts_reset(struct connman_service *service)
- 
- 		g_strfreev(nameservers);
+ 		return FALSE;
  	}
-+}
-+
-+static void ts_reset(struct connman_service *service)
-+{
-+	int i;
-+
-+	if (!resolv)
-+		return;
-+
-+	__connman_timeserver_set_synced(false);
-+
-+	/*
-+	 * Before we start creating the new timeserver list we must stop
-+	 * any ongoing ntp query and server resolution.
-+	 */
-+
-+	__connman_ntp_stop();
-+
-+	ts_recheck_disable();
-+
-+    ts_set_nameservers(service);
+@@ -430,12 +430,27 @@ static void ts_reset(struct connman_service *service)
+ 	timeserver_sync_start();
+ }
  
- 	g_slist_free_full(timeservers_list, g_free);
- 
-@@ -434,42 +468,17 @@ void __connman_timeserver_set_synced(bool status)
- 
- static int timeserver_start(struct connman_service *service)
+-void __connman_timeserver_sync(struct connman_service *service)
++void __connman_timeserver_sync(struct connman_service *service, enum connman_timeserver_sync_reason reason)
  {
--	char **nameservers;
- 	int i;
-+    int rv;
+-	if (!service || ts_service == service)
++	if (!service)
+ 		return;
  
- 	DBG("service %p", service);
+-	ts_reset(service);
++    switch (reason) {
++    case CONNMAN_TIMESERVER_SYNC_REASON_START:
++    case CONNMAN_TIMESERVER_SYNC_REASON_STATE_UPDATE:
++        if (ts_service == service)
++            return;
++        break;
++    case CONNMAN_TIMESERVER_SYNC_REASON_ADDRESS_UPDATE:
++    case CONNMAN_TIMESERVER_SYNC_REASON_TS_CHANGE:
++        if (ts_service != service)
++            return;
++        break;
++    default:
++        return;
++    }
++
++    ts_reset(service);
+ }
  
--	i = __connman_service_get_index(service);
--	if (i < 0)
--		return -EINVAL;
--
--	nameservers = connman_service_get_nameservers(service);
--
--	/* Stop an already ongoing resolution, if there is one */
--	if (resolv && resolv_id > 0)
--		g_resolv_cancel_lookup(resolv, resolv_id);
--
- 	/* get rid of the old resolver */
--	if (resolv) {
--		g_resolv_unref(resolv);
--		resolv = NULL;
--	}
--
--	resolv = g_resolv_new(i);
--	if (!resolv) {
--		g_strfreev(nameservers);
--		return -ENOMEM;
--	}
--
--	if (getenv("CONNMAN_RESOLV_DEBUG"))
--		g_resolv_set_debug(resolv, resolv_debug, "RESOLV");
-+    rv = ts_setup_resolv(service);
-+    if (rv)
-+        return rv;
+ void __connman_timeserver_conf_update(struct connman_service *service)
+@@ -480,7 +495,7 @@ static int timeserver_start(struct connman_service *service)
  
--	if (nameservers) {
--		for (i = 0; nameservers[i]; i++)
--			g_resolv_add_nameserver(resolv, nameservers[i], 53, 0);
--
--		g_strfreev(nameservers);
--	}
-+    ts_set_nameservers(service);
+     ts_set_nameservers(service);
  
- 	__connman_timeserver_sync(service);
+-	__connman_timeserver_sync(service);
++	__connman_timeserver_sync(service, CONNMAN_TIMESERVER_SYNC_REASON_START);
  
+ 	return 0;
+ }
 -- 
 2.25.1
 
