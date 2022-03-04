@@ -1,35 +1,28 @@
 Received: from mail.nearlyone.de (mail.nearlyone.de [46.163.114.145])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1E53A22
-	for <connman@lists.linux.dev>; Fri,  4 Mar 2022 08:05:53 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 49C145D1CA;
-	Fri,  4 Mar 2022 09:05:43 +0100 (CET)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8F11621
+	for <connman@lists.linux.dev>; Fri,  4 Mar 2022 08:50:35 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 0955D5D44C;
+	Fri,  4 Mar 2022 09:50:32 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=monom.org; s=dkim;
-	t=1646381144; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 in-reply-to:references; bh=IqEGJLgwQlPrqXXyUOTwlSQJEoWDAzS5ee5wv0NKZZ0=;
-	b=Mzw4LOZPF2fDcJHaV+On+V98CsVUauPXLo0oR9gouNqGanx7hnDx1bWq+zNpGZr2NOylyW
-	kN3Nj3D9mrsjKoIBC4V85YeKuwm0dL6sIVkSfOXzitwNYKX1RZObkl93ZUPfrsgqouUA+F
-	yNKNV/P5szV5JeIdoGS0rW/D7A2OGMF62UxTJQeti5gId1oFyFLjgF60kxFc+aa0p4Q3Jq
-	XihzchuetKyDs62MOhBJFJMmhP2jCqk5Rl3BA9TDZ7bj7UwFBGxp2FiseQG0+DYruHX0Z2
-	vLhvxluJGBrXsa+5GT/bEhHo140/SBVNu3vpCYlMRcKcK6RtJWNF0i3cfHxJNA==
-Date: Fri, 4 Mar 2022 09:05:42 +0100
+	t=1646383833; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 in-reply-to:references; bh=1MyKP0S7rIN9PkrbbdEJiQ463gxTfxZpmS58QnJjlxA=;
+	b=nqvhQlj0iUTSulDybjGPLvZVuP9bd7AQ/kOTHQTOgTBgSHFEhprS065nos1bIW+tK7ChCr
+	/8dO9ER+0XMZx8tM1tE6kxJgKYg51d/be+Xt03346u4q8pMoegMdRhb/uxFGJ+sjznU66P
+	4XogvcQxYBxz07QeqoEpJzqt6tbkAx+oxoXNzTZxxZ8RWg1lSJxekGC9HHFFbMrW7JFYIo
+	AeTyS2dCY/yZEem/Mj9kdOlYmoHEqg3VZGlYTWkn6HoZFHP7uVdWVVq72SwRgvXkeWVlBd
+	DnxQKxgvkZaE55IV1+6wonNMfCqglFAmj3HUlqZ1MyMk1wSrPdKfWowrz5b99A==
+Date: Fri, 4 Mar 2022 09:50:32 +0100
 From: Daniel Wagner <wagi@monom.org>
-To: "VAUTRIN Emmanuel (Canal Plus Prestataire)" <Emmanuel.VAUTRIN@cpexterne.org>
-Cc: Denis Kenzior <denkenz@gmail.com>,
-	"connman@lists.linux.dev" <connman@lists.linux.dev>
-Subject: Re: [PATCH v2] iwd: Always disconnect connection completely
-Message-ID: <20220304080542.j4j6jvttcovyqu6s@beryllium.lan>
-References: <20220125095014.eafpxusdnc62mbjp@beryllium.lan>
- <MRZP264MB154440F1153C4C3EEFDE51A3935F9@MRZP264MB1544.FRAP264.PROD.OUTLOOK.COM>
- <20220125105734.s4cdlt2l5nl2lbls@beryllium.lan>
- <d0cbe87b-83c4-12c3-f109-782d2bfe366c@gmail.com>
- <MRZP264MB154403938B0F44F5C05841D8932C9@MRZP264MB1544.FRAP264.PROD.OUTLOOK.COM>
- <MRZP264MB1544C7DAF7A0AA3942D9FC1C933A9@MRZP264MB1544.FRAP264.PROD.OUTLOOK.COM>
- <20220221164442.gsg6krtdalemte62@carbon.lan>
- <MRZP264MB1544515AF83263F7E4DDC918933A9@MRZP264MB1544.FRAP264.PROD.OUTLOOK.COM>
- <20220227180930.ruqnmsgtei26zq4n@beryllium.lan>
- <MRZP264MB154417BCA30F1C47EDE6DAC793009@MRZP264MB1544.FRAP264.PROD.OUTLOOK.COM>
+To: matthias.gerstner@suse.de
+Cc: connman@lists.linux.dev
+Subject: Re: [PATCH] dnsproxy: add standalone test version of dnsproxy and a
+ test script for it
+Message-ID: <20220304085032.ye5te4lxomj7yup5@beryllium.lan>
+References: <20220221084813.sk5thg5pj24ym3db@beryllium.lan>
+ <20220228131921.5573-1-matthias.gerstner@suse.de>
+ <20220228131921.5573-2-matthias.gerstner@suse.de>
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
@@ -38,31 +31,41 @@ List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <MRZP264MB154417BCA30F1C47EDE6DAC793009@MRZP264MB1544.FRAP264.PROD.OUTLOOK.COM>
+In-Reply-To: <20220228131921.5573-2-matthias.gerstner@suse.de>
 X-Last-TLS-Session-Version: TLSv1.3
 
-On Mon, Feb 28, 2022 at 11:21:44AM +0000, VAUTRIN Emmanuel (Canal Plus Prestataire) wrote:
-> > If I understood it correctly, you are saying ConnMan receives a
-> > Disconnect call via D-Bus, it is forwarded to iwd and wait for iwd to
-> > respond that the network is disconnected. Then ConnMan replies the
-> > initial posted Disconnect call to the user back. The user posts then
-> > Connect() which is too fast?
-> I switch between 2 known secure networks.
-> I have retried this morning with the following sequence:
-> gdbus call --system -d net.connman -o $PATH1 -m net.connman.Service.Disconnect
-> ()
-> gdbus call --system -d net.connman -o $PATH2 -m  net.connman.Service.Connect
-> ()
-> gdbus call --system -d net.connman -o $PATH1 -m net.connman.Service.Connect
-> Error: GDBus.Error:net.connman.Error.Failed: Input/output error
+Hi Matthias,
 
-Thanks for this example. It really helps understanding what you want to
-fix. Is the PATH2 Connect necessary for triggering the error?
+On Mon, Feb 28, 2022 at 02:19:21PM +0100, matthias.gerstner@suse.de wrote:
+>  if TEST
+>  testdir = $(pkglibdir)/test
+>  test_SCRIPTS = $(test_scripts)
+> +
+> +tools_dnsproxy_standalone_CFLAGS = $(src_connmand_CFLAGS) -I$(srcdir)/src
+> +tools_dnsproxy_standalone_SOURCES = tools/dnsproxy-standalone.c $(src_connmand_SOURCES)
+> +# for EXTRA_PROGRAMS the BUILT_SOURCES aren't automatically added as
+> +# dependency, so let's do it explicitly
+> +tools/dnsproxy-standalone.c: $(BUILT_SOURCES)
+> +tools_dnsproxy_standalone_LDADD = $(src_connmand_LDADD)
+> +# pass -zmuldefs to let the linker tolerate the duplicate definition of
+> +# main(), the first definition from dnsproxy-standalone should be used
+> +tools_dnsproxy_standalone_LDFLAGS = $(src_connmand_LDFLAGS) -Wl,-zmuldefs
+> +
+> +noinst_PROGRAMS += tools/dnsproxy-standalone
+> +
 
-> I think that the D-Bus reply of the Disconnect is immediate and does not wait for
-> the network to be really disconnected or on error, contrary to the Connect, which
-> really waits for the connection to be effective before replying.
-> I thought it was on purpose.
+I wrapped this section into an addition 'if INTERNAL_DNS_BACKEND'
+because it would fail to build for SYSTEMD_RESOLVED_DNS_BACKEND
 
-IIRC, Disconnect was designed to return immediately. This might be the
-source of the problem here.
+> +	// we need to trick a bit to make the server entry enter "enabled"
+> +	// state in dnsproxy. Appending and removing an arbitrary entry causes
+> +	// "enable_fallback()" to be called which does what we want. Doesn't
+> +	// make much sense but it is good enough for the standalone server at
+> +	// the moment.
+
+Changed this to /* ... */
+
+Patch applied.
+
+Thanks
+Daniel
