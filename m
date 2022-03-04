@@ -1,63 +1,68 @@
-Received: from mail-oo1-f48.google.com (mail-oo1-f48.google.com [209.85.161.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.nearlyone.de (mail.nearlyone.de [46.163.114.145])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 641B036A
-	for <connman@lists.linux.dev>; Thu,  3 Mar 2022 22:41:48 +0000 (UTC)
-Received: by mail-oo1-f48.google.com with SMTP id r41-20020a4a966c000000b0031bf85a4124so7504341ooi.0
-        for <connman@lists.linux.dev>; Thu, 03 Mar 2022 14:41:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:from:date:message-id:subject:to;
-        bh=VBHICdCCU2jgbDBFsIbCgiDoxuEwWhphH8p6WMRHRfA=;
-        b=bCt73ydQAM2gjwsz/pQWHK35rI2qav6js4GeUJk/7wjl+E3bToitqdpMG4kUljn4LT
-         AzP8H65pfEI6uaULFbRd5V76B+hl1gHlMURgGkBXBiFjDHweDmXRZLa3Nw1n6TvcXcs/
-         KM0D41/b0ZSGD16icQxDy/i5nHB4yUvOre0ZzpmJsIXsH6e9+w2ZajN5Plboy/A+yc7f
-         AFLt2h3Vfpb/XyNh+VLwYWRPQ8gqhMsXwk5a1XmkeTDcvjpgrfLk1ZwjWLEvlgtI4aZP
-         3Fo0sOPlkpJBeLR/MbIoIdnmhRz/zeixhUKIVRSZZsmWjzqMSS2DAqnznF1hByUNuQpS
-         dcnw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-        bh=VBHICdCCU2jgbDBFsIbCgiDoxuEwWhphH8p6WMRHRfA=;
-        b=3uFASPJy+bc0T2jopAfw9WyTN6FBi74HzCciWs09wym2PnLRxUAgHEQN9cRFHGiIxB
-         U4MHF0J83fHfuG4vgDHXTDhKGIXTsYs1E+yd4YjkiJzHMLPeCDkPH6Jqt5VqhE40dpr4
-         B6yamD/VZHzml2CUi+cxX9AER7Xa6JhDMT7YiII+OZCditNZLXtrjRuRBq9nxwWDwRCo
-         5/eTeTNbaOM+g4nOmNH1wXnZ95ZykSoFeqGjmH6dZJnQVx6zmumYUl89lFUMr6/b0rOh
-         Czd3Yo1JVfOp9JTT/AnAoj6g0U/9drkthld/RG1XBUH/inROhm57HnK+FdzVCR5NRTw9
-         3OKg==
-X-Gm-Message-State: AOAM532X+eeTfXrmvTAo9+hK2KrIuYOPGwcnPI7ibmJCy3XvP2XkKPiB
-	A7TGHIeIuf2wSnfVldP7L/w7Rc0TH53fGIJXE3BRXYdneaQ=
-X-Google-Smtp-Source: ABdhPJzmrsPGVQsWhvxVL9jr+mnZuuTrUCJ1ytnpIHDHomPni5SGgLd+vjyB6LNoQcULVwFv1fqbLPPVcaNg53Ua05Q=
-X-Received: by 2002:a05:6870:5494:b0:d7:14df:d870 with SMTP id
- f20-20020a056870549400b000d714dfd870mr5774567oan.55.1646347307408; Thu, 03
- Mar 2022 14:41:47 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1E53A22
+	for <connman@lists.linux.dev>; Fri,  4 Mar 2022 08:05:53 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 49C145D1CA;
+	Fri,  4 Mar 2022 09:05:43 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=monom.org; s=dkim;
+	t=1646381144; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 in-reply-to:references; bh=IqEGJLgwQlPrqXXyUOTwlSQJEoWDAzS5ee5wv0NKZZ0=;
+	b=Mzw4LOZPF2fDcJHaV+On+V98CsVUauPXLo0oR9gouNqGanx7hnDx1bWq+zNpGZr2NOylyW
+	kN3Nj3D9mrsjKoIBC4V85YeKuwm0dL6sIVkSfOXzitwNYKX1RZObkl93ZUPfrsgqouUA+F
+	yNKNV/P5szV5JeIdoGS0rW/D7A2OGMF62UxTJQeti5gId1oFyFLjgF60kxFc+aa0p4Q3Jq
+	XihzchuetKyDs62MOhBJFJMmhP2jCqk5Rl3BA9TDZ7bj7UwFBGxp2FiseQG0+DYruHX0Z2
+	vLhvxluJGBrXsa+5GT/bEhHo140/SBVNu3vpCYlMRcKcK6RtJWNF0i3cfHxJNA==
+Date: Fri, 4 Mar 2022 09:05:42 +0100
+From: Daniel Wagner <wagi@monom.org>
+To: "VAUTRIN Emmanuel (Canal Plus Prestataire)" <Emmanuel.VAUTRIN@cpexterne.org>
+Cc: Denis Kenzior <denkenz@gmail.com>,
+	"connman@lists.linux.dev" <connman@lists.linux.dev>
+Subject: Re: [PATCH v2] iwd: Always disconnect connection completely
+Message-ID: <20220304080542.j4j6jvttcovyqu6s@beryllium.lan>
+References: <20220125095014.eafpxusdnc62mbjp@beryllium.lan>
+ <MRZP264MB154440F1153C4C3EEFDE51A3935F9@MRZP264MB1544.FRAP264.PROD.OUTLOOK.COM>
+ <20220125105734.s4cdlt2l5nl2lbls@beryllium.lan>
+ <d0cbe87b-83c4-12c3-f109-782d2bfe366c@gmail.com>
+ <MRZP264MB154403938B0F44F5C05841D8932C9@MRZP264MB1544.FRAP264.PROD.OUTLOOK.COM>
+ <MRZP264MB1544C7DAF7A0AA3942D9FC1C933A9@MRZP264MB1544.FRAP264.PROD.OUTLOOK.COM>
+ <20220221164442.gsg6krtdalemte62@carbon.lan>
+ <MRZP264MB1544515AF83263F7E4DDC918933A9@MRZP264MB1544.FRAP264.PROD.OUTLOOK.COM>
+ <20220227180930.ruqnmsgtei26zq4n@beryllium.lan>
+ <MRZP264MB154417BCA30F1C47EDE6DAC793009@MRZP264MB1544.FRAP264.PROD.OUTLOOK.COM>
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-From: KeithG <ys3al35l@gmail.com>
-Date: Thu, 3 Mar 2022 16:41:36 -0600
-Message-ID: <CAG17S_M09AOTXMaQBeRVBofUVrh211n+ti8PTVhOY48X9s5U2Q@mail.gmail.com>
-Subject: request for feature
-To: connman@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <MRZP264MB154417BCA30F1C47EDE6DAC793009@MRZP264MB1544.FRAP264.PROD.OUTLOOK.COM>
+X-Last-TLS-Session-Version: TLSv1.3
 
-Group,
+On Mon, Feb 28, 2022 at 11:21:44AM +0000, VAUTRIN Emmanuel (Canal Plus Prestataire) wrote:
+> > If I understood it correctly, you are saying ConnMan receives a
+> > Disconnect call via D-Bus, it is forwarded to iwd and wait for iwd to
+> > respond that the network is disconnected. Then ConnMan replies the
+> > initial posted Disconnect call to the user back. The user posts then
+> > Connect() which is too fast?
+> I switch between 2 known secure networks.
+> I have retried this morning with the following sequence:
+> gdbus call --system -d net.connman -o $PATH1 -m net.connman.Service.Disconnect
+> ()
+> gdbus call --system -d net.connman -o $PATH2 -m  net.connman.Service.Connect
+> ()
+> gdbus call --system -d net.connman -o $PATH1 -m net.connman.Service.Connect
+> Error: GDBus.Error:net.connman.Error.Failed: Input/output error
 
-iwd has recently added a feature which can allow headless wireless
-configuration:
+Thanks for this example. It really helps understanding what you want to
+fix. Is the PATH2 Connect necessary for triggering the error?
 
-client: add AP scanning support to iwctl
+> I think that the D-Bus reply of the Disconnect is immediate and does not wait for
+> the network to be really disconnected or on error, contrary to the Connect, which
+> really waits for the connection to be effective before replying.
+> I thought it was on purpose.
 
-Would it be acceptable or possible to add the possibility to do a
-'connmanctl scan' when iwd is configured as AP? Currently, connman
-does not work with iwd in this mode. This addition would allow us to
-ditch hostapd for the headless music player we are working on.
-Currently we use connman with iwd for normal connections, but when we
-are trying to do headless wireless configuration, we fire up
-hostapd/dnsmasq. We would like to just use connman and iwd if
-possible.
-
-Keith
+IIRC, Disconnect was designed to return immediately. This might be the
+source of the problem here.
