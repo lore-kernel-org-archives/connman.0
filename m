@@ -1,112 +1,44 @@
 Received: from mail.nearlyone.de (mail.nearlyone.de [46.163.114.145])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D212B38E2
-	for <connman@lists.linux.dev>; Mon,  7 Mar 2022 09:03:29 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 617AD5CD07;
-	Mon,  7 Mar 2022 10:03:26 +0100 (CET)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3218C38E2
+	for <connman@lists.linux.dev>; Mon,  7 Mar 2022 09:06:16 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 22B295CD07;
+	Mon,  7 Mar 2022 10:06:13 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=monom.org; s=dkim;
-	t=1646643806; h=from:subject:date:message-id:to:cc:mime-version:
-	 content-transfer-encoding; bh=5kYo0zUAqFpmLvv65IgLmSOEqgb2oyBYF5NEDh44/m4=;
-	b=00NtlX82kBhU/OBu++9HnYiRBnXe8hb3XxhfqdqDEyCGnPrvYwki6i5duBe/nLtilTFIbe
-	m7vb2XJSooTz+K19OpeQ21geHAzF6FGsfXnFl/66XkTEediZAFIucr6lZRAclIW2YDOIB5
-	Fw2RKjB6XZhcU0On+V88Kh/F2wp7TfWNBv+KCVVRgZnh0zwULrR0mSCM6l/D38iAFNgpQc
-	o62bqa5yQk2klFVeI5Y+jsvZLr2SdHRpSGGTplLFyKN5fBmNR2hnFJkXYsBfYiwI7ddk4+
-	WLqDEFBl5rZ2xsqqqb92Xpjns7pXLuSUOalzNCShFsCVli094SxF8ApnsSwFsg==
+	t=1646643974; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 in-reply-to:references; bh=mHUiwqAANRy71oX9XJW1uij/M4bj18+2hLy0vbC+Ch0=;
+	b=z9TvMJTy2/9vZW275L01P8n0W25AZvDbuBl9EVBuOzaILhYSdDjBRVbso45huhWFV5uu9Y
+	29jW3ZBhTSFqg4S7Tl7dnjKBNJAzDpboMUv41KhoIkDOVQJruRjiVZUL3OpK4kShV50YLj
+	c+1/V+9h8UXnJDcIlBBJz9yTr8ry7R119YON/cEOzvwrGQCrf3JLQOxKwrbKiwPTp60GDR
+	G4vvX72atqQy1JVEvWgrCai6ZT/xrl24VnujaTJD97Jerqeb01LQ7bbLMhh7E0A8g2N2d3
+	V+sFi3eUBZX42D8G/KltngcdADKiwMeXHIeVgoIe9TjOF8aOOrUhOJtw+vr9Qg==
+Date: Mon, 7 Mar 2022 10:06:13 +0100
 From: Daniel Wagner <wagi@monom.org>
-To: connman@lists.linux.dev
-Cc: Daniel Wagner <wagi@monom.org>
-Subject: [PATCH] iwd: Add scan support in access point mode
-Date: Mon,  7 Mar 2022 10:03:21 +0100
-Message-Id: <20220307090321.27204-1-wagi@monom.org>
+To: KeithG <ys3al35l@gmail.com>
+Cc: connman@lists.linux.dev
+Subject: Re: request for feature
+Message-ID: <20220307090613.bf7ddi4qsevmqorb@beryllium.lan>
+References: <CAG17S_M09AOTXMaQBeRVBofUVrh211n+ti8PTVhOY48X9s5U2Q@mail.gmail.com>
+ <20220304091104.g5lbeu55z4oubyej@beryllium.lan>
+ <20220304091300.y3a5cu7xqupinwx6@beryllium.lan>
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220304091300.y3a5cu7xqupinwx6@beryllium.lan>
 X-Last-TLS-Session-Version: TLSv1.3
 
----
- plugins/iwd.c | 50 ++++++++++++++++++++++++++++++++++++++++----------
- 1 file changed, 40 insertions(+), 10 deletions(-)
+On Fri, Mar 04, 2022 at 10:13:01AM +0100, Daniel Wagner wrote:
+> > +	} else if (strcmp(iwdd->mode, "AP")) {
+> 
+> and here too
 
-diff --git a/plugins/iwd.c b/plugins/iwd.c
-index 8974e6645295..5b3ebd3bfee8 100644
---- a/plugins/iwd.c
-+++ b/plugins/iwd.c
-@@ -550,7 +550,7 @@ static int cm_device_disable(struct connman_device *device)
- 	return set_device_powered(device, false);
- }
- 
--static void cm_device_scan_cb(DBusMessage *message, void *user_data)
-+static void cm_device_scan_station_cb(DBusMessage *message, void *user_data)
- {
- 	const char *path = user_data;
- 	struct iwd_station *iwds;
-@@ -566,22 +566,52 @@ static void cm_device_scan_cb(DBusMessage *message, void *user_data)
- 	}
- }
- 
-+static void cm_device_scan_ap_cb(DBusMessage *message, void *user_data)
-+{
-+	const char *path = user_data;
-+	struct iwd_ap *iwdap;
-+
-+	iwdap = g_hash_table_lookup(access_points, path);
-+	if (!iwdap)
-+		return;
-+
-+	if (dbus_message_get_type(message) == DBUS_MESSAGE_TYPE_ERROR) {
-+		const char *dbus_error = dbus_message_get_error_name(message);
-+
-+		DBG("%s scan failed: %s", path, dbus_error);
-+	}
-+}
-+
- static int cm_device_scan(struct connman_device *device,
- 				struct connman_device_scan_params *params)
- {
- 	struct iwd_device *iwdd = connman_device_get_data(device);
--	struct iwd_station *iwds;
- 
--	if (strcmp(iwdd->mode, "station"))
--		return -EINVAL;
-+	if (!strcmp(iwdd->mode, "station")) {
-+		struct iwd_station *iwds;
- 
--	iwds = g_hash_table_lookup(stations, iwdd->path);
--	if (!iwds)
--		return -EIO;
-+		iwds =	g_hash_table_lookup(stations, iwdd->path);
-+		if (!iwds)
-+			return -EIO;
- 
--	if (!g_dbus_proxy_method_call(iwds->proxy, "Scan",
--			NULL, cm_device_scan_cb, g_strdup(iwds->path), g_free))
--		return -EIO;
-+		if (!g_dbus_proxy_method_call(iwds->proxy, "Scan",
-+				NULL, cm_device_scan_station_cb,
-+				g_strdup(iwds->path), g_free))
-+			return -EIO;
-+	} else if (!strcmp(iwdd->mode, "ap")) {
-+		struct iwd_ap *iwdap;
-+
-+		iwdap = g_hash_table_lookup(access_points, iwdd->path);
-+		if (!iwdap)
-+			return -EIO;
-+
-+		if (!g_dbus_proxy_method_call(iwdap->proxy, "Scan",
-+				NULL, cm_device_scan_ap_cb,
-+				g_strdup(iwdap->path), g_free))
-+			return -EIO;
-+	} else {
-+		return -EINVAL;
-+	}
- 
- 	return -EINPROGRESS;
- }
--- 
-2.35.1
-
+and it's "ap" not "AP". I was not able to test it as my USB stick seems
+not to support this feature. Though if you issue an scan from the cli it
+ends up here and the proxy is called here. So in theory this should work
+now. Give the patch I just send out another test run please. Thanks!
