@@ -1,112 +1,148 @@
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BC661FD4
-	for <connman@lists.linux.dev>; Tue, 15 Mar 2022 12:57:06 +0000 (UTC)
-Received: by mail-lf1-f47.google.com with SMTP id b28so21125101lfc.4
-        for <connman@lists.linux.dev>; Tue, 15 Mar 2022 05:57:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=a1YcQqQ0iaK4p5P8ptY7CkjMEGUZPQfpEOPdhGEgXD8=;
-        b=PudH3wTUtq/RdMGinrh9dxjNRp2gNcdBMsGsPEutMjK8Xwz7CrzCCVG7rMtqwtJ/aC
-         nYF37/iAHkg8oGGqZVzlDkzaruqORdK4fRqnEtz+kbGAZofV+dlIkolBDAuzMo/Uohkg
-         MTX0Pm50LqHtDlsvq5QgUnG2MloVEjJRMY2pQz/9GeLib/qyEiX+5avgnR15EaGgYCni
-         G04tJg2p5sihXZHBQA8CuEQtsb2CD6PRAbUGm8RCQdzp+CXKG/XKu/D2vxZISeQv1X1E
-         QUhWMFUeExvU5Addl1Vzwt67oEt9nhPsm6pLSXKfZpmCP2wFvbiecLOTnaBFECD6NeLp
-         KrfA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to:content-transfer-encoding;
-        bh=a1YcQqQ0iaK4p5P8ptY7CkjMEGUZPQfpEOPdhGEgXD8=;
-        b=JZoImFfN2O/dBnCVU5YD0LD9a1CT/1K7o8M8tEFUnZMDcsJqWHGsmjWquK0+0mTDDb
-         h58BPk3NjAREFZbajotqRCA0aPC3kk6aZ0eHO5jr03i9Lt+Ym3HFaWrOCuZOMXis5uUA
-         cEf8+QDO0TLx0MemlI1uKCZzJxaUEXl3txoXsf0PlCaOp2WAtm1yxt8s+hzWjlGXgrNU
-         ycD72QQ113P1x+wn8V7CjONJbYuGKV/B0Pbt/jCxpA2aIQEUFxpQq13Yxg2kBn4zTaQT
-         MNe5AuZWGS0RPVOEguQT/xjtBND39OKXBpwlq6n3IJhqLpFf8nTz/dkclEuZbwwh16KN
-         W0jg==
-X-Gm-Message-State: AOAM533pZBba6I0cooymI+2z/IkVxry7xqF/3MqPihOmr0BRSyjRap4d
-	acoeQJT+lgTMrN957DCyi3cbrf0hf7a3XIVVHv3YB44=
-X-Google-Smtp-Source: ABdhPJxrf4o6Gjya0YbRb6YjqIhUUP93nTaw1ahGONDLub/i62grzGoc4sIQVrABDs9oiEQbmnHXIWDGzkHJdS+VFjc=
-X-Received: by 2002:a05:6512:10d5:b0:448:8b7e:8036 with SMTP id
- k21-20020a05651210d500b004488b7e8036mr8767827lfg.545.1647349023842; Tue, 15
- Mar 2022 05:57:03 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03F3F2F56
+	for <connman@lists.linux.dev>; Tue, 15 Mar 2022 22:36:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+	s=badeba3b8450; t=1647383787;
+	bh=YlGk2gyjxnrEuA0ka4h+cEE9croF6DINS/cUeeSSMMQ=;
+	h=X-UI-Sender-Class:Date:To:From:Subject;
+	b=M0VCcnXfdyem5OcZ0/id3zmYDIaH9OoP+pZ8fOHWxpeH303bonqwxIqi8TOchags9
+	 MPMezAQgJitY5GVVC9oE/ubnDM41Y6fgwShF24OCRnVBeZSJvfoUrxFOYn0jBufkYn
+	 Ytjvn+6SdLLi0ty/jG1TgDQOUMMnu5BFCDxZdyT8=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from [192.168.44.3] ([94.134.11.127]) by mail.gmx.net (mrgmx005
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1Mjj8D-1nxJFw2ePD-00lAw8 for
+ <connman@lists.linux.dev>; Tue, 15 Mar 2022 23:36:27 +0100
+Message-ID: <608c9e61-b916-7558-2c03-cabfd46910aa@gmx.de>
+Date: Tue, 15 Mar 2022 23:36:00 +0100
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Received: by 2002:ab3:7508:0:0:0:0:0 with HTTP; Tue, 15 Mar 2022 05:57:03
- -0700 (PDT)
-Reply-To: tudorie_elena@outlook.com
-From: Elena Tudorie <elenatudorie987@gmail.com>
-Date: Tue, 15 Mar 2022 05:57:03 -0700
-Message-ID: <CABiztwiw9tyuJTHze0ahfSGKtYCctt3hPYgB78x+9FNB4_t5Zw@mail.gmail.com>
-Subject: Mrs. Elena Tudorie yours sister.
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Content-Language: en-US
 To: connman@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+From: corubba <corubba@gmx.de>
+Subject: Non-persistent IPv6 DUID issue
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:aVqn7VIrkSNRv9GcI/hYmM6NrU80EWg+x7HLjXM3kj8TcUbXMe+
+ XqqkMepx6o2RzQ1UOgnbMSnoBbuCkZpuKAcYGsyM4IRte12TqvFv4HyQ0fYVxPsPHK3SZLW
+ bx7u8d8UorxjqRVmeVd9JjuNFsslVIsvcM5pMw66Bc7HufGpwtIsHVQ53rVZzxRieOn75A3
+ gdy3wLxa7e/x4VmG7Z9Fw==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:T+Pkopkdnrk=:yR3IF6ends/sM5u3gZom2u
+ EnuOsouAawGQfa+5jxeCZGi5+3AWdM8ouHF8STz4zJCpcoO/V2TDC+EAqSfZExMypB/dVSseL
+ V/cu2KumiTFghWV5rXS6Flj6Vmcd8bJevzNpyPmI4G5VJ/xkweVXvQrQCv8t5Jmd0DGZT5Sr/
+ qcxXe86HEAgyio4ezzw4/DD89dMZUxrM+BwXG/BqIlJzVuJtSeGR7mAulQKjpWZiBfI1R8p7J
+ 6FjbryUjOjUqrbHBygKRaK+tGROkTC9+WBvikpVplaioHrru25sxkzVukgkVuUtwx4ojRnadO
+ y/9mNxDC22ERgzL5VX2BMy64phWhaziYiT8Xyod3hsFaCR1eEjnBAjnLcLOzUoHxeEnL3T6CA
+ 40SkkMxXu0X+QCrgsym/a8pwXe1GltoddOp7sT+ryBUo706kfLzi3XDPLB1TNXeIscNI4Peal
+ KlD4jAq34hxQNFTFneloPNXZY8pXhfD0wjdeV8K281tsH3Jv9VCOwt1lZrrb2Uy2Apc8jqS4X
+ vdgzhn0LQeO6L9bI8YvoJx9cFSGtfLUNrwXK0FCaxpu19CPsRGlh/JvpSqgyx+w3FE0CYs4lW
+ KQ0F6KweKK6/zl0ykd9y6DI9MUiX3y+5Tlq1ZvsPCeH/kFv2NeFsjsiACkCGr6FneVcbGcuml
+ OR7BiPUSduvWlvqXisrJZf3Xupkrrk7zvnrEzx6XhkGHUVd4sv3C80Clq13IyS4m79DrAViqL
+ 77s9gnzCgRx2h1kHVuokIl3m1gDiL/E2hHcf4iA9jOnxD4VY7dpycIt23lIxHoXWwfoyE09Ja
+ pQNjaREpIruJjUozEpuhV4nLtf8JM1HkBlLOxXVicerifpuOfZ98D/0IyRwBoNdJP/V0FJod3
+ xc3uKmZkDiqSLOHYZG3OPlLpd/M76luIBdqy+fdupXBCqMyBAuFw1EwZcHmSqgiL9yJLYb7Nx
+ v7Bj3qPEE4/o075F+bUtd6iNhh6eIw0HhrCJmZdMiihlCU/Aj//tb70QyUJkEtNGDyAkZ8pi6
+ cmmQhWgXTFXqSMx4JouGQQALnHS4bQtzs/nH27n+4q39coMJtEyCGy8tk5i9FhnHPlThhpQi0
+ m/pmaLuIF9fQjA=
 
-Dear beloved,
+Hello,
 
-Thanks for the mail you sent to me, your message was conveyed to me by
-my nurse (Roby) today, for the last 3 months my health has been very
-poor. I am very sorry due to my predicament, my doctor will not even
-allow me to make any moves, My doctors are doing everything possible
-to save my life. Hopefully the Almighty God will restore my health to
-a perfect condition in the coming days.
+I recently discovered a bug in connman v1.40 which effectively prevents it=
+ from getting an ipv6 address via stateless dhcpv6. My investigation revea=
+led that this was because on every link-up connman will generate a new dui=
+d (dhcpv6 unique identifier) and request an address with it, which fails b=
+ecause the server won't have a address for that fresh duid. Normally the d=
+uid is generated once and kept/used for the lifetime of the service, which=
+ is also supported by the comment on `set_duid` [0]. I further pinpointed =
+this change in behavior to commit 0f9e6af6 [1], which changed the start-po=
+int for config building from the old config to an empty one. While it has =
+the nice side-effect of getting rid of unneeded or duplicate keys, it also=
+ throws away any existing duid which is the root cause of the issue. I als=
+o checked the most recent `master` branch and confirmed the issue still ex=
+ists.
 
-It is good you have responded in time and I am glad that you can
-handle this money that I am going to give you. I hope that this money
-will be a blessing to you and all motherless babies/less
-privileged/widows over there in your country. As I wrote to you before
-in my previous email, US$10,500,000.00
+I cobbled together the patch below, which basically just copies over the d=
+uid from the old config to the new empty one in order to keep it; and I co=
+nfirmed it fixes my issue. But full disclaimer: That is a quick'n'dirty so=
+lution, and probably not of mergable quality.
 
- I want to inform you that it is not my good intention to establish a
-charity home in my name, and I am putting the responsibility of
-realizing the noble mission in your care and expertise. I will be very
-happy if you are willing to help me handle this project because my
-sudden illness will not allow me to accomplish it myself.
+I am looking for advice and suggestions from more experienced contributors=
+ on how to fix this "properly". I am also not positive on what this findin=
+g means for the `*.DHCP.LastAddress` keys (which probably also get thrown =
+away currently) in the context of stateful dhcp (v4 and v6) when you want =
+to use it to re-request the last address again.
 
-Please accept this from me as my contribution to humanity and blessing
-to others and I hope you can handle it well. You will have contact the
-bank for the money to be sent to you, as I have informed you in my
-previous email and please I would like you to send me your personal
-contact information as listed below if you agree to help me realize
-the noble mission. The information I am asking from you will be given
-to my bank so that the bank can process the money in your name before
-transferring the funds to you.
 
-Your Telephone Number
-Your Residential Address:
-Your Occupation
-Your Passport or Identity card (scan copy)
-Your Bank Account Information
+[0] https://git.kernel.org/pub/scm/network/connman/connman.git/tree/src/dh=
+cpv6.c#n186
+[1] https://git.kernel.org/pub/scm/network/connman/connman.git/commit/?id=
+=3D0f9e6af61527ff93c5c10290258f086c42471293
 
-Dear, you have to be sure in handling this project because this is all
-that is left from what I inherited from my late husband, I am willing
-to put the fund in your care if you assure me that you will help me
-realize the noble mission on my behalf.
+=2D--
+  src/dhcpv6.c  |  2 ++
+  src/service.c | 11 +++++++++--
+  2 files changed, 11 insertions(+), 2 deletions(-)
 
-Recently, my doctor=E2=80=99s said I have to undergo another surgery, so I
-don't really know my faith when I undergo the surgery. I decided to
-put my money in your care for charity work. I would like you to use
-60% of the amount mentioned above to establish a charity home that
-will care for the less privileged.
+diff --git a/src/dhcpv6.c b/src/dhcpv6.c
+index 8b683599..5942774b 100644
+=2D-- a/src/dhcpv6.c
++++ b/src/dhcpv6.c
+@@ -205,6 +205,7 @@ static int set_duid(struct connman_service *service,
+  	hex_duid =3D g_key_file_get_string(keyfile, ident, "IPv6.DHCP.DUID",
+  					NULL);
+  	if (hex_duid) {
++		DBG("use existing duid %s", hex_duid);
+  		unsigned int i, j =3D 0, hex;
+  		size_t hex_duid_len =3D strlen(hex_duid);
 
-I rely on you to accomplish the noble mission in my absence, I have no
-other person to help me realize my dream. I think with your assistance
-I can actualize my dreams of humanitarian service. I would like you to
-confirm to me that you accept to help me realize my last dream.  So if
-you agree to help me realize this humanitarian mission, you have to
-send me a scan copy of your passport or ID card as details above. I
-hope I can trust you to help realize my last dream.
+@@ -222,6 +223,7 @@ static int set_duid(struct connman_service *service,
 
-I know this message will find your in good health and success.
+  		duid_len =3D hex_duid_len / 2;
+  	} else {
++		DBG("create new duid");
+  		int ret;
+  		int type =3D __connman_ipconfig_get_type_from_index(index);
 
-Sincere regards,
-Mrs. Elena Tudorie yours sister.
-Email: tudorie_elena@outlook.com
+diff --git a/src/service.c b/src/service.c
+index d4387361..8b310206 100644
+=2D-- a/src/service.c
++++ b/src/service.c
+@@ -655,8 +655,8 @@ done:
+
+  static int service_save(struct connman_service *service)
+  {
+-	GKeyFile *keyfile;
+-	gchar *str;
++	GKeyFile *old_keyfile, *keyfile;
++	gchar *old_value, *str;
+  	guint freq;
+  	const char *cst_str =3D NULL;
+  	int err =3D 0;
+@@ -670,6 +670,13 @@ static int service_save(struct connman_service *servi=
+ce)
+  	if (!keyfile)
+  		return -EIO;
+
++	old_keyfile =3D connman_storage_load_service(service->identifier);
++	if (old_keyfile && g_key_file_has_key(old_keyfile, service->identifier, =
+"IPv6.DHCP.DUID", NULL)) {
++		old_value =3D g_key_file_get_string(old_keyfile, service->identifier, "=
+IPv6.DHCP.DUID", NULL);
++		DBG("copy over duid %s", old_value);
++		g_key_file_set_string(keyfile, service->identifier, "IPv6.DHCP.DUID", o=
+ld_value);
++	}
++
+  	if (service->name)
+  		g_key_file_set_string(keyfile, service->identifier,
+  						"Name", service->name);
+=2D-
+2.35.1
