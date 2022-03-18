@@ -1,148 +1,584 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
+Received: from mail-0301.mail-europe.com (mail-0301.mail-europe.com [188.165.51.139])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03F3F2F56
-	for <connman@lists.linux.dev>; Tue, 15 Mar 2022 22:36:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-	s=badeba3b8450; t=1647383787;
-	bh=YlGk2gyjxnrEuA0ka4h+cEE9croF6DINS/cUeeSSMMQ=;
-	h=X-UI-Sender-Class:Date:To:From:Subject;
-	b=M0VCcnXfdyem5OcZ0/id3zmYDIaH9OoP+pZ8fOHWxpeH303bonqwxIqi8TOchags9
-	 MPMezAQgJitY5GVVC9oE/ubnDM41Y6fgwShF24OCRnVBeZSJvfoUrxFOYn0jBufkYn
-	 Ytjvn+6SdLLi0ty/jG1TgDQOUMMnu5BFCDxZdyT8=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from [192.168.44.3] ([94.134.11.127]) by mail.gmx.net (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1Mjj8D-1nxJFw2ePD-00lAw8 for
- <connman@lists.linux.dev>; Tue, 15 Mar 2022 23:36:27 +0100
-Message-ID: <608c9e61-b916-7558-2c03-cabfd46910aa@gmx.de>
-Date: Tue, 15 Mar 2022 23:36:00 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D0B94C7E
+	for <connman@lists.linux.dev>; Fri, 18 Mar 2022 15:50:04 +0000 (UTC)
+Date: Fri, 18 Mar 2022 15:49:52 +0000
+Authentication-Results: mail-4317.proton.ch; dkim=none
+To: "connman@lists.linux.dev" <connman@lists.linux.dev>
+From: =?utf-8?Q?St=C3=A9phane_David?= <sd@alpwan.fr>
+Reply-To: =?utf-8?Q?St=C3=A9phane_David?= <sd@alpwan.fr>
+Subject: Fw: Connman Ofono Huawei MS2372h-153 not working
+Message-ID: <JEgBkTtPWdK4-oTGqCpyZKi6T2B0NaGHMcZB9QZprvVXwtjGrOaL1DVdK4VCJkzZejTT43skGixLWo1AN8HCgez8VbTQGIE7ckxwOmUkOYw=@alpwan.fr>
+In-Reply-To: <20220318124857.2873.86653@ml01.vlan13.01.org>
+References: <20220318124857.2873.86653@ml01.vlan13.01.org>
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Content-Language: en-US
-To: connman@lists.linux.dev
-From: corubba <corubba@gmx.de>
-Subject: Non-persistent IPv6 DUID issue
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:aVqn7VIrkSNRv9GcI/hYmM6NrU80EWg+x7HLjXM3kj8TcUbXMe+
- XqqkMepx6o2RzQ1UOgnbMSnoBbuCkZpuKAcYGsyM4IRte12TqvFv4HyQ0fYVxPsPHK3SZLW
- bx7u8d8UorxjqRVmeVd9JjuNFsslVIsvcM5pMw66Bc7HufGpwtIsHVQ53rVZzxRieOn75A3
- gdy3wLxa7e/x4VmG7Z9Fw==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:T+Pkopkdnrk=:yR3IF6ends/sM5u3gZom2u
- EnuOsouAawGQfa+5jxeCZGi5+3AWdM8ouHF8STz4zJCpcoO/V2TDC+EAqSfZExMypB/dVSseL
- V/cu2KumiTFghWV5rXS6Flj6Vmcd8bJevzNpyPmI4G5VJ/xkweVXvQrQCv8t5Jmd0DGZT5Sr/
- qcxXe86HEAgyio4ezzw4/DD89dMZUxrM+BwXG/BqIlJzVuJtSeGR7mAulQKjpWZiBfI1R8p7J
- 6FjbryUjOjUqrbHBygKRaK+tGROkTC9+WBvikpVplaioHrru25sxkzVukgkVuUtwx4ojRnadO
- y/9mNxDC22ERgzL5VX2BMy64phWhaziYiT8Xyod3hsFaCR1eEjnBAjnLcLOzUoHxeEnL3T6CA
- 40SkkMxXu0X+QCrgsym/a8pwXe1GltoddOp7sT+ryBUo706kfLzi3XDPLB1TNXeIscNI4Peal
- KlD4jAq34hxQNFTFneloPNXZY8pXhfD0wjdeV8K281tsH3Jv9VCOwt1lZrrb2Uy2Apc8jqS4X
- vdgzhn0LQeO6L9bI8YvoJx9cFSGtfLUNrwXK0FCaxpu19CPsRGlh/JvpSqgyx+w3FE0CYs4lW
- KQ0F6KweKK6/zl0ykd9y6DI9MUiX3y+5Tlq1ZvsPCeH/kFv2NeFsjsiACkCGr6FneVcbGcuml
- OR7BiPUSduvWlvqXisrJZf3Xupkrrk7zvnrEzx6XhkGHUVd4sv3C80Clq13IyS4m79DrAViqL
- 77s9gnzCgRx2h1kHVuokIl3m1gDiL/E2hHcf4iA9jOnxD4VY7dpycIt23lIxHoXWwfoyE09Ja
- pQNjaREpIruJjUozEpuhV4nLtf8JM1HkBlLOxXVicerifpuOfZ98D/0IyRwBoNdJP/V0FJod3
- xc3uKmZkDiqSLOHYZG3OPlLpd/M76luIBdqy+fdupXBCqMyBAuFw1EwZcHmSqgiL9yJLYb7Nx
- v7Bj3qPEE4/o075F+bUtd6iNhh6eIw0HhrCJmZdMiihlCU/Aj//tb70QyUJkEtNGDyAkZ8pi6
- cmmQhWgXTFXqSMx4JouGQQALnHS4bQtzs/nH27n+4q39coMJtEyCGy8tk5i9FhnHPlThhpQi0
- m/pmaLuIF9fQjA=
-
-Hello,
-
-I recently discovered a bug in connman v1.40 which effectively prevents it=
- from getting an ipv6 address via stateless dhcpv6. My investigation revea=
-led that this was because on every link-up connman will generate a new dui=
-d (dhcpv6 unique identifier) and request an address with it, which fails b=
-ecause the server won't have a address for that fresh duid. Normally the d=
-uid is generated once and kept/used for the lifetime of the service, which=
- is also supported by the comment on `set_duid` [0]. I further pinpointed =
-this change in behavior to commit 0f9e6af6 [1], which changed the start-po=
-int for config building from the old config to an empty one. While it has =
-the nice side-effect of getting rid of unneeded or duplicate keys, it also=
- throws away any existing duid which is the root cause of the issue. I als=
-o checked the most recent `master` branch and confirmed the issue still ex=
-ists.
-
-I cobbled together the patch below, which basically just copies over the d=
-uid from the old config to the new empty one in order to keep it; and I co=
-nfirmed it fixes my issue. But full disclaimer: That is a quick'n'dirty so=
-lution, and probably not of mergable quality.
-
-I am looking for advice and suggestions from more experienced contributors=
- on how to fix this "properly". I am also not positive on what this findin=
-g means for the `*.DHCP.LastAddress` keys (which probably also get thrown =
-away currently) in the context of stateful dhcp (v4 and v6) when you want =
-to use it to re-request the last address again.
 
 
-[0] https://git.kernel.org/pub/scm/network/connman/connman.git/tree/src/dh=
-cpv6.c#n186
-[1] https://git.kernel.org/pub/scm/network/connman/connman.git/commit/?id=
-=3D0f9e6af61527ff93c5c10290258f086c42471293
 
-=2D--
-  src/dhcpv6.c  |  2 ++
-  src/service.c | 11 +++++++++--
-  2 files changed, 11 insertions(+), 2 deletions(-)
+Cordialement / Best regards
 
-diff --git a/src/dhcpv6.c b/src/dhcpv6.c
-index 8b683599..5942774b 100644
-=2D-- a/src/dhcpv6.c
-+++ b/src/dhcpv6.c
-@@ -205,6 +205,7 @@ static int set_duid(struct connman_service *service,
-  	hex_duid =3D g_key_file_get_string(keyfile, ident, "IPv6.DHCP.DUID",
-  					NULL);
-  	if (hex_duid) {
-+		DBG("use existing duid %s", hex_duid);
-  		unsigned int i, j =3D 0, hex;
-  		size_t hex_duid_len =3D strlen(hex_duid);
+[image]
 
-@@ -222,6 +223,7 @@ static int set_duid(struct connman_service *service,
+St=C3=A9phane David
 
-  		duid_len =3D hex_duid_len / 2;
-  	} else {
-+		DBG("create new duid");
-  		int ret;
-  		int type =3D __connman_ipconfig_get_type_from_index(index);
+Embedded Computers / ARM / RISC-V / Linux
+Telecoms & Network / M2M / IoT
+Mobile: +33 (0)6 87 00 73 19
+www.alpwan.fr
 
-diff --git a/src/service.c b/src/service.c
-index d4387361..8b310206 100644
-=2D-- a/src/service.c
-+++ b/src/service.c
-@@ -655,8 +655,8 @@ done:
+Envoy=C3=A9 avec la messagerie s=C3=A9curis=C3=A9e ProtonMail.
 
-  static int service_save(struct connman_service *service)
-  {
--	GKeyFile *keyfile;
--	gchar *str;
-+	GKeyFile *old_keyfile, *keyfile;
-+	gchar *old_value, *str;
-  	guint freq;
-  	const char *cst_str =3D NULL;
-  	int err =3D 0;
-@@ -670,6 +670,13 @@ static int service_save(struct connman_service *servi=
-ce)
-  	if (!keyfile)
-  		return -EIO;
+------- Original Message -------
 
-+	old_keyfile =3D connman_storage_load_service(service->identifier);
-+	if (old_keyfile && g_key_file_has_key(old_keyfile, service->identifier, =
-"IPv6.DHCP.DUID", NULL)) {
-+		old_value =3D g_key_file_get_string(old_keyfile, service->identifier, "=
-IPv6.DHCP.DUID", NULL);
-+		DBG("copy over duid %s", old_value);
-+		g_key_file_set_string(keyfile, service->identifier, "IPv6.DHCP.DUID", o=
-ld_value);
-+	}
-+
-  	if (service->name)
-  		g_key_file_set_string(keyfile, service->identifier,
-  						"Name", service->name);
-=2D-
-2.35.1
+Le vendredi 18 mars 2022 =C3=A0 13:48, <sd@alpwan.fr> a =C3=A9crit:
+
+> Hello,
+>
+> I try to use a Huawei Modem MS2372h-153 (SIM Card 1NCE) with connman and =
+ofono but I have some problems to do that.
+>
+> Computer : Raspberry Pi 4 Model B rev 1.4
+>
+> OS : Debian GNU/Linux 11 (bullseye) / Raspberry Pi OS Lite (64-bit)
+>
+> Kernel : Linux 5.10.92-v8+
+>
+> Arch : ARM64
+>
+> Connman : 1.36-2.2
+>
+> Ofono : 1.31-3
+>
+> Ofono-scripts : 1.31-3
+>
+> APN : iot.1nce.net
+>
+> nsa@alpwan-e0d9c90c:~ $ lsusb
+>
+> Bus 002 Device 001: ID 1d6b:0003 Linux Foundation 3.0 root hub
+>
+> Bus 001 Device 003: ID 0483:5740 STMicroelectronics Virtual COM Port
+>
+> Bus 001 Device 005: ID 12d1:1506 Huawei Technologies Co., Ltd. Modem/Netw=
+orkcard
+>
+> Bus 001 Device 002: ID 2109:3431 VIA Labs, Inc. Hub
+>
+> Bus 001 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
+>
+> dmesg
+>
+> [ 9.507015] usb 1-1.1: new high-speed USB device number 5 using xhci_hcd
+>
+> [ 9.616313] usb 1-1.1: New USB device found, idVendor=3D12d1, idProduct=
+=3D1506, bcdDevice=3D 1.02
+>
+> [ 9.616329] usb 1-1.1: New USB device strings: Mfr=3D1, Product=3D2, Seri=
+alNumber=3D0
+>
+> [ 9.616336] usb 1-1.1: Product: HUAWEI_MOBILE
+>
+> [ 9.616342] usb 1-1.1: Manufacturer: HUAWEI_MOBILE
+>
+> [ 9.673161] usbcore: registered new interface driver usbserial_generic
+>
+> [ 9.673217] usbserial: USB Serial support registered for generic
+>
+> [ 9.676205] usbcore: registered new interface driver cdc_ether
+>
+> [ 9.688574] usbcore: registered new interface driver cdc_ncm
+>
+> [ 9.708900] usbcore: registered new interface driver option
+>
+> [ 9.708973] usbserial: USB Serial support registered for GSM modem (1-por=
+t)
+>
+> [ 9.709202] option 1-1.1:1.0: GSM modem (1-port) converter detected
+>
+> [ 9.710442] usb 1-1.1: GSM modem (1-port) converter now attached to ttyUS=
+B0
+>
+> [ 9.711402] option 1-1.1:1.1: GSM modem (1-port) converter detected
+>
+> [ 9.711760] usb 1-1.1: GSM modem (1-port) converter now attached to ttyUS=
+B1
+>
+> [ 9.712056] option 1-1.1:1.2: GSM modem (1-port) converter detected
+>
+> [ 9.712325] usb 1-1.1: GSM modem (1-port) converter now attached to ttyUS=
+B2
+>
+> [ 9.715371] usbcore: registered new interface driver cdc_wdm
+>
+> [ 9.746562] huawei_cdc_ncm 1-1.1:1.3: MAC-Address: 00:1e:10:1f:00:00
+>
+> [ 9.746580] huawei_cdc_ncm 1-1.1:1.3: setting rx_max =3D 16384
+>
+> [ 9.747286] huawei_cdc_ncm 1-1.1:1.3: NDP will be placed at end of frame =
+for this device.
+>
+> [ 9.747523] huawei_cdc_ncm 1-1.1:1.3: cdc-wdm0: USB WDM device
+>
+> [ 9.749312] huawei_cdc_ncm 1-1.1:1.3 wwan0: register 'huawei_cdc_ncm' at =
+usb-0000:01:00.0-1.1, Huawei CDC NCM device, 00:1e:10:1f:00:00
+>
+> [ 9.749494] usbcore: registered new interface driver huawei_cdc_ncm
+>
+> nsa@alpwan-e0d9c90c:~ $ ifconfig
+>
+> eth0: flags=3D4163<UP,BROADCAST,RUNNING,MULTICAST> mtu 1500
+>
+> inet 192.168.0.169 netmask 255.255.255.0 broadcast 192.168.0.255
+>
+> inet6 fe80::fccb:2fa5:b61b:1236 prefixlen 64 scopeid 0x20<link>
+>
+> inet6 2a01:e34:ee9f:eaa0:5470:b84c:3a21:bccc prefixlen 64 scopeid 0x0<glo=
+bal>
+>
+> ether e4:5f:01:15:de:4f txqueuelen 1000 (Ethernet)
+>
+> RX packets 504 bytes 39108 (38.1 KiB)
+>
+> RX errors 0 dropped 0 overruns 0 frame 0
+>
+> TX packets 525 bytes 105816 (103.3 KiB)
+>
+> TX errors 0 dropped 0 overruns 0 carrier 0 collisions 0
+>
+> lo: flags=3D73<UP,LOOPBACK,RUNNING> mtu 65536
+>
+> inet 127.0.0.1 netmask 255.0.0.0
+>
+> inet6 ::1 prefixlen 128 scopeid 0x10<host>
+>
+> loop txqueuelen 1000 (Local Loopback)
+>
+> RX packets 12978 bytes 2589961 (2.4 MiB)
+>
+> RX errors 0 dropped 0 overruns 0 frame 0
+>
+> TX packets 12978 bytes 2589961 (2.4 MiB)
+>
+> TX errors 0 dropped 0 overruns 0 carrier 0 collisions 0
+>
+> tether: flags=3D-28605<UP,BROADCAST,RUNNING,MULTICAST,DYNAMIC> mtu 1500
+>
+> inet 192.168.1.1 netmask 255.255.255.0 broadcast 192.168.1.255
+>
+> inet6 fe80::9052:8fff:fe1f:e97 prefixlen 64 scopeid 0x20<link>
+>
+> ether e4:5f:01:15:de:50 txqueuelen 1000 (Ethernet)
+>
+> RX packets 0 bytes 0 (0.0 B)
+>
+> RX errors 0 dropped 0 overruns 0 frame 0
+>
+> TX packets 38 bytes 5116 (4.9 KiB)
+>
+> TX errors 0 dropped 0 overruns 0 carrier 0 collisions 0
+>
+> wlan0: flags=3D4163<UP,BROADCAST,RUNNING,MULTICAST> mtu 1500
+>
+> inet 169.254.223.188 netmask 255.255.0.0 broadcast 169.254.255.255
+>
+> inet6 fe80::396f:65ff:30c1:ba06 prefixlen 64 scopeid 0x20<link>
+>
+> ether e4:5f:01:15:de:50 txqueuelen 1000 (Ethernet)
+>
+> RX packets 0 bytes 0 (0.0 B)
+>
+> RX errors 0 dropped 0 overruns 0 frame 0
+>
+> TX packets 90 bytes 16314 (15.9 KiB)
+>
+> TX errors 0 dropped 0 overruns 0 carrier 0 collisions 0
+>
+> wwan0: flags=3D4163<UP,BROADCAST,RUNNING,MULTICAST> mtu 1500
+>
+> inet 169.254.62.145 netmask 255.255.0.0 broadcast 169.254.255.255
+>
+> inet6 fe80::b252:632a:1186:e827 prefixlen 64 scopeid 0x20<link>
+>
+> ether 00:1e:10:1f:00:00 txqueuelen 1000 (Ethernet)
+>
+> RX packets 0 bytes 0 (0.0 B)
+>
+> RX errors 0 dropped 0 overruns 0 frame 0
+>
+> TX packets 33 bytes 6126 (5.9 KiB)
+>
+> TX errors 0 dropped 0 overruns 0 carrier 0 collisions 0
+>
+> connmanctl> technologies
+>
+> /net/connman/technology/bluetooth
+>
+> Name =3D Bluetooth
+>
+> Type =3D bluetooth
+>
+> Powered =3D False
+>
+> Connected =3D False
+>
+> Tethering =3D False
+>
+> /net/connman/technology/p2p
+>
+> Name =3D P2P
+>
+> Type =3D p2p
+>
+> Powered =3D False
+>
+> Connected =3D False
+>
+> Tethering =3D False
+>
+> /net/connman/technology/cellular
+>
+> Name =3D Cellular
+>
+> Type =3D cellular
+>
+> Powered =3D False
+>
+> Connected =3D False
+>
+> Tethering =3D False
+>
+> /net/connman/technology/ethernet
+>
+> Name =3D Wired
+>
+> Type =3D ethernet
+>
+> Powered =3D True
+>
+> Connected =3D True
+>
+> Tethering =3D False
+>
+> /net/connman/technology/wifi
+>
+> Name =3D WiFi
+>
+> Type =3D wifi
+>
+> Powered =3D True
+>
+> Connected =3D False
+>
+> Tethering =3D True
+>
+> TetheringIdentifier =3D alpwan-e0d9c90c
+>
+> TetheringPassphrase =3D e45f0115de50
+>
+> connmanctl> enable cellular
+>
+> Enabled cellular
+>
+> connmanctl> technologies
+>
+> /net/connman/technology/bluetooth
+>
+> Name =3D Bluetooth
+>
+> Type =3D bluetooth
+>
+> Powered =3D False
+>
+> Connected =3D False
+>
+> Tethering =3D False
+>
+> /net/connman/technology/p2p
+>
+> Name =3D P2P
+>
+> Type =3D p2p
+>
+> Powered =3D False
+>
+> Connected =3D False
+>
+> Tethering =3D False
+>
+> /net/connman/technology/cellular
+>
+> Name =3D Cellular
+>
+> Type =3D cellular
+>
+> Powered =3D True
+>
+> Connected =3D False
+>
+> Tethering =3D False
+>
+> /net/connman/technology/ethernet
+>
+> Name =3D Wired
+>
+> Type =3D ethernet
+>
+> Powered =3D True
+>
+> Connected =3D True
+>
+> Tethering =3D False
+>
+> /net/connman/technology/wifi
+>
+> Name =3D WiFi
+>
+> Type =3D wifi
+>
+> Powered =3D True
+>
+> Connected =3D False
+>
+> Tethering =3D True
+>
+> TetheringIdentifier =3D alpwan-e0d9c90c
+>
+> TetheringPassphrase =3D e45f0115de50
+>
+> !!! but no service create !!!
+>
+> nsa@alpwan-e0d9c90c:~ $ ls /var/lib/connman
+>
+> ethernet_e45f0115de4f_cable settings
+>
+> !!! impossible to connect !!!
+>
+> after a connmanctl disable cellular, I try do connect the modem directly =
+from ofono
+>
+> nsa@alpwan-e0d9c90c:/usr/share/ofono/scripts $ sudo ./list-modems
+>
+> [ /huawei_0 ]
+>
+> Online =3D 0
+>
+> Powered =3D 1
+>
+> Lockdown =3D 0
+>
+> Emergency =3D 0
+>
+> Manufacturer =3D huawei
+>
+> Model =3D MS2372h-153
+>
+> Revision =3D 21.327.07.00.00
+>
+> Serial =3D 866129030046221
+>
+> SystemPath =3D /sys/devices/platform/scb/fd500000.pcie/pci0000:00/0000:00=
+:00.0/0000:01:00.0/usb1/1-1/1-1.1
+>
+> Interfaces =3D org.ofono.SmartMessaging org.ofono.PushNotification org.of=
+ono.MessageManager org.ofono.ConnectionManager org.ofono.RadioSettings org.=
+ofono.Phonebook org.ofono.AudioSettings org.ofono.VoiceCallManager org.ofon=
+o.AllowedAccessPoints org.ofono.SimManager
+>
+> Features =3D sms gprs rat sim
+>
+> Type =3D hardware
+>
+> [ org.ofono.SmartMessaging ]
+>
+> [ org.ofono.PushNotification ]
+>
+> [ org.ofono.MessageManager ]
+>
+> ServiceCenterAddress =3D +882285000016868
+>
+> UseDeliveryReports =3D 0
+>
+> Bearer =3D cs-preferred
+>
+> Alphabet =3D default
+>
+> [ org.ofono.ConnectionManager ]
+>
+> Attached =3D 0
+>
+> Bearer =3D none
+>
+> RoamingAllowed =3D 0
+>
+> Powered =3D 1
+>
+> [ org.ofono.RadioSettings ]
+>
+> TechnologyPreference =3D any
+>
+> GsmBand =3D any
+>
+> UmtsBand =3D any
+>
+> [ org.ofono.Phonebook ]
+>
+> [ org.ofono.AudioSettings ]
+>
+> Active =3D 0
+>
+> [ org.ofono.VoiceCallManager ]
+>
+> EmergencyNumbers =3D 118 110 08 911 000 112 999 119
+>
+> [ org.ofono.AllowedAccessPoints ]
+>
+> [ org.ofono.SimManager ]
+>
+> Present =3D 1
+>
+> CardIdentifier =3D 89882280666023068871
+>
+> SubscriberIdentity =3D 901405102306887
+>
+> ServiceProviderName =3D 1nce.net
+>
+> FixedDialing =3D 0
+>
+> BarredDialing =3D 0
+>
+> MobileCountryCode =3D 901
+>
+> MobileNetworkCode =3D 40
+>
+> SubscriberNumbers =3D
+>
+> LockedPins =3D
+>
+> PreferredLanguages =3D de en
+>
+> PinRequired =3D none
+>
+> Retries =3D [pin =3D 3] [pin2 =3D 3] [puk =3D 10] [puk2 =3D 10]
+>
+> CardSlotCount =3D 1
+>
+> ActiveCardSlot =3D 1
+>
+> nsa@alpwan-e0d9c90c:/usr/share/ofono/scripts $ sudo ./enable-modem
+>
+> Connecting modem /huawei_0...
+>
+> nsa@alpwan-e0d9c90c:/usr/share/ofono/scripts $ sudo ./online-modem
+>
+> Setting modem /huawei_0 online...
+>
+> nsa@alpwan-e0d9c90c:/usr/share/ofono/scripts $ sudo ./register-auto
+>
+> nsa@alpwan-e0d9c90c:/usr/share/ofono/scripts $
+>
+> I think that these 3 commands do the same job as connmanctl enable cellul=
+ar
+>
+> nsa@alpwan-e0d9c90c:/usr/share/ofono/scripts $ connmanctl technologies
+>
+> /net/connman/technology/bluetooth
+>
+> Name =3D Bluetooth
+>
+> Type =3D bluetooth
+>
+> Powered =3D False
+>
+> Connected =3D False
+>
+> Tethering =3D False
+>
+> /net/connman/technology/p2p
+>
+> Name =3D P2P
+>
+> Type =3D p2p
+>
+> Powered =3D False
+>
+> Connected =3D False
+>
+> Tethering =3D False
+>
+> /net/connman/technology/cellular
+>
+> Name =3D Cellular
+>
+> Type =3D cellular
+>
+> Powered =3D True
+>
+> Connected =3D False
+>
+> Tethering =3D False
+>
+> /net/connman/technology/ethernet
+>
+> Name =3D Wired
+>
+> Type =3D ethernet
+>
+> Powered =3D True
+>
+> Connected =3D True
+>
+> Tethering =3D False
+>
+> /net/connman/technology/wifi
+>
+> Name =3D WiFi
+>
+> Type =3D wifi
+>
+> Powered =3D True
+>
+> Connected =3D False
+>
+> Tethering =3D True
+>
+> TetheringIdentifier =3D alpwan-e0d9c90c
+>
+> TetheringPassphrase =3D e45f0115de50
+>
+> nsa@alpwan-e0d9c90c:/usr/share/ofono/scripts $ sudo ./create-internet-con=
+text iot.1nce.net
+>
+> Found context /huawei_0/context1
+>
+> Setting APN to iot.1nce.net
+>
+> nsa@alpwan-e0d9c90c:/usr/share/ofono/scripts $ sudo ./activate-context
+>
+> Error activating /huawei_0/context1: org.ofono.Error.NotAttached: GPRS is=
+ not attached
+>
+> I suppose that this is the reason why the service is not created with con=
+nman
+>
+> What i'm doing wrong ? or maybe the Huawei MS2372h-153 is not well suppor=
+ted by connman/ofono ?
+>
+> thank you
+>
+> regards
+>
+> St=C3=A9phane David
+>
+> _______________________________________________
+>
+> ofono mailing list -- ofono@ofono.org
+>
+> To unsubscribe send an email to ofono-leave@ofono.org
