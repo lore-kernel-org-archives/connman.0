@@ -1,24 +1,27 @@
 Received: from pisarameressa.linjama.fi (pisarameressa.linjama.fi [207.154.243.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3653033C7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 382E933E8
 	for <connman@lists.linux.dev>; Wed,  6 Apr 2022 18:09:20 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id EF9196A9A4;
-	Wed,  6 Apr 2022 21:02:44 +0300 (EEST)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id D13676AA06;
+	Wed,  6 Apr 2022 21:02:46 +0300 (EEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dev.linjama.com;
-	s=dkim; t=1649268166; h=from:subject:date:message-id:to:cc:mime-version:
-	 content-transfer-encoding; bh=8rcoUoMLZse46mqQ3o9iDr2MDcAErAIY+cOxuuxiM/A=;
-	b=Iu4eoNIK8he2wYYPYaYKG5P1THqxqGP7qVNOVk+RgQxOYrLlfvZaqrAj+JsK8Vh09JSEcE
-	a1TA2XZiwa7QU+RCDeunNzb8Nv9UgiEdRoEmaatuNWOBPAi/Im9ni6QsOjTwJVBWAWjE+p
-	lSTm4E6mlAOBlgEsxnHguKD/mg2UXaNf9GW+IXDcjWiY3oKIq2rIt+dt+t4IoYdwNI6D4J
-	tzjWLkN7KAXc0BKhalXoFuNkv3DYDjJ+iQUrgQvVQelWduqwvRKq+bfkH4Ze4Ki4Iykzsp
-	nh7NhL4pUGpWSuB3G5wqT90+FmUKiiwuw0xjFqA8F6ZtWNwiHKKQFjQgHmxqJA==
+	s=dkim; t=1649268167; h=from:subject:date:message-id:to:cc:mime-version:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=GuSEfNW3hHq+eO69hDe9nj8tZ2gBdEWqK9FTjkqEyW4=;
+	b=DzvZ/6QH4TdEFhuyptqaqw0KQqO3QOfpR4sIPPWlCwYpfpjpcGmJti01t0F23xrppmiKYl
+	uv19vrt2PubRpN/+7zPHBFIhAl7zHaJ1bYc1GY1ix9Kn9ARykEwN9alifae9WcpipPyeRr
+	1uYVv87rRKriVoSqyayVMGnBzoip2FnlFtz9AWJ/v4YXoKZf1+1w6naxEkJ9l8q6ft2xFj
+	uoC4crIC7i7NfbykyuOMwa+r5mB+FVhlPEzSVmYf+xlSJTuP4Bn0zpIxDFJdlNrirPnuP1
+	9Q8+Xv12Wp6PX+hXrv1TUgOFx+oIz1wmj83u2Xz6435k64tQriU7/daBtUc+Uw==
 From: Daniel Linjama <daniel@dev.linjama.com>
 To: connman@lists.linux.dev
 Cc: Daniel Linjama <daniel@dev.linjama.com>
-Subject: [PATCH 0/2] Replace hardcoded paths with configurable runstatedir
-Date: Wed,  6 Apr 2022 21:02:38 +0300
-Message-Id: <20220406180240.1191631-1-daniel@dev.linjama.com>
+Subject: [PATCH 2/2] vpn: Replace hardcoded paths with RUNSTATEDIR
+Date: Wed,  6 Apr 2022 21:02:40 +0300
+Message-Id: <20220406180240.1191631-3-daniel@dev.linjama.com>
+In-Reply-To: <20220406180240.1191631-1-daniel@dev.linjama.com>
+References: <20220406180240.1191631-1-daniel@dev.linjama.com>
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
@@ -28,18 +31,40 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Last-TLS-Session-Version: TLSv1.3
 
-Add support for configurable $(runstatedir) with RUNSTATEDIR and replace hardcoded /var/run paths
-
-Daniel Linjama (2):
-  build: Support configurable run dir with RUNSTATEDIR
-  vpn: Replace hardcoded paths with RUNSTATEDIR
-
- Makefile.am        | 2 ++
- Makefile.plugins   | 1 +
+Replace hardcoded /var/run paths with configurable RUNSTATEDIR
+---
  vpn/plugins/vpnc.c | 2 +-
  vpn/vpn-util.c     | 4 ++--
- 4 files changed, 6 insertions(+), 3 deletions(-)
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
+diff --git a/vpn/plugins/vpnc.c b/vpn/plugins/vpnc.c
+index d11b9111..73012c5b 100644
+--- a/vpn/plugins/vpnc.c
++++ b/vpn/plugins/vpnc.c
+@@ -54,7 +54,7 @@
+ #include "../vpn.h"
+ 
+ #define ARRAY_SIZE(a) (sizeof(a)/sizeof(a[0]))
+-#define PID_PATH_ROOT "/var/run/user"
++#define PID_PATH_ROOT RUNSTATEDIR "/user"
+ 
+ enum {
+ 	OPT_STRING = 1,
+diff --git a/vpn/vpn-util.c b/vpn/vpn-util.c
+index 9ef14d38..bc3b01dd 100644
+--- a/vpn/vpn-util.c
++++ b/vpn/vpn-util.c
+@@ -102,8 +102,8 @@ struct group *vpn_util_get_group(const char *groupname)
+  * running a VPN plugin as a different user and thus, user specific run dir is
+  * allowed and limitation to access any other system dir is restricted.
+  */
+-static const char *allowed_prefixes[] = { "/var/run/connman-vpn/",
+-					"/var/run/user/", "/tmp/", NULL };
++static const char *allowed_prefixes[] = { RUNSTATEDIR "/connman-vpn/",
++					RUNSTATEDIR "/user/", "/tmp/", NULL };
+ 
+ static int is_path_allowed(const char *path)
+ {
 -- 
 2.35.1
 
