@@ -1,20 +1,24 @@
-Received: from fgw23-4.mail.saunalahti.fi (fgw23-4.mail.saunalahti.fi [62.142.5.110])
+Received: from pisarameressa.linjama.fi (pisarameressa.linjama.fi [207.154.243.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4FD9320C
-	for <connman@lists.linux.dev>; Tue,  5 Apr 2022 14:32:29 +0000 (UTC)
-Received: from localhost.localdomain (88-113-60-36.elisa-laajakaista.fi [88.113.60.36])
-	by fgw23.mail.saunalahti.fi (Halon) with ESMTP
-	id 0f44ef24-b4ed-11ec-877a-005056bdfda7;
-	Tue, 05 Apr 2022 17:31:19 +0300 (EEST)
-From: Jussi Laakkonen <jussi.laakkonen@jolla.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3653033C7
+	for <connman@lists.linux.dev>; Wed,  6 Apr 2022 18:09:20 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id EF9196A9A4;
+	Wed,  6 Apr 2022 21:02:44 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dev.linjama.com;
+	s=dkim; t=1649268166; h=from:subject:date:message-id:to:cc:mime-version:
+	 content-transfer-encoding; bh=8rcoUoMLZse46mqQ3o9iDr2MDcAErAIY+cOxuuxiM/A=;
+	b=Iu4eoNIK8he2wYYPYaYKG5P1THqxqGP7qVNOVk+RgQxOYrLlfvZaqrAj+JsK8Vh09JSEcE
+	a1TA2XZiwa7QU+RCDeunNzb8Nv9UgiEdRoEmaatuNWOBPAi/Im9ni6QsOjTwJVBWAWjE+p
+	lSTm4E6mlAOBlgEsxnHguKD/mg2UXaNf9GW+IXDcjWiY3oKIq2rIt+dt+t4IoYdwNI6D4J
+	tzjWLkN7KAXc0BKhalXoFuNkv3DYDjJ+iQUrgQvVQelWduqwvRKq+bfkH4Ze4Ki4Iykzsp
+	nh7NhL4pUGpWSuB3G5wqT90+FmUKiiwuw0xjFqA8F6ZtWNwiHKKQFjQgHmxqJA==
+From: Daniel Linjama <daniel@dev.linjama.com>
 To: connman@lists.linux.dev
-Subject: [PATCH 4/4] ofono: Do not change regdom when it follows timezone
-Date: Tue,  5 Apr 2022 17:31:16 +0300
-Message-Id: <20220405143116.2272080-5-jussi.laakkonen@jolla.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20220405143116.2272080-1-jussi.laakkonen@jolla.com>
-References: <20220405143116.2272080-1-jussi.laakkonen@jolla.com>
+Cc: Daniel Linjama <daniel@dev.linjama.com>
+Subject: [PATCH 0/2] Replace hardcoded paths with configurable runstatedir
+Date: Wed,  6 Apr 2022 21:02:38 +0300
+Message-Id: <20220406180240.1191631-1-daniel@dev.linjama.com>
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
@@ -22,34 +26,20 @@ List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Last-TLS-Session-Version: TLSv1.3
 
----
- plugins/ofono.c | 5 +++++
- 1 file changed, 5 insertions(+)
+Add support for configurable $(runstatedir) with RUNSTATEDIR and replace hardcoded /var/run paths
 
-diff --git a/plugins/ofono.c b/plugins/ofono.c
-index f0bd3c5d..8bb53949 100644
---- a/plugins/ofono.c
-+++ b/plugins/ofono.c
-@@ -40,6 +40,7 @@
- #include <connman/dbus.h>
- #include <connman/log.h>
- #include <connman/technology.h>
-+#include <connman/setting.h>
- 
- #include "mcc.h"
- 
-@@ -1710,6 +1711,10 @@ static void netreg_update_regdom(struct modem_data *modem,
- 	char *alpha2;
- 	int mcc;
- 
-+	/* Do not change regdom here if it is set to follow timezone. */
-+	if (connman_setting_get_bool("RegdomFollowsTimezone"))
-+		return;
-+
- 	dbus_message_iter_get_basic(value, &mobile_country_code);
- 
- 	DBG("%s MobileContryCode %s", modem->path, mobile_country_code);
+Daniel Linjama (2):
+  build: Support configurable run dir with RUNSTATEDIR
+  vpn: Replace hardcoded paths with RUNSTATEDIR
+
+ Makefile.am        | 2 ++
+ Makefile.plugins   | 1 +
+ vpn/plugins/vpnc.c | 2 +-
+ vpn/vpn-util.c     | 4 ++--
+ 4 files changed, 6 insertions(+), 3 deletions(-)
+
 -- 
-2.30.2
+2.35.1
 
