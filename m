@@ -1,27 +1,20 @@
-Received: from pisarameressa.linjama.fi (pisarameressa.linjama.fi [207.154.243.17])
+Received: from fgw22-4.mail.saunalahti.fi (fgw22-4.mail.saunalahti.fi [62.142.5.109])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BE7933E9
-	for <connman@lists.linux.dev>; Wed,  6 Apr 2022 18:09:20 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 5D75E6A9FF;
-	Wed,  6 Apr 2022 21:02:46 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dev.linjama.com;
-	s=dkim; t=1649268166; h=from:subject:date:message-id:to:cc:mime-version:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=pT2HekFTkpye0iYZTA46YA9leZ9t4r+I0L17O954Qa0=;
-	b=T2W4CBnyqqdXTZQMTWC4FdOKfNohFu7QVD9ait1zgsBzKMPBEKtEr4htyuVBjAD2U1E67q
-	7dKDoZ6O10TuHLkEiuSyDemlE2bWHkddax+4qu6CEV2fLT/YH1ypB5FdzFIgPrE2c8IOSK
-	kHDPrnAkNqmRokDBa1u6r0Jtn7mMU3hMmKIlSnfiiusDDk4fgHJZbLJ/U9o4Xkd0QrxMMI
-	jbMuGDTzzO4zuo4fymU1wspu/n5iZUZzDFW8+LNrU23JStPFLoVrojtjZg7n4EyAHvKkW5
-	uIO+M9nUH6VAnkbiIgRimE9lID5g2iZ2Z+/xSdXeWw+r1BqD6yO/9lpfEywfnA==
-From: Daniel Linjama <daniel@dev.linjama.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3B012100
+	for <connman@lists.linux.dev>; Thu,  7 Apr 2022 09:28:37 +0000 (UTC)
+Received: from localhost.localdomain (88-113-60-36.elisa-laajakaista.fi [88.113.60.36])
+	by fgw22.mail.saunalahti.fi (Halon) with ESMTP
+	id f0849291-b654-11ec-ae1c-005056bdf889;
+	Thu, 07 Apr 2022 12:27:27 +0300 (EEST)
+From: Jussi Laakkonen <jussi.laakkonen@jolla.com>
 To: connman@lists.linux.dev
-Cc: Daniel Linjama <daniel@dev.linjama.com>
-Subject: [PATCH 1/2] build: Support configurable run dir with RUNSTATEDIR
-Date: Wed,  6 Apr 2022 21:02:39 +0300
-Message-Id: <20220406180240.1191631-2-daniel@dev.linjama.com>
-In-Reply-To: <20220406180240.1191631-1-daniel@dev.linjama.com>
-References: <20220406180240.1191631-1-daniel@dev.linjama.com>
+Subject: [PATCH v2 3/4] timezone: Change regdom along timezone, use localtime config
+Date: Thu,  7 Apr 2022 12:27:26 +0300
+Message-Id: <20220407092726.2460965-1-jussi.laakkonen@jolla.com>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20220405143116.2272080-4-jussi.laakkonen@jolla.com>
+References: <20220405143116.2272080-4-jussi.laakkonen@jolla.com>
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
@@ -29,46 +22,189 @@ List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Last-TLS-Session-Version: TLSv1.3
 
-Add configurable $(runstatedir) to CFLAGS as RUNSTATEDIR
+This is an optional feature and when enabled with RegdomFollowsTimezone
+config option the regdom is changed when the timezone changes. This
+feature is useful in cases when the devices without a cellular
+functionality or a SIM card to set the regdom for WiFi via regdom
+changes indicated by Ofono plugin are remaining the default setting (US).
+As a result some region specific channels cannot be utilized with WiFi.
+
+The ISO3166 country code is read from /usr/share/zoneinfo/zone1970.tab
+using the set timezone. This is done at startup and when there is an
+inotify event for the localtime. The first ISO3166 country code set on
+the line is used.
+
+Timezone.c now uses localtime configured in main.conf. It may be a
+symlink as external service can manage localtime so IN_CREATE event
+is added for inotify watch.
 ---
- Makefile.am      | 2 ++
- Makefile.plugins | 1 +
- 2 files changed, 3 insertions(+)
+Changes since v2:
+ - Fix memory leaks and restructure
+ - Check that zone1970.tab is a regular file
+ - Forgot the "-v1" when sending original, my bad, sorry.
 
-diff --git a/Makefile.am b/Makefile.am
-index 15178eca..3779eab9 100644
---- a/Makefile.am
-+++ b/Makefile.am
-@@ -243,6 +243,7 @@ AM_CFLAGS = @DBUS_CFLAGS@ @GLIB_CFLAGS@ \
- 				-DSCRIPTDIR=\""$(build_scriptdir)"\" \
- 				-DSTORAGEDIR=\""$(storagedir)\"" \
- 				-DVPN_STORAGEDIR=\""$(vpn_storagedir)\"" \
-+				-DRUNSTATEDIR=\""$(runstatedir)\"" \
- 				-DCONFIGDIR=\""$(configdir)\""
+ src/timezone.c | 105 ++++++++++++++++++++++++++++++++++++++++++++++---
+ 1 file changed, 100 insertions(+), 5 deletions(-)
+
+diff --git a/src/timezone.c b/src/timezone.c
+index cc499097..f8d192df 100644
+--- a/src/timezone.c
++++ b/src/timezone.c
+@@ -38,9 +38,9 @@
  
- if VPN
-@@ -275,6 +276,7 @@ vpn_connman_vpnd_CFLAGS = @DBUS_CFLAGS@ @GLIB_CFLAGS@ \
- 				-DSCRIPTDIR=\""$(build_scriptdir)"\" \
- 				-DSTORAGEDIR=\""$(storagedir)\"" \
- 				-DVPN_STORAGEDIR=\""$(vpn_storagedir)\"" \
-+				-DRUNSTATEDIR=\""$(runstatedir)\"" \
- 				-DCONFIGDIR=\""$(configdir)\"" \
- 				-I$(builddir)/vpn
+ #include "connman.h"
  
-diff --git a/Makefile.plugins b/Makefile.plugins
-index 8e323617..bd5049ec 100644
---- a/Makefile.plugins
-+++ b/Makefile.plugins
-@@ -138,6 +138,7 @@ vpn_plugin_objects += $(plugins_vpnc_la_OBJECTS)
- vpn_plugins_vpnc_la_SOURCES = vpn/plugins/vpnc.c
- vpn_plugins_vpnc_la_CFLAGS = $(plugin_cflags) -DVPNC=\"@VPNC@\" \
- 					-DVPN_STATEDIR=\""$(vpn_statedir)"\" \
-+					-DRUNSTATEDIR=\""$(runstatedir)"\" \
- 					-DSCRIPTDIR=\""$(build_scriptdir)"\"
- vpn_plugins_vpnc_la_LDFLAGS = $(plugin_ldflags)
- endif
+-#define ETC_LOCALTIME		"/etc/localtime"
+ #define ETC_SYSCONFIG_CLOCK	"/etc/sysconfig/clock"
+ #define USR_SHARE_ZONEINFO	"/usr/share/zoneinfo"
++#define USR_SHARE_ZONEINFO_MAP	USR_SHARE_ZONEINFO "/zone1970.tab"
+ 
+ static char *read_key_file(const char *pathname, const char *key)
+ {
+@@ -228,18 +228,104 @@ static char *find_origin(void *src_map, struct stat *src_st,
+ 	return NULL;
+ }
+ 
++static char *get_timezone_alpha2(const char *zone)
++{
++	GIOChannel *channel;
++	struct stat st;
++	char **tokens;
++	char *line;
++	char *alpha2 = NULL;
++	gsize len;
++	int fd;
++
++	if (!zone)
++		return NULL;
++
++	fd = open(USR_SHARE_ZONEINFO_MAP, O_RDONLY | O_CLOEXEC);
++	if (fd < 0) {
++		connman_warn("failed to open zoneinfo map %s",
++							USR_SHARE_ZONEINFO_MAP);
++		return NULL;
++	}
++
++	if (fstat(fd, &st) < 0 || !S_ISREG(st.st_mode)) {
++		connman_warn("zoneinfo map does not exist/not regular file");
++		close(fd);
++		return NULL;
++	}
++
++	channel = g_io_channel_unix_new(fd);
++	if (!channel) {
++		connman_warn("failed to create io channel for %s",
++							USR_SHARE_ZONEINFO_MAP);
++		close(fd);
++		return NULL;
++	}
++
++	DBG("read %s for %s", USR_SHARE_ZONEINFO_MAP, zone);
++	g_io_channel_set_encoding(channel, "UTF-8", NULL);
++
++	while (g_io_channel_read_line(channel, &line, &len, NULL, NULL) ==
++							G_IO_STATUS_NORMAL) {
++		if (!line || !*line || *line == '#' || *line == '\n') {
++			g_free(line);
++			continue;
++		}
++
++		/* File format: Countrycodes Coordinates TZ Comments */
++		tokens = g_strsplit_set(line, " \t", 4);
++		if (!tokens) {
++			connman_warn("line %s failed to parse", line);
++			g_free(line);
++			continue;
++		}
++
++		if (g_strv_length(tokens) >= 3 && !g_strcmp0(
++						g_strstrip(tokens[2]), zone)) {
++			/*
++			 * Multiple country codes can be listed, use the first
++			 * 2 chars.
++			 */
++			alpha2 = g_strndup(g_strstrip(tokens[0]), 2);
++		}
++
++		g_strfreev(tokens);
++		g_free(line);
++
++		if (alpha2) {
++			if (strlen(alpha2) != 2) {
++				connman_warn("Invalid ISO3166 code %s", alpha2);
++				g_free(alpha2);
++				alpha2 = NULL;
++			} else {
++				DBG("Zone %s ISO3166 country code %s", zone,
++									alpha2);
++			}
++
++			break;
++		}
++	}
++
++	g_io_channel_unref(channel);
++	close(fd);
++
++	return alpha2;
++}
++
+ char *__connman_timezone_lookup(void)
+ {
+ 	struct stat st;
+ 	void *map;
+ 	int fd;
+ 	char *zone;
++	char *alpha2;
+ 
+ 	zone = read_key_file(ETC_SYSCONFIG_CLOCK, "ZONE");
+ 
+ 	DBG("sysconfig zone %s", zone);
+ 
+-	fd = open(ETC_LOCALTIME, O_RDONLY | O_CLOEXEC);
++	fd = open(connman_setting_get_string("Localtime"),
++							O_RDONLY | O_CLOEXEC);
+ 	if (fd < 0) {
+ 		g_free(zone);
+ 		return NULL;
+@@ -283,6 +369,15 @@ done:
+ 
+ 	DBG("localtime zone %s", zone);
+ 
++	if (connman_setting_get_bool("RegdomFollowsTimezone")) {
++		alpha2 = get_timezone_alpha2(zone);
++		if (alpha2) {
++			DBG("change regdom to %s", alpha2);
++			connman_technology_set_regdom(alpha2);
++			g_free(alpha2);
++		}
++	}
++
+ 	return zone;
+ }
+ 
+@@ -338,7 +433,7 @@ int __connman_timezone_change(const char *zone)
+ 		return -EIO;
+ 	}
+ 
+-	err = write_file(map, &st, ETC_LOCALTIME);
++	err = write_file(map, &st, connman_setting_get_string("Localtime"));
+ 
+ 	munmap(map, st.st_size);
+ 
+@@ -432,9 +527,9 @@ int __connman_timezone_init(void)
+ 
+ 	g_io_channel_unref(channel);
+ 
+-	dirname = g_path_get_dirname(ETC_LOCALTIME);
++	dirname = g_path_get_dirname(connman_setting_get_string("Localtime"));
+ 
+-	wd = inotify_add_watch(fd, dirname, IN_DONT_FOLLOW |
++	wd = inotify_add_watch(fd, dirname, IN_CREATE | IN_DONT_FOLLOW |
+ 						IN_CLOSE_WRITE | IN_MOVED_TO);
+ 
+ 	g_free(dirname);
 -- 
-2.35.1
+2.30.2
 
