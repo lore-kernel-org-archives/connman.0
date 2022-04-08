@@ -1,28 +1,28 @@
 Received: from mail.nearlyone.de (mail.nearlyone.de [46.163.114.145])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A28C5399
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FD9C362
 	for <connman@lists.linux.dev>; Fri,  8 Apr 2022 07:30:02 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 22B645D6E2;
-	Fri,  8 Apr 2022 09:21:09 +0200 (CEST)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 7B9625D685;
+	Fri,  8 Apr 2022 09:21:08 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=monom.org; s=dkim;
-	t=1649402470; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	t=1649402469; h=from:subject:date:message-id:to:cc:mime-version:content-type:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=eR5z/IC6pjHSsu52FKOHhWl7VatUyTye+Ck5uRfH7AM=;
-	b=hTCet6WpBgscy/o4VpLQr/PgRTWgW8dhygFbQqVpSdLZdqgRJtWxACu9MAR4+GSodh6qJi
-	EUgPI9S0AS2MqFv7cn6/rnIuaqwQDCONyeGo+cJY5CicltKPBxv7S8wNykUYoP3BL/cyJJ
-	JZjyeLU0zGIPpGc0rpi1Oi3EBNcGDjhYE7RsNzF0oDt6NpbHUJJuxx2ZufNUlCapeFFk/f
-	HVJya2/cdrxv4dA+0YyA9Ogq8TyMwIzr7630h1GUkyR+gn34Spu+4drwVw/2+SvdTKDKoi
-	AnW88NOkgEZniy42NKQ05FwzxJz4pd0qkqOfHm3R7JiXktz/UCWXME9+SU13bg==
+	bh=PadM7hwYsVnLGZ20Rp3oKuaRmTrptn94wifYHhlZL58=;
+	b=F9+S1W8pNBsfsj9F3xhi31RnZwCXgiwiwFmVZCClwpQ54SNkahd3DX+4uMwx5JbjkTjV8U
+	sg4GCwFPKHzE1DGeCwijJofqgiYeo18YFyqLrKC17CejdUODdG9HOLYIDeFcuKKIcRSgyN
+	EhfHWM4r7t9Y9HEKpgwo8M/Bx65odyTQR6Bw+UXVXQQGdJC17RQMwalNo4mhIz34vTQ+Jy
+	I19VpbdxaDOHmJ0VLZIExMG5zDJvz/qHt7eD8syMvL3PzrK3puj+QIJi2a03TPMHAX9img
+	IUfJpc5BOPHKiH0gLk8wUw8YkwPLd3MjsWt0RgPnQA3s1rgv0MLdhQ8bfCckcA==
 From: Daniel Wagner <wagi@monom.org>
-To: Jussi Laakkonen <jussi.laakkonen@jolla.com>,
+To: Daniel Linjama <daniel@dev.linjama.com>,
 	connman@lists.linux.dev
 Cc: Daniel Wagner <wagi@monom.org>
-Subject: Re: [PATCH 0/4] Set regdom to follow timezone setting as optional feature
-Date: Fri,  8 Apr 2022 09:20:19 +0200
-Message-Id: <164940240736.15543.14003702769488337371.b4-ty@monom.org>
-In-Reply-To: <20220405143116.2272080-1-jussi.laakkonen@jolla.com>
-References: <20220405143116.2272080-1-jussi.laakkonen@jolla.com>
+Subject: Re: [PATCH 0/2] Replace hardcoded paths with configurable runstatedir
+Date: Fri,  8 Apr 2022 09:20:18 +0200
+Message-Id: <164940240736.15543.5537464319001054370.b4-ty@monom.org>
+In-Reply-To: <20220406180240.1191631-1-daniel@dev.linjama.com>
+References: <20220406180240.1191631-1-daniel@dev.linjama.com>
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
@@ -33,28 +33,27 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-Last-TLS-Session-Version: TLSv1.3
 
-On Tue, 5 Apr 2022 17:31:12 +0300, Jussi Laakkonen wrote:
-> This patchset adds an optional feature to make regdom follow the timezone set
-> on the system. This feature is useful on systems where no cellular is available
-> or there is no SIM present, as the regdom on WLAN would stay on default (US)
-> and some channels would be unreachable. Enabling the "RegdomFollowsTimezone"
-> config option makes Ofono plugin not to change regdom when the cellular network
-> has indicated a change on country. By following the timezone, which can be
-> also updated by the cellular stack if set to automatic configuration (might
-> need a external service to do this), would then eventually propagate to ConnMan.
+On Wed, 6 Apr 2022 21:02:38 +0300, Daniel Linjama wrote:
+> Add support for configurable $(runstatedir) with RUNSTATEDIR and replace hardcoded /var/run paths
+> 
+> Daniel Linjama (2):
+>   build: Support configurable run dir with RUNSTATEDIR
+>   vpn: Replace hardcoded paths with RUNSTATEDIR
+> 
+> Makefile.am        | 2 ++
+>  Makefile.plugins   | 1 +
+>  vpn/plugins/vpnc.c | 2 +-
+>  vpn/vpn-util.c     | 4 ++--
+>  4 files changed, 6 insertions(+), 3 deletions(-)
 > 
 > [...]
 
 Applied, thanks!
 
-[1/4] main: Add path to localtime to config options.
-      commit: f035539d46ac23ccb8916ed7ae8d38ab553d32b1
-[2/4] main: Add RegdomFollowsTimezone option for regdom changes
-      commit: aaab2161b247588bbee32fefe775ef55acc69c4d
-[3/4] timezone: Change regdom along timezone, use localtime config
-      commit: bce73f1bdbf1aa6fc28d2f75b7780f4f1d8b0e3a
-[4/4] ofono: Do not change regdom when it follows timezone
-      commit: cb87ddd2f5905782b45c0e46277fcf7f32de16af
+[1/2] build: Support configurable run dir with RUNSTATEDIR
+      commit: a18acc883b7312d425eb0565e5f2c4d5235f2182
+[2/2] vpn: Replace hardcoded paths with RUNSTATEDIR
+      commit: 7c341aef347eb2a399a2717aa79ac6043f503430
 
 Best regards,
 -- 
