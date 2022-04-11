@@ -1,346 +1,186 @@
-Received: from EUR01-HE1-obe.outbound.protection.outlook.com (mail-eopbgr130125.outbound.protection.outlook.com [40.107.13.125])
+Received: from FRA01-PR2-obe.outbound.protection.outlook.com (mail-eopbgr120053.outbound.protection.outlook.com [40.107.12.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9967E2564
-	for <connman@lists.linux.dev>; Fri,  8 Apr 2022 15:54:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=goegat.onmicrosoft.com; s=selector1-goegat-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=KwWUYDYZPVuL5UnDKVB1Os/tJtF1p4cXpQ913YQW3HQ=;
- b=o2dQ3VYom2PkInprSyo1ZNSjn5BTe2eJ/huq9O5TYraRciejbgnCOkG+3NiwIsWvEOZLQ/K+1etZK7yImusmXn+wcFd47cPP8C/AJ4pahpf7e8wa9WyncdMiq+n4xSKPRjJQynYKXv7dVzZW3vp7B6sLiYkYTfcvj5COqJt5r6k=
-Received: from DB6PR07CA0197.eurprd07.prod.outlook.com (2603:10a6:6:42::27) by
- DB7PR09MB2603.eurprd09.prod.outlook.com (2603:10a6:10:41::15) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5144.22; Fri, 8 Apr 2022 15:53:56 +0000
-Received: from DB8EUR05FT029.eop-eur05.prod.protection.outlook.com
- (2603:10a6:6:42:cafe::2f) by DB6PR07CA0197.outlook.office365.com
- (2603:10a6:6:42::27) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5164.8 via Frontend
- Transport; Fri, 8 Apr 2022 15:53:56 +0000
-X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 20.52.142.9)
- smtp.mailfrom=goeg.at; dkim=pass (signature was verified)
- header.d=goegat.onmicrosoft.com;dmarc=none action=none header.from=goeg.at;
-Received-SPF: Fail (protection.outlook.com: domain of goeg.at does not
- designate 20.52.142.9 as permitted sender) receiver=protection.outlook.com;
- client-ip=20.52.142.9; helo=goegsIQSUITE01;
-Received: from goegsIQSUITE01 (20.52.142.9) by
- DB8EUR05FT029.mail.protection.outlook.com (10.233.239.51) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5144.20 via Frontend Transport; Fri, 8 Apr 2022 15:53:55 +0000
-Received: from mail pickup service by goegsIQSUITE01 with Microsoft SMTPSVC;
-	 Fri, 8 Apr 2022 17:53:55 +0200
-Received: from EUR05-AM6-obe.outbound.protection.outlook.com ([104.47.18.111]) by goegsIQSUITE01 over TLS secured channel with Microsoft SMTPSVC(10.0.17763.1697);
-	 Fri, 8 Apr 2022 17:53:54 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D66410EC
+	for <connman@lists.linux.dev>; Mon, 11 Apr 2022 08:03:41 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Io7QwU550+JjNkpDuehY8N9AEbYBjaxF0XTBSkjshZKCU0jjOibb02DpkrE84hGaoDUE2wLiQbrDLyrmWuYgajIgAaQ95AGObgLavp0hTlykvk6Qc91L4YYeynVFlp1oiERYcreV4OzgCSGpWGtrOj4nJpOb5v4OvFbs14JIBcy2f5Lo61WgQfJVG4HbWjxd1k0D4E1g+711yEhiCLrXrkBynVQidR1/JUellb+Pu+E5uHJ2TdRT1U//N0I/vBfrRDiTNc6jTRBT5Dw8IwRfldLeULHqEhtp1AG6M0HXRREwXvyCgpd9QsLeCgNPCGAOF8EElSTrzPvjrn0av8fpSw==
+ b=QvIgjffnao1oAatx9XXcSuN1yQIrlV4etDXvyGbUC/bouibZAj4b5FO4aud7fU21LoajBDBtybyY+ba2rUo5w2EkzEomaMZ2muLNhnLgMkuEDkFFvAhAL2Mnw4UW/peenMkcP8XoOTfwQNxDc/RGux+8bZAOKaaIZzSPozlgVUmAigpm3LN05Wb1RDXwuomA7a79EEogivJl7fCv0uy9gNzz70w0jpYnch9cvVFN1OCdX0tFZ60CSk1C/godp3w0oHiHDMqD4eXab+C0CrzFuiYre4QZBF6POhdu+jxw1wTTNXGPYSOjJNJZZ6Ek8qKmfP+zkpZr0tf+9pbnnHWGGQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=KwWUYDYZPVuL5UnDKVB1Os/tJtF1p4cXpQ913YQW3HQ=;
- b=bPy9C4ly76WrrNyzterZnIRhBTEg5ZSl00ONaVJkp1Lh58pw3KPANL5xK0pGT6Gj9b6U6NKyj7gK2iT6PYDN7Kyj7g7nzlA1L9v5AAXYZcQ4qnaH3uOxFHe1a0E2++ASEY1wNLiNnKzPcWD204Is4vUwFrfz9soutQX0iTRxzuYL8VWX8VxU8UeDuFy5yI0O3Y++2941EQpLuTV23hVqhZeQQEyKJfllrdu/wb97jc2tFKbSIbfwjKZBJXQmnJzscNdhW3FOOsFcv2x3SRvhirklIehm0xBut2f7qzwKloLFNVEPEAI0CV5BpxxiL3GLa+dnZxi30+nt6oiNpeYbig==
+ bh=IR5rESWtb0tLWGTHoGMrRYR4SSupsAVHND/PSoyRzNs=;
+ b=mwjNG65bqjqem6IWumpPX1efMOkn7IFJQP7bshOmj//QcpRGEWI7DkHyvWJgZJiXkZvgKQxRvPJlmmBDwvI3dhRLx/ruzoUpTvdWYp2JEVUyxGkbp8luQW9xV4qF74RPWT27ahoKrgmbSvLlOgX513fTtHF4/mTp0NWQ3mhT+bUk2xBhIwDhUoOj01yb7SNOXnlmRGTyx/6/QWFGPrQMZTmcsTIS4qAM3TsRb3Xx4+SGOrtEubzjhac8l2iC9ZEz4WUI8bFwD0vlXhOcAxK0aCykeUUE/ynWAzKPiiUkKUAk3Z+72JUwoS+Hh8NSJuXGaaJFa2yQrab3oeaBpB9UIQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=goeg.at; dmarc=pass action=none header.from=goeg.at; dkim=pass
- header.d=goeg.at; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=goegat.onmicrosoft.com; s=selector1-goegat-onmicrosoft-com;
+ smtp.mailfrom=cpexterne.org; dmarc=pass action=none
+ header.from=cpexterne.org; dkim=pass header.d=cpexterne.org; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cpexterne.org;
+ s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=KwWUYDYZPVuL5UnDKVB1Os/tJtF1p4cXpQ913YQW3HQ=;
- b=o2dQ3VYom2PkInprSyo1ZNSjn5BTe2eJ/huq9O5TYraRciejbgnCOkG+3NiwIsWvEOZLQ/K+1etZK7yImusmXn+wcFd47cPP8C/AJ4pahpf7e8wa9WyncdMiq+n4xSKPRjJQynYKXv7dVzZW3vp7B6sLiYkYTfcvj5COqJt5r6k=
-Received: from AM5PR0901MB1633.eurprd09.prod.outlook.com
- (2603:10a6:203:4f::21) by DB8PR09MB4373.eurprd09.prod.outlook.com
- (2603:10a6:10:156::18) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5144.25; Fri, 8 Apr
- 2022 15:53:53 +0000
-Received: from AM5PR0901MB1633.eurprd09.prod.outlook.com
- ([fe80::d186:7efc:f811:fbd1]) by AM5PR0901MB1633.eurprd09.prod.outlook.com
- ([fe80::d186:7efc:f811:fbd1%10]) with mapi id 15.20.5144.019; Fri, 8 Apr 2022
- 15:53:53 +0000
-From: Thomas Bartosik <Thomas.Bartosik@goeg.at>
+ bh=IR5rESWtb0tLWGTHoGMrRYR4SSupsAVHND/PSoyRzNs=;
+ b=vxYFf23D2bsul9sMbJRQ8V+CURDYGVuMRupsvG7sYQeVpGyN0IYnuOXwLNroNb9e2sgHtHvKw3tsogA5FGn/1c/y5HEASf8FsKqeAP6Y6ZSwCfJm2Dcr4PxT0gTFvX9UB9i9NtBLwMU8H09FTlbG71yGLKK+2y23iNdHgsc6n/w=
+Received: from MRZP264MB1544.FRAP264.PROD.OUTLOOK.COM (2603:10a6:501:a::7) by
+ PR1P264MB4215.FRAP264.PROD.OUTLOOK.COM (2603:10a6:102:256::22) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5144.29; Mon, 11 Apr 2022 08:03:38 +0000
+Received: from MRZP264MB1544.FRAP264.PROD.OUTLOOK.COM
+ ([fe80::8bb:351a:92ef:2b6]) by MRZP264MB1544.FRAP264.PROD.OUTLOOK.COM
+ ([fe80::8bb:351a:92ef:2b6%9]) with mapi id 15.20.5144.029; Mon, 11 Apr 2022
+ 08:03:38 +0000
+From: "VAUTRIN Emmanuel (Canal Plus Prestataire)"
+	<Emmanuel.VAUTRIN@cpexterne.org>
 To: "connman@lists.linux.dev" <connman@lists.linux.dev>
-Subject: Unable to establish openvpn connection under Debian [rp_filter
- restored to 0, notifier disconnect underflow]
-Thread-Topic: Unable to establish openvpn connection under Debian [rp_filter
- restored to 0, notifier disconnect underflow]
-Thread-Index: AQHYS2DY4D/RHlZSlk6l6roRaW7OkQ==
-Date: Fri, 8 Apr 2022 15:53:53 +0000
+Subject: [PATCH] iwd: Fix connection with invalid passphrase format
+Thread-Topic: [PATCH] iwd: Fix connection with invalid passphrase format
+Thread-Index: AQHYTXmJ+kVvqQMP3kWZjDoSdYhqwazqWP2o
+Date: Mon, 11 Apr 2022 08:03:38 +0000
 Message-ID:
- <AM5PR0901MB1633AB6BB661EEADB165A51DF2E99@AM5PR0901MB1633.eurprd09.prod.outlook.com>
-Accept-Language: de-AT, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
+ <MRZP264MB15441C29DB3B9AE00192133193EA9@MRZP264MB1544.FRAP264.PROD.OUTLOOK.COM>
+References: <20220411075458.78136-1-Emmanuel.VAUTRIN@cpexterne.org>
+In-Reply-To: <20220411075458.78136-1-Emmanuel.VAUTRIN@cpexterne.org>
+Accept-Language: fr-FR, en-US
+Content-Language: fr-FR
+X-MS-Has-Attach: yes
 X-MS-TNEF-Correlator:
-Authentication-Results-Original: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=goeg.at;
-X-MS-Office365-Filtering-Correlation-Id: 708db5c3-60ab-441a-4ae6-08da1977fcb4
-x-ms-traffictypediagnostic:
-	DB8PR09MB4373:EE_|DB8EUR05FT029:EE_|DB7PR09MB2603:EE_
-X-Microsoft-Antispam-PRVS:
-	<DB7PR09MB26036D36479EEAE8F33737BDF2E99@DB7PR09MB2603.eurprd09.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted: BCL:0;
-X-Microsoft-Antispam-Message-Info-Original:
- d9KwcBQST0h8YZaxvmoxMLX5dgEIKlDpyz1d/+Xq6g4+BfxymBdwwB6Tx20jndlmgLTtxQ2imsHxxube2JMQGkIrb4cnDtwKLKPwRSm7pRT4CeAYkasuVzlduXRh6bEDXz7MEYYZTlI88Qfh0FFVpSDdMx7ZXicoQCiD3cD9Glf65WkBCav6g0XAc6Rw34VbI2fDvNttTNx8YzG43SV7FeyBLHRqQUc2gvTA755clDXOw4pqUipNkFNcgKYzeDkW6UnpuxDjEf72EFIkRK+0oKG8nyczuseBzkbfYXDnQSuMaKTdbhr7uRow3pG8tsoDIDYc/dKKDrkyI8Zs9Eafgw2tLiZxSdiHehqZC6ctrxbnu6Gj+E/EaXPXP21HLxO7LI1CInwPxQmmk7OPiXKPC3SK6vy06BM45oPeOXIMP1Q++pUtnnbiKIblYvJVOA7ySNAXZJuMAuE2ir88h8E1Xt6+oLiNKIttCDdat2t8La/pIDwCCCYG9ASlNIUR7SV3+SWxRS/IC2SNc4NFjopJv8701xgq3ajJt6rNB9oUZ+bw3UqSgeeRKfHGXhXSvGk+bJYifM1xJTBQ4riAECTABE+jKfL1+iv25y1K1dLTQvI7KaKNjhCrPa8fP3kYydgR+FUtdFG7AnOztuCl+eJZDNq3bpztBxfrSh0L7clyNzbDDPT9Ua1nU3KGG5Q+8b2JG1HwU7N1e9P97OyOxFP9qA==
-X-Forefront-Antispam-Report-Untrusted:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM5PR0901MB1633.eurprd09.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(366004)(7696005)(316002)(30864003)(76116006)(6916009)(55016003)(38070700005)(66946007)(6506007)(66556008)(64756008)(66446008)(66476007)(8936002)(508600001)(86362001)(5660300002)(33656002)(91956017)(8676002)(122000001)(38100700002)(71200400001)(26005)(52536014)(83380400001)(186003)(9686003)(2906002);DIR:OUT;SFP:1102;
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+msip_labels:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=cpexterne.org;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 4d3a8b93-7e39-4960-5122-08da1b91c94d
+x-ms-traffictypediagnostic: PR1P264MB4215:EE_
+x-microsoft-antispam-prvs:
+ <PR1P264MB421536E2065EE61883247F0793EA9@PR1P264MB4215.FRAP264.PROD.OUTLOOK.COM>
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info:
+ Ecp4vUewb/E20X6GlddncaXGGqcEg5StsG1zUEqkQH+o6FJuRgxIib9RR+xu/9D2zj3wvp1k4NFFlZrgyvZDfduZRnVOhrhBuadixzGM4RIcfMSGCxWQnWapq7VARXExq/pPmhcGN7i7joeFByBgrMMxbnuWnrDcJJXjlbkA9ufxlfSrOdoeFPXm/+TZwmkoY91k1k+MMeWzRGg83rJOgx8nkuS/uU33DTN6lJorlkmNXUuFg/uisvnuod7uOXl1v3+jmgan21j440mxgB+zLd3tmlf0tCryI7cncPl4joqxZF3FcHV6qd9F05Z0H+7jNRCjBPQGOL4eUO7IhFCyl6AIYrIT/jsg2apBJ/eFmqyge2zCp4rqFM4RvUPOJ9fFM099Y+nUKG0uzBYH73qpDVSVaZBXKxhZm+FvmcQWEEkmUGcP/zxXZmPH6su8zosxJXJ4tS93gLz36FJIC2ay4pOJUne6Ou8y3Eaz1cTvj5/b7nQr+EMV5QydSBIZ3VqGKyvzpV1ueC661pjQUj8RHnQHuUWd4MyfjxsuSg9nWy+SUz1aGCbZE7WEfrll1R8f6gwJW1RKa2weoBsOhbbCBVujFSrtaRc5/i6djX1llfwNsGCsFRmWCiE33+xPs6jXMRc2N9eAYskPKNWS4QBIYlr2/25hFrmrHEUip0vcPq6GV9ouFxtppS0gGesdfUY7uKimSmLAd8cM89ivDVv2RQ==
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MRZP264MB1544.FRAP264.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(316002)(508600001)(33656002)(55016003)(6916009)(71200400001)(186003)(76116006)(86362001)(66446008)(8936002)(64756008)(66556008)(4744005)(38100700002)(91956017)(66476007)(99936003)(66946007)(8676002)(83380400001)(6506007)(9686003)(7696005)(38070700005)(5660300002)(122000001)(52536014)(2906002);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 2
+x-ms-exchange-antispam-messagedata-0:
+ =?iso-8859-1?Q?25J5Ha9mKPlz+zlgik94z0Y7qBzDJrIS07yqmsxSm+im+f+/VllPjvbu8D?=
+ =?iso-8859-1?Q?ucKt30vlPNuVPZdux3dgori8nxfcsrR9RtNsmSJAIjDfVJaeQk6N31LNWB?=
+ =?iso-8859-1?Q?MUKxMaBkcQljDWp96q9osYDyhJfGB7fQcy9ojkH+4eVmaxvlVaeA5Hb5FQ?=
+ =?iso-8859-1?Q?Z3Lry/nuaHDWYdx5q8l9EmDlz9u0VNd4cdmuKppd8G2fv+r82S86A+bxQG?=
+ =?iso-8859-1?Q?5KRonb23LAEEKabcL30xs2Rcw6sP+UmTcS8XBz6kpTRLoJ3sGIWV5fA3Rn?=
+ =?iso-8859-1?Q?BzRVI5Ia4yvLHOWH4FCb2UosoDo2wujlVz8XUgoMvGC+wCQ5uvYG2vixLq?=
+ =?iso-8859-1?Q?3Bw/nNw4ROHoNkt0wVRnTjyJNL6TPYb+AFLwWZswffotbKbQqBbmUYWk/C?=
+ =?iso-8859-1?Q?XRRIZpaQkTY57hbERNF47++rD9vyWNlWJ4dplTYESpdGyxm9GHpjvfS2ou?=
+ =?iso-8859-1?Q?nZQ8NP/G6CQQdsPpbAOBwCMdf2Madt2nOL/aJrIz0f5QPwhzztJACmaZYr?=
+ =?iso-8859-1?Q?949WDf+JTyvsY4Uy0xi40aPMZWw1PLu1VSQa4O0hCDH1kJ/uCSArxotQRg?=
+ =?iso-8859-1?Q?3FqfChBfm7BA2He+YW+Cc27Rw08QIY1vMC474jdj0czOMTWL4HEerhI9xj?=
+ =?iso-8859-1?Q?EnwumYXnuwnW6wyCVWHtD/htUd4ru8sRLr1Xqz4FQJWP38XvMZoSjwrGu+?=
+ =?iso-8859-1?Q?Ney8nccYaxXNVUyIncumoPOb6JMSMSGHeLmFX/68V3w7m53KCnsAHfQzv5?=
+ =?iso-8859-1?Q?lW2gMv5lXRAsFIL0m4fzN7OmGlVdDmV53VQeeMxI03X/YsQ9a7UfnplgLo?=
+ =?iso-8859-1?Q?uWNDQLsEf2iTx8Aw+TXX6kh1Vk/picG06bUrRjT9MJlw2JA8y4+RTfQVJy?=
+ =?iso-8859-1?Q?lUXaO4OrKhkgvWuuaARH2FZIvm2nWgq90VQsDt8SmpGRyTXxXIKbCbQq2i?=
+ =?iso-8859-1?Q?lrMovF/C399L84l5R275scmZHTGg1Ew8wK7bnbe0WS2LrugIzJMhn0kZ5A?=
+ =?iso-8859-1?Q?7rTM/BdHorwuqgYZWTfNQH6JgS1PhDVAs2g9Erw4lwREq/kn8iin08BgYG?=
+ =?iso-8859-1?Q?UrTbil9FAZZ7Xr6SAg86xv6oiSfWAoczVmwuidrAwo6MU9tExgmWqzmA9r?=
+ =?iso-8859-1?Q?G2wpnMN/muD7PVyyrpfv5sY16W3UGOtNrRbdFPNugpUp3ZIuApMI/4e7q1?=
+ =?iso-8859-1?Q?AS8BoeBZnaKkojSYXMIjydx4jIIS97dIt42d1KFbm56FSKxOEEDHDXwS+Q?=
+ =?iso-8859-1?Q?6T9BRbh42ZdWhNjGj3KCazKdLQc8tddCFeMGR6SXD7ugqi5Xpf48zBIg1b?=
+ =?iso-8859-1?Q?zMUOYnbGzeytCviu4/5Q5/0Cg747mQtbPF6f28MOoJubtf0z31RgE/xija?=
+ =?iso-8859-1?Q?yZ91BlrtRa5mI5Vt1nk/g4wwhhJMA/W6bXlsvubCkEojgjTuWtybgk/uXE?=
+ =?iso-8859-1?Q?+kjK/gNzMTkjSb6CNY51gAD0Stydxsnh49Kg5Zmcp/T4X4tDxejzv2NYIj?=
+ =?iso-8859-1?Q?GutgoVIrXysFhwECZv2PkfA2qgq3S4bicIWCS0l4v741W2cXXjp8+Z1tZv?=
+ =?iso-8859-1?Q?9w3AgjnA9C4bC1amW2JLqZkRKBjqIVKHWNXB/ZY+4pSTqrlYFwK04Jq/Vm?=
+ =?iso-8859-1?Q?L0r1fVWGiSquoefcgma5uDOAnUh5incSUYwOVRpj7Ar4iaDjBzqJkM8Ewi?=
+ =?iso-8859-1?Q?tPFFqM9XkE5dVdlUD61Na+AKcaAmO2axOxydrfDbecywzoXyxvuH5gjsPE?=
+ =?iso-8859-1?Q?6fPsK0mXJSa1oNqr6rwfGBYypW0rnbXEoqViIDXkQzLqBdOS6gVaAzHE7q?=
+ =?iso-8859-1?Q?WoVCujIqBZSVws+1xvgXmCWMQs2q5Iw23lnuw+RcSylv9P+XiMIS1qY/AE?=
+ =?iso-8859-1?Q?q1?=
+x-ms-exchange-antispam-messagedata-1: dwMwVktutt7e334v8+j7EpogQP4HR2UTE0A=
+Content-Type: multipart/mixed;
+	boundary="_002_MRZP264MB15441C29DB3B9AE00192133193EA9MRZP264MB1544FRAP_"
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR09MB4373
-X-OriginalArrivalTime: 08 Apr 2022 15:53:54.0444 (UTC) FILETIME=[D97114C0:01D84B60]
-X-GBS-PROC: 8nEwQmeqoarrBYExp6GMHGsmvHXiUsI+BKlaIaWKg2iYAx2Ew57y7MZkMKEf+blO
-X-GBS-PROCJOB: 5Uvlt9iGF2O34cpLndBqS6kTitt9oarUFcSoIU4HhaB1jvBwhtIqvfH1/xBCkCXx
-X-GRP-TAN: goegsIQSUITE01@0E0111410EE34E4A8969595430DDF959
-X-iqsuite-process: e13a3393-6c38-45eb-8279-3913da145940
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped:
- DB8EUR05FT029.eop-eur05.prod.protection.outlook.com
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs:
-	a9876bf8-1397-4039-c069-08da1977fb32
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	ZvR8ot6f++MYMxO0N2GsfKe7e1JJ/0Qnhtf15/S0fHhTntXbhftlFUv+6x42CeG1lR/jAEh0LBsAKAx0M2eJe8hCN5Hn4SPboYZlkLq4gER2xFSAAfAFmV8R8DeJ7OcI5XEDHcWTbj0hzTPmnZzZ324xMcJI6hdaFwWm0O+gXzm56dZMrt3S0WUV7erCgwl8cPvBxsigKa3QSe+6olWuB15k8xq2a3y2g2FjbfeLuJ+CvtbyHCPi8TG0yBqYW2ruFNGjQd+vFQOTWjP8ZYp8u2eWLHZnSNImXPBd5x0ar1oFw54Zw0l0YKFRPv1XTkUGGOFvRsAkJuFezjNp0bQ2YJxxvXFG3hCPbOAzh/FL1dhK0uY4ukkHdHOD2XNWUs3GTMh4ctC2XT0hGJt0d+wiZbFFKq2P++JeDbMYpbXRgIWq9N5ZOClG7AcJhgHUJTrqW7GUZmOzuUMLn2UMPJVaKfcTgomUGw+q7k5xR0leZ6Ao2EsB81sb2smRUS0pXJunlgzYNvYGk+1lKSph9mbnzx9bNpYj1yrv6iFzOu9771C7zl80YzRFILKwVUYl9iEerhtrfZkn+KgoFwpC5tzyVSI7c/nKgxCnhG2vUYRSOe8u9w/3tik1g92ioNPOq7MUbyXtB98lyrDuf+pihxA9ynzMGfkVtqYevAbGgbSZ+KZp2tdkddXOjpxiEFDjL3ew
-X-Forefront-Antispam-Report:
-	CIP:20.52.142.9;CTRY:DE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:goegsIQSUITE01;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230001)(46966006)(36840700001)(81166007)(186003)(26005)(33656002)(55016003)(83380400001)(5660300002)(9686003)(316002)(8676002)(6916009)(70206006)(70586007)(82310400005)(8936002)(36860700001)(7696005)(52536014)(508600001)(2906002)(6506007)(86362001)(47076005)(336012)(30864003)(356005)(36900700001);DIR:OUT;SFP:1102;
-X-OriginatorOrg: goeg.at
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Apr 2022 15:53:55.7198
+X-OriginatorOrg: cpexterne.org
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: MRZP264MB1544.FRAP264.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4d3a8b93-7e39-4960-5122-08da1b91c94d
+X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Apr 2022 08:03:38.7216
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 708db5c3-60ab-441a-4ae6-08da1977fcb4
-X-MS-Exchange-CrossTenant-Id: 05d2efe8-0c45-4d9d-9a5a-b2d00b1b42ff
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=05d2efe8-0c45-4d9d-9a5a-b2d00b1b42ff;Ip=[20.52.142.9];Helo=[goegsIQSUITE01]
-X-MS-Exchange-CrossTenant-AuthSource:
-	DB8EUR05FT029.eop-eur05.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB7PR09MB2603
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: bf5c5de1-6a54-4091-a72f-90e32801628c
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: nSs11OyRl2KolIBkY9B36sAGA4/FuefXKWH5XFli3+3KRAH12P2zYYFs1fVdOtIC9D9h+VBmGBIwgfz+SSqoT73k7BVSYFqmRHCCsSILOt0=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PR1P264MB4215
 
-Hi!=0A=
+--_002_MRZP264MB15441C29DB3B9AE00192133193EA9MRZP264MB1544FRAP_
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+
+It is no more possible to connect to a secure network, after entering=0A=
+an invalid passphrase format, for example 64 characters.=0A=
+In this case, the user agent still needs to be called, to request a new=0A=
+passphrase.=0A=
+---=0A=
+ plugins/iwd.c | 4 +++-=0A=
+ 1 file changed, 3 insertions(+), 1 deletion(-)=0A=
 =0A=
-I'm struggling to get connman+openvpn running on a current Debian machine.=
+diff --git a/plugins/iwd.c b/plugins/iwd.c=0A=
+index ee3ed83e5957..f2d368336d1a 100644=0A=
+--- a/plugins/iwd.c=0A=
++++ b/plugins/iwd.c=0A=
+@@ -241,7 +241,9 @@ static void cm_network_connect_cb(DBusMessage *message,=
+ void *user_data)=0A=
+                        return;=0A=
 =0A=
+                DBG("%s connect failed: %s", path, dbus_error);=0A=
+-               if (!strcmp(dbus_error, "net.connman.iwd.Failed"))=0A=
++               if (!strcmp(dbus_error, "net.connman.iwd.Failed") ||=0A=
++                                       !strcmp(dbus_error,=0A=
++                                       "net.connman.iwd.InvalidFormat"))=
 =0A=
-My Gentoo notebook works fine with nearly exactly the same versions:=0A=
-- connman 1.41=0A=
--- DEBIAN: built this myself as I got "netlink: attribute type 1 has an inv=
-alid length" with the stock 1.36 .deb in the Debian 11 repo and thought tha=
-t was the problem=0A=
---- config used: ./bootstrap && ./configure --enable-openvpn --prefix=3D"" =
-&& CFLAGS=3D"-march=3Dnative -O3" make -j4 && checkinstall --fstrans=3Dno -=
-D make install=0A=
---- NB: the ./bootstrap step is missing in the README file=0A=
--- GENTOO: this is the most recent stable version in the repo=0A=
+                        connman_network_set_error(iwdn->network,=0A=
+                                        CONNMAN_NETWORK_ERROR_INVALID_KEY);=
 =0A=
-- openvpn=0A=
--- DEBIAN: openvpn 2.5.1 (official repo)=0A=
--- GENTOO: openvpn 2.5.3 (official latest stable)=0A=
+                else if (!iwdn->autoconnect)=0A=
+--=0A=
+2.25.1=0A=
 =0A=
-However, on Debian I get=0A=
-connmand[64470]    : rp_filter set to 2 (loose mode routing), old value was=
- 0=0A=
-connmand[64470]    : rp_filter restored to 0=0A=
-connmand[64470]    : notifier disconnect underflow=0A=
-connmand[64470]    : ipconfig state 6 ipconfig method 1=0A=
-openvpn[64488]     : event_wait : Interrupted system call (code=3D4)=0A=
-openvpn[64488]     : SIGTERM received, sending exit notification to peer=0A=
-connman-vpnd[64477]: pid 64488 was not killed, retrying after 2 sec=0A=
+Hello,=0A=
 =0A=
+Please find the well formatted patch in attachment.=0A=
 =0A=
-On my Gentoo notebook, I don't get "rp_filter restored to 0" but see "Setti=
-ng domainname to <domain>" and then it continues to set routes etc.=0A=
+Emmanuel=0A=
 =0A=
-I'm pretty clueless as to what I could do to fix this.. It's the exact same=
- provisioning config (that in turn uses the openvpn conf file)=0A=
-=0A=
-Using openvpn standalone works nicely with the same openvpn conf file on De=
-bian as well, just not with connman. That's why I basically rule out hardwa=
-re or other OS differences.=0A=
-=0A=
-=0A=
-The relevant sections with debug mode turned on are as follows (I tried to =
-keep it as short as possible, hope that's the right spot and enough details=
-):=0A=
-=0A=
-Apr  8 17:29:44 Debian-host connmand[66999]: rp_filter set to 2 (loose mode=
- routing), old value was 0=0A=
-Apr  8 17:29:44 Debian-host connmand[66999]: src/service.c:service_rp_filte=
-r() connected vpn_openvpn.domain.com_openvpn.domain.com ipconfig 0x55cb2508=
-6c60 method 2 count 2 filter 0=0A=
-Apr  8 17:29:44 Debian-host connmand[66999]: src/resolver.c:connman_resolve=
-r_append() index 54 domain (null) server 10.XX.XX.44=0A=
-Apr  8 17:29:44 Debian-host connmand[66999]: src/resolver.c:append_resolver=
-() index 54 domain (null) server 10.XX.XX.44 lifetime 0 flags 0=0A=
-Apr  8 17:29:44 Debian-host connmand[66999]: src/dnsproxy.c:__connman_dnspr=
-oxy_append() index 54 server 10.XX.XX.44=0A=
-Apr  8 17:29:44 Debian-host connmand[66999]: src/dnsproxy.c:create_server()=
- index 54 server 10.XX.XX.44=0A=
-Apr  8 17:29:44 Debian-host connmand[66999]: src/resolver.c:connman_resolve=
-r_append() index 54 domain (null) server 10.XX.XX.34=0A=
-Apr  8 17:29:44 Debian-host connmand[66999]: src/resolver.c:append_resolver=
-() index 54 domain (null) server 10.XX.XX.34 lifetime 0 flags 0=0A=
-Apr  8 17:29:44 Debian-host connmand[66999]: src/dnsproxy.c:__connman_dnspr=
-oxy_append() index 54 server 10.XX.XX.34=0A=
-Apr  8 17:29:44 Debian-host connmand[66999]: src/dnsproxy.c:create_server()=
- index 54 server 10.XX.XX.34=0A=
-Apr  8 17:29:44 Debian-host connmand[66999]: src/timeserver.c:ts_reset() No=
- timeservers set.=0A=
-Apr  8 17:29:44 Debian-host connmand[66999]: src/service.c:service_indicate=
-_state() service 0x55cb25088150 old association - new ready/idle =3D> ready=
-=0A=
-Apr  8 17:29:44 Debian-host connmand[66999]: plugins/vpn.c:vpn_disconnect_c=
-heck()=0A=
-Apr  8 17:29:44 Debian-host connmand[66999]: src/session.c:service_state_ch=
-anged() service 0x55cb25088150 state 4=0A=
-Apr  8 17:29:44 Debian-host connmand[66999]: src/resolver.c:connman_resolve=
-r_append() index 54 domain openvpn.domain.com server (null)=0A=
-Apr  8 17:29:44 Debian-host connmand[66999]: src/resolver.c:append_resolver=
-() index 54 domain openvpn.domain.com server (null) lifetime 0 flags 0=0A=
-Apr  8 17:29:44 Debian-host connmand[66999]: src/dnsproxy.c:__connman_dnspr=
-oxy_append() index 54 server (null)=0A=
-Apr  8 17:29:44 Debian-host connmand[66999]: src/dnsproxy.c:update_domain()=
- index 54 domain openvpn.domain.com=0A=
-Apr  8 17:29:44 Debian-host connmand[66999]: src/dbus.c:connman_dbus_reply_=
-pending() sender net.connman.Service path /net/connman/service/vpn_openvpn.=
-domain.com_openvpn.domain.com=0A=
-Apr  8 17:29:44 Debian-host connmand[66999]: src/service.c:service_save() s=
-ervice 0x55cb25088150 new 0=0A=
-Apr  8 17:29:44 Debian-host connmand[66999]: src/ipconfig.c:__connman_ipcon=
-fig_save() ipconfig 0x55cb25086c60 identifier vpn_openvpn.domain.com_openvp=
-n.domain.com method fixed=0A=
-Apr  8 17:29:44 Debian-host connmand[66999]: src/ipconfig.c:__connman_ipcon=
-fig_save() ipconfig 0x55cb25085560 identifier vpn_openvpn.domain.com_openvp=
-n.domain.com method off=0A=
-Apr  8 17:29:44 Debian-host connman-vpnd[67023]: vpn/vpn-provider.c:provide=
-r_property_changed() provider 0x556a97d4fb90 key Timeservers=0A=
-Apr  8 17:29:44 Debian-host connman-vpnd[67023]: vpn/vpn-provider.c:provide=
-r_property_changed() provider 0x556a97d4fb90 key State=0A=
-Apr  8 17:29:44 Debian-host connmand[66999]: src/notifier.c:__connman_notif=
-ier_connect() type 7=0A=
-Apr  8 17:29:44 Debian-host connmand[66999]: src/ipconfig.c:disable_ipv6()=
-=0A=
-Apr  8 17:29:44 Debian-host connmand[66999]: src/ipconfig.c:set_ipv6_state(=
-) vpn0 1=0A=
-Apr  8 17:29:44 Debian-host connman-vpnd[67023]: vpn/vpn-provider.c:provide=
-r_property_changed() provider 0x556a97d4fb90 key Domains=0A=
-Apr  8 17:29:44 Debian-host connman-vpnd[67023]: vpn/vpn-provider.c:provide=
-r_property_changed() provider 0x556a97d4fb90 key Proxy=0A=
-Apr  8 17:29:44 Debian-host connmand[66999]: src/service.c:single_connected=
-_tech() keeping 0x55cb25088150 /net/connman/service/vpn_openvpn.domain.com_=
-openvpn.domain.com=0A=
-Apr  8 17:29:44 Debian-host connmand[66999]: src/service.c:single_connected=
-_tech() disconnecting 0x55cb2507d720 /net/connman/service/ethernet_606d3c4e=
-4cc0_cable=0A=
-Apr  8 17:29:44 Debian-host connmand[66999]: src/service.c:__connman_servic=
-e_disconnect() service 0x55cb2507d720=0A=
-Apr  8 17:29:44 Debian-host connmand[66999]: src/agent.c:connman_agent_canc=
-el() context 0x55cb2507d720=0A=
-Apr  8 17:29:44 Debian-host connmand[66999]: src/stats.c:__connman_stats_se=
-rvice_unregister() service 0x55cb2507d720=0A=
-Apr  8 17:29:44 Debian-host connmand[66999]: src/network.c:__connman_networ=
-k_disconnect() network 0x55cb25077cf0=0A=
-Apr  8 17:29:44 Debian-host connmand[66999]: plugins/ethernet.c:eth_network=
-_disconnect() network 0x55cb25077cf0=0A=
-Apr  8 17:29:44 Debian-host connmand[66999]: src/network.c:connman_network_=
-set_connected() network 0x55cb25077cf0 connected 1/0 connecting 0 associati=
-ng 0=0A=
-Apr  8 17:29:44 Debian-host connmand[66999]: src/network.c:set_disconnected=
-() service 0x55cb2507d720 ipv4 0x55cb25076000 ipv6 0x55cb25078670=0A=
-Apr  8 17:29:44 Debian-host connmand[66999]: src/network.c:set_disconnected=
-() method ipv4 4 ipv6 5=0A=
-Apr  8 17:29:44 Debian-host connmand[66999]: src/dhcpv6.c:__connman_dhcpv6_=
-start_release() network 0x55cb25077cf0 dhcp 0x55cb25074d20 client 0x55cb250=
-85150 stateless 0=0A=
-Apr  8 17:29:44 Debian-host connmand[66999]: src/dhcpv6.c:__connman_dhcpv6_=
-stop()=0A=
-Apr  8 17:29:44 Debian-host connmand[66999]: src/dhcpv6.c:remove_network() =
-dhcp 0x55cb25074d20=0A=
-Apr  8 17:29:44 Debian-host connmand[66999]: src/dhcpv6.c:dhcpv6_release() =
-dhcp 0x55cb25074d20=0A=
-Apr  8 17:29:44 Debian-host connmand[66999]: src/network.c:connman_network_=
-unref_debug() 0x55cb25077cf0 name Wired ref 4 by src/dhcpv6.c:1858:__connma=
-n_dhcpv6_stop()=0A=
-Apr  8 17:29:44 Debian-host connmand[66999]: src/dhcp.c:__connman_dhcp_stop=
-() ipconfig_table 0x55cb25072e40 ipconfig 0x55cb25076000=0A=
-Apr  8 17:29:44 Debian-host connmand[66999]: src/ipconfig.c:__connman_ipcon=
-fig_unref_debug() 0x55cb25076000 ref 2 by src/dhcp.c:739:__connman_dhcp_sto=
-p()=0A=
-Apr  8 17:29:44 Debian-host connmand[66999]: src/network.c:connman_network_=
-unref_debug() 0x55cb25077cf0 name Wired ref 3 by src/dhcp.c:741:__connman_d=
-hcp_stop()=0A=
-Apr  8 17:29:44 Debian-host connmand[66999]: src/dhcp.c:dhcp_release() dhcp=
- 0x55cb250754e0=0A=
-Apr  8 17:29:44 Debian-host connmand[66999]: src/dhcp.c:dhcp_invalidate() d=
-hcp 0x55cb250754e0 callback 0=0A=
-Apr  8 17:29:44 Debian-host connmand[66999]: src/6to4.c:__connman_6to4_remo=
-ve() tunnel ip address (null)=0A=
-Apr  8 17:29:44 Debian-host connmand[66999]: src/service.c:__connman_servic=
-e_nameserver_remove() service 0x55cb2507d720 nameserver 192.168.123.1 auto =
-0=0A=
-Apr  8 17:29:44 Debian-host connmand[66999]: src/resolver.c:connman_resolve=
-r_remove() index 47 domain (null) server 192.168.123.1=0A=
-Apr  8 17:29:44 Debian-host connmand[66999]: src/dnsproxy.c:__connman_dnspr=
-oxy_remove() index 47 server 192.168.123.1=0A=
-Apr  8 17:29:44 Debian-host connmand[66999]: src/dhcp.c:dhcp_invalidate() l=
-ast address 192.168.123.216=0A=
-Apr  8 17:29:44 Debian-host connmand[66999]: src/inet.c:connman_inet_clear_=
-address() index 47 address 192.168.123.216 prefix_len 24 peer (null) broadc=
-ast (null)=0A=
-Apr  8 17:29:44 Debian-host connmand[66999]: src/inet.c:__connman_inet_modi=
-fy_address() cmd 0x15 flags 0 index 47 family 2 address 192.168.123.216 pee=
-r (null) prefixlen 24 broadcast (null) p2p false=0A=
-Apr  8 17:29:44 Debian-host connmand[66999]: src/ipconfig.c:__connman_ipcon=
-fig_set_gateway()=0A=
-Apr  8 17:29:44 Debian-host connmand[66999]: src/service.c:__connman_servic=
-e_ipconfig_indicate_state() service 0x55cb2507d720 (ethernet_606d3c4e4cc0_c=
-able) old state 5 (online) new state 6 (disconnect) type 1 (IPv4)=0A=
-Apr  8 17:29:44 Debian-host connmand[66999]: rp_filter restored to 0=0A=
-=0A=
-=0A=
-Here's the openvpn domain.conf:=0A=
-=0A=
-dev tun=0A=
-persist-key=0A=
-cipher AES-256-CBC=0A=
-data-ciphers AES-256-CBC=0A=
-auth SHA256=0A=
-client=0A=
-comp-lzo adaptive=0A=
-resolv-retry infinite=0A=
-remote openvpn.domain.com 1194 udp=0A=
-auth-user-pass /etc/openvpn/domain_creds=0A=
-ca /etc/openvpn/domain_ca.crt=0A=
-cert /etc/openvpn/domain_user.crt=0A=
-key /etc/openvpn/domain_user.key=0A=
-remote-cert-tls server=0A=
-script-security 2=0A=
-lport 0=0A=
-verify-x509-name "openvpn.domain.com" name=0A=
-auth-nocache=0A=
-explicit-exit-notify=0A=
-=0A=
-And the provisioning file:=0A=
-=0A=
-[provider_openvpn]=0A=
-Type =3D OpenVPN=0A=
-Name =3D domain=0A=
-Host =3D openvpn.domain.com=0A=
-Domain =3D openvpn.domain.com=0A=
-OpenVPN.ConfigFile =3D /etc/openvpn/domain.conf=0A=
-=0A=
-I have not been able to succeed (on either OS) with using just the provisio=
-ning file's OpenVPN.* parameters. This should however not be the problem, a=
-s it works on Gentoo.=0A=
-=0A=
-I don't have access to the openVPN server side.=0A=
-=0A=
-Any pointers appreciated!=0A=
-If I can provide more debugging info, please say so.=0A=
-=0A=
-Thanks a lot in advance (and for a bloat-free connection manager)!=0A=
-Thomas=0A=
-=0A=
+
+--_002_MRZP264MB15441C29DB3B9AE00192133193EA9MRZP264MB1544FRAP_
+Content-Type: text/x-patch;
+	name="0001-iwd-Fix-connection-with-invalid-passphrase-format.patch"
+Content-Description:
+ 0001-iwd-Fix-connection-with-invalid-passphrase-format.patch
+Content-Disposition: attachment;
+	filename="0001-iwd-Fix-connection-with-invalid-passphrase-format.patch";
+	size=1109; creation-date="Mon, 11 Apr 2022 08:02:52 GMT";
+	modification-date="Mon, 11 Apr 2022 08:02:52 GMT"
+Content-Transfer-Encoding: base64
+
+RnJvbSA4Y2JkMzRhYTUzNjI4NGE1MzQ5ZWU2MWEwYmRiYTEyNmI4YjQyZmJmIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBFbW1hbnVlbCBWQVVUUklOIDxFbW1hbnVlbC5WQVVUUklOQGNw
+ZXh0ZXJuZS5vcmc+CkRhdGU6IEZyaSwgOCBBcHIgMjAyMiAxNzoyNDoxOSArMDIwMApTdWJqZWN0
+OiBbUEFUQ0hdIGl3ZDogRml4IGNvbm5lY3Rpb24gd2l0aCBpbnZhbGlkIHBhc3NwaHJhc2UgZm9y
+bWF0CgpJdCBpcyBubyBtb3JlIHBvc3NpYmxlIHRvIGNvbm5lY3QgdG8gYSBzZWN1cmUgbmV0d29y
+aywgYWZ0ZXIgZW50ZXJpbmcKYW4gaW52YWxpZCBwYXNzcGhyYXNlIGZvcm1hdCwgZm9yIGV4YW1w
+bGUgNjQgY2hhcmFjdGVycy4KSW4gdGhpcyBjYXNlLCB0aGUgdXNlciBhZ2VudCBzdGlsbCBuZWVk
+cyB0byBiZSBjYWxsZWQsIHRvIHJlcXVlc3QgYSBuZXcKcGFzc3BocmFzZS4KLS0tCiBwbHVnaW5z
+L2l3ZC5jIHwgNCArKystCiAxIGZpbGUgY2hhbmdlZCwgMyBpbnNlcnRpb25zKCspLCAxIGRlbGV0
+aW9uKC0pCgpkaWZmIC0tZ2l0IGEvcGx1Z2lucy9pd2QuYyBiL3BsdWdpbnMvaXdkLmMKaW5kZXgg
+ZWUzZWQ4M2U1OTU3Li5mMmQzNjgzMzZkMWEgMTAwNjQ0Ci0tLSBhL3BsdWdpbnMvaXdkLmMKKysr
+IGIvcGx1Z2lucy9pd2QuYwpAQCAtMjQxLDcgKzI0MSw5IEBAIHN0YXRpYyB2b2lkIGNtX25ldHdv
+cmtfY29ubmVjdF9jYihEQnVzTWVzc2FnZSAqbWVzc2FnZSwgdm9pZCAqdXNlcl9kYXRhKQogCQkJ
+cmV0dXJuOwogCiAJCURCRygiJXMgY29ubmVjdCBmYWlsZWQ6ICVzIiwgcGF0aCwgZGJ1c19lcnJv
+cik7Ci0JCWlmICghc3RyY21wKGRidXNfZXJyb3IsICJuZXQuY29ubm1hbi5pd2QuRmFpbGVkIikp
+CisJCWlmICghc3RyY21wKGRidXNfZXJyb3IsICJuZXQuY29ubm1hbi5pd2QuRmFpbGVkIikgfHwK
+KwkJCQkJIXN0cmNtcChkYnVzX2Vycm9yLAorCQkJCQkibmV0LmNvbm5tYW4uaXdkLkludmFsaWRG
+b3JtYXQiKSkKIAkJCWNvbm5tYW5fbmV0d29ya19zZXRfZXJyb3IoaXdkbi0+bmV0d29yaywKIAkJ
+CQkJQ09OTk1BTl9ORVRXT1JLX0VSUk9SX0lOVkFMSURfS0VZKTsKIAkJZWxzZSBpZiAoIWl3ZG4t
+PmF1dG9jb25uZWN0KQotLSAKMi4yNS4xCgo=
+
+--_002_MRZP264MB15441C29DB3B9AE00192133193EA9MRZP264MB1544FRAP_--
