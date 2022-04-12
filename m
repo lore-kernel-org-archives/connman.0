@@ -1,115 +1,58 @@
-Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40A251865
-	for <connman@lists.linux.dev>; Mon, 11 Apr 2022 17:33:00 +0000 (UTC)
-Received: by mail-pg1-f172.google.com with SMTP id h5so13851889pgc.7
-        for <connman@lists.linux.dev>; Mon, 11 Apr 2022 10:33:00 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C74AD1876
+	for <connman@lists.linux.dev>; Tue, 12 Apr 2022 07:23:30 +0000 (UTC)
+Received: by mail-lf1-f50.google.com with SMTP id t25so30623820lfg.7
+        for <connman@lists.linux.dev>; Tue, 12 Apr 2022 00:23:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=density.io; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=A0laknGz4p+OOSVhVxk81Jjr5W9OU8JMgh6X+bAV1jE=;
-        b=FlzOS5EoSjGeqBtDt+xbtbqltpyw4+edkyQyU+pENEUsOFIit6cAb8K6Ja2z+8TClB
-         AAb1wzybYplj/8bgIkktYWSJjZ9JV6Jcl37zPrxS1lOm5FuimQKSCKeA77g9IHyEe0Ke
-         Y/NAhZtnGrCJcucGCwCZ2LzjhU0x7XBNb3OMc=
+        d=gmail.com; s=20210112;
+        h=mime-version:from:date:message-id:subject:to;
+        bh=L3UE8rI4y97dE3IeVMLVGiKswTQjEcBHfPDhrvsM5Wg=;
+        b=qgJVw5GhVi+LBEc0XhP5omVV/vWnXRF1SKjcO3nwTC6X+QphPQ5a9/uMwWhnxZk2BO
+         pUXy2XVaVtzTF1poewtYMOZbJ2aaFbAS6aKi97aEj6jM31PxYTmdyzg753QAsuhiRMz1
+         x1ePqbXLqam2oGY4GhCaRI32efJGzFEaSfZX/dV0vh1F6FSWcNPyFYMOm2f2coquywgn
+         NDsaWRLJbFYFwBbW8uvZe9VlFwCGsBEzalCWswpzJF3n7GwwnXmtFSUbGPIK1rbxVtXa
+         6+c8sQuXSQeo8HkI/1FqHPg4UN1teftdqhriuvgAnub6ekUVWJOEvYB+2eR6JZRk23y+
+         cl3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=A0laknGz4p+OOSVhVxk81Jjr5W9OU8JMgh6X+bAV1jE=;
-        b=kWamV7NWregPzMnLDYJmvhVEMaSXeiQbveVxa+ULzFLPdx/bLKYmLuJtK/icSPiRcy
-         WCqTh61Z5p7EdIFo5lNN2KkCrHYAf7g8jmISPVb7Itf9MThZWgsVH4IsVCKU9WEgF2q9
-         Z//gIfwDSZ2dkaOJrvlXmTF9eC1MNyXNuCHUXO5JFPVXexDIrCpZneztDWzpp06INBRO
-         hATszEex9ofBTNzDFY+oOhCJ8LD+0xowZmSVd9gtJ9WL0QnX/7PIWms/ZjFUHnb6Mpz2
-         J0C6WYScwF2C6kX6J/nEwcdR/Ay1x5S4ltH7jiqYyx2rMw4ljoWSex1lGD9f1myuMk2V
-         C3Tg==
-X-Gm-Message-State: AOAM530jZ0ZYaSH4f3Nl72X0d4TU6eGn9K8i/+7rj8+DYd3K47dpr4nu
-	p+XrsD9TsjZePhJZAGUPl89g8Yd7nnEWPg==
-X-Google-Smtp-Source: ABdhPJzGSUaSNCscEUxFL5sPzpKtSGnZE1ofbbr30Oif3/5qGl3zimG6wG75qwJt/ccFmRgfyTE0Tg==
-X-Received: by 2002:a63:104c:0:b0:39d:460f:5c58 with SMTP id 12-20020a63104c000000b0039d460f5c58mr6345063pgq.559.1649698379498;
-        Mon, 11 Apr 2022 10:32:59 -0700 (PDT)
-Received: from ubuntu.home (96-19-96-19-98-42.cpe.sparklight.net. [96.19.98.42])
-        by smtp.gmail.com with ESMTPSA id nn7-20020a17090b38c700b001c9ba103530sm79523pjb.48.2022.04.11.10.32.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Apr 2022 10:32:59 -0700 (PDT)
-From: Ryan Smith <ryan.smith@density.io>
-To: connman@lists.linux.dev
-Cc: Ryan Smith <ryan.smith@density.io>
-Subject: [PATCH v1 2/2] wispr: Fix online check when using WPAD/PAC
-Date: Mon, 11 Apr 2022 11:32:17 -0600
-Message-Id: <20220411173217.505144-2-ryan.smith@density.io>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220411173217.505144-1-ryan.smith@density.io>
-References: <20220411173217.505144-1-ryan.smith@density.io>
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+        bh=L3UE8rI4y97dE3IeVMLVGiKswTQjEcBHfPDhrvsM5Wg=;
+        b=hQdCN1PrnPxeQVmOYyQEOD7z3UwnzB1Le63BWiRCYKwm03sMX5Dneh+ERlQP7bfSgP
+         x3/SbS0DM0uesN3ju++EgXiRjJAVfGinlInpUm7YZomZ24t5laNgLbUuIXniZcni4OtM
+         hWJNuO2DTitXKEB99TnPs4Gdgov2C2F92c+hP4LWlYWPfTOzOvhQH3bwNyAmsbvFl3Cm
+         uhGlGF0RoIXioW7tFDzUwCermxp4jrZ3PwjE2tH2GGNdiAPsFxV7ZKHFbDOgQ9JS+mrd
+         LELenFOQFIqCU9tj8CBe+HGfx94iOHJDPiyZ0keA9G+bkNb9v0CFpzZyhs7gvOOYYyIA
+         vDtw==
+X-Gm-Message-State: AOAM533VFtr50/OcvznttiWS+3L8zFRWW33YQUbABGT3O7JNak/zEzAQ
+	2vQtDmIY/lUYhk7bcHyuuB+j3iPWz5Dp7Wg2EHWbyYTKdqs8+Q==
+X-Google-Smtp-Source: ABdhPJxFhfCwuXtKnhqkKYgcLG0nWxYP4Joa1iFwYamZDeuTH6WC66yTFL+gVJuXy4WBEMFJ8anfP2ylx03MQC5Cd28=
+X-Received: by 2002:a05:6512:1106:b0:46b:a65e:cd35 with SMTP id
+ l6-20020a056512110600b0046ba65ecd35mr6328053lfg.329.1649748208471; Tue, 12
+ Apr 2022 00:23:28 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+From: Vishwanath Chandapur <vishwavtu@gmail.com>
+Date: Tue, 12 Apr 2022 12:53:17 +0530
+Message-ID: <CALQBcOdNjp5WvTXGVLBynASHc0K0fDArggDo=imX31dXJkHjSA@mail.gmail.com>
+Subject: Request for feature
+To: connman@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-A PAC file can return multiple proxies in response to a query.
-They are separated by a semicolon and, possibly, a space.
+Group,
 
-'PROXY proxy1.example.com:3128; PROXY proxy2.example.com; DIRECT'
+In the current design of connman, if a client fails to discover a DHCP
+server, it will assign IPV4LL ip address.
+In some systems it is not desirable.
 
-Currently, this is not handled, and the inclusion of more than
-one proxy causes the online check to fail. This fix parses the
-first proxy in the list and uses it.
----
- src/wispr.c | 30 ++++++++++++++++++++++++------
- 1 file changed, 24 insertions(+), 6 deletions(-)
+Hence it will be good to have a runtime config like "fallback-ipv4ll".
 
-diff --git a/src/wispr.c b/src/wispr.c
-index 41157580..d7afcf05 100644
---- a/src/wispr.c
-+++ b/src/wispr.c
-@@ -797,6 +797,26 @@ done:
- 	return false;
- }
- 
-+static char *parse_proxy(const char *proxy)
-+{
-+	char *proxy_server = NULL;
-+
-+	if (g_strcmp0(proxy, "DIRECT") != 0) {
-+		if (g_str_has_prefix(proxy, "PROXY ")) {
-+			proxy_server = g_strdup(proxy + 6);
-+
-+			// Use first proxy server
-+			for (char *c = proxy_server; *c != '\0'; ++c)
-+				if (*c == ';')
-+					*c = '\0';
-+
-+			g_strstrip(proxy_server);
-+		}
-+	}
-+
-+	return proxy_server;
-+}
-+
- static void proxy_callback(const char *proxy, void *user_data)
- {
- 	struct connman_wispr_portal_context *wp_context = user_data;
-@@ -808,12 +828,10 @@ static void proxy_callback(const char *proxy, void *user_data)
- 
- 	wp_context->token = 0;
- 
--	if (proxy && g_strcmp0(proxy, "DIRECT") != 0) {
--		if (g_str_has_prefix(proxy, "PROXY")) {
--			proxy += 5;
--			for (; *proxy == ' ' && *proxy != '\0'; proxy++);
--		}
--		g_web_set_proxy(wp_context->web, proxy);
-+	char *proxy_server = parse_proxy(proxy);
-+	if (proxy_server) {
-+		g_web_set_proxy(wp_context->web, proxy_server);
-+		g_free(proxy_server);
- 	}
- 
- 	g_web_set_accept(wp_context->web, NULL);
--- 
-2.25.1
+Please let me know your feedback so I can create a patch for this?
 
+With Regards
+Vishwa
