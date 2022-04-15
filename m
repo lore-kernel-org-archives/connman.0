@@ -1,71 +1,213 @@
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from griffin.geeknet.cz (griffin.geeknet.cz [94.142.237.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B066B15A6
-	for <connman@lists.linux.dev>; Thu, 14 Apr 2022 20:45:41 +0000 (UTC)
-Received: by mail-lf1-f43.google.com with SMTP id t25so11090964lfg.7
-        for <connman@lists.linux.dev>; Thu, 14 Apr 2022 13:45:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=density.io; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=+WSoyILIvM9dJksmUY4+CEtTCcGp7BnUiN48ZkxD/gE=;
-        b=AhhxlrHoCPqO8SthSTg6kZhsCFG6v3rQl6SAG9v3Z3ooiHAKYHrC/EncTPQdaCAwRa
-         JpubwAOqRmNFznTaq6Botv5efXJ6bdEwS2sDOGgH9j0/HuhehSHzuViS7YJ+y/10UFz2
-         JUeiPBqWmq7hO94QHKUACk9ilKPiTtaU5DlHA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=+WSoyILIvM9dJksmUY4+CEtTCcGp7BnUiN48ZkxD/gE=;
-        b=H3PRfVBiLH0MkVy+obndZYfQI+F7OQKyL4GBo7cDnF/S6u1k/aasTzcSpSyvKTPld6
-         vCP/ceYBla8L3L/s+NxUF0Xiz4ucf1qZOuOhzdFk6pMht1uKWVefXOw2Ep0r2eZGKDAU
-         Y3mPs/h1FNVzkbpOJRx75kd/f0PilNfiJCAReyh4nHJpzjVbBKbkJJTuQqO+aFuegimx
-         XqSOmBqilghNc35aShGX3EEa2o+iYKDCufxqnPEIIfYuZC3DDzx84e10HPr5wqd2rZ7r
-         jDtDM69DU/sqCBgciBZNh5j/QwJZyxXv9qk8VOMzV/1d7S2k8sC7Lst744JO3Y3Xwqdd
-         YI8w==
-X-Gm-Message-State: AOAM531fBVql7Kd78qDBj/Wnfn0SwgfYoZY2vIgvvWA0FNP4z8k3o7Tb
-	Y0ZLBEhy+9SzYhwV5GniDZMIIg/T4RM/mIzIYDMbWg==
-X-Google-Smtp-Source: ABdhPJwMQTF/7+AsjZgDejzG271NMyX2DxA1fvhqBXex8xiLKjOweurfnGvOcsAQUFt4YgU33qU5wRMlPWeVOh5C6W0=
-X-Received: by 2002:a05:6512:220c:b0:46b:8594:ad6f with SMTP id
- h12-20020a056512220c00b0046b8594ad6fmr2983629lfu.148.1649969139712; Thu, 14
- Apr 2022 13:45:39 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB3D833F4
+	for <connman@lists.linux.dev>; Fri, 15 Apr 2022 22:51:22 +0000 (UTC)
+Received: 
+	by griffin.geeknet.cz (OpenSMTPD) with ESMTP id ac7ee4a2;
+	Sat, 16 Apr 2022 00:51:14 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed; d=jirutka.cz; h=message-id
+	:date:mime-version:subject:to:cc:references:from:in-reply-to
+	:content-type; s=mail; bh=U9N/2Y1JpU7+4sf0yUd7jfmTppY=; b=rTpHp6
+	iw+s0nieO4le5O0hO/KKG6MhTZDe6yG1REC3TghU+GHVzS/DUeTYV6Rj8YtIn+8F
+	2rJBrkZwzp3gV3nS+EvWTLGMGWjjhttv3BtQ48ievBuHPEND7+Zyyw8I9FeB2ckp
+	xwRkR70Yj3ZUbLzNmkixRWQJRhfRuuD/g/AHo=
+DomainKey-Signature: a=rsa-sha1; c=nofws; d=jirutka.cz; h=message-id
+	:date:mime-version:subject:to:cc:references:from:in-reply-to
+	:content-type; q=dns; s=mail; b=IEnBHFM4ZfFFUMZ2Oy1+BBOdaTl1Ngc8
+	M0V4iEOml7cKJKt8Hqxmvkv4R0SbX7Rhkjp6rsIzTYFYF0ofOAwieMZqLe/4erNg
+	pQjuxB7uJj0oMoh7T40S1cs6yavikR/lm9S76C3XigWamrqbhRhNzRzNKDxPMoTl
+	kBTci1KDTRI=
+Received: 
+	by griffin.geeknet.cz (OpenSMTPD) with ESMTPSA id 991e5ecd (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
+	Sat, 16 Apr 2022 00:51:14 +0200 (CEST)
+Message-ID: <925411a3-f77c-77db-ce12-0e064932c9ac@jirutka.cz>
+Date: Sat, 16 Apr 2022 00:51:09 +0200
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220411165821.501633-1-ryan.smith@density.io> <20220414185139.eq5w2jirf4e7fy35@beryllium.lan>
-In-Reply-To: <20220414185139.eq5w2jirf4e7fy35@beryllium.lan>
-From: Ryan Smith <ryan.smith@density.io>
-Date: Thu, 14 Apr 2022 14:45:28 -0600
-Message-ID: <CAM7Wg-XfW6h570F0pUQMcsQEMYo7Y39oLFJ3nZo=KewhU6qOsg@mail.gmail.com>
-Subject: Re: [PATCH v1] dnsproxy: fix debug logging
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: [PATCH] timeserver: Add EnableNTPClient option to connman.conf
+Content-Language: en-GB
 To: Daniel Wagner <wagi@monom.org>
 Cc: connman@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+References: <20220414001208.4026-1-jakub@jirutka.cz>
+ <20220414190515.toyyuk55zylrq25g@beryllium.lan>
+From: Jakub Jirutka <jakub@jirutka.cz>
+In-Reply-To: <20220414190515.toyyuk55zylrq25g@beryllium.lan>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------PD2BiBmuh0uDy2MMx07uIl0J"
 
-I will take a crack at minimal DBG logging when I get a chance. As is,
-it is impossible to enable debugging of src/dnsproxy.c from the
-command line. It would require a specially-compiled version.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------PD2BiBmuh0uDy2MMx07uIl0J
+Content-Type: multipart/mixed; boundary="------------kBWewqkTfIHEqAA0HC0RZ1vm";
+ protected-headers="v1"
+From: Jakub Jirutka <jakub@jirutka.cz>
+To: Daniel Wagner <wagi@monom.org>
+Cc: connman@lists.linux.dev
+Message-ID: <925411a3-f77c-77db-ce12-0e064932c9ac@jirutka.cz>
+Subject: Re: [PATCH] timeserver: Add EnableNTPClient option to connman.conf
+References: <20220414001208.4026-1-jakub@jirutka.cz>
+ <20220414190515.toyyuk55zylrq25g@beryllium.lan>
+In-Reply-To: <20220414190515.toyyuk55zylrq25g@beryllium.lan>
 
-Thanks,
-Ryan
+--------------kBWewqkTfIHEqAA0HC0RZ1vm
+Content-Type: multipart/mixed; boundary="------------VMP8lulFsp0lF0cmhp60EGPh"
 
-On Thu, Apr 14, 2022 at 12:51 PM Daniel Wagner <wagi@monom.org> wrote:
->
-> Hi Ryan,
->
-> On Mon, Apr 11, 2022 at 10:58:21AM -0600, Ryan Smith wrote:
-> > This fixes the debug logging by compilation unit just as it
-> > is done with all of the other files in src/.
->
-> This is on purpose: 3977a250624c ("dnsproxy: Disable noisy DBGs")
->
-> It really spams the logs and these are in my opinion left overs from
-> the development phase. If you want logs please figure out which of those
-> are actually making sense and just enable those.
->
-> Thanks,
-> Daniel
+--------------VMP8lulFsp0lF0cmhp60EGPh
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
+
+SGkgRGFuaWVsLA0KDQpPbiAxNC8wNC8yMiAyMTowNSwgRGFuaWVsIFdhZ25lciB3cm90ZToN
+Cj4gSGkgSmFrdWIsDQo+IA0KPiBPbiBUaHUsIEFwciAxNCwgMjAyMiBhdCAwMjoxMjowOEFN
+ICswMjAwLCBKYWt1YiBKaXJ1dGthIHdyb3RlOg0KPj4gVGhlIGJ1aWx0aW4gTlRQIGNsaWVu
+dCBjYW4gbm93IG9ubHkgYmUgZGlzYWJsZWQgdmlhIERCdXMgb3IgbWFudWFsbHkNCj4+IGVk
+aXRpbmcgdGhlIHN0YXRlIGZpbGUgL3Zhci9saWIvY29ubm1hbi9zZXR0aW5ncw0KPj4gKGBU
+aW1lVXBkYXRlcyA9ICJtYW51YWwiYCkuIFRoZXNlIG9wdGlvbnMgYXJlIG5vdCBvcHRpbWFs
+IGZvciBhIHNldHVwDQo+PiB3aGVyZSBhIHN0YW5kYWxvbmUgTlRQIGNsaWVudCBpcyB1c2Vk
+Lg0KPj4NCj4+IFRoZSBhcHByb2FjaCBmb3IgZGlzYWJsaW5nIE5UUCBjbGllbnQgKGluIHRp
+bWVzZXJ2ZXIuYykgaXMgYmFzZWQgb24gdGhlDQo+PiBleGlzdGluZyBjb2RlIGZvciBoYW5k
+bGluZyBzdGF0ZSBzZXR0aW5nIGBUaW1lVXBkYXRlcyA9ICJtYW51YWwiYC4NCj4+DQo+PiBJ
+IG9yaWdpbmFsbHkgd2FudGVkIHRvIGltcGxlbWVudCB0aGlzIHVzaW5nIENMSSBvcHRpb24s
+IGp1c3QNCj4+IGxpa2UgLS1ub2Ruc3Byb3h5LCBidXQgYWZ0ZXIgcmVhZGluZyB0aGUgbWVz
+c2FnZSBmcm9tIERhbmllbCBXYWduZXINCj4+IG9uIE1MIChVbmlmaWNhdGlvbiB0byBjb25u
+bWFuIGNvbmZpZ3VyYXRpb24/IE5vdyBpdCAzIHNlcGFyYXRlZCBwbGFjZXMpDQo+PiByZWdh
+cmRpbmcgLS1ub2Ruc3Byb3h5LCBJIGNvbmNsdWRlZCB0aGF0IHRoZSBjb25maWcgZmlsZSBp
+cyBwcmVmZXJyZWQuDQo+IA0KPiBJIGFtIG5vdCBhZ2FpbnN0IHRoZSBpZGVhIHRvIGhhdmUg
+dGhlIGRlZmF1bHQgY29uZmlndXJhYmxlIHZpYSB0aGUNCj4gY29uZmlnIGZpbGUsIGJ1dCBw
+bGVhc2UgbWFrZSBqdXN0IHRoZSBkZWZhdWx0IGJlaGF2aW9yIHNvIHRoYXQgdGhlIEQtQnVz
+DQo+IEFQSSBzdGlsbCB3b3JrcyAodW5sZXNzIEkgcmVhZCB5b3VyIHBhdGNoIHdyb25nKS4N
+Cg0KRG8geW91IG1lYW4gdGhhdCBpdCBzaG91bGQgYmUgcG9zc2libGUgdG8gZW5hYmxlIHRo
+ZSBOVFAgY2xpZW50IHZpYSANCkQtQnVzIGV2ZW4gaWYgaXTigJlzIGRpc2FibGVkIGluIHRo
+ZSBjb25maWc/IFRoaXMgd291bGQgaW50cm9kdWNlLCBpbiBteSANCm9waW5pb24sIGEgcXVp
+dGUgdW5leHBlY3RlZCBiZWhhdmlvdXI7IGl0IHdvdWxkIG1lYW4gdGhhdDoNCjEuIHRoZSBz
+dGF0ZSBzZXR0aW5ncyAoY29udHJvbGxlZCB2aWEgRC1CdXMpIGhhdmUgaGlnaGVyIHByaW9y
+aXR5IHRoYW4gDQp0aGUgY29uZmlnIGZpbGU7DQoyLiBvbmNlIHRoZSBOVFAgY2xpZW50IGlz
+IGVuYWJsZWQgdmlhIEQtQnVzLCBpdCBjYW5ub3QgYmUgZGlzYWJsZWQgdmlhIA0KdGhlIGNv
+bmZpZyBmaWxlLg0KDQpJIHRoaW5rIHRoYXQgaXQgc2hvdWxkIGJlIGp1c3QgdGhlIG9wcG9z
+aXRlIOKAkyBpZiB0aGUgdXNlciBzZXQgDQpFbmFibGVOVFBDbGllbnQ9ZmFsc2UgaW4gdGhl
+IGNvbmZpZywgdGhlIE5UUCBjbGllbnQgc2hvdWxkIGJlIGNvbXBsZXRlbHkgDQpkaXNhYmxl
+ZCwgYW5hbG9nb3VzIHRvIHRoZSAtLW5vZG5zcHJveHkgb3B0aW9uLiBOb3cgdGhhdCBJIHRo
+aW5rIGFib3V0IA0KaXQsIEkgc2hvdWxkIHByb2JhYmx5IGFsc28gdXBkYXRlIG5ldC5jb25u
+bWFuLkNsb2NrIHRvIGNvcnJlY3RseSByZXBvcnQgDQpUaW1lVXBkYXRlcz1tYW51YWwgd2hl
+biB0aGUgTlRQIGNsaWVudCBpcyBkaXNhYmxlZC4NCg0KSmFrdWINCg==
+--------------VMP8lulFsp0lF0cmhp60EGPh
+Content-Type: application/pgp-keys; name="OpenPGP_0xF95BD679104D3115.asc"
+Content-Disposition: attachment; filename="OpenPGP_0xF95BD679104D3115.asc"
+Content-Description: OpenPGP public key
+Content-Transfer-Encoding: quoted-printable
+
+-----BEGIN PGP PUBLIC KEY BLOCK-----
+
+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3D=3D
+=3Dtg/c
+-----END PGP PUBLIC KEY BLOCK-----
+--------------VMP8lulFsp0lF0cmhp60EGPh--
+
+
+--------------kBWewqkTfIHEqAA0HC0RZ1vm--
+
+--------------PD2BiBmuh0uDy2MMx07uIl0J
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQGzBAEBCgAdFiEEv7UV5T50WUImhovnefKZsENajiMFAmJZ9t0ACgkQefKZsENa
+jiOPCgv+N/O+D0ElG8j7Nj869S/wKV43fCxF/irbV8SMxiGrw/EN+WoD1WA3LFA3
+iSlpZiM3paMHuT85r8ilQkhvTFd50fw6pGZ12Lj1rzefhE2rI6M+TKK/EYxho8AG
+pzdjbsdC4ev4ht9PHcqPseTXfU6dPYPhm03MkBs86tWWGujMLAeet3kffHEecxGX
+okhc75TYuIH+oK4YrU+SrvDyN0L5QKlNj4jtDRgqv+cUUiFOPSqW4M/+Uq4iodNF
+Z9Ykg9hN7Mv/ZoUMkesMQ8LK/pp8XyXBvrSBgcU/fTg7WyVaARnZlqYq14Y4ORuq
+cOhBMak7rwOASpn6wFoRPA629wn0gYHGJG2HFRSf48GKXKQzosKrgCQiie6yFCq8
+qNH20MoRC5nvX+2ecpRG1q2SKkBbtEKzEsuxcH180mS4tUrmWX+ueH4czGtZgM6b
+IIP1oTdtvQtyYNrhZxRSt16Np38Pbn0iJLSvbyvs7MnY9RExtFTJbhI06dR4FYjg
+ApU5kUbd
+=0P21
+-----END PGP SIGNATURE-----
+
+--------------PD2BiBmuh0uDy2MMx07uIl0J--
