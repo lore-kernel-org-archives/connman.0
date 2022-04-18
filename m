@@ -1,213 +1,81 @@
-Received: from griffin.geeknet.cz (griffin.geeknet.cz [94.142.237.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB3D833F4
-	for <connman@lists.linux.dev>; Fri, 15 Apr 2022 22:51:22 +0000 (UTC)
-Received: 
-	by griffin.geeknet.cz (OpenSMTPD) with ESMTP id ac7ee4a2;
-	Sat, 16 Apr 2022 00:51:14 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed; d=jirutka.cz; h=message-id
-	:date:mime-version:subject:to:cc:references:from:in-reply-to
-	:content-type; s=mail; bh=U9N/2Y1JpU7+4sf0yUd7jfmTppY=; b=rTpHp6
-	iw+s0nieO4le5O0hO/KKG6MhTZDe6yG1REC3TghU+GHVzS/DUeTYV6Rj8YtIn+8F
-	2rJBrkZwzp3gV3nS+EvWTLGMGWjjhttv3BtQ48ievBuHPEND7+Zyyw8I9FeB2ckp
-	xwRkR70Yj3ZUbLzNmkixRWQJRhfRuuD/g/AHo=
-DomainKey-Signature: a=rsa-sha1; c=nofws; d=jirutka.cz; h=message-id
-	:date:mime-version:subject:to:cc:references:from:in-reply-to
-	:content-type; q=dns; s=mail; b=IEnBHFM4ZfFFUMZ2Oy1+BBOdaTl1Ngc8
-	M0V4iEOml7cKJKt8Hqxmvkv4R0SbX7Rhkjp6rsIzTYFYF0ofOAwieMZqLe/4erNg
-	pQjuxB7uJj0oMoh7T40S1cs6yavikR/lm9S76C3XigWamrqbhRhNzRzNKDxPMoTl
-	kBTci1KDTRI=
-Received: 
-	by griffin.geeknet.cz (OpenSMTPD) with ESMTPSA id 991e5ecd (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
-	Sat, 16 Apr 2022 00:51:14 +0200 (CEST)
-Message-ID: <925411a3-f77c-77db-ce12-0e064932c9ac@jirutka.cz>
-Date: Sat, 16 Apr 2022 00:51:09 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01351A41
+	for <connman@lists.linux.dev>; Mon, 18 Apr 2022 19:35:29 +0000 (UTC)
+Received: by mail-pj1-f44.google.com with SMTP id 2so13822732pjw.2
+        for <connman@lists.linux.dev>; Mon, 18 Apr 2022 12:35:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=density.io; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=3PlRB86ngBestmnGKFimGi8Q+HhC9CGl3pvY30gXBck=;
+        b=tnksXJxYjUJr8Y75cuuvAZAmrY1W8DUmPdkE3xgC1Jtvok93DnFb6v/n1cmmZv9tcJ
+         bBv/Sgv15soF5JCmvHh43Kwfrsmx/2B5wpKUMJMnOD88kNEiqrPYoWaiEIcLu6OwQfir
+         DvM/qda056FkzkgU8xuQ5j4J0Pks5SO8cFv7w=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=3PlRB86ngBestmnGKFimGi8Q+HhC9CGl3pvY30gXBck=;
+        b=eZRretbKZLYcR+4rJry1y29yhmry0PZ30QJqpJDqmMjnqrG6P2Ae7P81Imc/lVbaEv
+         FrDmdyK+HvyPUIfyXwlm7LjXL+747TQlkudGQXZqkN6eIDsxySh+HGirGZAfNsWF0GbM
+         n2k+BG9kEe7SNzgX8XDBkmwi9lvtKRzewyofQneEyOtGXKBhbrWe8/PT6Icr5l/UGFvE
+         4E2SuH20l8zwPNq4q7IYooAmUGwDQf+rxNqs4pRoyHke64afGrBPSN2nZzF7eq18ohf8
+         eGF0NWdDgZ1TJBrC6yvCiYmPHCPnB7if1w5WblG7sIeM5igcXEn0BFup+un3K1jeKsHh
+         3hlg==
+X-Gm-Message-State: AOAM531ebw4rDrBdtcSsyOs7YoKoHxAmn3a7cFDkn1xaIEoXITukwlot
+	76Jtt1n+Wo24Ef0VgkwF5W6yE8m4518diw==
+X-Google-Smtp-Source: ABdhPJwcCOgOvggrzWTw/r9xvjSQ1307Uzn/CPi4x0OIQb7RQOw8120SlvtNN16aVVOqkJqNKY02Sg==
+X-Received: by 2002:a17:902:ba93:b0:157:1905:f4bc with SMTP id k19-20020a170902ba9300b001571905f4bcmr12451907pls.83.1650310528984;
+        Mon, 18 Apr 2022 12:35:28 -0700 (PDT)
+Received: from ubuntu.home (96-19-96-19-98-42.cpe.sparklight.net. [96.19.98.42])
+        by smtp.gmail.com with ESMTPSA id md4-20020a17090b23c400b001cb66e3e1f8sm13791926pjb.0.2022.04.18.12.35.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 18 Apr 2022 12:35:28 -0700 (PDT)
+From: Ryan Smith <ryan.smith@density.io>
+To: connman@lists.linux.dev
+Cc: Ryan Smith <ryan.smith@density.io>
+Subject: [PATCH v1] clock: fix time update transition auto->manual
+Date: Mon, 18 Apr 2022 13:34:40 -0600
+Message-Id: <20220418193440.524442-1-ryan.smith@density.io>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [PATCH] timeserver: Add EnableNTPClient option to connman.conf
-Content-Language: en-GB
-To: Daniel Wagner <wagi@monom.org>
-Cc: connman@lists.linux.dev
-References: <20220414001208.4026-1-jakub@jirutka.cz>
- <20220414190515.toyyuk55zylrq25g@beryllium.lan>
-From: Jakub Jirutka <jakub@jirutka.cz>
-In-Reply-To: <20220414190515.toyyuk55zylrq25g@beryllium.lan>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------PD2BiBmuh0uDy2MMx07uIl0J"
+Content-Transfer-Encoding: 8bit
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------PD2BiBmuh0uDy2MMx07uIl0J
-Content-Type: multipart/mixed; boundary="------------kBWewqkTfIHEqAA0HC0RZ1vm";
- protected-headers="v1"
-From: Jakub Jirutka <jakub@jirutka.cz>
-To: Daniel Wagner <wagi@monom.org>
-Cc: connman@lists.linux.dev
-Message-ID: <925411a3-f77c-77db-ce12-0e064932c9ac@jirutka.cz>
-Subject: Re: [PATCH] timeserver: Add EnableNTPClient option to connman.conf
-References: <20220414001208.4026-1-jakub@jirutka.cz>
- <20220414190515.toyyuk55zylrq25g@beryllium.lan>
-In-Reply-To: <20220414190515.toyyuk55zylrq25g@beryllium.lan>
+When the TimeUpdates property is changed via D-Bus from auto to manual,
+the change is written out to the settings state file. However, it does
+no modify the current service. This causes the service to continue to
+synchronize time even after TimeUpdates being set to manual. This patch
+updates the service whenever any change is made to the TimeUpdates setting.
+---
+ src/clock.c | 8 ++------
+ 1 file changed, 2 insertions(+), 6 deletions(-)
 
---------------kBWewqkTfIHEqAA0HC0RZ1vm
-Content-Type: multipart/mixed; boundary="------------VMP8lulFsp0lF0cmhp60EGPh"
+diff --git a/src/clock.c b/src/clock.c
+index 906538ac..365c49a1 100644
+--- a/src/clock.c
++++ b/src/clock.c
+@@ -290,12 +290,8 @@ static DBusMessage *set_property(DBusConnection *conn,
+ 				CONNMAN_CLOCK_INTERFACE, "TimeUpdates",
+ 				DBUS_TYPE_STRING, &strval);
+ 
+-		if (newval == TIME_UPDATES_AUTO) {
+-			struct connman_service *service;
+-
+-			service = connman_service_get_default();
+-			__connman_timeserver_conf_update(service);
+-		}
++		service = connman_service_get_default();
++		__connman_timeserver_conf_update(service);
+ 	} else if (g_str_equal(name, "Timezone")) {
+ 		const char *strval;
+ 
+-- 
+2.25.1
 
---------------VMP8lulFsp0lF0cmhp60EGPh
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
-
-SGkgRGFuaWVsLA0KDQpPbiAxNC8wNC8yMiAyMTowNSwgRGFuaWVsIFdhZ25lciB3cm90ZToN
-Cj4gSGkgSmFrdWIsDQo+IA0KPiBPbiBUaHUsIEFwciAxNCwgMjAyMiBhdCAwMjoxMjowOEFN
-ICswMjAwLCBKYWt1YiBKaXJ1dGthIHdyb3RlOg0KPj4gVGhlIGJ1aWx0aW4gTlRQIGNsaWVu
-dCBjYW4gbm93IG9ubHkgYmUgZGlzYWJsZWQgdmlhIERCdXMgb3IgbWFudWFsbHkNCj4+IGVk
-aXRpbmcgdGhlIHN0YXRlIGZpbGUgL3Zhci9saWIvY29ubm1hbi9zZXR0aW5ncw0KPj4gKGBU
-aW1lVXBkYXRlcyA9ICJtYW51YWwiYCkuIFRoZXNlIG9wdGlvbnMgYXJlIG5vdCBvcHRpbWFs
-IGZvciBhIHNldHVwDQo+PiB3aGVyZSBhIHN0YW5kYWxvbmUgTlRQIGNsaWVudCBpcyB1c2Vk
-Lg0KPj4NCj4+IFRoZSBhcHByb2FjaCBmb3IgZGlzYWJsaW5nIE5UUCBjbGllbnQgKGluIHRp
-bWVzZXJ2ZXIuYykgaXMgYmFzZWQgb24gdGhlDQo+PiBleGlzdGluZyBjb2RlIGZvciBoYW5k
-bGluZyBzdGF0ZSBzZXR0aW5nIGBUaW1lVXBkYXRlcyA9ICJtYW51YWwiYC4NCj4+DQo+PiBJ
-IG9yaWdpbmFsbHkgd2FudGVkIHRvIGltcGxlbWVudCB0aGlzIHVzaW5nIENMSSBvcHRpb24s
-IGp1c3QNCj4+IGxpa2UgLS1ub2Ruc3Byb3h5LCBidXQgYWZ0ZXIgcmVhZGluZyB0aGUgbWVz
-c2FnZSBmcm9tIERhbmllbCBXYWduZXINCj4+IG9uIE1MIChVbmlmaWNhdGlvbiB0byBjb25u
-bWFuIGNvbmZpZ3VyYXRpb24/IE5vdyBpdCAzIHNlcGFyYXRlZCBwbGFjZXMpDQo+PiByZWdh
-cmRpbmcgLS1ub2Ruc3Byb3h5LCBJIGNvbmNsdWRlZCB0aGF0IHRoZSBjb25maWcgZmlsZSBp
-cyBwcmVmZXJyZWQuDQo+IA0KPiBJIGFtIG5vdCBhZ2FpbnN0IHRoZSBpZGVhIHRvIGhhdmUg
-dGhlIGRlZmF1bHQgY29uZmlndXJhYmxlIHZpYSB0aGUNCj4gY29uZmlnIGZpbGUsIGJ1dCBw
-bGVhc2UgbWFrZSBqdXN0IHRoZSBkZWZhdWx0IGJlaGF2aW9yIHNvIHRoYXQgdGhlIEQtQnVz
-DQo+IEFQSSBzdGlsbCB3b3JrcyAodW5sZXNzIEkgcmVhZCB5b3VyIHBhdGNoIHdyb25nKS4N
-Cg0KRG8geW91IG1lYW4gdGhhdCBpdCBzaG91bGQgYmUgcG9zc2libGUgdG8gZW5hYmxlIHRo
-ZSBOVFAgY2xpZW50IHZpYSANCkQtQnVzIGV2ZW4gaWYgaXTigJlzIGRpc2FibGVkIGluIHRo
-ZSBjb25maWc/IFRoaXMgd291bGQgaW50cm9kdWNlLCBpbiBteSANCm9waW5pb24sIGEgcXVp
-dGUgdW5leHBlY3RlZCBiZWhhdmlvdXI7IGl0IHdvdWxkIG1lYW4gdGhhdDoNCjEuIHRoZSBz
-dGF0ZSBzZXR0aW5ncyAoY29udHJvbGxlZCB2aWEgRC1CdXMpIGhhdmUgaGlnaGVyIHByaW9y
-aXR5IHRoYW4gDQp0aGUgY29uZmlnIGZpbGU7DQoyLiBvbmNlIHRoZSBOVFAgY2xpZW50IGlz
-IGVuYWJsZWQgdmlhIEQtQnVzLCBpdCBjYW5ub3QgYmUgZGlzYWJsZWQgdmlhIA0KdGhlIGNv
-bmZpZyBmaWxlLg0KDQpJIHRoaW5rIHRoYXQgaXQgc2hvdWxkIGJlIGp1c3QgdGhlIG9wcG9z
-aXRlIOKAkyBpZiB0aGUgdXNlciBzZXQgDQpFbmFibGVOVFBDbGllbnQ9ZmFsc2UgaW4gdGhl
-IGNvbmZpZywgdGhlIE5UUCBjbGllbnQgc2hvdWxkIGJlIGNvbXBsZXRlbHkgDQpkaXNhYmxl
-ZCwgYW5hbG9nb3VzIHRvIHRoZSAtLW5vZG5zcHJveHkgb3B0aW9uLiBOb3cgdGhhdCBJIHRo
-aW5rIGFib3V0IA0KaXQsIEkgc2hvdWxkIHByb2JhYmx5IGFsc28gdXBkYXRlIG5ldC5jb25u
-bWFuLkNsb2NrIHRvIGNvcnJlY3RseSByZXBvcnQgDQpUaW1lVXBkYXRlcz1tYW51YWwgd2hl
-biB0aGUgTlRQIGNsaWVudCBpcyBkaXNhYmxlZC4NCg0KSmFrdWINCg==
---------------VMP8lulFsp0lF0cmhp60EGPh
-Content-Type: application/pgp-keys; name="OpenPGP_0xF95BD679104D3115.asc"
-Content-Disposition: attachment; filename="OpenPGP_0xF95BD679104D3115.asc"
-Content-Description: OpenPGP public key
-Content-Transfer-Encoding: quoted-printable
-
------BEGIN PGP PUBLIC KEY BLOCK-----
-
-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3D=3D
-=3Dtg/c
------END PGP PUBLIC KEY BLOCK-----
---------------VMP8lulFsp0lF0cmhp60EGPh--
-
-
---------------kBWewqkTfIHEqAA0HC0RZ1vm--
-
---------------PD2BiBmuh0uDy2MMx07uIl0J
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-iQGzBAEBCgAdFiEEv7UV5T50WUImhovnefKZsENajiMFAmJZ9t0ACgkQefKZsENa
-jiOPCgv+N/O+D0ElG8j7Nj869S/wKV43fCxF/irbV8SMxiGrw/EN+WoD1WA3LFA3
-iSlpZiM3paMHuT85r8ilQkhvTFd50fw6pGZ12Lj1rzefhE2rI6M+TKK/EYxho8AG
-pzdjbsdC4ev4ht9PHcqPseTXfU6dPYPhm03MkBs86tWWGujMLAeet3kffHEecxGX
-okhc75TYuIH+oK4YrU+SrvDyN0L5QKlNj4jtDRgqv+cUUiFOPSqW4M/+Uq4iodNF
-Z9Ykg9hN7Mv/ZoUMkesMQ8LK/pp8XyXBvrSBgcU/fTg7WyVaARnZlqYq14Y4ORuq
-cOhBMak7rwOASpn6wFoRPA629wn0gYHGJG2HFRSf48GKXKQzosKrgCQiie6yFCq8
-qNH20MoRC5nvX+2ecpRG1q2SKkBbtEKzEsuxcH180mS4tUrmWX+ueH4czGtZgM6b
-IIP1oTdtvQtyYNrhZxRSt16Np38Pbn0iJLSvbyvs7MnY9RExtFTJbhI06dR4FYjg
-ApU5kUbd
-=0P21
------END PGP SIGNATURE-----
-
---------------PD2BiBmuh0uDy2MMx07uIl0J--
