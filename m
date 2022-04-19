@@ -1,48 +1,48 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2B61ED7
-	for <connman@lists.linux.dev>; Tue, 19 Apr 2022 10:45:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C27FDED7
+	for <connman@lists.linux.dev>; Tue, 19 Apr 2022 10:45:48 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 069FC210FD
+	by smtp-out2.suse.de (Postfix) with ESMTPS id CA46C1F755
 	for <connman@lists.linux.dev>; Tue, 19 Apr 2022 10:45:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1650365142; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=/lNGhPVbq0yCca/uXCAlo3Dc3yKiv4VvrX+a7RJeAOU=;
-	b=Gwmp9HOpfbuaCdC/CArozJI+0SJ1A6wWzsPSaj9Lokgom7SNEjFs1vdGY5hyguYNUN7lKL
-	kOfZdxmprkTc3rQ4qh4ZZsSMgbMev325bWcBcvTNKSqCLd0iyZfF6/ysHfZG1pSKOGwAEW
-	T93OtbhbBUlON/ykjYFNqV/thOWXS2M=
+	bh=7O7llVl+ipFQ2BKRbaY/fi4tS33n8+AWtE8Ojl7KP7o=;
+	b=dOhvurc/HvWwMpStFGxqM17CjSQ481Eni6RU8zwt7js1+DI03C68UsMPmzuKOxpMK78jkC
+	nsi9zfvmqI1TGrCU1w0Au+xosPuAY6RDpEnG50RCRC22q8/M8rZOeFtjorAq+HeKpwdaV7
+	h0evGwN8zrUTh9P5QxaP1hCgQ1Kl7Bg=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1650365142;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=/lNGhPVbq0yCca/uXCAlo3Dc3yKiv4VvrX+a7RJeAOU=;
-	b=M/CqtYBN/pFeu37LZFXcKca9mTgZNgCvn2bkzjTgIYds5NpuoGWHUgAcAZqEMbdwLt1bXQ
-	0dvgRm6I4EdYqMBQ==
+	bh=7O7llVl+ipFQ2BKRbaY/fi4tS33n8+AWtE8Ojl7KP7o=;
+	b=8XNSrpgQrgbayFy4aRKLRNessVeeTTpq2ElntTssWrXEc0CkgpzM/E+t/N/HuBOGr7tx0v
+	Nq2YkMH5c26I4lDQ==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 0019E139BE
-	for <connman@lists.linux.dev>; Tue, 19 Apr 2022 10:45:41 +0000 (UTC)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id C4A93139BE
+	for <connman@lists.linux.dev>; Tue, 19 Apr 2022 10:45:42 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
 	by imap2.suse-dmz.suse.de with ESMTPSA
-	id aJyZO9WSXmLlOAAAMHmgww
+	id XeH9L9aSXmLpOAAAMHmgww
 	(envelope-from <mgerstner@suse.de>)
-	for <connman@lists.linux.dev>; Tue, 19 Apr 2022 10:45:41 +0000
+	for <connman@lists.linux.dev>; Tue, 19 Apr 2022 10:45:42 +0000
 From: Matthias Gerstner <matthias.gerstner@suse.de>
 To: connman@lists.linux.dev
-Subject: [PATCH 07/12] dnsproxy: refactor and document strip_domains() to make it less confusing
-Date: Tue, 19 Apr 2022 12:34:56 +0200
-Message-Id: <20220419103501.30553-8-matthias.gerstner@suse.de>
+Subject: [PATCH 09/12] dnsproxy: uncompress: replace unnecessary goto with return statements
+Date: Tue, 19 Apr 2022 12:34:58 +0200
+Message-Id: <20220419103501.30553-10-matthias.gerstner@suse.de>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220419103501.30553-1-matthias.gerstner@suse.de>
 References: <20220419103501.30553-1-matthias.gerstner@suse.de>
@@ -55,100 +55,104 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
 ---
- src/dnsproxy.c | 60 +++++++++++++++++++++++++++++++++++---------------
- 1 file changed, 42 insertions(+), 18 deletions(-)
+ src/dnsproxy.c | 21 +++++++++------------
+ 1 file changed, 9 insertions(+), 12 deletions(-)
 
 diff --git a/src/dnsproxy.c b/src/dnsproxy.c
-index 9cb92627a..fcdf56c04 100644
+index 4b834d2f0..78855e27d 100644
 --- a/src/dnsproxy.c
 +++ b/src/dnsproxy.c
-@@ -1857,44 +1857,68 @@ out:
- 	return NULL;
- }
+@@ -1752,7 +1752,7 @@ static const char* uncompress(int16_t field_count, const char *start, const char
  
--static int strip_domains(char *name, char *answers, int maxlen)
-+/*
-+ * removes the qualified domain name part from the given answer sections
-+ * starting at 'answers', consisting of 'length' bytes.
-+ *
-+ * 'name' points the start of the unqualified host label including the leading
-+ * length octet.
-+ *
-+ * returns the new (possibly shorter) length of remaining payload in the
-+ * answers buffer, or a negative (errno) value to indicate error conditions.
-+ */
-+static int strip_domains(const char *name, char *answers, size_t length)
- {
-+	/* length of the name label including the length header octet */
- 	const size_t name_len = strlen(name);
--	const char *start = answers, *end = answers + maxlen;
-+	const char *end = answers + length;
+ 		if (!convert_label(start, end, ptr, name, NS_MAXLABEL,
+ 					&pos, &comp_pos))
+-			goto out;
++			return NULL;
  
--	while (maxlen > 0) {
-+	while (answers < end) {
- 		char *ptr = strstr(answers, name);
- 		if (ptr) {
- 			char *domain = ptr + name_len;
+ 		/*
+ 		 * Copy the uncompressed resource record, type, class and \0 to
+@@ -1761,7 +1761,7 @@ static const char* uncompress(int16_t field_count, const char *start, const char
  
-+			/* this now points to the domain part length octet. */
- 			if (*domain) {
-+				/*
-+				 * length of the rest of the labels up to the
-+				 * null label (zero byte).
-+				 */
- 				const size_t domain_len = strlen(domain);
-+				char *remaining = domain + domain_len;
+ 		ulen = strlen(name) + 1;
+ 		if ((uptr + ulen) > uncomp_end)
+-			goto out;
++			return NULL;
+ 		memcpy(uptr, name, ulen);
  
--				memmove(answers + name_len,
--					domain + domain_len,
--					end - (domain + domain_len));
-+				/*
-+				 * now shift the rest of the answer sections
-+				 * to the left to get rid of the domain label
-+				 * part
-+				 */
-+				memmove(ptr + name_len,
-+					remaining,
-+					end - remaining);
- 
- 				end -= domain_len;
--				maxlen -= domain_len;
-+				length -= domain_len;
- 			}
--		} else {
--			ptr = answers;
+ 		debug("pos %d ulen %d left %d name %s", pos, ulen,
+@@ -1777,7 +1777,7 @@ static const char* uncompress(int16_t field_count, const char *start, const char
+ 		 */
+ 		if ((uptr + NS_RRFIXEDSZ) > uncomp_end) {
+ 			debug("uncompressed data too large for buffer");
+-			goto out;
++			return NULL;
  		}
+ 		memcpy(uptr, ptr, NS_RRFIXEDSZ);
  
--		answers += strlen(answers) + 1;
--		answers += 2 + 2 + 4;  /* skip type, class and ttl fields */
--
--		uint16_t data_len = answers[0] << 8 | answers[1];
--		answers += 2; /* skip the length field */
-+		/* skip to the next answer section */
+@@ -1785,7 +1785,7 @@ static const char* uncompress(int16_t field_count, const char *start, const char
+ 		dns_class = uptr[2] << 8 | uptr[3];
  
--		if (answers + data_len > end)
-+		/* the labels up to the root null label */
-+		answers += strlen(answers) + 1;
-+		/* the fixed part of the RR */
-+		const struct domain_rr *rr = (void*)answers;
-+		if (answers + sizeof(*rr) > end)
- 			return -EINVAL;
--
-+		const uint16_t data_len = htons(rr->rdlen);
-+		/* skip the rest of the RR */
-+		answers += sizeof(*rr);
- 		answers += data_len;
--		maxlen -= answers - ptr;
+ 		if (dns_class != DNS_CLASS_IN)
+-			goto out;
++			return NULL;
+ 
+ 		ptr += NS_RRFIXEDSZ;
+ 		uptr += NS_RRFIXEDSZ;
+@@ -1799,7 +1799,7 @@ static const char* uncompress(int16_t field_count, const char *start, const char
+ 			if (!convert_label(start, end, ptr, uptr,
+ 					uncomp_len - (uptr - uncompressed),
+ 						&pos, &comp_pos))
+-				goto out;
++				return NULL;
+ 
+ 			uptr[-2] = comp_pos << 8;
+ 			uptr[-1] = comp_pos & 0xff;
+@@ -1812,7 +1812,7 @@ static const char* uncompress(int16_t field_count, const char *start, const char
+ 
+ 			if ((ptr + dlen) > end || (uptr + dlen) > uncomp_end) {
+ 				debug("data len %d too long", dlen);
+-				goto out;
++				return NULL;
+ 			}
+ 
+ 			memcpy(uptr, ptr, dlen);
+@@ -1827,7 +1827,7 @@ static const char* uncompress(int16_t field_count, const char *start, const char
+ 			if (!convert_label(start, end, ptr, uptr,
+ 					uncomp_len - (uptr - uncompressed),
+ 						&pos, &comp_pos))
+-				goto out;
++				return NULL;
+ 
+ 			total_len += comp_pos;
+ 			len_ptr = &uptr[-2];
+@@ -1838,7 +1838,7 @@ static const char* uncompress(int16_t field_count, const char *start, const char
+ 			if (!convert_label(start, end, ptr, uptr,
+ 					uncomp_len - (uptr - uncompressed),
+ 						&pos, &comp_pos))
+-				goto out;
++				return NULL;
+ 
+ 			total_len += comp_pos;
+ 			ptr += pos;
+@@ -1851,7 +1851,7 @@ static const char* uncompress(int16_t field_count, const char *start, const char
+ 			 */
+ 			if ((uptr + 20) > uncomp_end || (ptr + 20) > end) {
+ 				debug("soa record too long");
+-				goto out;
++				return NULL;
+ 			}
+ 			memcpy(uptr, ptr, 20);
+ 			uptr += 20;
+@@ -1869,9 +1869,6 @@ static const char* uncompress(int16_t field_count, const char *start, const char
  	}
  
--	return end - start;
-+	if (answers > end)
-+		return -EINVAL;
-+
-+	return length;
+ 	return ptr;
+-
+-out:
+-	return NULL;
  }
  
- static int forward_dns_reply(unsigned char *reply, int reply_len, int protocol,
+ /*
 -- 
 2.35.1
 
