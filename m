@@ -1,48 +1,48 @@
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1DA9ED4
-	for <connman@lists.linux.dev>; Tue, 19 Apr 2022 10:45:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10C7BED4
+	for <connman@lists.linux.dev>; Tue, 19 Apr 2022 10:52:02 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 379331F756
-	for <connman@lists.linux.dev>; Tue, 19 Apr 2022 10:45:43 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 5B8E21F74F
+	for <connman@lists.linux.dev>; Tue, 19 Apr 2022 10:45:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1650365143; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	t=1650365140; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=RdtpGERjNlGtsgz4urOEMNUXuLHmSzj3kwK4cGf39N8=;
-	b=Asvj6ki6PC7FnhZrZK1eukdhIIPIr73Msxfwzfhiq7kUbRzw6jzb42Ly4MWjfeLULPi4Oq
-	thOYNRUi1LUUKwYhikpNpkUE9VrusH/ORuio+XuxwfEZvxtmWNGh/Z9UiqvbOs7yqBePV5
-	Z68RmnRSpxYw8GR3gCM4kpTVShYl2U8=
+	bh=nu0Y9jZjdQ+SU41gLPTRBq5ud38jkgo2btlGsdaVf/I=;
+	b=DI6TpjlOFye0ul/MwcJRoPX8qFqa7mHtjU+ALzj6cSPor7Khza5fecP1iqJsP7Deh4qI69
+	DdXuhE0rFrOEZaXYHGet8/lUEDaQGUO+rWAxNyjpZLofc9vad9zYFsTSmekDEvRf+EFtP1
+	U6LL2AqQObfMfL6EbL4rHvjF3TEFhD8=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1650365143;
+	s=susede2_ed25519; t=1650365140;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=RdtpGERjNlGtsgz4urOEMNUXuLHmSzj3kwK4cGf39N8=;
-	b=5oQ1Jt/Z1jacOjkGvuwI1amRvGlj0BnDTUUHGdGEQuZACdzI3ej566PGRkZ/kR+dlSerhH
-	vnGgAnPbeT3QcCCA==
+	bh=nu0Y9jZjdQ+SU41gLPTRBq5ud38jkgo2btlGsdaVf/I=;
+	b=p7uilVyvT2A1QJNH8OefuHVsvCCDiw1BmZ3uP5cvq8fU9L/elhqG4UHamlBjNzocHYppUo
+	3pKlkOEAKY30dlAw==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 2EF18139BE
-	for <connman@lists.linux.dev>; Tue, 19 Apr 2022 10:45:43 +0000 (UTC)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 540EB139BE
+	for <connman@lists.linux.dev>; Tue, 19 Apr 2022 10:45:40 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
 	by imap2.suse-dmz.suse.de with ESMTPSA
-	id RgdyC9eSXmLrOAAAMHmgww
+	id cUR1FNSSXmLdOAAAMHmgww
 	(envelope-from <mgerstner@suse.de>)
-	for <connman@lists.linux.dev>; Tue, 19 Apr 2022 10:45:43 +0000
+	for <connman@lists.linux.dev>; Tue, 19 Apr 2022 10:45:40 +0000
 From: Matthias Gerstner <matthias.gerstner@suse.de>
 To: connman@lists.linux.dev
-Subject: [PATCH 10/12] dnsproxy: forward_dns_reply: pull out separate dns_reply_fixup_domains()
-Date: Tue, 19 Apr 2022 12:34:59 +0200
-Message-Id: <20220419103501.30553-11-matthias.gerstner@suse.de>
+Subject: [PATCH 03/12] dnsproxy: refactoring of update_cached_ttl() and append_data()
+Date: Tue, 19 Apr 2022 12:34:52 +0200
+Message-Id: <20220419103501.30553-4-matthias.gerstner@suse.de>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220419103501.30553-1-matthias.gerstner@suse.de>
 References: <20220419103501.30553-1-matthias.gerstner@suse.de>
@@ -54,386 +54,193 @@ List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This should make the code logic a bit clearer and less convoluted.
 ---
- src/dnsproxy.c | 331 ++++++++++++++++++++++++++-----------------------
- 1 file changed, 176 insertions(+), 155 deletions(-)
+ src/dnsproxy.c | 137 ++++++++++++++++++++++++-------------------------
+ 1 file changed, 66 insertions(+), 71 deletions(-)
 
 diff --git a/src/dnsproxy.c b/src/dnsproxy.c
-index 78855e27d..7a3cbe9d7 100644
+index 59b1c2251..1b464a5fb 100644
 --- a/src/dnsproxy.c
 +++ b/src/dnsproxy.c
-@@ -47,6 +47,8 @@
- #	define debug(fmt...) do { fprintf(stderr, fmt); fprintf(stderr, "\n"); } while (0)
- #endif
- 
-+#define NUM_ARRAY_ELEMENTS(a) sizeof(a) / sizeof(a[0])
-+
- #if __BYTE_ORDER == __LITTLE_ENDIAN
- struct domain_hdr {
- 	uint16_t id;
-@@ -1935,6 +1937,167 @@ static int strip_domains(const char *name, char *answers, size_t length)
- 	return length;
+@@ -391,52 +391,49 @@ static size_t dns_name_length(const unsigned char *buf)
+ 	return strlen((const char *)buf) + 1;
  }
  
-+/*
-+ * Removes domain names from replies, if one has been appended during
-+ * forwarding to the real DNS server.
-+ *
-+ * Returns:
-+ * < 0 on error (abort processing reply)
-+ * == 0 if the reply should be forwarded unmodified
-+ * > 0 and new buffer in *new_reply on success. The return value indicates the
-+ * new length of the data in *new_reply.
-+ */
-+static int dns_reply_fixup_domains(
-+				const char *reply, size_t reply_len,
-+				const size_t offset,
-+				struct request_data *req,
-+				char **new_reply)
-+{
-+	const struct domain_hdr *hdr = (void *)(reply + offset);
-+	const char *eom = reply + reply_len;
-+	const uint16_t header_len = offset + DNS_HEADER_SIZE;
-+	/* full header plus at least one byte for the hostname length */
-+	if (reply_len < header_len + 1)
-+		return -EINVAL;
-+
-+	/*
-+	 * length octet of the hostname.
-+	 * ->hostname.domain.net
-+	 */
-+	const char *ptr = reply + header_len;
-+	const uint8_t host_len = *ptr;
-+	const char *domain = ptr + host_len + 1;
-+	if (domain >= eom)
-+		return -EINVAL;
-+
-+	const uint16_t domain_len = host_len ?
-+		strnlen(domain, eom - domain) : 0;
-+
-+	/*
-+	 * If the query type is anything other than A or AAAA, then bail out
-+	 * and pass the message as is.  We only want to deal with IPv4 or IPv6
-+	 * addresses.
-+	 */
-+	const struct qtype_qclass *qtc = (void*)(domain + domain_len + 1);
-+	if (((const char*)(qtc + 1)) > eom)
-+		return -EINVAL;
-+
-+	const uint16_t dns_type = ntohs(qtc->qtype);
-+	const uint16_t dns_class = ntohs(qtc->qclass);
-+
-+	if (domain_len == 0) {
-+		/* nothing to do */
-+		return 0;
-+	}
-+
-+	/* TODO: This condition looks wrong. It should probably be
-+	 *
-+	 *  (dns_type != A && dns_type != AAAA) || dns_class != IN
-+	 *
-+	 * doing so, however, changes the behaviour of dnsproxy, e.g. MX
-+	 * records will be passed back to the client, but without the
-+	 * adjustment of the appended domain name.
-+	 */
-+	if (dns_type != DNS_TYPE_A && dns_type != DNS_TYPE_AAAA &&
-+			dns_class != DNS_CLASS_IN) {
-+		debug("Pass msg dns type %d class %d", dns_type, dns_class);
-+		return 0;
-+	}
-+
-+	/*
-+	 * Remove the domain name and replace it by the end of reply. Check if
-+	 * the domain is really there before trying to copy the data. We also
-+	 * need to uncompress the answers if necessary.  The domain_len can be
-+	 * 0 because if the original query did not contain a domain name, then
-+	 * we are sending two packets, first without the domain name and the
-+	 * second packet with domain name.  The append_domain is set to true
-+	 * even if we sent the first packet without domain name. In this case
-+	 * we end up in this branch.
-+	 */
-+
-+	char uncompressed[NS_MAXDNAME];
-+
-+	/* NOTE: length checks up and including to qtype_qclass have already
-+	   been done above */
-+
-+	/*
-+	 * First copy host (without domain name) into tmp buffer.
-+	 */
-+	char *uptr = &uncompressed[0];
-+	memcpy(uptr, ptr, host_len + 1);
-+
-+	uptr[host_len + 1] = '\0'; /* host termination */
-+	uptr += host_len + 2;
-+
-+	/*
-+	 * Copy type and class fields of the question.
-+	 */
-+	memcpy(uptr, qtc, sizeof(*qtc));
-+
-+	/*
-+	 * ptr points to answers after this
-+	 */
-+	ptr = (void*)(qtc + 1);
-+	uptr += sizeof(*qtc);
-+	char *answers = uptr;
-+	const size_t fixed_len = answers - uncompressed;
-+
-+	/*
-+	 * We then uncompress the result to buffer so that we can rip off the
-+	 * domain name part from the question. First answers, then name server
-+	 * (authority) information, and finally additional record info.
-+	 */
-+	const uint16_t section_counts[] = {
-+		hdr->ancount,
-+		hdr->nscount,
-+		hdr->arcount
-+	};
-+
-+	for (size_t i = 0; i < NUM_ARRAY_ELEMENTS(section_counts); i++) {
-+		ptr = uncompress(ntohs(section_counts[i]), reply + offset, eom,
-+				ptr, uncompressed, NS_MAXDNAME, &uptr);
-+		if (!ptr) {
-+			/* failed to uncompress, pass on as is
-+			 * (TODO: good idea?) */
-+			return 0;
-+		}
-+	}
-+
-+	/*
-+	 * The uncompressed buffer now contains an almost valid response.
-+	 * Final step is to get rid of the domain name because at least glibc
-+	 * gethostbyname() implementation does extra checks and expects to
-+	 * find an answer without domain name if we asked a query without
-+	 * domain part. Note that glibc getaddrinfo() works differently and
-+	 * accepts FQDN in answer
-+	 */
-+	const int new_an_len = strip_domains(uncompressed, answers,
-+					uptr - answers);
-+	if (new_an_len < 0) {
-+		debug("Corrupted packet");
-+		return -EINVAL;
-+	}
-+
-+	/*
-+	 * Because we have now uncompressed the answers we might have to
-+	 * create a bigger buffer to hold all that data.
-+	 *
-+	 * TODO: only create a bigger buffer if actually necessary, pass
-+	 * allocation size of input buffer via additional parameter.
-+	 */
-+
-+	reply_len = header_len + new_an_len + fixed_len;
-+
-+	*new_reply = g_try_malloc(reply_len);
-+	if (!*new_reply)
-+		return -ENOMEM;
-+
-+	memcpy(*new_reply, reply, header_len);
-+	memcpy(*new_reply + header_len, uncompressed, new_an_len + fixed_len);
-+
-+	return reply_len;
-+}
-+
- static int forward_dns_reply(char *reply, size_t reply_len, int protocol,
- 				struct server_data *data)
+-static void update_cached_ttl(unsigned char *buf, int len, int new_ttl)
++static void update_cached_ttl(unsigned char *ptr, int len, int new_ttl)
  {
-@@ -1959,8 +2122,6 @@ static int forward_dns_reply(char *reply, size_t reply_len, int protocol,
- 	req->numresp++;
+-	unsigned char *c;
+-	uint16_t w;
+-	int l;
++	if (new_ttl < 0)
++		return;
  
- 	if (hdr->rcode == ns_r_noerror || !req->resp) {
--		char *new_reply = NULL;
--
- 		/*
- 		 * If the domain name was appended remove it before forwarding
- 		 * the reply. If there were more than one question, then this
-@@ -1971,163 +2132,24 @@ static int forward_dns_reply(char *reply, size_t reply_len, int protocol,
- 		 * DNS client tries to resolv hostname without domain part, it
- 		 * also expects to get the result without a domain name part.
- 		 */
--		if (req->append_domain && ntohs(hdr->qdcount) == 1) {
--			const char *eom = reply + reply_len;
--			const uint16_t header_len = offset + DNS_HEADER_SIZE;
--			if (reply_len < header_len)
--				return -EINVAL;
--			const uint16_t payload_len = reply_len - header_len;
--			if (payload_len < 1)
--				return -EINVAL;
--
--			/*
--			 * ptr points to the first char of the hostname.
--			 * ->hostname.domain.net
--			 */
--			const char *ptr = reply + header_len;
--
--			const uint8_t host_len = *ptr;
--			const char *domain = ptr + 1 + host_len;
--			if (domain >= eom)
--				return -EINVAL;
--
--			const uint16_t domain_len = host_len ?
--				strnlen(domain, eom - domain) : 0;
--
--			/*
--			 * If the query type is anything other than A or AAAA,
--			 * then bail out and pass the message as is.
--			 * We only want to deal with IPv4 or IPv6 addresses.
--			 */
--			const struct qtype_qclass *qtc =
--				(void*)(domain + domain_len + 1);
--			if (((const char*)(qtc + 1)) > eom)
--				return -EINVAL;
--
--			const uint16_t dns_type = ntohs(qtc->qtype);
--			const uint16_t dns_class = ntohs(qtc->qclass);
--
--			/* TODO: this condition looks wrong it should be
--			 *  (dns_type != A && dns_type != AAAA) || dns_class != IN)
--			 * however then the behaviour of dnsproxy changes,
--			 * e.g. MX records will be passed back to the client,
--			 * but without adjustment of the appended DNS name. */
--			if (dns_type != DNS_TYPE_A && dns_type != DNS_TYPE_AAAA &&
--					dns_class != DNS_CLASS_IN) {
--				debug("Pass msg dns type %d class %d",
--					dns_type, dns_class);
--				goto pass;
--			}
--
--			/*
--			 * Remove the domain name and replace it by the end
--			 * of reply. Check if the domain is really there
--			 * before trying to copy the data. We also need to
--			 * uncompress the answers if necessary.
--			 * The domain_len can be 0 because if the original
--			 * query did not contain a domain name, then we are
--			 * sending two packets, first without the domain name
--			 * and the second packet with domain name.
--			 * The append_domain is set to true even if we sent
--			 * the first packet without domain name. In this
--			 * case we end up in this branch.
--			 */
--			if (domain_len > 0) {
--				char uncompressed[NS_MAXDNAME];
--				const size_t len = host_len + 1;
--
--				/* NOTE: length checks up and including to
--				 * qtype_qclass have already been done above */
--
--				/*
--				 * First copy host (without domain name) into
--				 * tmp buffer.
--				 */
--				char *uptr = &uncompressed[0];
--				memcpy(uptr, ptr, len);
--
--				uptr[len] = '\0'; /* host termination */
--				uptr += len + 1;
--
--				/*
--				 * Copy type and class fields of the question.
--				 */
--				memcpy(uptr, qtc, sizeof(*qtc));
--
--				/*
--				 * ptr points to answers after this
--				 */
--				ptr = (void*)(qtc + 1);
--				uptr += sizeof(*qtc);
--				char *answers = uptr;
--				const size_t fixed_len = answers - uncompressed;
--
--				/*
--				 * We then uncompress the result to buffer
--				 * so that we can rip off the domain name
--				 * part from the question. First answers,
--				 * then name server (authority) information,
--				 * and finally additional record info.
--				 */
--				const uint16_t section_counts[] = {
--					hdr->ancount,
--					hdr->nscount,
--					hdr->arcount
--				};
--
--				for (size_t i = 0; i < sizeof(section_counts) / sizeof(uint16_t); i++) {
--					ptr = uncompress(ntohs(section_counts[i]),
--							reply + offset, eom,
--							ptr, uncompressed, NS_MAXDNAME,
--							&uptr);
--					if (!ptr)
--						goto out;
--				}
--
--				/*
--				 * The uncompressed buffer now contains an
--				 * almost valid response. Final step is to get
--				 * rid of the domain name because at least
--				 * glibc gethostbyname() implementation does
--				 * extra checks and expects to find an answer
--				 * without domain name if we asked a query
--				 * without domain part. Note that glibc
--				 * getaddrinfo() works differently and accepts
--				 * FQDN in answer
--				 */
--				const int new_an_len = strip_domains(
--							uncompressed, answers,
--							uptr - answers);
--				if (new_an_len < 0) {
--					debug("Corrupted packet");
--					return -EINVAL;
--				}
--
--				/*
--				 * Because we have now uncompressed the answers
--				 * we might have to create a bigger buffer to
--				 * hold all that data.
--				 *
--				 * TODO: only create bigger buffer if
--				 * actually necessary, pass allocation size of
--				 * buffer via additional parameter.
--				 */
--
--				reply_len = header_len + new_an_len + fixed_len;
--
--				new_reply = g_try_malloc(reply_len);
--				if (!new_reply)
--					return -ENOMEM;
--
--				memcpy(new_reply, reply, header_len);
--				memcpy(new_reply + header_len, uncompressed,
--					new_an_len + fixed_len);
-+		char *new_reply = NULL;
+ 	/* skip the header */
+-	c = buf + 12;
+-	len -= 12;
++	ptr += DNS_HEADER_SIZE;
++	len -= DNS_HEADER_SIZE;
++
++	if (len < sizeof(struct domain_question) + 1)
++		return;
  
-+		if (req->append_domain && ntohs(hdr->qdcount) == 1) {
-+			const int fixup_res = dns_reply_fixup_domains(
-+					reply, reply_len,
-+					offset, req, &new_reply);
-+			if (fixup_res < 0) {
-+				/* error occured */
-+				return fixup_res;
-+			} else if (fixup_res > 0 && new_reply) {
-+				/* new reply length */
-+				reply_len = fixup_res;
- 				reply = new_reply;
-+			} else {
-+				/* keep message as is */
- 			}
- 		}
+-	/* skip the query, which is a name and 2 16 bit words */
+-	l = dns_name_length(c);
+-	c += l;
+-	len -= l;
+-	c += 4;
+-	len -= 4;
++	/* skip the query, which is a name and a struct domain_question */
++	size_t name_len = dns_name_length(ptr);
++
++	ptr += name_len + sizeof(struct domain_question);
++	len -= name_len + sizeof(struct domain_question);;
++
++	const uint32_t raw_ttl = ntohl((uint32_t)new_ttl);
++	struct domain_rr *rr = NULL;
  
--	pass:
- 		g_free(req->resp);
- 		req->resplen = 0;
+ 	/* now we get the answer records */
  
-@@ -2143,7 +2165,6 @@ static int forward_dns_reply(char *reply, size_t reply_len, int protocol,
- 		g_free(new_reply);
+ 	while (len > 0) {
+ 		/* first a name */
+-		l = dns_name_length(c);
+-		c += l;
+-		len -= l;
+-		if (len < 0)
+-			break;
+-		/* then type + class, 2 bytes each */
+-		c += 4;
+-		len -= 4;
++		name_len = dns_name_length(ptr);
++		ptr += name_len;
++		len -= name_len;
+ 		if (len < 0)
+ 			break;
+ 
+-		/* now the 4 byte TTL field */
+-		c[0] = new_ttl >> 24 & 0xff;
+-		c[1] = new_ttl >> 16 & 0xff;
+-		c[2] = new_ttl >> 8 & 0xff;
+-		c[3] = new_ttl & 0xff;
+-		c += 4;
+-		len -= 4;
+-		if (len < 0)
++		rr = (void*)ptr;
++		if (len < sizeof(*rr))
++			/* incomplete record */
+ 			break;
+ 
+-		/* now the 2 byte rdlen field */
+-		w = c[0] << 8 | c[1];
+-		c += w + 2;
+-		len -= w + 2;
++		/* update the TTL field */
++		memcpy(&rr->ttl, &raw_ttl, sizeof(raw_ttl));
++
++		/* skip to the next record */
++		size_t rr_len = sizeof(*rr) + ntohs(rr->rdlen);
++		ptr += rr_len;
++		len -= rr_len;
+ 	}
+ }
+ 
+@@ -621,59 +618,57 @@ out:
+ 	return FALSE;
+ }
+ 
+-static int append_query(unsigned char *buf, unsigned int size,
+-				const char *query, const char *domain)
++static int append_data(unsigned char *buf, size_t size, const char *data)
+ {
+ 	unsigned char *ptr = buf;
+-	int len;
+-
+-	debug("query %s domain %s", query, domain);
++	size_t len;
+ 
+-	while (query) {
+-		const char *tmp;
++	while (true) {
++		const char *dot = strchr(data, '.');
++		len = dot ? dot - data : strlen(data);
+ 
+-		tmp = strchr(query, '.');
+-		if (!tmp) {
+-			len = strlen(query);
+-			if (len == 0)
+-				break;
+-			*ptr = len;
+-			memcpy(ptr + 1, query, len);
+-			ptr += len + 1;
++		if (len == 0)
+ 			break;
+-		}
++		else if (size < len + 1)
++			return -1;
+ 
+-		*ptr = tmp - query;
+-		memcpy(ptr + 1, query, tmp - query);
+-		ptr += tmp - query + 1;
++		*ptr = len;
++		memcpy(ptr + 1, data, len);
++		ptr += len + 1;
++		size -= len + 1;
+ 
+-		query = tmp + 1;
++		if (!dot)
++			break;
++
++		data = dot + 1;
  	}
  
--out:
- 	if (req->numresp < req->numserv) {
- 		if (hdr->rcode > ns_r_noerror) {
- 			return -EINVAL;
+-	while (domain) {
+-		const char *tmp;
++	return ptr - buf;
++}
+ 
+-		tmp = strchr(domain, '.');
+-		if (!tmp) {
+-			len = strlen(domain);
+-			if (len == 0)
+-				break;
+-			*ptr = len;
+-			memcpy(ptr + 1, domain, len);
+-			ptr += len + 1;
+-			break;
+-		}
++static int append_query(unsigned char *buf, size_t size,
++				const char *query, const char *domain)
++{
++	debug("query %s domain %s", query, domain);
+ 
+-		*ptr = tmp - domain;
+-		memcpy(ptr + 1, domain, tmp - domain);
+-		ptr += tmp - domain + 1;
++	size_t left_size = size;
++	int res = append_data(buf, left_size, query);
++	if (res < 0)
++		return -1;
++	left_size -= res;
+ 
+-		domain = tmp + 1;
+-	}
++	res = append_data(buf + res, left_size, domain);
++	if (res < 0)
++		return -1;
++	left_size -= res;
+ 
+-	*ptr++ = 0x00;
++	if (left_size == 0)
++		return -1;
+ 
+-	return ptr - buf;
++	const size_t added = size - left_size;
++	*(buf + added) = 0x00;
++
++	return added;
+ }
+ 
+ static bool cache_check_is_valid(struct cache_data *data, time_t current_time)
 -- 
 2.35.1
 
