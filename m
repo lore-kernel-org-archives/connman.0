@@ -1,79 +1,108 @@
-Received: from mail.holtmann.org (coyote.holtmann.net [212.227.132.17])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 238F5392
-	for <connman@lists.linux.dev>; Tue, 26 Apr 2022 14:54:18 +0000 (UTC)
-Received: from smtpclient.apple (p5b3d2020.dip0.t-ipconnect.de [91.61.32.32])
-	by mail.holtmann.org (Postfix) with ESMTPSA id 7E225CECDE;
-	Tue, 26 Apr 2022 16:46:04 +0200 (CEST)
-Content-Type: text/plain;
-	charset=us-ascii
+Received: from griffin.geeknet.cz (griffin.geeknet.cz [94.142.237.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 969657E
+	for <connman@lists.linux.dev>; Tue, 26 Apr 2022 19:55:56 +0000 (UTC)
+Received: 
+	by griffin.geeknet.cz (OpenSMTPD) with ESMTP id 8444bcf7
+	for <connman@lists.linux.dev>;
+	Tue, 26 Apr 2022 21:49:13 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed; d=jirutka.cz; h=from:to:cc
+	:subject:date:message-id; s=mail; bh=d8AZBURq5RO2lsqKDEKdKGCjEQ4
+	=; b=FqMOYXZbX2QmmbfKhunWfSAqPS47b7lmoO3rJQKGMqV3T3RiMgm+t7E1ONa
+	WWIE0H8inM/+vWuf+/MQrniv0MsNZYAfZX1nH4wl/pfRhxcgdEyDlRp1ihz7CWZ8
+	hsaZlXM4A4fnwiL9fAL7IpUtMN9VANs/gtv2xJncCPBgeWD4=
+DomainKey-Signature: a=rsa-sha1; c=nofws; d=jirutka.cz; h=from:to:cc
+	:subject:date:message-id; q=dns; s=mail; b=E8zpewwDy44ou5h5rpkNC
+	/bHhJZtDk6qVnZw1GJEu2/0fcSFGigaoevd874rAV0btfH5AXNWvINwvW/AXU+/n
+	mvw1CHinhQf2nlI4ZxPFzpGgF4Llu0spStWIEYEC1hV7tw6f7A4kuLFfLeTn2pU9
+	iV6ay1g07ZyzYKPzDP/iXE=
+Received: 
+	by griffin.geeknet.cz (OpenSMTPD) with ESMTPSA id f7c71bc5 (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256:NO);
+	Tue, 26 Apr 2022 21:49:13 +0200 (CEST)
+From: Jakub Jirutka <jakub@jirutka.cz>
+To: connman@lists.linux.dev
+Cc: Jakub Jirutka <jakub@jirutka.cz>
+Subject: [PATCH] service: Add "Ethernet" property for VPN into n.c.Manager GetServices
+Date: Tue, 26 Apr 2022 21:48:53 +0200
+Message-Id: <20220426194853.13343-1-jakub@jirutka.cz>
+X-Mailer: git-send-email 2.16.4
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3696.80.82.1.1\))
-Subject: Re: [PATCH 1/1] gsupplicant: Add MFP support for WPA2
-From: Marcel Holtmann <marcel@holtmann.org>
-In-Reply-To: <4deec7b0-a2e5-0d91-a81c-dc4bb79c1594@collabora.com>
-Date: Tue, 26 Apr 2022 16:46:03 +0200
-Cc: "Dembianny, Sven (GDE-EDSO)" <Sven.Dembianny@bshg.com>,
- "connman@lists.linux.dev" <connman@lists.linux.dev>
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <8B96358C-6DA1-41E0-8C79-7724AD78EC53@holtmann.org>
-References: <20220425150837.89194-1-sven.dembianny@bshg.com>
- <20220425150837.89194-2-sven.dembianny@bshg.com>
- <4deec7b0-a2e5-0d91-a81c-dc4bb79c1594@collabora.com>
-To: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
-X-Mailer: Apple Mail (2.3696.80.82.1.1)
 
-Hi Ariel,
+Scope:
+This patch affects the Service properties exposed by D-Bus method
+GetServices in interface net.connman.Manager.
 
->> Previous MFP support was restricted to WPA3, however it is also =
-possible
->> to set MFP to mandatory on APs with WPA2.
->>=20
->> wpa_supplicant config:
->>=20
->> * WPA2-Personal: key_mgmt=3D"WPA-PSK-SHA256" ; iee80211w=3D1
->>=20
->> Signed-off-by: Sven Dembianny <sven.dembianny@bshg.com>
->> ---
->> gsupplicant/supplicant.c | 4 ++++
->> 1 file changed, 4 insertions(+)
->>=20
->> diff --git a/gsupplicant/supplicant.c b/gsupplicant/supplicant.c
->> index 1b92ec44..e9152632 100644
->> --- a/gsupplicant/supplicant.c
->> +++ b/gsupplicant/supplicant.c
->> @@ -4969,6 +4969,10 @@ static void =
-add_network_security(DBusMessageIter *dict, GSupplicantSSID *ssid)
->> 				ieee80211w =3D =
-G_SUPPLICANT_MFP_REQUIRED;
->> 			}
->> 			add_network_ieee80211w(dict, ssid, ieee80211w);
->> +		} else if (ssid->keymgmt & =
-G_SUPPLICANT_KEYMGMT_WPA_PSK_256) {
->> +			key_mgmt =3D "WPA-PSK-SHA256";
->> +			ieee80211w =3D G_SUPPLICANT_MFP_OPTIONAL;
->> +			add_network_ieee80211w(dict, ssid, ieee80211w);
->> 		} else {
->> 			key_mgmt =3D "WPA-PSK";
->=20
-> Shall we also consider the "WPA-PSK" case in the same way?
+Before (current state):
+Services of type WIFI, ETHERNET, BLUETOOTH, and GADGET have property
+"Ethernet" with a dictionary of "Method", "Interface", "Address", and
+"MTU". Services of type VPN (and also P2P, GPS, and SYSTEM) don't include
+this property, althrough VPNs are IP-based too and the data is available
+(at least for some, e.g. OpenVPN, not sure if all).
 
-I prefer we remove wpa_supplicant support from ConnMan and you start =
-using iwd ;)
+After (proposed change):
+Even services of type VPN includes property "Ethernet".
 
-And I am only half joking since this part of wpa_supplicant is such a =
-mess. Whatever key management they introduce next will turn into your =
-next problem and compatibility issues. I am running independent SSIDs in =
-my home network to deal with end consumer device since they use a =
-wpa_supplicant and management software that is too dumb.
+Motivation:
+ConnMan integration with resolvconf(8) via D-Bus
+(https://github.com/jirutka/connman-resolvconf) - I need to know
+"Interface" even for VPN services.
 
-With iwd the WiFi protocol is in one daemon and not split between two =
-daemons.
+Considerations:
+Function append_ethernet in src/service.c checks if either
+service->ipconfig_ipv4 or service->ipconfig_ipv6 is non-NULL and do
+nothing if this condition is not satisfied. Otherwise,
+__connman_ipconfig_append_ethernet from src/ipconfig.c is called.
+This function checks if the index of passed service->ipconfig_ipv4
+(or _ipv6) is present in ipdevice_hash. If it's not, it just sets
+"Method" property with value "auto" and returns.
+Thus I think this change shouldn't break anything, even if ipconfig
+data is not available for some VPN types. I tested it myself with just
+OpenVPN provider though.
 
-Regards
+This may introduce an asymmetry between Service properties returned by
+GetServices and signal PropertyChanged in interface net.connman.Service
+- change in "Ethernet" is currently not being announced for VPN
+services. I originally wanted to implement this as well (actually, before
+GetServices), but got lost in code duplication and unclear relation
+between src/ and vpn/.
+Anyway, I don't think this asymetry is a problem (and probably more
+asymetries already exist there?).
 
-Marcel
+I didn't consider method GetProperties in interface net.connman.Service
+at all, because it's marked as deprecated. However, I hope that it
+calls the same functions as the method GetServices.
+
+The same change should be considered even for P2P services, but I don't
+use this service type and didn't look into its specifics.
+---
+ src/service.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/service.c b/src/service.c
+index 66ab99d8..988928e7 100644
+--- a/src/service.c
++++ b/src/service.c
+@@ -2593,7 +2593,6 @@ static void append_properties(DBusMessageIter *dict, dbus_bool_t limited,
+ 	case CONNMAN_SERVICE_TYPE_UNKNOWN:
+ 	case CONNMAN_SERVICE_TYPE_SYSTEM:
+ 	case CONNMAN_SERVICE_TYPE_GPS:
+-	case CONNMAN_SERVICE_TYPE_VPN:
+ 	case CONNMAN_SERVICE_TYPE_P2P:
+ 		break;
+ 	case CONNMAN_SERVICE_TYPE_CELLULAR:
+@@ -2604,6 +2603,7 @@ static void append_properties(DBusMessageIter *dict, dbus_bool_t limited,
+ 		connman_dbus_dict_append_dict(dict, "Ethernet",
+ 						append_ethernet, service);
+ 		break;
++	case CONNMAN_SERVICE_TYPE_VPN:
+ 	case CONNMAN_SERVICE_TYPE_WIFI:
+ 	case CONNMAN_SERVICE_TYPE_ETHERNET:
+ 	case CONNMAN_SERVICE_TYPE_BLUETOOTH:
+-- 
+2.16.4
 
