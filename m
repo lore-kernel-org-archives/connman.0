@@ -1,55 +1,111 @@
 Received: from mail.nearlyone.de (mail.nearlyone.de [46.163.114.145])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC459A52
-	for <connman@lists.linux.dev>; Mon, 16 May 2022 06:22:36 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 52CA45D872;
-	Mon, 16 May 2022 08:14:39 +0200 (CEST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A50607A
+	for <connman@lists.linux.dev>; Mon, 16 May 2022 06:31:52 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 505D45D51C;
+	Mon, 16 May 2022 08:31:49 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=monom.org; s=dkim;
-	t=1652681680; h=from:subject:date:message-id:to:cc:mime-version:
-	 content-transfer-encoding; bh=f210X+/+menMVQLj0Gl1/NMxTWImDIIdPOQoISfWV6o=;
-	b=O7HpyYKdTAbAa2JmJRIz5aopf+AXDTYhfyxryAML9xKHuqcSOt0cy76alAt5mY58r/9C2u
-	JdUl0iQZEJuzlChxAHGzgueBvFlF8Cfe9bb3vMwuvpDmd7+lvi1JSZO9KDRkIeX28ZOLJz
-	AzWrTSTMuy2j7XNvwPeCWNOjDVmoFQSK7AMUEVIbtR4NoVyAmBtYv5qEcHQ2JsDxh1L9W8
-	9sJ1ApHxFr6bwgIaCJshVcOp1gKvayIsDG8HrC4hXYGJ9WMMHI/I/ykXWi414kaf6tSFCR
-	+K0grx3aCNlpgbWMTX7IX1JswcVyWTbZe82yZeYenuFBoJPeAS7jfneeTxaDSg==
+	t=1652682710; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 in-reply-to:references; bh=BnyNm7RIvxueTo1nLzl0qsWXc6opSi181vBcwpMOExs=;
+	b=rndmHn28WvtOY56sL+BC0GSFC4UaFvYo/RbI8ZMIYtR1OlPbKv3YwnCIeyats6NU0JKxmA
+	l3P5OJa2EUDJYSwEszsCKsRrpPtbNrJeoaTrm9s2pU/3pDY8us0g258o3U6Q0bKk727CxO
+	gAYkV0eY0/GaTpskud6YIKGGaVPYsOTgknqlJHGRL6Mc8JEqkbx3iZjsKcTjdR3SAX3v2L
+	uGy5fJbNoCAq72EOzFOGiHrXatXbOjcnpz+A1ZryBvLrYq86+k9WZFR7wTOtSflRVOOveF
+	jQiahJNg5+uKTogKgGYvP9NE3aVbHCVme23PejP3Z4mTxtfRi4J2u3RY4IB7bw==
+Date: Mon, 16 May 2022 08:31:48 +0200
 From: Daniel Wagner <wagi@monom.org>
-To: connman@lists.linux.dev
-Cc: Daniel Wagner <wagi@monom.org>
-Subject: [PATCH] doc: Add note SingleConnectedTechnology can't be used with VPN
-Date: Mon, 16 May 2022 08:14:36 +0200
-Message-Id: <20220516061436.5180-1-wagi@monom.org>
+To: Thomas Bartosik <Thomas.Bartosik@goeg.at>
+Cc: "connman@lists.linux.dev" <connman@lists.linux.dev>
+Subject: Re: Unable to establish openvpn connection under Debian [rp_filter
+ restored to 0, notifier disconnect underflow]
+Message-ID: <20220516063148.7paefesgwu3toa2v@beryllium.lan>
+References: <AM5PR0901MB1633AB6BB661EEADB165A51DF2E99@AM5PR0901MB1633.eurprd09.prod.outlook.com>
+ <20220414184519.7frygekryu5caiuc@beryllium.lan>
+ <AM5PR0901MB163329B615A92BFEED7F60A7F2F29@AM5PR0901MB1633.eurprd09.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <AM5PR0901MB163329B615A92BFEED7F60A7F2F29@AM5PR0901MB1633.eurprd09.prod.outlook.com>
 X-Last-TLS-Session-Version: TLSv1.3
 
-SingleConnectedTechnology can't be used with VPNs. VPNs rely on a
-transport which is from a different technology group.
+Hi Thomas,
 
-Reported by Thomas Bartosik.
----
- doc/connman.conf.5.in | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+On Tue, Apr 19, 2022 at 09:56:48AM +0000, Thomas Bartosik wrote:
+> Hi Daniel, thanks for answer!
+> tl;dr: Skip down to below the syslog output/snip, I found the error!
 
-diff --git a/doc/connman.conf.5.in b/doc/connman.conf.5.in
-index cb36e9fb2220..d80841182253 100644
---- a/doc/connman.conf.5.in
-+++ b/doc/connman.conf.5.in
-@@ -129,7 +129,8 @@ are in 'online' or 'ready' states, the newly connected service is
- the only one that will be kept connected. A service connected by the
- user will be used until going out of network coverage. With this
- setting enabled applications will notice more network breaks than
--normal. Default value is false.
-+normal. Note this options can't be used with VPNs.
-+Default value is false.
- .TP
- .BI TetheringTechnologies= technology\fR[,...]
- List of technologies that are allowed to enable tethering separated by ",".
--- 
-2.36.0
+Nice!
 
+> I'd like to prefer wired over wifi and only have one technology
+> connected and still be able to open a VPN. Is this possible? I'll
+> stick with "PreferredTechnologies=ethernet,wifi" for the time being
+> and see whether the problems come back.
+
+I can't remember all the details of the connection algorithm anymore,
+but the SingleConnectedTechnology option is currently incompatible with
+VPNs.
+
+> If that's not possible then please add some info in the man page that
+> using VPN with "SingleConnectedTechnology=true" is impossible.
+
+I just send out a patch which updates the man page.
+
+> I'd also vote for an error condition/log statement when a VPN connection
+> is started and this option is true as this can by definition not work
+> out, as every VPN needs two connections. Or don't count VPNs :-)
+
+I agree it makes sense to filter out VPN when
+SingleConnectedTechnology is used.
+
+> I have a few other problems/questions as well:
+> 
+> - connmanctl operates on (internal?) service names, not the human
+> readable ones. This pretty cumbersome/somewhat unexpected, and leads
+> to error messages that don't really guide the user to the correct way
+> of specifying a services. I guess the human readable IDs can be
+> ambiguous, but maybe try them and only error out when they really are
+> non-unique? The missing column titles in the "services" output also
+> make it hard to know what exactly <service> in commands (like
+> "connect" means). This is an example of an error message:
+> 
+> Error /net/connman/service/vpnname: Method "Connect" with signature "" on interface "net.connman.Service" doesn't exist
+
+connmanctl is not really user friendly indeed and I fear the tool needs
+a bit of a rewrite.
+
+> - The VPN server I connect to does not route public traffic, so I need
+>   my default route to stay as it is (in my LAN).
+>
+> After searching around a long time I managed to fix this by using
+> connmanctl's move-before command for my local LAN (before the VPN).
+>
+> Is there any better way to achieve this? (Did I not RTFM enough? I
+> know the manual states the order is important, that's why I tried it.)
+
+The order of the services defines the routing table, hence the
+move-before and move-after is the interface to change it.
+
+> Specifying "Networks=<only VPN networks>" in
+> /var/lib/connman-vpn/myvpnname.config did not change this. I would
+> have expected this to do exactly what I mean.
+
+Because there is no Networks entry defined for the config. I know that
+ConnMan lacks good documentation but we have at least all the config
+options listed in the man pages. So if it's not mentioned than it
+doesn't exists.
+
+> Connman is a great product as it's so lightweight. Configuration
+> however sometimes trips me up ;-)
+
+Thanks, unfortunately, there are only a few contributions and no one is
+willing to spend time or money to move this project really forward
+(fixing obvious bugs, fixing obvious shortcomings such as configuration,
+...). This means not will change unless someone steps up.
+
+Daniel
