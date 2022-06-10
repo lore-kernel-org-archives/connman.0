@@ -1,48 +1,48 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 687A0645
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAAD7646
 	for <connman@lists.linux.dev>; Fri, 10 Jun 2022 12:33:35 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id C69A8220EE
-	for <connman@lists.linux.dev>; Fri, 10 Jun 2022 12:33:33 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 35D981FDB0
+	for <connman@lists.linux.dev>; Fri, 10 Jun 2022 12:33:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1654864413; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	t=1654864414; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=woUxO+hKTQlmpABYGSG1bUaLuU5dvbtRcaQQokZLoZ0=;
-	b=l9jyd7MzXdx9B2qJ5K/bMyMfRf+G5w8CbSKOrxHIX+E0i/nu85yL05LeEs/IbnDyD2Vswe
-	cZHntnQXP0pkW5nMvFg69Fs2U17cLxjhk2Lr+N9qAKWKfsVnHHr8HKhSR4XLcscqYD6ObT
-	UDgCyGkib1zRCJzfyqsIlhRUYsufYiw=
+	bh=F02NZLWKIWDvn11q5MfU9tZl7t37YCQBr1HS3VP+00A=;
+	b=juXbUPIM4BfBjKJtFlLuegNLJtBNCykuLsMAk1yWyMnW4AEU2B0rHMNq/wtiGvGnnYfXik
+	L7r9r1NJAPdNjgjYfRalpAtkXM4B3egomq2v70ms/Uvvaz2iKusSNMy07VzWarp+rb9Tp6
+	TPQa6quQ6z1zg6gps+u4CsHqwbrCPT4=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1654864413;
+	s=susede2_ed25519; t=1654864414;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=woUxO+hKTQlmpABYGSG1bUaLuU5dvbtRcaQQokZLoZ0=;
-	b=pK0OPknRh/66/tuESx+yjOWStLsR1Bv9F23VNjCCndvN1K1cU3JeU0cCwqe1/jzaMXJqG9
-	ONSkSeWpY/r17RCg==
+	bh=F02NZLWKIWDvn11q5MfU9tZl7t37YCQBr1HS3VP+00A=;
+	b=Da0HWafzJ17xyU+OvKezYDSaGqntqOg4TRQw8jDEH+DXHmTB5ijDYrYpTt7IEsXU24CK8J
+	d55AG27XQ4yk4SDw==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id BF4FC139ED
-	for <connman@lists.linux.dev>; Fri, 10 Jun 2022 12:33:33 +0000 (UTC)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 2F1F5139ED
+	for <connman@lists.linux.dev>; Fri, 10 Jun 2022 12:33:34 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
 	by imap2.suse-dmz.suse.de with ESMTPSA
-	id 5FmwLh06o2J9MgAAMHmgww
+	id ZaN8Cx46o2KAMgAAMHmgww
 	(envelope-from <mgerstner@suse.de>)
-	for <connman@lists.linux.dev>; Fri, 10 Jun 2022 12:33:33 +0000
+	for <connman@lists.linux.dev>; Fri, 10 Jun 2022 12:33:34 +0000
 From: Matthias Gerstner <matthias.gerstner@suse.de>
 To: connman@lists.linux.dev
-Subject: [PATCH 05/16] dnsproxy: refactor parse_response()
-Date: Fri, 10 Jun 2022 14:33:12 +0200
-Message-Id: <20220610123323.8974-6-matthias.gerstner@suse.de>
+Subject: [PATCH 06/16] dnsproxy: refactoring of cache_update()
+Date: Fri, 10 Jun 2022 14:33:13 +0200
+Message-Id: <20220610123323.8974-7-matthias.gerstner@suse.de>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220610123323.8974-1-matthias.gerstner@suse.de>
 References: <20220610123323.8974-1-matthias.gerstner@suse.de>
@@ -54,247 +54,289 @@ List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-- add a descriptive comment to make clear what the function does
-- use const pointers and size_t where possible
 - move stack variables into more localized scopes
-- use named constants over literal numbers where applicable
+- use const parameters and variables where possible
+- use named constants over literal numbers
+- simplify some parsing details by using byte order macros or adding
+  some comments to make the intentions clearer
 ---
- src/dnsproxy.c | 123 +++++++++++++++++++++++++------------------------
- 1 file changed, 63 insertions(+), 60 deletions(-)
+ src/dnsproxy.c | 150 +++++++++++++++++++++++--------------------------
+ 1 file changed, 70 insertions(+), 80 deletions(-)
 
 diff --git a/src/dnsproxy.c b/src/dnsproxy.c
-index bceedfbc7..bdd09f7ee 100644
+index bdd09f7ee..209120add 100644
 --- a/src/dnsproxy.c
 +++ b/src/dnsproxy.c
-@@ -911,7 +911,7 @@ static int get_name(int counter,
+@@ -226,6 +226,7 @@ struct domain_rr {
  
- static int parse_rr(const unsigned char *buf, const unsigned char *start,
- 			const unsigned char *max,
--			unsigned char *response, unsigned int *response_size,
-+			unsigned char *response, size_t *response_size,
- 			uint16_t *type, uint16_t *class, int *ttl, uint16_t *rdlen,
- 			const unsigned char **end,
- 			char *name, size_t max_name)
-@@ -972,55 +972,67 @@ static bool check_alias(GSList *aliases, const char *name)
- 	return false;
+ #define DNS_HEADER_SIZE sizeof(struct domain_hdr)
+ #define DNS_HEADER_TCP_EXTRA_BYTES 2
++#define DNS_TCP_HEADER_SIZE DNS_HEADER_SIZE + DNS_HEADER_TCP_EXTRA_BYTES
+ 
+ enum dns_type {
+ 	/* IPv4 address 32-bit */
+@@ -1357,30 +1358,18 @@ static int reply_query_type(const unsigned char *msg, int len)
+ 	return type;
  }
  
--static int parse_response(unsigned char *buf, int buflen,
--			char *question, int qlen,
+-static int cache_update(struct server_data *srv, unsigned char *msg,
+-			unsigned int msg_len)
 +/*
-+ * Parses the DNS response packet found in 'buf' consisting of 'buflen' bytes.
-+ *
-+ * The parsed question label, response type and class, ttl and number of
-+ * answer sections are output parameters. The response output buffer will
-+ * receive all matching resource records to be cached.
-+ *
-+ * Return value is < 0 on error (negative errno) or zero on success.
++ * update the cache with the DNS reply found in msg
 + */
-+static int parse_response(const unsigned char *buf, size_t buflen,
-+			char *question, size_t qlen,
- 			uint16_t *type, uint16_t *class, int *ttl,
--			unsigned char *response, unsigned int *response_len,
-+			unsigned char *response, size_t *response_len,
- 			uint16_t *answers)
++static int cache_update(struct server_data *srv, const char *msg, size_t msg_len)
  {
--	struct domain_hdr *hdr = (void *) buf;
+-	size_t offset = protocol_offset(srv->protocol);
+-	int err, qlen, ttl = 0;
+-	uint16_t answers = 0, type = 0, class = 0;
+-	struct domain_hdr *hdr = (void *)(msg + offset);
 -	struct domain_question *q;
--	const unsigned char *ptr;
--	uint16_t qdcount = ntohs(hdr->qdcount);
--	uint16_t ancount = ntohs(hdr->ancount);
--	int err, i;
--	uint16_t qtype, qclass;
--	const unsigned char *next = NULL;
--	unsigned int maxlen = *response_len;
--	GSList *aliases = NULL, *list;
--	char name[NS_MAXDNAME + 1];
+-	struct cache_entry *entry;
+-	struct cache_data *data;
+-	char question[NS_MAXDNAME + 1];
+-	unsigned char response[NS_MAXDNAME + 1];
+-	unsigned char *ptr;
+-	size_t rsplen;
+-	bool new_entry = true;
+-	time_t current_time;
 -
--	if (buflen < 12)
-+	const size_t maxlen = *response_len;
-+	*response_len = 0;
-+	*answers = 0;
-+
-+	if (buflen < DNS_HEADER_SIZE)
- 		return -EINVAL;
- 
--	debug("qr %d qdcount %d", hdr->qr, qdcount);
-+	struct domain_hdr *hdr = (void *) buf;
- 
--	/* We currently only cache responses where question count is 1 */
--	if (hdr->qr != 1 || qdcount != 1)
--		return -EINVAL;
-+	{
-+		const uint16_t qdcount = ntohs(hdr->qdcount);
-+		debug("qr %d qdcount %d", hdr->qr, qdcount);
- 
--	ptr = buf + sizeof(struct domain_hdr);
-+		/* We currently only cache responses where question count is 1 */
-+		if (hdr->qr != 1 || qdcount != 1)
-+			return -EINVAL;
-+	}
- 
--	strncpy(question, (char *) ptr, qlen);
-+	const unsigned char *ptr = buf + DNS_HEADER_SIZE;
-+	const unsigned char *eptr = buf + buflen;
-+
-+	/*
-+	 * NOTE: currently the *caller* ensures that the `question' buffer is
-+	 * always zero terminated.
-+	 */
-+	strncpy(question, (const char *) ptr, MIN(qlen, buflen - DNS_HEADER_SIZE));
- 	qlen = strlen(question);
- 	ptr += qlen + 1; /* skip \0 */
- 
--	q = (void *) ptr;
--	qtype = ntohs(q->type);
-+	if ((eptr - ptr) < sizeof(struct domain_question))
-+		return -EINVAL;
-+
-+	const struct domain_question *q = (void *) ptr;
-+	const uint16_t qtype = ntohs(q->type);
- 
- 	/* We cache only A and AAAA records */
--	if (qtype != 1 && qtype != 28)
-+	if (qtype != DNS_TYPE_A && qtype != DNS_TYPE_AAAA)
- 		return -ENOMSG;
- 
--	qclass = ntohs(q->class);
-+	ptr += sizeof(struct domain_question); /* advance to answers section */
- 
--	ptr += 2 + 2; /* ptr points now to answers */
--
--	err = -ENOMSG;
--	*response_len = 0;
--	*answers = 0;
--
--	memset(name, 0, sizeof(name));
-+	int err = -ENOMSG;
-+	const uint16_t ancount = ntohs(hdr->ancount);
-+	const uint16_t qclass = ntohs(q->class);
-+	char name[NS_MAXDNAME + 1] = {0};
-+	GSList *aliases = NULL;
- 
- 	/*
- 	 * We have a bunch of answers (like A, AAAA, CNAME etc) to
-@@ -1028,7 +1040,7 @@ static int parse_response(unsigned char *buf, int buflen,
- 	 * resource records. Only A and AAAA records are cached, all
- 	 * the other records in answers are skipped.
- 	 */
--	for (i = 0; i < ancount; i++) {
-+	for (uint16_t i = 0; i < ancount; i++) {
- 		/*
- 		 * Get one address at a time to this buffer.
- 		 * The max size of the answer is
-@@ -1036,24 +1048,27 @@ static int parse_response(unsigned char *buf, int buflen,
- 		 *   4 (ttl) + 2 (rdlen) + addr (16 or 4) = 28
- 		 * for A or AAAA record.
- 		 * For CNAME the size can be bigger.
-+		 * TODO: why are we using the MAXCDNAME constant as buffer
-+		 * size then?
- 		 */
--		unsigned char rsp[NS_MAXCDNAME];
--		unsigned int rsp_len = sizeof(rsp) - 1;
--		int ret;
-+		unsigned char rsp[NS_MAXCDNAME] = {0};
-+		size_t rsp_len = sizeof(rsp) - 1;
-+		const unsigned char *next = NULL;
- 		uint16_t rdlen;
- 
--		memset(rsp, 0, sizeof(rsp));
--
--		ret = parse_rr(buf, ptr, buf + buflen, rsp, &rsp_len,
-+		int ret = parse_rr(buf, ptr, buf + buflen, rsp, &rsp_len,
- 			type, class, ttl, &rdlen, &next, name,
- 			sizeof(name) - 1);
- 		if (ret != 0) {
- 			err = ret;
--			goto out;
-+			break;
- 		}
- 
-+		/* set pointer to the next RR for the next iteration */
-+		ptr = next;
-+
- 		/*
--		 * Now rsp contains compressed or uncompressed resource
-+		 * Now rsp contains a compressed or an uncompressed resource
- 		 * record. Next we check if this record answers the question.
- 		 * The name var contains the uncompressed label.
- 		 * One tricky bit is the CNAME records as they alias
-@@ -1065,8 +1080,6 @@ static int parse_response(unsigned char *buf, int buflen,
- 		 * looking for.
- 		 */
- 		if (*class != qclass) {
--			ptr = next;
--			next = NULL;
- 			continue;
- 		}
- 
-@@ -1091,7 +1104,7 @@ static int parse_response(unsigned char *buf, int buflen,
- 		 * address of ipv6.l.google.com. For caching purposes this
- 		 * should not cause any issues.
- 		 */
--		if (*type == 5 && strncmp(question, name, qlen) == 0) {
-+		if (*type == DNS_TYPE_CNAME && strncmp(question, name, qlen) == 0) {
- 			/*
- 			 * So now the alias answered the question. This is
- 			 * not very useful from caching point of view as
-@@ -1115,8 +1128,6 @@ static int parse_response(unsigned char *buf, int buflen,
- 					name, sizeof(name) - 1, &name_len);
- 			if (ret != 0) {
- 				/* just ignore the error at this point */
--				ptr = next;
--				next = NULL;
- 				continue;
- 			}
- 
-@@ -1128,12 +1139,8 @@ static int parse_response(unsigned char *buf, int buflen,
- 			 */
- 			aliases = g_slist_prepend(aliases, g_strdup(name));
- 
--			ptr = next;
--			next = NULL;
- 			continue;
--		}
--
--		if (*type == qtype) {
-+		} else if (*type == qtype) {
- 			/*
- 			 * We found correct type (A or AAAA)
- 			 */
-@@ -1150,7 +1157,7 @@ static int parse_response(unsigned char *buf, int buflen,
- 				 */
- 				if (*response_len + rsp_len > maxlen) {
- 					err = -ENOBUFS;
--					goto out;
-+					break;
- 				}
- 				memcpy(response + *response_len, rsp, rsp_len);
- 				*response_len += rsp_len;
-@@ -1158,13 +1165,9 @@ static int parse_response(unsigned char *buf, int buflen,
- 				err = 0;
- 			}
- 		}
--
--		ptr = next;
--		next = NULL;
+ 	if (cache_size >= MAX_CACHE_SIZE) {
+ 		cache_cleanup();
+ 		if (cache_size >= MAX_CACHE_SIZE)
+ 			return 0;
  	}
  
--out:
--	for (list = aliases; list; list = list->next)
-+	for (GSList *list = aliases; list; list = list->next)
- 		g_free(list->data);
- 	g_slist_free(aliases);
+-	current_time = time(NULL);
++	const time_t current_time = time(NULL);
  
-@@ -1367,7 +1370,7 @@ static int cache_update(struct server_data *srv, unsigned char *msg,
- 	char question[NS_MAXDNAME + 1];
- 	unsigned char response[NS_MAXDNAME + 1];
- 	unsigned char *ptr;
--	unsigned int rsplen;
-+	size_t rsplen;
- 	bool new_entry = true;
- 	time_t current_time;
+ 	/* don't do a cache refresh more than twice a minute */
+ 	if (next_refresh < current_time) {
+@@ -1388,6 +1377,9 @@ static int cache_update(struct server_data *srv, unsigned char *msg,
+ 		next_refresh = current_time + 30;
+ 	}
  
++	const size_t offset = protocol_offset(srv->protocol);
++	struct domain_hdr *hdr = (void *)(msg + offset);
++
+ 	debug("offset %zd hdr %p msg %p rcode %d", offset, hdr, msg, hdr->rcode);
+ 
+ 	/* Continue only if response code is 0 (=ok) */
+@@ -1397,10 +1389,13 @@ static int cache_update(struct server_data *srv, unsigned char *msg,
+ 	if (!cache)
+ 		create_cache();
+ 
+-	rsplen = sizeof(response) - 1;
++	unsigned char response[NS_MAXDNAME + 1];
++	size_t rsplen = sizeof(response) - 1;
++	char question[NS_MAXDNAME + 1];
+ 	question[sizeof(question) - 1] = '\0';
+-
+-	err = parse_response(msg + offset, msg_len - offset,
++	int ttl = 0;
++	uint16_t answers = 0, type = 0, class = 0;
++	const int err = parse_response(msg + offset, msg_len - offset,
+ 				question, sizeof(question) - 1,
+ 				&type, &class, &ttl,
+ 				response, &rsplen, &answers);
+@@ -1412,26 +1407,29 @@ static int cache_update(struct server_data *srv, unsigned char *msg,
+ 	 */
+ 	if ((err == -ENOMSG || err == -ENOBUFS) &&
+ 			reply_query_type(msg + offset,
+-					msg_len - offset) == 28) {
+-		entry = g_hash_table_lookup(cache, question);
++					msg_len - offset) == DNS_TYPE_AAAA) {
++		struct cache_entry *entry = g_hash_table_lookup(cache, question);
+ 		if (entry && entry->ipv4 && !entry->ipv6) {
+-			int cache_offset = 0;
++			struct cache_data *data = g_try_new(struct cache_data, 1);
+ 
+-			data = g_try_new(struct cache_data, 1);
+ 			if (!data)
+ 				return -ENOMEM;
+ 			data->inserted = entry->ipv4->inserted;
+ 			data->type = type;
+ 			data->answers = ntohs(hdr->ancount);
+ 			data->timeout = entry->ipv4->timeout;
+-			if (srv->protocol == IPPROTO_UDP)
+-				cache_offset = 2;
+-			data->data_len = msg_len + cache_offset;
+-			data->data = ptr = g_malloc(data->data_len);
+-			ptr[0] = (data->data_len - 2) / 256;
+-			ptr[1] = (data->data_len - 2) - ptr[0] * 256;
+-			if (srv->protocol == IPPROTO_UDP)
+-				ptr += 2;
++			data->data_len = msg_len +
++				(offset ? 0 : DNS_HEADER_TCP_EXTRA_BYTES);
++			data->data = g_malloc(data->data_len);
++			unsigned char *ptr = data->data;
++			if (srv->protocol == IPPROTO_UDP) {
++				/* add the two bytes length header also for
++				 * UDP responses */
++				uint16_t *lenhdr = (void*)ptr;
++				*lenhdr = htons(data->data_len -
++						DNS_HEADER_TCP_EXTRA_BYTES);
++				ptr += DNS_HEADER_TCP_EXTRA_BYTES;
++			}
+ 			data->valid_until = entry->ipv4->valid_until;
+ 			data->cache_until = entry->ipv4->cache_until;
+ 			memcpy(ptr, msg, msg_len);
+@@ -1440,9 +1438,7 @@ static int cache_update(struct server_data *srv, unsigned char *msg,
+ 			 * we will get a "hit" when we serve the response
+ 			 * out of the cache
+ 			 */
+-			entry->hits--;
+-			if (entry->hits < 0)
+-				entry->hits = 0;
++			entry->hits = entry->hits ? entry->hits - 1 : 0;
+ 			return 0;
+ 		}
+ 	}
+@@ -1450,8 +1446,6 @@ static int cache_update(struct server_data *srv, unsigned char *msg,
+ 	if (err < 0 || ttl == 0)
+ 		return 0;
+ 
+-	qlen = strlen(question);
+-
+ 	/*
+ 	 * If the cache contains already data, check if the
+ 	 * type of the cached data is the same and do not add
+@@ -1459,7 +1453,11 @@ static int cache_update(struct server_data *srv, unsigned char *msg,
+ 	 * This is needed so that we can cache both A and AAAA
+ 	 * records for the same name.
+ 	 */
+-	entry = g_hash_table_lookup(cache, question);
++
++	struct cache_entry *entry = g_hash_table_lookup(cache, question);
++	struct cache_data *data = NULL;
++	const bool new_entry = !entry;
++
+ 	if (!entry) {
+ 		entry = g_try_new(struct cache_entry, 1);
+ 		if (!entry)
+@@ -1476,37 +1474,28 @@ static int cache_update(struct server_data *srv, unsigned char *msg,
+ 		entry->want_refresh = false;
+ 		entry->hits = 0;
+ 
+-		if (type == 1)
+-			entry->ipv4 = data;
+-		else
+-			entry->ipv6 = data;
+ 	} else {
+-		if (type == 1 && entry->ipv4)
++		if (type == DNS_TYPE_A && entry->ipv4)
+ 			return 0;
+-
+-		if (type == 28 && entry->ipv6)
++		else if (type == DNS_TYPE_AAAA && entry->ipv6)
+ 			return 0;
+ 
+ 		data = g_try_new(struct cache_data, 1);
+ 		if (!data)
+ 			return -ENOMEM;
+ 
+-		if (type == 1)
+-			entry->ipv4 = data;
+-		else
+-			entry->ipv6 = data;
+-
+ 		/*
+ 		 * compensate for the hit we'll get for serving
+ 		 * the response out of the cache
+ 		 */
+-		entry->hits--;
+-		if (entry->hits < 0)
+-			entry->hits = 0;
+-
+-		new_entry = false;
++		entry->hits = entry->hits ? entry->hits - 1 : 0;
+ 	}
+ 
++	if (type == DNS_TYPE_A)
++		entry->ipv4 = data;
++	else
++		entry->ipv6 = data;
++
+ 	if (ttl < MIN_CACHE_TTL)
+ 		ttl = MIN_CACHE_TTL;
+ 
+@@ -1514,14 +1503,21 @@ static int cache_update(struct server_data *srv, unsigned char *msg,
+ 	data->type = type;
+ 	data->answers = answers;
+ 	data->timeout = ttl;
++	data->valid_until = current_time + ttl;
++
++	const size_t qlen = strlen(question);
+ 	/*
+-	 * The "2" in start of the length is the TCP offset. We allocate it
+-	 * here even for UDP packet because it simplifies the sending
+-	 * of cached packet.
++	 * We allocate the extra TCP header bytes here even for UDP packet
++	 * because it simplifies the sending of cached packet.
+ 	 */
+-	data->data_len = 2 + 12 + qlen + 1 + 2 + 2 + rsplen;
+-	data->data = ptr = g_malloc(data->data_len);
+-	data->valid_until = current_time + ttl;
++	data->data_len =  DNS_TCP_HEADER_SIZE + qlen + 1 + 2 + 2 + rsplen;
++	data->data = g_malloc(data->data_len);
++	if (!data->data) {
++		g_free(entry->key);
++		g_free(data);
++		g_free(entry);
++		return -ENOMEM;
++	}
+ 
+ 	/*
+ 	 * Restrict the cached DNS record TTL to some sane value
+@@ -1532,36 +1528,30 @@ static int cache_update(struct server_data *srv, unsigned char *msg,
+ 
+ 	data->cache_until = round_down_ttl(current_time + ttl, ttl);
+ 
+-	if (!data->data) {
+-		g_free(entry->key);
+-		g_free(data);
+-		g_free(entry);
+-		return -ENOMEM;
+-	}
++	unsigned char *ptr = data->data;
+ 
+ 	/*
+ 	 * We cache the two extra bytes at the start of the message
+-	 * in a TCP packet. When sending UDP packet, we skip the first
++	 * in a TCP packet. When sending UDP packet, we pad the first
+ 	 * two bytes. This way we do not need to know the format
+ 	 * (UDP/TCP) of the cached message.
+ 	 */
+-	if (srv->protocol == IPPROTO_UDP)
+-		memcpy(ptr + 2, msg, offset + 12);
+-	else
+-		memcpy(ptr, msg, offset + 12);
++	uint16_t *lenhdr = (void*)ptr;
++	*lenhdr = htons(data->data_len - DNS_HEADER_TCP_EXTRA_BYTES);
++	ptr += DNS_HEADER_TCP_EXTRA_BYTES;
+ 
+-	ptr[0] = (data->data_len - 2) / 256;
+-	ptr[1] = (data->data_len - 2) - ptr[0] * 256;
+-	if (srv->protocol == IPPROTO_UDP)
+-		ptr += 2;
++	memcpy(ptr, hdr, DNS_HEADER_SIZE);
++	ptr += DNS_HEADER_SIZE;
+ 
+-	memcpy(ptr + offset + 12, question, qlen + 1); /* copy also the \0 */
++	memcpy(ptr, question, qlen + 1); /* copy also the \0 */
++	ptr += qlen + 1;
+ 
+-	q = (void *) (ptr + offset + 12 + qlen + 1);
++	struct domain_question *q = (void *)ptr;
+ 	q->type = htons(type);
+ 	q->class = htons(class);
+-	memcpy(ptr + offset + 12 + qlen + 1 + sizeof(struct domain_question),
+-		response, rsplen);
++	ptr += sizeof(struct domain_question);
++
++	memcpy(ptr, response, rsplen);
+ 
+ 	if (new_entry) {
+ 		g_hash_table_replace(cache, entry->key, entry);
 -- 
 2.35.1
 
