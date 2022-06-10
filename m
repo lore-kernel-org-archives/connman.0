@@ -1,48 +1,48 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2891F641
-	for <connman@lists.linux.dev>; Fri, 10 Jun 2022 12:33:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69B1E7A
+	for <connman@lists.linux.dev>; Fri, 10 Jun 2022 12:33:39 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 8674121FD6
-	for <connman@lists.linux.dev>; Fri, 10 Jun 2022 12:33:32 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id DFDEC1FD3A
+	for <connman@lists.linux.dev>; Fri, 10 Jun 2022 12:33:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1654864412; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	t=1654864417; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=gnyHROXHv9pJkFpMjVWaDOY0ffQVGLvPVFb8Y3N1Oms=;
-	b=sFUSPftc71zkHk5gzYbnXNYPN8S26MQUNBJ+u+Trw79pZbDJRUjvO0ZSL1ikVeccDnFrJz
-	eZwM7aYpoOVow1n8Zx7TCGhVmioP4X2zo6YiVnyLEub8KqvZKMDmyKfrovsi/Md2Y78ZRd
-	EGe82Y3InSh3Qtx2mWNG66yUxsq1YsA=
+	bh=EbR2YI0Cu3qVV77sub9X6T5a2TkqirxOOG7WevZl12w=;
+	b=ZJNXFJZLJ43CBlr5SHvzM/jcD73/Y0Zqf+57jrdfpTyP4WQsFCOSj5jsm9dczdhpaPUrda
+	BOIVxovs0EDwEyJvm7gtPwgY4N217yJzcWvXyBbcN28xzbxYaFFdewkf41cYrvKcwAq749
+	4JL75xCZXA8nW+ZvuWhBvg/RSu3TKLU=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1654864412;
+	s=susede2_ed25519; t=1654864417;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=gnyHROXHv9pJkFpMjVWaDOY0ffQVGLvPVFb8Y3N1Oms=;
-	b=27jfWNBknaRsecW/qEiozZrerY6aXA5pr7Vnmfhcc0wUWTNCMf2yXipsQmpbIBiIGTQH89
-	yvn7BpXIgy/LmXCg==
+	bh=EbR2YI0Cu3qVV77sub9X6T5a2TkqirxOOG7WevZl12w=;
+	b=FMt09vmmloJLn/V6Pa8hV3hCqThRpMdMf2S7Cs1K7EBu123PrjHsUKmcL527lvRnTQmrpd
+	WwmCNtA0RDOD2OCA==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 7CFD9139ED
-	for <connman@lists.linux.dev>; Fri, 10 Jun 2022 12:33:32 +0000 (UTC)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id D963B139ED
+	for <connman@lists.linux.dev>; Fri, 10 Jun 2022 12:33:37 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
 	by imap2.suse-dmz.suse.de with ESMTPSA
-	id Z/t/Hhw6o2J1MgAAMHmgww
+	id 0EERNSE6o2KbMgAAMHmgww
 	(envelope-from <mgerstner@suse.de>)
-	for <connman@lists.linux.dev>; Fri, 10 Jun 2022 12:33:32 +0000
+	for <connman@lists.linux.dev>; Fri, 10 Jun 2022 12:33:37 +0000
 From: Matthias Gerstner <matthias.gerstner@suse.de>
 To: connman@lists.linux.dev
-Subject: [PATCH 02/16] autoconf: require C99 compiler and set C99 mode
-Date: Fri, 10 Jun 2022 14:33:09 +0200
-Message-Id: <20220610123323.8974-3-matthias.gerstner@suse.de>
+Subject: [PATCH 15/16] dnsproxy: add my copyright statement covering the larger refactoring changes
+Date: Fri, 10 Jun 2022 14:33:22 +0200
+Message-Id: <20220610123323.8974-16-matthias.gerstner@suse.de>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220610123323.8974-1-matthias.gerstner@suse.de>
 References: <20220610123323.8974-1-matthias.gerstner@suse.de>
@@ -54,25 +54,22 @@ List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-For refactoring the dnsproxy codebase using C99 language features will
-come in handy (mostly for using more localized variable declarations).
 ---
- configure.ac | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ src/dnsproxy.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/configure.ac b/configure.ac
-index a573cefd7..ea7a2facd 100644
---- a/configure.ac
-+++ b/configure.ac
-@@ -22,7 +22,7 @@ AC_SUBST(abs_top_builddir)
- AC_LANG_C
- AC_USE_SYSTEM_EXTENSIONS
- 
--AC_PROG_CC
-+AC_PROG_CC_C99
- AM_PROG_CC_C_O
- AC_PROG_CC_PIE
- AC_PROG_INSTALL
+diff --git a/src/dnsproxy.c b/src/dnsproxy.c
+index e3f768da8..1f873eeec 100644
+--- a/src/dnsproxy.c
++++ b/src/dnsproxy.c
+@@ -3,6 +3,7 @@
+  *  Connection Manager
+  *
+  *  Copyright (C) 2007-2014  Intel Corporation. All rights reserved.
++ *  Copyright (C) 2022 Matthias Gerstner of SUSE. All rights reserved.
+  *
+  *  This program is free software; you can redistribute it and/or modify
+  *  it under the terms of the GNU General Public License version 2 as
 -- 
 2.35.1
 
