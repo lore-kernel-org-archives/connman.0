@@ -1,50 +1,48 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8343D636
-	for <connman@lists.linux.dev>; Fri, 10 Jun 2022 12:26:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0838F636
+	for <connman@lists.linux.dev>; Fri, 10 Jun 2022 12:29:00 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 357431FD3A;
-	Fri, 10 Jun 2022 12:26:10 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 62A49220EE;
+	Fri, 10 Jun 2022 12:28:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1654863970; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1654864133; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=ieTEJ/i+1fp3mAHWboebFQTh1XCiCcl7KKglab8Areo=;
-	b=bl6C8L8pLWeHBN0UJ6uppqsg7szxJoYsW5K2UHD+BMxsPKbEVZYFWW+H++B/ryWnZLcEnu
-	ivf7ZFBna8JgdkfImWHMEbJPd44UnAkTVWX6cJBw89GpZa3o9qOdy7BAf1GSxcpEp/bdP6
-	wvpwxjmmU+YArxOn321hdlpve115AMw=
+	bh=DLp/BGWoEmDKxBUfGRNNp7qXkO19ZdEALsoYv2ilp20=;
+	b=BAqlTyqo7qAWqbFFI1UgEXYI96gIaj1ZNEqzMty/VfQCOnK0rhL46pS8mesfOHm9TO6ovq
+	xafI5oVp9L8mNUoNwnvwK4M7MwgBjwUUxsKhYEUVfCD0lFV7CricoudiK1xRuM/4YmgXn7
+	vW4LOVA7AreuOS5aWc4EA72RKHdmebY=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1654863970;
+	s=susede2_ed25519; t=1654864133;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=ieTEJ/i+1fp3mAHWboebFQTh1XCiCcl7KKglab8Areo=;
-	b=/uFFSUa+jXzTl2eFbj1awT5soASQ96Yu4hpgHnT9GoCiT0gPrU4Ex9MsK0uB9vMi7wxcqu
-	+2QA5MRSBCCkOOAQ==
+	bh=DLp/BGWoEmDKxBUfGRNNp7qXkO19ZdEALsoYv2ilp20=;
+	b=gGKyWG5wOtrrlwx9dkBbJRS4L5w4gJw0ScJVXQXiRcRUuzEYCXC0HoraEB6gEjZ59lwLzW
+	8G85sVwjjmjqkdCw==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 2E322139ED;
-	Fri, 10 Jun 2022 12:26:10 +0000 (UTC)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 5AFFB139ED;
+	Fri, 10 Jun 2022 12:28:53 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
 	by imap2.suse-dmz.suse.de with ESMTPSA
-	id UoE7C2I4o2LoLgAAMHmgww
-	(envelope-from <matthias.gerstner@suse.de>); Fri, 10 Jun 2022 12:26:10 +0000
-Date: Fri, 10 Jun 2022 14:26:09 +0200
+	id TwMyFgU5o2ITMAAAMHmgww
+	(envelope-from <matthias.gerstner@suse.de>); Fri, 10 Jun 2022 12:28:53 +0000
+Date: Fri, 10 Jun 2022 14:28:53 +0200
 From: Matthias Gerstner <matthias.gerstner@suse.de>
 To: Daniel Wagner <wagi@monom.org>
 Cc: connman@lists.linux.dev
-Subject: Re: [PATCH 03/12] dnsproxy: refactoring of update_cached_ttl() and
- append_data()
-Message-ID: <YqM4YXG2KSWlIKj2@kasco.suse.de>
+Subject: Re: dnsproxy: first round of refactoring, TCP bugfix
+Message-ID: <YqM5Ba4onOngveiT@kasco.suse.de>
 References: <20220419103501.30553-1-matthias.gerstner@suse.de>
- <20220419103501.30553-4-matthias.gerstner@suse.de>
- <20220525064509.6oohjixx3laz2plg@beryllium.lan>
+ <20220525070110.xx3pfx6fo3mdfhsy@beryllium.lan>
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
@@ -52,71 +50,67 @@ List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="QnnOdm05loGF0qkV"
+	protocol="application/pgp-signature"; boundary="C60BxSZ7cVEeMpAl"
 Content-Disposition: inline
-In-Reply-To: <20220525064509.6oohjixx3laz2plg@beryllium.lan>
+In-Reply-To: <20220525070110.xx3pfx6fo3mdfhsy@beryllium.lan>
 
 
---QnnOdm05loGF0qkV
-Content-Type: text/plain; charset=us-ascii
+--C60BxSZ7cVEeMpAl
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
 Hi Daniel,
 
-On Wed, May 25, 2022 at 08:45:09AM +0200, Daniel Wagner wrote:
-> On Tue, Apr 19, 2022 at 12:34:52PM +0200, Matthias Gerstner wrote:
-> > +	ptr +=3D DNS_HEADER_SIZE;
-> > +	len -=3D DNS_HEADER_SIZE;
+On Wed, May 25, 2022 at 09:01:46AM +0200, Daniel Wagner wrote:
+> Though we need set the C standard to C99 I suppose:
 >=20
-> here the  'sizeof(struct ...)' is hidden in the define
 >=20
-> > +
-> > +	if (len < sizeof(struct domain_question) + 1)
-> > +		return;
-> > =20
-> > -	/* skip the query, which is a name and 2 16 bit words */
-> > -	l =3D dns_name_length(c);
-> > -	c +=3D l;
-> > -	len -=3D l;
-> > -	c +=3D 4;
-> > -	len -=3D 4;
-> > +	/* skip the query, which is a name and a struct domain_question */
-> > +	size_t name_len =3D dns_name_length(ptr);
-> > +
-> > +	ptr +=3D name_len + sizeof(struct domain_question);
->=20
-> and here we have the sizeof(struct ...). Personally I prefer the later
-> over the former because I don't have to lookup what the define is
-> doing. But then I do understand that it a good name of a define helps to
-> read. So just pick one version of it.
+> src/dnsproxy.c: In function =E2=80=98refresh_dns_entry=E2=80=99:
+> src/dnsproxy.c:394:9: error: ISO C90 forbids mixed declarations and code =
+[-Werror=3Ddeclaration-after-statement]
+>   394 |         int age =3D 1;
+>       |         ^~~
 
-I mostly wanted the define because of the frequently occuring and
-complex `sizeof(domain_hdr)` calculations. For the sake of unity I will
-add a few additional defines for the other sizeof() occurences.
+I will switch to AC_PROG_CC_C99 in autoconf, hopefully that is enough.
+
+> and my compiler complained about a few things:
+>=20
+> src/dnsproxy.c:410:25: error: comparison of integer expressions of differ=
+ent signedness: =E2=80=98size_t=E2=80=99 {aka =E2=80=98long unsigned int=E2=
+=80=99} and =E2=80=98int=E2=80=99 [-Werror=3Dsign-compare]
+>   410 |         if (entry->hits > age)
+
+I used a slightly older GCC for the patches, the next round will have
+them fixed, hopefully.
+
+> BTW, since this contribution is major I would suggest you add your
+> copyright statement to the file as well.
+
+Will do, although it feels a bit weird to me ;-)
 
 Cheers
 
 Matthias
 
---QnnOdm05loGF0qkV
+--C60BxSZ7cVEeMpAl
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEE82oG1A8ab1eESZdjFMQFyXGSNVMFAmKjOGEACgkQFMQFyXGS
-NVPVKg//YHbL8RfphXiXdEWoqqEiILlFSq61LnUBODy0dyAudst2sOxM3SdxmHmS
-z8IVMfgvOSFgj27YFXynS6zhEX6BdlPObaW2OTjg+Ys3ZVy/r055WbQYjaFHXV/5
-e2RyeEbbXvvkdwZrnxnHrncKJtNmU4NiytL/FVyCeIDjaSODhWL+gxCHZfQZlJoT
-WYfIpkQ2q3XJBiZRTRawLlDiLqpJntTmc7CVzMGCtn6RIwN9qELNTR5q2Dun5eM4
-etdJTUl/Fxm02yl05P839/7TuYnOXrKjSH0bZe+mzGmxgbBtSL3esPRhQ4A5lou2
-MEjk7Th/7YLkb7yan9egaIDq9zxsGJpDxsxQmtuTW4eBMoKRxRZ2IitMLN1QIZ0O
-60NtFjf70RnaQUgh6W7ZGCoNhHIVXai22S3c99hOEUqZN9kCxXGPmlf2vARX0mdQ
-h6ByE932lE1IFIh4TkxXsO9xJVo6oAGnP0FlqkaWHofYMvuXSPd3uvuoMgaTG1UQ
-U9G7RjcMIazEOa/rmsudu3oJIVF3rrmc0EoFykm7y1aiCLTaHMBM4N0dhT1Qr9rV
-l4V2ph9euuLcXzQfolbcbr1oZj1PraAsqQtCrrvvqRSyWXcDTQUrGvFWe8UMiYTP
-w5JwLtFmR1+6wLmiu3FilJ1/fIfI+kwG2b/hisXz/BJg5jzuVes=
-=N+fE
+iQIzBAABCAAdFiEE82oG1A8ab1eESZdjFMQFyXGSNVMFAmKjOQQACgkQFMQFyXGS
+NVOJAA//UR24vicgDRW1I08V0E5HCljkkAUquUbqW4RBQph8Au+b0ldu2fYtjG4F
++ybWUs5wgA2IPsj9S8CcFDilKoKuZGpY+CuWZam91DoFpelw5HkIS2l3sjU/SrIT
+ycuV8O0ynviK1zsgWF/YtSBuPc9uwwBiFzO8DM6z3rTXsy0tcOTCkYFs5EiurNxT
+xa+YLDgjr4NS3QOWP7GxXUF3gTF/1MBNjVqjYYYHWYkbzrop9QwKvCE+NzGBPyqo
+K9WVwCRtubdQLVRy5cmFmRE9r7zU/18bEWvYPGazFYsJ8FifrwzbK0H/R+PjhwGz
+cq2YreUqhZ1uknGDA4bcIBV8LGtKQHOOTIvxIHVR1ZU3g8+qUrQFxKE/JyQWZCUm
++5XtgE55fweIPlQHAXpBgRoiJ8eHlBcMPrpM0O7Rw+n3R7AxnznpF6Uqs6imRwOR
+yeFtRPuTP7WVyga5mS0fsBJ+/YiaCgWJTxVnKriIT+R3v7SpavtV5zWaF5OGzQNN
+/aiNo1ogPigVhl36E1EDddWiyWDLyy3BgpFs669WKAxNFTSFb3EHbbAoPtb487ZA
+0I0j9t6rOHT2TvlBCdjiyBpvCDR6XUeNsHPVAsJ+Zeo7gAPfHb7qny2tjhcmDLP/
+6NQOlX2yuQA7Ej1O//ovJgwlqYwNnNf8VqnQpcZE1sYajmfyIp4=
+=HlE0
 -----END PGP SIGNATURE-----
 
---QnnOdm05loGF0qkV--
+--C60BxSZ7cVEeMpAl--
