@@ -1,117 +1,247 @@
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from griffin.geeknet.cz (griffin.geeknet.cz [94.142.237.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C34994681
-	for <connman@lists.linux.dev>; Tue, 12 Jul 2022 17:59:56 +0000 (UTC)
-Received: by mail-ej1-f41.google.com with SMTP id l23so15699419ejr.5
-        for <connman@lists.linux.dev>; Tue, 12 Jul 2022 10:59:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=lightyear.one; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=XCkj1AmChGAeVZ2jTW0O6iOAMD/wxnSj3YM7/7GOqy0=;
-        b=TFhNop29GIzPAPxMFkWsls5fS8tcq6dsEpNAGjy2/cEAns0loUOjusbiSi9F64dVzR
-         9/E4CumIZxa5j31atWHEPvvBk0v+h1gvLSSHOUEGSlprAPtI/WjpbDc2GN7p4jYjUVRY
-         arwyqMyDSuWxOAJwlw4zXLWpAxrARJsPvQmTESOb7wTdvcLpuK5vu8ak6eEYTSF2jvXN
-         5C6Tv+n1VkYw1Y2E9JhrW4HJkpwdG2WgJJfHkJrPMXE4tD9lO/Jik1G46O34KyYyDghi
-         Alkgd3ac4YHQh2deqC+veFJltlX6wTu/tkHtwgePQNUn+ahLNHXaj193h6xkm+VfoAZW
-         6SZg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:content-transfer-encoding;
-        bh=XCkj1AmChGAeVZ2jTW0O6iOAMD/wxnSj3YM7/7GOqy0=;
-        b=2jnvYoxrR4MUXvpbW6GD52jWcZgXPH3iMWU+cE9l9J3lB9YcwqzS6Yezz44ysjoBgc
-         jti/OaaTD9obcMrGUO8eyTUuhmO+z//n40FsC9dBZnifKHnuiODKXzOdgSjl6OfVjOTQ
-         7BKCoWVnK7EcJUUVo5IxxLjmFpDrdyqI1PStXVq837vfwCKFGz79YZTEouDg6T5POivy
-         h8hMGIF6biLbI9lk0ZTmLUvvp7JhnrSDNz0HWLuxkBELBDCCp+vnkUhtzvjTL/cMbtkb
-         CTXUOOJaVI0YWBp6UiBF7vVvY+6NXwL6zWegs+fRBKk1Q8MKR0azhPQ3jyvmExEmuIbB
-         8FGA==
-X-Gm-Message-State: AJIora8D5wO2qaGTjgJy4lMabuAEpUuDecGnY6CMp/cHDEZZl4DZ75xo
-	R7ZjL0pcHK/iXFN9rLwQIKGZcK/F6sDnkFpVyA8GL+4knCPLZJvLwpUvZ+SLGBUPg9AGZPG+A+R
-	B/t3rqf0Jb/+RzMifwg/dsQuJo9VzqSfg
-X-Google-Smtp-Source: AGRyM1sxzhrZHF6hCsBHfNQLGsNRlhudJQNSzoiV2E7QHOoknXwQ7FJwbGshGPtDvoqap5ZKHgbfXPs4dStrdJOijXs=
-X-Received: by 2002:a17:907:60c7:b0:72b:5651:e1f8 with SMTP id
- hv7-20020a17090760c700b0072b5651e1f8mr11229043ejc.375.1657648794624; Tue, 12
- Jul 2022 10:59:54 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CE1015AC
+	for <connman@lists.linux.dev>; Wed, 13 Jul 2022 01:30:06 +0000 (UTC)
+Received: 
+	by griffin.geeknet.cz (OpenSMTPD) with ESMTP id 2c33088a;
+	Wed, 13 Jul 2022 03:23:24 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed; d=jirutka.cz; h=message-id
+	:date:mime-version:subject:to:cc:references:from:in-reply-to
+	:content-type; s=mail; bh=UXr/VcIJpOZFOeFMQyTZc6JOtik=; b=xEm3FR
+	uv2bGLFrOOPNGhBQOTtBfWfJyRaayjC8vYLDNBuquK4duFHW+M/HeZ/TUsB9ZeI5
+	+GRJqyFApVVkaOxZOy5KpuMIAPUMjf7DeFm+S4vO5yOto5Oi+B9WUANtjulFvUzr
+	xT0VTGlMy4lQBRUjOLOhRf/1rdz83YF84vdzo=
+DomainKey-Signature: a=rsa-sha1; c=nofws; d=jirutka.cz; h=message-id
+	:date:mime-version:subject:to:cc:references:from:in-reply-to
+	:content-type; q=dns; s=mail; b=w8McuU1Mqv/mAbaB+bndNV15jGtWw8n7
+	UUQT0Pb/iMPKCw1VuS+qRW8q1rJBHLO5G1egoEQ0gK0J3iSVBaOtKyHYDRja0gkL
+	So7sy9ls7ucb/vOeRyNo2MPGw03xpuU6hHQMz4ZKLMWQRDw7v7j4R/lfYuhQKbfx
+	96AHFMuv3Zk=
+Received: 
+	by griffin.geeknet.cz (OpenSMTPD) with ESMTPSA id 9111c315 (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
+	Wed, 13 Jul 2022 03:23:24 +0200 (CEST)
+Message-ID: <7711ed9c-9f7c-75d8-9be8-dc205af13022@jirutka.cz>
+Date: Wed, 13 Jul 2022 03:23:21 +0200
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <CAKO9uzo6wftURnuxZBf8Fo+F1D8TYSKTOtC9JLvQQXSiUxG=KQ@mail.gmail.com>
-In-Reply-To: <CAKO9uzo6wftURnuxZBf8Fo+F1D8TYSKTOtC9JLvQQXSiUxG=KQ@mail.gmail.com>
-From: Maik Vermeulen <maik.vermeulen@lightyear.one>
-Date: Tue, 12 Jul 2022 19:59:19 +0200
-Message-ID: <CAKO9uzr7nwsjuBA_4w7waQ7oeZg0QBJ2e_ex+m0PYBPUcrLtGA@mail.gmail.com>
-Subject: not reconnecting despite available network
-To: connman@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: Service state change is not emitted on net.connman.Service
+Content-Language: en-GB
+To: Daniel Wagner <wagi@monom.org>
+Cc: connman@lists.linux.dev
+References: <4df95b51-0da9-6bf1-967f-17bfe8cbf782@jirutka.cz>
+ <20220711074551.m5ohm74noepd4s45@beryllium>
+From: Jakub Jirutka <jakub@jirutka.cz>
+In-Reply-To: <20220711074551.m5ohm74noepd4s45@beryllium>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------BEmGxFTVhD4eTdzUY5Hgu3rG"
+
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------BEmGxFTVhD4eTdzUY5Hgu3rG
+Content-Type: multipart/mixed; boundary="------------rZ2hMSKi6ETpOJolPTbz4at3";
+ protected-headers="v1"
+From: Jakub Jirutka <jakub@jirutka.cz>
+To: Daniel Wagner <wagi@monom.org>
+Cc: connman@lists.linux.dev
+Message-ID: <7711ed9c-9f7c-75d8-9be8-dc205af13022@jirutka.cz>
+Subject: Re: Service state change is not emitted on net.connman.Service
+References: <4df95b51-0da9-6bf1-967f-17bfe8cbf782@jirutka.cz>
+ <20220711074551.m5ohm74noepd4s45@beryllium>
+In-Reply-To: <20220711074551.m5ohm74noepd4s45@beryllium>
+
+--------------rZ2hMSKi6ETpOJolPTbz4at3
+Content-Type: multipart/mixed; boundary="------------bqHAzxOGlWcKbnwF2K06b6uK"
+
+--------------bqHAzxOGlWcKbnwF2K06b6uK
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
+
+SGkgRGFuaWVsLA0KDQpJIGR1ZyB1cCBtb3JlIHJlbGV2YW50IGNvbW1pdHMgdGhhdCBleHBs
+YWlucyB0aGlzIG1hdHRlciBhIGJpdC4NCg0KMjAxMi0wMi0yMCBQYXRyaWsgRmx5a3QgMWFm
+NzUyMzFlNWNmYWFkMDYxYjlhMmY1ODU4OWIzZmI2ZjM3ZmQyZSBbMV06DQogPiBzZXJ2aWNl
+OiBJbXBsZW1lbnQgU2VydmljZXNBZGRlZCBhbmQgU2VydmljZXNSZW1vdmVkIHNpZ25hbHMN
+CiA+DQogPiBXaGVuIHNlcnZpY2VzIGFyZSBhZGRlZCBvciByZW1vdmVkLCBjb2xsZWN0IHRo
+ZW0gaW50byBzZXBhcmF0ZQ0KID4gbGlzdHMgaW4gb3JkZXIgdG8gc2VuZCBhcyBtYW55IGFz
+IHBvc3NpYmxlIGluIG9uZSBnbyBhbmQgd2l0aA0KID4gdGhlbiByZW1vdmVkIG9uZXMgc2Vu
+dCBmaXJzdC4gQWRkIGEgd2FpdCBvZiAxMDBtcyB0byBjb2xsZWN0DQogPiBtb3JlIHNlcnZp
+Y2VzIGluIG9uZSBiYXRjaC4gV2hlbiByZW1vdmluZyBhIHNlcnZpY2UgY2hlY2sNCiA+IHdo
+ZXRoZXIgaXQgd2FzIGFsc28gb24gdGhlIGFkZGVkIGxpc3Q7IGlmIHNvLCByZW1vdmUgaXQg
+ZnJvbQ0KID4gdGhhdCBsaXN0Lg0KDQpeIFRoaXMgY29tbWl0IGFkZGVkIHRoYXQgd2VpcmQg
+MTAwIG1zIHRpbWVvdXQgZm9yIHNlbmRpbmcgc2lnbmFscy4NCg0KMjAxMi0wNC0wMyBQYXRy
+aWsgRmx5a3QgMzY1NTI4ZTUxNTVlMWExZWZlNGFhODEwMThkOTk1MDJhYWFmODU1OCBbMl06
+DQogPiBzZXJ2aWNlOiBBZGQgU2VydmljZXNDaGFuZ2VkIHNpZ25hbA0KID4NCiA+IFNlbmQg
+U2VydmljZXNDaGFuZ2VkIHNpZ25hbCBpbnN0ZWFkIG9mIGNvbnNlY3V0aXZlIFNlcnZpY2Vz
+QWRkZWQgYW5kDQogPiBTZXJ2aWNlc1JlbW92ZWQgc2lnbmFscy4NCg0KMjAxMi0wOC0yMCBQ
+YXRyaWsgRmx5a3QgODNjYWI2NTRmMWY3OGQ0OWJkODQ4Yjg3Y2VhNjQ1MDc4ZjgyZjEzZSBb
+M106DQogPiBzZXJ2aWNlOiBTZW5kIHVwZGF0ZWQgcHJvcGVydGllcyBhZnRlciBTZXJ2aWNl
+c0NoYW5nZWQNCiA+DQogPiBVcGRhdGVkIHNlcnZpY2UgcHJvcGVydGllcyBhcmUgbm90IHNl
+bnQgYmVmb3JlIHRoZSBuZXcgc2VydmljZQ0KID4gaGFzIGJlZW4gYW5ub3VuY2VkIGluIGEg
+J1NlcnZpY2VzQ2hhbmdlZCcgc2lnbmFsLg0KDQpeIFRoaXMgY29tbWl0IGFkZGVkIHRoYXQg
+YWxsb3dfcHJvcGVydHlfY2hhbmdlZCBnYXRlIHRoYXQgY2F1c2VzIA0KUHJvcGVydHlDaGFu
+Z2VkIHNpZ25hbHMgd2l0aGluIDEwMCBtcyB0byBiZSB0aHJvd24gYXdheS4NCg0KMjAxNS0w
+OC0xMiBQYXRyaWsgRmx5a3QgMjJkNDYwNWFlNjQ3ZGI1ZDkwYzg4ZDlmNjYxNjRjNjY4Njcz
+MzRlZCBbNF06DQogPiBzZXJ2aWNlOiBEbyBub3Qgc2VuZCBQcm9wZXJ0eUNoYW5nZWQgc2ln
+bmFscyBiZWZvcmUgc2VydmljZSBpcw0KID4gYW5ub3VuY2VkDQogPg0KID4gU2VuZCBubyBz
+ZXJ2aWNlIFByb3BlcnR5Q2hhbmdlZCBzaWduYWxzIGJlZm9yZSB0aGUgc2VydmljZSBpcw0K
+ID4gYW5ub3VuY2VkIGluIFNlcnZpY2VzQ2hhbmdlZC4gTW92ZSB0aGUgU2VydmljZXNDaGFu
+Z2VkIGFkZGluZyByaWdodA0KID4gYWZ0ZXIgcmVnaXN0ZXJpbmcgYSBzZXJ2aWNlIHRvIEQt
+QnVzLCBhcyBhbnkgaXBjb25maWcgc3RhdGUgdXBkYXRlcyBpbg0KID4gYmV0d2VlbiBjYXVz
+ZWQgc2VydmljZSBQcm9wZXJ0eUNoYW5nZWQgc2lnbmFscyB0byBiZSBzZW50IGFzIHRoZQ0K
+ID4gc2VydmljZSB3YXMgbWlzc2luZyBmcm9tIHRoZSBuZXcgc2VydmljZXMgaGFzaCBmb3Ig
+U2VydmljZXNDaGFuZ2VkDQogPiBzaWduYWwuDQoNCl4gVGhpcyBjb21taXQgbW92ZWQgYHNl
+cnZpY2Vfc2NoZWR1bGVfYWRkZWRgIGluIA0KYF9fY29ubm1hbl9zZXJ2aWNlX2NyZWF0ZV9m
+cm9tX25ldHdvcmtgICphZnRlciogYXV0b2Nvbm5lY3QgKG5vdyANCnRyaWdnZXJfYXV0b2Nv
+bm5lY3QpLiBJZiBJIHJldmVydCB0aGlzIGNoYW5nZSwgdGhlIFByb3BlcnR5Q2hhbmdlZCAN
+CnNpZ25hbHMgdGhhdCBJIG1pc3MgYXJlIHNlbnQuDQoNCg0KID4gTm90IHJlYWxseSBzdXJl
+IGhvdyB0byBhZGRyZXNzIHRoaXMgdGhvdWdoLiBNYXliZSBkbyBub3QgY2FsbA0KID4gc2Vy
+dmljZV9zY2hlZHVsZV9jaGFuZ2VkKCkgaW4gX19jb25ubWFuX3NlcnZpY2VfY3JlYXRlX2Zy
+b21fbmV0d29yaygpDQogPiBhbmQgaW5zdGVhZCBzZW5kIHRoZSBTZXJ2aWNlQ2hhbmdlZCBm
+aXJzdD8NCkRvZXMgdGhpcyBlZmZlY3RpdmVseSBtZWFuIHJlbW92ZSB0aGUgMTAwIG1zIHRp
+bWVvdXQgYW5kIHNlbmQgDQpTZXJ2aWNlc0NoYW5nZWQgcmlnaHQgYXdheT8NCg0KDQpJ4oCZ
+bSBiZWdpbm5pbmcgdG8gdGhpbmsgdGhhdCB0aHJvd2luZyBhd2F5IHRoZSBQcm9wZXJ0eUNo
+YW5nZWQgc2lnbmFscyANCndpdGhpbiAxMDAgbXMgd2FzbuKAmXQgdGhlIG9yaWdpbmFsIGlu
+dGVudGlvbi4gSXTigJlzIGEgcmVzdWx0IG9mIHR3byANCnJlcXVpcmVtZW50cyB0aGF0IGFy
+ZSBpbXBsZW1lbnRlZCBpbiBhIGNvbnRyYWRpY3Rvcnkgd2F5Og0KDQoxLiBEb27igJl0IHNl
+bmQgU2VydmljZXNDaGFuZ2VkIHJpZ2h0IGFmdGVyIGVhY2ggY2hhbmdlLCBidXQgYWdncmVn
+YXRlIHRoZSANCmNoYW5nZXMgd2l0aGluIDEwMCBtcyBpbnRlcnZhbCBhbmQgb3JkZXIgc2Vy
+dmljZSByZW1vdmFscyBmaXJzdC4NCjIuIEF2b2lkIHNlbmRpbmcgUHJvcGVydHlDaGFuZ2Vk
+IGZvciBhIHNlcnZpY2UgYmVmb3JlIHRoZSANClNlcnZpY2VzQ2hhbmdlZCBzaWduYWwgd2l0
+aCB0aGlzIHNlcnZpY2UgbGlzdGVkIGlzIHNlbnQuDQoNCkkgd291bGQgc3RhcnQgYnkgYXNr
+aW5nIGlmIGJvdGggb2YgdGhlc2UgcmVxdWlyZW1lbnRzIGFyZSBzdGlsbCB2YWxpZC4NCldo
+eSBzZW5kaW5nIFByb3BlcnR5Q2hhbmdlZCBiZWZvcmUgdGhlIHNlcnZpY2UgaXMgYW5ub3Vu
+Y2VkIGluIA0KU2VydmljZXNDaGFuZ2VkIGlzIGEgcHJvYmxlbT8NCg0KSWYgdGhlc2UgdHdv
+IHJlcXVpcmVtZW50cyBzdGlsbCBhcHBseSwgd2hhdCBhYm91dCBwb3N0cG9uaW5nIA0KUHJv
+cGVydHlDaGFuZ2VkIGluc3RlYWQgb2YgdGhyb3dpbmcgdGhlbSBhd2F5LCBpLmUuIGFjY3Vt
+dWxhdGUgdGhlbSBpbiBhIA0KcXVldWUgYW5kIHNlbmQgYWZ0ZXIgdGhlIHJlbGF0ZWQgU2Vy
+dmljZXNDaGFuZ2VkIGlzIHNlbnQ/DQoNCkpha3ViDQoNClsxXTogDQpodHRwczovL2dpdC5r
+ZXJuZWwub3JnL3B1Yi9zY20vbmV0d29yay9jb25ubWFuL2Nvbm5tYW4uZ2l0L2NvbW1pdC8/
+aWQ9MWFmNzUyMzFlNWNmYWFkMDYxYjlhMmY1ODU4OWIzZmI2ZjM3ZmQyZQ0KWzJdOiANCmh0
+dHBzOi8vZ2l0Lmtlcm5lbC5vcmcvcHViL3NjbS9uZXR3b3JrL2Nvbm5tYW4vY29ubm1hbi5n
+aXQvY29tbWl0Lz9pZD0zNjU1MjhlNTE1NWUxYTFlZmU0YWE4MTAxOGQ5OTUwMmFhYWY4NTU4
+DQpbM106IA0KaHR0cHM6Ly9naXQua2VybmVsLm9yZy9wdWIvc2NtL25ldHdvcmsvY29ubm1h
+bi9jb25ubWFuLmdpdC9jb21taXQvP2lkPTgzY2FiNjU0ZjFmNzhkNDliZDg0OGI4N2NlYTY0
+NTA3OGY4MmYxM2UNClszXTogDQpodHRwczovL2dpdC5rZXJuZWwub3JnL3B1Yi9zY20vbmV0
+d29yay9jb25ubWFuL2Nvbm5tYW4uZ2l0L2NvbW1pdC8/aWQ9MjJkNDYwNWFlNjQ3ZGI1ZDkw
+Yzg4ZDlmNjYxNjRjNjY4NjczMzRlZA0K
+--------------bqHAzxOGlWcKbnwF2K06b6uK
+Content-Type: application/pgp-keys; name="OpenPGP_0xF95BD679104D3115.asc"
+Content-Disposition: attachment; filename="OpenPGP_0xF95BD679104D3115.asc"
+Content-Description: OpenPGP public key
 Content-Transfer-Encoding: quoted-printable
 
-Hi,
+-----BEGIN PGP PUBLIC KEY BLOCK-----
 
-Currently we see that after deregistration, we are not reconnecting
-anymore. Everything seems to think the modem is already searching for
-a network, but if we execute AT+CGATT=3D1 on another port we instantly
-get a connection:
-Jul 12 08:56:03 agent336 daemon.err connmand[3037]: Failed to change
-property: /quectelqmi_0/context2 org.ofono.ConnectionContext.Active:
-org.ofono.Error.InProgress Operation already in progress
-Jul 12 08:56:03 agent336 daemon.debug connmand[3037]:
-../connman-1.35/plugins/ofono.c:context_set_active_reply()
-/quectelqmi_0/context2
-Jul 12 08:56:03 agent336 daemon.debug connmand[3037]:
-../connman-1.35/plugins/ofono.c:network_context_unref() 0x16f5a910 ref
-1
-Jul 12 08:56:03 agent336 daemon.debug connmand[3037]:
-../connman-1.35/src/service.c:service_send_changed() nnel ip address
-(null)
-Jul 12 08:56:03 agent336 daemon.debug connmand[3037]:
-../connman-1.35/src/service.c:append_removed() removed
-/net/connman/service/cellular_204080811961813_context1cast (null)
-Jul 12 08:56:03 agent336 daemon.debug connmand[3037]:
-../connman-1.35/src/service.c:append_removed() removed
-/net/connman/service/cellular_204080811961813_context2
+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3D=3D
+=3Dtg/c
+-----END PGP PUBLIC KEY BLOCK-----
 
-!!! AT+CGATT=3D1
+--------------bqHAzxOGlWcKbnwF2K06b6uK--
 
-Jul 12 09:30:51 agent336 daemon.debug connmand[3037]:
-../connman-1.35/plugins/ofono.c:netreg_update_name() /quectelqmi_0
-Name KPNg 0x16f5b950
+--------------rZ2hMSKi6ETpOJolPTbz4at3--
 
-Our setup:
-EC25-E, qmi_wwan driver
-connman 1.35
-ofono 1.22
-libqmi 1.20
+--------------BEmGxFTVhD4eTdzUY5Hgu3rG
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
-Does someone know what could be the problem, and how to solve it?
-We hope it's not necessary to update those packages.
+-----BEGIN PGP SIGNATURE-----
 
-Kind regards,
+iQGzBAEBCgAdFiEEv7UV5T50WUImhovnefKZsENajiMFAmLOHokACgkQefKZsENa
+jiOQZAv/bSeSewvRLIitQoJDHRAbl3ZW0xf5ljxmn/Vr5bkFH+PTboBEPRPHLPrZ
+fzwi89lEDLWrf/gT8ZUB3PbngMpdbhkn9HIrjJc3sxaTbPnMJtlIfCYpZo+EpJpK
+tJf+KPQCcSmwTYedmozHUd2g96z6Og8kVY+sfbwkryTOGbaUTFvfEClsVbo5DnE1
+NQtd3H8hQp+hVv+cR8vMvkjgEYcCUm5obtti4fQTNtwS8l5cBMPezkFtCOw9m6Kc
+9X13lmTNZa99Y3L/k4YjrXt41PUyCxIh7TChEk1txZLdPhTvTKYlotkIT0/XUAAH
+dUpoc9xvTkypyQ30pJwVUnOBJOAp1dxyVQn66YNCWFcI//Qcqtc4uGpFbCSciXhS
+AZCWZk0RNJ1YnLRmmAEHlVWrC4p7QEjgISVAH9CPM0bf5p/BOy1PLs0VY3zWQGpC
+GwZD4ixJTZirsmxkgOrK0zrnPuvkpUqoVdmobv45fAII1XyJSEIjhVdxn6jNx6or
+wcI/3lqv
+=pjA5
+-----END PGP SIGNATURE-----
 
-Maik Vermeulen
-Embedded Software Engineer=E2=80=82=E2=80=94=E2=80=82Lightyear
-
---=20
-=20
-<https://lightyear.one/careers?utm_source=3Dsignature&utm_campaign=3Dspotli=
-ghtroles&utm_medium=3Demail#vacancies>
-
---=20
-
-
-Automotive Campus 70 =E2=80=945708 JZ Helmond, the Netherlands
-www.lightyear.one=20
-<https://lightyear.one/>
- <https://www.linkedin.com/company/lightyear.one/>
-
-This email may contain information which is privileged and/or=20
-confidential. If you received this e-mail in error, please notify us=20
-immediately by e-mail and delete the email without copying or disclosing=20
-its contents to any other person. Lightyear is a trade name of Atlas=20
-Technologies B.V. and is registered at the Dutch Chamber of Commerce under=
-=20
-number 67264298.=C2=A0
+--------------BEmGxFTVhD4eTdzUY5Hgu3rG--
