@@ -1,247 +1,113 @@
-Received: from griffin.geeknet.cz (griffin.geeknet.cz [94.142.237.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f50.google.com (mail-oa1-f50.google.com [209.85.160.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CE1015AC
-	for <connman@lists.linux.dev>; Wed, 13 Jul 2022 01:30:06 +0000 (UTC)
-Received: 
-	by griffin.geeknet.cz (OpenSMTPD) with ESMTP id 2c33088a;
-	Wed, 13 Jul 2022 03:23:24 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed; d=jirutka.cz; h=message-id
-	:date:mime-version:subject:to:cc:references:from:in-reply-to
-	:content-type; s=mail; bh=UXr/VcIJpOZFOeFMQyTZc6JOtik=; b=xEm3FR
-	uv2bGLFrOOPNGhBQOTtBfWfJyRaayjC8vYLDNBuquK4duFHW+M/HeZ/TUsB9ZeI5
-	+GRJqyFApVVkaOxZOy5KpuMIAPUMjf7DeFm+S4vO5yOto5Oi+B9WUANtjulFvUzr
-	xT0VTGlMy4lQBRUjOLOhRf/1rdz83YF84vdzo=
-DomainKey-Signature: a=rsa-sha1; c=nofws; d=jirutka.cz; h=message-id
-	:date:mime-version:subject:to:cc:references:from:in-reply-to
-	:content-type; q=dns; s=mail; b=w8McuU1Mqv/mAbaB+bndNV15jGtWw8n7
-	UUQT0Pb/iMPKCw1VuS+qRW8q1rJBHLO5G1egoEQ0gK0J3iSVBaOtKyHYDRja0gkL
-	So7sy9ls7ucb/vOeRyNo2MPGw03xpuU6hHQMz4ZKLMWQRDw7v7j4R/lfYuhQKbfx
-	96AHFMuv3Zk=
-Received: 
-	by griffin.geeknet.cz (OpenSMTPD) with ESMTPSA id 9111c315 (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
-	Wed, 13 Jul 2022 03:23:24 +0200 (CEST)
-Message-ID: <7711ed9c-9f7c-75d8-9be8-dc205af13022@jirutka.cz>
-Date: Wed, 13 Jul 2022 03:23:21 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C34A7F5
+	for <connman@lists.linux.dev>; Mon, 18 Jul 2022 02:31:46 +0000 (UTC)
+Received: by mail-oa1-f50.google.com with SMTP id 586e51a60fabf-10d4691a687so5346384fac.10
+        for <connman@lists.linux.dev>; Sun, 17 Jul 2022 19:31:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=ApE6zdyI5rF8Flyin9qF7qLpLbPEJfaL6rIxGNi47sw=;
+        b=e1JUFSJiMKioHcU8e7uBHoHl8MhznRYThbzED23MsV8oditALfEcswWhjWIpbaoaCP
+         aI+YJbGdcbCYl2NkLElic7399WpubaLrlKYS4L7oRcWRsIq+bm24ocmXBMWUTDasZGP2
+         1xKctOYnNsEuqMvDyvgUVnHEAvWx0x4t7ee5Rdnb8LlasUYze8GyDCoEiM/q6fyn+dRD
+         2aTcakOV6j2E6+T1UNe9aTV6FBFhnLIIbKYGV8iaLiIpZ3+JkHDrWhRrfGWbpLrB52Jz
+         toANRJQPxz9qegnFMR7uvtpYhwD4E1N0KRTWcvvZVX8mQMcR3muriG89A0HtNAtgMNHN
+         o+BQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=ApE6zdyI5rF8Flyin9qF7qLpLbPEJfaL6rIxGNi47sw=;
+        b=Qj5Ttz9pBpyZfRQ2CNZhZPbkXUVufmEg4ltT0p0/9JAHslkhjHQy/gGuI533S+nW2X
+         SAv9OVH/iAsK0ft8eEmShWg2kLF5i1sVVMMZN8KnXH9FSNTpJCCa94oTCgN8C919oxl0
+         6ZPHXoIkysbURwTWeQ7hzF0TB4O7zrK1sbgN359kV3ezlDRCv3ZhhnC1Sm3bXNPuzELV
+         BjkM088ZuN45zaHjgBxQT91X5aYBTBmQv9wSGctWlaMgHVTE4Eba3ZvG9JeEpO6wxVtc
+         hvzJCyJK+p1w9S13KMoUb50sTYyJ8VBnzzKhc2wjZnX7zBNFYeOBCoYFANhXHRTnhqlw
+         lbbg==
+X-Gm-Message-State: AJIora9CZQzaKiVvEa+xHIGQTG8GRMzAtBLUG88iNXs5halZGoRT5qED
+	o0wIFlITCjGTHkSDDZdmcgSU1MmDDxIN7pNDoZM=
+X-Google-Smtp-Source: AGRyM1tNSks9zITo1SCKhjUkmmB3I+hBmNFkk0Tt/o+Wj8OoslfoDj+FGyxnEiuNM0Shihrg3jD/W8onTDPUWWnAxMk=
+X-Received: by 2002:a05:6808:f8d:b0:339:e7f6:12e with SMTP id
+ o13-20020a0568080f8d00b00339e7f6012emr14955832oiw.78.1658111505275; Sun, 17
+ Jul 2022 19:31:45 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: Service state change is not emitted on net.connman.Service
-Content-Language: en-GB
+References: <CAA=hcWTmGCSQFEMABzUU742ZE-2LJNR38+B55Kzr3HrLjcOO-g@mail.gmail.com>
+ <3dc4f487-0833-19d9-d4b7-8c6319d32411@gmail.com> <CAA=hcWT6xaJKWxmstpRznb+hY7PcwDSagm_n6udZ8VjMXw_p6A@mail.gmail.com>
+ <02550a47-5d45-d165-4572-0542f5772532@gmail.com> <CAA=hcWRSKCUEcO+EnRgrk9D+dUxAubYjQAHEQjfgWTE0FaKNug@mail.gmail.com>
+ <20220704092248.2qjehvz7f3f3dsii@beryllium.lan>
+In-Reply-To: <20220704092248.2qjehvz7f3f3dsii@beryllium.lan>
+From: Jupiter <jupiter.hce@gmail.com>
+Date: Mon, 18 Jul 2022 12:31:09 +1000
+Message-ID: <CAA=hcWRsNbm36yLt00bD7xuTEVkD=ApYt3JNYd66H7bw1JiSeQ@mail.gmail.com>
+Subject: Re: iwd + connman
 To: Daniel Wagner <wagi@monom.org>
-Cc: connman@lists.linux.dev
-References: <4df95b51-0da9-6bf1-967f-17bfe8cbf782@jirutka.cz>
- <20220711074551.m5ohm74noepd4s45@beryllium>
-From: Jakub Jirutka <jakub@jirutka.cz>
-In-Reply-To: <20220711074551.m5ohm74noepd4s45@beryllium>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------BEmGxFTVhD4eTdzUY5Hgu3rG"
+Cc: Denis Kenzior <denkenz@gmail.com>, iwd <iwd@lists.01.org>, 
+	connman <connman@lists.linux.dev>
+Content-Type: text/plain; charset="UTF-8"
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------BEmGxFTVhD4eTdzUY5Hgu3rG
-Content-Type: multipart/mixed; boundary="------------rZ2hMSKi6ETpOJolPTbz4at3";
- protected-headers="v1"
-From: Jakub Jirutka <jakub@jirutka.cz>
-To: Daniel Wagner <wagi@monom.org>
-Cc: connman@lists.linux.dev
-Message-ID: <7711ed9c-9f7c-75d8-9be8-dc205af13022@jirutka.cz>
-Subject: Re: Service state change is not emitted on net.connman.Service
-References: <4df95b51-0da9-6bf1-967f-17bfe8cbf782@jirutka.cz>
- <20220711074551.m5ohm74noepd4s45@beryllium>
-In-Reply-To: <20220711074551.m5ohm74noepd4s45@beryllium>
+Hi Daniel,
 
---------------rZ2hMSKi6ETpOJolPTbz4at3
-Content-Type: multipart/mixed; boundary="------------bqHAzxOGlWcKbnwF2K06b6uK"
+>> But I don't think that is the cause of connman failing wifi detection,
+>> how is iwd and connman communicated on
+>> EnableNetworkConfiguration=false, I assume through dbus, right?
+>
+> No, this is not a D-Bus API. ConnMan will not set this.
 
---------------bqHAzxOGlWcKbnwF2K06b6uK
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+Could you please elaborate how the ConnMan could figure out WiFi
+connection based on there being no direct connection and communication
+between the ConnMan and iwd?
 
-SGkgRGFuaWVsLA0KDQpJIGR1ZyB1cCBtb3JlIHJlbGV2YW50IGNvbW1pdHMgdGhhdCBleHBs
-YWlucyB0aGlzIG1hdHRlciBhIGJpdC4NCg0KMjAxMi0wMi0yMCBQYXRyaWsgRmx5a3QgMWFm
-NzUyMzFlNWNmYWFkMDYxYjlhMmY1ODU4OWIzZmI2ZjM3ZmQyZSBbMV06DQogPiBzZXJ2aWNl
-OiBJbXBsZW1lbnQgU2VydmljZXNBZGRlZCBhbmQgU2VydmljZXNSZW1vdmVkIHNpZ25hbHMN
-CiA+DQogPiBXaGVuIHNlcnZpY2VzIGFyZSBhZGRlZCBvciByZW1vdmVkLCBjb2xsZWN0IHRo
-ZW0gaW50byBzZXBhcmF0ZQ0KID4gbGlzdHMgaW4gb3JkZXIgdG8gc2VuZCBhcyBtYW55IGFz
-IHBvc3NpYmxlIGluIG9uZSBnbyBhbmQgd2l0aA0KID4gdGhlbiByZW1vdmVkIG9uZXMgc2Vu
-dCBmaXJzdC4gQWRkIGEgd2FpdCBvZiAxMDBtcyB0byBjb2xsZWN0DQogPiBtb3JlIHNlcnZp
-Y2VzIGluIG9uZSBiYXRjaC4gV2hlbiByZW1vdmluZyBhIHNlcnZpY2UgY2hlY2sNCiA+IHdo
-ZXRoZXIgaXQgd2FzIGFsc28gb24gdGhlIGFkZGVkIGxpc3Q7IGlmIHNvLCByZW1vdmUgaXQg
-ZnJvbQ0KID4gdGhhdCBsaXN0Lg0KDQpeIFRoaXMgY29tbWl0IGFkZGVkIHRoYXQgd2VpcmQg
-MTAwIG1zIHRpbWVvdXQgZm9yIHNlbmRpbmcgc2lnbmFscy4NCg0KMjAxMi0wNC0wMyBQYXRy
-aWsgRmx5a3QgMzY1NTI4ZTUxNTVlMWExZWZlNGFhODEwMThkOTk1MDJhYWFmODU1OCBbMl06
-DQogPiBzZXJ2aWNlOiBBZGQgU2VydmljZXNDaGFuZ2VkIHNpZ25hbA0KID4NCiA+IFNlbmQg
-U2VydmljZXNDaGFuZ2VkIHNpZ25hbCBpbnN0ZWFkIG9mIGNvbnNlY3V0aXZlIFNlcnZpY2Vz
-QWRkZWQgYW5kDQogPiBTZXJ2aWNlc1JlbW92ZWQgc2lnbmFscy4NCg0KMjAxMi0wOC0yMCBQ
-YXRyaWsgRmx5a3QgODNjYWI2NTRmMWY3OGQ0OWJkODQ4Yjg3Y2VhNjQ1MDc4ZjgyZjEzZSBb
-M106DQogPiBzZXJ2aWNlOiBTZW5kIHVwZGF0ZWQgcHJvcGVydGllcyBhZnRlciBTZXJ2aWNl
-c0NoYW5nZWQNCiA+DQogPiBVcGRhdGVkIHNlcnZpY2UgcHJvcGVydGllcyBhcmUgbm90IHNl
-bnQgYmVmb3JlIHRoZSBuZXcgc2VydmljZQ0KID4gaGFzIGJlZW4gYW5ub3VuY2VkIGluIGEg
-J1NlcnZpY2VzQ2hhbmdlZCcgc2lnbmFsLg0KDQpeIFRoaXMgY29tbWl0IGFkZGVkIHRoYXQg
-YWxsb3dfcHJvcGVydHlfY2hhbmdlZCBnYXRlIHRoYXQgY2F1c2VzIA0KUHJvcGVydHlDaGFu
-Z2VkIHNpZ25hbHMgd2l0aGluIDEwMCBtcyB0byBiZSB0aHJvd24gYXdheS4NCg0KMjAxNS0w
-OC0xMiBQYXRyaWsgRmx5a3QgMjJkNDYwNWFlNjQ3ZGI1ZDkwYzg4ZDlmNjYxNjRjNjY4Njcz
-MzRlZCBbNF06DQogPiBzZXJ2aWNlOiBEbyBub3Qgc2VuZCBQcm9wZXJ0eUNoYW5nZWQgc2ln
-bmFscyBiZWZvcmUgc2VydmljZSBpcw0KID4gYW5ub3VuY2VkDQogPg0KID4gU2VuZCBubyBz
-ZXJ2aWNlIFByb3BlcnR5Q2hhbmdlZCBzaWduYWxzIGJlZm9yZSB0aGUgc2VydmljZSBpcw0K
-ID4gYW5ub3VuY2VkIGluIFNlcnZpY2VzQ2hhbmdlZC4gTW92ZSB0aGUgU2VydmljZXNDaGFu
-Z2VkIGFkZGluZyByaWdodA0KID4gYWZ0ZXIgcmVnaXN0ZXJpbmcgYSBzZXJ2aWNlIHRvIEQt
-QnVzLCBhcyBhbnkgaXBjb25maWcgc3RhdGUgdXBkYXRlcyBpbg0KID4gYmV0d2VlbiBjYXVz
-ZWQgc2VydmljZSBQcm9wZXJ0eUNoYW5nZWQgc2lnbmFscyB0byBiZSBzZW50IGFzIHRoZQ0K
-ID4gc2VydmljZSB3YXMgbWlzc2luZyBmcm9tIHRoZSBuZXcgc2VydmljZXMgaGFzaCBmb3Ig
-U2VydmljZXNDaGFuZ2VkDQogPiBzaWduYWwuDQoNCl4gVGhpcyBjb21taXQgbW92ZWQgYHNl
-cnZpY2Vfc2NoZWR1bGVfYWRkZWRgIGluIA0KYF9fY29ubm1hbl9zZXJ2aWNlX2NyZWF0ZV9m
-cm9tX25ldHdvcmtgICphZnRlciogYXV0b2Nvbm5lY3QgKG5vdyANCnRyaWdnZXJfYXV0b2Nv
-bm5lY3QpLiBJZiBJIHJldmVydCB0aGlzIGNoYW5nZSwgdGhlIFByb3BlcnR5Q2hhbmdlZCAN
-CnNpZ25hbHMgdGhhdCBJIG1pc3MgYXJlIHNlbnQuDQoNCg0KID4gTm90IHJlYWxseSBzdXJl
-IGhvdyB0byBhZGRyZXNzIHRoaXMgdGhvdWdoLiBNYXliZSBkbyBub3QgY2FsbA0KID4gc2Vy
-dmljZV9zY2hlZHVsZV9jaGFuZ2VkKCkgaW4gX19jb25ubWFuX3NlcnZpY2VfY3JlYXRlX2Zy
-b21fbmV0d29yaygpDQogPiBhbmQgaW5zdGVhZCBzZW5kIHRoZSBTZXJ2aWNlQ2hhbmdlZCBm
-aXJzdD8NCkRvZXMgdGhpcyBlZmZlY3RpdmVseSBtZWFuIHJlbW92ZSB0aGUgMTAwIG1zIHRp
-bWVvdXQgYW5kIHNlbmQgDQpTZXJ2aWNlc0NoYW5nZWQgcmlnaHQgYXdheT8NCg0KDQpJ4oCZ
-bSBiZWdpbm5pbmcgdG8gdGhpbmsgdGhhdCB0aHJvd2luZyBhd2F5IHRoZSBQcm9wZXJ0eUNo
-YW5nZWQgc2lnbmFscyANCndpdGhpbiAxMDAgbXMgd2FzbuKAmXQgdGhlIG9yaWdpbmFsIGlu
-dGVudGlvbi4gSXTigJlzIGEgcmVzdWx0IG9mIHR3byANCnJlcXVpcmVtZW50cyB0aGF0IGFy
-ZSBpbXBsZW1lbnRlZCBpbiBhIGNvbnRyYWRpY3Rvcnkgd2F5Og0KDQoxLiBEb27igJl0IHNl
-bmQgU2VydmljZXNDaGFuZ2VkIHJpZ2h0IGFmdGVyIGVhY2ggY2hhbmdlLCBidXQgYWdncmVn
-YXRlIHRoZSANCmNoYW5nZXMgd2l0aGluIDEwMCBtcyBpbnRlcnZhbCBhbmQgb3JkZXIgc2Vy
-dmljZSByZW1vdmFscyBmaXJzdC4NCjIuIEF2b2lkIHNlbmRpbmcgUHJvcGVydHlDaGFuZ2Vk
-IGZvciBhIHNlcnZpY2UgYmVmb3JlIHRoZSANClNlcnZpY2VzQ2hhbmdlZCBzaWduYWwgd2l0
-aCB0aGlzIHNlcnZpY2UgbGlzdGVkIGlzIHNlbnQuDQoNCkkgd291bGQgc3RhcnQgYnkgYXNr
-aW5nIGlmIGJvdGggb2YgdGhlc2UgcmVxdWlyZW1lbnRzIGFyZSBzdGlsbCB2YWxpZC4NCldo
-eSBzZW5kaW5nIFByb3BlcnR5Q2hhbmdlZCBiZWZvcmUgdGhlIHNlcnZpY2UgaXMgYW5ub3Vu
-Y2VkIGluIA0KU2VydmljZXNDaGFuZ2VkIGlzIGEgcHJvYmxlbT8NCg0KSWYgdGhlc2UgdHdv
-IHJlcXVpcmVtZW50cyBzdGlsbCBhcHBseSwgd2hhdCBhYm91dCBwb3N0cG9uaW5nIA0KUHJv
-cGVydHlDaGFuZ2VkIGluc3RlYWQgb2YgdGhyb3dpbmcgdGhlbSBhd2F5LCBpLmUuIGFjY3Vt
-dWxhdGUgdGhlbSBpbiBhIA0KcXVldWUgYW5kIHNlbmQgYWZ0ZXIgdGhlIHJlbGF0ZWQgU2Vy
-dmljZXNDaGFuZ2VkIGlzIHNlbnQ/DQoNCkpha3ViDQoNClsxXTogDQpodHRwczovL2dpdC5r
-ZXJuZWwub3JnL3B1Yi9zY20vbmV0d29yay9jb25ubWFuL2Nvbm5tYW4uZ2l0L2NvbW1pdC8/
-aWQ9MWFmNzUyMzFlNWNmYWFkMDYxYjlhMmY1ODU4OWIzZmI2ZjM3ZmQyZQ0KWzJdOiANCmh0
-dHBzOi8vZ2l0Lmtlcm5lbC5vcmcvcHViL3NjbS9uZXR3b3JrL2Nvbm5tYW4vY29ubm1hbi5n
-aXQvY29tbWl0Lz9pZD0zNjU1MjhlNTE1NWUxYTFlZmU0YWE4MTAxOGQ5OTUwMmFhYWY4NTU4
-DQpbM106IA0KaHR0cHM6Ly9naXQua2VybmVsLm9yZy9wdWIvc2NtL25ldHdvcmsvY29ubm1h
-bi9jb25ubWFuLmdpdC9jb21taXQvP2lkPTgzY2FiNjU0ZjFmNzhkNDliZDg0OGI4N2NlYTY0
-NTA3OGY4MmYxM2UNClszXTogDQpodHRwczovL2dpdC5rZXJuZWwub3JnL3B1Yi9zY20vbmV0
-d29yay9jb25ubWFuL2Nvbm5tYW4uZ2l0L2NvbW1pdC8/aWQ9MjJkNDYwNWFlNjQ3ZGI1ZDkw
-Yzg4ZDlmNjYxNjRjNjY4NjczMzRlZA0K
---------------bqHAzxOGlWcKbnwF2K06b6uK
-Content-Type: application/pgp-keys; name="OpenPGP_0xF95BD679104D3115.asc"
-Content-Disposition: attachment; filename="OpenPGP_0xF95BD679104D3115.asc"
-Content-Description: OpenPGP public key
-Content-Transfer-Encoding: quoted-printable
+> The DHCP code in ConnMan doesn't really care about this detail. ConnMan
+> operates on interface index.
 
------BEGIN PGP PUBLIC KEY BLOCK-----
+I set up /etc/connman/main.conf:
 
-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3D=3D
-=3Dtg/c
------END PGP PUBLIC KEY BLOCK-----
+PreferredTechnologies = wifi,cellular
+SingleConnectedTechnology = true
 
---------------bqHAzxOGlWcKbnwF2K06b6uK--
+The ConnMan was able to switch between the WiFi and cellular
+connection when I used wpa_supplicant, it is now incapable of
+switching WiFi and cellular connection in iwd. If it is based on
+interface index, here is my interfaces both mlan0 and wwan0 are
+connected, ConnMan is not able to turn off cellular when WiFi is
+connected, how does the SingleConnectedTechnology=true work with iwd?
 
---------------rZ2hMSKi6ETpOJolPTbz4at3--
+mlan0     Link encap:Ethernet  HWaddr D4:CA:6E:A4:E8:E0
+          inet addr:192.168.0.101  Bcast:0.0.0.0  Mask:255.255.255.0
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:161 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:75 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000
+          RX bytes:12561 (12.2 KiB)  TX bytes:39957 (39.0 KiB)
 
---------------BEmGxFTVhD4eTdzUY5Hgu3rG
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+wwan0     Link encap:UNSPEC  HWaddr 00-00-00-00-00-00-00-00-00-00-00-00-00-00-0
+          inet addr:10.116.236.149  P-t-P:10.116.236.149  Mask:255.255.255.252
+          UP POINTOPOINT RUNNING NOARP MULTICAST  MTU:1500  Metric:1
+          RX packets:350 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:387 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000
+          RX bytes:61823 (60.3 KiB)  TX bytes:72540 (70.8 KiB)
 
------BEGIN PGP SIGNATURE-----
+> Currently, you can't use EnableNetworkConfiguration=true together with
+> ConnMan. This will not work.
 
-iQGzBAEBCgAdFiEEv7UV5T50WUImhovnefKZsENajiMFAmLOHokACgkQefKZsENa
-jiOQZAv/bSeSewvRLIitQoJDHRAbl3ZW0xf5ljxmn/Vr5bkFH+PTboBEPRPHLPrZ
-fzwi89lEDLWrf/gT8ZUB3PbngMpdbhkn9HIrjJc3sxaTbPnMJtlIfCYpZo+EpJpK
-tJf+KPQCcSmwTYedmozHUd2g96z6Og8kVY+sfbwkryTOGbaUTFvfEClsVbo5DnE1
-NQtd3H8hQp+hVv+cR8vMvkjgEYcCUm5obtti4fQTNtwS8l5cBMPezkFtCOw9m6Kc
-9X13lmTNZa99Y3L/k4YjrXt41PUyCxIh7TChEk1txZLdPhTvTKYlotkIT0/XUAAH
-dUpoc9xvTkypyQ30pJwVUnOBJOAp1dxyVQn66YNCWFcI//Qcqtc4uGpFbCSciXhS
-AZCWZk0RNJ1YnLRmmAEHlVWrC4p7QEjgISVAH9CPM0bf5p/BOy1PLs0VY3zWQGpC
-GwZD4ixJTZirsmxkgOrK0zrnPuvkpUqoVdmobv45fAII1XyJSEIjhVdxn6jNx6or
-wcI/3lqv
-=pjA5
------END PGP SIGNATURE-----
+That was the question I have asked for months about how to make
+EnableNetworkConfiguration=false work with ConnMan. Sadly if I set up
+EnableNetworkConfiguration=false, ConnMan was not able to set up WiFi
+network, if you believe the ConnMan is able to work with iwd
+EnableNetworkConfiguration=false, could you please elaborate how to
+debug it, I'll try to figure it out?
 
---------------BEmGxFTVhD4eTdzUY5Hgu3rG--
+Thank you very much.
+
+Kind regards,
+
+Jupiter
