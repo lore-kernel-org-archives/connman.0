@@ -1,33 +1,49 @@
-Received: from mail-0301.mail-europe.com (mail-0301.mail-europe.com [188.165.51.139])
+Received: from mail.nearlyone.de (mail.nearlyone.de [46.163.114.145])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD54A53BC
-	for <connman@lists.linux.dev>; Thu, 21 Jul 2022 20:02:58 +0000 (UTC)
-Date: Thu, 21 Jul 2022 20:02:38 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
-	s=protonmail; t=1658433763; x=1658692963;
-	bh=bIkL3j1SUti+mxRknWXsGzjEHfZ++LfAOrCAj6OvBfk=;
-	h=Date:To:From:Reply-To:Subject:Message-ID:Feedback-ID:From:To:Cc:
-	 Date:Subject:Reply-To:Feedback-ID:Message-ID;
-	b=bWTXgu6kSF/l9gymCNMeW1Jy/mbbUlDVPLRydS7PL1C5CBGV7wdk3DmHJIXB5G2Ko
-	 wAs7tnLos3jJQEQXBzXz/kS9lZ16ccG0MklGJJUDlKy6EPbXPgYlE7FAqy3KNMIomy
-	 UvqQJ4p1BLZS4OTuf9FVdaBHE3WGKKD19HbfN7+OWMidRkKNutAtSBBhae8IBErdu2
-	 IF6C2anx+bAoxL9U3eTwdcB2tQuO8HqJRxIfh9UFf/bu22l2My/QUI5fRbQVzVgEID
-	 A8P4QOGZhKnWOGbWDflog9gzP1rCl2JDgxv5bfgRTHRS8fO8C1NZHi1q5pfgQrNIa5
-	 AsgvJofMcpSdA==
-To: "connman@lists.linux.dev" <connman@lists.linux.dev>
-From: loggervicky69 <loggervicky69@proton.me>
-Reply-To: loggervicky69 <loggervicky69@proton.me>
-Subject: (No Subject)
-Message-ID: <uQLK6XKCnLOHNbWHtquSR3H1Z6TJJsBLCMW5Yz-E4cna6xr4zgCW-IgC-xt6eCAvoO3aaKVSWGbs8PkEmuK5CoAR4pm5BQ1ADh_zzLzApVg=@proton.me>
-Feedback-ID: 50397747:user:proton
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F35F7F
+	for <connman@lists.linux.dev>; Mon,  1 Aug 2022 08:00:56 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 0FD775DF36;
+	Mon,  1 Aug 2022 10:00:50 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=monom.org; s=dkim;
+	t=1659340850; h=from:subject:date:message-id:to:cc:mime-version:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=OWG0S+EQDkF0ACgmVT9nUum7UjGYSQHm2QYitav4Wbc=;
+	b=Lf13bhRl3+zsFaYISeZYt1D+r6SolPR0JlY9FYeThemvDhzjsZYXmrDPddj/LlqInmFTL0
+	KDO5hWhplUeg7VwcoBf+qyXILYl8OgOmIMMsB2wNzObS3nfVMPQR4UaGHr/68dgs1qzxdl
+	aJYjge44oUMOdjffgVJfF9ZmPZXRaqMOXAyGw5IjBac3K8ZJUY4uMVODB2kCqGBpBxIMnn
+	YHlHXJ/iT4OujNlOP4fEOb/36BfWT9pdkXxmZ5k7MLz4j2iLNWuSlWh1iUAcyLnU6U6bX3
+	g2YRQMgsq1EG1Kwrpn4OyJXSg8GhfyxXlINZ35fyhS7PKPKR3wEQ9O6915wseA==
+From: Daniel Wagner <wagi@monom.org>
+To: connman@lists.linux.dev
+Cc: Daniel Wagner <wagi@monom.org>
+Subject: [PATCH 6/6] AUTHORS: Mention Nathan's contributions
+Date: Mon,  1 Aug 2022 10:00:43 +0200
+Message-Id: <20220801080043.4861-6-wagi@monom.org>
+In-Reply-To: <20220801080043.4861-1-wagi@monom.org>
+References: <20220801080043.4861-1-wagi@monom.org>
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-Last-TLS-Session-Version: TLSv1.3
 
-subscribe
+---
+ AUTHORS | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/AUTHORS b/AUTHORS
+index b4c6e6e7a039..59b1ddd17afa 100644
+--- a/AUTHORS
++++ b/AUTHORS
+@@ -178,3 +178,4 @@ Christian Taedcke <christian.taedcke@lemonbeat.com>
+ Matthias Gerstner <mgerstner@suse.de>
+ Sebastian Pipping <sebastian@pipping.org>
+ Daniel Linjama <daniel@dev.linjama.com>
++Nathan Crandall <ncrandall@tesla.com>
+-- 
+2.37.1
+
