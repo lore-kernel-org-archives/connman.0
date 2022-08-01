@@ -1,24 +1,27 @@
 Received: from mail.nearlyone.de (mail.nearlyone.de [46.163.114.145])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2E427F
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA5EF17E5
 	for <connman@lists.linux.dev>; Mon,  1 Aug 2022 08:07:01 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 5F7085DDF0;
-	Mon,  1 Aug 2022 10:00:45 +0200 (CEST)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 89DFE5DF1D;
+	Mon,  1 Aug 2022 10:00:47 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=monom.org; s=dkim;
-	t=1659340845; h=from:subject:date:message-id:to:cc:mime-version:
-	 content-transfer-encoding; bh=fCfCAq4wDGoJigeUoI4OuPwH8xPbRmnET4zQcZrS7Bg=;
-	b=eqVcZVkTI/B8C0tJboUcvhFNVz3Kz2oFShEqIZXQUYUWMmncrKtAcVuZN1+hf8hJ43UFNV
-	WUlDUchKCWSFDprI1scJf1QxekZlBL90yrxQ0JVO+hi8+Y3Hz5oeeGtO2luUBvCKq7ys5r
-	Z+lwW/QmAoVj/0toBnH7c9IT0SoRulGnwg6Ng7Rem4waIgOq+3p0xLSpRlvHaOhuEjo4IR
-	KQiObEhIv7eEu3IRgzmtv4VjvczpmKhw7+hFcB/Vmgw2A/JGpAyL7NV8vkTHNjsGSvJgKQ
-	0wtbCSqsmBugqquFwITjHGYmzPfimt6mdvxCYukulfJlbjmgrwMosZNOjum8GQ==
+	t=1659340847; h=from:subject:date:message-id:to:cc:mime-version:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=W8L6+awZQMjViniyaYxPJ3F0YWuYseHOTb0eEOHOU1k=;
+	b=sPl9dV4IGxRBfsD0d8leGQdwxfzYA4S+KTEDFRDKjptlG+qidqAIUtfDQZ1Tvpbwo/DEGc
+	JRUZxKU2V1I4gTZmtP9F/bS82bCXVbXeZfl0gb5Ln386rOrGkmrwMybxc2Mg7ggt0dBEeu
+	W+43OYYs8BDnKKFP/Qa8cDXB4sJMwS0K8eP+PZjs4278hKA+jUKrHcn/xU9goiBuugRL3T
+	LZYwwK0NfrlE9hQ/pYFDRp8/dhCchXmli6KZwtJv6I3HsRQW9aOD4fdEDqPEy5nk3uWhYF
+	fAkNJMghvKsylN6pL+KoPPtrgHdzZBb+fbVXl/ciPXSIOgo3+1eH425fFu5YAQ==
 From: Daniel Wagner <wagi@monom.org>
 To: connman@lists.linux.dev
 Cc: Daniel Wagner <wagi@monom.org>
-Subject: [PATCH 1/6] wispr: Rename wispr_portal_list to wispr_portal_hash
-Date: Mon,  1 Aug 2022 10:00:38 +0200
-Message-Id: <20220801080043.4861-1-wagi@monom.org>
+Subject: [PATCH 3/6] wispr: Add reference counter to portal context
+Date: Mon,  1 Aug 2022 10:00:40 +0200
+Message-Id: <20220801080043.4861-3-wagi@monom.org>
+In-Reply-To: <20220801080043.4861-1-wagi@monom.org>
+References: <20220801080043.4861-1-wagi@monom.org>
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
@@ -28,104 +31,136 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Last-TLS-Session-Version: TLSv1.3
 
-This data structure is a hash table, so replace the '_list' with
-'_hash' to reduce the possibility for confusion.
+Track the connman_wispr_portal_context live time via a
+refcounter. This only adds the infrastructure to do proper reference
+counting.
 
-Signed-off-by: Daniel Wagner <wagi@monom.org>
+Fixes: CVE-2022-32293
 ---
- src/wispr.c | 22 +++++++++++-----------
- 1 file changed, 11 insertions(+), 11 deletions(-)
+ src/wispr.c | 52 ++++++++++++++++++++++++++++++++++++++++++----------
+ 1 file changed, 42 insertions(+), 10 deletions(-)
 
 diff --git a/src/wispr.c b/src/wispr.c
-index 7d4a3f54b24b..9bd2a2ef1d5f 100644
+index a07896cabe48..bde7e63ba4b2 100644
 --- a/src/wispr.c
 +++ b/src/wispr.c
-@@ -91,7 +91,7 @@ struct connman_wispr_portal {
+@@ -56,6 +56,7 @@ struct wispr_route {
+ };
  
- static bool wispr_portal_web_result(GWebResult *result, gpointer user_data);
- 
--static GHashTable *wispr_portal_list = NULL;
-+static GHashTable *wispr_portal_hash = NULL;
- 
- static char *online_check_ipv4_url = NULL;
+ struct connman_wispr_portal_context {
++	int refcount;
+ 	struct connman_service *service;
+ 	enum connman_ipconfig_type type;
+ 	struct connman_wispr_portal *wispr_portal;
+@@ -97,6 +98,11 @@ static char *online_check_ipv4_url = NULL;
  static char *online_check_ipv6_url = NULL;
-@@ -576,7 +576,7 @@ static void wispr_portal_browser_reply_cb(struct connman_service *service,
- 	if (index < 0)
- 		return;
+ static bool enable_online_to_ready_transition = false;
  
--	wispr_portal = g_hash_table_lookup(wispr_portal_list,
-+	wispr_portal = g_hash_table_lookup(wispr_portal_hash,
- 					GINT_TO_POINTER(index));
++#define wispr_portal_context_ref(wp_context) \
++	wispr_portal_context_ref_debug(wp_context, __FILE__, __LINE__, __func__)
++#define wispr_portal_context_unref(wp_context) \
++	wispr_portal_context_unref_debug(wp_context, __FILE__, __LINE__, __func__)
++
+ static void connman_wispr_message_init(struct connman_wispr_message *msg)
+ {
+ 	DBG("");
+@@ -162,9 +168,6 @@ static void free_connman_wispr_portal_context(
+ {
+ 	DBG("context %p", wp_context);
+ 
+-	if (!wp_context)
+-		return;
+-
+ 	if (wp_context->wispr_portal) {
+ 		if (wp_context->wispr_portal->ipv4_context == wp_context)
+ 			wp_context->wispr_portal->ipv4_context = NULL;
+@@ -201,9 +204,38 @@ static void free_connman_wispr_portal_context(
+ 	g_free(wp_context);
+ }
+ 
++static struct connman_wispr_portal_context *
++wispr_portal_context_ref_debug(struct connman_wispr_portal_context *wp_context,
++			const char *file, int line, const char *caller)
++{
++	DBG("%p ref %d by %s:%d:%s()", wp_context,
++		wp_context->refcount + 1, file, line, caller);
++
++	__sync_fetch_and_add(&wp_context->refcount, 1);
++
++	return wp_context;
++}
++
++static void wispr_portal_context_unref_debug(
++		struct connman_wispr_portal_context *wp_context,
++		const char *file, int line, const char *caller)
++{
++	if (!wp_context)
++		return;
++
++	DBG("%p ref %d by %s:%d:%s()", wp_context,
++		wp_context->refcount - 1, file, line, caller);
++
++	if (__sync_fetch_and_sub(&wp_context->refcount, 1) != 1)
++		return;
++
++	free_connman_wispr_portal_context(wp_context);
++}
++
+ static struct connman_wispr_portal_context *create_wispr_portal_context(void)
+ {
+-	return g_try_new0(struct connman_wispr_portal_context, 1);
++	return wispr_portal_context_ref(
++		g_new0(struct connman_wispr_portal_context, 1));
+ }
+ 
+ static void free_connman_wispr_portal(gpointer data)
+@@ -215,8 +247,8 @@ static void free_connman_wispr_portal(gpointer data)
  	if (!wispr_portal)
  		return;
-@@ -974,21 +974,21 @@ int __connman_wispr_start(struct connman_service *service,
  
- 	DBG("service %p", service);
+-	free_connman_wispr_portal_context(wispr_portal->ipv4_context);
+-	free_connman_wispr_portal_context(wispr_portal->ipv6_context);
++	wispr_portal_context_unref(wispr_portal->ipv4_context);
++	wispr_portal_context_unref(wispr_portal->ipv6_context);
  
--	if (!wispr_portal_list)
-+	if (!wispr_portal_hash)
- 		return -EINVAL;
+ 	g_free(wispr_portal);
+ }
+@@ -452,7 +484,7 @@ static void portal_manage_status(GWebResult *result,
+ 		connman_info("Client-Timezone: %s", str);
  
- 	index = __connman_service_get_index(service);
- 	if (index < 0)
- 		return -EINVAL;
+ 	if (!enable_online_to_ready_transition)
+-		free_connman_wispr_portal_context(wp_context);
++		wispr_portal_context_unref(wp_context);
  
--	wispr_portal = g_hash_table_lookup(wispr_portal_list,
-+	wispr_portal = g_hash_table_lookup(wispr_portal_hash,
- 					GINT_TO_POINTER(index));
- 	if (!wispr_portal) {
- 		wispr_portal = g_try_new0(struct connman_wispr_portal, 1);
- 		if (!wispr_portal)
- 			return -ENOMEM;
+ 	__connman_service_ipconfig_indicate_state(service,
+ 					CONNMAN_SERVICE_STATE_ONLINE, type);
+@@ -616,7 +648,7 @@ static void wispr_portal_request_wispr_login(struct connman_service *service,
+ 				return;
+ 		}
  
--		g_hash_table_replace(wispr_portal_list,
-+		g_hash_table_replace(wispr_portal_hash,
- 					GINT_TO_POINTER(index), wispr_portal);
+-		free_connman_wispr_portal_context(wp_context);
++		wispr_portal_context_unref(wp_context);
+ 		return;
  	}
  
-@@ -1026,14 +1026,14 @@ void __connman_wispr_stop(struct connman_service *service)
+@@ -952,7 +984,7 @@ static int wispr_portal_detect(struct connman_wispr_portal_context *wp_context)
  
- 	DBG("service %p", service);
+ 		if (wp_context->token == 0) {
+ 			err = -EINVAL;
+-			free_connman_wispr_portal_context(wp_context);
++			wispr_portal_context_unref(wp_context);
+ 		}
+ 	} else if (wp_context->timeout == 0) {
+ 		wp_context->timeout = g_idle_add(no_proxy_callback, wp_context);
+@@ -1001,7 +1033,7 @@ int __connman_wispr_start(struct connman_service *service,
  
--	if (!wispr_portal_list)
-+	if (!wispr_portal_hash)
- 		return;
+ 	/* If there is already an existing context, we wipe it */
+ 	if (wp_context)
+-		free_connman_wispr_portal_context(wp_context);
++		wispr_portal_context_unref(wp_context);
  
- 	index = __connman_service_get_index(service);
- 	if (index < 0)
- 		return;
- 
--	wispr_portal = g_hash_table_lookup(wispr_portal_list,
-+	wispr_portal = g_hash_table_lookup(wispr_portal_hash,
- 					GINT_TO_POINTER(index));
- 	if (!wispr_portal)
- 		return;
-@@ -1042,14 +1042,14 @@ void __connman_wispr_stop(struct connman_service *service)
- 	     service == wispr_portal->ipv4_context->service) ||
- 	    (wispr_portal->ipv6_context &&
- 	     service == wispr_portal->ipv6_context->service))
--		g_hash_table_remove(wispr_portal_list, GINT_TO_POINTER(index));
-+		g_hash_table_remove(wispr_portal_hash, GINT_TO_POINTER(index));
- }
- 
- int __connman_wispr_init(void)
- {
- 	DBG("");
- 
--	wispr_portal_list = g_hash_table_new_full(g_direct_hash,
-+	wispr_portal_hash = g_hash_table_new_full(g_direct_hash,
- 						g_direct_equal, NULL,
- 						free_connman_wispr_portal);
- 
-@@ -1068,6 +1068,6 @@ void __connman_wispr_cleanup(void)
- {
- 	DBG("");
- 
--	g_hash_table_destroy(wispr_portal_list);
--	wispr_portal_list = NULL;
-+	g_hash_table_destroy(wispr_portal_hash);
-+	wispr_portal_hash = NULL;
- }
+ 	wp_context = create_wispr_portal_context();
+ 	if (!wp_context)
 -- 
 2.37.1
 
