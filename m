@@ -1,25 +1,25 @@
 Received: from mail.nearlyone.de (mail.nearlyone.de [46.163.114.145])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81BD928E7
-	for <connman@lists.linux.dev>; Sun, 28 Aug 2022 18:31:18 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 8E5D95E06E
-	for <connman@lists.linux.dev>; Sun, 28 Aug 2022 20:31:16 +0200 (CEST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 366F528E7
+	for <connman@lists.linux.dev>; Sun, 28 Aug 2022 18:31:29 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 6FCDB5E064
+	for <connman@lists.linux.dev>; Sun, 28 Aug 2022 20:31:27 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=monom.org; s=dkim;
-	t=1661711476;
+	t=1661711487;
 	h=from:subject:date:message-id:to:mime-version:content-type:in-reply-to:
-	 references; bh=dfmNsvdrSygV4AwoqEqdn/NRBPNH/v+s0s4rLMePiNg=;
-	b=fDTypZuiR18QBuROaFt9JlXLMvWJPrfaCCICD4E3ww60MlYeAEpHyx0Of2Cb3H5ClTIBkq
-	Zen/8S2eHFEQ5/oU7yAleiaN3zdTtSqzr8JGJICkEg0DDuHqp80Fy3mvBtu/0GqbJObN7W
-	sg5sO9wI7p2aPXY0G2nj5MK4UpdhKyWUiy56/DiJpQa1kGWJnMTNBZtxNyu7D92+x3qx44
-	tOsMdTZ/Lag2FyRI66pzEf0+SI5oaLgr3FQsictwNAC5NpHumA2aOwec3jKuLAVKhbQ+BI
-	KjrztpgWmUjRT3zR6GYbYDys0zE+NWU/qLi+ILry1139f0SabURnXP1/8L10uw==
-Date: Sun, 28 Aug 2022 20:31:16 +0200
+	 references; bh=jqi6SgF2j0h72Yl6+IbOH5d8JDVkhaCqUMCeakyRHJ4=;
+	b=UBMzkRT/mLkj9gZsyUdpytcoh3kifye6eUQMCIBJBEK10y/ez/AsDMRFZvAkA4Nestc+Ko
+	sAgon2IEx6uT5WhvHYBSShkcqtFf2cEPooFZrd1wzh6I3k9Y5/VDnNTdnXiTuTCwXJKoqJ
+	1OaTEZYzQ87WVP4ZwnTQgkOEx9NzkwGPFQCqALPS9Mv41+P7MWYXxKiWpb/zx8cRB57UJU
+	D46MzZeeJ6sb69jUEzNbJaPdyLJRNnMTv1hWjQMK2YT85ywwJ0dlveUIAz7LxRlqaqb2kb
+	JSzAO7qDRtE7g6s/i0bPMiSXzTC8/1FBxaJRtSDiJN9kqvhJ57MyXR7gozFTug==
+Date: Sun, 28 Aug 2022 20:31:27 +0200
 From: Daniel Wagner <wagi@monom.org>
 To: connman@lists.linux.dev
-Subject: Re: [PATCH] wisrp: Handle wispr_portal_detect failures
-Message-ID: <20220828183116.zed3nrbl5thf5qjj@beryllium.lan>
-References: <20220828135322.21582-1-wagi@monom.org>
+Subject: Re: [PATCH] ipconfig: Don't add invalid gateway routes
+Message-ID: <20220828183127.whie4qtfaanoifsg@beryllium.lan>
+References: <20220828181052.27467-1-wagi@monom.org>
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
@@ -28,13 +28,13 @@ List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220828135322.21582-1-wagi@monom.org>
+In-Reply-To: <20220828181052.27467-1-wagi@monom.org>
 X-Last-TLS-Session-Version: TLSv1.3
 
-On Sun, Aug 28, 2022 at 03:53:22PM +0200, Daniel Wagner wrote:
-> __connman_wispr_start() should handle any errors reported by
-> wispr_portal_detect.
-> 
-> While at it also return early if the service type is not supported.
+On Sun, Aug 28, 2022 at 08:10:52PM +0200, Daniel Wagner wrote:
+> When we assign an IPV4LL address we are calling
+> __connman_ipconfig_gateway_add() with an invalid GW set. It's propably
+> a safe bet to say NULL is never a valid GW, so let's filter it out for
+> all callers.
 
 applied
