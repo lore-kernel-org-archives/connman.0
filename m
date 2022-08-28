@@ -1,69 +1,84 @@
-Received: from fallback14.mail.ru (fallback14.mail.ru [94.100.179.44])
+Received: from mail.nearlyone.de (mail.nearlyone.de [46.163.114.145])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7C5F15A8
-	for <connman@lists.linux.dev>; Sun, 28 Aug 2022 15:37:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=dark-templar-archives.net; s=mailru;
-	h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:From:Subject:Content-Type:Content-Transfer-Encoding:To:Cc; bh=rucharmG7w4B6QjiviT6DWaNEFQd/J4PYSvUYK7l728=;
-	t=1661701062;x=1661791062; 
-	b=RxTYSfTTVbVa4dUkcR29wZapKSZ4xFRJZ3mgnosiCKGC67vX9VGgesgBa8ZPjBAXPAKtB3W0oBdrC6d0nyjbgqswF9f4rmZ8ACa86poClXNRmJh/Y7X0Tz0/16HYIGhCtHyr7zGrNHDi1+Vas8B/vlk4BZ+jQsnkaQMZSzNpbt0=;
-Received: from [10.161.100.15] (port=33688 helo=smtpng3.i.mail.ru)
-	by fallback14.m.smailru.net with esmtp (envelope-from <darktemplar@dark-templar-archives.net>)
-	id 1oSJhR-0005Rh-Pk
-	for connman@lists.linux.dev; Sun, 28 Aug 2022 17:55:46 +0300
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=dark-templar-archives.net; s=mailru;
-	h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:From:Subject:Content-Type:Content-Transfer-Encoding:To:Cc; bh=rucharmG7w4B6QjiviT6DWaNEFQd/J4PYSvUYK7l728=;
-	t=1661698545;x=1661788545; 
-	b=W7FAziezCf424wXFcy1bZSaYQ+LpRMokK26DX/6XT4Q8epDhndePj4j0aScMugKy+8rcylnAxjoooNOFS0qEjis4OmC1Abn/BF9Ehdg0dgGDnsMI0LsNFXgp+1fAszK+u8mbIDOj0Ng2vJKux1kSdioe9swYX/uL2kUMZne7tYM=;
-Received: by smtpng3.m.smailru.net with esmtpa (envelope-from <darktemplar@dark-templar-archives.net>)
-	id 1oSJhJ-0004MU-4U; Sun, 28 Aug 2022 17:55:37 +0300
-Message-ID: <a64e16a0-14e1-b127-7e7a-50eb62887158@dark-templar-archives.net>
-Date: Sun, 28 Aug 2022 16:55:35 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50E2A15A8
+	for <connman@lists.linux.dev>; Sun, 28 Aug 2022 15:38:26 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 47F095DFF4;
+	Sun, 28 Aug 2022 17:38:23 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=monom.org; s=dkim;
+	t=1661701104; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 in-reply-to:references; bh=CGyx7zGtCzjiTc9T7Nc5ddLzy8+sl1cz1MLscU96xrk=;
+	b=XR9Sn47zxg3Uthzmh30e4N32+qDnYlc4Q32wyfrHs+QnewDuiSt/RdV/lkph/GstF4zys3
+	m5Ea5kROSc7t6FzWVlqRu2rkrMbriz/yVi/xFv+Z54yVNNgEYuZuGLyXnZBRatNAiqMjMh
+	wD3b2QnYNifVBOje4KpSyinxoRQn4cdjT4oIKsMfOmbJZVqsRf0o5h7j+Bpbtqk8wIaVqI
+	kN58yksJV1HSQB1ef4ULgVrvK8niyEA6nzsttdw5BG5tkE1aYPxw4jzTR5gkZIBozAo6vG
+	oyjNQJaH/YqBusYGSqJiupN6RtjEnmJHfAg39Ykiz1WnL5fWKqkkdETecMWueA==
+Date: Sun, 28 Aug 2022 17:38:22 +0200
+From: Daniel Wagner <wagi@monom.org>
+To: Jupiter <jupiter.hce@gmail.com>
+Cc: Denis Kenzior <denkenz@gmail.com>, iwd <iwd@lists.01.org>,
+	connman <connman@lists.linux.dev>
+Subject: Re: iwd + connman
+Message-ID: <20220828153822.pvyyttxknssey23c@beryllium.lan>
+References: <CAA=hcWTmGCSQFEMABzUU742ZE-2LJNR38+B55Kzr3HrLjcOO-g@mail.gmail.com>
+ <3dc4f487-0833-19d9-d4b7-8c6319d32411@gmail.com>
+ <CAA=hcWT6xaJKWxmstpRznb+hY7PcwDSagm_n6udZ8VjMXw_p6A@mail.gmail.com>
+ <02550a47-5d45-d165-4572-0542f5772532@gmail.com>
+ <CAA=hcWRSKCUEcO+EnRgrk9D+dUxAubYjQAHEQjfgWTE0FaKNug@mail.gmail.com>
+ <20220704092248.2qjehvz7f3f3dsii@beryllium.lan>
+ <CAA=hcWRsNbm36yLt00bD7xuTEVkD=ApYt3JNYd66H7bw1JiSeQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Subject: Re: connman HEAD regression
-Content-Language: en-GB
-To: Daniel Wagner <wagi@monom.org>
-Cc: connman@lists.linux.dev
-References: <b4938292-e2a0-e572-77c1-19dda0a16d0c@dark-templar-archives.net>
- <20220828141025.ork74ys4ewhwqgae@beryllium.lan>
-From: "i.Dark_Templar" <darktemplar@dark-templar-archives.net>
-In-Reply-To: <20220828141025.ork74ys4ewhwqgae@beryllium.lan>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Mailru-Src: smtp
-X-7564579A: EEAE043A70213CC8
-X-77F55803: 4F1203BC0FB41BD90FA8EB11E8F64C562B98BA7982DCFA3D7B52310EE295D2641313CFAB8367EF908E2BE116634AD74D1C13ECA7D4303A54D0AC3D91DF1DD437F544AE586A3FD10FFF9139D96AE4C720
-X-7FA49CB5: FF5795518A3D127A4AD6D5ED66289B5278DA827A17800CE7544B1CCE26E01C74EA1F7E6F0F101C67BD4B6F7A4D31EC0BCC500DACC3FED6E28638F802B75D45FF8AA50765F7900637E88AB9B4A10918C78638F802B75D45FF36EB9D2243A4F8B5A6FCA7DBDB1FC311F39EFFDF887939037866D6147AF826D8609F8ED893FD6752F8EFBDB6697132B1117882F4460429724CE54428C33FAD305F5C1EE8F4F765FC2EE5AD8F952D28FBA471835C12D1D9774AD6D5ED66289B52BA9C0B312567BB23117882F446042972877693876707352033AC447995A7AD18618001F51B5FD3F9D2E47CDBA5A96583BA9C0B312567BB231DD303D21008E29813377AFFFEAFD269A417C69337E82CC2E827F84554CEF50127C277FBC8AE2E8BA83251EDC214901ED5E8D9A59859A8B6714D3C157B7FF6D575ECD9A6C639B01B4E70A05D1297E1BBCB5012B2E24CD356
-X-C1DE0DAB: 9604B64F49C60606AD91A466A1DEF99B296C473AB1E142185AC9E3593CE4B31AB1881A6453793CE9274300E5CE05BD4401A9E91200F654B0EA9B9E1F19CA50853EEEE07A23441A0E27A42682C678EBF899A1E823A16487649C2B6934AE262D3EE7EAB7254005DCED8DA55E71E02F9FC08E8E86DC7131B365E7726E8460B7C23C
-X-C8649E89: 4E36BF7865823D7055A7F0CF078B5EC49A30900B95165D34505665BFD4C70705FD12C22FE74A77D8D331ABBCD84219E8C98D92AEB90DFAD4E4B3ECB71C9556A11D7E09C32AA3244C7BB47E1BDE570B9510BE2DB387C8524F408A6A02710B7304729B2BEF169E0186
-X-D57D3AED: 3ZO7eAau8CL7WIMRKs4sN3D3tLDjz0dLbV79QFUyzQ2Ujvy7cMT6pYYqY16iZVKkSc3dCLJ7zSJH7+u4VD18S7Vl4ZUrpaVfd2+vE6kuoey4m4VkSEu530nj6fImhcD4MUrOEAnl0W826KZ9Q+tr5ycPtXkTV4k65bRjmOUUP8cvGozZ33TWg5HZplvhhXbhDGzqmQDTd6OAevLeAnq3Ra9uf7zvY2zzsIhlcp/Y7m53TZgf2aB4JOg4gkr2biojpE0orDa5U90uo5RWlxDvBA==
-X-DA7885C5: 5F868627E7B6D9991CBDB909672E1953EBEED656C84EC1C5A9895F8FAFCE3E0D262E2D401490A4A0DB037EFA58388B346E8BC1A9835FDE71
-X-Mailru-Sender: 689FA8AB762F7393CC2E0F076E87284EBC4187FBDC70EB6D55E3B2CD89B98DBAFC46662C07703AF85C26933BBBA7D932FB559BB5D741EB96CB0DDC60C75065A8DE84130C709110B3AEED54BB88DBBF873453F38A29522196
-X-Mras: Ok
-X-7564579A: B8F34718100C35BD
-X-77F55803: 6242723A09DB00B47C42706C6A6E4F30AB8F4C92D4038F46831525A0DB510E95049FFFDB7839CE9E2E6C9E043DC2CAC3DDEE9B016321BC90D044BF29832B508F7C770C67FE61490D
-X-7FA49CB5: 0D63561A33F958A5581DF6B8BB3DD2208C1069B77ACD1C77061A56362A5F17648941B15DA834481FA18204E546F3947C92349F04B73BB8DAF6B57BC7E64490618DEB871D839B7333395957E7521B51C2DFABB839C843B9C08941B15DA834481F8AA50765F790063733DB58E2D23414FC389733CBF5DBD5E9B5C8C57E37DE458BD96E472CDF7238E0725E5C173C3A84C3A8421AA044726D3235872C767BF85DA2F004C90652538430E4A6367B16DE6309
-X-C1DE0DAB: 9604B64F49C60606AD91A466A1DEF99B296C473AB1E142185AC9E3593CE4B31AB1881A6453793CE9274300E5CE05BD44CFFBF5018520E3985744B85286F69EAA3EEEE07A23441A0EFE2E5E7D307174AA0DAAFDBBF69705E49C2B6934AE262D3EE7EAB7254005DCED8DA55E71E02F9FC08E8E86DC7131B365E7726E8460B7C23C
-X-D57D3AED: 3ZO7eAau8CL7WIMRKs4sN3D3tLDjz0dLbV79QFUyzQ2Ujvy7cMT6pYYqY16iZVKkSc3dCLJ7zSJH7+u4VD18S7Vl4ZUrpaVfd2+vE6kuoey4m4VkSEu530nj6fImhcD4MUrOEAnl0W826KZ9Q+tr5ycPtXkTV4k65bRjmOUUP8cvGozZ33TWg5HZplvhhXbhDGzqmQDTd6OAevLeAnq3Ra9uf7zvY2zzsIhlcp/Y7m53TZgf2aB4JOg4gkr2biojpE0orDa5U92T8fFC2/KHIQ==
-X-Mailru-MI: 8000000000000800
-X-Mras: Ok
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAA=hcWRsNbm36yLt00bD7xuTEVkD=ApYt3JNYd66H7bw1JiSeQ@mail.gmail.com>
+X-Last-TLS-Session-Version: TLSv1.3
 
-28.08.2022 16:10, Daniel Wagner пишет:
-> On Thu, Aug 18, 2022 at 07:29:54PM +0200, i.Dark_Templar wrote:
->> I've found a regression in connman commit:
->>
->> https://git.kernel.org/pub/scm/network/connman/connman.git/commit/?id=416bfaff988882c553c672e5bfc2d4f648d29e8a
+On Mon, Jul 18, 2022 at 12:31:09PM +1000, Jupiter wrote:
+> >> But I don't think that is the cause of connman failing wifi detection,
+> >> how is iwd and connman communicated on
+> >> EnableNetworkConfiguration=false, I assume through dbus, right?
+> >
+> > No, this is not a D-Bus API. ConnMan will not set this.
 > 
-> It looks like the wispr fix unrevealed some other bugs. Could try if
-> this patch [1] helps?
+> Could you please elaborate how the ConnMan could figure out WiFi
+> connection based on there being no direct connection and communication
+> between the ConnMan and iwd?
+
+ConnMan does lookup the device type on the interface index. But as far
+my current understanding is, this is not the problem here.
+
+> > The DHCP code in ConnMan doesn't really care about this detail. ConnMan
+> > operates on interface index.
 > 
-> [1] https://lore.kernel.org/connman/20220828135322.21582-1-wagi@monom.org/
+> I set up /etc/connman/main.conf:
+> 
+> PreferredTechnologies = wifi,cellular
+> SingleConnectedTechnology = true
+> 
+> The ConnMan was able to switch between the WiFi and cellular
+> connection when I used wpa_supplicant, it is now incapable of
+> switching WiFi and cellular connection in iwd. If it is based on
+> interface index, here is my interfaces both mlan0 and wwan0 are
+> connected, ConnMan is not able to turn off cellular when WiFi is
+> connected, how does the SingleConnectedTechnology=true work with iwd?
 
-Good day.
+It's the same logic. The ConnMan core code doesn't distinguish between
+the plugins.
 
-Unfortunately this patch didn't fix issue for me.
+> > Currently, you can't use EnableNetworkConfiguration=true together with
+> > ConnMan. This will not work.
+> 
+> That was the question I have asked for months about how to make
+> EnableNetworkConfiguration=false work with ConnMan. Sadly if I set up
+> EnableNetworkConfiguration=false, ConnMan was not able to set up WiFi
+> network, if you believe the ConnMan is able to work with iwd
+> EnableNetworkConfiguration=false, could you please elaborate how to
+> debug it, I'll try to figure it out?
+
+You would need to teach ConnMan that certain services don't need
+DHCP. I estimate it a major effort to make this work. 
