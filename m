@@ -1,28 +1,25 @@
 Received: from mail.nearlyone.de (mail.nearlyone.de [46.163.114.145])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D5983214
-	for <connman@lists.linux.dev>; Sun, 28 Aug 2022 14:13:56 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 9A8625DE8B;
-	Sun, 28 Aug 2022 16:13:54 +0200 (CEST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D86E3214
+	for <connman@lists.linux.dev>; Sun, 28 Aug 2022 14:19:23 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 2941D5DE97
+	for <connman@lists.linux.dev>; Sun, 28 Aug 2022 16:19:22 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=monom.org; s=dkim;
-	t=1661696034; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	t=1661696362; h=from:subject:date:message-id:to:mime-version:content-type:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=ot6XBEY8TYO/BVYDjndBsktQBKvFSgxWxSnWbRMfJE0=;
-	b=MLN0N/YBYckC4T2dII9PVV8/+BwIkjQuwoKgL2rqKqWFSts0dJSwOHETMt2rIGjLqJ0lib
-	ySOWtEvmMKy+3nZftoG1EBw4QKTn7aI7/Wp6H4357nD+gBnR9zs/wm/I6Di8i3+K5By2lo
-	y/E6qOkSX8EDoaMq2tBAzRNfLlr1rqO1tYjkVcp5xA0zpPyHPJIKwb8sxYBuxYLZbX3Mp0
-	5rFb1MEhugR0/aex7xIz15AFzyjkB5HZ8B0MCOiLSkToVMfuJ93lTXqOOYhgvw2s6MnriQ
-	orx2JpZYnxunBh75q8VIXFS/icF8ivei0xx0QnyL1EWqL9bk3HAwQd2iFRGV9g==
-Date: Sun, 28 Aug 2022 16:13:54 +0200
+	bh=d+NjNsqJQRs05kpuW8qfPVZyaDqc+f9Zk1bWNiRxv6w=;
+	b=KUVzzsFwssvgQVHmPvIlVS03nWP0liizuqGq98N9vHIG+4ogfMy/BQl5d2m1y6o/G6T3ra
+	aq+jM2OxyuNrQWdDY5utMe31g/yWjfgBjHhX1rWEgQHjRyUY6KFOfG0bIPASPsnCWPOAEV
+	7pTFaiMHcmE38EsGVRGTQpJ+eMdRNJUfOH3jAQHOH9a9BwkRvQrtZlRYvT0RfhEuFkF4Ub
+	Vmaz/RxM3TRE319d6zOU4qhlw4Aum2H+g6UveleAXHbSHOwBIP04jCVKJpYujNvyyxsrvx
+	5THfwOeCGVmt2xD0NMn3ChnBnYwvPWM13ZdQoLTu+FgvgyZS6QihVLDqK8sWcg==
+Date: Sun, 28 Aug 2022 16:19:21 +0200
 From: Daniel Wagner <wagi@monom.org>
-To: Jakub Jirutka <jakub@jirutka.cz>
-Cc: connman@lists.linux.dev
-Subject: Re: Service state change is not emitted on net.connman.Service
-Message-ID: <20220828141354.3aav75s2jn2hkbpc@beryllium.lan>
-References: <4df95b51-0da9-6bf1-967f-17bfe8cbf782@jirutka.cz>
- <20220711074551.m5ohm74noepd4s45@beryllium>
- <7711ed9c-9f7c-75d8-9be8-dc205af13022@jirutka.cz>
+To: connman@lists.linux.dev
+Subject: Re: Removing credentials for unavailable services
+Message-ID: <20220828141921.zhtha3rxnjqoic3c@beryllium.lan>
+References: <YrHdHggQSI2xH5fB@smrz.lan>
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
@@ -32,35 +29,30 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <7711ed9c-9f7c-75d8-9be8-dc205af13022@jirutka.cz>
+In-Reply-To: <YrHdHggQSI2xH5fB@smrz.lan>
 X-Last-TLS-Session-Version: TLSv1.3
 
-Hi Jakub,
+Hi Roman,
 
-On Wed, Jul 13, 2022 at 03:23:21AM +0200, Jakub Jirutka wrote:
-> I’m beginning to think that throwing away the PropertyChanged signals within
-> 100 ms wasn’t the original intention. It’s a result of two requirements that
-> are implemented in a contradictory way:
+On Tue, Jun 21, 2022 at 05:00:46PM +0200, Roman Smrž wrote:
+> Hi,
 > 
-> 1. Don’t send ServicesChanged right after each change, but aggregate the
-> changes within 100 ms interval and order service removals first.
-> 2. Avoid sending PropertyChanged for a service before the ServicesChanged
-> signal with this service listed is sent.
+> we have a setup where we need a way to remove WiFi credentials stored by
+> connman. This is possible using the net.connman.Service.Remove method,
+> but that's available only for currently visible services and I don't see
+> other way to do this that would work for any stored service.
 > 
-> I would start by asking if both of these requirements are still valid.
-> Why sending PropertyChanged before the service is announced in
-> ServicesChanged is a problem?
-> 
-> If these two requirements still apply, what about postponing PropertyChanged
-> instead of throwing them away, i.e. accumulate them in a queue and send
-> after the related ServicesChanged is sent?
+> To solve this, my colleague created a couple of patches adding new
+> methods to net.connman.Manager interface to list and remove known
+> (stored) services. Does this approach make sense to you for submission
+> here, or would you suggest something different?
 
-I came to the same conclusion. Those requirements are contradicting
-each other. The 100ms requirement sounds like a fix for an UI which
-can't handle it correctly. I think I would just remove the 100ms thing
-:)
+There were several attempts to address this and a few patches were even
+posted but after my feedback, they were never updated.
+
+https://lore.kernel.org/connman/DM6PR04MB700338BA0F2EBF84D07EF5759FAE9@DM6PR04MB7003.namprd04.prod.outlook.com/#r
+
+Maybe look at those and integrate the feedback into your
+patches.
 
 Daniel
-
-
-
