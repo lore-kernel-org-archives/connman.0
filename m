@@ -1,92 +1,53 @@
-Received: from mail-vk1-f176.google.com (mail-vk1-f176.google.com [209.85.221.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.nearlyone.de (mail.nearlyone.de [46.163.114.145])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 262472F45
-	for <connman@lists.linux.dev>; Sun, 28 Aug 2022 16:42:16 +0000 (UTC)
-Received: by mail-vk1-f176.google.com with SMTP id w129so2787074vkg.10
-        for <connman@lists.linux.dev>; Sun, 28 Aug 2022 09:42:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc;
-        bh=1OjknJdMCTXPXijCs67z8g2PWpp+EyvJzEGx2mq4FGo=;
-        b=aFnnAfWE6b3OYtR60IWdTvG4R6aJa2oV28Eta6eqU1TgeBevSuoQtPA6zaHausIzRL
-         m4QbHXnPJ6pFtxkUXxyRnXqDZ+xckH0TIOIRidNNb/Un30PptuZb7471B+1HcQo1NNLL
-         e+u2ti0Fb6E9o3sH3TL/amb21X7HMjEfIJsAYojS6Lnt2uhmwTAIG9hkSlQLDp3YSE6a
-         sH2S5OqDKVGHjNQcRSy9J+NaZUEsaH08LCwZnve7bKEVd+b+3pPup/Lyjv501/bk33C6
-         dTdEPp1MYTndP8kILXddYZOcztPdSn7Msd7ASBrmUAqLhkpFGvwuLkBOzFGgjjyUzIv8
-         bExA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc;
-        bh=1OjknJdMCTXPXijCs67z8g2PWpp+EyvJzEGx2mq4FGo=;
-        b=O/KzUt3o7AuyhkfGON5qBdQks5x0lguEpVp/jpuw/yzXq4hzV7ntphQIBsC9m7A/hl
-         y84yoBQpJUlWoloFze59Iyd54iEmRVYtcewDvdy1zeKc9Q8TBG/sAl27yPbVP5UY3MLu
-         zw+htGpEGJKgiRDUBHW8M9d6gvAwL1AlZ6/TI5J8q8Fhbx3GsJ+uY+t8LicrRJ3uR4Hz
-         ulZEocWOgsf+AU05ykm5ycHIxpoGIQk9CLei7t5NdcSdeFY68+I/0JRwhcmKGJr5Leht
-         k3panrY8lPy1yK57GMkFeKGtaCj/FYUtMd2zIiIE5RWcAA0i3LmPNbsdyBaWXwu0cpty
-         NqOQ==
-X-Gm-Message-State: ACgBeo2Hs++1ObYnLuqzaUxaoqiq7V652JdHoXrrSlMqgNxACorpbw0c
-	u9Qxr+A1Cr4IVr5g8g/FGPoh15wYvsao2KhObt8/qYtK9pTIoyYb
-X-Google-Smtp-Source: AA6agR5lYOJw9ljlLspYV7wvLUaR4DFaVXr5ioKVW9+ay/40tS1KdxNw211VZvE/V81EIt5jR4HNgVGNeySaXmuVMS8=
-X-Received: by 2002:a05:6122:50a:b0:38c:ebd0:9fb with SMTP id
- x10-20020a056122050a00b0038cebd009fbmr2145850vko.36.1661704934966; Sun, 28
- Aug 2022 09:42:14 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD45A4699
+	for <connman@lists.linux.dev>; Sun, 28 Aug 2022 17:33:43 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 67C5A5E01E;
+	Sun, 28 Aug 2022 19:33:41 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=monom.org; s=dkim;
+	t=1661708021; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 in-reply-to:references; bh=RdiZko2ERoZ5mkSm+dp+3ZtnwZWnLVSj7A14/7VHqhw=;
+	b=vt3FUiwgRoY2CedTeTuKUicYe293gxfSn7phvoX2gMKPWBfxayMminEqxlVyj7v/xT+KnE
+	XX99B2qUxYgxyCGSiQezU6Zvw0Hmr13ktmv+IZh8lx07AzEyWU6mgZfswvMtocyHiHaKD5
+	gDEP4hfFpMWdbHfBT8qP7zkE+ZTOb9sR4J59uFE99m9phs0CL4hGz1Eoxax5P28f0H1+sx
+	KOBZfNUr3dbmuobfec1RjaGeu5Q6NSuM8MxdawG+ozVC0wcG1y0O+YWhIksGoahyhOnJ6J
+	WDkVGEgVBnBK9aQ3h8vbz7OgxXI1HVb1hg3XVwKzrrAc/xofJb4u9zA5XjndHQ==
+Date: Sun, 28 Aug 2022 19:33:40 +0200
+From: Daniel Wagner <wagi@monom.org>
+To: "i.Dark_Templar" <darktemplar@dark-templar-archives.net>
+Cc: connman@lists.linux.dev
+Subject: Re: connman HEAD regression
+Message-ID: <20220828173340.4jzimv6seuyenffi@beryllium.lan>
+References: <b4938292-e2a0-e572-77c1-19dda0a16d0c@dark-templar-archives.net>
+ <20220828141025.ork74ys4ewhwqgae@beryllium.lan>
+ <a64e16a0-14e1-b127-7e7a-50eb62887158@dark-templar-archives.net>
+ <20220828154229.pn7a6a2gphztuj5o@beryllium.lan>
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <CAFT6v_b-nE0TkTRDNcEPgb6wDue0NAwWPBEDevVfA=VBDD-rqg@mail.gmail.com>
- <20220828140621.fs5vy55x2g2minl6@beryllium.lan>
-In-Reply-To: <20220828140621.fs5vy55x2g2minl6@beryllium.lan>
-From: Quen Jankosky <quen.jankosky@gmail.com>
-Date: Sun, 28 Aug 2022 16:42:04 +0000
-Message-ID: <CAFT6v_YpO1EC3wxaovLnNN=nF9wg4i_543rm39RLW6Ewg5Xp9Q@mail.gmail.com>
-Subject: Re: Default Routing Issues, And Potential Solution
-To: Daniel Wagner <wagi@monom.org>
-Cc: connman@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220828154229.pn7a6a2gphztuj5o@beryllium.lan>
+X-Last-TLS-Session-Version: TLSv1.3
 
-Thank you for the insight, but I'm still not really sure about much here.
+It looks like the route is added via the IPV4LL path:
 
-On Sun, Aug 28, 2022 at 2:06 PM EST5EDT Daniel Wagner <wagi@monom.org>
-wrote:> https://git.kernel.org/pub/scm/network/connman/connman.git/tree/doc/overview-api.txt#n116
+connmand[29489]: src/network.c:dhcp_success() lease acquired for ipconfig 0x5575276057a0
+connmand[29489]: src/inet.c:connman_inet_set_address() index 10 address 169.254.74.53 prefix_len 16
+connmand[29489]: src/inet.c:__connman_inet_modify_address() cmd 0x14 flags 0x104 index 10 family 2 address 169.254.74.53 peer (null) prefixlen 16 broadcast (null) p2p false
+connmand[29489]: src/ipconfig.c:__connman_ipconfig_gateway_add()
+connmand[29489]: src/ipconfig.c:__connman_ipconfig_gateway_add() type 1 gw (null) peer (null)
+connmand[29489]: src/connection.c:__connman_connection_gateway_add() service 0x557527609170 index 10 gateway 0.0.0.0 vpn ip (null) type 1
+connmand[29489]: src/service.c:connman_service_ref_debug() 0x557527609170 ref 2 by src/connection.c:416:add_gateway()
+connmand[29489]: src/connection.c:find_active_gateway()
+connmand[29489]: src/connection.c:__connman_connection_gateway_add() active 0x5575275fd820 index 6 new 0x55752760d8f0
+connmand[29489]: src/inet.c:get_interface_addresses() index 10 interface ham0
+connmand[29489]: src/inet.c:connman_inet_get_dest_addr() destination 0.0.0.0
+connmand[29489]: src/inet.c:connman_inet_add_network_route() index 10 host 0.0.0.0 gateway (null) netmask (null)
+connmand[29489]: src/inet.c:connman_inet_add_network_route() ifname ham0
 
-I viewed this doc, it was certainly helpful to gaining me more insight
-to what I'm trying to figure out here, but some things it describes
-are still unclear. In all honesty, I am left more confused. For
-example, here: https://git.kernel.org/pub/scm/network/connman/connman.git/tree/doc/overview-api.txt#n130
-
-Within overview-api.txt:
->To change the default connection to your access point, the user needs to
->manually drag the access point service to the top of the list. Connection
->Manager will not take down default routes if there is no reason to do so.
->A working connection is considered top priority.
-
-... I don't really know whats being described here. The documentation
-doesn't go over any specific way to do this "dragging," and as a
-result I'm just kind of lost on how you really are supposed to
-prioritize a specific service for the default route. It's also
-explicitly stated that the order number is an internally handled
-value, which means (at least from how I can interpret it), there's no
-real way to determine the order of the services on a daemon startup.
-Is there a way to set the order number for a specific service in their
-configuration file, or at least through the d-bus or connmanctl
-interface?
-
-> Does it still happen if you disable the auto connect and wispr feature?
-
-I am aware of the auto connect feature, but I haven't seen anything
-about wispr in the man pages. Is it for the latest connman version? I
-did see your commit from yesterday involving it. I am not willing to
-change the autoconnect feature, however, since the solution to
-manually change the default route is mostly a hack when connman should
-allow me easily configure which service has it.
-
-* * *
-
-I apologize if I'm not understanding any of this, but this all seems
-unclear even in documentation.
+How do you configure ham0's IP address? It is supposed to be set via DHCP?
