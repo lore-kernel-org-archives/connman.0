@@ -1,27 +1,30 @@
 Received: from mail.nearlyone.de (mail.nearlyone.de [46.163.114.145])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C32A84699
-	for <connman@lists.linux.dev>; Sun, 28 Aug 2022 17:49:36 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 3515F5DE97;
-	Sun, 28 Aug 2022 19:49:34 +0200 (CEST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2E1D4699
+	for <connman@lists.linux.dev>; Sun, 28 Aug 2022 17:50:06 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 86F635E04E;
+	Sun, 28 Aug 2022 19:50:04 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=monom.org; s=dkim;
-	t=1661708974; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 in-reply-to:references; bh=5quPGojSkx0L7GiVOZUj4nmxwtJ+dZzU4e7GWBl/HDQ=;
-	b=QxxeqzQe7uVfDL1SbEVTLp3+5BdW2jamuAO4hxARC4zCzeZMWEjZqDvNHdehDNAXn94iWI
-	eyuKnSls0yiCuXvVmIL3esdZfqZIKJjKM0tQtH0psPX2rEzMsm11Io5IXmZUNrM1O/V19w
-	rnVygIbezI0laUIQTJiy5qcWtHwlM0Q+T9vuhoHQaoePm2Ml6Atpn9H0lDu4tQQ5OJeefM
-	MZKcMULd22imn8Uw3afejGfV1J1CYAfnsP2ssmnSWp2GnOX4T04iL7/jfTvH2OtvzF+ltb
-	lx8QHtdNFBKghZEr4Rotr/sQF97zwEtCpbVktBcJu8CIq8RHhlW+RYx5rMl58Q==
-Date: Sun, 28 Aug 2022 19:49:33 +0200
+	t=1661709004; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 in-reply-to:references; bh=4w8HcFrCfBL1pd+olrgGHDHmVrix12Mj1cTRvWGpOPM=;
+	b=QSvksHRm5vP151ySrVLCa3MuBrDfnvNS63YYVzOkjMvftOdjpIPqXlAT5zyQlH9uxXo1kJ
+	vFkIOphb5fDe4JTHqx2dJVoaVmEFhp9dqTr1qH07hSy4IuyvfGpm0OpJ9s1liH5ulrzVWA
+	hRJA1NBkSsZ+7nM/DTOgYw7TwGEQSZ3tAf/UdMl6elOreRQ6N/LYJQfOTI15WEBOYEtU/H
+	UOc1B23G10TJFDxq+3WAFgIFWJu9BeLY9jZ2AOTqztL2FErqVUXUHSninO0ntID8b06Hmg
+	70PqHiA0t4uk0Iuffa1TtUVHEwkz5roxPqh+hv+QKzGnQNyN1aXImQkidnqS0Q==
+Date: Sun, 28 Aug 2022 19:50:04 +0200
 From: Daniel Wagner <wagi@monom.org>
-To: Quen Jankosky <quen.jankosky@gmail.com>
+To: "i.Dark_Templar" <darktemplar@dark-templar-archives.net>
 Cc: connman@lists.linux.dev
-Subject: Re: Default Routing Issues, And Potential Solution
-Message-ID: <20220828174933.tywzdlt4rgpbjar5@beryllium.lan>
-References: <CAFT6v_b-nE0TkTRDNcEPgb6wDue0NAwWPBEDevVfA=VBDD-rqg@mail.gmail.com>
- <20220828140621.fs5vy55x2g2minl6@beryllium.lan>
- <CAFT6v_YpO1EC3wxaovLnNN=nF9wg4i_543rm39RLW6Ewg5Xp9Q@mail.gmail.com>
+Subject: Re: connman HEAD regression
+Message-ID: <20220828175004.vevq62sc4ws5rffy@beryllium.lan>
+References: <b4938292-e2a0-e572-77c1-19dda0a16d0c@dark-templar-archives.net>
+ <20220828141025.ork74ys4ewhwqgae@beryllium.lan>
+ <a64e16a0-14e1-b127-7e7a-50eb62887158@dark-templar-archives.net>
+ <20220828154229.pn7a6a2gphztuj5o@beryllium.lan>
+ <20220828173340.4jzimv6seuyenffi@beryllium.lan>
+ <20220828174050.ate53trz2opzyczg@beryllium.lan>
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
@@ -30,72 +33,29 @@ List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAFT6v_YpO1EC3wxaovLnNN=nF9wg4i_543rm39RLW6Ewg5Xp9Q@mail.gmail.com>
+In-Reply-To: <20220828174050.ate53trz2opzyczg@beryllium.lan>
 X-Last-TLS-Session-Version: TLSv1.3
 
-Hi,
-
-On Sun, Aug 28, 2022 at 04:42:04PM +0000, Quen Jankosky wrote:
-> Thank you for the insight, but I'm still not really sure about much here.
+On Sun, Aug 28, 2022 at 07:40:50PM +0200, Daniel Wagner wrote:
+> On Sun, Aug 28, 2022 at 07:33:40PM +0200, Daniel Wagner wrote:
+> > It looks like the route is added via the IPV4LL path:
+> > 
+> > connmand[29489]: src/network.c:dhcp_success() lease acquired for ipconfig 0x5575276057a0
+> > connmand[29489]: src/inet.c:connman_inet_set_address() index 10 address 169.254.74.53 prefix_len 16
+> > connmand[29489]: src/inet.c:__connman_inet_modify_address() cmd 0x14 flags 0x104 index 10 family 2 address 169.254.74.53 peer (null) prefixlen 16 broadcast (null) p2p false
+> > connmand[29489]: src/ipconfig.c:__connman_ipconfig_gateway_add()
+> > connmand[29489]: src/ipconfig.c:__connman_ipconfig_gateway_add() type 1 gw (null) peer (null)
+> > connmand[29489]: src/connection.c:__connman_connection_gateway_add() service 0x557527609170 index 10 gateway 0.0.0.0 vpn ip (null) type 1
+> > connmand[29489]: src/service.c:connman_service_ref_debug() 0x557527609170 ref 2 by src/connection.c:416:add_gateway()
+> > connmand[29489]: src/connection.c:find_active_gateway()
+> > connmand[29489]: src/connection.c:__connman_connection_gateway_add() active 0x5575275fd820 index 6 new 0x55752760d8f0
+> > connmand[29489]: src/inet.c:get_interface_addresses() index 10 interface ham0
+> > connmand[29489]: src/inet.c:connman_inet_get_dest_addr() destination 0.0.0.0
+> > connmand[29489]: src/inet.c:connman_inet_add_network_route() index 10 host 0.0.0.0 gateway (null) netmask (null)
+> > connmand[29489]: src/inet.c:connman_inet_add_network_route() ifname ham0
+> > 
+> > How do you configure ham0's IP address? It is supposed to be set via DHCP?
 > 
-> On Sun, Aug 28, 2022 at 2:06 PM EST5EDT Daniel Wagner <wagi@monom.org>
-> wrote:> https://git.kernel.org/pub/scm/network/connman/connman.git/tree/doc/overview-api.txt#n116
-> 
-> I viewed this doc, it was certainly helpful to gaining me more insight
-> to what I'm trying to figure out here, but some things it describes
-> are still unclear. In all honesty, I am left more confused. For
-> example, here: https://git.kernel.org/pub/scm/network/connman/connman.git/tree/doc/overview-api.txt#n130
-
-Yeah, it's written with a GUI in mind...
-
-> Within overview-api.txt:
-> >To change the default connection to your access point, the user needs to
-> >manually drag the access point service to the top of the list. Connection
-> >Manager will not take down default routes if there is no reason to do so.
-> >A working connection is considered top priority.
-> 
-> ... I don't really know whats being described here. The documentation
-> doesn't go over any specific way to do this "dragging," and as a
-> result I'm just kind of lost on how you really are supposed to
-> prioritize a specific service for the default route.
-
-The 'dragging' can be achieved by using the move-before or move-after
-D-Bus API
-
-> It's also
-> explicitly stated that the order number is an internally handled
-> value, which means (at least from how I can interpret it), there's no
-> real way to determine the order of the services on a daemon startup.
-
-There are some ordering rules, like prefer certain technology (e.g. WiFi
-over GSM) and within a technology favorites before non-favorites. But
-you are right, there is no fain grained default ordering. If you want to
-do this, it's possible to write your own auto-connect plugin which is
-able to support more fine grained ordering.
-
-> Is there a way to set the order number for a specific service in their
-> configuration file, or at least through the d-bus or connmanctl
-> interface?
-
-No, such a fine grained API doesn't exist. Technology perference and
-Favorites are the existing (default) APIs.
- 
-> > Does it still happen if you disable the auto connect and wispr feature?
-> 
-> I am aware of the auto connect feature, but I haven't seen anything
-> about wispr in the man pages. Is it for the latest connman version? I
-> did see your commit from yesterday involving it. I am not willing to
-> change the autoconnect feature, however, since the solution to
-> manually change the default route is mostly a hack when connman should
-> allow me easily configure which service has it.
-
-I was just asking if the problem is related to these two features.
-
-> I apologize if I'm not understanding any of this, but this all seems
-> unclear even in documentation.
-
-All good. There is not a lot of documentation, that's
-true. Unfortunately, you are not the first one to find this out but
-there is no one stepping up to work on it.
-
-Daniel
+> Well, we should set a GW for IPV4LL DHCP leases:
+                ^^^^
+                not
