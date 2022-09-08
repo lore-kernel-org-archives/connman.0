@@ -1,73 +1,58 @@
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+Received: from metanate.com (dougal.metanate.com [90.155.101.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20DA433C6
-	for <connman@lists.linux.dev>; Thu,  8 Sep 2022 14:22:49 +0000 (UTC)
-Received: from [IPV6:2803:9800:98cb:8db7:4252:e928:3623:abff] (unknown [IPv6:2803:9800:98cb:8db7:4252:e928:3623:abff])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
-	(No client certificate requested)
-	(Authenticated sender: adalessandro)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id 81E616601F95;
-	Thu,  8 Sep 2022 15:22:46 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1662646967;
-	bh=TJfB+bo/eYsCceftyzYJ0122DIPtVZf5gDdnLRvJM+4=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=bAWdZ0e3cKq9Et+SQWblKfyVqS0QC8fkkCRZFPuaJxDWA99FkyUKkQ7rN/PyjgUJZ
-	 u83YfKQw1xXN5MbCDXLLPId1RgxCYqEkoHwm0VeKxh4ZgAMGsVwhISBVkK6921iFsq
-	 jDkfa6cE4dGeNXJ+znXvXChRLvRFdJkZUM52ALeqwvjMYQTwGLzVqcyxzWFnCzTj5F
-	 FVL754tamRCHnjEbasLU//K/2DRGxwXSjwhFD3WmNHmOiqqw+HKPDiSUs9LNbz4O95
-	 GFhJ/+CZ2zgTn6+ewn95xr+/GIdAuVN5pMuNdIejC5RWcSdNuLrH5G1lGdh9qCnWeU
-	 JykPdBWFWhPeA==
-Message-ID: <e3c2ebb9-9f63-19bc-4969-e892c8aca433@collabora.com>
-Date: Thu, 8 Sep 2022 11:22:41 -0300
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70B7D382
+	for <connman@lists.linux.dev>; Thu,  8 Sep 2022 14:32:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=metanate.com; s=stronger; h=Content-Transfer-Encoding:Content-Type:
+	References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID
+	:Content-Description; bh=Gl67yWHD6IXmV6ihsjC7VUjzUNv4K/ZGkwDxeHn/G+I=; b=qDqW
+	lfFiINGFhq2RRiot3DupZche0rHGnUzlHX7d0avpxMtygbA9FgG2ofRtlOWM7vIuvkhditCLWWEdy
+	US0IzuIXmmXi8cmAN1jqcuLrpZEEy7rovy5AweJBiI6+KBVMnAQqJnVWMUSqIip/Xp9EfCKM660mU
+	bIrZXzd8x6QbMUaMvbBCrFCWkf0kIByP6TuAUVgCrb8R3ywBDvrtGvLj0Z37+od0Z3SCRYC/ilye2
+	uHYaeIiGXGvr36h/V2EZDLwZ3nuNicza/vFO9yoe/LrW8c37fQ2PYeDafjO12OUaqwUP6uviXRT+N
+	v59zWdGilTXHaaO2opYCtx2ev5mr4g==;
+Received: from [81.174.171.191] (helo=donbot)
+	by email.metanate.com with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.95)
+	(envelope-from <john@metanate.com>)
+	id 1oWIGn-0006bw-OJ;
+	Thu, 08 Sep 2022 15:12:41 +0100
+Date: Thu, 8 Sep 2022 15:12:41 +0100
+From: John Keeping <john@metanate.com>
+To: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
+Cc: "connman@lists.linux.dev" <connman@lists.linux.dev>
+Subject: Re: No password prompt after wrong entry
+Message-ID: <20220908151241.3fb95a89.john@metanate.com>
+In-Reply-To: <ef8ef3d5-3786-6064-605b-7d668a8d92bb@collabora.com>
+References: <ef8ef3d5-3786-6064-605b-7d668a8d92bb@collabora.com>
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.1.2
-Subject: Re: No password prompt after wrong entry
-Content-Language: en-US
-To: John Keeping <john@metanate.com>
-Cc: "connman@lists.linux.dev" <connman@lists.linux.dev>
-References: <ef8ef3d5-3786-6064-605b-7d668a8d92bb@collabora.com>
- <20220908151241.3fb95a89.john@metanate.com>
-From: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
-In-Reply-To: <20220908151241.3fb95a89.john@metanate.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
+X-Authenticated: YES
 
-Hi John,
+On Thu, 8 Sep 2022 10:52:11 -0300
+Ariel D'Alessandro <ariel.dalessandro@collabora.com> wrote:
 
-On 9/8/22 11:12, John Keeping wrote:
-> On Thu, 8 Sep 2022 10:52:11 -0300
-> Ariel D'Alessandro <ariel.dalessandro@collabora.com> wrote:
+> I have a question regarding the expected behavior on connmanctl.
 > 
->> I have a question regarding the expected behavior on connmanctl.
->>
->> After trying to connect to a network using a wrong password, connman
->> returns `connect-failed`. Further attempts to connect won't prompt for a
->> new password, so it will use the same old wrong one and keep returning
->> `connect-failed`.
->>
->> After manually removing the network, re-connecting will prompt for a new
->> password and the connection will succeed. Is this the expected behavior
->> or it should automatically prompt after a wrong password entry?
+> After trying to connect to a network using a wrong password, connman
+> returns `connect-failed`. Further attempts to connect won't prompt for a
+> new password, so it will use the same old wrong one and keep returning
+> `connect-failed`.
 > 
-> What version of connman are you using?
-> 
-> There is a bug in 1.40 which was fixed by commit fe5c1436 ("agent:
-> Always inform upper layer via callback") that has precisely the symptoms
-> you're describing.
+> After manually removing the network, re-connecting will prompt for a new
+> password and the connection will succeed. Is this the expected behavior
+> or it should automatically prompt after a wrong password entry?
 
-That's what I also thought. However, I'm using v1.41 which includes that
-fix:
+What version of connman are you using?
 
-```
-$ /usr/sbin/connmand -v
-1.41
-```
+There is a bug in 1.40 which was fixed by commit fe5c1436 ("agent:
+Always inform upper layer via callback") that has precisely the symptoms
+you're describing.
