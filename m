@@ -1,48 +1,48 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 892EF2579
-	for <connman@lists.linux.dev>; Tue, 18 Oct 2022 08:48:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15A792591
+	for <connman@lists.linux.dev>; Tue, 18 Oct 2022 08:48:03 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id CA18833E80
-	for <connman@lists.linux.dev>; Tue, 18 Oct 2022 08:47:53 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 49DD7207CA
+	for <connman@lists.linux.dev>; Tue, 18 Oct 2022 08:47:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1666082873; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	t=1666082876; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=7XkwgyEUmmDH9qcNzVLpn/U490ch22DFHbqc/h+rtB4=;
-	b=f6x8f5GYTNpzSPz8OrIhv2w/vkwV+U0wLr68IKnWmGVbFAZYXIexcCWpks5Ny9kBy0HTaA
-	1yCaq9C0PXm4uxspiw45NKo4aXBqB1umfodoGxrQ80YwS7QKlasmYpDjF/yEkarISQmueb
-	qtN+ShAuh07NPvfXq6A7eke+1lVyPps=
+	bh=zoEpcP25hVezSidIBJWQ5Ug7+mnPTkbOOZWjT/AcAR0=;
+	b=iEzmGfQcTwg9GvpwcLbhz7zKyth5yHvtjqF4u+EtjAgsojuGjOEh8v4OK2hmkix7H/zVCl
+	VkfWDvJa/ntQdvobfVynCckfqi6RI48nL8j3ovs19vLBF+uYzh1addzShZQaVmOwa1eFdF
+	PUGvMd3ipaB5KQKyCUmKeWTKqV2Vs5E=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1666082873;
+	s=susede2_ed25519; t=1666082876;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=7XkwgyEUmmDH9qcNzVLpn/U490ch22DFHbqc/h+rtB4=;
-	b=/m027MB+GZdglUcfr68a61tnqKY2XuxzfvwGTw4IgeOdMXKVIH1yFpI3+b9ouvpgU1EyoA
-	8I4xLGxRf3oTP7CQ==
+	bh=zoEpcP25hVezSidIBJWQ5Ug7+mnPTkbOOZWjT/AcAR0=;
+	b=EmhXO+3Ko7CPwu5TbegR+ukuYtBxVWbEov4ACb/5pId0PTJ+4bz4GyJZzidsxpIKVQFxFJ
+	SuOpVoLnhTYk/WCA==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id C366D139D2
-	for <connman@lists.linux.dev>; Tue, 18 Oct 2022 08:47:53 +0000 (UTC)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 42D9E139D2
+	for <connman@lists.linux.dev>; Tue, 18 Oct 2022 08:47:56 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
 	by imap2.suse-dmz.suse.de with ESMTPSA
-	id lQ+lLzloTmOCcAAAMHmgww
+	id lxpNEDxoTmOOcAAAMHmgww
 	(envelope-from <mgerstner@suse.de>)
-	for <connman@lists.linux.dev>; Tue, 18 Oct 2022 08:47:53 +0000
+	for <connman@lists.linux.dev>; Tue, 18 Oct 2022 08:47:56 +0000
 From: Matthias Gerstner <matthias.gerstner@suse.de>
 To: connman@lists.linux.dev
-Subject: [PATCH 01/16] dnsproxy-simple-test: improve test coverage and test flexibility
-Date: Tue, 18 Oct 2022 10:47:31 +0200
-Message-Id: <20221018084746.21959-2-matthias.gerstner@suse.de>
+Subject: [PATCH 04/16] dnsproxy: refactoring of update_cached_ttl() and append_data()
+Date: Tue, 18 Oct 2022 10:47:34 +0200
+Message-Id: <20221018084746.21959-5-matthias.gerstner@suse.de>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20221018084746.21959-1-matthias.gerstner@suse.de>
 References: <20221018084746.21959-1-matthias.gerstner@suse.de>
@@ -54,218 +54,198 @@ List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-- enable debug() macro for test invocation which allows to get test logs
-- actually trigger caching logic explicitly by querying the same
-  configurations twice in succession
-- count the number of cache hits to catch regressions in the caching
-  functionality
-- support custom domains for testing specified on the command line
+- use size_t for sizes and lengths where possible
+- use named constants in favor of literal numbers
+- more localized variable declarations
+- prefer byte order macros over explicit byte operations
+- add some comments and use early exits to simplify the code
 ---
- Makefile.am                |   2 +-
- src/dnsproxy.c             |   6 +-
- tools/dnsproxy-simple-test | 113 ++++++++++++++++++++++++++++++++-----
- 3 files changed, 104 insertions(+), 17 deletions(-)
+ src/dnsproxy.c | 137 ++++++++++++++++++++++++-------------------------
+ 1 file changed, 66 insertions(+), 71 deletions(-)
 
-diff --git a/Makefile.am b/Makefile.am
-index c108b8f3c..1a3dbe3c9 100644
---- a/Makefile.am
-+++ b/Makefile.am
-@@ -438,7 +438,7 @@ testdir = $(pkglibdir)/test
- test_SCRIPTS = $(test_scripts)
- 
- if INTERNAL_DNS_BACKEND
--tools_dnsproxy_standalone_CFLAGS = $(src_connmand_CFLAGS) -I$(srcdir)/src
-+tools_dnsproxy_standalone_CFLAGS = $(src_connmand_CFLAGS) -I$(srcdir)/src -DDNSPROXY_DEBUG
- tools_dnsproxy_standalone_SOURCES = tools/dnsproxy-standalone.c $(src_connmand_SOURCES)
- # for EXTRA_PROGRAMS the BUILT_SOURCES aren't automatically added as
- # dependency, so let's do it explicitly
 diff --git a/src/dnsproxy.c b/src/dnsproxy.c
-index 227300477..458694e60 100644
+index d38ecffdc..b5fe660f6 100644
 --- a/src/dnsproxy.c
 +++ b/src/dnsproxy.c
-@@ -41,7 +41,11 @@
- 
- #include "connman.h"
- 
--#define debug(fmt...) do { } while (0)
-+#ifdef DNSPROXY_DEBUG
-+#	define debug(fmt...) do { fprintf(stderr, fmt); fprintf(stderr, "\n"); } while (0)
-+#else
-+#	define debug(fmt...) do { } while (0)
-+#endif
- 
- #if __BYTE_ORDER == __LITTLE_ENDIAN
- struct domain_hdr {
-diff --git a/tools/dnsproxy-simple-test b/tools/dnsproxy-simple-test
-index b8fd7f77d..5c2f72925 100755
---- a/tools/dnsproxy-simple-test
-+++ b/tools/dnsproxy-simple-test
-@@ -6,9 +6,25 @@
- 
- echoerr() {
- 	echo $@ 1>&2
-+	echo -e "\n   >>> ERROR OCCURED <<<   \n" 1>&2
- 	exit 1
+@@ -391,52 +391,49 @@ static size_t dns_name_length(const unsigned char *buf)
+ 	return strlen((const char *)buf) + 1;
  }
  
+-static void update_cached_ttl(unsigned char *buf, int len, int new_ttl)
++static void update_cached_ttl(unsigned char *ptr, int len, int new_ttl)
+ {
+-	unsigned char *c;
+-	uint16_t w;
+-	int l;
++	if (new_ttl < 0)
++		return;
+ 
+ 	/* skip the header */
+-	c = buf + 12;
+-	len -= 12;
++	ptr += DNS_HEADER_SIZE;
++	len -= DNS_HEADER_SIZE;
 +
-+showlog() {
-+	if [ -z "$SHOW_LOG" -o -z "$logfile" ]; then
-+		return
-+	fi
++	if (len < sizeof(struct domain_question) + 1)
++		return;
+ 
+-	/* skip the query, which is a name and 2 16 bit words */
+-	l = dns_name_length(c);
+-	c += l;
+-	len -= l;
+-	c += 4;
+-	len -= 4;
++	/* skip the query, which is a name and a struct domain_question */
++	size_t name_len = dns_name_length(ptr);
 +
-+	echo
-+	echo "======== debug log ==========="
-+	cat "$logfile"
-+	echo "===== end debug log =========="
-+	echo
++	ptr += name_len + sizeof(struct domain_question);
++	len -= name_len + sizeof(struct domain_question);;
++
++	const uint32_t raw_ttl = ntohl((uint32_t)new_ttl);
++	struct domain_rr *rr = NULL;
+ 
+ 	/* now we get the answer records */
+ 
+ 	while (len > 0) {
+ 		/* first a name */
+-		l = dns_name_length(c);
+-		c += l;
+-		len -= l;
+-		if (len < 0)
+-			break;
+-		/* then type + class, 2 bytes each */
+-		c += 4;
+-		len -= 4;
++		name_len = dns_name_length(ptr);
++		ptr += name_len;
++		len -= name_len;
+ 		if (len < 0)
+ 			break;
+ 
+-		/* now the 4 byte TTL field */
+-		c[0] = new_ttl >> 24 & 0xff;
+-		c[1] = new_ttl >> 16 & 0xff;
+-		c[2] = new_ttl >> 8 & 0xff;
+-		c[3] = new_ttl & 0xff;
+-		c += 4;
+-		len -= 4;
+-		if (len < 0)
++		rr = (void*)ptr;
++		if (len < sizeof(*rr))
++			/* incomplete record */
+ 			break;
+ 
+-		/* now the 2 byte rdlen field */
+-		w = c[0] << 8 | c[1];
+-		c += w + 2;
+-		len -= w + 2;
++		/* update the TTL field */
++		memcpy(&rr->ttl, &raw_ttl, sizeof(raw_ttl));
++
++		/* skip to the next record */
++		size_t rr_len = sizeof(*rr) + ntohs(rr->rdlen);
++		ptr += rr_len;
++		len -= rr_len;
+ 	}
+ }
+ 
+@@ -620,59 +617,57 @@ out:
+ 	return FALSE;
+ }
+ 
+-static int append_query(unsigned char *buf, unsigned int size,
+-				const char *query, const char *domain)
++static int append_data(unsigned char *buf, size_t size, const char *data)
+ {
+ 	unsigned char *ptr = buf;
+-	int len;
+-
+-	debug("query %s domain %s", query, domain);
++	size_t len;
+ 
+-	while (query) {
+-		const char *tmp;
++	while (true) {
++		const char *dot = strchr(data, '.');
++		len = dot ? dot - data : strlen(data);
+ 
+-		tmp = strchr(query, '.');
+-		if (!tmp) {
+-			len = strlen(query);
+-			if (len == 0)
+-				break;
+-			*ptr = len;
+-			memcpy(ptr + 1, query, len);
+-			ptr += len + 1;
++		if (len == 0)
+ 			break;
+-		}
++		else if (size < len + 1)
++			return -1;
+ 
+-		*ptr = tmp - query;
+-		memcpy(ptr + 1, query, tmp - query);
+-		ptr += tmp - query + 1;
++		*ptr = len;
++		memcpy(ptr + 1, data, len);
++		ptr += len + 1;
++		size -= len + 1;
+ 
+-		query = tmp + 1;
++		if (!dot)
++			break;
++
++		data = dot + 1;
+ 	}
+ 
+-	while (domain) {
+-		const char *tmp;
++	return ptr - buf;
 +}
-+
-+TRANSPORTS="-U -T"
-+
- while [ $# -gt 0 ]; do
- 	case "$1" in
- 	"--valgrind")
-@@ -16,10 +32,39 @@ while [ $# -gt 0 ]; do
- 		if [ -z "$VALGRIND" ]; then
- 			echoerr "no valgrind executable found"
- 		fi
-+		# log valgrind output to stdout, since stderr is used for
-+		# debug output from dnsproxy.c already and we want to parse
-+		# that.
-+		# also cause an error exit it valgrind error occur so that
-+		# they're easily noticed.
-+		VALGRIND="$VALGRIND --log-fd=1 --error-exitcode=10"
-+		;;
-+	"--gdb")
-+		WAIT_GDB=1
-+		# wait forever to avoid timeout conditions during debugging
-+		HOST_OPTS="-w"
-+		;;
-+	"--show-log")
-+		SHOW_LOG=1
-+		;;
-+	"--testdomain="*)
-+		TESTDOMAIN=`echo $1 | cut -d '=' -f2-`
-+		CUSTOM_TESTDOMAIN=1
-+		;;
-+	"--only-tcp")
-+		TRANSPORTS="-T"
-+		;;
-+	"--only-udp")
-+		TRANSPORTS="-U"
- 		;;
- 	"-h")
--		echo "$0 [--valgrind]"
-+		echo "$0 [--valgrind] [--gdb] [--show-log] [--only-tcp] [--only-udp] [--testdomain=<mydomain>]"
- 		echo "--valgrind: run dnsproxy-standalone in valgrind"
-+		echo "--gdb: allows you to attach via GDB before tests are started"
-+		echo "--show-log: dump debug log from dnsproxy at end of test"
-+		echo "--only-tcp: only perform TCP protocol based tests"
-+		echo "--only-udp: only perform UDP protocol based tests"
-+		echo "--testdomain=<mydomain>: the domain name to resolve"
- 		exit 2
- 		;;
- 	*)
-@@ -29,6 +74,11 @@ while [ $# -gt 0 ]; do
- 	shift
- done
  
-+if [ -n "$VALGRIND" -a -n "$WAIT_GDB" ]; then
-+	echo "Cannot mix valgrind frontend and GDB attachment" 1>&2
-+	exit 2
-+fi
+-		tmp = strchr(domain, '.');
+-		if (!tmp) {
+-			len = strlen(domain);
+-			if (len == 0)
+-				break;
+-			*ptr = len;
+-			memcpy(ptr + 1, domain, len);
+-			ptr += len + 1;
+-			break;
+-		}
++static int append_query(unsigned char *buf, size_t size,
++				const char *query, const char *domain)
++{
++	debug("query %s domain %s", query, domain);
+ 
+-		*ptr = tmp - domain;
+-		memcpy(ptr + 1, domain, tmp - domain);
+-		ptr += tmp - domain + 1;
++	size_t left_size = size;
++	int res = append_data(buf, left_size, query);
++	if (res < 0)
++		return -1;
++	left_size -= res;
+ 
+-		domain = tmp + 1;
+-	}
++	res = append_data(buf + res, left_size, domain);
++	if (res < 0)
++		return -1;
++	left_size -= res;
+ 
+-	*ptr++ = 0x00;
++	if (left_size == 0)
++		return -1;
+ 
+-	return ptr - buf;
++	const size_t added = size - left_size;
++	*(buf + added) = 0x00;
 +
- if [ -e "Makefile" ]; then
- 	BUILDROOT="$PWD"
- else
-@@ -66,7 +116,8 @@ fi
- PORT=8053
- 
- # run the proxy in the background
--$VALGRIND $DNSPROXY $PORT "$DOMAIN1" "$NS1" &
-+logfile=`mktemp`
-+$VALGRIND $DNSPROXY $PORT "$DOMAIN1" "$NS1" 2>"$logfile" &
- proxy_pid=$!
- 
- cleanup() {
-@@ -77,6 +128,13 @@ cleanup() {
- 	wait $proxy_pid
- 	ret=$?
- 	proxy_pid=-1
-+	if [ -n "$logfile" ]; then
-+		if [ -n "$SHOW_LOG" ]; then
-+			showlog
-+		fi
-+		rm -f "$logfile"
-+		unset logfile
-+	fi
- 	return $ret
++	return added;
  }
  
-@@ -85,24 +143,49 @@ trap cleanup err exit
- sleep 1
- echo -e "\n\n"
- 
--# test both UDP and TCP mode
--for TRANSPORT in -U -T; do
--	# test both IPv4 and IPv6
--	for IP in -4 -6; do
--		echo "Testing resolution using transport $TRANSPORT and IP${IP}"
--		set -x
--		$HOST $TRANSPORT $IP -p$PORT www.example.com 127.0.0.1
--		RES=$?
--		set +x
--		if [ $RES -ne 0 ]; then
--			echoerr "resolution failed"
--		fi
-+if [ -n "$WAIT_GDB" ]; then
-+	echo "You can now attach to the dnsproxy process at PID $proxy_pid."
-+	echo "Press ENTER to continue test execution"
-+	read _
-+fi
-+
-+if [ -z "$TESTDOMAIN" ]; then
-+	TESTDOMAIN="www.example.com"
-+fi
- 
--		echo -e "\n\n"
-+# perform each test twice to actually get cached responses served for each
-+# combination
-+for I in `seq 2`; do
-+	# test both UDP and TCP mode
-+	for TRANSPORT in $TRANSPORTS; do
-+		# test both IPv4 and IPv6
-+		for IP in -4 -6; do
-+			echo "Testing resolution using transport $TRANSPORT and IP${IP}"
-+			set -x
-+			$HOST $HOST_OPTS $TRANSPORT $IP -p$PORT $TESTDOMAIN 127.0.0.1
-+			RES=$?
-+			set +x
-+			if [ $RES -ne 0 ]; then
-+				echoerr "resolution failed"
-+			fi
-+
-+			echo -e "\n\n"
-+		done
- 	done
- done
- 
-+NUM_HITS=`grep "cache hit.*$TESTDOMAIN" "$logfile" | wc -l`
-+
- echo -e "\n\nDNS resolution succeeded for all test combinations"
-+echo -e "\nNumber of cache hits: $NUM_HITS\n"
-+# assert we have seen the expected number of cache hits in the log
-+# this is the amount of cache hits for the default domain tests as seen before
-+# refactoring of dnsproxy started.
-+if [ -z "$CUSTOM_TESTDOMAIN" -a "$NUM_HITS" -ne 15 ]; then
-+	echoerr "Unexpected number of cache hits encountered"
-+elif [ "$NUM_HITS" -lt 8 ]; then
-+	echoerr "Too low number of cache hits encountered"
-+fi
- cleanup
- if [ $? -eq 0 ]; then
- 	exit 0
+ static bool cache_check_is_valid(struct cache_data *data, time_t current_time)
 -- 
 2.37.3
 
