@@ -1,48 +1,48 @@
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CF482579
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B50E33FF
 	for <connman@lists.linux.dev>; Tue, 18 Oct 2022 08:48:09 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id EA1D920815
-	for <connman@lists.linux.dev>; Tue, 18 Oct 2022 08:48:03 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id DF3152081B
+	for <connman@lists.linux.dev>; Tue, 18 Oct 2022 08:48:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1666082883; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	t=1666082884; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=W6YwWJ9D0VxEf1+szGRlOFkjSspKG+riYx7Y4SBW4sI=;
-	b=a2kmuFVYNifIg/oft5cQ2cXJrYtAkjvK2UOQuB15AS8ay5y787G78JfpGIGb6uAXP4pHMY
-	F0ekcqY8MoNs9xtyj8/G4+pitpceADEsO0TfQ2kMNBUOTkLCLI23YAIyGlMzblyEUb37qF
-	g/5R+s5r9yp8udsUOxJ3bPaaKmnaCVU=
+	bh=8kyusjDuMwKJZ+j7BBQpLOuBRrVoYOPA9o8gUwtobOY=;
+	b=Kaj1ISMyZE4qYLwW9Vt190iiKXJqVeh0FQqwUl4dCMj6gp7EIwNuGY1ohb12t20o8Lsh8A
+	+Kd/hrzFv126y1JOgM4o9dtXauVaQ/laUIxE/oqlQ2LzUFK/ocRGgxTxTXAPMPVf0ltSSW
+	Ek2HwRXIbMSmq9vA6esgF2RFXkmHRIw=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1666082883;
+	s=susede2_ed25519; t=1666082884;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=W6YwWJ9D0VxEf1+szGRlOFkjSspKG+riYx7Y4SBW4sI=;
-	b=v7vro/rMzXLqspkldfWn5DiBJ/NSlP08G+D9Lq6GVuNxyIc3xG5oaxgS7UGi/IXFlKMc8y
-	/gZgPo3+xW1tsWCg==
+	bh=8kyusjDuMwKJZ+j7BBQpLOuBRrVoYOPA9o8gUwtobOY=;
+	b=RzCCUticiEESarv+h9jzu40bSc+PNjTDTAnToxdG6YxE/UzVHBtrcJkFzhHpTS4aYBQyut
+	ld9b0NO5IMR/RtAQ==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id E34AE139D2
-	for <connman@lists.linux.dev>; Tue, 18 Oct 2022 08:48:03 +0000 (UTC)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id D7DC1139D2
+	for <connman@lists.linux.dev>; Tue, 18 Oct 2022 08:48:04 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
 	by imap2.suse-dmz.suse.de with ESMTPSA
-	id rUx7N0NoTmOycAAAMHmgww
+	id 1XasNERoTmO0cAAAMHmgww
 	(envelope-from <mgerstner@suse.de>)
-	for <connman@lists.linux.dev>; Tue, 18 Oct 2022 08:48:03 +0000
+	for <connman@lists.linux.dev>; Tue, 18 Oct 2022 08:48:04 +0000
 From: Matthias Gerstner <matthias.gerstner@suse.de>
 To: connman@lists.linux.dev
-Subject: [PATCH 13/16] dnsproxy: fix TCP server reply handling if domain name is appended
-Date: Tue, 18 Oct 2022 10:47:43 +0200
-Message-Id: <20221018084746.21959-14-matthias.gerstner@suse.de>
+Subject: [PATCH 14/16] dnsproxy: harmonize use of sizeof() for message size calculations
+Date: Tue, 18 Oct 2022 10:47:44 +0200
+Message-Id: <20221018084746.21959-15-matthias.gerstner@suse.de>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20221018084746.21959-1-matthias.gerstner@suse.de>
 References: <20221018084746.21959-1-matthias.gerstner@suse.de>
@@ -54,237 +54,121 @@ List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The code path for TCP if the domain name is attached never worked. There
-is a bug in the `hdr` pointer calculation in `ns_resolv`. Furthermore if
-the first response from the server is negative or erroneous then the TCP
-connection is terminated unconditionally, even if further responses are
-pending.
-
-This change splits off the initial part of forward_dns_reply() into a
-new lookup_request() function. The information from the request_data
-structure is used by the UDP and TCP processing code to determine
-whether to keep the request (and TCP connection) around or not.
-Furthermore errors in the `alt` message creation are fixed.
 ---
- src/dnsproxy.c | 98 ++++++++++++++++++++++++++++++++++----------------
- 1 file changed, 68 insertions(+), 30 deletions(-)
+ src/dnsproxy.c | 31 +++++++++++++++++--------------
+ 1 file changed, 17 insertions(+), 14 deletions(-)
 
 diff --git a/src/dnsproxy.c b/src/dnsproxy.c
-index 39147b2d2..05b15f9c5 100644
+index 05b15f9c5..d375c10f5 100644
 --- a/src/dnsproxy.c
 +++ b/src/dnsproxy.c
-@@ -1687,15 +1687,14 @@ static int ns_resolv(struct server_data *server, struct request_data *req,
+@@ -229,6 +229,9 @@ struct domain_rr {
+ #define DNS_HEADER_SIZE sizeof(struct domain_hdr)
+ #define DNS_HEADER_TCP_EXTRA_BYTES 2
+ #define DNS_TCP_HEADER_SIZE DNS_HEADER_SIZE + DNS_HEADER_TCP_EXTRA_BYTES
++#define DNS_QUESTION_SIZE sizeof(struct domain_question)
++#define DNS_RR_SIZE sizeof(struct domain_rr)
++#define DNS_QTYPE_QCLASS_SIZE sizeof(struct qtype_qclass)
  
- 		const size_t offset = protocol_offset(server->protocol);
- 		unsigned char alt[1024];
--		/* TODO: is this a bug? the offset isn't considered here... */
--		struct domain_hdr *hdr = (void *) &alt;
-+		struct domain_hdr *hdr = (void *) (&alt[0] + offset);
+ enum dns_type {
+ 	/* IPv4 address 32-bit */
+@@ -429,14 +432,14 @@ static void update_cached_ttl(unsigned char *ptr, int len, int new_ttl)
+ 	ptr += DNS_HEADER_SIZE;
+ 	len -= DNS_HEADER_SIZE;
  
- 		memcpy(alt + offset, &req->altid, sizeof(req->altid));
+-	if (len < sizeof(struct domain_question) + 1)
++	if (len < DNS_QUESTION_SIZE + 1)
+ 		return;
  
--		memcpy(alt + offset + 2, request + offset + 2, 10);
-+		memcpy(alt + offset + 2, request + offset + 2, DNS_HEADER_SIZE - 2);
- 		hdr->qdcount = htons(1);
+ 	/* skip the query, which is a name and a struct domain_question */
+ 	size_t name_len = dns_name_length(ptr);
  
--		int altlen = append_query(alt + offset + DNS_HEADER_SIZE, sizeof(alt) - DNS_HEADER_SIZE,
-+		int altlen = append_query(alt + offset + DNS_HEADER_SIZE, sizeof(alt) - DNS_HEADER_SIZE - offset,
- 					name, domain);
- 		if (altlen < 0)
- 			return -EINVAL;
-@@ -2117,29 +2116,39 @@ static int dns_reply_fixup_domains(
- 	return reply_len;
- }
+-	ptr += name_len + sizeof(struct domain_question);
+-	len -= name_len + sizeof(struct domain_question);;
++	ptr += name_len + DNS_QUESTION_SIZE;
++	len -= name_len + DNS_QUESTION_SIZE;
  
--static int forward_dns_reply(char *reply, size_t reply_len, int protocol,
--				struct server_data *data)
-+static struct request_data* lookup_request(
-+		const char *reply, size_t len, int protocol)
- {
- 	const size_t offset = protocol_offset(protocol);
- 	struct domain_hdr *hdr = (void *)(reply + offset);
+ 	const uint32_t raw_ttl = ntohl((uint32_t)new_ttl);
+ 	struct domain_rr *rr = NULL;
+@@ -961,10 +964,10 @@ static int parse_rr(const unsigned char *buf, const unsigned char *start,
+ 	if (*ttl < 0)
+ 		return -EINVAL;
  
--	debug("Received %zd bytes (id 0x%04x)", reply_len, hdr->id);
-+	debug("Received %zd bytes (id 0x%04x)", len, hdr->id);
+-	memcpy(response + offset, *end, sizeof(struct domain_rr));
++	memcpy(response + offset, *end, DNS_RR_SIZE);
  
--	if (reply_len < sizeof(struct domain_hdr) + offset)
--		return -EINVAL;
-+	if (len < sizeof(struct domain_hdr) + offset)
-+		return NULL;
+-	offset += sizeof(struct domain_rr);
+-	*end += sizeof(struct domain_rr);
++	offset += DNS_RR_SIZE;
++	*end += DNS_RR_SIZE;
+ 
+ 	if ((offset + *rdlen) > *response_size)
+ 		return -ENOBUFS;
+@@ -1034,7 +1037,7 @@ static int parse_response(const unsigned char *buf, size_t buflen,
+ 	qlen = strlen(question);
+ 	ptr += qlen + 1; /* skip \0 */
+ 
+-	if ((eptr - ptr) < sizeof(struct domain_question))
++	if ((eptr - ptr) < DNS_QUESTION_SIZE)
+ 		return -EINVAL;
+ 
+ 	const struct domain_question *q = (void *) ptr;
+@@ -1044,7 +1047,7 @@ static int parse_response(const unsigned char *buf, size_t buflen,
+ 	if (qtype != DNS_TYPE_A && qtype != DNS_TYPE_AAAA)
+ 		return -ENOMSG;
+ 
+-	ptr += sizeof(struct domain_question); /* advance to answers section */
++	ptr += DNS_QUESTION_SIZE; /* advance to answers section */
+ 
+ 	int err = -ENOMSG;
+ 	const uint16_t ancount = ntohs(hdr->ancount);
+@@ -1566,7 +1569,7 @@ static int cache_update(struct server_data *srv, const char *msg, size_t msg_len
+ 	struct domain_question *q = (void *)ptr;
+ 	q->type = htons(type);
+ 	q->class = htons(class);
+-	ptr += sizeof(struct domain_question);
++	ptr += DNS_QUESTION_SIZE;
+ 
+ 	memcpy(ptr, response, rsplen);
+ 
+@@ -2124,7 +2127,7 @@ static struct request_data* lookup_request(
+ 
+ 	debug("Received %zd bytes (id 0x%04x)", len, hdr->id);
+ 
+-	if (len < sizeof(struct domain_hdr) + offset)
++	if (len < DNS_HEADER_SIZE + offset)
+ 		return NULL;
  
  	struct request_data *req = find_request(hdr->id);
-+
- 	if (!req)
--		return -EINVAL;
-+		return NULL;
+@@ -3024,7 +3027,7 @@ static int parse_request(unsigned char *buf, size_t len,
+ {
+ 	static const unsigned char opt_edns0_type[2] = { 0x00, 0x29 };
+ 	struct domain_hdr *hdr = (void *) buf;
+-	if (len < sizeof(*hdr) + sizeof(struct qtype_qclass)) {
++	if (len < DNS_HEADER_SIZE + DNS_QTYPE_QCLASS_SIZE) {
+ 		DBG("Dropped DNS request with short length %zd", len);
+ 		return -EINVAL;
+ 	}
+@@ -3051,8 +3054,8 @@ static int parse_request(unsigned char *buf, size_t len,
  
- 	debug("req %p dstid 0x%04x altid 0x%04x rcode %d",
- 			req, req->dstid, req->altid, hdr->rcode);
+ 	name[0] = '\0';
  
-+	req->numresp++;
-+
-+	return req;
-+}
-+
-+static int forward_dns_reply(char *reply, size_t reply_len, int protocol,
-+			struct server_data *data, struct request_data *req)
-+{
-+	const size_t offset = protocol_offset(protocol);
-+	struct domain_hdr *hdr = (void *)(reply + offset);
-+
- 	/* replace with original request ID from our client */
- 	hdr->id = req->srcid;
+-	unsigned char *ptr = buf + sizeof(struct domain_hdr);
+-	size_t remain = len - sizeof(struct domain_hdr);
++	unsigned char *ptr = buf + DNS_HEADER_SIZE;
++	size_t remain = len - DNS_HEADER_SIZE;
+ 	size_t used = 0;
  
--	req->numresp++;
--
- 	if (hdr->rcode == ns_r_noerror || !req->resp) {
- 		/*
- 		 * If the domain name was appended remove it before forwarding
-@@ -2218,8 +2227,6 @@ static int forward_dns_reply(char *reply, size_t reply_len, int protocol,
- 	else
- 		debug("proto %d sent %d bytes to %d", protocol, err, sk);
- 
--	destroy_request_data(req);
--
- 	return err;
- }
- 
-@@ -2294,9 +2301,20 @@ static gboolean udp_server_event(GIOChannel *channel, GIOCondition condition,
- 	int sk = g_io_channel_unix_get_fd(channel);
- 	ssize_t len = recv(sk, buf, sizeof(buf), 0);
- 
--	if (len > 0) {
--		forward_dns_reply(buf, len, IPPROTO_UDP, data);
--	}
-+	if (len <= 0)
-+		return TRUE;
-+
-+	struct request_data *req = lookup_request(buf, len, IPPROTO_UDP);
-+
-+	if (!req)
-+		/* invalid / corrupt request */
-+		return TRUE;
-+
-+	const int res = forward_dns_reply(buf, len, IPPROTO_UDP, data, req);
-+
-+	/* on success or no further responses are expected, destroy the req */
-+	if (res == 0 || req->numresp >= req->numserv)
-+		destroy_request_data(req);
- 
- 	return TRUE;
- }
-@@ -2447,7 +2465,7 @@ hangup:
- 				connman_error("DNS proxy error %s",
- 						strerror(errno));
- 				goto hangup;
--			} else if (bytes_recv < 2)
-+			} else if (bytes_recv < sizeof(reply_len))
- 				return TRUE;
- 
- 			/* the header contains the length of the message
-@@ -2461,6 +2479,8 @@ hangup:
- 				return TRUE;
- 
- 			reply->len = reply_len;
-+			/* we only peeked the two length bytes, so we have to
-+			   receive the complete message below proper. */
- 			reply->received = 0;
- 
- 			server->incoming_reply = reply;
-@@ -2483,15 +2503,32 @@ hangup:
- 			reply->received += bytes_recv;
- 		}
- 
--		forward_dns_reply(reply->buf, reply->received, IPPROTO_TCP,
--					server);
-+		struct request_data *req = lookup_request(
-+				reply->buf, reply->received, IPPROTO_TCP);
-+
-+		if (!req)
-+			/* invalid / corrupt request */
-+			return TRUE;
-+
-+		const int res = forward_dns_reply(
-+			reply->buf, reply->received, IPPROTO_TCP, server, req);
- 
- 		g_free(reply);
- 		server->incoming_reply = NULL;
- 
--		destroy_server(server);
-+		/* on success or if no further responses are expected close
-+		 * connection */
-+		if (res == 0 || req->numresp >= req->numserv) {
-+			destroy_request_data(req);
-+			destroy_server(server);
-+			return FALSE;
-+		}
- 
--		return FALSE;
-+		/*
-+		 * keep the TCP connection open, there are more
-+		 * requests to be answered
-+		 */
-+		return TRUE;
+ 	/* parse DNS query string into `name' out parameter */
+@@ -3090,7 +3093,7 @@ static int parse_request(unsigned char *buf, size_t len,
+ 		remain -= label_len + 1;
  	}
  
- 	return TRUE;
-@@ -3121,7 +3158,7 @@ static bool read_tcp_data(struct tcp_partial_client_data *client,
- 	client->buf_end += read_len;
+-	if (arcount && remain >= sizeof(struct domain_rr) + 1 && !ptr[0] &&
++	if (arcount && remain >= DNS_RR_SIZE + 1 && !ptr[0] &&
+ 		ptr[1] == opt_edns0_type[0] && ptr[2] == opt_edns0_type[1]) {
+ 		struct domain_rr *edns0 = (struct domain_rr *)(ptr + 1);
  
- 	/* we need at least the message length header */
--	if (client->buf_end < 2)
-+	if (client->buf_end < DNS_HEADER_TCP_EXTRA_BYTES)
- 		return true;
- 
- 	size_t msg_len = get_msg_len(client->buf);
-@@ -3145,10 +3182,11 @@ read_another:
- 
- 	debug("client %d all data %zd received", client_sk, msg_len);
- 
--	const int err = parse_request(client->buf + 2, msg_len,
--			query, sizeof(query));
-+	const int err = parse_request(client->buf + DNS_HEADER_TCP_EXTRA_BYTES,
-+			msg_len, query, sizeof(query));
- 	if (err < 0 || (g_slist_length(server_list) == 0)) {
--		send_response(client_sk, client->buf, msg_len + 2,
-+		send_response(client_sk, client->buf,
-+			msg_len + DNS_HEADER_TCP_EXTRA_BYTES,
- 			NULL, 0, IPPROTO_TCP);
- 		return true;
- 	}
-@@ -3163,12 +3201,12 @@ read_another:
- 	req->protocol = IPPROTO_TCP;
- 	req->family = client->family;
- 
--	struct domain_hdr *hdr = (void*)(client->buf + 2);
-+	struct domain_hdr *hdr = (void*)(client->buf + DNS_HEADER_TCP_EXTRA_BYTES);
- 
- 	memcpy(&req->srcid, &hdr->id, sizeof(req->srcid));
- 	req->dstid = get_id();
- 	req->altid = get_id();
--	req->request_len = msg_len + 2;
-+	req->request_len = msg_len + DNS_HEADER_TCP_EXTRA_BYTES;
- 
- 	/* replace ID the request for forwarding */
- 	memcpy(&hdr->id, &req->dstid, sizeof(hdr->id));
-@@ -3255,7 +3293,7 @@ read_another:
- 	request_list = g_slist_append(request_list, req);
- 
- out:
--	if (client->buf_end > (msg_len + 2)) {
-+	if (client->buf_end > (msg_len + DNS_HEADER_TCP_EXTRA_BYTES)) {
- 		debug("client %d buf %p -> %p end %d len %d new %zd",
- 			client_sk,
- 			client->buf + msg_len + 2,
-@@ -3475,7 +3513,7 @@ static bool tcp_listener_event(GIOChannel *channel, GIOCondition condition,
- 		return true;
- 	}
- 
--	if (len < 2) {
-+	if (len < DNS_HEADER_TCP_EXTRA_BYTES) {
- 		debug("client %d not enough data to read, waiting", client_sk);
- 		client->buf_end += len;
- 		return true;
 -- 
 2.37.3
 
