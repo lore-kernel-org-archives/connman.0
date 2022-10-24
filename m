@@ -1,25 +1,27 @@
 Received: from mail.nearlyone.de (mail.nearlyone.de [46.163.114.145])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F23F659
-	for <connman@lists.linux.dev>; Mon, 24 Oct 2022 06:59:31 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 0D63C61C65;
-	Mon, 24 Oct 2022 08:52:08 +0200 (CEST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4811A659
+	for <connman@lists.linux.dev>; Mon, 24 Oct 2022 06:59:36 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 5350061C65;
+	Mon, 24 Oct 2022 08:59:34 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=monom.org; s=dkim;
-	t=1666594329; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 in-reply-to:references; bh=Rh/sX5UXRqFK6Qfcxoq9xGLTdejw/bR3VSt4lcPCO6k=;
-	b=eN1QVDQ92jLrAYsf5RBNsfj0gr7isneVN42BEndi8hitc0xKRklQjsLX+2ZP//huJ5AYV+
-	REmhq3u7tyvBLIenLAouxLWv/gwufzTJRdvKOIcQ+Nxgnw5PQRbwJPt8dMlooU/Kdk8KT7
-	1MT2AsxLuHLJLju2/46LaCkCghicNE/g64l6bt+yeoQy821xJNqkWaf+yQpr5eO3WOUPwd
-	EOzn/msq2w3bT28W1KuBY9u49bA66fixDzSHpb1Qk5nqO0aAz5HzGaKiWCvqMfqAOe1Hro
-	7QcUNqdCFrn9VFWHN9ANEJvJl90k7ywyTvqHWobZhnZbTByfy4P0q+ecWZVBsA==
-Date: Mon, 24 Oct 2022 08:52:07 +0200
+	t=1666594774; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 in-reply-to:references; bh=zp/VDZTTzIVWpCkWVcl18LlDQp4pAsF8k9B8OLtLYYA=;
+	b=oQhkfuKDO2frbPR+PQeR+4Nyj0eGMrl0shPyJYVTggXaYIzgWt5cUB4pP5XZNZ07vWc6W1
+	8QbEP9tj2+G9Rftvj8taoIF8I9hOjnY1jsA7+/KOaGlzkSdCxgKRV5D9mzGHEPlrYR99tX
+	1bQRiTE0HBCXF2ot9U2iIbwssKJlRVFmoVAQzbsT3iaUOJGWzl9fGDhN21jJE0gpzX8+J4
+	G6m8tiaSsdpp0dHZ8LdWA0Sr1AWfqSBJstGWhwg3po94KTM3RotZ05g4bNs86tntYZmJW2
+	ZNyoT6T5NeKwGDpmuOZDKl6wjPS8JhSQWnBgcjsLnvPsKc8DzkWInXajJrdSEg==
+Date: Mon, 24 Oct 2022 08:59:33 +0200
 From: Daniel Wagner <wagi@monom.org>
-To: Christophe Ronco <c.ronco@kerlink.fr>
+To: Matthias Gerstner <matthias.gerstner@suse.de>
 Cc: connman@lists.linux.dev
-Subject: Re: [PATCH 0/1] Enable Fallback DNS server when server is created
-Message-ID: <20221024065207.ap3yghsbalv5j7fg@beryllium.lan>
-References: <20221011095641.19310-1-c.ronco@kerlink.fr>
+Subject: Re: [PATCH 03/16] dnsproxy: first bits of refactoring data types,
+ global variables, simpler functions
+Message-ID: <20221024065933.c4u7i4ugrsy7gkk7@beryllium.lan>
+References: <20221018084746.21959-1-matthias.gerstner@suse.de>
+ <20221018084746.21959-4-matthias.gerstner@suse.de>
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
@@ -28,28 +30,27 @@ List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221011095641.19310-1-c.ronco@kerlink.fr>
+In-Reply-To: <20221018084746.21959-4-matthias.gerstner@suse.de>
 X-Last-TLS-Session-Version: TLSv1.3
 
-Hi Christophe,
+> -static void send_cached_response(int sk, unsigned char *buf, int len,
+> +static void send_cached_response(int sk, unsigned char *ptr, int len,
+>  				const struct sockaddr *to, socklen_t tolen,
+>  				int protocol, int id, uint16_t answers, int ttl)
+>  {
+> -	struct domain_hdr *hdr;
+> -	unsigned char *ptr = buf;
+> -	int err, offset, dns_len, adj_len = len - 2;
+> +	struct domain_hdr *hdr = (void *) (ptr + offset);
+> +	int offset, dns_len;
+>  
+>  	/*
+>  	 * The cached packet contains always the TCP offset (two bytes)
+> @@ -449,8 +469,6 @@ static void send_cached_response(int sk, unsigned char *buf, int len,
+>  	if (len < 12)
+>  		return;
+>  
+> -	hdr = (void *) (ptr + offset);
 
-On Tue, Oct 11, 2022 at 11:56:40AM +0200, Christophe Ronco wrote:
-> I have a DHCP server that do not send DNS servers along with IP address.
-> I use the FallbackNameservers option in main.conf to handle this case.
-> 
-> After a board reboot or a connman restart, Fallback DNS servers are correctly
-> displayed in service properties but DNS requests still fail.
-> If I disconnect and reconnect the service, DNS requests are OK.
-> 
-> DNS requests fail because Fallback servers are not enabled.
-> 
-> They are not enabled because when dnsproxy_default_changed is called, DNS
-> servers are not created yet and enable_fallback does not do anything.
-> Then when servers are created in create_server (dnsproxy.c), they are not
-> enabled because they are fallback servers.
-> 
-> I made a patch to change the behavior in create_server and enable Fallback
-> server if there is no other DNS servers.
-
-Patch applied. Thanks!
-Daniel
+Moving this bit to the declaration section of the fiction is obviously
+incorrect. Compiler agrees. I moved it back.
