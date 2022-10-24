@@ -1,98 +1,55 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.nearlyone.de (mail.nearlyone.de [46.163.114.145])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C34A07B
-	for <connman@lists.linux.dev>; Tue, 18 Oct 2022 08:55:18 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 35DC933E78
-	for <connman@lists.linux.dev>; Tue, 18 Oct 2022 08:55:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1666083317; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=8fovNWezNgaqAvl6foUJyxCYlFXSYaYFndCSKq864cw=;
-	b=XDxCo0Kuk9IkkmDeX2AvvkPXl2shCY45g8U+OISuMDMfy1vNqdkEAYnpOIqFgKjmjWcNoc
-	xCfIQ/C3Ph6/uzidaYdiaDp7b79O0cJJWzZNQWd75d2Q4cfE+rslJqmhJ8mcnXldpX6IiS
-	7aqL7UPkplgXivVRSXtLCD0+x9FJMcs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1666083317;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=8fovNWezNgaqAvl6foUJyxCYlFXSYaYFndCSKq864cw=;
-	b=2pM2Y+ZPMH6nfD6IJraqI2MbDXv+9xHTg2bgii6CfJ/743mG4Jzdm2JFalIvrU/kdbqDdn
-	Ru8hZvDt/l4pqlCg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 2C5E2139D2
-	for <connman@lists.linux.dev>; Tue, 18 Oct 2022 08:55:17 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id jwLOCvVpTmPodAAAMHmgww
-	(envelope-from <matthias.gerstner@suse.de>)
-	for <connman@lists.linux.dev>; Tue, 18 Oct 2022 08:55:17 +0000
-Date: Tue, 18 Oct 2022 10:55:15 +0200
-From: Matthias Gerstner <matthias.gerstner@suse.de>
-To: connman@lists.linux.dev
-Subject: Re: dnsproxy: first round of refactoring, TCP bugfix
-Message-ID: <Y05p9FJvQGPuuEL4@kasco.suse.de>
-References: <20221018084746.21959-1-matthias.gerstner@suse.de>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F23F659
+	for <connman@lists.linux.dev>; Mon, 24 Oct 2022 06:59:31 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 0D63C61C65;
+	Mon, 24 Oct 2022 08:52:08 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=monom.org; s=dkim;
+	t=1666594329; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 in-reply-to:references; bh=Rh/sX5UXRqFK6Qfcxoq9xGLTdejw/bR3VSt4lcPCO6k=;
+	b=eN1QVDQ92jLrAYsf5RBNsfj0gr7isneVN42BEndi8hitc0xKRklQjsLX+2ZP//huJ5AYV+
+	REmhq3u7tyvBLIenLAouxLWv/gwufzTJRdvKOIcQ+Nxgnw5PQRbwJPt8dMlooU/Kdk8KT7
+	1MT2AsxLuHLJLju2/46LaCkCghicNE/g64l6bt+yeoQy821xJNqkWaf+yQpr5eO3WOUPwd
+	EOzn/msq2w3bT28W1KuBY9u49bA66fixDzSHpb1Qk5nqO0aAz5HzGaKiWCvqMfqAOe1Hro
+	7QcUNqdCFrn9VFWHN9ANEJvJl90k7ywyTvqHWobZhnZbTByfy4P0q+ecWZVBsA==
+Date: Mon, 24 Oct 2022 08:52:07 +0200
+From: Daniel Wagner <wagi@monom.org>
+To: Christophe Ronco <c.ronco@kerlink.fr>
+Cc: connman@lists.linux.dev
+Subject: Re: [PATCH 0/1] Enable Fallback DNS server when server is created
+Message-ID: <20221024065207.ap3yghsbalv5j7fg@beryllium.lan>
+References: <20221011095641.19310-1-c.ronco@kerlink.fr>
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="dTXUGQoEQPA0slxV"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221018084746.21959-1-matthias.gerstner@suse.de>
+In-Reply-To: <20221011095641.19310-1-c.ronco@kerlink.fr>
+X-Last-TLS-Session-Version: TLSv1.3
 
+Hi Christophe,
 
---dTXUGQoEQPA0slxV
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 18 Oct 2022 10:55:15 +0200
-From: Matthias Gerstner <matthias.gerstner@suse.de>
-To: connman@lists.linux.dev
-Subject: Re: dnsproxy: first round of refactoring, TCP bugfix
+On Tue, Oct 11, 2022 at 11:56:40AM +0200, Christophe Ronco wrote:
+> I have a DHCP server that do not send DNS servers along with IP address.
+> I use the FallbackNameservers option in main.conf to handle this case.
+> 
+> After a board reboot or a connman restart, Fallback DNS servers are correctly
+> displayed in service properties but DNS requests still fail.
+> If I disconnect and reconnect the service, DNS requests are OK.
+> 
+> DNS requests fail because Fallback servers are not enabled.
+> 
+> They are not enabled because when dnsproxy_default_changed is called, DNS
+> servers are not created yet and enable_fallback does not do anything.
+> Then when servers are created in create_server (dnsproxy.c), they are not
+> enabled because they are fallback servers.
+> 
+> I made a patch to change the behavior in create_server and enable Fallback
+> server if there is no other DNS servers.
 
-On Tue, Oct 18, 2022 at 10:47:30AM +0200, Matthias Gerstner wrote:
-> From Matthias Gerstner <matthias.gerstner@suse.de> # This line is ignored.
-> From: Matthias Gerstner <matthias.gerstner@suse.de>
-> Reply-To:=20
-> Subject: dnsproxy: first round of refactoring, TCP bugfix
-> In-Reply-To:=20
-
-Sorry, it seems I've messed up the summary.
-
-This is the same patch series with the minor changes you requested in
-patch 03/16.
-
---dTXUGQoEQPA0slxV
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEE82oG1A8ab1eESZdjFMQFyXGSNVMFAmNOafQACgkQFMQFyXGS
-NVMy6A//WSqI2WR/1gQxk1Z9EURvCLXes2tHMbTP5yAuyqT/xrmFDTFcb4hxX23j
-1SoAk+tU/D9OgtTk9VuFX4Autw+h08Gv7Z3cMegeXr8NK+6uwBhKup3kK9e80rYE
-IVzv4+plKkl+f6+OkqIfiLXWcKbEkONQhw7JKyJTZWIlHI0uMXbcUTyi2QyN0NbJ
-ad7/qSUEXetLXh+ffcXUfLKeUcVXm5+GA3Uudhyoz0XZqy9rFtzWCVhVDfiUVxbv
-PJ2y27A5JuExrHMMJnu7scmDa983ndYG0uyhfj9Udsev1Iz38CLRKEk0R0wb1hrF
-e6ncvPQZG2mSvqm4i2vkp/22uKIzoriSDr8QztMO48V7VoJ6W6psYlq9AB73WRVQ
-UhS2MUR6atB+3pDTbzU3aU8KRBmkhemRl7w7bZ3ewCTQQOBlgrX1s7Dt5vS3y5MS
-DVj5q6Ood/m1I0fp2wvs0HiOxJi2UjSiysyKoXUC8WZAiQKIAR5EQCfkw5mxP8VG
-6fgCw3PeYmtDbXzJXEFq5rpA3xbHAe+lF0wVYzf7X2NtgIYOeu8UYO+po8cCuwO0
-XM6dTIyTwNYMzEKgw1KrVx0CyYzYK7tEB3rIBcYoxpq3x9m8q0wGg4snVQliPnhM
-sMc7xZwCCmba0AxBWmb17qJ4WQM1uhhPYF8J87/YQubNdZPr1wM=
-=eknA
------END PGP SIGNATURE-----
-
---dTXUGQoEQPA0slxV--
+Patch applied. Thanks!
+Daniel
