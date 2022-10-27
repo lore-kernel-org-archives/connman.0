@@ -1,73 +1,64 @@
-Received: from mail.nearlyone.de (mail.nearlyone.de [46.163.114.145])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D300F659
-	for <connman@lists.linux.dev>; Mon, 24 Oct 2022 07:40:06 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 516FC618F7;
-	Mon, 24 Oct 2022 09:40:02 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=monom.org; s=dkim;
-	t=1666597202; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 in-reply-to:references; bh=bJAit3TFJ/Y7XCWcWwuCOzuUPU5DwUdV/5g2CwC9PIY=;
-	b=BH1hjcvmq4bpBhum3coPPrpnAussq7DY2tvXvXEOk5QP46NRtIGwRY8zARtQch7MILuUhC
-	MyRQfFbXub/rSfGP0SMl3rHbLtobo5KJs4izAXWmp1lD2eJVl/ag/CR3BzraZpwB4ljVX6
-	ttTzmsNoLlr//7E05xacz4KS+lEEC4DjYDnnlBVPUj3b5QRrVL6cNWa5y/PDQDavVtVsQC
-	je4QiNFS7IyhjxDt3PkAmnKWqFibRiIg2/7oGbW7Dh2pinVe3pQk85YC4KL/PPmebPbR/H
-	Ib/1AkpBu43mBLkXd5CIVEcF26CygtX0Vpt8MQy5t1NZ6tC95Zhr6BpLrbuCWA==
-Date: Mon, 24 Oct 2022 09:40:01 +0200
-From: Daniel Wagner <wagi@monom.org>
-To: Matthias Gerstner <matthias.gerstner@suse.de>
-Cc: connman@lists.linux.dev
-Subject: Re: dnsproxy: first round of refactoring, TCP bugfix
-Message-ID: <20221024074001.ud4w46xewtdnzdtm@beryllium.lan>
-References: <20221018084746.21959-1-matthias.gerstner@suse.de>
- <Y05p9FJvQGPuuEL4@kasco.suse.de>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A921186A
+	for <connman@lists.linux.dev>; Thu, 27 Oct 2022 10:33:16 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id B5A441F8C6
+	for <connman@lists.linux.dev>; Thu, 27 Oct 2022 10:33:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1666866787; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=gI/cIpc9p6J01qQwff5AtGMHhzYGWbnHsSa3AfaG3Ac=;
+	b=FwH/Jc7zWB4DsYhmExjdsu334uhWOQnBQQmfHP3/5Qo6bRXiLmv+crcZElinhLgdLUw17C
+	AyDyE+v5RlvNlnvHJRL0tAa4Iwg59K/UU38M/8TyiTekjrFwo+MQ1P+aLOPkBIiC+BXQGF
+	yQOwgEKUB61JvCgpSStZsGjxIWtQ8ug=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1666866787;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=gI/cIpc9p6J01qQwff5AtGMHhzYGWbnHsSa3AfaG3Ac=;
+	b=Su5uUUDVwuKnHvjiOlq0X9MORP5Phyoyjgff4LckMF18xPRxUaaEceACjPPuxpJp+mamue
+	FrU1odlOvBELvVBQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id ADB86134CA
+	for <connman@lists.linux.dev>; Thu, 27 Oct 2022 10:33:07 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id +ko0KmNeWmPLBAAAMHmgww
+	(envelope-from <mgerstner@suse.de>)
+	for <connman@lists.linux.dev>; Thu, 27 Oct 2022 10:33:07 +0000
+From: Matthias Gerstner <matthias.gerstner@suse.de>
+To: connman@lists.linux.dev
+Subject: dnsproxy: first round of refactoring, TCP bugfix
+Date: Thu, 27 Oct 2022 12:32:43 +0200
+Message-Id: <20221027103258.29129-1-matthias.gerstner@suse.de>
+X-Mailer: git-send-email 2.37.3
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y05p9FJvQGPuuEL4@kasco.suse.de>
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Transfer-Encoding: 8bit
 
-Hi Matthias,
+Sorry about the messed up previous set of patches.
 
-[Sorry that the last time the review took so long. So this time I'll
-give it high priority :)]
+So this round features the following changes:
 
-On Tue, Oct 18, 2022 at 10:55:15AM +0200, Matthias Gerstner wrote:
-> On Tue, Oct 18, 2022 at 10:47:30AM +0200, Matthias Gerstner wrote:
-> > From Matthias Gerstner <matthias.gerstner@suse.de> # This line is ignored.
-> > From: Matthias Gerstner <matthias.gerstner@suse.de>
-> > Reply-To: 
-> > Subject: dnsproxy: first round of refactoring, TCP bugfix
-> > In-Reply-To: 
-> 
-> Sorry, it seems I've messed up the summary.
+- every commit should now successfully compile and also compile without
+  warnings
+- as requested I let go off most of the mixed code/declarations at the loss of
+  some const variables that now need to be declared non-const at the start
+  of the functions. In a few spots I left a little mixed code / declarations
+  just at the beginning of the function block to allow for early exits when
+  e.g. insufficient input data is supplied. Declarations at the beginning of
+  for/while/if blocks still remain where suitable.
 
-No worries, it is a steep learning curve :)
 
-> This is the same patch series with the minor changes you requested in
-> patch 03/16.
-
-So I've tried to apply all the patches. But as noted, not all build
-without a warning or error. I've tried to fix it up but there so many
-'unsigned char * p' -> 'char * p' followed with a 'fn((unsigned
-char*)p)' makes me nervous that my changes are actually introducing
-regressions. Anyway, every single time a cast is used, it shows there is
-something (slightly?) off.
-
-Again, I am against moving the declarations down into the body and
-mixing them with instructions. I am sure this is encouraged in other
-code bases (I suppose C++?). But no projects I am aware of which follow
-the Linux coding style has this style.
-
-As the rest of the ConnMan code base is not using this I am not keen to
-change it now. For me it's actually harder to read as my brain is
-trained to look for the declaration at the beginning of a block. So
-please don't do it.
-
-Thanks,
-Daniel
