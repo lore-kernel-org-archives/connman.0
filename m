@@ -1,48 +1,48 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8251E1C29
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C2F51C2B
 	for <connman@lists.linux.dev>; Thu, 27 Oct 2022 10:33:20 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id B97D21FDFE
-	for <connman@lists.linux.dev>; Thu, 27 Oct 2022 10:33:12 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 998EA2266E
+	for <connman@lists.linux.dev>; Thu, 27 Oct 2022 10:33:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1666866792; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	t=1666866793; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=7mqmArD7F+Jn66IKMyPoHv77P8695ISpJ/pyHoYSf4w=;
-	b=ioNNc0rfaiplO6U7f7x1KZvxmMpwZsVUm3/nPCwFVBEK4UOWGcb5RVnDtPMdSN+hhck0i7
-	dOhplirHzZiKuqidFeRyTUmJZ+z+FemWCsrJ0bJCVkW+jwdTJKVzozEl9REG7v6qB6FKGH
-	s1Ks38lxNxQw1ZehXZoDLHWchHnjrso=
+	bh=ybAmilV0D/Tr1aTsYrHjgYTporODAnlB59RDBPTwiNI=;
+	b=jp4A5GLyHgW0PevJTEsMbN1tUAx4BfwCo2wojpho8aKOcrH6fThckcR/C/Gr1HjF3zME9m
+	+PBhNwWVM12RQIqhZOlL9vlzq3IFh8BOn1ZUxO3z3faHnEzLJvMHPX7P3uDzfMW8MkyJFL
+	pQ8TKsi7pmAT3SNEQRFruLK+HaXGvn8=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1666866792;
+	s=susede2_ed25519; t=1666866793;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=7mqmArD7F+Jn66IKMyPoHv77P8695ISpJ/pyHoYSf4w=;
-	b=mKYHfYev5cUzmrGNU5VT3IhRAgroom5a15wTIOL/0aKLoybuUCNKqK28mXeZpf3OJWd5nq
-	3u0BFWhPdcxFIHBw==
+	bh=ybAmilV0D/Tr1aTsYrHjgYTporODAnlB59RDBPTwiNI=;
+	b=oTfo5HabshBqECRBA+dqWbRZfTyAyPy3UI/7eILOxR+A7wxzbbSOX4izl0xlMfLqg5LE9v
+	OOqGy6tPrpnOOoAw==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id A64BB134CA
-	for <connman@lists.linux.dev>; Thu, 27 Oct 2022 10:33:12 +0000 (UTC)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 90F78134CA
+	for <connman@lists.linux.dev>; Thu, 27 Oct 2022 10:33:13 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
 	by imap2.suse-dmz.suse.de with ESMTPSA
-	id 7SqYKGheWmPjBAAAMHmgww
+	id vZdcI2leWmPoBAAAMHmgww
 	(envelope-from <mgerstner@suse.de>)
-	for <connman@lists.linux.dev>; Thu, 27 Oct 2022 10:33:12 +0000
+	for <connman@lists.linux.dev>; Thu, 27 Oct 2022 10:33:13 +0000
 From: Matthias Gerstner <matthias.gerstner@suse.de>
 To: connman@lists.linux.dev
-Subject: [PATCH 05/16] dnsproxy: refactoring of update_cached_ttl() and append_data()
-Date: Thu, 27 Oct 2022 12:32:48 +0200
-Message-Id: <20221027103258.29129-6-matthias.gerstner@suse.de>
+Subject: [PATCH 06/16] dnsproxy: refactor parse_response()
+Date: Thu, 27 Oct 2022 12:32:49 +0200
+Message-Id: <20221027103258.29129-7-matthias.gerstner@suse.de>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20221027103258.29129-1-matthias.gerstner@suse.de>
 References: <20221027103258.29129-1-matthias.gerstner@suse.de>
@@ -54,204 +54,241 @@ List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-- use size_t for sizes and lengths where possible
-- use named constants in favor of literal numbers
-- more localized variable declarations
-- prefer byte order macros over explicit byte operations
-- add some comments and use early exits to simplify the code
+- add a descriptive comment to make clear what the function does
+- use const pointers and size_t where possible
+- move stack variables into more localized scopes
+- use named constants over literal numbers where applicable
 ---
- src/dnsproxy.c | 143 +++++++++++++++++++++++++------------------------
- 1 file changed, 72 insertions(+), 71 deletions(-)
+ src/dnsproxy.c | 110 +++++++++++++++++++++++++------------------------
+ 1 file changed, 57 insertions(+), 53 deletions(-)
 
 diff --git a/src/dnsproxy.c b/src/dnsproxy.c
-index 02fb3c78c..5ba68b52f 100644
+index 5ba68b52f..796b33fc3 100644
 --- a/src/dnsproxy.c
 +++ b/src/dnsproxy.c
-@@ -391,52 +391,52 @@ static size_t dns_name_length(const unsigned char *buf)
- 	return strlen((const char *)buf) + 1;
+@@ -921,7 +921,7 @@ static int get_name(int counter,
+ 
+ static int parse_rr(const unsigned char *buf, const unsigned char *start,
+ 			const unsigned char *max,
+-			unsigned char *response, unsigned int *response_size,
++			unsigned char *response, size_t *response_size,
+ 			uint16_t *type, uint16_t *class, int *ttl, uint16_t *rdlen,
+ 			const unsigned char **end,
+ 			char *name, size_t max_name)
+@@ -982,55 +982,67 @@ static bool check_alias(GSList *aliases, const char *name)
+ 	return false;
  }
  
--static void update_cached_ttl(unsigned char *buf, int len, int new_ttl)
-+static void update_cached_ttl(unsigned char *ptr, int len, int new_ttl)
+-static int parse_response(unsigned char *buf, int buflen,
+-			char *question, int qlen,
++/*
++ * Parses the DNS response packet found in 'buf' consisting of 'buflen' bytes.
++ *
++ * The parsed question label, response type and class, ttl and number of
++ * answer sections are output parameters. The response output buffer will
++ * receive all matching resource records to be cached.
++ *
++ * Return value is < 0 on error (negative errno) or zero on success.
++ */
++static int parse_response(const unsigned char *buf, size_t buflen,
++			char *question, size_t qlen,
+ 			uint16_t *type, uint16_t *class, int *ttl,
+-			unsigned char *response, unsigned int *response_len,
++			unsigned char *response, size_t *response_len,
+ 			uint16_t *answers)
  {
--	unsigned char *c;
--	uint16_t w;
--	int l;
-+	size_t name_len;
-+	const uint32_t raw_ttl = ntohl((uint32_t)new_ttl);
-+
-+	if (new_ttl < 0)
-+		return;
- 
- 	/* skip the header */
--	c = buf + 12;
--	len -= 12;
-+	ptr += DNS_HEADER_SIZE;
-+	len -= DNS_HEADER_SIZE;
-+
-+	if (len < sizeof(struct domain_question) + 1)
-+		return;
- 
--	/* skip the query, which is a name and 2 16 bit words */
--	l = dns_name_length(c);
--	c += l;
--	len -= l;
--	c += 4;
--	len -= 4;
-+	/* skip the query, which is a name and a struct domain_question */
-+	name_len = dns_name_length(ptr);
-+
-+	ptr += name_len + sizeof(struct domain_question);
-+	len -= name_len + sizeof(struct domain_question);;
- 
- 	/* now we get the answer records */
- 
- 	while (len > 0) {
-+		struct domain_rr *rr = NULL;
-+		size_t rr_len;
-+
- 		/* first a name */
--		l = dns_name_length(c);
--		c += l;
--		len -= l;
--		if (len < 0)
--			break;
--		/* then type + class, 2 bytes each */
--		c += 4;
--		len -= 4;
-+		name_len = dns_name_length(ptr);
-+		ptr += name_len;
-+		len -= name_len;
- 		if (len < 0)
- 			break;
- 
--		/* now the 4 byte TTL field */
--		c[0] = new_ttl >> 24 & 0xff;
--		c[1] = new_ttl >> 16 & 0xff;
--		c[2] = new_ttl >> 8 & 0xff;
--		c[3] = new_ttl & 0xff;
--		c += 4;
--		len -= 4;
--		if (len < 0)
-+		rr = (void*)ptr;
-+		if (len < sizeof(*rr))
-+			/* incomplete record */
- 			break;
- 
--		/* now the 2 byte rdlen field */
--		w = c[0] << 8 | c[1];
--		c += w + 2;
--		len -= w + 2;
-+		/* update the TTL field */
-+		memcpy(&rr->ttl, &raw_ttl, sizeof(raw_ttl));
-+
-+		/* skip to the next record */
-+		rr_len = sizeof(*rr) + ntohs(rr->rdlen);
-+		ptr += rr_len;
-+		len -= rr_len;
- 	}
- }
- 
-@@ -623,59 +623,60 @@ out:
- 	return FALSE;
- }
- 
--static int append_query(unsigned char *buf, unsigned int size,
--				const char *query, const char *domain)
-+static int append_data(unsigned char *buf, size_t size, const char *data)
- {
- 	unsigned char *ptr = buf;
--	int len;
+ 	struct domain_hdr *hdr = (void *) buf;
+ 	struct domain_question *q;
+-	const unsigned char *ptr;
+-	uint16_t qdcount = ntohs(hdr->qdcount);
+-	uint16_t ancount = ntohs(hdr->ancount);
+-	int err, i;
+-	uint16_t qtype, qclass;
+-	const unsigned char *next = NULL;
+-	unsigned int maxlen = *response_len;
+-	GSList *aliases = NULL, *list;
+-	char name[NS_MAXDNAME + 1];
 -
--	debug("query %s domain %s", query, domain);
-+	size_t len;
- 
--	while (query) {
--		const char *tmp;
-+	while (true) {
-+		const char *dot = strchr(data, '.');
-+		len = dot ? dot - data : strlen(data);
- 
--		tmp = strchr(query, '.');
--		if (!tmp) {
--			len = strlen(query);
--			if (len == 0)
--				break;
--			*ptr = len;
--			memcpy(ptr + 1, query, len);
--			ptr += len + 1;
-+		if (len == 0)
- 			break;
--		}
-+		else if (size < len + 1)
-+			return -1;
- 
--		*ptr = tmp - query;
--		memcpy(ptr + 1, query, tmp - query);
--		ptr += tmp - query + 1;
-+		*ptr = len;
-+		memcpy(ptr + 1, data, len);
-+		ptr += len + 1;
-+		size -= len + 1;
- 
--		query = tmp + 1;
-+		if (!dot)
-+			break;
+-	if (buflen < 12)
++	uint16_t qtype;
++	int err = -ENOMSG;
++	uint16_t ancount, qclass;
++	GSList *aliases = NULL;
++	const size_t maxlen = *response_len;
 +
-+		data = dot + 1;
++	*response_len = 0;
++	*answers = 0;
++
++	if (buflen < DNS_HEADER_SIZE)
+ 		return -EINVAL;
+ 
++	const uint16_t qdcount = ntohs(hdr->qdcount);
++	const unsigned char *ptr = buf + DNS_HEADER_SIZE;
++	const unsigned char *eptr = buf + buflen;
++
+ 	debug("qr %d qdcount %d", hdr->qr, qdcount);
+ 
+ 	/* We currently only cache responses where question count is 1 */
+ 	if (hdr->qr != 1 || qdcount != 1)
+ 		return -EINVAL;
+ 
+-	ptr = buf + sizeof(struct domain_hdr);
+-
+-	strncpy(question, (char *) ptr, qlen);
++	/*
++	 * NOTE: currently the *caller* ensures that the `question' buffer is
++	 * always zero terminated.
++	 */
++	strncpy(question, (const char *) ptr, MIN(qlen, buflen - DNS_HEADER_SIZE));
+ 	qlen = strlen(question);
+ 	ptr += qlen + 1; /* skip \0 */
+ 
++	if ((eptr - ptr) < sizeof(struct domain_question))
++		return -EINVAL;
++
+ 	q = (void *) ptr;
+ 	qtype = ntohs(q->type);
+ 
+ 	/* We cache only A and AAAA records */
+-	if (qtype != 1 && qtype != 28)
++	if (qtype != DNS_TYPE_A && qtype != DNS_TYPE_AAAA)
+ 		return -ENOMSG;
+ 
+-	qclass = ntohs(q->class);
+-
+-	ptr += 2 + 2; /* ptr points now to answers */
+-
+-	err = -ENOMSG;
+-	*response_len = 0;
+-	*answers = 0;
++	ptr += sizeof(struct domain_question); /* advance to answers section */
+ 
+-	memset(name, 0, sizeof(name));
++	ancount = ntohs(hdr->ancount);
++	qclass = ntohs(q->class);
+ 
+ 	/*
+ 	 * We have a bunch of answers (like A, AAAA, CNAME etc) to
+@@ -1038,7 +1050,8 @@ static int parse_response(unsigned char *buf, int buflen,
+ 	 * resource records. Only A and AAAA records are cached, all
+ 	 * the other records in answers are skipped.
+ 	 */
+-	for (i = 0; i < ancount; i++) {
++	for (uint16_t i = 0; i < ancount; i++) {
++		char name[NS_MAXDNAME + 1] = {0};
+ 		/*
+ 		 * Get one address at a time to this buffer.
+ 		 * The max size of the answer is
+@@ -1046,24 +1059,27 @@ static int parse_response(unsigned char *buf, int buflen,
+ 		 *   4 (ttl) + 2 (rdlen) + addr (16 or 4) = 28
+ 		 * for A or AAAA record.
+ 		 * For CNAME the size can be bigger.
++		 * TODO: why are we using the MAXCDNAME constant as buffer
++		 * size then?
+ 		 */
+-		unsigned char rsp[NS_MAXCDNAME];
+-		unsigned int rsp_len = sizeof(rsp) - 1;
+-		int ret;
++		unsigned char rsp[NS_MAXCDNAME] = {0};
++		size_t rsp_len = sizeof(rsp) - 1;
++		const unsigned char *next = NULL;
+ 		uint16_t rdlen;
+ 
+-		memset(rsp, 0, sizeof(rsp));
+-
+-		ret = parse_rr(buf, ptr, buf + buflen, rsp, &rsp_len,
++		int ret = parse_rr(buf, ptr, buf + buflen, rsp, &rsp_len,
+ 			type, class, ttl, &rdlen, &next, name,
+ 			sizeof(name) - 1);
+ 		if (ret != 0) {
+ 			err = ret;
+-			goto out;
++			break;
+ 		}
+ 
++		/* set pointer to the next RR for the next iteration */
++		ptr = next;
++
+ 		/*
+-		 * Now rsp contains compressed or uncompressed resource
++		 * Now rsp contains a compressed or an uncompressed resource
+ 		 * record. Next we check if this record answers the question.
+ 		 * The name var contains the uncompressed label.
+ 		 * One tricky bit is the CNAME records as they alias
+@@ -1075,8 +1091,6 @@ static int parse_response(unsigned char *buf, int buflen,
+ 		 * looking for.
+ 		 */
+ 		if (*class != qclass) {
+-			ptr = next;
+-			next = NULL;
+ 			continue;
+ 		}
+ 
+@@ -1101,7 +1115,7 @@ static int parse_response(unsigned char *buf, int buflen,
+ 		 * address of ipv6.l.google.com. For caching purposes this
+ 		 * should not cause any issues.
+ 		 */
+-		if (*type == 5 && strncmp(question, name, qlen) == 0) {
++		if (*type == DNS_TYPE_CNAME && strncmp(question, name, qlen) == 0) {
+ 			/*
+ 			 * So now the alias answered the question. This is
+ 			 * not very useful from caching point of view as
+@@ -1125,8 +1139,6 @@ static int parse_response(unsigned char *buf, int buflen,
+ 					name, sizeof(name) - 1, &name_len);
+ 			if (ret != 0) {
+ 				/* just ignore the error at this point */
+-				ptr = next;
+-				next = NULL;
+ 				continue;
+ 			}
+ 
+@@ -1138,12 +1150,8 @@ static int parse_response(unsigned char *buf, int buflen,
+ 			 */
+ 			aliases = g_slist_prepend(aliases, g_strdup(name));
+ 
+-			ptr = next;
+-			next = NULL;
+ 			continue;
+-		}
+-
+-		if (*type == qtype) {
++		} else if (*type == qtype) {
+ 			/*
+ 			 * We found correct type (A or AAAA)
+ 			 */
+@@ -1160,7 +1168,7 @@ static int parse_response(unsigned char *buf, int buflen,
+ 				 */
+ 				if (*response_len + rsp_len > maxlen) {
+ 					err = -ENOBUFS;
+-					goto out;
++					break;
+ 				}
+ 				memcpy(response + *response_len, rsp, rsp_len);
+ 				*response_len += rsp_len;
+@@ -1168,13 +1176,9 @@ static int parse_response(unsigned char *buf, int buflen,
+ 				err = 0;
+ 			}
+ 		}
+-
+-		ptr = next;
+-		next = NULL;
  	}
  
--	while (domain) {
--		const char *tmp;
-+	return ptr - buf;
-+}
+-out:
+-	for (list = aliases; list; list = list->next)
++	for (GSList *list = aliases; list; list = list->next)
+ 		g_free(list->data);
+ 	g_slist_free(aliases);
  
--		tmp = strchr(domain, '.');
--		if (!tmp) {
--			len = strlen(domain);
--			if (len == 0)
--				break;
--			*ptr = len;
--			memcpy(ptr + 1, domain, len);
--			ptr += len + 1;
--			break;
--		}
-+static int append_query(unsigned char *buf, size_t size,
-+				const char *query, const char *domain)
-+{
-+	size_t added;
-+	size_t left_size = size;
-+	int res;
+@@ -1380,7 +1384,7 @@ static int cache_update(struct server_data *srv, unsigned char *msg,
+ 	char question[NS_MAXDNAME + 1];
+ 	unsigned char response[NS_MAXDNAME + 1];
+ 	unsigned char *ptr;
+-	unsigned int rsplen;
++	size_t rsplen;
+ 	bool new_entry = true;
+ 	time_t current_time;
  
--		*ptr = tmp - domain;
--		memcpy(ptr + 1, domain, tmp - domain);
--		ptr += tmp - domain + 1;
-+	debug("query %s domain %s", query, domain);
- 
--		domain = tmp + 1;
--	}
-+	res = append_data(buf, left_size, query);
-+	if (res < 0)
-+		return -1;
-+	left_size -= res;
-+
-+	res = append_data(buf + res, left_size, domain);
-+	if (res < 0)
-+		return -1;
-+	left_size -= res;
-+
-+	if (left_size == 0)
-+		return -1;
- 
--	*ptr++ = 0x00;
-+	added = size - left_size;
-+	*(buf + added) = 0x00;
- 
--	return ptr - buf;
-+	return added;
- }
- 
- static bool cache_check_is_valid(struct cache_data *data, time_t current_time)
 -- 
 2.37.3
 
