@@ -1,175 +1,458 @@
-Received: from EUR04-HE1-obe.outbound.protection.outlook.com (mail-eopbgr70120.outbound.protection.outlook.com [40.107.7.120])
+Received: from mx1.kistler.com (mx1.kistler.com [91.223.79.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B1D5A23
-	for <connman@lists.linux.dev>; Thu,  3 Nov 2022 09:04:26 +0000 (UTC)
-ARC-Seal: i=2; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=pass;
- b=QCvjZOUI8HO2fmUtMRRR/ObhycmT+cAGp3nKifp1gAgmCWPq9ls0TWAN1kRQhWPHYH0XqE9Q8ucjmB8ujFgrCReE2X/QWcfF5Qb1NiOkGxelue1Jnu82i9bfS/CKstvrf/vBbJ+VKRp0yWyxn3w39zgv5CZX68ErQ3pi8AeHJjvbj9B3nkglZxzT4OOgKzKgRM5dd2BvHLKxoZIxXop74jqbYm01/43NIlKoahD63OgBwnhVpTa/c5su+5nBHYbSLaEaZKHoPubLnAZJC1X3ArIAAauoThgtnVoGNO/9r/NGUj5/hMWFxp5d/GZFs8IaG3xyNo8GAXDIPwnHMJzdVg==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=6f+Jc1bJmDdh4a/c8jAFU3PgpuSvATmwq3z85Bo0qmo=;
- b=F12y6L04tC2ldlnas0ymI5h1IxKS/OYrhD4lDFAoHdalR/tuBJjKpBEpsk7ZGeZf2WHItEvfMOI6raR0RIDcjnH/Q/okSpiRSKsGiHxjiP9zhC5hAah0mibcVU7+5/XNZ+2VZKau7ndGtrRMRfy6bPQ315xex+v97TINI8baNTFpNhTCJJmLVPh+v1HJVkPOn0rt1/IMc/y6nnzTAjlGO3jnEFMO/hP4Y5kD9CgIP8sNnLYMawfeylsd8rjnZz626e5JE0iCS1pyzBNUlNpxIcb3j7nfSRI83uUU/9lgWlIC0OeCefkexJ2AsTMfY0YtgrYs8gFUdPxTTwtSNX39nw==
-ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
- 20.52.142.9) smtp.rcpttodomain=lists.linux.dev smtp.mailfrom=goeg.at;
- dmarc=bestguesspass action=none header.from=goeg.at; dkim=pass (signature was
- verified) header.d=goegat.onmicrosoft.com; arc=pass (0 oda=1 ltdi=1
- spf=[1,1,smtp.mailfrom=goeg.at] dkim=[1,1,header.d=goeg.at]
- dmarc=[1,1,header.from=goeg.at])
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=goegat.onmicrosoft.com; s=selector1-goegat-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6f+Jc1bJmDdh4a/c8jAFU3PgpuSvATmwq3z85Bo0qmo=;
- b=lVv/toiuR+sC/lJ2S/QsLv0hq6vgem5ZlOLX2YkuIA86gbDnYfbG1jIcDnAQ6vxOUpjrejYttbNWtV7Fe2nVSSk451o+N88Uo0k58hPRcn2xP1mek5/EsC1+7uPEJuOn640SMLjhpcy9SequUtUP2bG+A7hfg9MAlP6BsMkujCQ=
-Received: from AS9PR04CA0093.eurprd04.prod.outlook.com (2603:10a6:20b:50e::21)
- by DB4PR09MB5920.eurprd09.prod.outlook.com (2603:10a6:10:384::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5769.16; Thu, 3 Nov
- 2022 09:04:23 +0000
-Received: from AM6EUR05FT039.eop-eur05.prod.protection.outlook.com
- (2603:10a6:20b:50e:cafe::c2) by AS9PR04CA0093.outlook.office365.com
- (2603:10a6:20b:50e::21) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5791.20 via Frontend
- Transport; Thu, 3 Nov 2022 09:04:23 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 20.52.142.9)
- smtp.mailfrom=goeg.at; dkim=pass (signature was verified)
- header.d=goegat.onmicrosoft.com;dmarc=bestguesspass action=none
- header.from=goeg.at;
-Received-SPF: Pass (protection.outlook.com: domain of goeg.at designates
- 20.52.142.9 as permitted sender) receiver=protection.outlook.com;
- client-ip=20.52.142.9; helo=goegsIQSUITE01; pr=C
-Received: from goegsIQSUITE01 (20.52.142.9) by
- AM6EUR05FT039.mail.protection.outlook.com (10.233.241.178) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5791.20 via Frontend Transport; Thu, 3 Nov 2022 09:04:23 +0000
-Received: from mail pickup service by goegsIQSUITE01 with Microsoft SMTPSVC;
-	 Thu, 3 Nov 2022 10:04:23 +0100
-Received: from EUR05-VI1-obe.outbound.protection.outlook.com ([104.47.17.170]) by goegsIQSUITE01 over TLS secured channel with Microsoft SMTPSVC(10.0.17763.1697);
-	 Thu, 3 Nov 2022 10:04:22 +0100
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=gTlHs4SCrRbTKaetmx6IJ+16yee07Y/JjZVKEwKBLdAXu1foafs1sW3PvreFzR4tREHS7eUZknVFdrrqym7jcw42J1VhtwFUwsBw6mbD/cs3Jidju242GFmC6gWgIwBqP1EeQ7yVtDB1eRELgquqYKZqP2X0JhM/RLIQzN3cYex55c/KRVGu0ED6CrW3Ty2Nwb7VvLw8KriDfeg1t9BFtH+GQRNz1MnsOcozyfEDY46AZ6txhPg/I1E30mQETN3hnfPvVSlgXAXMZCxYYzWRwQ9I6O2WD/tq1K4yqaK4kXOdcJ/LAEnmFAzrs6J66J4v4eJg7pCfz6MNaG+V/1FU2A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=6f+Jc1bJmDdh4a/c8jAFU3PgpuSvATmwq3z85Bo0qmo=;
- b=Axeb2S/dg359suTNtZK0NnHvH1n6O8NAGP/RZ/c+0Bd96sE+lkWqKIRteYZgoVp99NQ5LOc9CenYvyZ6QbGsOFmWaAX/nvYZEbfts32SGMDd7wy6b/JWZRI7JnQpkf+M/iTh8smLwJYD7BEAgFF1ikw5CObTiyekeuW33EnpaoAnlC4mHIrXAMhidx5RoCQaiUJ1DnY9aLn3PHGuBftqlsS+ikTAErbJDkH/+wrR5G1wi7DeVKkp7w09HEdX4cmN4IiJntkxYX2ZsI3vR9QAkhW0ESw/N/9qrylB8BJFHV2Fn3rDBOxnoBabVubebvAJD8/Oe0BgQbF7x+dFEbQpkw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=goeg.at; dmarc=pass action=none header.from=goeg.at; dkim=pass
- header.d=goeg.at; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=goegat.onmicrosoft.com; s=selector1-goegat-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6f+Jc1bJmDdh4a/c8jAFU3PgpuSvATmwq3z85Bo0qmo=;
- b=lVv/toiuR+sC/lJ2S/QsLv0hq6vgem5ZlOLX2YkuIA86gbDnYfbG1jIcDnAQ6vxOUpjrejYttbNWtV7Fe2nVSSk451o+N88Uo0k58hPRcn2xP1mek5/EsC1+7uPEJuOn640SMLjhpcy9SequUtUP2bG+A7hfg9MAlP6BsMkujCQ=
-Received: from AS8PR09MB5270.eurprd09.prod.outlook.com (2603:10a6:20b:371::8)
- by VI1PR09MB3694.eurprd09.prod.outlook.com (2603:10a6:803:13c::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5791.22; Thu, 3 Nov
- 2022 09:04:20 +0000
-Received: from AS8PR09MB5270.eurprd09.prod.outlook.com
- ([fe80::d827:df54:c815:2f25]) by AS8PR09MB5270.eurprd09.prod.outlook.com
- ([fe80::d827:df54:c815:2f25%6]) with mapi id 15.20.5769.019; Thu, 3 Nov 2022
- 09:04:20 +0000
-From: Thomas Bartosik <Thomas.Bartosik@goeg.at>
-To: Daniel Wagner <wagi@monom.org>
-CC: "connman@lists.linux.dev" <connman@lists.linux.dev>
-Subject: Re: Getting currently configured upstream DNS server
-Thread-Topic: Getting currently configured upstream DNS server
-Thread-Index: AQHY71j1/PTMot/Pj0i/FoWDs3IIua4s2ogAgAANSYA=
-Date: Thu, 3 Nov 2022 09:04:20 +0000
-Message-ID: <d5beab00-96b0-7cf0-0060-367ad03bcd36@goeg.at>
-References: <c34932cf-6f39-8391-471d-7629a1b448ed@goeg.at>
- <20221103081646.pffl5mewgoehptru@beryllium.lan>
-In-Reply-To: <20221103081646.pffl5mewgoehptru@beryllium.lan>
-Accept-Language: de-AT, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.0
-Authentication-Results-Original: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=goeg.at;
-x-ms-traffictypediagnostic:
-	AS8PR09MB5270:EE_|VI1PR09MB3694:EE_|AM6EUR05FT039:EE_|DB4PR09MB5920:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2c0f9772-bc73-419f-62ed-08dabd7a66c5
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted: BCL:0;
-X-Microsoft-Antispam-Message-Info-Original:
- /2JberMQv8liqfAZjEE5bxQ7ZSbLmajUi6+sthYDOhH/MpL8yHdY4h+M9fzOMKnstQNxJXTGpnNVf0O4y1BYFS758IKaYLSfwvuOrKRd/qmJYh+uZpuG6Mr3UIDSt+gfio2AMGeoSFlkHiZBBARdaf8jEJ9CQeJ93ncGul9LCyVcwGTicLgfOScLdIjGF72rb+6fwNHNSc4KryeEsATJExK3oSsAlaahbf8O0WXRrLJkJrTplHoyfJQProwUgiPfI834HbP7cdu3vcmC1yxs2vgoV3f85lWFraIRSkERl/r+0DZ/p9EkuSRDuirg47X4xdh34ksIsPbk+S6COqoagz5AAuzUap7nYH/QJktKmuaqdEB3VgaLBM4uto/twRLdaVMU2nGIetCNjGhSESb/f+JsvzF14ukNW+vGjTiTyPrCyqknt/OodRLBO2KtitTZLQMZX6x94mmuqxG6o4kOJhiL+Q73DkdTc0wOOHTUXF6ZqjfW+M2Lcl2ZbOLZrcouPDWzwp9Eruq1f7SLJ6/W0qtZsu9of86LEB7p9tFj1njLCatcJq5Wy/c+Us3b1QMt29gTA/jhz71H1s6hR2v0piMdM2V1qXzZU7PUwGlOZqWDBRW+vPI6Z/G/KCSAK0BV2nbAI69Dhx3KeiI7CAM7AaP+iHb8c5/pzL++EtxWs7k33TA+No57V70UjyzRVCFBVOXqDfFYHQxhbSM6KZpiepCDnMzKo0L5J/uIKZ3BAJUcIWPd9kCz9IFKqfb/LOm3WXQV28tKwMvYnHbahBww2z2GrIGs06Pfw2TUGwG0xnwDrZLc1RyP4avHOK5dfGHJSeNe77ryjuHh8PzJuHvwXg==
-X-Forefront-Antispam-Report-Untrusted:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS8PR09MB5270.eurprd09.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(396003)(39850400004)(366004)(136003)(376002)(346002)(451199015)(36756003)(38070700005)(31696002)(86362001)(122000001)(8676002)(38100700002)(76116006)(31686004)(478600001)(91956017)(4326008)(6916009)(316002)(2616005)(66556008)(6486002)(5660300002)(186003)(83380400001)(66946007)(2906002)(66574015)(66476007)(53546011)(71200400001)(66446008)(6506007)(6512007)(41300700001)(8936002)(26005)(64756008)(43740500002)(45980500001);DIR:OUT;SFP:1102;
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <AA8C949E55EBA9478C990B9FC9B78957@eurprd09.prod.outlook.com>
-Content-Transfer-Encoding: base64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4625323C
+	for <connman@lists.linux.dev>; Tue,  8 Nov 2022 07:20:03 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.96,147,1665439200"; 
+   d="scan'208";a="53599282"
+Received: from sl-win-seppm-1.int.kistler.com ([192.168.52.67])
+  by mx1.kistler.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2022 07:56:07 +0100
+Received: from mx1.kistler.com (kihagciip01.int.kistler.com [192.168.52.57])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by sl-win-seppm-1.int.kistler.com (Postfix) with ESMTPS
+	for <connman@lists.linux.dev>; Tue,  8 Nov 2022 08:18:52 +0100 (CET)
+X-IronPort-AV: E=Sophos;i="5.96,147,1665439200"; 
+   d="scan'208";a="53599281"
+Received: from sw-win-exch-2.int.kistler.com ([192.168.100.96])
+  by mx1.kistler.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 08 Nov 2022 07:56:06 +0100
+Received: from SW-WIN-EXCH-1.int.kistler.com (192.168.100.95) by
+ SW-WIN-EXCH-2.int.kistler.com (192.168.100.96) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.17; Tue, 8 Nov 2022 08:18:51 +0100
+Received: from VL-BTS-Cvo-1.int.kistler.com (192.168.100.116) by
+ SW-WIN-EXCH-1.int.kistler.com (192.168.100.95) with Microsoft SMTP Server id
+ 15.1.2375.17 via Frontend Transport; Tue, 8 Nov 2022 08:18:51 +0100
+From: Miroslav Cuvar <miroslav.cuvar@kistler.com>
+To: <connman@lists.linux.dev>
+CC: Miroslav Cuvar <miroslav.cuvar@kistler.com>
+Subject: [PATCH 1/1] Added support for setting preferred IP for WiFi tethering
+Date: Tue, 8 Nov 2022 08:18:20 +0100
+Message-ID: <20221108071820.14101-1-miroslav.cuvar@kistler.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR09MB3694
-X-OriginalArrivalTime: 03 Nov 2022 09:04:22.0174 (UTC) FILETIME=[438FFBE0:01D8EF63]
-X-GBS-PROC: 8nEwQmeqoarrBYExp6GMHPlxT56+UqAQXV1z8R/xjlNGjZ0lDEw/6cLvxXGlu2tn
-X-GBS-PROCJOB: 5WctKSqES9zMw0gW8I9RgOF2X6X0OBfGP7ALA0zc0JDO0THU0jWa/MRLcDKzv0C9
-X-GRP-TAN: goegsIQSUITE01@B2B5016CF20240BCA2787D3AED10A459
-X-iqsuite-process: e13a3393-6c38-45eb-8279-3913da145940
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped:
- AM6EUR05FT039.eop-eur05.prod.protection.outlook.com
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs:
-	d94641cf-d6fc-41ef-155e-08dabd7a64fd
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	lqkg305Sta8/wHPUNJPxrGs/LIdCHyyjS/0HIA8soZIwxNutMJdNSEDCNq7ZAY1iUtrgkppX0wlj9K1/RcWsDRwIsLZx1sFzuTbVNufEeiBBvFnVyGW5zvCgeCHQqFU9XOlilF1bVhuiIc8M7/VsbLClusRfyFO+m6IiMA6oxzDc2EeszQbn1DPk9vC/+dmnJVoJ0/njbcDd3JbpEHfn5m5ju4uNOkKA1lelRGNhndiNv8qbpDgW7B2wqvbvvBxsLyl3oZ91agaQVagAhaJmG68Pp6F5IeTF89yFM1sKCAl0vwYC+pYqvTNbasxykSyR4PJIdSEjIWPA1MIAqN7aTyjZizNzS8p/qL59OgQOIL+JboOwK0u1EeTBC632wSEK35bvaXflKQ2gIkoVevS052C7J6UaIwUaMt25RLfFa5+GjjyQZW0b5VbYVHak+1PvjLLWsB6sbNqqMPsPclrR46PJ7JQhutWnhOSpmwb/hjcZ7HWNuXGgnhRw36Eni7JuylKQUacIGDxXLABC5orV1p6UhCSOpJCZjGXnS+EiCf/6ql1U6iyQgW3UDiDEroiTgtPYYIyOA5Oyoq8QSm0NWTsBjRa24Jmb+EG4RkZH3YbdfJY7wgiN3V6ol2C1M+2/4A/MCJ7MNMvfutdtPf1Nqys8x9NC4JlNgoWhB9GRcHU5eU1wAtoJowxNV0hiqX95TcjmSKHztWCSaVGLL6ufk55diccSEbppqVH7yHPJxKeAdO+QWZjD8F9q+0q9L3lMVsjyDgpFg6wEQcLooRn674mUgqhDfzSU6+AWng8KMyVTjxEOB/yYwIFTHe9FcK29
-X-Forefront-Antispam-Report:
-	CIP:20.52.142.9;CTRY:DE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:goegsIQSUITE01;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230022)(346002)(376002)(39850400004)(136003)(396003)(451199015)(46966006)(36840700001)(36860700001)(5660300002)(26005)(8936002)(6862004)(31696002)(47076005)(6506007)(2616005)(66574015)(36756003)(86362001)(6512007)(6486002)(53546011)(2906002)(82740400003)(83380400001)(31686004)(478600001)(40480700001)(4326008)(8676002)(186003)(336012)(70586007)(70206006)(316002)(41300700001)(82310400005)(81166007)(356005)(36900700001)(43740500002);DIR:OUT;SFP:1102;
-X-OriginatorOrg: goeg.at
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Nov 2022 09:04:23.3905
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2c0f9772-bc73-419f-62ed-08dabd7a66c5
-X-MS-Exchange-CrossTenant-Id: 05d2efe8-0c45-4d9d-9a5a-b2d00b1b42ff
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=05d2efe8-0c45-4d9d-9a5a-b2d00b1b42ff;Ip=[20.52.142.9];Helo=[goegsIQSUITE01]
-X-MS-Exchange-CrossTenant-AuthSource:
-	AM6EUR05FT039.eop-eur05.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB4PR09MB5920
+Content-Type: text/plain; charset="utf-8"
+X-C2ProcessedOrg: 78a97207-3cfa-406d-a777-069c09c1300a
+Content-Transfer-Encoding: quoted-printable
+X-SM-outgoing: yes
 
-SXQgZG9lcyB3b3JrLCB0aGF0J3Mgbm90IG15IHByb2JsZW0uDQoNCkkgbWVhbnQgaG93IHRvIGdl
-dCB0aGUgYWN0dWFsIElQIG9mIHRoZSBETlMgc2VydmVyIGluIHVzZSAodGhlcmUgYXJlICpzZXQq
-IGNvbW1hbmRzIGluIGNvbm5tYW5jdGwsIGxpa2UgY29uZmlnIC0tbmFtZXNlcnZlcnMsIEkgbG9v
-a2VkIGZvciBhICpnZXQqIGNvbW1hbmQgZm9yIHRoZSBjdXJyZW50bHkgY29uZmlndXJlZCBpdGVt
-cykuDQoNCk9yIHByb2JhYmx5IGFsc28gb3RoZXIgY29uZmlnIGl0ZW1zLCBJIGdlbmVyYWxseSBj
-b3VsZCBub3QgZmluZCBrbm93IGhvdyB0byByZWFkIG91dCB0aGUgY3VycmVudGx5IHJlY2VpdmVk
-IGNvbmZpZyAoYW5kIHRoZSBJbnRlcm5ldCBsZXQgbWUgZG93biBvbiB0aGlzIG9uZSBhcyB3ZWxs
-KQ0KDQpEaWdnaW5nIGEgbGl0dGxlIGRlZXBlciBJIGp1c3QgZm91bmQNCg0Kc2VydmljZXMgPHNl
-cnZpY2VfbmFtZT4NCg0KU29ycnkgZm9yIHRoZSBub2lzZS4gVGhhdCdzIHdoYXQgSSB3YXMgbG9v
-a2luZyBmb3IuIFRoZSBhdmFpbGFiaWxpdHkgb2YgYSBzZXQgY29tbWFuZCBmb3IgbmFtZXNlcnZl
-cnMgbWFkZSBtZSBzZWFyY2ggZm9yIGEgc3BlY2lmaWMgZ2V0IGZ1bmN0aW9uIGZvciBpdCBpbnN0
-ZWFkIG9mIGEgc3VtbWFyeS4NCg0KVGhlIGhlbHAgbWVzc2FnZSBjb3VsZCBiZSBhIGxpdHRsZSBt
-b3JlIGRldGFpbGVkLCBwcm9iYWJseQ0KDQpzZXJ2aWNlc8KgwqDCoMKgwqDCoMKgIFs8c2Vydmlj
-ZT5dwqDCoMKgwqDCoMKgwqDCoMKgwqAgRGlzcGxheSBhbGwgc2VydmljZXMgb3IgZGV0YWlscyBm
-b3IgWzxzZXJ2aWNlPl0NCg0KaW5zdGVhZCBvZiBqdXN0DQoNCnNlcnZpY2VzwqDCoMKgwqDCoMKg
-wqAgWzxzZXJ2aWNlPl3CoMKgwqDCoMKgwqDCoMKgwqDCoCBEaXNwbGF5IHNlcnZpY2VzDQoNClRo
-ZSBzYW1lIG1pZ2h0IGFsc28gaG9sZCB0cnVlIGZvciBwZWVycywgdnBuY29ubmVjdGlvbnMuIFRo
-ZSBwbHVyYWwgaW4gdGhlc2UgY29tbWFuZHMgc29tZWhvdyBzdWdnZXN0cyBpdCBpcyBhbHdheXMg
-b25seSBhIHN1bW1hcnkuIEkgYW0gbW9yZSB1c2VkIHRvIHNvbWV0aGluZyBhbG9uZyB0aGUgbGlu
-ZXMgb2YNCg0Kc2VydmljZSBbPHNlcnZpY2U+XQ0KDQpmb3IgZGV0YWlscyBhbmQNCg0Kc2Vydmlj
-ZSAtLWFsbCAob3Igc2ltaWxhciwgd2l0aCBhIGRlc2NyaXB0aW9uIGluIHRoZSBoZWxwIG1lc3Nh
-Z2UpDQoNCmZvciBhbiBvdmVydmlldy4NCg0KQnV0IHRoaXMgaXMganVzdCBwZXJzb25hbCBwcmVm
-ZXJlbmNlLCBJIGtub3cuIFN0aWxsLCB0aGUgaGVscCBjb3VsZCBiZSBpbXByb3ZlZCwgSSB0aGlu
-ay4NCg0KVGhhbmtzIGFnYWluLA0KdGgNCg0KT24gMDMuMTEuMjIgMDk6MTYsIERhbmllbCBXYWdu
-ZXIgd3JvdGU6DQo+IEhpIFRob21hcywNCj4NCj4gT24gVGh1LCBOb3YgMDMsIDIwMjIgYXQgMDc6
-NTA6MzZBTSArMDAwMCwgVGhvbWFzIEJhcnRvc2lrIHdyb3RlOg0KPj4gSG93IGRvIEkgZ2V0IHRo
-ZSB1cHN0cmVhbSBETlMgc2VydmVyIChpLmUuIHRoZSBvbmUgcHVzaGVkIGJ5IHRoZSBWUE4NCj4+
-IHNlcnZlciBpbiBteSBjYXNlKSB0aGF0IGNvbm5tYW4gY29udGFjdHMgaXRzZWxmPw0KPiBOb3Qg
-c3VyZSB3aGF0IHlvdSBtZWFuIHdpdGggJ0hvdyBkbyBJIGdldCcuIERvIHdhbnQgdG8gcmVhZCB0
-aGUNCj4gY29uZmlndXJhdGlvbiBmcm9tIGFuIGFwcGxpY2F0aW9uIG9yIGRvIHlvdSBtZWFuIHRv
-IHVzZSB0aGUgRE5TIHNlcnZlcj8NCj4NCj4gVGhlIGxhdGVyIHNob3VsZCB3b3JrIG91dCBvZiB0
-aGUgYm94LiBXaGVuIHRoZSBETlMgY29uZmlndXJhdGlvbiBpcw0KPiBwdXNoZWQgdG8gQ29ubk1h
-biBpdCB3aWxsIHVzZSBpdCBmb3IgdGhlIGxpbmsuIE5vdGUgaWYgdGhlIFZQTiB0dW5uZWwgaXMN
-Cj4gbm90IHRoZSBkZWZhdWx0IHJvdXRlIENvbm5NYW4gd2lsbCBwcmVmZXIgdGhlIGRlZmF1bHQg
-RE5TIHNlcnZlciB1bmxlc3MNCj4gdGhlIHNlYXJjaCBkb21haW4gbWF0Y2hlcyB3aXRoIHRoZSBW
-UE4gdHVubmVsIHNldHRpbmdzDQo+DQo+IERhbmllbA0KPg0K
+Hello,
+
+This patch is to enable the user to set a preferred IP when enabling WiFi t=
+ethering, if the preferred IP is not available, the closest next available =
+IP will be used.
+The preferred IP is set using DBus and it works by explicitly setting the s=
+tarting block in static uint32_t get_free_block(unsigned int);
+Would a feature like this benefit the connman project?
+
+Signed-off-by: Miroslav Cuvar <miroslav.cuvar@kistler.com>
+---
+ doc/technology-api.txt |  8 ++++++++
+ src/connman.h          |  6 +++++-
+ src/ippool.c           | 19 +++++++++++-------
+ src/peer.c             |  2 +-
+ src/technology.c       | 45 ++++++++++++++++++++++++++++++++++++++++++
+ src/tethering.c        | 11 +++++++++--
+ unit/test-ippool.c     | 20 +++++++++----------
+ 7 files changed, 90 insertions(+), 21 deletions(-)
+
+diff --git a/doc/technology-api.txt b/doc/technology-api.txt
+index cdf30396..4492a7f6 100644
+--- a/doc/technology-api.txt
++++ b/doc/technology-api.txt
+@@ -107,3 +107,11 @@ Properties	boolean Powered [readwrite]
+=20
+ 			This property is only valid for the WiFi technology and it's
+ 			optional. Default frequency is 2412 Mhz.
++
++		int TetheringPreferredIP [readwrite]
++
++			Preferred start IP for WiFi tethering IP pool. If the IP is not
++			free, closest next free IP will be chosen.
++
++			This property is only valid for the WiFi technology and it's
++			optional. Default value is 0, which means no preference for IP.=20
+diff --git a/src/connman.h b/src/connman.h
+index b955d98b..d4aaf7a0 100644
+--- a/src/connman.h
++++ b/src/connman.h
+@@ -649,6 +649,7 @@ const char *__connman_tethering_get_bridge(void);
+ int __connman_tethering_set_enabled(void);
+ void __connman_tethering_set_disabled(void);
+ void __connman_tethering_list_clients(DBusMessageIter *array);
++void __connman_tethering_set_preferred_ip(uint32_t preferred_ip);
+=20
+ int __connman_private_network_request(DBusMessage *msg, const char *owner)=
+;
+ int __connman_private_network_release(const char *path);
+@@ -1007,7 +1008,8 @@ struct connman_ippool *__connman_ippool_create(int in=
+dex,
+ 					unsigned int start,
+ 					unsigned int range,
+ 					ippool_collision_cb_t collision_cb,
+-					void *user_data);
++					void *user_data,
++					uint32_t preferred_ip);
+=20
+ const char *__connman_ippool_get_gateway(struct connman_ippool *pool);
+ const char *__connman_ippool_get_broadcast(struct connman_ippool *pool);
+@@ -1020,6 +1022,8 @@ void __connman_ippool_newaddr(int index, const char *=
+address,
+ void __connman_ippool_deladdr(int index, const char *address,
+ 				unsigned char prefixlen);
+=20
++bool __connman_ippool_is_private_address(uint32_t address);
++
+ int __connman_bridge_create(const char *name);
+ int __connman_bridge_remove(const char *name);
+ int __connman_bridge_enable(const char *name, const char *ip_address,
+diff --git a/src/ippool.c b/src/ippool.c
+index f2e9b000..3be47d95 100644
+--- a/src/ippool.c
++++ b/src/ippool.c
+@@ -152,7 +152,7 @@ static uint32_t next_block(uint32_t block)
+ 	return (block & 0xffff0000) | ((next << 8) & 0x0000ff00);
+ }
+=20
+-static uint32_t get_free_block(unsigned int size)
++static uint32_t get_free_block(unsigned int size, uint32_t preferred_ip)
+ {
+ 	struct address_info *info;
+ 	uint32_t block;
+@@ -160,6 +160,8 @@ static uint32_t get_free_block(unsigned int size)
+ 	bool collision;
+=20
+ 	/*
++	 * If the preferred_ip is specified we try to use that IP or the
++	 * closest next free IP.
+ 	 * Instead starting always from the 16 bit block, we start
+ 	 * from the last assigned block. This is a simple optimimazion
+ 	 * for the case where a lot of blocks have been assigned, e.g.
+@@ -169,7 +171,9 @@ static uint32_t get_free_block(unsigned int size)
+ 	 * To only thing we have to make sure is that we terminated if
+ 	 * there is no block left.
+ 	 */
+-	if (last_block)
++	if (preferred_ip !=3D 0)
++       		block =3D preferred_ip;
++    	else if (last_block)
+ 		block =3D last_block;
+ 	else
+ 		block =3D block_16_bits;
+@@ -208,7 +212,7 @@ static struct address_info *lookup_info(int index, uint=
+32_t start)
+ 	return NULL;
+ }
+=20
+-static bool is_private_address(uint32_t address)
++bool __connman_ippool_is_private_address(uint32_t address)
+ {
+ 	unsigned int a, b;
+=20
+@@ -234,7 +238,7 @@ void __connman_ippool_newaddr(int index, const char *ad=
+dress,
+ 		return;
+=20
+ 	start =3D ntohl(inp.s_addr);
+-	if (!is_private_address(start))
++	if (!__connman_ippool_is_private_address(start))
+ 		return;
+=20
+ 	if (prefixlen >=3D 32)
+@@ -297,7 +301,7 @@ void __connman_ippool_deladdr(int index, const char *ad=
+dress,
+ 		return;
+=20
+ 	start =3D ntohl(inp.s_addr);
+-	if (!is_private_address(start))
++	if (!__connman_ippool_is_private_address(start))
+ 		return;
+=20
+ 	mask =3D ~(0xffffffff >> prefixlen);
+@@ -325,7 +329,8 @@ struct connman_ippool *__connman_ippool_create(int inde=
+x,
+ 					unsigned int start,
+ 					unsigned int range,
+ 					ippool_collision_cb_t collision_cb,
+-					void *user_data)
++					void *user_data,
++					uint32_t preferred_ip)
+ {
+ 	struct connman_ippool *pool;
+ 	struct address_info *info;
+@@ -342,7 +347,7 @@ struct connman_ippool *__connman_ippool_create(int inde=
+x,
+ 		return NULL;
+ 	}
+=20
+-	block =3D get_free_block(start + range);
++	block =3D get_free_block(start + range, preferred_ip);
+ 	if (block =3D=3D 0) {
+ 		connman_warn("Could not find a free IP block");
+ 		return NULL;
+diff --git a/src/peer.c b/src/peer.c
+index bad5c841..5406da37 100644
+--- a/src/peer.c
++++ b/src/peer.c
+@@ -140,7 +140,7 @@ static int start_dhcp_server(struct connman_peer *peer)
+ 	else
+ 		index =3D connman_device_get_index(peer->device);
+=20
+-	peer->ip_pool =3D __connman_ippool_create(index, 2, 1, NULL, NULL);
++	peer->ip_pool =3D __connman_ippool_create(index, 2, 1, NULL, NULL, 0);
+ 	if (!peer->ip_pool)
+ 		goto error;
+=20
+diff --git a/src/technology.c b/src/technology.c
+index 5c469111..ff085ec2 100644
+--- a/src/technology.c
++++ b/src/technology.c
+@@ -67,6 +67,10 @@ struct connman_technology {
+ 	char *tethering_ident;
+ 	char *tethering_passphrase;
+ 	int tethering_freq;
++	char *tethering_preferred_ip; /* WIFI specific, used as first IP
++				       * when searching for free block when
++				       * starting tethering.
++				       */
+=20
+ 	bool enable_persistent; /* Save the tech state */
+=20
+@@ -175,6 +179,12 @@ static void technology_save(struct connman_technology =
+*technology)
+ 	if (!identifier)
+ 		goto done;
+=20
++	if (technology->tethering_preferred_ip){
++		g_key_file_set_string(keyfile, identifier,
++		"Tethering.PreferredIP",
++		technology->tethering_preferred_ip);
++	}
++
+ 	g_key_file_set_boolean(keyfile, identifier, "Enable",
+ 				technology->enable_persistent);
+=20
+@@ -229,6 +239,9 @@ int connman_technology_tethering_notify(struct connman_=
+technology *technology,
+ 	if (technology->tethering =3D=3D enabled)
+ 		return -EALREADY;
+=20
++	if (technology->type =3D=3D CONNMAN_SERVICE_TYPE_WIFI && technology->teth=
+ering_preferred_ip !=3D NULL)
++		__connman_tethering_set_preferred_ip(ntohl(inet_addr(technology->tetheri=
+ng_preferred_ip)));
++
+ 	if (enabled) {
+ 		err =3D __connman_tethering_set_enabled();
+ 		if (err < 0)
+@@ -461,6 +474,9 @@ static void technology_load(struct connman_technology *=
+technology)
+ 	technology->tethering_freq =3D g_key_file_get_integer(keyfile,
+ 				identifier, "Tethering.Freq", NULL);
+=20
++	technology->tethering_preferred_ip =3D g_key_file_get_string(keyfile,
++			identifier, "Tethering.PreferredIP", NULL);
++
+ done:
+ 	g_free(identifier);
+=20
+@@ -576,6 +592,11 @@ static void append_properties(DBusMessageIter *iter,
+ 				DBUS_TYPE_INT32,
+ 				&technology->tethering_freq);
+=20
++	if (technology->tethering_preferred_ip)
++		connman_dbus_dict_append_basic(&dict, "TetheringPreferredIP",
++		DBUS_TYPE_STRING,
++		&technology->tethering_preferred_ip);
++
+ 	connman_dbus_dict_close(iter, &dict);
+ }
+=20
+@@ -1011,6 +1032,29 @@ static DBusMessage *set_property(DBusConnection *con=
+n,
+ 					DBUS_TYPE_INT32,
+ 					&technology->tethering_freq);
+ 		}
++	} else if (g_str_equal(name, "TetheringPreferredIP")) {
++		const char *str;
++
++		dbus_message_iter_get_basic(&value, &str);
++		if (technology->type !=3D CONNMAN_SERVICE_TYPE_WIFI)
++			return __connman_error_not_supported(msg);
++
++		uint32_t preferred_ip	=3D ntohl(inet_addr(str));
++		if (preferred_ip !=3D 0 && !__connman_ippool_is_private_address(preferre=
+d_ip)) {
++			return __connman_error_invalid_arguments(msg);
++		}
++=20
++		if (g_strcmp0(technology->tethering_preferred_ip, str) !=3D 0) {
++			g_free(technology->tethering_preferred_ip);
++			technology->tethering_preferred_ip =3D g_strdup(str);
++			technology_save(technology);
++
++			connman_dbus_property_changed_basic(technology->path,
++				CONNMAN_TECHNOLOGY_INTERFACE,
++				"TetheringPreferredIP",
++				DBUS_TYPE_STRING,
++				&technology->tethering_preferred_ip);
++		}
+ 	} else if (g_str_equal(name, "Powered")) {
+ 		dbus_bool_t enable;
+=20
+@@ -1231,6 +1275,7 @@ static void technology_put(struct connman_technology =
+*technology)
+ 	g_free(technology->regdom);
+ 	g_free(technology->tethering_ident);
+ 	g_free(technology->tethering_passphrase);
++	g_free(technology->tethering_preferred_ip);
+ 	g_free(technology);
+ }
+=20
+diff --git a/src/tethering.c b/src/tethering.c
+index f930a26b..05958ddd 100644
+--- a/src/tethering.c
++++ b/src/tethering.c
+@@ -63,6 +63,8 @@ static GHashTable *pn_hash;
+=20
+ static GHashTable *clients_table;
+=20
++static uint32_t tethering_preferred_ip =3D 0;
++
+ struct _clients_notify {
+ 	int id;
+ 	GHashTable *remove;
+@@ -226,7 +228,7 @@ int __connman_tethering_set_enabled(void)
+=20
+ 	index =3D connman_inet_ifindex(BRIDGE_NAME);
+ 	dhcp_ippool =3D __connman_ippool_create(index, 2, 252,
+-						tethering_restart, NULL);
++						tethering_restart, NULL, tethering_preferred_ip);
+ 	if (!dhcp_ippool) {
+ 		connman_error("Fail to create IP pool");
+ 		__connman_bridge_remove(BRIDGE_NAME);
+@@ -592,7 +594,7 @@ int __connman_private_network_request(DBusMessage *msg,=
+ const char *owner)
+ 	pn->fd =3D fd;
+ 	pn->interface =3D iface;
+ 	pn->index =3D index;
+-	pn->pool =3D __connman_ippool_create(pn->index, 1, 1, ippool_disconnect, =
+pn);
++	pn->pool =3D __connman_ippool_create(pn->index, 1, 1, ippool_disconnect, =
+pn, 0);
+ 	if (!pn->pool) {
+ 		errno =3D -ENOMEM;
+ 		goto error;
+@@ -691,3 +693,8 @@ void __connman_tethering_cleanup(void)
+=20
+ 	dbus_connection_unref(connection);
+ }
++
++void __connman_tethering_set_preferred_ip(uint32_t preferred_ip){
++    DBG("Setting prefered IP: %d", preferred_ip);
++    tethering_preferred_ip =3D preferred_ip;
++}
+diff --git a/unit/test-ippool.c b/unit/test-ippool.c
+index a6cae652..ec4727c2 100644
+--- a/unit/test-ippool.c
++++ b/unit/test-ippool.c
+@@ -46,11 +46,11 @@ static void test_case_1(void)
+=20
+ 	__connman_ippool_init();
+=20
+-	pool =3D __connman_ippool_create(23, 1, 500, NULL, NULL);
++	pool =3D __connman_ippool_create(23, 1, 500, NULL, NULL, 0);
+ 	g_assert(!pool);
+=20
+ 	for (i =3D 0; i < 100000; i++) {
+-		pool =3D __connman_ippool_create(23, 1, 20, NULL, NULL);
++		pool =3D __connman_ippool_create(23, 1, 20, NULL, NULL, 0);
+ 		g_assert(pool);
+=20
+ 		__connman_ippool_free(pool);
+@@ -73,7 +73,7 @@ static void test_case_2(void)
+=20
+ 	/* Test the IP range */
+ 	for (i =3D 1; i < 254; i++) {
+-		pool =3D __connman_ippool_create(23, 1, i, NULL, NULL);
++		pool =3D __connman_ippool_create(23, 1, i, NULL, NULL, 0);
+ 		g_assert(pool);
+=20
+ 		gateway =3D __connman_ippool_get_gateway(pool);
+@@ -130,7 +130,7 @@ static void test_case_3(void)
+ 	__connman_ippool_newaddr(46, "172.16.0.1", 11);
+=20
+ 	while (TRUE) {
+-		pool =3D __connman_ippool_create(23, 1, 100, NULL, NULL);
++		pool =3D __connman_ippool_create(23, 1, 100, NULL, NULL, 0);
+ 		if (!pool)
+ 			break;
+ 		i +=3D 1;
+@@ -192,7 +192,7 @@ static void test_case_4(void)
+ 	/* Test the IP range collision */
+=20
+ 	flag =3D 0;
+-	pool =3D __connman_ippool_create(23, 1, 100, collision_cb, &flag);
++	pool =3D __connman_ippool_create(23, 1, 100, collision_cb, &flag, 0);
+ 	g_assert(pool);
+=20
+ 	gateway =3D __connman_ippool_get_gateway(pool);
+@@ -223,7 +223,7 @@ static void test_case_4(void)
+=20
+ 	flag =3D 0;
+=20
+-	pool =3D __connman_ippool_create(23, 1, 100, collision_cb, &flag);
++	pool =3D __connman_ippool_create(23, 1, 100, collision_cb, &flag, 0);
+ 	g_assert(pool);
+=20
+ 	gateway =3D __connman_ippool_get_gateway(pool);
+@@ -271,7 +271,7 @@ static void test_case_5(void)
+ 	g_assert(flag =3D=3D 0);
+=20
+ 	/* pool should return 192.168.0.1 now */
+-	pool1 =3D __connman_ippool_create(26, 1, 100, collision_cb, &flag);
++	pool1 =3D __connman_ippool_create(26, 1, 100, collision_cb, &flag, 0);
+ 	g_assert(pool1);
+=20
+ 	gateway =3D __connman_ippool_get_gateway(pool1);
+@@ -303,7 +303,7 @@ static void test_case_5(void)
+=20
+ 	/* pool should return 192.168.2.1 now */
+ 	flag =3D 0;
+-	pool2 =3D __connman_ippool_create(23, 1, 100, collision_cb, &flag);
++	pool2 =3D __connman_ippool_create(23, 1, 100, collision_cb, &flag, 0);
+ 	g_assert(pool2);
+=20
+ 	gateway =3D __connman_ippool_get_gateway(pool2);
+@@ -361,7 +361,7 @@ static void test_case_6(void)
+ 	g_assert(flag =3D=3D 0);
+=20
+ 	/* pool should return 192.168.2.1 now */
+-	pool1 =3D __connman_ippool_create(26, 1, 100, collision_cb, &flag);
++	pool1 =3D __connman_ippool_create(26, 1, 100, collision_cb, &flag, 0);
+ 	g_assert(pool1);
+=20
+ 	gateway =3D __connman_ippool_get_gateway(pool1);
+@@ -393,7 +393,7 @@ static void test_case_6(void)
+=20
+ 	/* pool should return 192.168.3.1 now */
+ 	flag =3D 0;
+-	pool2 =3D __connman_ippool_create(23, 1, 100, collision_cb, &flag);
++	pool2 =3D __connman_ippool_create(23, 1, 100, collision_cb, &flag, 0);
+ 	g_assert(pool2);
+=20
+ 	gateway =3D __connman_ippool_get_gateway(pool2);
+--=20
+2.17.1
+
+
+Confidentiality Notice: This e-mail is privileged and confidential and for =
+the use of the addressee only. Should you have received this e-mail in erro=
+r please notify us by replying directly to the sender or by sending a messa=
+ge to info@kistler.com. Unauthorised dissemination, disclosure or copying o=
+f the contents of this e-mail, or any similar action, is prohibited. =0A=
