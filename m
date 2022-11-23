@@ -1,45 +1,45 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 837AA3222
-	for <connman@lists.linux.dev>; Tue, 22 Nov 2022 18:35:45 +0000 (UTC)
-Received: by mail-wm1-f53.google.com with SMTP id i64-20020a1c3b43000000b003d016c21100so6332758wma.3
-        for <connman@lists.linux.dev>; Tue, 22 Nov 2022 10:35:45 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E9D0256C
+	for <connman@lists.linux.dev>; Wed, 23 Nov 2022 14:13:27 +0000 (UTC)
+Received: by mail-wm1-f45.google.com with SMTP id v124-20020a1cac82000000b003cf7a4ea2caso1519841wme.5
+        for <connman@lists.linux.dev>; Wed, 23 Nov 2022 06:13:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:cc:content-language
-         :references:to:from:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=A02oN4zVzjI0H361SKXarFuh+S3C8eVxLVkXoe14YP8=;
-        b=TfwrHpvEmtwNvpSNOCfe+kaVEezEbI13FkShMuP7+yOtb7StyYR6ZG/KVxQ26CWc2w
-         sPKaaLUYcB2PVJUNFFViPVdpcKMj28Uorw/mh8aJwEj557taDl576tU4xdWsaCkmWgPF
-         5r/nH7WYyOTovtrdB+3v7q80hzM70FZzGpZgHMe490cUqnkv5DPYXwi/tS6ZBks58Nft
-         UPkanLdFFV2TNf9v65NbQDJV99cypqhyp0IZ5DTnGqem4XcoWeu2dgpmf7Ia8vlMYgyH
-         +BVWcL9MdftVy5KF+QR5FHG/C9jZAECEfERV0bSv/IfuWr//wAvmB2qJ+THXrQWjd5gC
-         rszg==
+        h=content-transfer-encoding:subject:from:cc:to:content-language
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=TZO/vySUTIoH87/HWrJJAeS5EeFM8VeaPqK2toWjp6o=;
+        b=OC+dvM2TLdWEEpdWhV1gZz5tEpJVJuqi9NyhAfhy4xJqf2lvMDJ1fZX0kf0GH/MG6c
+         5M8MAe57gihTmkt7x8okhaXrXzfFuPOnrAuDBT6Dhy0ypkCDx2rO3C/S2sIBeDrBCJMT
+         D1ZyL4yByc2RmE3zANZESNArTMZz1jvjvHf411rVKsJ58W7p1c4cF0WtQPsCtUHkL9aB
+         eOrgsduktEcw+vailspnFTD1GG2rCpIN+5ikVOksWYrKwPvkBtRiU4RlbwscOfL/tIiZ
+         75E/lppu2V9SRVAHvBwXUgiAeGrOLAyqxUuMNMmNQhefFdVzEjsORv0MuVjPigtJwoEC
+         jnKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:cc:content-language
-         :references:to:from:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=A02oN4zVzjI0H361SKXarFuh+S3C8eVxLVkXoe14YP8=;
-        b=RvViuNJKgoJmvCh9rBgBCt/fjQU9d5rW17kuhpVboarXv/ziJOFhUDDLd5D77nz9k7
-         xPRqX3NircIOtH4RhZqazh0aSwLEQVXIJhpHhckZh9vfM2+NDZZMoyIydn+2K5mjbask
-         +nM/ClfrniAul3/+YmyEq7M0tR3Pp7HWzJc2sBLDRBWKDFaGltLLmDkKXo4NI88T7KZx
-         goOcZ8frToXl3IyvcAj2seuZfjj7yny2mvcuw60Dqip9FzUpgs/h0rwpBsyNg8cokKKN
-         /1dpN+9OPtxiDBeGXeTIWyio+LucXpGMbmoufX1sv4shLNWhaMVuHJL+L6SR8INtG11J
-         2gqg==
-X-Gm-Message-State: ANoB5plgtzzSkPvQk5Qz8MKc/O7HtIWi5BdWzpGgcBFG8y2ICsTyorTL
-	h46KMv51EAYpEM/ACGSovFzAysAl1q0m4w==
-X-Google-Smtp-Source: AA0mqf5iApkXaarrl8YhMxmA21Z2eO4jz8+lkBxaa1JdFyPGvexhYBIFo8C2/lR7RirV35U+70CISg==
-X-Received: by 2002:a05:600c:4d0a:b0:3c6:a7a1:eebd with SMTP id u10-20020a05600c4d0a00b003c6a7a1eebdmr17053509wmp.176.1669142143716;
-        Tue, 22 Nov 2022 10:35:43 -0800 (PST)
-Received: from ?IPV6:2a02:1812:2512:400:5d81:6a68:de38:2188? (ptr-gh3gmp9soz6sk1obfyg.18120a2.ip6.access.telenet.be. [2a02:1812:2512:400:5d81:6a68:de38:2188])
-        by smtp.gmail.com with ESMTPSA id e15-20020adffc4f000000b00241dec4ad16sm3546086wrs.96.2022.11.22.10.35.42
+        h=content-transfer-encoding:subject:from:cc:to:content-language
+         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=TZO/vySUTIoH87/HWrJJAeS5EeFM8VeaPqK2toWjp6o=;
+        b=ZnX0XlbzI0l3AAqzPC6XVpf5Dv4NYZNseCmV2xoYJ0ZoZreVWjbC7CNy6dNYaN3aQr
+         D6k/ika22NJ0wPMi2/U7MdaKf/OcVrAo1BAR0Wo2ljYz9IaXzeUzJorW4UPpd3ZzYC18
+         JNL7o+pZYmAgKNvcL1VDMdoXt43hhH4KhykI74J2X+xaX6/MBVd4lZG34jruUSwc0JB7
+         /KDGbNfge8+0lwadEvjUpi8xPIbbZFx1xHE1xjkAjZXnOGyAJ/4+bY4S0z3c+keP5/LQ
+         951Kb0dPB67cb2qRUKmP6H5VYsWF67VSDsG1IDKQ306rgJJDS1NbCaQ4yrJCSGxtV6fS
+         ExZQ==
+X-Gm-Message-State: ANoB5pmWKuImlzt1yNLyNmyKRoB7jvP+zfq2HVgLmcGATdT82NH1ok55
+	Imfi4bfG/w4Fg4P2plzodwo=
+X-Google-Smtp-Source: AA0mqf5IP/5rjN7MqXZpFL7EIw42nXmV4TviyDEGy1egqE638g6ZPecwggyx4HKF8JrQqoEuZJzT8A==
+X-Received: by 2002:a05:600c:3109:b0:3cf:5731:53db with SMTP id g9-20020a05600c310900b003cf573153dbmr24315565wmo.85.1669212805311;
+        Wed, 23 Nov 2022 06:13:25 -0800 (PST)
+Received: from ?IPV6:2a02:1812:2512:400:d266:9a1f:8f14:dfe7? (ptr-gh3gmpbkotaupr9i21z.18120a2.ip6.access.telenet.be. [2a02:1812:2512:400:d266:9a1f:8f14:dfe7])
+        by smtp.gmail.com with ESMTPSA id k21-20020a05600c1c9500b003cfa3a12660sm8153959wms.1.2022.11.23.06.13.24
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 22 Nov 2022 10:35:43 -0800 (PST)
-Message-ID: <2ec046cc-aefc-2a6a-3f1c-5a08c447fd76@gmail.com>
-Date: Tue, 22 Nov 2022 19:35:42 +0100
+        Wed, 23 Nov 2022 06:13:24 -0800 (PST)
+Message-ID: <facde9f7-3fc3-7c2f-b908-5e814a57bb29@gmail.com>
+Date: Wed, 23 Nov 2022 15:13:23 +0100
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
@@ -48,29 +48,26 @@ List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.4.2
-Subject: Re: autoip address set/reset loop
-From: Geoffrey Van Landeghem <geoffrey.vl@gmail.com>
-To: geoffrey.vl@gmail.com
-References: <dda7ee12-1176-6eaf-4f84-a599bfbadee8@gmail.com>
 Content-Language: en-US
-Cc: connman@lists.linux.dev, wagi@monom.org
-In-Reply-To: <dda7ee12-1176-6eaf-4f84-a599bfbadee8@gmail.com>
+To: geoffrey.vl@gmail.com
+Cc: connman@lists.linux.dev
+From: Geoffrey Van Landeghem <geoffrey.vl@gmail.com>
+Subject: service: 'ready' Status ProprtyChanged not sent
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Subject: Re: autoip address set/reset loop
+Subject: service: 'ready' Status ProprtyChanged not sent
 
 
-After adding some extra logs I could trace that the issue is due to an error in __connman_ipconfig_gateway_add:
+After further inspection I could trace back that following lines:
 
-network.c:dhcp_success() lease acquired for ipconfig 0x1a300b0
-inet.c:connman_inet_set_address() index 3 address 169.254.5.120 prefix_len 16
-inet.c:__connman_inet_modify_address() cmd 0x14 flags 0x104 index 3 family 2 address 169.254.5.120 peer (null) prefixlen 16 broadcast (null) p2p false
-ipconfig.c:__connman_ipconfig_gateway_add()
-ipconfig.c:__connman_ipconfig_gateway_add() ipconfig->address->gateway NULL
-network.c:connman_network_set_error() network 0x1a26080 error 2
+static void service_schedule_changed(void)
+{
+    if (services_notify->id != 0)
+        return;
 
-There was an extra check introduced there recently which is blocking the function from returning successfully and therefor results in that __connman_connection_gateway_add() is not called either (which should add the '0.0.0.0' gateway).
+    services_notify->id = g_timeout_add(100, service_send_changed, NULL);
+}
 
-@Daniel, should your patch be reverted (and maybe accompanied with an extra comment explaining why there is no NULL check for the gateway), or do we somehow assign the 0.0.0.0 somewhere earlier in the process?
+... have been in connman for over a decade. When services get added and removed it makes sense to just wait a bit until all of that is done in order to avoid race condition and such. Unless some one has a better idea I think it's best to leave that intact, still I think in that case it should be documented as a known issue. What do you think?
 
