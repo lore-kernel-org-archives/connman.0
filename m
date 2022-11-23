@@ -1,45 +1,21 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.nearlyone.de (mail.nearlyone.de [49.12.199.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F1A34699
-	for <connman@lists.linux.dev>; Wed, 23 Nov 2022 17:12:47 +0000 (UTC)
-Received: by mail-wr1-f49.google.com with SMTP id bs21so30398483wrb.4
-        for <connman@lists.linux.dev>; Wed, 23 Nov 2022 09:12:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:subject:from:cc:to:content-language
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=/ZiWUXYXIrddi+NXmePUOV0r4KPJDf8VbJctGbINfqM=;
-        b=g1i7kfh1nN8vCopkyv74O+40Rtn3pPeoMat/nNmzsSc8VvcBoJZ51KPe01bfX2h158
-         EFDSKQB38PPp/vHJ4pokfoau2YWRnI0EsHsoE/p6NtL58fxFlDn4ERCLtiRUcb1OZQNi
-         Cl4jEL6uPknF7KvKGtpT0dhO0pIfx5OtUxXbPa45PLBZcCiBnXHzOz2MfceDM1DNMlCc
-         dF6//Y7S9IbS4rtSfEWJIMrKldee9SKwyEE3Ze44PFO/Gd0zmTAD+uQX5rDMp5DQ3/1u
-         BrjvXUSQ6EK1YUXyjytwsLgYMULlTEqQVGFcNRtyFcQRpTOadaAto1hkgzC9lTIx18M1
-         Atrw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:subject:from:cc:to:content-language
-         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=/ZiWUXYXIrddi+NXmePUOV0r4KPJDf8VbJctGbINfqM=;
-        b=dbO5k2pEfLJ+1DZa7E9oToN7dCl4LKlefruQ4Gw1N0yaCr+5/2LxCJBpG5zEobAb0z
-         MT9ukGUlGGetRBpeaNgItVLR5lQs0vSpLZnMk+8Eh8yU49RUUMLVw1J5yfOQi8m5Hqhj
-         CrnKMueCcpT55s66ScbmmcfTY2re/gVuBo/7yK2Y0QIwFcdIAjDg7QgnI44tOvfXnvzX
-         pkBLyi3jxjBjk5+bDCKx5OeAlgVpJxxnEKXY4Y4/WkTLFFlFNbKJstwSAootPPVDFHVr
-         1MR5cC/8yheKwvUjP9xkzjbMj8COqYeL091AaBXRhxke1XshD3xinXWlRKlM/psAZSDY
-         UHfw==
-X-Gm-Message-State: ANoB5pnhmc1ecYoXB5m3tV4zqooAUlGC5SgCIJWaQatWNK54AfcBD5on
-	RPj+ljPr3DZ8Fsw3mcXzNMc=
-X-Google-Smtp-Source: AA0mqf4cBUcopSlbeIS0HD6OO6gLO/H8Zs5FG9QQ7NAetLj6eInWXt38/7YrIS6dpm9SUj/mcbJw1w==
-X-Received: by 2002:a5d:4a52:0:b0:236:debd:bd65 with SMTP id v18-20020a5d4a52000000b00236debdbd65mr17147858wrs.527.1669223565834;
-        Wed, 23 Nov 2022 09:12:45 -0800 (PST)
-Received: from ?IPV6:2a02:1812:2512:400:8386:59a3:6a97:5842? (ptr-gh3gmpadia5ywuu5a2q.18120a2.ip6.access.telenet.be. [2a02:1812:2512:400:8386:59a3:6a97:5842])
-        by smtp.gmail.com with ESMTPSA id bt21-20020a056000081500b00241cbb7f15csm12498793wrb.106.2022.11.23.09.12.44
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 23 Nov 2022 09:12:45 -0800 (PST)
-Message-ID: <152f062c-7c16-c6cb-c8e8-c6f82902e40b@gmail.com>
-Date: Wed, 23 Nov 2022 18:12:44 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 003FB4699
+	for <connman@lists.linux.dev>; Wed, 23 Nov 2022 17:36:58 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 23104E2FF0;
+	Wed, 23 Nov 2022 18:36:55 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=monom.org; s=dkim;
+	t=1669225016; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:content-language:in-reply-to:references;
+	bh=+Dh9ixpXYBdNbgLZfFedcDTmVbpoD3Au2pvIo0XI/gc=;
+	b=I9Wq2e0pSOW1h802Szggf6rytaLJZ5xBP8RSmYBGpKlmlKroq0XeAUe0KJgj8XNd6dQGEN
+	o7r/XG8WcB5RYPEqkDwSuwGR5G8YnGtcJff08FUPs72EgajMYB04FcdPPBCqrqLivyOF70
+	oy2245BZfYAbry3PfgzheadBm+/RNjx7rM0mKm3vJ9Om9B7OU4nRbkCOLPxZVXd0Kc2mvU
+	7wgVZWy9kuyu82meqsJD496ZCaDLDuVzRM+UM1sCZNehJnWh5GYrKBcDyE2XvOYR+oP8Il
+	3D2gz32iQ4sDp/tXS5LUrGJ+dnz6BtPmCfZiEc/SJJ3uAaJuAIQ353S55GciQA==
+Message-ID: <39363d0c-2928-b5a1-d108-1213149fa7ea@monom.org>
+Date: Wed, 23 Nov 2022 18:36:55 +0100
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
@@ -48,43 +24,30 @@ List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.4.2
+Subject: Re: autoip address set/reset loop
 Content-Language: en-US
-To: wagi@monom.org
+To: Geoffrey Van Landeghem <geoffrey.vl@gmail.com>
 Cc: connman@lists.linux.dev, john@metanate.com
-From: Geoffrey Van Landeghem <geoffrey.vl@gmail.com>
-Subject: Re: autoip address set/reset loop
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-
-Subject: Re: autoip address set/reset loop
-
-
-Hi Daniel,
+References: <152f062c-7c16-c6cb-c8e8-c6f82902e40b@gmail.com>
+From: Daniel Wagner <wagi@monom.org>
+In-Reply-To: <152f062c-7c16-c6cb-c8e8-c6f82902e40b@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Last-TLS-Session-Version: TLSv1.3
 
 
-Well, as said it autoip (APIPA) was not working because of this because it seems to not have assigned any gateway at this stage. This get's assigned in the __connman_connection_gateway_add() function which is called after this DBG(...):
 
-if (!ipconfig->address)
-        return -EINVAL;
+On 23.11.22 18:12, Geoffrey Van Landeghem wrote:
+> Subject: Re: autoip address set/reset loop
+> 
+> 
+> Hi Daniel,
+> 
+> 
+> Well, as said it autoip (APIPA) was not working because of this because it seems to not have assigned any gateway at this stage. This get's assigned in the __connman_connection_gateway_add() function which is called after this DBG(...):
 
-    service = __connman_service_lookup_from_index(ipconfig->index);
-    if (!service)
-        return -EINVAL;
+My patch fixes a bug but introduced a regression. If you want to fix the 
+regression you need to figure out how to address the original problem: 
+cb05780d86c3 ("ipconfig: Don't add invalid gateway routes")
 
-    /*
-     * Gateway is allowed to be NULL here, see
-     * __connman_connection_gateway_add()
-     */
-    DBG("type %d gw %s peer %s", ipconfig->type,
-        ipconfig->address->gateway ? ipconfig->address->gateway : "NULL",
-        ipconfig->address->peer ? ipconfig->address->peer : "NULL");
-
-    if (ipconfig->type == CONNMAN_IPCONFIG_TYPE_IPV6 ||
-                ipconfig->type == CONNMAN_IPCONFIG_TYPE_IPV4)
-        return __connman_connection_gateway_add(service,
-                        ipconfig->address->gateway,
-                        ipconfig->type,
-                        ipconfig->address->peer);
-
-In that __connman_connection_gateway_add() function the null gateway is assigned 0.0.0.0, so your commit was effectively blocking that.
-
+Just reverting is not okay.
