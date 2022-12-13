@@ -1,17 +1,17 @@
 Received: from fgw21-4.mail.saunalahti.fi (fgw21-4.mail.saunalahti.fi [62.142.5.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 709A25CA9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD0575CAB
 	for <connman@lists.linux.dev>; Tue, 13 Dec 2022 14:08:20 +0000 (UTC)
 Received: from localhost.localdomain (88-113-60-36.elisa-laajakaista.fi [88.113.60.36])
 	by fgw21.mail.saunalahti.fi (Halon) with ESMTP
-	id 6ee62587-7aef-11ed-a85e-005056bdd08f;
-	Tue, 13 Dec 2022 16:07:09 +0200 (EET)
+	id 6f526170-7aef-11ed-a85e-005056bdd08f;
+	Tue, 13 Dec 2022 16:07:10 +0200 (EET)
 From: Jussi Laakkonen <jussi.laakkonen@jolla.com>
 To: connman@lists.linux.dev
-Subject: [RFC PATCH 2/9] vpn-provider: Use association state for VPN agent input wait
-Date: Tue, 13 Dec 2022 16:07:00 +0200
-Message-Id: <20221213140707.278313-3-jussi.laakkonen@jolla.com>
+Subject: [RFC PATCH 3/9] vpn: Add association state before connect state
+Date: Tue, 13 Dec 2022 16:07:01 +0200
+Message-Id: <20221213140707.278313-4-jussi.laakkonen@jolla.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20221213140707.278313-1-jussi.laakkonen@jolla.com>
 References: <20221213140707.278313-1-jussi.laakkonen@jolla.com>
@@ -23,148 +23,102 @@ List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Use the association state with VPNs to define that VPN is waiting for
-input via agent. The same state is used for every service in connmand so
-this change synchronizes the states in both.
+This changes the state machine by adding the VPN_STATE_ASSOCIATION to be
+entered right after connect() callback is called. This is needed in
+order to properly react with the user input dialog waiting on VPNs.
+connect state is now set when the dialog is closed to indicate that user
+input is given and now the VPN really connects.
 
-Set the state to be identical to connmand side states by injecting this
-into the VPN state machine before the connect state ("configuration"
-state). This is then changed when the state is set to connected either
-by getting a non-error reply from VPN agent or via VPN driver gets
-connect state notify.
+When VPN notify() allback is called the connect state is enforced if the
+return value indicates so and the internal state is different. This is
+to accommodate the changes required and to operate as a fallback that
+the states of provider and driver are kept in sync.
 
-In this is association state the VPN indicates to connmand that the VPN
-is requesting user input via agent and shouldn't be subject to connect
-timeout checks. Having this additional state allows to obey the D-Bus VPN
-agent query timeout value, instead of getting the dialog shut down at
-connection timeout.
+Handle also association state in vpn_notify() where the state reported by
+plugin can only be transitioned back to association from connect state.
+The initial state for the plugins is association so in that case there
+is no state change done. If this state is notified back in any other
+state it is logged as a warning with the plugin that caused the state
+transition attempt.
 ---
- vpn/vpn-provider.c | 45 +++++++++++++++++++++++++++++++++++++++++----
- vpn/vpn-provider.h |  6 ++++++
- 2 files changed, 47 insertions(+), 4 deletions(-)
+ vpn/plugins/vpn.c | 29 ++++++++++++++++++++++++++++-
+ vpn/plugins/vpn.h |  1 +
+ 2 files changed, 29 insertions(+), 1 deletion(-)
 
-diff --git a/vpn/vpn-provider.c b/vpn/vpn-provider.c
-index cc325967..30b9fa25 100644
---- a/vpn/vpn-provider.c
-+++ b/vpn/vpn-provider.c
-@@ -1487,6 +1487,23 @@ int __vpn_provider_disconnect(struct vpn_provider *provider)
- 	return err;
- }
- 
-+static bool is_connected_state(enum vpn_provider_state state)
-+{
-+	switch (state) {
-+	case VPN_PROVIDER_STATE_UNKNOWN:
-+	case VPN_PROVIDER_STATE_IDLE:
-+	case VPN_PROVIDER_STATE_DISCONNECT:
-+	case VPN_PROVIDER_STATE_FAILURE:
+diff --git a/vpn/plugins/vpn.c b/vpn/plugins/vpn.c
+index cb0d304b..51b202e4 100644
+--- a/vpn/plugins/vpn.c
++++ b/vpn/plugins/vpn.c
+@@ -219,6 +219,9 @@ static int vpn_set_state(struct vpn_provider *provider,
+ 	case VPN_PROVIDER_STATE_IDLE:
+ 		data->state = VPN_STATE_IDLE;
+ 		break;
++	case VPN_PROVIDER_STATE_ASSOCIATION:
++		data->state = VPN_STATE_ASSOCIATION;
 +		break;
-+	case VPN_PROVIDER_STATE_CONNECT:
-+	case VPN_PROVIDER_STATE_READY:
-+	case VPN_PROVIDER_STATE_ASSOCIATION:
-+		return true;
-+	}
-+
-+	return false;
-+}
-+
- static void connect_cb(struct vpn_provider *provider, void *user_data,
- 								int error)
- {
-@@ -1509,6 +1526,8 @@ static void connect_cb(struct vpn_provider *provider, void *user_data,
- 			 * No reply, disconnect called by connmand because of
- 			 * connection timeout.
- 			 */
-+			vpn_provider_indicate_error(provider,
-+					VPN_PROVIDER_ERROR_CONNECT_FAILED);
- 			break;
- 		case ENOMSG:
- 			/* fall through */
-@@ -1533,9 +1552,7 @@ static void connect_cb(struct vpn_provider *provider, void *user_data,
- 			 * process gets killed and vpn_died() is called to make
- 			 * the provider back to idle state.
- 			 */
--			if (provider->state == VPN_PROVIDER_STATE_CONNECT ||
--						provider->state ==
--						VPN_PROVIDER_STATE_READY) {
-+			if (is_connected_state(provider->state)) {
- 				if (provider->driver->set_state)
- 					provider->driver->set_state(provider,
- 						VPN_PROVIDER_STATE_DISCONNECT);
-@@ -1597,6 +1614,17 @@ int __vpn_provider_connect(struct vpn_provider *provider, DBusMessage *msg)
- 		if (reply)
- 			g_dbus_send_message(connection, reply);
+ 	case VPN_PROVIDER_STATE_CONNECT:
+ 	case VPN_PROVIDER_STATE_READY:
+ 		data->state = VPN_STATE_CONNECT;
+@@ -280,7 +283,30 @@ static DBusMessage *vpn_notify(struct connman_task *task,
+ 	DBG("provider %p driver %s state %d", provider, name, state);
  
-+		return -EINPROGRESS;
-+	case VPN_PROVIDER_STATE_ASSOCIATION:
+ 	switch (state) {
++	case VPN_STATE_ASSOCIATION:
 +		/*
-+		 * Do not interrupt user when inputting credentials via agent.
-+		 * The driver is in CONNECT state that would return EINPROGRESS
-+		 * and change provider state to CONNECT.
++		 * If plugin states it should be still waiting for VPN agent
++		 * we revert the state to association only if previous was
++		 * CONNECT state.
 +		 */
-+		reply = __connman_error_in_progress(msg);
-+		if (reply)
-+			g_dbus_send_message(connection, reply);
-+
- 		return -EINPROGRESS;
- 	case VPN_PROVIDER_STATE_UNKNOWN:
- 	case VPN_PROVIDER_STATE_IDLE:
-@@ -1626,7 +1654,7 @@ int __vpn_provider_connect(struct vpn_provider *provider, DBusMessage *msg)
- 		return -EOPNOTSUPP;
- 
- 	if (err == -EINPROGRESS)
--		vpn_provider_set_state(provider, VPN_PROVIDER_STATE_CONNECT);
-+		vpn_provider_set_state(provider, VPN_PROVIDER_STATE_ASSOCIATION);
- 
- 	return err;
- }
-@@ -1767,6 +1795,8 @@ static const char *state2string(enum vpn_provider_state state)
- 		break;
- 	case VPN_PROVIDER_STATE_IDLE:
- 		return "idle";
-+	case VPN_PROVIDER_STATE_ASSOCIATION:
-+		return "association";
- 	case VPN_PROVIDER_STATE_CONNECT:
- 		return "configuration";
- 	case VPN_PROVIDER_STATE_READY:
-@@ -1875,6 +1905,9 @@ static void append_state(DBusMessageIter *iter,
- 	case VPN_PROVIDER_STATE_IDLE:
- 		str = "idle";
- 		break;
-+	case VPN_PROVIDER_STATE_ASSOCIATION:
-+		str = "association";
++		if (data->state == VPN_STATE_CONNECT) {
++			data->state = VPN_STATE_ASSOCIATION;
++			vpn_provider_set_state(provider,
++						VPN_PROVIDER_STATE_ASSOCIATION);
++		} else if (data->state != VPN_STATE_ASSOCIATION) {
++			connman_warn("Invalid %s vpn_notify() state transition "
++					"from %d to %d (ASSOCIATION)",
++					vpn_driver_data->name, data->state,
++					state);
++		}
 +		break;
- 	case VPN_PROVIDER_STATE_CONNECT:
- 		str = "configuration";
+ 	case VPN_STATE_CONNECT:
++		if (data->state != VPN_STATE_CONNECT) {
++			data->state = VPN_STATE_CONNECT;
++			vpn_provider_set_state(provider,
++						VPN_PROVIDER_STATE_CONNECT);
++		}
++		/* fall through */
+ 	case VPN_STATE_READY:
+ 		if (data->state == VPN_STATE_READY) {
+ 			/*
+@@ -565,6 +591,7 @@ static int vpn_connect(struct vpn_provider *provider,
+ 		data->state = VPN_STATE_IDLE;
  		break;
-@@ -2026,6 +2059,10 @@ int vpn_provider_set_state(struct vpn_provider *provider,
- 	case VPN_PROVIDER_STATE_IDLE:
- 		return set_connected(provider, false);
- 	case VPN_PROVIDER_STATE_CONNECT:
-+		if (provider->driver && provider->driver->set_state)
-+			provider->driver->set_state(provider, state);
-+		return provider_indicate_state(provider, state);
-+	case VPN_PROVIDER_STATE_ASSOCIATION:
- 		return provider_indicate_state(provider, state);
- 	case VPN_PROVIDER_STATE_READY:
- 		return set_connected(provider, true);
-diff --git a/vpn/vpn-provider.h b/vpn/vpn-provider.h
-index 5d1455da..c81476c6 100644
---- a/vpn/vpn-provider.h
-+++ b/vpn/vpn-provider.h
-@@ -44,6 +44,12 @@ enum vpn_provider_state {
- 	VPN_PROVIDER_STATE_READY         = 3,
- 	VPN_PROVIDER_STATE_DISCONNECT    = 4,
- 	VPN_PROVIDER_STATE_FAILURE       = 5,
-+	/*
-+	 * Special state to indicate that user interaction is being waited for
-+	 * and disconnect timeout in connmand should not terminate this VPN but
-+	 * to let the agent timeout handle the case.
-+	 */
-+	VPN_PROVIDER_STATE_ASSOCIATION   = 6,
+ 
++	case VPN_STATE_ASSOCIATION:
+ 	case VPN_STATE_CONNECT:
+ 		return -EINPROGRESS;
+ 
+@@ -645,7 +672,7 @@ static int vpn_connect(struct vpn_provider *provider,
+ 	DBG("%s started with dev %s",
+ 		vpn_driver_data->provider_driver.name, data->if_name);
+ 
+-	data->state = VPN_STATE_CONNECT;
++	data->state = VPN_STATE_ASSOCIATION;
+ 
+ 	return -EINPROGRESS;
+ 
+diff --git a/vpn/plugins/vpn.h b/vpn/plugins/vpn.h
+index fd10addf..92609b92 100644
+--- a/vpn/plugins/vpn.h
++++ b/vpn/plugins/vpn.h
+@@ -39,6 +39,7 @@ enum vpn_state {
+ 	VPN_STATE_DISCONNECT    = 4,
+ 	VPN_STATE_FAILURE       = 5,
+ 	VPN_STATE_AUTH_FAILURE  = 6,
++	VPN_STATE_ASSOCIATION   = 7,
  };
  
- enum vpn_provider_error {
+ struct vpn_driver {
 -- 
 2.30.2
 
