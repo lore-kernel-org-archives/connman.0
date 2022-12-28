@@ -1,38 +1,38 @@
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 968C1137E
-	for <connman@lists.linux.dev>; Wed, 28 Dec 2022 13:52:18 +0000 (UTC)
-Received: by mail-pj1-f53.google.com with SMTP id p4so16295135pjk.2
-        for <connman@lists.linux.dev>; Wed, 28 Dec 2022 05:52:18 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BE731868
+	for <connman@lists.linux.dev>; Wed, 28 Dec 2022 15:25:15 +0000 (UTC)
+Received: by mail-pf1-f179.google.com with SMTP id 124so10940972pfy.0
+        for <connman@lists.linux.dev>; Wed, 28 Dec 2022 07:25:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=YY2fMHmQ66ekLZdpDPdau+jSUaSFsEOGNrdCBPudtQg=;
-        b=OAjM3WMjy2ZWRU4W/vgbIzY8sD2zr5KqbU/vPqr+QCl8iyvgpQBJ/wya0lp7sP1cKW
-         ouK6b4/CSxeI+mr5T5bhKYa9jdYtx4zZNZGAuZ4jgSUAJAGidwoAZWkbxXxGXYH8h9uI
-         om07SsqAEz7MRRzenSzjmesUKnWV2YQZ6jgFefh2TcFjctE6g75r6xKpUvn6DqvPvTiX
-         o3vNh5qpGBMUuBSydAH2lbCv95V15x/coXc+mLW/EMvrQBL5xsKAZ8GvdCRcek6fqrV0
-         +R36w09qrouJbGPTui41vXPqswdre3quX8K/xtqsNgs1biTafIoKVtcCWqmcBSmtvBIM
-         0mJA==
+        bh=5CGFsoMSr/E5vQ8iSTJbM6KzfntJcFuyBHuRY6o2x7k=;
+        b=RufWen4xNZpcX96bS0KXfkgUezT3xDv+XGNEDZL8yTA4oPdbEo67tXXh8pCOFb4qei
+         M5QalzahwEdfG8hiJxQk2sNRcD+/vdd35odlBZsKRfUs3Mr/aefRwn45KiDx+qb/wFrG
+         cMgzHjXe67VZSAKLbnQUOH7/7DPzia9m8xFoGZh4nqsgFYpGiXQlDE7fSCaxX0LHIH1z
+         Z8XwznppuSaUkFBq1fOhHB6XErVYKIm5u0xr4YyjbEsfPNcL+ACyaehxHr0mXoPTdhmu
+         JCiUJfBREFeubsU9MuRCfs/hZYQnfPkta1ewVTp6nQEfRT+TDnthJTxDGYBd9zNZBRFn
+         7eKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=to:subject:message-id:date:from:mime-version:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=YY2fMHmQ66ekLZdpDPdau+jSUaSFsEOGNrdCBPudtQg=;
-        b=5wGNdj9V+SXImKLE3/eSRhbgAjyhnC1da7DedGB/EFA52ZvjvpqAaCMJ3N7FJkPGuk
-         bLap0Bs3NJ4M6IkUiHfG0asy2M6CiH7FES85y8V/zJphBss3CaHlrM/LqvHX/Mtp0OyU
-         l3X6XPxmEHa4uJAqVR/q22SXsDuQr2kPbeeKytaLljX92Eqa44scPUCq0h06RnqwiIA2
-         uGUUQbvxpKA8eheQ7lgKVYfqaxRfyVfPVHCKMFR9C84OXzmjetBJ8zgDx+ICmmkyF5Ix
-         HGbnTx6NnK1sLc4o8Ab7x7f/Lb2lTxST6ShHccWKRHZUVTjWALP6Cip9v7zV6vZuXKET
-         AFxQ==
-X-Gm-Message-State: AFqh2kp511vrBqzAUUKre8uhvOAOnseRX6S2e0c8cQZmz9xf0Ho9nx1V
-	nTLbaYRiuRBZW0AOFVQ0006asx7dQjfbfZppDGog6hwX
-X-Google-Smtp-Source: AMrXdXv8TW4eDAu4Mo0MuJ/e8KFybzeQG6cXn11wknEXeTuQpgfIc8ZIh9JadXwWCyMMEp4w6kOJhF1IrkeVVPMVdQw=
-X-Received: by 2002:a17:90b:2787:b0:219:5b3b:760 with SMTP id
- pw7-20020a17090b278700b002195b3b0760mr1615198pjb.50.1672235537865; Wed, 28
- Dec 2022 05:52:17 -0800 (PST)
+        bh=5CGFsoMSr/E5vQ8iSTJbM6KzfntJcFuyBHuRY6o2x7k=;
+        b=SclsR0jhotsLrdxzi3KlqpSB7330JM/+3fyenXSAqy4aM4ektXiycht01Ns4afh3h+
+         jIEwNgiLDKlTBRQmh2PUE+wXfQzsUVlhR8DUHAp6aJS2PPjX1JalsC61XOSjRwIkHXel
+         sjauuCV0sHvOZYlv2EIIulgKKG0krNjCfyzdvI/GcQwUp5OnQnzRoNiWGKos0iWRHH5M
+         Yx9hMhwXhfLlvpYIltunhZWhn0kWNN2TlyNrQdyW4JdRimSKjtscxm3vBi8mW7sgVbNO
+         cWwG8ou6xw+Bd1Sm2JmfDqJIDU/x3mXbJKaJpS2FbXyD6o8J08OZ/6Zq3J+lsjkHR7+J
+         CWAg==
+X-Gm-Message-State: AFqh2krgjcUykYmOhcOZ7IKsi0EH3fr+KPG+8UYk6AFDjXEyodMnZmdy
+	wBxX1Stp1kQW2J2xZPxv9xcyKYLttPnL++GvmOIZw8qH2Eg=
+X-Google-Smtp-Source: AMrXdXu2eNjoBtu+VtRsnLyzvHwwumTDVUUtR+3AR2rgtlOmdrC/8CP74pXkA/yKKwLHPIhjo8Adq5lXcdBOq0cI+bw=
+X-Received: by 2002:a63:5c2:0:b0:46e:be03:d9b2 with SMTP id
+ 185-20020a6305c2000000b0046ebe03d9b2mr1621387pgf.406.1672241114437; Wed, 28
+ Dec 2022 07:25:14 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
@@ -40,11 +40,13 @@ List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 From: KeithG <ys3al35l@gmail.com>
-Date: Wed, 28 Dec 2022 07:52:06 -0600
-Message-ID: <CAG17S_N_+HCCRVcOaExzCfV2N8VL4r6gvOSwhk6Aa21PavsWaQ@mail.gmail.com>
+Date: Wed, 28 Dec 2022 09:25:03 -0600
+Message-ID: <CAG17S_OZiy2AtuWW3g81_HLUTT3m1en71UXszHz8yFCQfKah1w@mail.gmail.com>
 Subject: Connman Request for feature
 To: connman@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
+
+Sent from gmail. Tried to remove formatting. Sorry if this is a duplicate.
 
 Would it be possible to allow connman to scan for wifi networks when
 iwd has been put in ap mode?
