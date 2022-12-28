@@ -1,27 +1,28 @@
-Received: from mail-oi1-f175.google.com (mail-oi1-f175.google.com [209.85.167.175])
+Received: from mail-oi1-f170.google.com (mail-oi1-f170.google.com [209.85.167.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79AA2137E
-	for <connman@lists.linux.dev>; Wed, 28 Dec 2022 13:16:15 +0000 (UTC)
-Received: by mail-oi1-f175.google.com with SMTP id e205so14782469oif.11
-        for <connman@lists.linux.dev>; Wed, 28 Dec 2022 05:16:15 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 944E9137E
+	for <connman@lists.linux.dev>; Wed, 28 Dec 2022 13:39:17 +0000 (UTC)
+Received: by mail-oi1-f170.google.com with SMTP id r130so14865306oih.2
+        for <connman@lists.linux.dev>; Wed, 28 Dec 2022 05:39:17 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=LAcN0f5Z+4MTcHm7sMjals1HWBQnAlcfCCoXukJqDPU=;
-        b=dXv1xHjqDw4tsnseFrmgdw+ocY1hd+dQe9NEaBhg8MBYHKYwnOOK7RtvpCGMFlGB0e
-         lilkJzjzoB1BsDPkPAdwcFCRJLuRieO5LirazQLF30slAyXQzbW+kD4W2prtsVX76usy
-         OUUDwe7MkAbWToxK5PmQxu6kGgWlHjWisth2tSZz2AI87LsMqzCbUDFIlDSv96IRP3lb
-         30Qt2PfmZ+FyoaDP4kPGmx8Z+3l1vXAqLUC4qc3HRo9vy+S2gYbRHP+SzEqWXL9aPYgZ
-         uTvoTkA/fLYVdZC6+flvrwSfhBTWl23sNVbjaH3EbHFhFXrA9ltWMkdfgnVcRpa2uXRC
-         /Ykg==
-X-Gm-Message-State: AFqh2kpPZpiDbum/XFohkbJ7u1ubk0tI1tQjKwh97PzUCiDIQgkrKS26
-	ISSt1KOISW5gUtCrKORKpxEtV8REISU6VeKy7zik/N+as5+M+qN8YuDzBQ==
-X-Google-Smtp-Source: AMrXdXvBHCznpfl+ky+ao2WCUj5rBxPWzHowlzZJIc22bVj5JZzzYNLt8D0QPUIJTsZTS9Z4PmqA/FyPzlUKVLLjyVM=
+        h=content-transfer-encoding:to:subject:message-id:date:from
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=8w61C4ls5hAEPOTTGpOKSIwYXf8DGMaz0ekZj8c0A0s=;
+        b=7ygpSsCyu1jL46AcDFybohmkadhnJOEhos4yZ+T3Ftw4XO4bpkzRLI3GJnnjlnqBux
+         /RMlrAB6GNXDiSIZB46EJ0eJygskLG6suVpGaajciwiwIPnKKHlyvxGMAbPAJFiXc/FM
+         30lmGMkYMm6wT99uymBzauzfZ+UI2p34yc7ZJ809fjBSYaYD6ghNQsfWWNqd70cOZ2FT
+         YUf17rwCXHYAkSvlBm2mSlJDYmztoULUwZ1+qUZcboqGnVGRa3nz9+H5icKHoliGr6NO
+         ff/o0YM5EAS23Fy2psEMYZo+a5FPCRWN89SBifPsyvlwcvTCerI6w1Se93xqHDVsr/u3
+         h2Gw==
+X-Gm-Message-State: AFqh2ko4patroaTs4oBliyv0X/vObHjbdmoSEE3KJulflZH4c8tburaX
+	a7hCJEiY8q+mNBH+0Yhiz3127kYUS1Lbnw5qhZ+0VtS9/yjha7h2SegxBWZZ
+X-Google-Smtp-Source: AMrXdXuXhV7Ul7DvniSyDRurzvjwseSTlzqtVXc4EELj+iwm48eI0Y34sERD3W3yKD5ihOtPpoJREf6wlmCUgtMI5LQ=
 X-Received: by 2002:aca:1b01:0:b0:350:4f8f:6ddf with SMTP id
- b1-20020aca1b01000000b003504f8f6ddfmr1340287oib.235.1672233374362; Wed, 28
- Dec 2022 05:16:14 -0800 (PST)
+ b1-20020aca1b01000000b003504f8f6ddfmr1343353oib.235.1672234756421; Wed, 28
+ Dec 2022 05:39:16 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
@@ -29,87 +30,72 @@ List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 From: Jade Lovelace <lists@jade.fyi>
-Date: Wed, 28 Dec 2022 14:16:03 +0100
-Message-ID: <CAFA9we_ArzwtDidQkEQTL-vEPC2GGnRTqZB7jbx=UZ-R1MkzoA@mail.gmail.com>
-Subject: bug: 802.1x configuration is not turned into an iwd KnownNetwork
+Date: Wed, 28 Dec 2022 14:39:05 +0100
+Message-ID: <CAFA9we9QrpTmyzBewdiL4gKP52_G_j25NvR2pjpqzBXb2xPnzQ@mail.gmail.com>
+Subject: bug: iwd KnownNetworks AutoConnect setting desynchronizes with
+ connman's, breaking auto connect
 To: connman@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-I just set up an 802.1x configuration with Connman and iwd and it
-seems that Connman is not telling iwd about its network configuration
-files and turning them into iwd KnownNetworks.
+Hi,
 
-When I create a config file for a network in /var/lib/connman for an
-802.1x network, then try to connect to it, it will get stuck in
-"association":
+I have been using connman with iwd recently and I've found that the
+autoconnect doesn't seem to work consistently and I often have to
+manually use connmanctl to reconnect to the network.
 
-connmanctl> services wifi_9cb6d0f7daaf_7075626c6963726f616d_managed_ieee8021x
-/net/connman/service/wifi_9cb6d0f7daaf_7075626c6963726f616d_managed_ieee8021x
-  Type = wifi
-  Security = [ ieee8021x ]
-  State = association
-  Strength = 56
-  Favorite = True
-  Immutable = True
-  AutoConnect = True
-  Name = publicroam
+This manifests in a strange (to me) way: the network is seen in
+connmanctl but not automatically connected to. I've glanced through
+the Connman iwd plugin code and it's my understanding that the actual
+automatic connection when the network reappears is done by iwd, and
+the Connman plugin merely sends configurations to iwd.
 
-I had a think about this and concluded it was probably that connman
-didn't create the known network on the iwd side, which I confirmed by
-manually creating /var/lib/iwd/publicroam.8021x with the correct
-configuration, solving the issue. I suspect that if I was using some
-UI for connman that creates networks via D-Bus rather than via
-configuration files, it might work, but the fact that the connman
-config files don't apply to iwd is inconsistent with the behaviour
-under wpa_supplicant.
+I can get the AutoConnect variable resynchronized by manually toggling
+it with connmanctl. If I do this, when I put my machine to sleep and
+open it back up, it will reconnect as expected, temporarily resolving
+the issue. My assumption here is that iwd is turning AutoConnect off
+for the network for some unknown reason, and connman is not accounting
+for this change.
 
-I am using connman-1.41 on NixOS.
+I am using connman-1.41 and iwd-2.0 on NixOS.
 
-Here is my config "publicroam.config":
+You can see that toggling in the below snippet:
 
-[service_publicroam]
-Type=wifi
-Name=publicroam
-EAP=peap
-Phase2=MSCHAPV2
-Identity=<REDACTED>
-Passphrase=<REDACTED>
+~ =C2=BB busctl get-property net.connman.iwd
+/net/connman/iwd/0000000000000000_psk net.connman.iwd.KnownNetwork
+AutoConnect
+b false
+^^^^^ ---- On connman startup, the iwd KnownNetwork has AutoConnect =3D fal=
+se
 
-Here is the relevant connman log (with iwd debug logging on):
+~ =C2=BB connmanctl
+connmanctl> services
+*A  REDACTED1            wifi_abcdefabcdef_0000000000000000_managed_psk
 
-Dec 28 13:24:34 snowflake connmand[266352]:
-plugins/iwd.c:object_added() net.connman.iwd.Network
-/net/connman/iwd/0/5/7075626c6963726f616d_8021x
-Dec 28 13:24:34 snowflake connmand[266352]:
-plugins/iwd.c:create_network() device /net/connman/iwd/0/5 name
-'publicroam' type 8021x connected 0 known_network (null)
-Dec 28 13:24:34 snowflake connmand[266352]:
-plugins/iwd.c:station_property_change() /net/connman/iwd/0/5 scanning
-0
-Dec 28 13:24:34 snowflake connmand[266352]:
-plugins/iwd.c:station_property_change() /net/connman/iwd/0/5 scanning
-1
-Dec 28 13:24:34 snowflake connmand[266352]: plugins/iwd.c:ordered_networks_cb()
-<<< REDACTED >>>
-Dec 28 13:24:55 snowflake connmand[266352]: EAP type has not been
-found. Most likely ConnMan is not able to find a configuration for
-given 8021X network. Check SSID or Name match with the network name.
+connmanctl> services wifi_abcdefabcdef_0000000000000000_managed_psk
+/net/connman/service/wifi_abcdefabcdef_0000000000000000_managed_psk
+  Type =3D wifi
+  Security =3D [ psk ]
+  State =3D idle
+  Strength =3D 55
+  Favorite =3D True
+  Immutable =3D False
+  AutoConnect =3D True
+  ^^^^^ ---- However, connman thinks it is true
+  Name =3D REDACTED1
 
-^^^^^^^ ------ This was when I tried to ask it to connect prior to
-configuring it
+connmanctl> config wifi_abcdefabcdef_0000000000000000_managed_psk
+--autoconnect true
+connmanctl> config wifi_abcdefabcdef_0000000000000000_managed_psk
+--autoconnect false
+connmanctl> config wifi_abcdefabcdef_0000000000000000_managed_psk
+--autoconnect true
+^^^^^ ---- If we manually toggle it back and forth, it will get synced agai=
+n
 
-<<< REDACTED >>>
-Dec 28 13:27:04 snowflake connmand[266352]: Adding configuration publicroam
-Dec 28 13:27:04 snowflake connmand[266352]: Adding service
-configuration publicroam
-
-^^^^^^^ ------ Then I added a configuration here
-
-Dec 28 13:27:04 snowflake connmand[266352]:
-plugins/iwd.c:cm_network_connect_cb()
-/net/connman/iwd/0/5/7075626c6963726f616d_8021x connect failed:
-net.connman.iwd.NotConfigured
-
-^^^^^^^ ------ But connecting fails
+~ =C2=BB busctl get-property net.connman.iwd
+/net/connman/iwd/0000000000000000_psk net.connman.iwd.KnownNetwork
+AutoConnect
+b true
 
 Jade
