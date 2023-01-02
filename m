@@ -1,25 +1,25 @@
 Received: from mail.nearlyone.de (mail.nearlyone.de [49.12.199.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DE6020EC
-	for <connman@lists.linux.dev>; Mon,  2 Jan 2023 08:20:11 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id B711DDB6EE;
-	Mon,  2 Jan 2023 09:10:09 +0100 (CET)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D441520EC;
+	Mon,  2 Jan 2023 08:29:44 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 42E7FDB6EE;
+	Mon,  2 Jan 2023 09:29:41 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=monom.org; s=dkim;
-	t=1672647010; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 in-reply-to:references; bh=MStLpNA7D/ERaa0qTnDzgjK1OD8twIvGFGJXW0Gdwb8=;
-	b=XVrBNR9NTEDfPDRZKsd9VBYZHqHUMmi2Wo4BzVfj2A4HWwq71T53yU6YMttzbkbdAO21uv
-	nmdBRHi1vvtjLrze05O1IF8TVUJoOgnCG2/67e639+hCym7AZQBy+zGj91a1IQcvfl3m2a
-	gl7FQftRW+p8uxR3fr18AyTOx0XmYUU8571I7nXUxosAGwcR65pWmTdJDGVurQPYCsrL9W
-	5zWVASJDW53/245wfO8674pNZH5j2ULSLTBHgNIBtn/Go3yDSKUAMakHBTg9GBFdvRXc+D
-	R1PrN431RgUAspCLUzceQPAehTE6wvdU3ifuSMUaQhHhGDzL+PlFNSDsBdWC+Q==
-Date: Mon, 2 Jan 2023 09:10:07 +0100
+	t=1672648182; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 in-reply-to:references; bh=gY8gqt7FmaBrsFkOxWp89KmdBi8T+ErGhZdrv87hArA=;
+	b=ulVTPi4QjG7AlccMou56it5+Rl6UTKQVKAINZbOSgGm2h8iPEQBW5vm51BSnIADMpyYwzS
+	xv6KQ6woZWQDp36B84HnLP9EFdlgJUP6OPeNIwmQ+9v9htgh4DpaqH0mclli6GQe6zBVON
+	vPHasQtWN1KCVto31awMsBqZ47prxq7SfWo5n0jaQ2lUyrkeKXdwwvcER8oQNm+HMf9oP9
+	6t2ngt7pGHQyH2n60GD6keqUI5fUFkkkHSEgIizRnTtba2Gu69wV8R4IdVXx8YOHHGau9R
+	BRUV5Y6IgEkWHF0KP09H3NpODQVqnXHtKahwkQS9kGMKOtMU0a7MYL/D7zVSxg==
+Date: Mon, 2 Jan 2023 09:29:41 +0100
 From: Daniel Wagner <wagi@monom.org>
-To: Jussi Laakkonen <jussi.laakkonen@jolla.com>
-Cc: connman@lists.linux.dev
-Subject: Re: [RFC PATCH 0/9] Add association state for VPNs
-Message-ID: <20230102081007.jobeqdgzrzzwwwqx@beryllium.lan>
-References: <20221213140707.278313-1-jussi.laakkonen@jolla.com>
+To: Jade Lovelace <lists@jade.fyi>
+Cc: connman@lists.linux.dev, iwd@lists.linux.dev
+Subject: Re: bug: 802.1x configuration is not turned into an iwd KnownNetwork
+Message-ID: <20230102082941.rhlb4dfwzhkvmav7@beryllium.lan>
+References: <CAFA9we_ArzwtDidQkEQTL-vEPC2GGnRTqZB7jbx=UZ-R1MkzoA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
@@ -28,104 +28,92 @@ List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221213140707.278313-1-jussi.laakkonen@jolla.com>
+In-Reply-To: <CAFA9we_ArzwtDidQkEQTL-vEPC2GGnRTqZB7jbx=UZ-R1MkzoA@mail.gmail.com>
 X-Last-TLS-Session-Version: TLSv1.3
 
-Hi Jussi,
-
-On Tue, Dec 13, 2022 at 04:06:58PM +0200, Jussi Laakkonen wrote:
-> This patch set adds the association state also for the VPNs. This state is to
-> indicate that the VPN is waiting for VPN agent to provide input given by user.
-> In this state service.c must not do connect timeout checks as the timers for
-> both differ in length, default being 120s for connect timeout and 300s for VPN
-> agent dialog timeout.
+On Wed, Dec 28, 2022 at 02:16:03PM +0100, Jade Lovelace wrote:
+> I just set up an 802.1x configuration with Connman and iwd and it
+> seems that Connman is not telling iwd about its network configuration
+> files and turning them into iwd KnownNetworks.
 > 
-> In order to facilitate this change the association state had to be implemented
-> also for VPNs. It is common state for services and like with services the
-> association state for VPNs preceeds the configuration state (on VPN side
-> connect state). Both vpn.c plugins on connmand and vpnd side require changes
-> to accommodate this state. When the VPN agent succeeds in getting the input
-> from the user the state transitions from association to connect (configuration)
-> state and, thus, requires no specific changes to VPN plugins.
+> When I create a config file for a network in /var/lib/connman for an
+> 802.1x network, then try to connect to it, it will get stuck in
+> "association":
 > 
-> On connmand side the association state is the initial state when VPN is getting
-> connected and the state needs to be accounted as a connecting state in
-> plugins/vpn.c to not to lose transport ident for it and in provider.c as a
-> pre-configuration state to not to start the connect timeout for the VPN before
-> the VPN is in configuration state. The reason for the latter is that the
-> connect timeout should be exact and start from the point when
-> connect/configuration state is entered.
+> connmanctl> services wifi_9cb6d0f7daaf_7075626c6963726f616d_managed_ieee8021x
+> /net/connman/service/wifi_9cb6d0f7daaf_7075626c6963726f616d_managed_ieee8021x
+>   Type = wifi
+>   Security = [ ieee8021x ]
+>   State = association
+>   Strength = 56
+>   Favorite = True
+>   Immutable = True
+>   AutoConnect = True
+>   Name = publicroam
 > 
-> On vpnd side association state is, like on connmand side, the initial state for
-> the VPN getting connected. After the VPN agent succeeds getting the information
-> from the user (credentials) the state transitions to connect (configuratioin).
-> There may be a possibility for a VPN plugin to run without VPN agent and thus
-> in these cases it is ensured that the vpn/plugins/vpn.c:vpn_notify() does
-> the state transition in such cases. It is allowed go back to association state
-> from connect state but not from other states.
+> I had a think about this and concluded it was probably that connman
+> didn't create the known network on the iwd side, which I confirmed by
+> manually creating /var/lib/iwd/publicroam.8021x with the correct
+> configuration, solving the issue. I suspect that if I was using some
+> UI for connman that creates networks via D-Bus rather than via
+> configuration files, it might work, but the fact that the connman
+> config files don't apply to iwd is inconsistent with the behaviour
+> under wpa_supplicant.
 
-I can't remember why the VPN part is missing the association state. Propaply it
-was assummed having the configuration state is enough.
+ConnMan interacts with iwd only via the D-Bus interface. I can't remember that
+we added any code to do any provisioning in iwd (also a quick glance over the
+iwd plugin code doesn't ring any bell). Also I couldn't find any API doc in iwd
+which covers this topic. So I don't know if it is currently possible to
+provision iwd via the D-Bus API.
 
-> I'd like to raise the following issues for commenting:
-> a) Is this current approach sound in the way that the vpn-agent.c is
->    responsible of changing the state? vpn-provider.c:connect_cb() would be
->    ideal but that does get called in notify if there is no error. Processing
->    the message with the vpn_agent_check_and_process_reply_error() with success
->    indicates that VPN agent succeeded getting the input.
-
-Unfortunatly, I can't remember all these details, though I think the idea of
-connect_cb was to get called as final function. So it's sounds like you want to
-extend it to handle all state transitions. Sounds reasonable, but I suggest to
-update the name so that it refelcts more what it is doing, e.g. match it with
-the service.c::indicate_state, vpn_indicate_state (?) Does this make any sense?
-
-> b) Can we figure out a case where the state transition from VPN plugin notify
->    SHOULD change the state back to ASSOCIATION when normally in CONNECT state?
->    This change is in vpn/plugins/vpn.c that accommodates transitions from
->    CONNECT->ASSOCIATION.
-
-Hmm, the main state machine for ConnMan doesn't allow for this transitioning
-from CONNECT to ASSOCIATION (or CONFIGURATION) state. Don't know if we should
-introduce it. It has a high potential to introduce a lot of bugs. At least
-I would like to have a proper use case why we need it before we start
-touching the main statemachine.
-
-> c) Furthermore, might any of the VPN plugins available (elsewhere) work
->    without accessing the VPN agent? The flow now requires to use vpn-agent.c
->    for processing and state transition. However, these cases should then use
->    the vpn_provider_set_state() directly, as most of the plugins now do in,
->    e.g., error cases.
-
-That might be the case, but I don't think we should consider this as really an
-argument to stop us from updating the code base.
-
-> d) The VPN and PROVIDER states, should these be harmonized to follow the same
->    structure as the common service states to avoid confusion or might this be
->    risky as many of the headers are public?
-
-Yes, I think we should have all these state machines updated in sync, to avoid
-complexity and reduce our maintainance burden. Yes, that might break exising
-plugins though I am not sure there are any. In this case I would update our code
-base and if someone is complaining we can still think about mitigation, such as
-introducing some combat function/macros.
-
-> e) Should the specific VPNs that do need VPN agent more than once then do the
->    transition back to ASSOCIATION when the first VPN agent returns and sets the
->    state to CONNECT? This is what I couldn't decide, there is another option to
->    have the vpn_agent_check_and_process_reply_error() to have an additional
->    parameter to state that do not transition state, but in the case of OpenVPN
->    the private key, for instance, can be decrypted and the management interface
->    queries the passphrase on need basis. Thus, there is no apriori information
->    on this.
-
-No idea, you seem to have a why better understanding of the situation. It's up
-to your :)
-
-> And of course, any other issue that may trouble your mind with these changes.
-
-I don't have any, right now. Let me quickly look though the patches. Though I
-don't expect a lot of comments from my side.
-
-Cheers,
-Daniel
+> I am using connman-1.41 on NixOS.
+> 
+> Here is my config "publicroam.config":
+> 
+> [service_publicroam]
+> Type=wifi
+> Name=publicroam
+> EAP=peap
+> Phase2=MSCHAPV2
+> Identity=<REDACTED>
+> Passphrase=<REDACTED>
+> 
+> Here is the relevant connman log (with iwd debug logging on):
+> 
+> Dec 28 13:24:34 snowflake connmand[266352]:
+> plugins/iwd.c:object_added() net.connman.iwd.Network
+> /net/connman/iwd/0/5/7075626c6963726f616d_8021x
+> Dec 28 13:24:34 snowflake connmand[266352]:
+> plugins/iwd.c:create_network() device /net/connman/iwd/0/5 name
+> 'publicroam' type 8021x connected 0 known_network (null)
+> Dec 28 13:24:34 snowflake connmand[266352]:
+> plugins/iwd.c:station_property_change() /net/connman/iwd/0/5 scanning
+> 0
+> Dec 28 13:24:34 snowflake connmand[266352]:
+> plugins/iwd.c:station_property_change() /net/connman/iwd/0/5 scanning
+> 1
+> Dec 28 13:24:34 snowflake connmand[266352]: plugins/iwd.c:ordered_networks_cb()
+> <<< REDACTED >>>
+> Dec 28 13:24:55 snowflake connmand[266352]: EAP type has not been
+> found. Most likely ConnMan is not able to find a configuration for
+> given 8021X network. Check SSID or Name match with the network name.
+> 
+> ^^^^^^^ ------ This was when I tried to ask it to connect prior to
+> configuring it
+> 
+> <<< REDACTED >>>
+> Dec 28 13:27:04 snowflake connmand[266352]: Adding configuration publicroam
+> Dec 28 13:27:04 snowflake connmand[266352]: Adding service
+> configuration publicroam
+> 
+> ^^^^^^^ ------ Then I added a configuration here
+> 
+> Dec 28 13:27:04 snowflake connmand[266352]:
+> plugins/iwd.c:cm_network_connect_cb()
+> /net/connman/iwd/0/5/7075626c6963726f616d_8021x connect failed:
+> net.connman.iwd.NotConfigured
+> 
+> ^^^^^^^ ------ But connecting fails
+> 
+> Jade
+> 
