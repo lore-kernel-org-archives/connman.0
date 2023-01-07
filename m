@@ -1,55 +1,58 @@
-Received: from mail-ot1-f54.google.com (mail-ot1-f54.google.com [209.85.210.54])
+Received: from mail-qt1-f193.google.com (mail-qt1-f193.google.com [209.85.160.193])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D22CD27739
-	for <connman@lists.linux.dev>; Fri,  6 Jan 2023 19:04:26 +0000 (UTC)
-Received: by mail-ot1-f54.google.com with SMTP id e17-20020a9d7311000000b00678202573f1so1417582otk.8
-        for <connman@lists.linux.dev>; Fri, 06 Jan 2023 11:04:26 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E0B779DA
+	for <connman@lists.linux.dev>; Sat,  7 Jan 2023 21:50:35 +0000 (UTC)
+Received: by mail-qt1-f193.google.com with SMTP id v14so5076499qtq.3
+        for <connman@lists.linux.dev>; Sat, 07 Jan 2023 13:50:35 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=07Rv1prEYi+cIu251/P/T7bFZGWCVLpovC/DA4ZwCVU=;
-        b=8KShiCJQ7zNPI6VGlWWFL0n2J1y1BaLbwoiB/qIFKNurpo1Ni2Muc/vrFAb7P8O66G
-         wThPdbpTyR6gTJAqQM6VcN9a7A5Ru4ZDNSaV6CDN8Wr/Vogx3o6FRepta6VTYO5Jqciy
-         vXzW4YtG4UQjzVjyws2oEPkboz9ljV4QFEs51qMn3O3+N24IFrP8EkOh3wsJOAVPIWUR
-         1IBywL7d7qyLLgkmdO4KVsKEJBekQ3Y1sDodJ+OKoTMXx6vln4K5BiB/0ofA1f8IKrZ4
-         7ORDoW9b1+CixBMQQvjFTIljLfkST48wEpy20990p68zdijZMnZiR4SFMIdjwtDAce4P
-         UeJw==
-X-Gm-Message-State: AFqh2krWlEjK7R2Nwu0DcjIqIPozs298IfRVuBaP4s7BB1LpwpppE/Vq
-	1zdThY/nYGowudbArPo3wIjgZ4RVb5YHdoWQLpEFkw==
-X-Google-Smtp-Source: AMrXdXuDyS0rwSxlAgIQfFGQIlbH1wyNdb4Rc9tD0Dskz76nVxqt8yQ3X/7PbCLK92CZxrgK064i09+RNmtH2dtGidM=
-X-Received: by 2002:a05:6830:1313:b0:675:b95e:9e44 with SMTP id
- p19-20020a056830131300b00675b95e9e44mr3111635otq.266.1673031865735; Fri, 06
- Jan 2023 11:04:25 -0800 (PST)
+        bh=BvJOgZ2KeepE6qKmflKVzFPHh43d1vRWXXMtuvrk7XI=;
+        b=eomZ74zK4Tql+EED1couQ9mxx1BQXB9uvr5ke4OLXxpsXRb5W7DKIOUFgftsybJmGh
+         6C2UIl8KSffCNUWjI93kdaofKExddLtAaKWAUwrGD6UMGDaenynfIBEFJrYTGmsNYYN/
+         Wubmx6V96PIqoWIOqoYkK81BKVu//PcreG2ngdle80PEDPodAYVKWddRH5eu8ZpWP8hQ
+         UnjqfGMR5AIPMr+UuKHOxQBEAXaq8boQwDZrHw06Njax/Kv0b9CbtVUxj7aPiL1keCP/
+         j7vN8LLxcGttKDEdFIITGBWJB2QJDFyPJCnefvJTxp1fZ0cdTJEM32UOGxjy6bNlN2mK
+         EGPw==
+X-Gm-Message-State: AFqh2kq3JM00KR1PJ52oRMWeo8uOs4BHk4tbg48N0g045qWTpsMTfnfo
+	3cvxzKv0WEZ2mcafCJHfwnExXS99aAzIyBOAwr5QfsL1
+X-Google-Smtp-Source: AMrXdXvADdKXC6vj05HMYsQJGlwOC8HApuBy9VnszhV6VweSNaSMCR6YBR0s19TSr9Nj2+8kj1YKdA==
+X-Received: by 2002:ac8:7389:0:b0:3a5:4a20:3096 with SMTP id t9-20020ac87389000000b003a54a203096mr82521348qtp.6.1673128234237;
+        Sat, 07 Jan 2023 13:50:34 -0800 (PST)
+Received: from localhost ([45.42.73.38])
+        by smtp.gmail.com with ESMTPSA id cb15-20020a05622a1f8f00b003a5c60686b0sm2389070qtb.22.2023.01.07.13.50.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 07 Jan 2023 13:50:33 -0800 (PST)
+From: lists@jade.fyi
+To: connman@lists.linux.dev
+Cc: Daniel Wagner <wagi@monom.org>
+Subject: Patches for the AutoConnect bug I hit in the iwd plugin
+Date: Sat,  7 Jan 2023 16:50:20 -0500
+Message-Id: <20230107215023.8288-1-lists@jade.fyi>
+X-Mailer: git-send-email 2.38.1
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <CAFA9we9QrpTmyzBewdiL4gKP52_G_j25NvR2pjpqzBXb2xPnzQ@mail.gmail.com>
- <20230102083554.nindhbg3b4edrgfo@beryllium.lan>
-In-Reply-To: <20230102083554.nindhbg3b4edrgfo@beryllium.lan>
-From: Jade Lovelace <lists@jade.fyi>
-Date: Fri, 6 Jan 2023 14:04:14 -0500
-Message-ID: <CAFA9we9hh9gORA9EB4Sm7opJi_Rfb6c9L8KJz2rC_1zXnUShfA@mail.gmail.com>
-Subject: Re: bug: iwd KnownNetworks AutoConnect setting desynchronizes with
- connman's, breaking auto connect
-To: Daniel Wagner <wagi@monom.org>
-Cc: connman@lists.linux.dev, iwd@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-> ConnMan completle relies on iwd to do the right thing, so this question is more
-> for the iwd developers. I don't think ConnMan should start fiddling with the
-> AutoConnect settings after the initial configuration.
+I did further investigation of the issues I found related to AutoConnect
+being set wrong on the iwd backend and found that Connman was wrongly
+setting AutoConnect to false after the KnownNetwork is created, causing
+a desynchronization with its intended state. I've added some
+documentation to make it easier to understand the logic, since it took
+some use of rr to figure out what was going on.
 
-Ah, I see. Based on my look through the iwd code, I also don't see any
-evidence for why it's changing, absent someone telling it to do so
-over D-Bus, so I wonder what's going on there. If I have it happen
-again I'll try to poke around on the iwd side some more to try to get
-further information.
+Please let me know if I've made any mistakes in operating git
+send-email, it's my first time sending patches to Linux Foundation
+lists.
+
+Original bug report:
+https://lore.kernel.org/connman/CAFA9we9hh9gORA9EB4Sm7opJi_Rfb6c9L8KJz2rC_1zXnUShfA@mail.gmail.com/T/#t
 
 
-Jade
