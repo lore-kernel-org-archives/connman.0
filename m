@@ -1,267 +1,116 @@
-Received: from mail-oa1-f52.google.com (mail-oa1-f52.google.com [209.85.160.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from EUR04-VI1-obe.outbound.protection.outlook.com (mail-vi1eur04on2080.outbound.protection.outlook.com [40.107.8.80])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 331915221
-	for <connman@lists.linux.dev>; Mon,  9 Jan 2023 21:03:10 +0000 (UTC)
-Received: by mail-oa1-f52.google.com with SMTP id 586e51a60fabf-142b72a728fso10071835fac.9
-        for <connman@lists.linux.dev>; Mon, 09 Jan 2023 13:03:10 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D347317E5
+	for <connman@lists.linux.dev>; Tue, 10 Jan 2023 05:43:52 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=iL4clOHJN1JG3jOBXYzUsFBjbTLvid+/Btx5MSicpeAXnWEPAyFGs6rUwoltk5Xbf+7lRjnm/NAfenO4/RuZxaywH3Sm+m5m4OZ4AdTPl+7sTW7/mYPxpVzVWnj70hAJvxf4xm0towCmMpcIXYr3Baw5wwcZOMEpNhoUdixQ8uQEUd4RW21UP+IOXaLXGqRiw/Qwp24TtWdQ6DBKT2SObyCTaSWgjQVWAvZtDuKEplDzE8k0HrHjldrDxGh3XxLaqTE6Y2oVswKn8F1LtZCLseDW2EQrDeIIBUt/zbNZbx3KMuycZR4xpqEtMu8Bw2IosIJsDQ00LLcTWE6GTZc6pw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=syBlvUR+rqw3C82Nd/xq6HIAdgN9p5L8L2+IFB8wlfI=;
+ b=hVgLwJvvNPF/pDu1gTL20Pj3Nk4SUUZpgFsMnV6MV2Cxh11OzRbb2YZmnl4Gi4dLX/iD71MmiXOLWJdVKygBiAGVhsebkRiK59JKl/LqjgEUkNgsXie9yoceduf26g892SPa7etx6+MEDP2KR/XLQC14ynqeUH2P9NnWzWFdmS0E9bE1Dp84Kz63RIR/+pKJId2VogmmVxd8j2dIrRbGoAY3Y8+Fzp2Q1e5+IGD3OlS/rPnqA7bcLOPDalthX0lWB7CnI8A/WprxdCJ7Kz0w606xr9BGPP5bmsXYZcONZ1K/YQ8oGJhrtgU9/2Cx4BdRAEM/4xts+EQesbOiGAno0Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=moba.de; dmarc=pass action=none header.from=moba.de; dkim=pass
+ header.d=moba.de; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=jade-fyi.20210112.gappssmtp.com; s=20210112;
-        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=PRSTazFIkhtPo6oSgVQQMDQzSZFFCGG2mAwmL7pNTIQ=;
-        b=V9hJHTYQO8QiSPmyYudURaB4NkTyF2Lt5M70vJQmBAqLzI8+twskMDRwTZZO+xADKq
-         3VL3/CWwcKVEamKm4Y5GObsAgeEaPHVquMREKXSYdHgE60VLxAUiUvVrVs6vILXqAKxv
-         pC0ygHqE8eQuxMld+iSngNVRuYlRGY77guQKYsqkTbBs+lIvBsqVc7I1LgN2xNkCcNjr
-         zgJ9vLZnn2ZWsxpWRzqjnpsRpKZTFJZqCONRGtORWloL6YZdpsjVrvjRd4xL3N6o5trK
-         pHcRoNfzDeawaPq6MaBZXZMaZP5UfUpsOpREOkCTYU8oZ+lfWQFi4vxezUWihx5QUFGb
-         1zVQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=PRSTazFIkhtPo6oSgVQQMDQzSZFFCGG2mAwmL7pNTIQ=;
-        b=A83obGd2IchYlv3e89nHfe4vBZIiWFRVKBsceugksUQayvbtBzAFfQgclukALLjOHC
-         b0pZQ6vhYkQkaEdZjgQtP7tsrD4mdqROGZ6S9MqEGJJERD7V/vNsybxZyZJMgX4PWndA
-         xV1N2bz9xd/82YYEC/qu67/uQyBDarFZOu4te6ZpiYBnsvD8leAaUhcQ0XWoaBbt1kGZ
-         G+blROpBjPpyZfN8VIaq1oWhS7axkTCmdOV5BrZ2LUB4s+h6PhLOEs+FL2K8WzoT6dBz
-         +tdWO7/pYO+IBP8NUWh1MZRfCMJawNaTyX9GKaCfa0N0kInqCeUlIeBkYQ6aQiJizZqw
-         gC6w==
-X-Gm-Message-State: AFqh2kon6Jd6nqDTaFfRL99zJRvOBZ7/tGk1El3fDXJYw3J4UWW0F7Xh
-	MK8P6fxEjgAWwa3FKJ39x1xKCa9Fm5NoiEgggPZrVB1zZTLXPnxyyHSYZA==
-X-Google-Smtp-Source: AMrXdXuuDSlXk+JgY10pntBs92ARXPJMI+EGWlcZ6Tf8n0OM1gM0WlrMF2bI0xI0B5xE3Arj+xbRPd6C+H8T5FPgigY=
-X-Received: by 2002:a05:6870:d99a:b0:143:7889:c525 with SMTP id
- gn26-20020a056870d99a00b001437889c525mr3756647oab.171.1673298189716; Mon, 09
- Jan 2023 13:03:09 -0800 (PST)
+ d=MobaAG.onmicrosoft.com; s=selector2-MobaAG-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=syBlvUR+rqw3C82Nd/xq6HIAdgN9p5L8L2+IFB8wlfI=;
+ b=UEMU1FQNmwnxNJ0pZumnMUSV50Mks0B9Q70cZzRVRuiffqS96+YtOME3cmNmvwNJg7JBhUU41Z2eM4etj6AvP6V/6m/76zXOh1+/R1Co9m2ccoSiCX4MfXiWdmEzvOYilBQMUAvKpChJSFmMHqTSwMqMfeOWMBGINCX61dN8k58=
+Received: from AM9PR09MB4756.eurprd09.prod.outlook.com (2603:10a6:20b:2d4::5)
+ by DB9PR09MB6032.eurprd09.prod.outlook.com (2603:10a6:10:3d8::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5986.18; Tue, 10 Jan
+ 2023 05:43:49 +0000
+Received: from AM9PR09MB4756.eurprd09.prod.outlook.com
+ ([fe80::cb80:d06:6ed5:286f]) by AM9PR09MB4756.eurprd09.prod.outlook.com
+ ([fe80::cb80:d06:6ed5:286f%7]) with mapi id 15.20.5986.018; Tue, 10 Jan 2023
+ 05:43:49 +0000
+From: "Stahl, Michael" <mstahl@moba.de>
+To: "connman@lists.linux.dev" <connman@lists.linux.dev>
+Subject: dhcp-client with fallback IP
+Thread-Topic: dhcp-client with fallback IP
+Thread-Index: AQHZJLYnnwhCOll0n0iEr6BF1XXE666XI1qo
+Date: Tue, 10 Jan 2023 05:43:49 +0000
+Message-ID:
+ <AM9PR09MB47564FE0CAD5E5553184F12CDBFF9@AM9PR09MB4756.eurprd09.prod.outlook.com>
+References:
+ <AM9PR09MB4756C6950B763CC9F2A8887CDBFF9@AM9PR09MB4756.eurprd09.prod.outlook.com>
+In-Reply-To:
+ <AM9PR09MB4756C6950B763CC9F2A8887CDBFF9@AM9PR09MB4756.eurprd09.prod.outlook.com>
+Accept-Language: de-DE, en-US
+Content-Language: de-DE
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+msip_labels:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=moba.de;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: AM9PR09MB4756:EE_|DB9PR09MB6032:EE_
+x-ms-office365-filtering-correlation-id: 177e4168-428f-47aa-ea92-08daf2cda648
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info:
+ Ml2SDPZEn9MRM8dL3dO+zd+jnoyzc/tg7rc4rvlvsTtkbMwoCQKn4LNtk2HDnGxMwt+A+4W9vU/wNq6WcFk4WobSxPDN2kz6G+V60JKsA8w5yGt7qiGSVlziEjGlHB69rlUMIH3WcRRVz88jAvdRPHAwwJRa/X5RDZ80bxmkpRbvhHGnjWTfDmViY3lmPQRS0LXugmOtUKIZhTzVlYT+xERZZBr8iU5nYa5EGS3Pc0fgWb8bjVMOusBhDVaJ7lHWCK10Pc8dgxLgRP6DIvVJlmnRxj5i4Z5jHIbE2sxOjF+aTqlkzHTaisP7I65dok7sTHr/o+TJU8GeJhfVJBCxszdEeeoJJYF3rA8hxM9akycG5FzQgFqj0pf9eWkXqzQ8uWVFmGRbBIzsWpoY2j4nrCDtobGrOQnNB/a/HJ2WrR72BRXQ1WWs4nz/LbsYaPTO7aEIuzIzmyeNXDPejPX9ioTIC8AyryNXZol3uFL9PtbxX6yXgsfMRmxcWOWV5Qt/RVDT6WPV8nB46z9VRhX9Lh6EOrF+wpNmWHF2/qKVhOVDL8RwXENnqg8Sy4Y4JQCWWDRK7jRFE73MnUviKRymgQbadcwrFhLyg38rlE0fDbuvgQC8dQdylWTex7KJFV4Hqpj/oQB6fJjzOozaRkrgkaay9HgbZImnIa/N5Ytv4Ig4MejP4tKeYq0Zw7A2vfgrqbK4k+GhzAXbtmQh4Etn8Q==
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM9PR09MB4756.eurprd09.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(39850400004)(376002)(366004)(396003)(136003)(346002)(451199015)(33656002)(558084003)(2906002)(8936002)(5660300002)(52536014)(41300700001)(3480700007)(122000001)(71200400001)(91956017)(66946007)(7696005)(86362001)(76116006)(38070700005)(66556008)(6506007)(38100700002)(186003)(55016003)(66476007)(8676002)(26005)(2940100002)(316002)(66446008)(64756008)(478600001)(9686003)(6916009);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?iso-8859-1?Q?ubwVohZfIJrCNRyeop1z1hhOTWLxk09Fk07nhFc2irScpawrYU7J+ntsXv?=
+ =?iso-8859-1?Q?QCcGH9K78LvhtvxN6SJ7Dt72YUjnyN1KmzbP9TgUf/AKwvPbpkN/I9B0YR?=
+ =?iso-8859-1?Q?JcLBNvfzTmAQ546ND7MpVIn/60ecmrIoEeN6NT0obJ4snG8T16EycoT/FP?=
+ =?iso-8859-1?Q?OfJPwlHKvRdY5kWfnS4IeerQiw4TWzQz7IPAGxQ8uqu/35CGr9Bi6wSwua?=
+ =?iso-8859-1?Q?SGadWdnO6C5p+nAaK1YfBK4FWiFmgZSzBB7cFRGFHNgbl3XSfRFjka3y4p?=
+ =?iso-8859-1?Q?d0DIZV6EBxMbnlEhbTtHqd5+2B5695kCsFdHEHMNbfjdjfY61AbUgXy13z?=
+ =?iso-8859-1?Q?v0RbINcrWJ6ct1x+U3eOkHoiiLDRP8aGR8DZBfbhD8FMLnQU+1oh2P1+Nc?=
+ =?iso-8859-1?Q?pHQ4LvPv7RrryjwyhFYw/GvymIggzLT/UMo08vpi888qqEK6Hfx47dwcsW?=
+ =?iso-8859-1?Q?tcOdcDGfkMPHZIOAZwPR6uO8jdtU2O3r6iD86It6jF/bmBF6GMn/viVKcX?=
+ =?iso-8859-1?Q?uQZCJ8XVyXE/uJEkc/nRVm13Bldr3ZoBh97shq541xB+HxIHaeuJyDIzmQ?=
+ =?iso-8859-1?Q?S4GDgjoEhGORjRCoIq2GPbJA0N6FEOxR4wHZ3LDImazzhu2WDnKm0AmN1M?=
+ =?iso-8859-1?Q?ElyvJH9H4oU2oDKanrNwiNoM8J53VUEUCKlm0IACaXHfnsvbRc7s4JHPTF?=
+ =?iso-8859-1?Q?z+s7QqmlrGJIKP/BOknEtNQdF+gZBeBhJKM9GoibRgEkpiCmfb1CNWe7cl?=
+ =?iso-8859-1?Q?4IU1gksIcMyj0Fsbd9pNr0jkEPrL4EmopEeGFpuNGxMRGkrq8faQH6geWp?=
+ =?iso-8859-1?Q?1qXo/Q42lPP0t+xZpn/Kj6eb3VXbBBGhnPQokhNqHHmid7qTcf/CnjLTFQ?=
+ =?iso-8859-1?Q?PgCz8z7rS1E22TNBADj+Jbpg2hSkmtgzUCPAn4Zce8hDELXP05+Fv1OOiR?=
+ =?iso-8859-1?Q?Zzw83rvJqVoISKAI6l8gbdJefHsVJ0aB4gJC7RxQANi1GJAolw1UADeLOL?=
+ =?iso-8859-1?Q?ccHDbf6e3x+mCfmiX14scMsrkeDP3qBXeeYHfTeqQmuHy8Tv5lpnq6YjM0?=
+ =?iso-8859-1?Q?/bFVVVR1M9OGi5M8hxk0Ziiy6yY40cPA/GA7MVlEnp1Oi8WW1ys5TwnXsF?=
+ =?iso-8859-1?Q?KPKxGrpSjYoQG9ykOvY1DRlqxsUoRhwi3mUGLDaFYKWWjxhvs57eqAYVWi?=
+ =?iso-8859-1?Q?dlZl1Nf9IlCYEC4YI7Y3xuLYe70QZLXxsUDAQF6k1gpWlxQ3Ea2zCprHZ6?=
+ =?iso-8859-1?Q?ope44EGST86Y/2HDmYRIl7Mepq/E0sk5ZNsLC89AQ5SipuoHmuRnyQBBgV?=
+ =?iso-8859-1?Q?A2KVRp+tTBEEKeM3fhgpjZiopLmEbtkayxGCcPuodXlCxa89kJVnWQIzBC?=
+ =?iso-8859-1?Q?bx3xfvQp6d/uJdNeovn/z7PjjJZPCx9DEEWqO/bPvTeUlpTDCVdHV8F1tK?=
+ =?iso-8859-1?Q?Cj9fvTQBHmDec2fGRJ43LH4J33pkGSNTdTw/CZLixBoJX3N/VjPzC9Zhy3?=
+ =?iso-8859-1?Q?LiwanECZEtPK3wocEUrLHmCMtxmfFWXNZBeM6fI21HEo9IeR44chIE8PsZ?=
+ =?iso-8859-1?Q?5a6lQeksDQ4CR6YEKON8X0tGNMT4fcXYrDR5KZfYgMnJDjW6zG0J18aSuQ?=
+ =?iso-8859-1?Q?nwlyRYk4/e9q0=3D?=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230107215023.8288-1-lists@jade.fyi> <20230107215023.8288-4-lists@jade.fyi>
-In-Reply-To: <20230107215023.8288-4-lists@jade.fyi>
-From: Jade Lovelace <lists@jade.fyi>
-Date: Mon, 9 Jan 2023 16:02:58 -0500
-Message-ID: <CAFA9we_1LwKgh1Dm7eBT6DwaFPf0f8hxA4O9o2PMsR0ddrxeTA@mail.gmail.com>
-Subject: Re: [PATCH 3/3] plugins/iwd: fix iwd autoconnect being set wrongly on
- new connections
-To: connman@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+X-OriginatorOrg: moba.de
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: AM9PR09MB4756.eurprd09.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 177e4168-428f-47aa-ea92-08daf2cda648
+X-MS-Exchange-CrossTenant-originalarrivaltime: 10 Jan 2023 05:43:49.7891
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: f43877ac-6976-4beb-b238-f92e268fc98c
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: TMsW3+pLf3I+4eT4CkR9sKTkxQIafolSDwRbhio2OqplVpI8qlyK2LXZSc33nf1b
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR09MB6032
 
-I think I found that this still doesn't fix the issue, surprisingly. I
-am going to investigate further.
-
-On Sat, Jan 7, 2023 at 4:50 PM <lists@jade.fyi> wrote:
->
-> From: Jade Lovelace <lists@jade.fyi>
->
-> Due to an extremely subtle bug in tracking the autoconnect state from
-> connman on through to iwd, iwd was incorrectly being sent zero-initialized
-> default data as the autoconnect value.
->
-> In particular, what happened is as follows:
-> - A new iwd_network is created for the iwd.Network that appears, which
->   also creates an associated connman_network. In the process of creating
->   the connman_network, the iwd plugin receives a callback that correctly
->   sets the cm_autoconnect state of the iwd_network.
-> - Connman's Service.Connect() function is called via D-Bus, which calls
->   into the iwd plugin, which in turn calls iwd.Network.Connect() over
->   D-Bus.
-> - The connection completes and the following fire:
->     - iwd.KnownNetwork created event, which is supposed to initialize the
->       cm_autoconnect state to that of the iwd_network, but this does not
->       occur since the iwd_network does not yet have a KnownNetwork
->       associated, so it remains uninitialized
->     - PropertyChanged event on the corresponding iwd.Network object,
->       with the new KnownNetwork property value, springing the trap set
->       earlier by synchronizing the zero-initialized
->       iwd_known_network.cm_autoconnect state to the iwd KnownNetwork
->
-> In practice, this looks like:
-> -> net.connman.iwd.Network.Connect() on /net/connman/iwd/0/3/0000000000000000000000_psk
-> <- RequestPassphrase()
-> -> (passphrase)
-> -> Set('AutoConnect', False) on /net/connman/iwd/0000000000000000000000_psk
->
-> This was found by investigating why my computer was not automatically
-> connecting to some networks after coming out of sleep, and finding that
-> the iwd AutoConnect setting was false on those networks while connman
-> thought it was true (in fact, this was the case! The connman iwd plugin
-> thought otherwise).
->
-> Reproduction:
->
-> connmanctl> agent on
-> Agent registered
-> connmanctl> config wifi_9cb6d0f7daaf_00000000_managed_psk --remove
-> connmanctl> connect wifi_9cb6d0f7daaf_00000000_managed_psk
-> Agent RequestInput wifi_9cb6d0f7daaf_00000000_managed_psk
->   Passphrase = [ Type=psk, Requirement=mandatory ]
-> Passphrase? 00000000
-> Connected wifi_9cb6d0f7daaf_00000000_managed_psk
->
-> $ busctl get-property net.connman.iwd /net/connman/iwd/00000000_psk net.connman.iwd.KnownNetwork AutoConnect
-> b false
->
-> Then sleep the machine and observe that the network is not automatically
-> reconnected.
->
-> Signed-off-by: Jade Lovelace <lists@jade.fyi>
-> ---
->  plugins/iwd.c | 89 ++++++++++++++++++++++++++++++++++++++++++++++++---
->  1 file changed, 85 insertions(+), 4 deletions(-)
->
-> diff --git a/plugins/iwd.c b/plugins/iwd.c
-> index 9d437b3d..1f6743e4 100644
-> --- a/plugins/iwd.c
-> +++ b/plugins/iwd.c
-> @@ -41,7 +41,15 @@ static GDBusClient *client;
->  static GDBusProxy *agent_proxy;
->  static GHashTable *adapters;
->  static GHashTable *devices;
-> +/**
-> + * Mapping from dbus path -> struct iwd_network, tracking the set of Network
-> + * objects seen by iwd.
-> + */
->  static GHashTable *networks;
-> +/**
-> + * Mapping from dbus path -> struct iwd_network, tracking the set of iwd
-> + * KnownNetwork objects.
-> + */
->  static GHashTable *known_networks;
->  static GHashTable *stations;
->  static GHashTable *access_points;
-> @@ -84,6 +92,11 @@ struct iwd_device {
->         struct connman_device *device;
->  };
->
-> +/**
-> + * Structure tracking an net.connman.iwd.Network D-Bus object.
-> + *
-> + * This is mapped one-to-one to a connman_network object.
-> + */
->  struct iwd_network {
->         GDBusProxy *proxy;
->         char *path;
-> @@ -95,10 +108,17 @@ struct iwd_network {
->
->         struct iwd_device *iwdd;
->         struct connman_network *network;
-> -       /* service's autoconnect */
-> +       /*
-> +        * connman_service's autoconnect.
-> +        *
-> +        * See Note [Managing autoconnect state] for more details.
-> +        */
->         bool cm_autoconnect;
->  };
->
-> +/**
-> + * Structure tracking a net.connman.iwd.KnownNetwork D-Bus object.
-> + */
->  struct iwd_known_network {
->         GDBusProxy *proxy;
->         char *path;
-> @@ -109,7 +129,11 @@ struct iwd_known_network {
->         bool iwd_auto_connect;
->         int auto_connect_id;
->
-> -       /* service's autoconnect */
-> +       /*
-> +        * connman_service's autoconnect.
-> +        *
-> +        * See Note [Managing autoconnect state] for more details.
-> +        */
->         bool cm_autoconnect;
->  };
->
-> @@ -1153,11 +1177,58 @@ static void network_property_change(GDBusProxy *proxy, const char *name,
->
->                 iwdkn = g_hash_table_lookup(known_networks,
->                                         iwdn->known_network);
-> -               if (iwdkn)
-> +               if (iwdkn) {
-> +                       /* See Note [Managing autoconnect state] */
-> +                       iwdkn->cm_autoconnect = iwdn->cm_autoconnect;
->                         update_auto_connect(iwdkn);
-> +               }
->         }
->  }
->
-> +/*
-> + * Note [Managing autoconnect state]:
-> + *
-> + * We need to set the iwd_known_network's cm_autoconnect status from the
-> + * iwd_network, which has in turn been set to the corresponding
-> + * connman_service's state when it first appeared (due to
-> + * __connman_service_create_from_network).
-> + *
-> + * The management of the autoconnect state between connman and its plugins and
-> + * iwd is rather subtle and prone to bugs:
-> + * - Connman itself determines the autoconnect state in struct connman_service,
-> + *   which we cannot directly see; we only see cm_network_set_autoconnect
-> + *   callbacks.
-> + *
-> + * - The iwd plugin maintains an independent state machine tracking iwd's view of
-> + *   the world, which processes events in a non atomic fashion; for
-> + *   instance, a iwd.KnownNetwork created event will appear before the
-> + *   corresponding PropertyChanged setting the KnownNetwork property of the
-> + *   iwd.Network corresponding to the created iwd.KnownNetwork.
-> + *
-> + * A typical flow of a network being newly connected to looks like so:
-> + * - An iwd.Network appears, and add_network registers a connman_network
-> + *   structure with Connman. Connman then in turn creates a service via
-> + *   __connman_service_create_from_network.
-> + *
-> + * - The iwd plugin receives a callback from connman to set the autoconnect
-> + *   state, setting the cm_autoconnect state of the iwd_network. At this point,
-> + *   there is no iwd_known_network yet.
-> + *
-> + * - Connman receives a Connect() request on the connman.Service, which is
-> + *   forwarded to the iwd plugin via cm_network_connect. The iwd plugin calls
-> + *   Connect() on the corresponding iwd.Network (possibly using the iwd
-> + *   plugin's agent to get credentials if necessary).
-> + *
-> + * - Around the time that the connection completes, a iwd.KnownNetwork created
-> + *   event appears, followed by a PropertyChanged event noting the change in
-> + *   the iwd.Network's KnownNetwork property.
-> + *
-> + *   This is the first time that we can associate the iwd.KnownNetwork with the
-> + *   corresponding iwd.Network and iwd_network. We have the Connman-side
-> + *   autoconnect status in the iwd_network structure at this point, so we
-> + *   synchronize the autoconnect state with iwd here.
-> + */
-> +
->  static unsigned char calculate_strength(int strength)
->  {
->         unsigned char res;
-> @@ -1303,7 +1374,7 @@ static void ap_property_change(GDBusProxy *proxy, const char *name,
->         if (!iwdap)
->                 return;
->
-> -        if (!strcmp(name, "Started")) {
-> +       if (!strcmp(name, "Started")) {
->                 dbus_bool_t started;
->
->                 dbus_message_iter_get_basic(iter, &started);
-> @@ -1742,6 +1813,16 @@ static void create_known_network(GDBusProxy *proxy)
->                 iwdkn->name, iwdkn->type, iwdkn->hidden,
->                 iwdkn->last_connected_time, iwdkn->iwd_auto_connect);
->
-> +       /*
-> +        * Although we initialize the autoconnect state of this
-> +        * iwd_known_network here, it is only initialized in the case of
-> +        * networks that already existed prior to startup: in the
-> +        * case of a new iwd.KnownNetwork appearing, we are called before the
-> +        * iwd_network.known_network field is initialized by a subsequent
-> +        * PropertyChanged event.
-> +        *
-> +        * See Note [Managing autoconnect state].
-> +        */
->         init_auto_connect(iwdkn);
->
->         g_dbus_proxy_set_property_watch(iwdkn->proxy,
-> --
-> 2.38.1
->
+Hi,=0A=
+is there a posibility to configure connman to use dhcp-client and in case o=
+f timeout or x retries use a static IP (fallback)?=0A=
+=0A=
+I would like to do the configuration by a .config file if it is possible.=
+=0A=
+=0A=
+Thanks=
