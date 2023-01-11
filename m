@@ -1,116 +1,112 @@
-Received: from EUR04-VI1-obe.outbound.protection.outlook.com (mail-vi1eur04on2080.outbound.protection.outlook.com [40.107.8.80])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D347317E5
-	for <connman@lists.linux.dev>; Tue, 10 Jan 2023 05:43:52 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=iL4clOHJN1JG3jOBXYzUsFBjbTLvid+/Btx5MSicpeAXnWEPAyFGs6rUwoltk5Xbf+7lRjnm/NAfenO4/RuZxaywH3Sm+m5m4OZ4AdTPl+7sTW7/mYPxpVzVWnj70hAJvxf4xm0towCmMpcIXYr3Baw5wwcZOMEpNhoUdixQ8uQEUd4RW21UP+IOXaLXGqRiw/Qwp24TtWdQ6DBKT2SObyCTaSWgjQVWAvZtDuKEplDzE8k0HrHjldrDxGh3XxLaqTE6Y2oVswKn8F1LtZCLseDW2EQrDeIIBUt/zbNZbx3KMuycZR4xpqEtMu8Bw2IosIJsDQ00LLcTWE6GTZc6pw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=syBlvUR+rqw3C82Nd/xq6HIAdgN9p5L8L2+IFB8wlfI=;
- b=hVgLwJvvNPF/pDu1gTL20Pj3Nk4SUUZpgFsMnV6MV2Cxh11OzRbb2YZmnl4Gi4dLX/iD71MmiXOLWJdVKygBiAGVhsebkRiK59JKl/LqjgEUkNgsXie9yoceduf26g892SPa7etx6+MEDP2KR/XLQC14ynqeUH2P9NnWzWFdmS0E9bE1Dp84Kz63RIR/+pKJId2VogmmVxd8j2dIrRbGoAY3Y8+Fzp2Q1e5+IGD3OlS/rPnqA7bcLOPDalthX0lWB7CnI8A/WprxdCJ7Kz0w606xr9BGPP5bmsXYZcONZ1K/YQ8oGJhrtgU9/2Cx4BdRAEM/4xts+EQesbOiGAno0Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=moba.de; dmarc=pass action=none header.from=moba.de; dkim=pass
- header.d=moba.de; arc=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AC136AAB
+	for <connman@lists.linux.dev>; Wed, 11 Jan 2023 19:08:52 +0000 (UTC)
+Received: by mail-pl1-f180.google.com with SMTP id jl4so17776865plb.8
+        for <connman@lists.linux.dev>; Wed, 11 Jan 2023 11:08:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=MobaAG.onmicrosoft.com; s=selector2-MobaAG-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=syBlvUR+rqw3C82Nd/xq6HIAdgN9p5L8L2+IFB8wlfI=;
- b=UEMU1FQNmwnxNJ0pZumnMUSV50Mks0B9Q70cZzRVRuiffqS96+YtOME3cmNmvwNJg7JBhUU41Z2eM4etj6AvP6V/6m/76zXOh1+/R1Co9m2ccoSiCX4MfXiWdmEzvOYilBQMUAvKpChJSFmMHqTSwMqMfeOWMBGINCX61dN8k58=
-Received: from AM9PR09MB4756.eurprd09.prod.outlook.com (2603:10a6:20b:2d4::5)
- by DB9PR09MB6032.eurprd09.prod.outlook.com (2603:10a6:10:3d8::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5986.18; Tue, 10 Jan
- 2023 05:43:49 +0000
-Received: from AM9PR09MB4756.eurprd09.prod.outlook.com
- ([fe80::cb80:d06:6ed5:286f]) by AM9PR09MB4756.eurprd09.prod.outlook.com
- ([fe80::cb80:d06:6ed5:286f%7]) with mapi id 15.20.5986.018; Tue, 10 Jan 2023
- 05:43:49 +0000
-From: "Stahl, Michael" <mstahl@moba.de>
-To: "connman@lists.linux.dev" <connman@lists.linux.dev>
-Subject: dhcp-client with fallback IP
-Thread-Topic: dhcp-client with fallback IP
-Thread-Index: AQHZJLYnnwhCOll0n0iEr6BF1XXE666XI1qo
-Date: Tue, 10 Jan 2023 05:43:49 +0000
-Message-ID:
- <AM9PR09MB47564FE0CAD5E5553184F12CDBFF9@AM9PR09MB4756.eurprd09.prod.outlook.com>
-References:
- <AM9PR09MB4756C6950B763CC9F2A8887CDBFF9@AM9PR09MB4756.eurprd09.prod.outlook.com>
-In-Reply-To:
- <AM9PR09MB4756C6950B763CC9F2A8887CDBFF9@AM9PR09MB4756.eurprd09.prod.outlook.com>
-Accept-Language: de-DE, en-US
-Content-Language: de-DE
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-msip_labels:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=moba.de;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: AM9PR09MB4756:EE_|DB9PR09MB6032:EE_
-x-ms-office365-filtering-correlation-id: 177e4168-428f-47aa-ea92-08daf2cda648
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info:
- Ml2SDPZEn9MRM8dL3dO+zd+jnoyzc/tg7rc4rvlvsTtkbMwoCQKn4LNtk2HDnGxMwt+A+4W9vU/wNq6WcFk4WobSxPDN2kz6G+V60JKsA8w5yGt7qiGSVlziEjGlHB69rlUMIH3WcRRVz88jAvdRPHAwwJRa/X5RDZ80bxmkpRbvhHGnjWTfDmViY3lmPQRS0LXugmOtUKIZhTzVlYT+xERZZBr8iU5nYa5EGS3Pc0fgWb8bjVMOusBhDVaJ7lHWCK10Pc8dgxLgRP6DIvVJlmnRxj5i4Z5jHIbE2sxOjF+aTqlkzHTaisP7I65dok7sTHr/o+TJU8GeJhfVJBCxszdEeeoJJYF3rA8hxM9akycG5FzQgFqj0pf9eWkXqzQ8uWVFmGRbBIzsWpoY2j4nrCDtobGrOQnNB/a/HJ2WrR72BRXQ1WWs4nz/LbsYaPTO7aEIuzIzmyeNXDPejPX9ioTIC8AyryNXZol3uFL9PtbxX6yXgsfMRmxcWOWV5Qt/RVDT6WPV8nB46z9VRhX9Lh6EOrF+wpNmWHF2/qKVhOVDL8RwXENnqg8Sy4Y4JQCWWDRK7jRFE73MnUviKRymgQbadcwrFhLyg38rlE0fDbuvgQC8dQdylWTex7KJFV4Hqpj/oQB6fJjzOozaRkrgkaay9HgbZImnIa/N5Ytv4Ig4MejP4tKeYq0Zw7A2vfgrqbK4k+GhzAXbtmQh4Etn8Q==
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM9PR09MB4756.eurprd09.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(39850400004)(376002)(366004)(396003)(136003)(346002)(451199015)(33656002)(558084003)(2906002)(8936002)(5660300002)(52536014)(41300700001)(3480700007)(122000001)(71200400001)(91956017)(66946007)(7696005)(86362001)(76116006)(38070700005)(66556008)(6506007)(38100700002)(186003)(55016003)(66476007)(8676002)(26005)(2940100002)(316002)(66446008)(64756008)(478600001)(9686003)(6916009);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?iso-8859-1?Q?ubwVohZfIJrCNRyeop1z1hhOTWLxk09Fk07nhFc2irScpawrYU7J+ntsXv?=
- =?iso-8859-1?Q?QCcGH9K78LvhtvxN6SJ7Dt72YUjnyN1KmzbP9TgUf/AKwvPbpkN/I9B0YR?=
- =?iso-8859-1?Q?JcLBNvfzTmAQ546ND7MpVIn/60ecmrIoEeN6NT0obJ4snG8T16EycoT/FP?=
- =?iso-8859-1?Q?OfJPwlHKvRdY5kWfnS4IeerQiw4TWzQz7IPAGxQ8uqu/35CGr9Bi6wSwua?=
- =?iso-8859-1?Q?SGadWdnO6C5p+nAaK1YfBK4FWiFmgZSzBB7cFRGFHNgbl3XSfRFjka3y4p?=
- =?iso-8859-1?Q?d0DIZV6EBxMbnlEhbTtHqd5+2B5695kCsFdHEHMNbfjdjfY61AbUgXy13z?=
- =?iso-8859-1?Q?v0RbINcrWJ6ct1x+U3eOkHoiiLDRP8aGR8DZBfbhD8FMLnQU+1oh2P1+Nc?=
- =?iso-8859-1?Q?pHQ4LvPv7RrryjwyhFYw/GvymIggzLT/UMo08vpi888qqEK6Hfx47dwcsW?=
- =?iso-8859-1?Q?tcOdcDGfkMPHZIOAZwPR6uO8jdtU2O3r6iD86It6jF/bmBF6GMn/viVKcX?=
- =?iso-8859-1?Q?uQZCJ8XVyXE/uJEkc/nRVm13Bldr3ZoBh97shq541xB+HxIHaeuJyDIzmQ?=
- =?iso-8859-1?Q?S4GDgjoEhGORjRCoIq2GPbJA0N6FEOxR4wHZ3LDImazzhu2WDnKm0AmN1M?=
- =?iso-8859-1?Q?ElyvJH9H4oU2oDKanrNwiNoM8J53VUEUCKlm0IACaXHfnsvbRc7s4JHPTF?=
- =?iso-8859-1?Q?z+s7QqmlrGJIKP/BOknEtNQdF+gZBeBhJKM9GoibRgEkpiCmfb1CNWe7cl?=
- =?iso-8859-1?Q?4IU1gksIcMyj0Fsbd9pNr0jkEPrL4EmopEeGFpuNGxMRGkrq8faQH6geWp?=
- =?iso-8859-1?Q?1qXo/Q42lPP0t+xZpn/Kj6eb3VXbBBGhnPQokhNqHHmid7qTcf/CnjLTFQ?=
- =?iso-8859-1?Q?PgCz8z7rS1E22TNBADj+Jbpg2hSkmtgzUCPAn4Zce8hDELXP05+Fv1OOiR?=
- =?iso-8859-1?Q?Zzw83rvJqVoISKAI6l8gbdJefHsVJ0aB4gJC7RxQANi1GJAolw1UADeLOL?=
- =?iso-8859-1?Q?ccHDbf6e3x+mCfmiX14scMsrkeDP3qBXeeYHfTeqQmuHy8Tv5lpnq6YjM0?=
- =?iso-8859-1?Q?/bFVVVR1M9OGi5M8hxk0Ziiy6yY40cPA/GA7MVlEnp1Oi8WW1ys5TwnXsF?=
- =?iso-8859-1?Q?KPKxGrpSjYoQG9ykOvY1DRlqxsUoRhwi3mUGLDaFYKWWjxhvs57eqAYVWi?=
- =?iso-8859-1?Q?dlZl1Nf9IlCYEC4YI7Y3xuLYe70QZLXxsUDAQF6k1gpWlxQ3Ea2zCprHZ6?=
- =?iso-8859-1?Q?ope44EGST86Y/2HDmYRIl7Mepq/E0sk5ZNsLC89AQ5SipuoHmuRnyQBBgV?=
- =?iso-8859-1?Q?A2KVRp+tTBEEKeM3fhgpjZiopLmEbtkayxGCcPuodXlCxa89kJVnWQIzBC?=
- =?iso-8859-1?Q?bx3xfvQp6d/uJdNeovn/z7PjjJZPCx9DEEWqO/bPvTeUlpTDCVdHV8F1tK?=
- =?iso-8859-1?Q?Cj9fvTQBHmDec2fGRJ43LH4J33pkGSNTdTw/CZLixBoJX3N/VjPzC9Zhy3?=
- =?iso-8859-1?Q?LiwanECZEtPK3wocEUrLHmCMtxmfFWXNZBeM6fI21HEo9IeR44chIE8PsZ?=
- =?iso-8859-1?Q?5a6lQeksDQ4CR6YEKON8X0tGNMT4fcXYrDR5KZfYgMnJDjW6zG0J18aSuQ?=
- =?iso-8859-1?Q?nwlyRYk4/e9q0=3D?=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+        d=jade-fyi.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=w2WGHwebJxsz2UF1SV5pEEys8XSF5eH591NVoGRAiJ8=;
+        b=DvhABIY9CCsUZmVjxNSQsOt/iuu1DUzum75dCM0HUkUn+BCImpGFkxpPY5MRqh6M1C
+         8Df3ifXfoPZ9EzqzFXUxRmyzO36aNPn1LnR859ng+hIyoYMQ3eg1+JHgNJ8DEDbzFuVb
+         asI+M5JgS9tO9Znj/30EVaoBgutGTDr8m6tQTXao86u8cTdEspQSLBISnBxIUN4FOQCh
+         S6cb4zw41pQPnE/r/op+twfKBHd8ZSmFgws50YqJ8bNTWHGxax90woybmfJer2lpVOwt
+         QcBHkJmAgY6tEijBNINDAUpakyq8pcEumVIoF3kH2MLPW0J2davcuWzi5n5MXAcEPWBH
+         5vig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=w2WGHwebJxsz2UF1SV5pEEys8XSF5eH591NVoGRAiJ8=;
+        b=1DwRgWAppwZzVum4QBYaxgVnS1WVD48pexWrW3l8WN4uRrhy4hhnmgeI4Knf6s27Jz
+         RKOq7HbASuup3H7+Q6aIMtlueX9AfpBJd1k2hwxOnXz+lV3GTprxQaUset62BZC/9T8d
+         lifOlRHzgvPd6aw9UlAympwpI4f95z1sGrX1c+QIYHqiuN1Ehk7dfI3qUdfylFd7uRxo
+         baeHBpDj1ZdlMf2pMFvf/89Tg7Ottl7X/xT7408SnBmCFyQupma2GH6XIGrz0AuTZvSc
+         Q9Z3Q1dFmW3GXgLtpYb/9Jqzh8wpmqJEmt1QyeAXYPxEgem3BNKSnDxD4J2b+3djMq0b
+         OA/w==
+X-Gm-Message-State: AFqh2koQO0LkFB7EBGArdRCAltrB4r0V6fERY2zV66lkbfUZ6te3d3Wq
+	djRH+m1UITUNqK8hNjQwqAd8JJhiwZ3pIht+9+e3Lh/M
+X-Google-Smtp-Source: AMrXdXsP2FnWM8upuMqUfZ5IS4BbFJKN9neEMAq0AhKHBn97yZCUy2cqbbbrvFjmudpJeFmqw3stQw==
+X-Received: by 2002:a17:902:ccd0:b0:188:d405:63c0 with SMTP id z16-20020a170902ccd000b00188d40563c0mr78583511ple.6.1673464131306;
+        Wed, 11 Jan 2023 11:08:51 -0800 (PST)
+Received: from localhost (172.103.222.8.cable.tpia.cipherkey.com. [172.103.222.8])
+        by smtp.gmail.com with ESMTPSA id j1-20020a170902da8100b00192fdd3af5dsm10530104plx.181.2023.01.11.11.08.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 11 Jan 2023 11:08:51 -0800 (PST)
+From: lists@jade.fyi
+To: connman@lists.linux.dev
+Cc: Daniel Wagner <wagi@monom.org>,
+	Jade Lovelace <lists@jade.fyi>
+Subject: [PATCH] service: Fix an additional case of autoconnect breakage under iwd
+Date: Wed, 11 Jan 2023 14:08:37 -0500
+Message-Id: <20230111190837.209460-1-lists@jade.fyi>
+X-Mailer: git-send-email 2.38.1
+In-Reply-To: <CAFA9we_1LwKgh1Dm7eBT6DwaFPf0f8hxA4O9o2PMsR0ddrxeTA@mail.gmail.com>
+References: <CAFA9we_1LwKgh1Dm7eBT6DwaFPf0f8hxA4O9o2PMsR0ddrxeTA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-OriginatorOrg: moba.de
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: AM9PR09MB4756.eurprd09.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 177e4168-428f-47aa-ea92-08daf2cda648
-X-MS-Exchange-CrossTenant-originalarrivaltime: 10 Jan 2023 05:43:49.7891
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: f43877ac-6976-4beb-b238-f92e268fc98c
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: TMsW3+pLf3I+4eT4CkR9sKTkxQIafolSDwRbhio2OqplVpI8qlyK2LXZSc33nf1b
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR09MB6032
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hi,=0A=
-is there a posibility to configure connman to use dhcp-client and in case o=
-f timeout or x retries use a static IP (fallback)?=0A=
-=0A=
-I would like to do the configuration by a .config file if it is possible.=
-=0A=
-=0A=
-Thanks=
+From: Jade Lovelace <lists@jade.fyi>
+
+Error flow:
+- __connman_service_create_from_network() creates network, but it is not
+  favorite since it is not yet saved
+- trigger_autoconnect is skipped since !favorite
+
+*** User calls Connect() ***
+- iwd plugin gets connect() call
+- iwd plugin finds out about new known network and copies the
+  autoconnect state of the iwd_network to the iwd_known_network, which
+  is false since it was zero initialized and nobody called
+  connman_network_set_autoconnect on it.
+- 💥 iwd plugin tells iwd to set AutoConnect to false
+- service_indicate_state() calls __connman_service_set_favorite(service,
+  true)
+- nobody tells the iwd plugin about the change in favorite state
+
+This patch calls trigger_autoconnect right at the end there, which will
+then propagate the outcome of the favorite state to the iwd plugin. I
+think this patch is the right design for the current architecture of the
+autoconnect state management, but I think the autoconnect design
+probably needs some changes outside the scope of this patch since it is
+too easy to make these mistakes.
+---
+ src/service.c | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/src/service.c b/src/service.c
+index 079c7a6c..6f31adb3 100644
+--- a/src/service.c
++++ b/src/service.c
+@@ -156,6 +156,7 @@ static struct connman_ipconfig *create_ip6config(struct connman_service *service
+ 		int index);
+ static void dns_changed(struct connman_service *service);
+ static void vpn_auto_connect(void);
++static void trigger_autoconnect(struct connman_service *service);
+ 
+ struct find_data {
+ 	const char *path;
+@@ -5624,6 +5625,9 @@ int __connman_service_set_favorite_delayed(struct connman_service *service,
+ 	service->favorite = favorite;
+ 
+ 	favorite_changed(service);
++	/* If native autoconnect is in use, the favorite state may affect the
++	 * autoconnect state, so it needs to be rerun. */
++	trigger_autoconnect(service);
+ 
+ 	if (!delay_ordering) {
+ 
+-- 
+2.38.1
+
