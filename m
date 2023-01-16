@@ -1,49 +1,121 @@
 Received: from mail.nearlyone.de (mail.nearlyone.de [49.12.199.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 093B41363
-	for <connman@lists.linux.dev>; Mon, 16 Jan 2023 07:57:17 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 097F9DAC50;
-	Mon, 16 Jan 2023 08:57:15 +0100 (CET)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B52781363
+	for <connman@lists.linux.dev>; Mon, 16 Jan 2023 08:16:31 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 9EC9ADACFA;
+	Mon, 16 Jan 2023 09:16:28 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=monom.org; s=dkim;
-	t=1673855836; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 in-reply-to:references; bh=Uh9ra74bn5GSEfLHHlTeNxshwf2At3YaeXYapD8+5BI=;
-	b=neePDYJZB3BYiXfCApYE4v6uxw0hqGdHPJoxcuBmEoxMEhzNYcpp7howOcKkXTWiND4rLU
-	Jczlij46AkJ9QfUzmgRchx4n4arRttvMckUybSXYR4a5006S80GgJPyJ9n0FYOtBqWbLEx
-	FHYkj1pRe1fWfZ++sp6O/sOfEIkHqbS5EqfXQs7iu1Fuh3k8mww94c/+CWyuFSXz9OBJKo
-	J4TfwC21Un2XHkbu+96iT0aQJ+QjZtnKmVyojh8jiaZ8CnDvEkrpNsXi4qGll5Q3ugqTQR
-	KgbB7zQj3mPUJWhzbRiVH0kQHnQYdxA6xX1SUIooQ26EwcMjBb2fwPGxEJonpA==
-Date: Mon, 16 Jan 2023 08:57:15 +0100
+	t=1673856989; h=from:reply-to:subject:date:message-id:to:cc:mime-version:
+	 content-transfer-encoding; bh=I/kEIdRzvI6Hh67RIW4k7NvXOOYg9R/nG0ubCVELO44=;
+	b=aBPDed/1wj5fkXBoTovt7SQ0h/0lRLOl6fTJTJgZkMEfEfgD8EqAJ50KMMFrWwJPzp4Eok
+	08wEZi3TzJUfsH31qOa7p7bBBs8DEJIFEUL7uEiFdOltzdVDsNtYi3Sk/45wRpqP9YRnCJ
+	nK47+8omj1e60kLyhb0ObsVzhUE/dQhwLbaI23vpvFgbQFOEFn6cqrTJf7RaWeBUiUC8AX
+	pvF2van0LQMJmYiuI31GmXnawCiOie7jYkAvfJB5QVIMKKRgjl3/Ft2OtGxrFj7wpcRZRf
+	eOCem3xUbMMgT2OYreQbcdSZHPnyp9RJjwsTw6ECweshyPw0BMZ3DHaSDyr/uA==
 From: Daniel Wagner <wagi@monom.org>
-To: "Stahl, Michael" <mstahl@moba.de>
-Cc: "connman@lists.linux.dev" <connman@lists.linux.dev>
-Subject: Re: dhcp-client with fallback IP
-Message-ID: <20230116075715.4hoi4vref43e5vdq@beryllium.lan>
-References: <AM9PR09MB4756C6950B763CC9F2A8887CDBFF9@AM9PR09MB4756.eurprd09.prod.outlook.com>
- <AM9PR09MB47564FE0CAD5E5553184F12CDBFF9@AM9PR09MB4756.eurprd09.prod.outlook.com>
+To: connman@lists.linux.dev
+Cc: Daniel Wagner <wagi@monom.org>
+Subject: [PATCH] iwd: Add support to Scan in AP mode
+Date: Mon, 16 Jan 2023 09:16:24 +0100
+Message-Id: <20230116081624.12618-1-wagi@monom.org>
+Reply-To: 20230116073300.hy6spqhqitohj3eu@beryllium.lan
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <AM9PR09MB47564FE0CAD5E5553184F12CDBFF9@AM9PR09MB4756.eurprd09.prod.outlook.com>
+Content-Transfer-Encoding: 8bit
 X-Last-TLS-Session-Version: TLSv1.3
 
-Hi Michael,
+iwd support scanning in AccessPoint mode, thus forward scan requests
+also when the device is in AccessPoint mode.
 
-On Tue, Jan 10, 2023 at 05:43:49AM +0000, Stahl, Michael wrote:
-> is there a posibility to configure connman to use dhcp-client
+Signed-off-by: Daniel Wagner <wagi@monom.org>
+---
 
-ConnMan uses only the build in DHCP client and has no support to use an external
-DHCP client.
+Only compile tested :)
 
-> and in case of timeout or x retries use a static IP (fallback)?
+ plugins/iwd.c | 54 ++++++++++++++++++++++++++++++++++++++++++++++-----
+ 1 file changed, 49 insertions(+), 5 deletions(-)
 
-ConnMan has currently only support to fallback to IPv4LL and not a static IP. If
-someone is willing to provide the patches, I am glad to review them.
+diff --git a/plugins/iwd.c b/plugins/iwd.c
+index 2fe49a23316b..491a0e41da89 100644
+--- a/plugins/iwd.c
++++ b/plugins/iwd.c
+@@ -633,15 +633,28 @@ static void cm_device_scan_cb(DBusMessage *message, void *user_data)
+ 	}
+ }
+ 
+-static int cm_device_scan(struct connman_device *device,
+-				struct connman_device_scan_params *params)
++static void cm_ap_scan_cb(DBusMessage *message, void *user_data)
++{
++	const char *path = user_data;
++	struct iwd_ap *iwdap;
++
++	iwdap = g_hash_table_lookup(access_points, path);
++	if (!iwdap)
++		return;
++
++	if (dbus_message_get_type(message) == DBUS_MESSAGE_TYPE_ERROR) {
++		const char *dbus_error = dbus_message_get_error_name(message);
++
++		DBG("%s scan failed: %s", path, dbus_error);
++	}
++}
++
++static int cm_station_scan(struct connman_device *device,
++				struct connman_device_scan_params *param)
+ {
+ 	struct iwd_device *iwdd = connman_device_get_data(device);
+ 	struct iwd_station *iwds;
+ 
+-	if (strcmp(iwdd->mode, "station"))
+-		return -EINVAL;
+-
+ 	iwds = g_hash_table_lookup(stations, iwdd->path);
+ 	if (!iwds)
+ 		return -EIO;
+@@ -653,6 +666,37 @@ static int cm_device_scan(struct connman_device *device,
+ 	return -EINPROGRESS;
+ }
+ 
++static int cm_ap_scan(struct connman_device *device,
++				struct connman_device_scan_params *param)
++{
++	struct iwd_device *iwdd = connman_device_get_data(device);
++	struct iwd_ap *iwdap;
++
++	iwdap = g_hash_table_lookup(access_points, iwdd->path);
++	if (!iwdap)
++		return -EIO;
++
++	if (!g_dbus_proxy_method_call(iwdap->proxy, "Scan",
++			NULL, cm_ap_scan_cb, g_strdup(iwdap->path), g_free))
++		return -EIO;
++
++	return -EINPROGRESS;
++}
++
++static int cm_device_scan(struct connman_device *device,
++				struct connman_device_scan_params *params)
++{
++	struct iwd_device *iwdd = connman_device_get_data(device);
++
++	if (!strcmp(iwdd->mode, "station"))
++		return cm_station_scan(device, params);
++
++	if (!strcmp(iwdd->mode, "ap"))
++		return cm_ap_scan(device, params);
++
++	return -EINVAL;
++}
++
+ static struct connman_device_driver device_driver = {
+ 	.name		= "iwd",
+ 	.type		= CONNMAN_DEVICE_TYPE_WIFI,
+-- 
+2.39.0
 
-Thanks,
-Daniel
