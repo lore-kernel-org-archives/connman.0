@@ -1,58 +1,81 @@
-Received: from mx1.kistler.com (mx1.kistler.com [91.223.79.44])
+Received: from mail-41103.protonmail.ch (mail-41103.protonmail.ch [185.70.41.103])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B12311C29
-	for <connman@lists.linux.dev>; Wed, 25 Jan 2023 11:08:20 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.97,245,1669071600"; 
-   d="scan'208";a="56289732"
-Received: from kihagsepp01.int.kistler.com (HELO sl-win-seppm-1.int.kistler.com) ([192.168.52.67])
-  by mx1.kistler.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jan 2023 12:07:09 +0100
-Received: from mx1.kistler.com (kihagciip01.int.kistler.com [192.168.52.57])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by sl-win-seppm-1.int.kistler.com (Postfix) with ESMTPS
-	for <connman@lists.linux.dev>; Wed, 25 Jan 2023 12:07:08 +0100 (CET)
-X-IronPort-AV: E=Sophos;i="5.97,245,1669071600"; 
-   d="scan'208";a="56289731"
-Received: from sw-win-exch-2.int.kistler.com ([192.168.100.96])
-  by mx1.kistler.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 25 Jan 2023 12:07:09 +0100
-Received: from SW-WIN-EXCH-1.int.kistler.com (192.168.100.95) by
- SW-WIN-EXCH-2.int.kistler.com (192.168.100.96) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.6; Wed, 25 Jan 2023 12:07:08 +0100
-Received: from VL-BTS-Cvo-1.int.kistler.com (192.168.100.116) by
- SW-WIN-EXCH-1.int.kistler.com (192.168.100.95) with Microsoft SMTP Server id
- 15.1.2507.6 via Frontend Transport; Wed, 25 Jan 2023 12:07:01 +0100
-From: Miroslav Cuvar <miroslav.cuvar@kistler.com>
-To: <miroslav.cuvar@kistler.com>
-CC: <connman@lists.linux.dev>
-Subject: [PATCH 1/1] Added support for setting preferred IP for WiFi tethering
-Date: Wed, 25 Jan 2023 12:06:59 +0100
-Message-ID: <20230125110659.225550-1-miroslav.cuvar@kistler.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20221108071820.14101-1-miroslav.cuvar@kistler.com>
-References: <20221108071820.14101-1-miroslav.cuvar@kistler.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B850528E1
+	for <connman@lists.linux.dev>; Tue, 31 Jan 2023 11:36:51 +0000 (UTC)
+Date: Tue, 31 Jan 2023 11:29:26 +0000
+Authentication-Results: mail-41103.protonmail.ch;
+	dkim=pass (2048-bit key) header.d=protonmail.ch header.i=@protonmail.ch header.b="KAM5aLVv"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.ch;
+	s=protonmail3; t=1675164576; x=1675423776;
+	bh=0c4SpRw0YGIOhmSWPWahRZ5Lzy/cusITSxIqTFcTwcU=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+	 Message-ID:BIMI-Selector;
+	b=KAM5aLVv3GFnIoCoX5oEJ0Ghq7YdVhanjpgnM0VKpdWJgQa7s9k1EtnpQ9rtVTmAK
+	 7zTyK3MUWA7vcjb3WZ61RfqJaMLbGpmATO758QPWjasiI/bKjoPkQHwC4wG4OGQcil
+	 2JdkZnE+/aMGsmkLypXUfX8GYRdtNFiFBgQlM95/HQiGWMQRUcktuSVrkto+AYexSf
+	 Vh6+5Lm5xOSUf9BsKtQkWcM8w/09WrJqZE00f8nU9/VJ70pq3zetYI4t2WkAJK7JmD
+	 Rc43w5AY29GOhh5sz00z7WOi9qsk0MoCWnJerPVql/1JyXXbQ6l0oXKM8wHXo66V2p
+	 ccg8MZD9XCSjw==
+To: Daniel Wagner <wagi@monom.org>
+From: Piotr Karbowski <piotr.karbowski@protonmail.ch>
+Cc: connman@lists.linux.dev
+Subject: Re: Unification to connman configuration? Now it 3 separated places.
+Message-ID: <cf41cdd7-6b79-3619-5bc3-64bc1ec18794@protonmail.ch>
+In-Reply-To: <20220214074545.47utpy7s6afeohwq@carbon.lan>
+References: <e69350dd-6028-841f-8f0a-069cb4ec16d1@protonmail.ch> <20220130145110.ax6aio73c6le7xrk@beryllium.lan> <42368e37-a297-5a1b-193f-b350b58f6d64@protonmail.ch> <20220214074545.47utpy7s6afeohwq@carbon.lan>
+Feedback-ID: 7579861:user:proton
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
-X-C2ProcessedOrg: 78a97207-3cfa-406d-a777-069c09c1300a
-X-SM-outgoing: yes
 
-Hello,
+Hi,
 
-Have you had a chance to take a look at this?
-Do you regard this as something that could be accepted?
+On 14/02/2022 08.45, Daniel Wagner wrote:
+> On Sun, Jan 30, 2022 at 09:50:31PM +0000, Piotr Karbowski wrote:
+>> If you were to move the /var/lib/connman/<SERVICE_NAME>/settings to
+>> perhaps subdirectory in /etc/connman/networks/ it could work. One of the
+>> example could be NetworkManager that actually dynamically create files
+>> in /etc.
+>
+> /var/lib/connman/* are not configuration files. These files contain the
+> state. The are under control of ConnMan and will be overwritten.
+>
+> That means these files need to live in space where ConnMan can write to
+> (/etc will not work). Furthermore, embedded devices tend to be vary
+> cautions about write updates and often move such things to a tmpfs.
+>
+> Another problem is the id used to apply to a newly discovered
+> services. The path is constructed using the MAC. In my opinion not very
+> convenient and not really future proof.
+>
+> All this is solvable but it is a bit more work than just moving the dirs
+> around. I think we would need to introduce a new configuration logic here=
+.
+>
+>> That would be pretty clean interface to configure connman. Especially if
+>> you need to pre-create some configs for services manually like 802.1X
+>> that I think is not supported by any userspace utils that ships with
+>> connman.
+>
+> Yes, I do understand the need for something like this. Ideally we
+> wouldn't come up with yet another config file format. Maybe we could
+> reuse the one from systemd-networkd? No idea if this would work, just an
+> idea.
 
-With regards
-Miro
+I recently had to do another round of connman configuration which
+reminded me about this thread.
 
-Confidentiality Notice: This e-mail is privileged and confidential and for =
-the use of the addressee only. Should you have received this e-mail in erro=
-r please notify us by replying directly to the sender or by sending a messa=
-ge to info@kistler.com. Unauthorised dissemination, disclosure or copying o=
-f the contents of this e-mail, or any similar action, is prohibited. =0A=
+Wanted to ask if you still consider this a feature that's worth getting
+into? I kind of got used to the current way but still believe it would
+benefit many to have it unified. I am all into being the tested if you
+ever decide to introduce some new interfaces to configure connman.
+
+-- Piotr.
+
