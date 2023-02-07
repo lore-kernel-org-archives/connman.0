@@ -1,81 +1,76 @@
-Received: from mail-41103.protonmail.ch (mail-41103.protonmail.ch [185.70.41.103])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f53.google.com (mail-oa1-f53.google.com [209.85.160.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B850528E1
-	for <connman@lists.linux.dev>; Tue, 31 Jan 2023 11:36:51 +0000 (UTC)
-Date: Tue, 31 Jan 2023 11:29:26 +0000
-Authentication-Results: mail-41103.protonmail.ch;
-	dkim=pass (2048-bit key) header.d=protonmail.ch header.i=@protonmail.ch header.b="KAM5aLVv"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.ch;
-	s=protonmail3; t=1675164576; x=1675423776;
-	bh=0c4SpRw0YGIOhmSWPWahRZ5Lzy/cusITSxIqTFcTwcU=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector;
-	b=KAM5aLVv3GFnIoCoX5oEJ0Ghq7YdVhanjpgnM0VKpdWJgQa7s9k1EtnpQ9rtVTmAK
-	 7zTyK3MUWA7vcjb3WZ61RfqJaMLbGpmATO758QPWjasiI/bKjoPkQHwC4wG4OGQcil
-	 2JdkZnE+/aMGsmkLypXUfX8GYRdtNFiFBgQlM95/HQiGWMQRUcktuSVrkto+AYexSf
-	 Vh6+5Lm5xOSUf9BsKtQkWcM8w/09WrJqZE00f8nU9/VJ70pq3zetYI4t2WkAJK7JmD
-	 Rc43w5AY29GOhh5sz00z7WOi9qsk0MoCWnJerPVql/1JyXXbQ6l0oXKM8wHXo66V2p
-	 ccg8MZD9XCSjw==
-To: Daniel Wagner <wagi@monom.org>
-From: Piotr Karbowski <piotr.karbowski@protonmail.ch>
-Cc: connman@lists.linux.dev
-Subject: Re: Unification to connman configuration? Now it 3 separated places.
-Message-ID: <cf41cdd7-6b79-3619-5bc3-64bc1ec18794@protonmail.ch>
-In-Reply-To: <20220214074545.47utpy7s6afeohwq@carbon.lan>
-References: <e69350dd-6028-841f-8f0a-069cb4ec16d1@protonmail.ch> <20220130145110.ax6aio73c6le7xrk@beryllium.lan> <42368e37-a297-5a1b-193f-b350b58f6d64@protonmail.ch> <20220214074545.47utpy7s6afeohwq@carbon.lan>
-Feedback-ID: 7579861:user:proton
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBD7119B
+	for <connman@lists.linux.dev>; Tue,  7 Feb 2023 22:39:44 +0000 (UTC)
+Received: by mail-oa1-f53.google.com with SMTP id 586e51a60fabf-1636eae256cso21045788fac.0
+        for <connman@lists.linux.dev>; Tue, 07 Feb 2023 14:39:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=jade-fyi.20210112.gappssmtp.com; s=20210112;
+        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=lBFl4Hs4R6g2jdsG3CboYPhaGVTCEHIAoUZqWyhv6VQ=;
+        b=AM9lOa4Q/2q0RaVGHhJjBN0jgeXgnQcYjkSKA130ah7cgpWMerQGhGIOljPmIA5sGr
+         c3Hedl0s2oV0QpTnHP9/bPtBNOkrlKvLQtAX3Xf6dzPmCfHDQkGvj8BrmZ2DNw2MyLC1
+         uZ5U1cz+LXQGwfXcFBDdieOA0dEy9dw/ErTrpX9GbJmPCS4OcPW8ycbYNm9CJWPXsEjp
+         BsJu7CSaBiMfxITc7zjYPyAUUnHDpugRNPo/CCtW7nc9CsLHmoFygJqiS9GE/X9Jq4qK
+         0pMOF25+nPMUEK486J59a3JUPYjfGANEqHokbIhwRMVDcIzUr6BWrWLHcHnvSRPHvfTe
+         rvdA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=lBFl4Hs4R6g2jdsG3CboYPhaGVTCEHIAoUZqWyhv6VQ=;
+        b=uYleCFuhDvn4/RByEGcUsnpCJJDoVqJ7WpWFKYfosZKOWPWgbHsFM7nhE7IrWqcTLD
+         E4muSPQ5KNuxHcAGOL4lc6LaAieA/W8ahgJxDRoMfQ0QFeESWmmzq2T85jFUqJ5SFwrf
+         KfqMmZD23NbzPCp/mTudbWWu9PJYFWssQANHITQDZCunz4tjEavzTTK55Ol1KjgpXuBw
+         c/jQdw81gI8NwaCv6iRWU3eEvtVqCFzSLjowezU+8oX0SPI6N4ZaGJFOnsJqVkpszQle
+         +mOfz/KYp/GVHq9/TH11DEnwnbMm8Y2wVM1i995kpZWtWG0KuOvlIpT8hlbyVpJgKTao
+         BWmw==
+X-Gm-Message-State: AO0yUKU6XGfVD6v/HlYzKVZIlPO3xqufx1uXBC3HwBAOxkrERTCKhDxh
+	U0GzTAOay3BSVZlG2OvD84fHFb3hjDMfQwF67FYVLZST9Yhddqc5lZM=
+X-Google-Smtp-Source: AK7set9D8aKWnASCKp+bqW99SAeu2Y/wKNwrtLE79Hnhg5mntpWtLohezG+JsEKm1kQ4WsUowV0vlPNCqEbV60AuwNA=
+X-Received: by 2002:a05:6870:f28b:b0:163:db4a:c428 with SMTP id
+ u11-20020a056870f28b00b00163db4ac428mr77419oap.235.1675809583532; Tue, 07 Feb
+ 2023 14:39:43 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+From: Jade Lovelace <jade@jade.fyi>
+Date: Tue, 7 Feb 2023 14:39:32 -0800
+Message-ID: <CAFA9we8U1=_7gkiPuXUS2P1n5Bb1=7s5mNCsJf6-7G6vryZ0Rw@mail.gmail.com>
+Subject: Passing the --nodevice option multiple times appears to replace the
+ previous values
+To: connman@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
 Hi,
 
-On 14/02/2022 08.45, Daniel Wagner wrote:
-> On Sun, Jan 30, 2022 at 09:50:31PM +0000, Piotr Karbowski wrote:
->> If you were to move the /var/lib/connman/<SERVICE_NAME>/settings to
->> perhaps subdirectory in /etc/connman/networks/ it could work. One of the
->> example could be NetworkManager that actually dynamically create files
->> in /etc.
->
-> /var/lib/connman/* are not configuration files. These files contain the
-> state. The are under control of ConnMan and will be overwritten.
->
-> That means these files need to live in space where ConnMan can write to
-> (/etc will not work). Furthermore, embedded devices tend to be vary
-> cautions about write updates and often move such things to a tmpfs.
->
-> Another problem is the id used to apply to a newly discovered
-> services. The path is constructed using the MAC. In my opinion not very
-> convenient and not really future proof.
->
-> All this is solvable but it is a bit more work than just moving the dirs
-> around. I think we would need to introduce a new configuration logic here=
-.
->
->> That would be pretty clean interface to configure connman. Especially if
->> you need to pre-create some configs for services manually like 802.1X
->> that I think is not supported by any userspace utils that ships with
->> connman.
->
-> Yes, I do understand the need for something like this. Ideally we
-> wouldn't come up with yet another config file format. Maybe we could
-> reuse the one from systemd-networkd? No idea if this would work, just an
-> idea.
+I have been running into a frustrating issue where the connman
+interface ignore lists are misbehaving for me. I was invoking connman
+like so:
 
-I recently had to do another round of connman configuration which
-reminded me about this thread.
+ExecStart=/nix/store/k479wdfq88g5qfhlkpr6maqfzj5q8jf6-connman-1.41/sbin/connmand
+--config=/nix/store/z07f0rkb95d8zjba99pjcy6v7152y5qi-connman.conf
+--nodaemon --wifi=iwd_agent --nodevice=en --nodevice=eth
+--nodevice=tailscale0 --debug=plugins/iwd.c --nodevice=veth
+--nodevice=hostonly
 
-Wanted to ask if you still consider this a feature that's worth getting
-into? I kind of got used to the current way but still believe it would
-benefit many to have it unified. I am all into being the tested if you
-ever decide to introduce some new interfaces to configure connman.
+This had surprising implications in that it seemed like the nodevice
+options were having no observable effect. I went spelunking in the
+source code and found that there seems to be no combining logic for
+the "nodevice" option if specified multiple times, although I may be
+misunderstanding it. Is this intended behaviour?
 
--- Piotr.
+Also, the man page doesn't seem to adequately describe the behaviour
+of the nodevice option: it is unclear that it uses wildcard matching
+with g_pattern_match_simple from the wording:
 
+> -I interface[,...], --nodevice=interface[,...]
+>   Never manage these network interfaces.
+
+Regards,
+Jade
