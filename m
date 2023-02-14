@@ -1,76 +1,209 @@
-Received: from mail-oa1-f53.google.com (mail-oa1-f53.google.com [209.85.160.53])
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBD7119B
-	for <connman@lists.linux.dev>; Tue,  7 Feb 2023 22:39:44 +0000 (UTC)
-Received: by mail-oa1-f53.google.com with SMTP id 586e51a60fabf-1636eae256cso21045788fac.0
-        for <connman@lists.linux.dev>; Tue, 07 Feb 2023 14:39:44 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A9D32F24
+	for <connman@lists.linux.dev>; Tue, 14 Feb 2023 18:55:50 +0000 (UTC)
+Received: by mail-pj1-f49.google.com with SMTP id bx22so15972398pjb.3
+        for <connman@lists.linux.dev>; Tue, 14 Feb 2023 10:55:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=jade-fyi.20210112.gappssmtp.com; s=20210112;
-        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=lBFl4Hs4R6g2jdsG3CboYPhaGVTCEHIAoUZqWyhv6VQ=;
-        b=AM9lOa4Q/2q0RaVGHhJjBN0jgeXgnQcYjkSKA130ah7cgpWMerQGhGIOljPmIA5sGr
-         c3Hedl0s2oV0QpTnHP9/bPtBNOkrlKvLQtAX3Xf6dzPmCfHDQkGvj8BrmZ2DNw2MyLC1
-         uZ5U1cz+LXQGwfXcFBDdieOA0dEy9dw/ErTrpX9GbJmPCS4OcPW8ycbYNm9CJWPXsEjp
-         BsJu7CSaBiMfxITc7zjYPyAUUnHDpugRNPo/CCtW7nc9CsLHmoFygJqiS9GE/X9Jq4qK
-         0pMOF25+nPMUEK486J59a3JUPYjfGANEqHokbIhwRMVDcIzUr6BWrWLHcHnvSRPHvfTe
-         rvdA==
+        d=gmail.com; s=20210112; t=1676400949;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=GVxCj2UlL/3hCVb+Ifp2evq+TSr/aT87V0SVVet1ZPY=;
+        b=nT0LGjjQCUuXwiz8HEPjH/IbsQ2M+s/v1V5aGCSOToiPQiXBnrdJZf3CBBo6S1j2Xg
+         zpNsTZPkeQUmehKxdaw0Btt5fgdlTQ3Pyck46zAxCCSB8J3xpnvg5k1QtDtbhvIQa+4t
+         4ZJ66yvyBcR8ddbL34Rq1x09jGwOxYSaomATQRGZ3IlOmiLvTxGrPlkuU5b7HhVsUHNv
+         VlDHCBKOmNDPtRaSpCtudPbvW75g+cbBn7FdYwZEr5JSllttrQySVbo5iGPjdDEUZ1w2
+         AygkaDBdybb59NiuZk2d+D3au+Ps0w/ySB8WeKeGTAYa7bVSe6HUQq3Xwj0lOSXcBDsE
+         zeSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=lBFl4Hs4R6g2jdsG3CboYPhaGVTCEHIAoUZqWyhv6VQ=;
-        b=uYleCFuhDvn4/RByEGcUsnpCJJDoVqJ7WpWFKYfosZKOWPWgbHsFM7nhE7IrWqcTLD
-         E4muSPQ5KNuxHcAGOL4lc6LaAieA/W8ahgJxDRoMfQ0QFeESWmmzq2T85jFUqJ5SFwrf
-         KfqMmZD23NbzPCp/mTudbWWu9PJYFWssQANHITQDZCunz4tjEavzTTK55Ol1KjgpXuBw
-         c/jQdw81gI8NwaCv6iRWU3eEvtVqCFzSLjowezU+8oX0SPI6N4ZaGJFOnsJqVkpszQle
-         +mOfz/KYp/GVHq9/TH11DEnwnbMm8Y2wVM1i995kpZWtWG0KuOvlIpT8hlbyVpJgKTao
-         BWmw==
-X-Gm-Message-State: AO0yUKU6XGfVD6v/HlYzKVZIlPO3xqufx1uXBC3HwBAOxkrERTCKhDxh
-	U0GzTAOay3BSVZlG2OvD84fHFb3hjDMfQwF67FYVLZST9Yhddqc5lZM=
-X-Google-Smtp-Source: AK7set9D8aKWnASCKp+bqW99SAeu2Y/wKNwrtLE79Hnhg5mntpWtLohezG+JsEKm1kQ4WsUowV0vlPNCqEbV60AuwNA=
-X-Received: by 2002:a05:6870:f28b:b0:163:db4a:c428 with SMTP id
- u11-20020a056870f28b00b00163db4ac428mr77419oap.235.1675809583532; Tue, 07 Feb
- 2023 14:39:43 -0800 (PST)
+        d=1e100.net; s=20210112; t=1676400949;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=GVxCj2UlL/3hCVb+Ifp2evq+TSr/aT87V0SVVet1ZPY=;
+        b=ZWv+uCNorQFIRTC3BKkaW/ox/QRPJu/A54MSUlTBaGedLtso7ej7cCZcfwIS5+OBXn
+         xLbZkECuDOBYn85W30ygADF9ksJ0/DuVo/fwSHBj+7Q5ah3fochE+T98LNbL7OCIwICV
+         f1076YaPLWVOzPytzOvKhgCpSchtY/WW9Xvkw4JMAlWmhmNQ+S7+Yf320M8gquB5AWcf
+         0fIoo5+KgAbuTxt1UnanMln1Il+kTi/JUluaGD7lOJKq0A4268L37y09KCjDXqTFKFmy
+         X0eVr0hc42ipQ7/QEaGDqDmH4hL+WkHBL4M607RnbroLFEXwD1hOdWkDMtafUrCLc9B0
+         9H1g==
+X-Gm-Message-State: AO0yUKXcXR6/Y5lpazX5E47IiKzKrwk3K52bnvtUUosUlLvK+F2bS84a
+	3J4XYGGVvDzOqaAY9TMjIyBHRSwAduWNFp4hIuwclci9
+X-Google-Smtp-Source: AK7set+3zM6keB3y0B1Q0dXpY9sNtPKP3+QJBY9/NAUvvO7gndQjXwhuaGNOVPxc0YOPCtHPskIWuVim8vTEC5bkwvY=
+X-Received: by 2002:a17:903:22d1:b0:191:10b0:5fa5 with SMTP id
+ y17-20020a17090322d100b0019110b05fa5mr975324plg.34.1676400949451; Tue, 14 Feb
+ 2023 10:55:49 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-From: Jade Lovelace <jade@jade.fyi>
-Date: Tue, 7 Feb 2023 14:39:32 -0800
-Message-ID: <CAFA9we8U1=_7gkiPuXUS2P1n5Bb1=7s5mNCsJf6-7G6vryZ0Rw@mail.gmail.com>
-Subject: Passing the --nodevice option multiple times appears to replace the
- previous values
+References: <20230116081624.12618-1-wagi@monom.org> <CAG17S_PHpxpWnkJrM-NC1J+MDqXzN0zeV-TZ97Euxhfgcj_mMg@mail.gmail.com>
+In-Reply-To: <CAG17S_PHpxpWnkJrM-NC1J+MDqXzN0zeV-TZ97Euxhfgcj_mMg@mail.gmail.com>
+From: KeithG <ys3al35l@gmail.com>
+Date: Tue, 14 Feb 2023 12:55:37 -0600
+Message-ID: <CAG17S_NzXYUOPkF1h0e056=jCBQaP3nUh2t0y0n9R5nzhe9yYA@mail.gmail.com>
+Subject: Re: [PATCH] iwd: Add support to Scan in AP mode
 To: connman@lists.linux.dev
+Cc: Daniel Wagner <wagi@monom.org>
 Content-Type: text/plain; charset="UTF-8"
 
-Hi,
+On Mon, Jan 16, 2023 at 5:00 PM KeithG <ys3al35l@gmail.com> wrote:
+>
+> On Mon, Jan 16, 2023 at 2:16 AM Daniel Wagner <wagi@monom.org> wrote:
+> >
+> > iwd support scanning in AccessPoint mode, thus forward scan requests
+> > also when the device is in AccessPoint mode.
+> >
+> > Signed-off-by: Daniel Wagner <wagi@monom.org>
+> > ---
+> >
+> > Only compile tested :)
+> >
+> >  plugins/iwd.c | 54 ++++++++++++++++++++++++++++++++++++++++++++++-----
+> >  1 file changed, 49 insertions(+), 5 deletions(-)
+> >
+> > diff --git a/plugins/iwd.c b/plugins/iwd.c
+> > index 2fe49a23316b..491a0e41da89 100644
+> > --- a/plugins/iwd.c
+> > +++ b/plugins/iwd.c
+> > @@ -633,15 +633,28 @@ static void cm_device_scan_cb(DBusMessage *message, void *user_data)
+> >         }
+> >  }
+> >
+> > -static int cm_device_scan(struct connman_device *device,
+> > -                               struct connman_device_scan_params *params)
+> > +static void cm_ap_scan_cb(DBusMessage *message, void *user_data)
+> > +{
+> > +       const char *path = user_data;
+> > +       struct iwd_ap *iwdap;
+> > +
+> > +       iwdap = g_hash_table_lookup(access_points, path);
+> > +       if (!iwdap)
+> > +               return;
+> > +
+> > +       if (dbus_message_get_type(message) == DBUS_MESSAGE_TYPE_ERROR) {
+> > +               const char *dbus_error = dbus_message_get_error_name(message);
+> > +
+> > +               DBG("%s scan failed: %s", path, dbus_error);
+> > +       }
+> > +}
+> > +
+> > +static int cm_station_scan(struct connman_device *device,
+> > +                               struct connman_device_scan_params *param)
+> >  {
+> >         struct iwd_device *iwdd = connman_device_get_data(device);
+> >         struct iwd_station *iwds;
+> >
+> > -       if (strcmp(iwdd->mode, "station"))
+> > -               return -EINVAL;
+> > -
+> >         iwds = g_hash_table_lookup(stations, iwdd->path);
+> >         if (!iwds)
+> >                 return -EIO;
+> > @@ -653,6 +666,37 @@ static int cm_device_scan(struct connman_device *device,
+> >         return -EINPROGRESS;
+> >  }
+> >
+> > +static int cm_ap_scan(struct connman_device *device,
+> > +                               struct connman_device_scan_params *param)
+> > +{
+> > +       struct iwd_device *iwdd = connman_device_get_data(device);
+> > +       struct iwd_ap *iwdap;
+> > +
+> > +       iwdap = g_hash_table_lookup(access_points, iwdd->path);
+> > +       if (!iwdap)
+> > +               return -EIO;
+> > +
+> > +       if (!g_dbus_proxy_method_call(iwdap->proxy, "Scan",
+> > +                       NULL, cm_ap_scan_cb, g_strdup(iwdap->path), g_free))
+> > +               return -EIO;
+> > +
+> > +       return -EINPROGRESS;
+> > +}
+> > +
+> > +static int cm_device_scan(struct connman_device *device,
+> > +                               struct connman_device_scan_params *params)
+> > +{
+> > +       struct iwd_device *iwdd = connman_device_get_data(device);
+> > +
+> > +       if (!strcmp(iwdd->mode, "station"))
+> > +               return cm_station_scan(device, params);
+> > +
+> > +       if (!strcmp(iwdd->mode, "ap"))
+> > +               return cm_ap_scan(device, params);
+> > +
+> > +       return -EINVAL;
+> > +}
+> > +
+> >  static struct connman_device_driver device_driver = {
+> >         .name           = "iwd",
+> >         .type           = CONNMAN_DEVICE_TYPE_WIFI,
+> > --
+> > 2.39.0
+> >
+> >
+> Daniel,
+>
+> Thanks for making this patch. I can confirm that this patch compiles
+> and I can run connman with it, but when I enable ap mode with iwd, I
+> cannot get a scan:
+>
+> ~# iwctl device list
+>                                     Devices
+> --------------------------------------------------------------------------------
+>   Name                  Address               Powered     Adapter     Mode
+> --------------------------------------------------------------------------------
+>   wlan0                 b8:27:eb:a4:6e:0f     on          phy0        ap
+>
+> ~# iwctl ap wlan0 scan
+> ~# iwctl ap wlan0 get-networks
+>                                     Networks
+> --------------------------------------------------------------------------------
+>             Property              Value
+> --------------------------------------------------------------------------------
+>             Name                  spg4
+>             SignalStrength        -4400
+>             Type                  psk
+>
+>             Name                  ATTcVY9ZWa
+>             SignalStrength        -5100
+>             Type                  psk
+>
+>             Name                  ATT3zFM5gH
+>             SignalStrength        -5900
+>             Type                  psk
+>
+>             Name                  2WIRE811
+>             SignalStrength        -6900
+>             Type                  psk
+>
+>             Name                  ATTU8Z3d7i
+>             SignalStrength        -8400
+>             Type                  psk
+>
+> So I am in AP mode and I am connected via WiFi to it.
+>
+> In connman, though, I do not get any wifi SSIDS:
+>
+> ~# connmanctl services
+> *AO Wired                ethernet_b827ebf13b5a_cable
+> ~# connmanctl enable wifi
+> wifi is already enabled
+> ~# connmanctl scan wifi
+> Error /net/connman/technology/wifi: Did not receive a reply. Possible
+> causes include: the remote application did not send a reply, the
+> message bus security policy blocked the reply, the reply timeout
+> expired, or the network connection was broken.
+>
+> Is this how it might work? This is how we do it when we use hostapd to
+> connect instead of iwd.
+>
+> Keith
 
-I have been running into a frustrating issue where the connman
-interface ignore lists are misbehaving for me. I was invoking connman
-like so:
+Is this still something that could be done? I can build and test any
+patches pretty quickly (except for next week).
 
-ExecStart=/nix/store/k479wdfq88g5qfhlkpr6maqfzj5q8jf6-connman-1.41/sbin/connmand
---config=/nix/store/z07f0rkb95d8zjba99pjcy6v7152y5qi-connman.conf
---nodaemon --wifi=iwd_agent --nodevice=en --nodevice=eth
---nodevice=tailscale0 --debug=plugins/iwd.c --nodevice=veth
---nodevice=hostonly
-
-This had surprising implications in that it seemed like the nodevice
-options were having no observable effect. I went spelunking in the
-source code and found that there seems to be no combining logic for
-the "nodevice" option if specified multiple times, although I may be
-misunderstanding it. Is this intended behaviour?
-
-Also, the man page doesn't seem to adequately describe the behaviour
-of the nodevice option: it is unclear that it uses wildcard matching
-with g_pattern_match_simple from the wording:
-
-> -I interface[,...], --nodevice=interface[,...]
->   Never manage these network interfaces.
-
-Regards,
-Jade
+Keith
