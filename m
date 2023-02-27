@@ -1,39 +1,43 @@
-Received: from FRA01-MR2-obe.outbound.protection.outlook.com (mail-mr2fra01on2049.outbound.protection.outlook.com [40.107.9.49])
+Received: from FRA01-PR2-obe.outbound.protection.outlook.com (mail-pr2fra01on2070.outbound.protection.outlook.com [40.107.12.70])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B3772F3A
-	for <connman@lists.linux.dev>; Mon, 27 Feb 2023 17:01:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 130F42F3A
+	for <connman@lists.linux.dev>; Mon, 27 Feb 2023 17:13:16 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Z8Dkab/AXN8WdNCHsqWl3K8srkaCEJK2mReqq4fz1H2jr/0WOj6muJ/Zb9KdqpeJRVqAk/SE374YXhLel31Onz6fFpfTqhyMyMLtzJlJQtagq9YD3Dvhru4U5er6U+iR4sw1iQ+JNFet6nnnw2gQJnBs6pkmacMAfs2UoWNc+t5zq8goEAERDQyAgF6MF2ndkK+FwX9qZ779RS7P/yROwA6AZtPBXrpvuysvAH0tp4ehx59CVkBaOai0mlA/KHjZgtHbRAKZwgtwiUqsPXQqrz0d1zsllieqibzXAQGCA0X6P3raGED0fdxSDEwnq3LQOuTKtHBcT5Npt40yBKvxtA==
+ b=K4040ZgDhzn2+uI6PSt9nxqnyxP7m+QoV9NPH/ePrHjrZVJ137s/WyMQiY+Ea9OAJkhmNwByPtjKNYvVslhqwjU/Pajb9DqYcuXdIaBFvftQIAdM0V2Mhe+O404cHJ3ynuyLkJ5eVEw1AqMJTPEIdcq0dURWobJe9/nWbP1lNpltrjP82Xv6l5ey/sLKQ7YXzMQlXcW4UOV/zTMfIY+0GANAyYVEq1tm0lw4RV70YgJdg4JVW4fGAEgBL0jFrW/hgV7UO3u/HEdtxOvtRSTQizS5eZ/nNctk45Mb4ESWM18hKHIhvWJ9FxzSy1xrMVxlpRap7tmjL42NrNrkFWMr1w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=xmF2sneohpcDrf10AEIzTRERZn9/TgbRdAyInGF/FY4=;
- b=IyFksNDkj6QK1E42tEwnyK9EcElkX5X6m6fqPm/P0BUY5O+/8f5A/17CpjOw8NB/U7lHc6bHNSgaSyUO63GOtiodNbLHdkXyNVHW1Qd2Eax7ioKCCsCBFd8143rv+GTx+MK50f1v7bgahyIu/qSlKU94H8hUZJXMZZ+Hasv2WdM6nv9ljjFtXu1yXFO04XGxAhySgczvAqf1KAAnTBYecrA7TZNkk0WnWMgNz6vQFhS/NeU7Sx7XWwPIMzA7mYQRkjrPFWyDOa+K2Uky/Vv5vvssmwRS4EyfibeY2enIXhf4nV5ysp9+gg5a142kPzB1n152UCq7lgJ8OxRpfPtvRQ==
+ bh=qQnSZoRBKiq+TzlQ4Y8E8ZsX4YjgCzJRyjR/1lSzJ5o=;
+ b=eTangc8L6cQouAlo9lAG3+xc/zC5wn2safmuZWG0LkNKPy2yaju1bSE53AjwToa2KX0raimLXSB7GdmjwpeHcOgfGsfx84MQROLF8yDwg5NpG39yUx9W1srzSstP6RzRxkeX+0Fse4IXCLHBisLg6ETq7jV8VTf8yCavuUlV3EfsZQAGqg1cU7R/K3CnOJLtod8mQ2EqHF/l5cFt/j5bL3RBQpWM18K4dI/RirgT3UUD3sDr7S8LgIkJwNkvWABKeigOCxneOz+sz8AQVdrYOyPTNM2+HmAHZLKnRbvDUk5UEkZ6DB/aJHKtSkIsD9ljhdniI0DEkD8mDckIaN8qew==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=cpexterne.org; dmarc=pass action=none
  header.from=cpexterne.org; dkim=pass header.d=cpexterne.org; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cpexterne.org;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=xmF2sneohpcDrf10AEIzTRERZn9/TgbRdAyInGF/FY4=;
- b=WiuyLdoICfSbAtvTvsHQh7Yb7Sw9kzxxVKFx0oFYONVCqWqOG6O793pJMHrd3MD1mircY71Fme606c7/YqzKCqV6vVqHyHonFNc/WjyQEZhTW4i3SYe5i7BuUga2/QOQ4qOE9dJ3EDOvk75E80HU5aYFzFeYwWaF0aV8l3i+8z8=
+ bh=qQnSZoRBKiq+TzlQ4Y8E8ZsX4YjgCzJRyjR/1lSzJ5o=;
+ b=VM21tfLvmLvoZ0UoBv8c1Vo2f+ko4BeA0T3mhtocFB9FlkEsSqlqvlVV66PBdNJcp9puH2Ln2hopHK+vnI2cocnlKhbxwZpb/GhmiVkxuMFUQlL0lIutz+CHHlRqJihWnL+7UN3/Jz0TTALOHv24aRLWK4SEklMTQNHnGlWINl0=
 Received: from MRZP264MB1544.FRAP264.PROD.OUTLOOK.COM (2603:10a6:501:a::7) by
- MRZP264MB1640.FRAP264.PROD.OUTLOOK.COM (2603:10a6:501:b::20) with Microsoft
+ PR1P264MB2078.FRAP264.PROD.OUTLOOK.COM (2603:10a6:102:1b5::11) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6134.26; Mon, 27 Feb 2023 17:00:58 +0000
+ 15.20.6134.29; Mon, 27 Feb 2023 17:13:13 +0000
 Received: from MRZP264MB1544.FRAP264.PROD.OUTLOOK.COM
  ([fe80::ad0e:5229:24f3:920d]) by MRZP264MB1544.FRAP264.PROD.OUTLOOK.COM
  ([fe80::ad0e:5229:24f3:920d%9]) with mapi id 15.20.6134.029; Mon, 27 Feb 2023
- 17:00:58 +0000
+ 17:13:13 +0000
 From: "VAUTRIN Emmanuel (Canal Plus Prestataire)"
 	<Emmanuel.VAUTRIN@cpexterne.org>
 To: "connman@lists.linux.dev" <connman@lists.linux.dev>
-Subject: [PATCH] network: Keep failure state after disconnection
+Subject: RE: [PATCH] network: Keep failure state after disconnection
 Thread-Topic: [PATCH] network: Keep failure state after disconnection
-Thread-Index: AQHZSswmMJ9x9jxugk6QqaKMEp4VZQ==
-Date: Mon, 27 Feb 2023 17:00:58 +0000
+Thread-Index: AQHZSswmMJ9x9jxugk6QqaKMEp4VZa7jB391
+Date: Mon, 27 Feb 2023 17:13:13 +0000
 Message-ID:
+ <MRZP264MB1544A26A7D6EBCEB14A0B59793AF9@MRZP264MB1544.FRAP264.PROD.OUTLOOK.COM>
+References:
+ <MRZP264MB15448014A6E161ADFD0A280793AF9@MRZP264MB1544.FRAP264.PROD.OUTLOOK.COM>
+In-Reply-To:
  <MRZP264MB15448014A6E161ADFD0A280793AF9@MRZP264MB1544.FRAP264.PROD.OUTLOOK.COM>
 Accept-Language: fr-FR, en-US
 Content-Language: fr-FR
@@ -43,48 +47,48 @@ msip_labels:
 authentication-results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=cpexterne.org;
 x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: MRZP264MB1544:EE_|MRZP264MB1640:EE_
-x-ms-office365-filtering-correlation-id: d6b97f6f-ddf7-4de4-4620-08db18e4328a
+x-ms-traffictypediagnostic: MRZP264MB1544:EE_|PR1P264MB2078:EE_
+x-ms-office365-filtering-correlation-id: e6aaeaed-f080-433a-35ef-08db18e5e8f1
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam: BCL:0;
 x-microsoft-antispam-message-info:
- Uc71gO/8qNMsTPiEUeof0Caq5ya8ftecLYBf5lCtFxSaj/hD0ZiCjGAYzSNe+EpnEAHaC9GXnVP6OmEi10lHrmIkHyJayixNFc8QLXnldRHET7FvcYX2Cy+t64z49GUWEeWlv1ZefYkzrKi1IjI2aH4ScNIl12x9/FQWyycCApLPYbHiIjQ5Jvycbws/UA81u1l4ZcYIP3EurVZtcQ2u5CcfmZyUUZjfzV/iRVtr92ikPRGVvCxkB8QItU4vCoF4I6vbn93zF2tA/ijdjq01OzdEsMbpxjroOa+2/2O1gWUGsIATvZc6I4bum9TW6JJ+5BxhfRp6Wng+cUA1U1c/F3fDNtRtH7ZvPrwwBZvpQfiYM3TlsyS5OxI9fuo4QgUkspHQd7TAQmPDlxQXykfTEFXsWOkdDjzjiT46jH4KvLaE8vnbbtpskNyF/DwMab82Dyo9t+Cb70M3m7BD8gWhnE1obVsUiGe2lB5x0Xo/h+X3R6+gL2xBUhQ0+SNkiPam9LwiHCPSaBppFkokmMC0wiIFVIoghlg7zSF78MN+tax5Gl8WhcvXwNAoYZ2zf4ufK3Oav3MwzS/CBdHHdnkdRsq1v1TIQo1jLoTM1Y6+DfL2ftG/SPKRlfrNrHw3e3OWuDXVSHsa9wlZ17R55bdy0u0XvokmiLSqnYIzeFcfm6la0xVVbNk2x3Wp8wPoJd4/8tuX92YceyNGmogBkx7Lww==
+ PNkg38bbZoAdKpt1XxTUabx0wHbyf7pG68qohpu1hUydn4xVepVlteLrjl4FOKIC7pZx3C31YTl7l5/GdVuSuNPPtBcB96jRmMPiJNPpCECdYyp1vWe6WGYe+czOGk7n+2s8nfynFU9bqZW1AGm6O3dLf8r9ACj5DceTSzwCSwzfZC8nl96EOxm+7T/9ZIbm466ngQAUdbq/fIwxu8+6QrQTmlDdfi0Qzp2K+6FF3yNjYiyoBYN1tatjebX2XAAEd968L7wcX3E+LDV9hhgL8Y6hO/R0UQ8TUSCthweKuuodMYh4uSCTKARsb7qvxgMXkBL5i/76lPC9z8sJZL63iyGAdoS1B58feNLzAPS+LoU2MXu0mqNQlfJakm/Jz28Sz1sx5LQe8v10V+k0tngntj2jldIXnzWpEifjVhGTcPMh+REPWm2GRh9O03P60tIn9rS3iYJdOh+0a7D7xOFmDwmz8SfNfQNnQ60j3Q7ZTv8IecWg2pktSl58FOwxtaDHhMkpT1567P7uA5eghx67wjg8cEjPs4dP/ceTkaGxiHqI752YuIgNb9acqlngBMtCxEHMYtA/+a6TpuiHyJEJFl1k2uUHT6AzRH4QpVfxJfaygPwR4OcJdvlsxlTwdEk4F5Xn4Ur9BdIE53HSoK8sNhCzZOJ/LCsYQ7hMFBJO5b1jSb9pbIV6TKiJst4xUpl8R004Zdw+tt1rpYeqH5HacA==
 x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MRZP264MB1544.FRAP264.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230025)(4636009)(396003)(376002)(346002)(366004)(136003)(39860400002)(451199018)(2906002)(316002)(52536014)(83380400001)(33656002)(5660300002)(478600001)(8936002)(91956017)(38070700005)(86362001)(8676002)(6916009)(66946007)(76116006)(66476007)(64756008)(66556008)(66446008)(38100700002)(122000001)(41300700001)(99936003)(55016003)(6506007)(186003)(9686003)(26005)(71200400001)(7696005);DIR:OUT;SFP:1101;
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MRZP264MB1544.FRAP264.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230025)(4636009)(396003)(376002)(39860400002)(136003)(366004)(346002)(451199018)(2940100002)(9686003)(186003)(38100700002)(91956017)(99936003)(122000001)(83380400001)(38070700005)(52536014)(8936002)(66446008)(66476007)(76116006)(66946007)(41300700001)(2906002)(5660300002)(71200400001)(7696005)(55016003)(66556008)(478600001)(64756008)(6506007)(6916009)(26005)(66574015)(316002)(33656002)(8676002)(19627405001)(86362001);DIR:OUT;SFP:1101;
 x-ms-exchange-antispam-messagedata-chunkcount: 1
 x-ms-exchange-antispam-messagedata-0:
- =?iso-8859-1?Q?ymQhan+03AdKFMAw+dLjQhDkR2I+3n/tSeZzsX+0ORyVQ1a4Bzlho9/oS8?=
- =?iso-8859-1?Q?d/UPqigTC8CgbdH2bPsmRYVCwF+EWGd7sbtwTo0DiD9+tQUP8d8GepZitl?=
- =?iso-8859-1?Q?YMGMOEepwSkIhdaWxASE70y7MHB9GSnOoVW3FmX8S8+BiF7NUbrMPqxltx?=
- =?iso-8859-1?Q?WxP+82axiAHzfzuzUXEKyjFDs5qsWV8yQj4W1L/CnDHCu2bICUZlw4t1cz?=
- =?iso-8859-1?Q?eLK/Gg505R2IBjrEhqXd5DHPC3XDERi/0ALZX6pzxy5MwiTN87TU3yAOLq?=
- =?iso-8859-1?Q?IOD8kkqjoSWTSlfuhRI5Q/E2kbDbzmO9XFyy39zizj0l3hWZWUK+jdAgHH?=
- =?iso-8859-1?Q?Ykhan6EzkYlDJw63h6UWcXATctsd7HwjkQp29Ijdtz1KkyhQpSYTlLwKFa?=
- =?iso-8859-1?Q?q006qsSAG/1eCYBbVH5uHVw1/cBw4ZaUA6N0s/X7Gr4y+lfLQTitEetxXS?=
- =?iso-8859-1?Q?PH5zG89DpIZubo8vT8CL40kjMo+aycjaAeaX49kZAlolT7XYi17uLfAQGf?=
- =?iso-8859-1?Q?eprhwjCct4ukY+mP95J4ckVpWQG60CygAW0oDgex317n7JmEjG/np+IVlf?=
- =?iso-8859-1?Q?i2BmQMBTE9ymbhviiPPqOIpN7bdLZVFvn5iH/UCpw2pwefwMiSagf7+d6H?=
- =?iso-8859-1?Q?0anjn8YxBx6hbabWF3B5xX+ohGKij1sZEJDav/X6JV+WNgCJf6k5lL7cBB?=
- =?iso-8859-1?Q?5TmtOdghM4aA2ibG5F20wnHUqTx4gbwIq+rIa1bjBXLFX/s9OjK+UvR8fV?=
- =?iso-8859-1?Q?95DB4vVs628h2DSbtdCmQ64MvDTqf6p/TQeGtbDxEoriooOpugIsA1PsqS?=
- =?iso-8859-1?Q?/6Ms4VH4DUvIeka5VyHVIwak6jw2s719rFJw+h/cCJTsdUpiTNZDBVNWIZ?=
- =?iso-8859-1?Q?4q8vZgzifnZeO2VVmdnuEyhGoWjjxNjFHYWbnKB6Mo6xsc/8D4LCoHliYK?=
- =?iso-8859-1?Q?NUIiXa9XY1H4stHA7/xy0lqomDb9RL2Ge+YpyLDc+6Mq6r0ufAl4mE5vA/?=
- =?iso-8859-1?Q?1hiV4b1wDuZAdpXmD4gEt2q8bG6ghfMNLtEunzOX91lS54txI6yAVHlidX?=
- =?iso-8859-1?Q?CUJsJPoVo4b9zs/iUoo4QOvqS064drp1WVFkZppCmp4GJQQWOEA3iHCxXJ?=
- =?iso-8859-1?Q?RbCW69jNsNH5wZoPjr39cu8kiNbuQLTo2ddwSowoVDsIjXGKTR0Ar4CdMP?=
- =?iso-8859-1?Q?ay8PuaCi1QRF0K43j9KiV7HkcWGmndeVqNv5gkShVAwcxYVWb1J5+4MrJp?=
- =?iso-8859-1?Q?OjciSacQu7qecJBlixSzpMaBT3SqS8WtMTBnljwYfVxfv+7xfAP1P6ajAP?=
- =?iso-8859-1?Q?SJ+tZMjta0W96nGNHWBI6QrxFi9QFYZ62F+PAxH0J6mtdRrEhHlNdlVC+Z?=
- =?iso-8859-1?Q?4Vcy84/0/eNv5t23Qxk+/gA83F10ifChV/B/q3fI0zQO0b7AGjT3swHwO0?=
- =?iso-8859-1?Q?kb6bzvvXjo4Ty/iH1LRbHyBAMOBULM7cd+pC3mcp653egO3DJsRDadPYJF?=
- =?iso-8859-1?Q?hrLqCJJssp96PQRpNUG4fTfSscIJhwQi/RymgJuaBuC67ybJ9MjK20hycp?=
- =?iso-8859-1?Q?6N6rxYQrAcjvXrTw9E8XVbv2YHiFxw8ZIzJcOGmgVCgSnP92esls6DpHek?=
- =?iso-8859-1?Q?tct0cw6rzU/9l5aKvZTUZFLnD6Mw76iXYFc6Gvg7yvHXmgzN9JEjA93g?=
+ =?iso-8859-1?Q?nD0hRe4m772XLVY3Pew5EjLXtbwROoQRN/7PZdMwkfDSMSBlBSI6wwmy2q?=
+ =?iso-8859-1?Q?iVAB1Hi9iqc9e1RFKW59RJr+eSnPhdn893W8PsEHalv5juMCGsMmBAWeRE?=
+ =?iso-8859-1?Q?LyLxZTVXo05pp25abssmoWGssXAg5Tl1O8fn+4hGwgCoLhAsuhJnnuHlTf?=
+ =?iso-8859-1?Q?YsnAp2H5PoeZmHbehfxYTiILbWa3wQDCxrybaSO1YGU/NHfb9hEBeCuFM8?=
+ =?iso-8859-1?Q?IQ9B+ui16EaEQMkHBK059cej+BgdvtBjw4uP50fJa6Vq1efK/hiOtP64TQ?=
+ =?iso-8859-1?Q?w+TksQTtqFP5IrU48GJZvNydmjjtDZoRyoH/79zE5NI8O5Xk6VjzoMQuyV?=
+ =?iso-8859-1?Q?Y9dX2ssjcQPEJomREnMbbOtQWN9fHpQvlgSQpdNKbjLQdqQozDq+b+cCOP?=
+ =?iso-8859-1?Q?C6Yo9tUm5dGXeIGG3OVUOvZvvQ7SX8wA03yM/Y4uvcMunl7cpwH+xTY87I?=
+ =?iso-8859-1?Q?UejZIaIe/VdB4bAeq1rt5yH/4JqteUK/LyTEca8iNUtPT85oIHcwjp+Phz?=
+ =?iso-8859-1?Q?KWdd4M8fY5hJB+mz7v7Z337OUBsQ97ANMIN8bF9mzsRCioCKvCMdAyfvgu?=
+ =?iso-8859-1?Q?1Gn2wY5RKVtaf7qIzRAd67ZfzqDlVbg9NU2DVzX09DmL5LDbHbQYzaRr3F?=
+ =?iso-8859-1?Q?l8HnBgHxtVoDG6ETqzNg753GpapjgFawm6j4mLWfHGj2V4E5yWUPMLxRpi?=
+ =?iso-8859-1?Q?aQ7RYNCEpticnNcFKmmmDwS7smgijhHlyGkN//6c6OeEPzcWF7Lu9JLLdL?=
+ =?iso-8859-1?Q?2SYOdAfg8TYZsXOH4IQtqwE/Bq1T69j9/RBfEr1Z49oXGoQaR7IUL70xYy?=
+ =?iso-8859-1?Q?ZP2Cpm4GQ5H9g8Ld5EPeeHVHj49dpZdbhyYQUNOAUOOsHleqoKxSsqU8BU?=
+ =?iso-8859-1?Q?RwDgDUcqByx3qlW6phiEmHyN6yuerlRAIV37Y0KEwxuQ40NhNRSq9bLl0V?=
+ =?iso-8859-1?Q?hNOycm0qErZbinXxE4nC/fiozTTIOwzhLyRVMvWckG0QvJWXyyFKKsRH+M?=
+ =?iso-8859-1?Q?sIY2mO3kSH/lNDt2DXrl3CwLSWFAa7XFGZFGsGSRsKbOsfdgkzBlEsa759?=
+ =?iso-8859-1?Q?5KomhtcOHQHhUKFST9oUotxY2eFTACxxjri5P4lnqXqqW9toEB/+5ROWxD?=
+ =?iso-8859-1?Q?fLNgjKsCPUfW6Oe100u04YydZHWzrKGRZiol4X8WtQ1yt11koAq0Y2KRZn?=
+ =?iso-8859-1?Q?6oKYblOUnueNrcX+v2I3faS7fJxqNv0gfzAYkfyawc5kIdhrWLdCDP8OjV?=
+ =?iso-8859-1?Q?fHJc6JmznMk7g08C1rBqyaKOPXUU7c6+72AYipOBwviNL4Ovdyjl7cuKHM?=
+ =?iso-8859-1?Q?FIyBPOwlcXL9kk1Y6GWp4qe9jeVnDAsJyYXdRRF5ncZBBaqHeL1vZ7Spxo?=
+ =?iso-8859-1?Q?8sd0u0jAbhcUL9+1v+bfGgk+1StQPe5xQUe+gySnmPCspzbxuUfp+xvmGv?=
+ =?iso-8859-1?Q?2eisndtXrQ8Zh71ggp15GLF2YF2I0pqiEzP9Ae4CzJfIdR3V6v/mEmrIcH?=
+ =?iso-8859-1?Q?fHU6Gx7ZXdIKijy7zmkxb7h55v0mwS1EuLcp8GxAGY3pDhZ4+PBhNtPE1t?=
+ =?iso-8859-1?Q?8vB0CQhoeEg56ds3OsufldWedUwchxvSRMvI2rCI3YVMVPJnj6NaOg8JYZ?=
+ =?iso-8859-1?Q?PEDf7BM7NjQ5RubBBECRAc1STL3el4SACRRR4zX1lhqtmn9vT+bx018w?=
  =?iso-8859-1?Q?=3D=3D?=
 Content-Type: multipart/mixed;
-	boundary="_002_MRZP264MB15448014A6E161ADFD0A280793AF9MRZP264MB1544FRAP_"
+	boundary="_004_MRZP264MB1544A26A7D6EBCEB14A0B59793AF9MRZP264MB1544FRAP_"
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
@@ -94,163 +98,399 @@ MIME-Version: 1.0
 X-OriginatorOrg: cpexterne.org
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: MRZP264MB1544.FRAP264.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: d6b97f6f-ddf7-4de4-4620-08db18e4328a
-X-MS-Exchange-CrossTenant-originalarrivaltime: 27 Feb 2023 17:00:58.2277
+X-MS-Exchange-CrossTenant-Network-Message-Id: e6aaeaed-f080-433a-35ef-08db18e5e8f1
+X-MS-Exchange-CrossTenant-originalarrivaltime: 27 Feb 2023 17:13:13.7287
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: bf5c5de1-6a54-4091-a72f-90e32801628c
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 38UHiM6u5Df+J2BfZrZU6S7MB5tDyleOLfthy+D/4dJPVFEfg4G19pp1WN+7HgOR1iPm7BF1H1+2BD7vTauef4bMD7ZjI64bEo8qehgCejs=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MRZP264MB1640
+X-MS-Exchange-CrossTenant-userprincipalname: jfrWvxCopISEJOOLWIVt2UubCW6gBa+KGT6+S1bmVGredfSNqF2CsXyMK6d2gT81g5ERwhKl47Wa96NuQxXh49jmpIXuwsywqn+5dpZz3Io=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PR1P264MB2078
 
---_002_MRZP264MB15448014A6E161ADFD0A280793AF9MRZP264MB1544FRAP_
+--_004_MRZP264MB1544A26A7D6EBCEB14A0B59793AF9MRZP264MB1544FRAP_
+Content-Type: multipart/alternative;
+	boundary="_000_MRZP264MB1544A26A7D6EBCEB14A0B59793AF9MRZP264MB1544FRAP_"
+
+--_000_MRZP264MB1544A26A7D6EBCEB14A0B59793AF9MRZP264MB1544FRAP_
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 
-set_disconnected() function shall not prevent the service to process errors=
-=0A=
-by replacing failure state by idle.=0A=
-=0A=
-For example, when a connection fails with a wrong passphrase, the user stil=
-l=0A=
-needs to be informed, via the agent. However, in this case, the associated=
-=0A=
-service is automatically disconnected, canceling the pending agent requests=
-.=0A=
-The invalid key error shall be reported, instead of a cancel error.=0A=
----=0A=
- src/network.c | 20 ++++++++++++--------=0A=
- 1 file changed, 12 insertions(+), 8 deletions(-)=0A=
-=0A=
-diff --git a/src/network.c b/src/network.c=0A=
-index 2090e7fe944e..06df023b076e 100644=0A=
---- a/src/network.c=0A=
-+++ b/src/network.c=0A=
-@@ -940,7 +940,7 @@ static void set_disconnected(struct connman_network *ne=
-twork)=0A=
- {=0A=
- 	struct connman_ipconfig *ipconfig_ipv4, *ipconfig_ipv6;=0A=
- 	enum connman_ipconfig_method ipv4_method, ipv6_method;=0A=
--	enum connman_service_state state;=0A=
-+	enum connman_service_state state_ipv4, state_ipv6;=0A=
- 	struct connman_service *service;=0A=
- =0A=
- 	service =3D connman_service_lookup_from_network(network);=0A=
-@@ -1006,18 +1006,18 @@ static void set_disconnected(struct connman_network=
- *network)=0A=
- 	 * or in failure. It does not make sense to go to disconnect=0A=
- 	 * state if we were not connected.=0A=
- 	 */=0A=
--	state =3D __connman_service_ipconfig_get_state(service,=0A=
-+	state_ipv4 =3D __connman_service_ipconfig_get_state(service,=0A=
- 						CONNMAN_IPCONFIG_TYPE_IPV4);=0A=
--	if (state !=3D CONNMAN_SERVICE_STATE_IDLE &&=0A=
--			state !=3D CONNMAN_SERVICE_STATE_FAILURE)=0A=
-+	if (state_ipv4 !=3D CONNMAN_SERVICE_STATE_IDLE &&=0A=
-+				state_ipv4 !=3D CONNMAN_SERVICE_STATE_FAILURE)=0A=
- 		__connman_service_ipconfig_indicate_state(service,=0A=
- 					CONNMAN_SERVICE_STATE_DISCONNECT,=0A=
- 					CONNMAN_IPCONFIG_TYPE_IPV4);=0A=
- =0A=
--	state =3D __connman_service_ipconfig_get_state(service,=0A=
-+	state_ipv6 =3D __connman_service_ipconfig_get_state(service,=0A=
- 						CONNMAN_IPCONFIG_TYPE_IPV6);=0A=
--	if (state !=3D CONNMAN_SERVICE_STATE_IDLE &&=0A=
--				state !=3D CONNMAN_SERVICE_STATE_FAILURE)=0A=
-+	if (state_ipv6 !=3D CONNMAN_SERVICE_STATE_IDLE &&=0A=
-+				state_ipv6 !=3D CONNMAN_SERVICE_STATE_FAILURE)=0A=
- 		__connman_service_ipconfig_indicate_state(service,=0A=
- 					CONNMAN_SERVICE_STATE_DISCONNECT,=0A=
- 					CONNMAN_IPCONFIG_TYPE_IPV6);=0A=
-@@ -1041,10 +1041,14 @@ static void set_disconnected(struct connman_network=
- *network)=0A=
- 		}=0A=
- 	}=0A=
- =0A=
--	__connman_service_ipconfig_indicate_state(service,=0A=
-+	if (state_ipv4 !=3D CONNMAN_SERVICE_STATE_IDLE &&=0A=
-+				state_ipv4 !=3D CONNMAN_SERVICE_STATE_FAILURE)=0A=
-+		__connman_service_ipconfig_indicate_state(service,=0A=
- 						CONNMAN_SERVICE_STATE_IDLE,=0A=
- 						CONNMAN_IPCONFIG_TYPE_IPV4);=0A=
- =0A=
-+	if (state_ipv6 !=3D CONNMAN_SERVICE_STATE_IDLE &&=0A=
-+				state_ipv6 !=3D CONNMAN_SERVICE_STATE_FAILURE)=0A=
- 	__connman_service_ipconfig_indicate_state(service,=0A=
- 						CONNMAN_SERVICE_STATE_IDLE,=0A=
- 						CONNMAN_IPCONFIG_TYPE_IPV6);=0A=
--- =0A=
-2.25.1=0A=
-=0A=
-Hello,=0A=
-=0A=
-Please find the right formatted patch in attachment.=0A=
-=0A=
-=0A=
-Emmanuel=
+With the right attachment (wording deconnection -> disconnection).
 
---_002_MRZP264MB15448014A6E161ADFD0A280793AF9MRZP264MB1544FRAP_
+B.R.
+
+Emmanuel
+________________________________
+De : VAUTRIN Emmanuel (Canal Plus Prestataire) <Emmanuel.VAUTRIN@cpexterne.=
+org>
+Envoy=E9 : lundi 27 f=E9vrier 2023 18:00
+=C0 : connman@lists.linux.dev <connman@lists.linux.dev>
+Objet : [PATCH] network: Keep failure state after disconnection
+
+set_disconnected() function shall not prevent the service to process errors
+by replacing failure state by idle.
+
+For example, when a connection fails with a wrong passphrase, the user stil=
+l
+needs to be informed, via the agent. However, in this case, the associated
+service is automatically disconnected, canceling the pending agent requests=
+.
+The invalid key error shall be reported, instead of a cancel error.
+---
+ src/network.c | 20 ++++++++++++--------
+ 1 file changed, 12 insertions(+), 8 deletions(-)
+
+diff --git a/src/network.c b/src/network.c
+index 2090e7fe944e..06df023b076e 100644
+--- a/src/network.c
++++ b/src/network.c
+@@ -940,7 +940,7 @@ static void set_disconnected(struct connman_network *ne=
+twork)
+ {
+         struct connman_ipconfig *ipconfig_ipv4, *ipconfig_ipv6;
+         enum connman_ipconfig_method ipv4_method, ipv6_method;
+-       enum connman_service_state state;
++       enum connman_service_state state_ipv4, state_ipv6;
+         struct connman_service *service;
+
+         service =3D connman_service_lookup_from_network(network);
+@@ -1006,18 +1006,18 @@ static void set_disconnected(struct connman_network=
+ *network)
+          * or in failure. It does not make sense to go to disconnect
+          * state if we were not connected.
+          */
+-       state =3D __connman_service_ipconfig_get_state(service,
++       state_ipv4 =3D __connman_service_ipconfig_get_state(service,
+                                                 CONNMAN_IPCONFIG_TYPE_IPV4=
+);
+-       if (state !=3D CONNMAN_SERVICE_STATE_IDLE &&
+-                       state !=3D CONNMAN_SERVICE_STATE_FAILURE)
++       if (state_ipv4 !=3D CONNMAN_SERVICE_STATE_IDLE &&
++                               state_ipv4 !=3D CONNMAN_SERVICE_STATE_FAILU=
+RE)
+                 __connman_service_ipconfig_indicate_state(service,
+                                         CONNMAN_SERVICE_STATE_DISCONNECT,
+                                         CONNMAN_IPCONFIG_TYPE_IPV4);
+
+-       state =3D __connman_service_ipconfig_get_state(service,
++       state_ipv6 =3D __connman_service_ipconfig_get_state(service,
+                                                 CONNMAN_IPCONFIG_TYPE_IPV6=
+);
+-       if (state !=3D CONNMAN_SERVICE_STATE_IDLE &&
+-                               state !=3D CONNMAN_SERVICE_STATE_FAILURE)
++       if (state_ipv6 !=3D CONNMAN_SERVICE_STATE_IDLE &&
++                               state_ipv6 !=3D CONNMAN_SERVICE_STATE_FAILU=
+RE)
+                 __connman_service_ipconfig_indicate_state(service,
+                                         CONNMAN_SERVICE_STATE_DISCONNECT,
+                                         CONNMAN_IPCONFIG_TYPE_IPV6);
+@@ -1041,10 +1041,14 @@ static void set_disconnected(struct connman_network=
+ *network)
+                 }
+         }
+
+-       __connman_service_ipconfig_indicate_state(service,
++       if (state_ipv4 !=3D CONNMAN_SERVICE_STATE_IDLE &&
++                               state_ipv4 !=3D CONNMAN_SERVICE_STATE_FAILU=
+RE)
++               __connman_service_ipconfig_indicate_state(service,
+                                                 CONNMAN_SERVICE_STATE_IDLE=
+,
+                                                 CONNMAN_IPCONFIG_TYPE_IPV4=
+);
+
++       if (state_ipv6 !=3D CONNMAN_SERVICE_STATE_IDLE &&
++                               state_ipv6 !=3D CONNMAN_SERVICE_STATE_FAILU=
+RE)
+         __connman_service_ipconfig_indicate_state(service,
+                                                 CONNMAN_SERVICE_STATE_IDLE=
+,
+                                                 CONNMAN_IPCONFIG_TYPE_IPV6=
+);
+--
+2.25.1
+
+Hello,
+
+Please find the right formatted patch in attachment.
+
+
+Emmanuel
+
+--_000_MRZP264MB1544A26A7D6EBCEB14A0B59793AF9MRZP264MB1544FRAP_
+Content-Type: text/html; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+
+<html>
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-8859-=
+1">
+<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
+ttom:0;} </style>
+</head>
+<body dir=3D"ltr">
+<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
+: 12pt; color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);" class=
+=3D"elementToProof">
+With the right attachment (wording deconnection -&gt; disconnection).</div>
+<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
+: 12pt; color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);" class=
+=3D"elementToProof">
+<br>
+</div>
+<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
+: 12pt; color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);" class=
+=3D"elementToProof">
+B.R.</div>
+<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
+: 12pt; color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);" class=
+=3D"elementToProof">
+<br>
+</div>
+<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
+: 12pt; color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);" class=
+=3D"elementToProof">
+Emmanuel</div>
+<div id=3D"appendonsend"></div>
+<hr style=3D"display:inline-block;width:98%" tabindex=3D"-1">
+<div id=3D"divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif" st=
+yle=3D"font-size:11pt" color=3D"#000000"><b>De :</b> VAUTRIN Emmanuel (Cana=
+l Plus Prestataire) &lt;Emmanuel.VAUTRIN@cpexterne.org&gt;<br>
+<b>Envoy=E9 :</b> lundi 27 f=E9vrier 2023 18:00<br>
+<b>=C0 :</b> connman@lists.linux.dev &lt;connman@lists.linux.dev&gt;<br>
+<b>Objet :</b> [PATCH] network: Keep failure state after disconnection</fon=
+t>
+<div>&nbsp;</div>
+</div>
+<div class=3D"BodyFragment"><font size=3D"2"><span style=3D"font-size:11pt;=
+">
+<div class=3D"PlainText">set_disconnected() function shall not prevent the =
+service to process errors<br>
+by replacing failure state by idle.<br>
+<br>
+For example, when a connection fails with a wrong passphrase, the user stil=
+l<br>
+needs to be informed, via the agent. However, in this case, the associated<=
+br>
+service is automatically disconnected, canceling the pending agent requests=
+.<br>
+The invalid key error shall be reported, instead of a cancel error.<br>
+---<br>
+&nbsp;src/network.c | 20 ++++++++++++--------<br>
+&nbsp;1 file changed, 12 insertions(+), 8 deletions(-)<br>
+<br>
+diff --git a/src/network.c b/src/network.c<br>
+index 2090e7fe944e..06df023b076e 100644<br>
+--- a/src/network.c<br>
++++ b/src/network.c<br>
+@@ -940,7 +940,7 @@ static void set_disconnected(struct connman_network *ne=
+twork)<br>
+&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; struct connman_ipconfig *i=
+pconfig_ipv4, *ipconfig_ipv6;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; enum connman_ipconfig_meth=
+od ipv4_method, ipv6_method;<br>
+-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; enum connman_service_state state;<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; enum connman_service_state state_ipv4=
+, state_ipv6;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; struct connman_service *se=
+rvice;<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; service =3D connman_servic=
+e_lookup_from_network(network);<br>
+@@ -1006,18 +1006,18 @@ static void set_disconnected(struct connman_network=
+ *network)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * or in failure. It =
+does not make sense to go to disconnect<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * state if we were n=
+ot connected.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; */<br>
+-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; state =3D __connman_service_ipconfig_=
+get_state(service,<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; state_ipv4 =3D __connman_service_ipco=
+nfig_get_state(service,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; CONNMAN_IPC=
+ONFIG_TYPE_IPV4);<br>
+-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (state !=3D CONNMAN_SERVICE_STATE_=
+IDLE &amp;&amp;<br>
+-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; state !=3D CONNM=
+AN_SERVICE_STATE_FAILURE)<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (state_ipv4 !=3D CONNMAN_SERVICE_S=
+TATE_IDLE &amp;&amp;<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; state_ipv4 !=3D CONNMAN_SERVICE_STATE_FAILU=
+RE)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp; __connman_service_ipconfig_indicate_state(service,<br=
+>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp; CONNMAN_SERVICE_STATE_DISCONNECT,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp; CONNMAN_IPCONFIG_TYPE_IPV4);<br>
+&nbsp;<br>
+-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; state =3D __connman_service_ipconfig_=
+get_state(service,<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; state_ipv6 =3D __connman_service_ipco=
+nfig_get_state(service,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; CONNMAN_IPC=
+ONFIG_TYPE_IPV6);<br>
+-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (state !=3D CONNMAN_SERVICE_STATE_=
+IDLE &amp;&amp;<br>
+-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; state !=3D CONNMAN_SERVICE_STATE_FAILURE)<b=
+r>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (state_ipv6 !=3D CONNMAN_SERVICE_S=
+TATE_IDLE &amp;&amp;<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; state_ipv6 !=3D CONNMAN_SERVICE_STATE_FAILU=
+RE)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp; __connman_service_ipconfig_indicate_state(service,<br=
+>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp; CONNMAN_SERVICE_STATE_DISCONNECT,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp; CONNMAN_IPCONFIG_TYPE_IPV6);<br>
+@@ -1041,10 +1041,14 @@ static void set_disconnected(struct connman_network=
+ *network)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp; }<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>
+&nbsp;<br>
+-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; __connman_service_ipconfig_indicate_s=
+tate(service,<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (state_ipv4 !=3D CONNMAN_SERVICE_S=
+TATE_IDLE &amp;&amp;<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; state_ipv4 !=3D CONNMAN_SERVICE_STATE_FAILU=
+RE)<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp; __connman_service_ipconfig_indicate_state(service,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; CONNMAN_SER=
+VICE_STATE_IDLE,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; CONNMAN_IPC=
+ONFIG_TYPE_IPV4);<br>
+&nbsp;<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (state_ipv6 !=3D CONNMAN_SERVICE_S=
+TATE_IDLE &amp;&amp;<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; state_ipv6 !=3D CONNMAN_SERVICE_STATE_FAILU=
+RE)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; __connman_service_ipconfig=
+_indicate_state(service,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; CONNMAN_SER=
+VICE_STATE_IDLE,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; CONNMAN_IPC=
+ONFIG_TYPE_IPV6);<br>
+-- <br>
+2.25.1<br>
+<br>
+Hello,<br>
+<br>
+Please find the right formatted patch in attachment.<br>
+<br>
+<br>
+Emmanuel</div>
+</span></font></div>
+</body>
+</html>
+
+--_000_MRZP264MB1544A26A7D6EBCEB14A0B59793AF9MRZP264MB1544FRAP_--
+
+--_004_MRZP264MB1544A26A7D6EBCEB14A0B59793AF9MRZP264MB1544FRAP_
 Content-Type: text/x-patch;
-	name="0001-network-Keep-failure-state-after-deconnection.patch"
-Content-Description: 0001-network-Keep-failure-state-after-deconnection.patch
+	name="0001-network-Keep-failure-state-after-disconnection.patch"
+Content-Description: 0001-network-Keep-failure-state-after-disconnection.patch
 Content-Disposition: attachment;
-	filename="0001-network-Keep-failure-state-after-deconnection.patch";
-	size=2993; creation-date="Mon, 27 Feb 2023 16:59:36 GMT";
-	modification-date="Mon, 27 Feb 2023 16:59:36 GMT"
+	filename="0001-network-Keep-failure-state-after-disconnection.patch";
+	size=2994; creation-date="Mon, 27 Feb 2023 17:12:26 GMT";
+	modification-date="Mon, 27 Feb 2023 17:12:34 GMT"
 Content-Transfer-Encoding: base64
 
 RnJvbSAxYWY4ODc4NGY5MGZlNDIxNmI5MTczNjY0YzVjNTUzNTFmODlhNjM5IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBFbW1hbnVlbCBWQVVUUklOIDxFbW1hbnVlbC5WQVVUUklOQGNw
 ZXh0ZXJuZS5vcmc+CkRhdGU6IE1vbiwgMjcgRmViIDIwMjMgMDk6NDg6MzUgKzAxMDAKU3ViamVj
-dDogW1BBVENIXSBuZXR3b3JrOiBLZWVwIGZhaWx1cmUgc3RhdGUgYWZ0ZXIgZGVjb25uZWN0aW9u
-CgpzZXRfZGlzY29ubmVjdGVkKCkgZnVuY3Rpb24gc2hhbGwgbm90IHByZXZlbnQgdGhlIHNlcnZp
-Y2UgdG8gcHJvY2VzcyBlcnJvcnMKYnkgcmVwbGFjaW5nIGZhaWx1cmUgc3RhdGUgYnkgaWRsZS4K
-CkZvciBleGFtcGxlLCB3aGVuIGEgY29ubmVjdGlvbiBmYWlscyB3aXRoIGEgd3JvbmcgcGFzc3Bo
-cmFzZSwgdGhlIHVzZXIgc3RpbGwKbmVlZHMgdG8gYmUgaW5mb3JtZWQsIHZpYSB0aGUgYWdlbnQu
-IEhvd2V2ZXIsIGluIHRoaXMgY2FzZSwgdGhlIGFzc29jaWF0ZWQKc2VydmljZSBpcyBhdXRvbWF0
-aWNhbGx5IGRpc2Nvbm5lY3RlZCwgY2FuY2VsaW5nIHRoZSBwZW5kaW5nIGFnZW50IHJlcXVlc3Rz
-LgpUaGUgaW52YWxpZCBrZXkgZXJyb3Igc2hhbGwgYmUgcmVwb3J0ZWQsIGluc3RlYWQgb2YgYSBj
-YW5jZWwgZXJyb3IuCi0tLQogc3JjL25ldHdvcmsuYyB8IDIwICsrKysrKysrKysrKy0tLS0tLS0t
-CiAxIGZpbGUgY2hhbmdlZCwgMTIgaW5zZXJ0aW9ucygrKSwgOCBkZWxldGlvbnMoLSkKCmRpZmYg
-LS1naXQgYS9zcmMvbmV0d29yay5jIGIvc3JjL25ldHdvcmsuYwppbmRleCAyMDkwZTdmZTk0NGUu
-LjA2ZGYwMjNiMDc2ZSAxMDA2NDQKLS0tIGEvc3JjL25ldHdvcmsuYworKysgYi9zcmMvbmV0d29y
-ay5jCkBAIC05NDAsNyArOTQwLDcgQEAgc3RhdGljIHZvaWQgc2V0X2Rpc2Nvbm5lY3RlZChzdHJ1
-Y3QgY29ubm1hbl9uZXR3b3JrICpuZXR3b3JrKQogewogCXN0cnVjdCBjb25ubWFuX2lwY29uZmln
-ICppcGNvbmZpZ19pcHY0LCAqaXBjb25maWdfaXB2NjsKIAllbnVtIGNvbm5tYW5faXBjb25maWdf
-bWV0aG9kIGlwdjRfbWV0aG9kLCBpcHY2X21ldGhvZDsKLQllbnVtIGNvbm5tYW5fc2VydmljZV9z
-dGF0ZSBzdGF0ZTsKKwllbnVtIGNvbm5tYW5fc2VydmljZV9zdGF0ZSBzdGF0ZV9pcHY0LCBzdGF0
-ZV9pcHY2OwogCXN0cnVjdCBjb25ubWFuX3NlcnZpY2UgKnNlcnZpY2U7CiAKIAlzZXJ2aWNlID0g
-Y29ubm1hbl9zZXJ2aWNlX2xvb2t1cF9mcm9tX25ldHdvcmsobmV0d29yayk7CkBAIC0xMDA2LDE4
-ICsxMDA2LDE4IEBAIHN0YXRpYyB2b2lkIHNldF9kaXNjb25uZWN0ZWQoc3RydWN0IGNvbm5tYW5f
-bmV0d29yayAqbmV0d29yaykKIAkgKiBvciBpbiBmYWlsdXJlLiBJdCBkb2VzIG5vdCBtYWtlIHNl
-bnNlIHRvIGdvIHRvIGRpc2Nvbm5lY3QKIAkgKiBzdGF0ZSBpZiB3ZSB3ZXJlIG5vdCBjb25uZWN0
-ZWQuCiAJICovCi0Jc3RhdGUgPSBfX2Nvbm5tYW5fc2VydmljZV9pcGNvbmZpZ19nZXRfc3RhdGUo
-c2VydmljZSwKKwlzdGF0ZV9pcHY0ID0gX19jb25ubWFuX3NlcnZpY2VfaXBjb25maWdfZ2V0X3N0
-YXRlKHNlcnZpY2UsCiAJCQkJCQlDT05OTUFOX0lQQ09ORklHX1RZUEVfSVBWNCk7Ci0JaWYgKHN0
-YXRlICE9IENPTk5NQU5fU0VSVklDRV9TVEFURV9JRExFICYmCi0JCQlzdGF0ZSAhPSBDT05OTUFO
-X1NFUlZJQ0VfU1RBVEVfRkFJTFVSRSkKKwlpZiAoc3RhdGVfaXB2NCAhPSBDT05OTUFOX1NFUlZJ
-Q0VfU1RBVEVfSURMRSAmJgorCQkJCXN0YXRlX2lwdjQgIT0gQ09OTk1BTl9TRVJWSUNFX1NUQVRF
-X0ZBSUxVUkUpCiAJCV9fY29ubm1hbl9zZXJ2aWNlX2lwY29uZmlnX2luZGljYXRlX3N0YXRlKHNl
-cnZpY2UsCiAJCQkJCUNPTk5NQU5fU0VSVklDRV9TVEFURV9ESVNDT05ORUNULAogCQkJCQlDT05O
-TUFOX0lQQ09ORklHX1RZUEVfSVBWNCk7CiAKLQlzdGF0ZSA9IF9fY29ubm1hbl9zZXJ2aWNlX2lw
-Y29uZmlnX2dldF9zdGF0ZShzZXJ2aWNlLAorCXN0YXRlX2lwdjYgPSBfX2Nvbm5tYW5fc2Vydmlj
-ZV9pcGNvbmZpZ19nZXRfc3RhdGUoc2VydmljZSwKIAkJCQkJCUNPTk5NQU5fSVBDT05GSUdfVFlQ
-RV9JUFY2KTsKLQlpZiAoc3RhdGUgIT0gQ09OTk1BTl9TRVJWSUNFX1NUQVRFX0lETEUgJiYKLQkJ
-CQlzdGF0ZSAhPSBDT05OTUFOX1NFUlZJQ0VfU1RBVEVfRkFJTFVSRSkKKwlpZiAoc3RhdGVfaXB2
-NiAhPSBDT05OTUFOX1NFUlZJQ0VfU1RBVEVfSURMRSAmJgorCQkJCXN0YXRlX2lwdjYgIT0gQ09O
-Tk1BTl9TRVJWSUNFX1NUQVRFX0ZBSUxVUkUpCiAJCV9fY29ubm1hbl9zZXJ2aWNlX2lwY29uZmln
-X2luZGljYXRlX3N0YXRlKHNlcnZpY2UsCiAJCQkJCUNPTk5NQU5fU0VSVklDRV9TVEFURV9ESVND
-T05ORUNULAogCQkJCQlDT05OTUFOX0lQQ09ORklHX1RZUEVfSVBWNik7CkBAIC0xMDQxLDEwICsx
-MDQxLDE0IEBAIHN0YXRpYyB2b2lkIHNldF9kaXNjb25uZWN0ZWQoc3RydWN0IGNvbm5tYW5fbmV0
-d29yayAqbmV0d29yaykKIAkJfQogCX0KIAotCV9fY29ubm1hbl9zZXJ2aWNlX2lwY29uZmlnX2lu
-ZGljYXRlX3N0YXRlKHNlcnZpY2UsCisJaWYgKHN0YXRlX2lwdjQgIT0gQ09OTk1BTl9TRVJWSUNF
-X1NUQVRFX0lETEUgJiYKKwkJCQlzdGF0ZV9pcHY0ICE9IENPTk5NQU5fU0VSVklDRV9TVEFURV9G
-QUlMVVJFKQorCQlfX2Nvbm5tYW5fc2VydmljZV9pcGNvbmZpZ19pbmRpY2F0ZV9zdGF0ZShzZXJ2
-aWNlLAogCQkJCQkJQ09OTk1BTl9TRVJWSUNFX1NUQVRFX0lETEUsCiAJCQkJCQlDT05OTUFOX0lQ
-Q09ORklHX1RZUEVfSVBWNCk7CiAKKwlpZiAoc3RhdGVfaXB2NiAhPSBDT05OTUFOX1NFUlZJQ0Vf
-U1RBVEVfSURMRSAmJgorCQkJCXN0YXRlX2lwdjYgIT0gQ09OTk1BTl9TRVJWSUNFX1NUQVRFX0ZB
-SUxVUkUpCiAJX19jb25ubWFuX3NlcnZpY2VfaXBjb25maWdfaW5kaWNhdGVfc3RhdGUoc2Vydmlj
-ZSwKIAkJCQkJCUNPTk5NQU5fU0VSVklDRV9TVEFURV9JRExFLAogCQkJCQkJQ09OTk1BTl9JUENP
-TkZJR19UWVBFX0lQVjYpOwotLSAKMi4yNS4xCgo=
+dDogW1BBVENIXSBuZXR3b3JrOiBLZWVwIGZhaWx1cmUgc3RhdGUgYWZ0ZXIgZGlzY29ubmVjdGlv
+bgoKc2V0X2Rpc2Nvbm5lY3RlZCgpIGZ1bmN0aW9uIHNoYWxsIG5vdCBwcmV2ZW50IHRoZSBzZXJ2
+aWNlIHRvIHByb2Nlc3MgZXJyb3JzCmJ5IHJlcGxhY2luZyBmYWlsdXJlIHN0YXRlIGJ5IGlkbGUu
+CgpGb3IgZXhhbXBsZSwgd2hlbiBhIGNvbm5lY3Rpb24gZmFpbHMgd2l0aCBhIHdyb25nIHBhc3Nw
+aHJhc2UsIHRoZSB1c2VyIHN0aWxsCm5lZWRzIHRvIGJlIGluZm9ybWVkLCB2aWEgdGhlIGFnZW50
+LiBIb3dldmVyLCBpbiB0aGlzIGNhc2UsIHRoZSBhc3NvY2lhdGVkCnNlcnZpY2UgaXMgYXV0b21h
+dGljYWxseSBkaXNjb25uZWN0ZWQsIGNhbmNlbGluZyB0aGUgcGVuZGluZyBhZ2VudCByZXF1ZXN0
+cy4KVGhlIGludmFsaWQga2V5IGVycm9yIHNoYWxsIGJlIHJlcG9ydGVkLCBpbnN0ZWFkIG9mIGEg
+Y2FuY2VsIGVycm9yLgotLS0KIHNyYy9uZXR3b3JrLmMgfCAyMCArKysrKysrKysrKystLS0tLS0t
+LQogMSBmaWxlIGNoYW5nZWQsIDEyIGluc2VydGlvbnMoKyksIDggZGVsZXRpb25zKC0pCgpkaWZm
+IC0tZ2l0IGEvc3JjL25ldHdvcmsuYyBiL3NyYy9uZXR3b3JrLmMKaW5kZXggMjA5MGU3ZmU5NDRl
+Li4wNmRmMDIzYjA3NmUgMTAwNjQ0Ci0tLSBhL3NyYy9uZXR3b3JrLmMKKysrIGIvc3JjL25ldHdv
+cmsuYwpAQCAtOTQwLDcgKzk0MCw3IEBAIHN0YXRpYyB2b2lkIHNldF9kaXNjb25uZWN0ZWQoc3Ry
+dWN0IGNvbm5tYW5fbmV0d29yayAqbmV0d29yaykKIHsKIAlzdHJ1Y3QgY29ubm1hbl9pcGNvbmZp
+ZyAqaXBjb25maWdfaXB2NCwgKmlwY29uZmlnX2lwdjY7CiAJZW51bSBjb25ubWFuX2lwY29uZmln
+X21ldGhvZCBpcHY0X21ldGhvZCwgaXB2Nl9tZXRob2Q7Ci0JZW51bSBjb25ubWFuX3NlcnZpY2Vf
+c3RhdGUgc3RhdGU7CisJZW51bSBjb25ubWFuX3NlcnZpY2Vfc3RhdGUgc3RhdGVfaXB2NCwgc3Rh
+dGVfaXB2NjsKIAlzdHJ1Y3QgY29ubm1hbl9zZXJ2aWNlICpzZXJ2aWNlOwogCiAJc2VydmljZSA9
+IGNvbm5tYW5fc2VydmljZV9sb29rdXBfZnJvbV9uZXR3b3JrKG5ldHdvcmspOwpAQCAtMTAwNiwx
+OCArMTAwNiwxOCBAQCBzdGF0aWMgdm9pZCBzZXRfZGlzY29ubmVjdGVkKHN0cnVjdCBjb25ubWFu
+X25ldHdvcmsgKm5ldHdvcmspCiAJICogb3IgaW4gZmFpbHVyZS4gSXQgZG9lcyBub3QgbWFrZSBz
+ZW5zZSB0byBnbyB0byBkaXNjb25uZWN0CiAJICogc3RhdGUgaWYgd2Ugd2VyZSBub3QgY29ubmVj
+dGVkLgogCSAqLwotCXN0YXRlID0gX19jb25ubWFuX3NlcnZpY2VfaXBjb25maWdfZ2V0X3N0YXRl
+KHNlcnZpY2UsCisJc3RhdGVfaXB2NCA9IF9fY29ubm1hbl9zZXJ2aWNlX2lwY29uZmlnX2dldF9z
+dGF0ZShzZXJ2aWNlLAogCQkJCQkJQ09OTk1BTl9JUENPTkZJR19UWVBFX0lQVjQpOwotCWlmIChz
+dGF0ZSAhPSBDT05OTUFOX1NFUlZJQ0VfU1RBVEVfSURMRSAmJgotCQkJc3RhdGUgIT0gQ09OTk1B
+Tl9TRVJWSUNFX1NUQVRFX0ZBSUxVUkUpCisJaWYgKHN0YXRlX2lwdjQgIT0gQ09OTk1BTl9TRVJW
+SUNFX1NUQVRFX0lETEUgJiYKKwkJCQlzdGF0ZV9pcHY0ICE9IENPTk5NQU5fU0VSVklDRV9TVEFU
+RV9GQUlMVVJFKQogCQlfX2Nvbm5tYW5fc2VydmljZV9pcGNvbmZpZ19pbmRpY2F0ZV9zdGF0ZShz
+ZXJ2aWNlLAogCQkJCQlDT05OTUFOX1NFUlZJQ0VfU1RBVEVfRElTQ09OTkVDVCwKIAkJCQkJQ09O
+Tk1BTl9JUENPTkZJR19UWVBFX0lQVjQpOwogCi0Jc3RhdGUgPSBfX2Nvbm5tYW5fc2VydmljZV9p
+cGNvbmZpZ19nZXRfc3RhdGUoc2VydmljZSwKKwlzdGF0ZV9pcHY2ID0gX19jb25ubWFuX3NlcnZp
+Y2VfaXBjb25maWdfZ2V0X3N0YXRlKHNlcnZpY2UsCiAJCQkJCQlDT05OTUFOX0lQQ09ORklHX1RZ
+UEVfSVBWNik7Ci0JaWYgKHN0YXRlICE9IENPTk5NQU5fU0VSVklDRV9TVEFURV9JRExFICYmCi0J
+CQkJc3RhdGUgIT0gQ09OTk1BTl9TRVJWSUNFX1NUQVRFX0ZBSUxVUkUpCisJaWYgKHN0YXRlX2lw
+djYgIT0gQ09OTk1BTl9TRVJWSUNFX1NUQVRFX0lETEUgJiYKKwkJCQlzdGF0ZV9pcHY2ICE9IENP
+Tk5NQU5fU0VSVklDRV9TVEFURV9GQUlMVVJFKQogCQlfX2Nvbm5tYW5fc2VydmljZV9pcGNvbmZp
+Z19pbmRpY2F0ZV9zdGF0ZShzZXJ2aWNlLAogCQkJCQlDT05OTUFOX1NFUlZJQ0VfU1RBVEVfRElT
+Q09OTkVDVCwKIAkJCQkJQ09OTk1BTl9JUENPTkZJR19UWVBFX0lQVjYpOwpAQCAtMTA0MSwxMCAr
+MTA0MSwxNCBAQCBzdGF0aWMgdm9pZCBzZXRfZGlzY29ubmVjdGVkKHN0cnVjdCBjb25ubWFuX25l
+dHdvcmsgKm5ldHdvcmspCiAJCX0KIAl9CiAKLQlfX2Nvbm5tYW5fc2VydmljZV9pcGNvbmZpZ19p
+bmRpY2F0ZV9zdGF0ZShzZXJ2aWNlLAorCWlmIChzdGF0ZV9pcHY0ICE9IENPTk5NQU5fU0VSVklD
+RV9TVEFURV9JRExFICYmCisJCQkJc3RhdGVfaXB2NCAhPSBDT05OTUFOX1NFUlZJQ0VfU1RBVEVf
+RkFJTFVSRSkKKwkJX19jb25ubWFuX3NlcnZpY2VfaXBjb25maWdfaW5kaWNhdGVfc3RhdGUoc2Vy
+dmljZSwKIAkJCQkJCUNPTk5NQU5fU0VSVklDRV9TVEFURV9JRExFLAogCQkJCQkJQ09OTk1BTl9J
+UENPTkZJR19UWVBFX0lQVjQpOwogCisJaWYgKHN0YXRlX2lwdjYgIT0gQ09OTk1BTl9TRVJWSUNF
+X1NUQVRFX0lETEUgJiYKKwkJCQlzdGF0ZV9pcHY2ICE9IENPTk5NQU5fU0VSVklDRV9TVEFURV9G
+QUlMVVJFKQogCV9fY29ubm1hbl9zZXJ2aWNlX2lwY29uZmlnX2luZGljYXRlX3N0YXRlKHNlcnZp
+Y2UsCiAJCQkJCQlDT05OTUFOX1NFUlZJQ0VfU1RBVEVfSURMRSwKIAkJCQkJCUNPTk5NQU5fSVBD
+T05GSUdfVFlQRV9JUFY2KTsKLS0gCjIuMjUuMQoK
 
---_002_MRZP264MB15448014A6E161ADFD0A280793AF9MRZP264MB1544FRAP_--
+--_004_MRZP264MB1544A26A7D6EBCEB14A0B59793AF9MRZP264MB1544FRAP_--
