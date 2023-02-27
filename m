@@ -1,27 +1,27 @@
 Received: from mail.nearlyone.de (mail.nearlyone.de [49.12.199.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 114F77EF
-	for <connman@lists.linux.dev>; Mon, 27 Feb 2023 07:34:12 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id A440FDAD0D;
-	Mon, 27 Feb 2023 08:34:10 +0100 (CET)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 319267EF
+	for <connman@lists.linux.dev>; Mon, 27 Feb 2023 07:43:17 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id C05D3DAD11;
+	Mon, 27 Feb 2023 08:43:15 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=monom.org; s=dkim;
-	t=1677483250; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 in-reply-to:references; bh=B8GVg7P05T3dikgbh2kYtt+1Vqo7FGBKFkiuGN6DoZw=;
-	b=es85uhVzBe9V6tv8IrLLKEW6kvLGQBjqxnKcBpPK4OOGAjOwP9nmf0OR6LkRiQJUI+1nTY
-	VRckmTHmQ6j9CXfBAlbGVoUBBY0mH/7ASXFAwKowZhYpo4nOAxXtcSi2Xx6AYZ7BS76pAz
-	Cw4184F/0RjrenJgfzBPIwGMUdI4//y13i0lgL8qi5bES/QCy0ylQ96ROCdegGHE2yYoi7
-	M/W7RawMylLB2PcXd5pscXv9tHo8HE5BunynTXnEXX8M2RNJ8Fy3f37qdg5Ca/lWpjAnIa
-	oJ7bn/awxoS+Nom7EMPpEGJYmg5dzgm6HeauA3J7vDAx1EO3TOfWrRfAMVh41w==
-Date: Mon, 27 Feb 2023 08:34:09 +0100
+	t=1677483795; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 in-reply-to:references; bh=iks1fzGAWG7DDcp1kR8z5MgxXoiydro95DgCStzyCNA=;
+	b=sbJh0BaSSNr381GXEwNVZz9utegdwl65G86wsPRtuZUhrv2xuct90HnLAx42xct2a/Dv4R
+	3z60deGbWk9agosPvqwDtkNHWAqBCWl7joggyw/7xDdM5XCO26KJAg8dghOHc2RYwpvyZq
+	1PSvIcvaTJxtrEPjowK7/vFzUaFzyVP+E/6AQy3j/stGi7BhrnVDDgw3FKsHg97CYDKWky
+	AbVd1owsZgkklH7Uz4H5eRPg00oE7JbNWa06WCYc0OF6V3ljMM+BYfRTrb4yN1Z+R0a2mw
+	WzhgJekdYojHYQo9W5idINw546Jed191JmcCD9PT2+/lPUkpxRHjkVaSSqnl+g==
+Date: Mon, 27 Feb 2023 08:43:14 +0100
 From: Daniel Wagner <wagi@monom.org>
-To: Jussi Laakkonen <jussi.laakkonen@jolla.com>
+To: KeithG <ys3al35l@gmail.com>
 Cc: connman@lists.linux.dev
-Subject: Re: [RFC PATCH 0/9] Add association state for VPNs
-Message-ID: <20230227073409.7jb4b6nq2gdnjtfy@carbon.lan>
-References: <20221213140707.278313-1-jussi.laakkonen@jolla.com>
- <20230102081007.jobeqdgzrzzwwwqx@beryllium.lan>
- <a69974f3-3a52-56ae-f50f-f876e1ee28cf@jolla.com>
+Subject: Re: [PATCH] iwd: Add support to Scan in AP mode
+Message-ID: <20230227074314.pys65eppvaus2wbs@carbon.lan>
+References: <20230116081624.12618-1-wagi@monom.org>
+ <CAG17S_PHpxpWnkJrM-NC1J+MDqXzN0zeV-TZ97Euxhfgcj_mMg@mail.gmail.com>
+ <CAG17S_NzXYUOPkF1h0e056=jCBQaP3nUh2t0y0n9R5nzhe9yYA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
@@ -30,44 +30,72 @@ List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <a69974f3-3a52-56ae-f50f-f876e1ee28cf@jolla.com>
+In-Reply-To: <CAG17S_NzXYUOPkF1h0e056=jCBQaP3nUh2t0y0n9R5nzhe9yYA@mail.gmail.com>
 X-Last-TLS-Session-Version: TLSv1.3
 
-Hi Jussi,
+Hi KeithG
 
-> I'm just thinking that which is the cleanest one and requires least amount
-> of maintenance.
+On Tue, Feb 14, 2023 at 12:55:37PM -0600, KeithG wrote:
+ > ~# iwctl device list
+> >                                     Devices
+> > --------------------------------------------------------------------------------
+> >   Name                  Address               Powered     Adapter     Mode
+> > --------------------------------------------------------------------------------
+> >   wlan0                 b8:27:eb:a4:6e:0f     on          phy0        ap
+> >
+> > ~# iwctl ap wlan0 scan
+> > ~# iwctl ap wlan0 get-networks
+> >                                     Networks
+> > --------------------------------------------------------------------------------
+> >             Property              Value
+> > --------------------------------------------------------------------------------
+> >             Name                  spg4
+> >             SignalStrength        -4400
+> >             Type                  psk
+> >
+> >             Name                  ATTcVY9ZWa
+> >             SignalStrength        -5100
+> >             Type                  psk
+> >
+> >             Name                  ATT3zFM5gH
+> >             SignalStrength        -5900
+> >             Type                  psk
+> >
+> >             Name                  2WIRE811
+> >             SignalStrength        -6900
+> >             Type                  psk
+> >
+> >             Name                  ATTU8Z3d7i
+> >             SignalStrength        -8400
+> >             Type                  psk
+> >
+> > So I am in AP mode and I am connected via WiFi to it.
+> >
+> > In connman, though, I do not get any wifi SSIDS:
+> >
+> > ~# connmanctl services
+> > *AO Wired                ethernet_b827ebf13b5a_cable
+> > ~# connmanctl enable wifi
+> > wifi is already enabled
+> > ~# connmanctl scan wifi
+> > Error /net/connman/technology/wifi: Did not receive a reply. Possible
+> > causes include: the remote application did not send a reply, the
+> > message bus security policy blocked the reply, the reply timeout
+> > expired, or the network connection was broken.
 
-Honestely, I haven't looked at the code base for a long time. So I can't really
-say. Usually, if I can't decide which interface works best, I prototype both and
-see how they feel. It's always very hard to tell just by looking at it how good
-the result will be.
+This means the connmanctl tool didnt' receive any response. Do you have the logs
+from the iwd plugins by any chance (connmand -d plugins/iwd.c).
 
-> > > c) Furthermore, might any of the VPN plugins available (elsewhere) work
-> > >     without accessing the VPN agent? The flow now requires to use vpn-agent.c
-> > >     for processing and state transition. However, these cases should then use
-> > >     the vpn_provider_set_state() directly, as most of the plugins now do in,
-> > >     e.g., error cases.
-> > 
-> > That might be the case, but I don't think we should consider this as really an
-> > argument to stop us from updating the code base.
-> 
-> Well, with the approach suggested above there would be a way for those
-> plugins that do not use VPN agent to indicate that state needs to be
-> transitioned to CONNECT at start. So when VPN agent is not needed, implement
-> the callback to return 1/false into the VPN plugin.
+> > Is this how it might work? This is how we do it when we use hostapd to
+> > connect instead of iwd.
 
-Ah see, I am knowledge is pretty outdated here :)
+It looks like the plugin is still using the wrong API and either iwd doesn't
+respond or the iwd plugin doesn't handle the error case correctly.
 
-> > I don't have any, right now. Let me quickly look though the patches. Though I
-> > don't expect a lot of comments from my side.
-> > 
-> 
-> I'll edit the patch set and send it as without RFC tag after I hear your
-> thoughts on the matters I just wrote. And thanks for taking time in looking
-> through these.
+> Is this still something that could be done? I can build and test any
+> patches pretty quickly (except for next week).
 
-Great!
+I am not that fast sorry :)
 
-Thanks a lot!
+Thanks,
 Daniel
