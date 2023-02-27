@@ -1,27 +1,26 @@
 Received: from mail.nearlyone.de (mail.nearlyone.de [49.12.199.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 319267EF
-	for <connman@lists.linux.dev>; Mon, 27 Feb 2023 07:43:17 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id C05D3DAD11;
-	Mon, 27 Feb 2023 08:43:15 +0100 (CET)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C02B07EF
+	for <connman@lists.linux.dev>; Mon, 27 Feb 2023 07:55:23 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 70891DAC06;
+	Mon, 27 Feb 2023 08:55:20 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=monom.org; s=dkim;
-	t=1677483795; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 in-reply-to:references; bh=iks1fzGAWG7DDcp1kR8z5MgxXoiydro95DgCStzyCNA=;
-	b=sbJh0BaSSNr381GXEwNVZz9utegdwl65G86wsPRtuZUhrv2xuct90HnLAx42xct2a/Dv4R
-	3z60deGbWk9agosPvqwDtkNHWAqBCWl7joggyw/7xDdM5XCO26KJAg8dghOHc2RYwpvyZq
-	1PSvIcvaTJxtrEPjowK7/vFzUaFzyVP+E/6AQy3j/stGi7BhrnVDDgw3FKsHg97CYDKWky
-	AbVd1owsZgkklH7Uz4H5eRPg00oE7JbNWa06WCYc0OF6V3ljMM+BYfRTrb4yN1Z+R0a2mw
-	WzhgJekdYojHYQo9W5idINw546Jed191JmcCD9PT2+/lPUkpxRHjkVaSSqnl+g==
-Date: Mon, 27 Feb 2023 08:43:14 +0100
+	t=1677484521; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 in-reply-to:references; bh=/gcvEk0dd4Wvjo33FPBAyP4rvZ+S9dv3R1/0O2fKOWQ=;
+	b=iGDIqdpFcMYtQGPDUfD1zX4pOjHb4ImvSPl0ks+2N7FjJOYqjHmKZ6vAzkTr5OIsdARTzp
+	ciylNRgZn8klsRl9zS4fSq2tvmg7T6FCUTJp2uChsV/BA65CC6r4CJpjxde3rkqX1O2G0n
+	mmTCxRvaWyY18O4USujUE8I3Ish+OR25AMezh+kifPeGebKlX1synQhUwLbMBBvu7YLM0R
+	hqcYwLnM4HteLIxhZn5nj3fI5ztHNlkrklNUuaRf36dNihoBPyO+QvEyafCWrWX/qck6VG
+	Hqkc0c8h7hsHXb2Besr2mad9mCIGhnVoPEBxUFT3+WkxMQf99fRNhlj1hs8kGg==
+Date: Mon, 27 Feb 2023 08:55:20 +0100
 From: Daniel Wagner <wagi@monom.org>
-To: KeithG <ys3al35l@gmail.com>
+To: Jade Lovelace <jade@jade.fyi>
 Cc: connman@lists.linux.dev
-Subject: Re: [PATCH] iwd: Add support to Scan in AP mode
-Message-ID: <20230227074314.pys65eppvaus2wbs@carbon.lan>
-References: <20230116081624.12618-1-wagi@monom.org>
- <CAG17S_PHpxpWnkJrM-NC1J+MDqXzN0zeV-TZ97Euxhfgcj_mMg@mail.gmail.com>
- <CAG17S_NzXYUOPkF1h0e056=jCBQaP3nUh2t0y0n9R5nzhe9yYA@mail.gmail.com>
+Subject: Re: Passing the --nodevice option multiple times appears to replace
+ the previous values
+Message-ID: <20230227075520.zaf3dte3cjckyake@carbon.lan>
+References: <CAFA9we8U1=_7gkiPuXUS2P1n5Bb1=7s5mNCsJf6-7G6vryZ0Rw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
@@ -30,72 +29,47 @@ List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAG17S_NzXYUOPkF1h0e056=jCBQaP3nUh2t0y0n9R5nzhe9yYA@mail.gmail.com>
+In-Reply-To: <CAFA9we8U1=_7gkiPuXUS2P1n5Bb1=7s5mNCsJf6-7G6vryZ0Rw@mail.gmail.com>
 X-Last-TLS-Session-Version: TLSv1.3
 
-Hi KeithG
+Hi Jade,
 
-On Tue, Feb 14, 2023 at 12:55:37PM -0600, KeithG wrote:
- > ~# iwctl device list
-> >                                     Devices
-> > --------------------------------------------------------------------------------
-> >   Name                  Address               Powered     Adapter     Mode
-> > --------------------------------------------------------------------------------
-> >   wlan0                 b8:27:eb:a4:6e:0f     on          phy0        ap
-> >
-> > ~# iwctl ap wlan0 scan
-> > ~# iwctl ap wlan0 get-networks
-> >                                     Networks
-> > --------------------------------------------------------------------------------
-> >             Property              Value
-> > --------------------------------------------------------------------------------
-> >             Name                  spg4
-> >             SignalStrength        -4400
-> >             Type                  psk
-> >
-> >             Name                  ATTcVY9ZWa
-> >             SignalStrength        -5100
-> >             Type                  psk
-> >
-> >             Name                  ATT3zFM5gH
-> >             SignalStrength        -5900
-> >             Type                  psk
-> >
-> >             Name                  2WIRE811
-> >             SignalStrength        -6900
-> >             Type                  psk
-> >
-> >             Name                  ATTU8Z3d7i
-> >             SignalStrength        -8400
-> >             Type                  psk
-> >
-> > So I am in AP mode and I am connected via WiFi to it.
-> >
-> > In connman, though, I do not get any wifi SSIDS:
-> >
-> > ~# connmanctl services
-> > *AO Wired                ethernet_b827ebf13b5a_cable
-> > ~# connmanctl enable wifi
-> > wifi is already enabled
-> > ~# connmanctl scan wifi
-> > Error /net/connman/technology/wifi: Did not receive a reply. Possible
-> > causes include: the remote application did not send a reply, the
-> > message bus security policy blocked the reply, the reply timeout
-> > expired, or the network connection was broken.
+On Tue, Feb 07, 2023 at 02:39:32PM -0800, Jade Lovelace wrote:
+> I have been running into a frustrating issue where the connman
+> interface ignore lists are misbehaving for me. I was invoking connman
+> like so:
+> 
+> ExecStart=/nix/store/k479wdfq88g5qfhlkpr6maqfzj5q8jf6-connman-1.41/sbin/connmand
+> --config=/nix/store/z07f0rkb95d8zjba99pjcy6v7152y5qi-connman.conf
+> --nodaemon --wifi=iwd_agent --nodevice=en --nodevice=eth
+> --nodevice=tailscale0 --debug=plugins/iwd.c --nodevice=veth
+> --nodevice=hostonly
+> 
+> This had surprising implications in that it seemed like the nodevice
+> options were having no observable effect. I went spelunking in the
+> source code and found that there seems to be no combining logic for
+> the "nodevice" option if specified multiple times, although I may be
+> misunderstanding it. Is this intended behaviour?
 
-This means the connmanctl tool didnt' receive any response. Do you have the logs
-from the iwd plugins by any chance (connmand -d plugins/iwd.c).
+The argument parser expects it in the form of
 
-> > Is this how it might work? This is how we do it when we use hostapd to
-> > connect instead of iwd.
+  --nodevice=en,eth,tailscale0,veth,hostonly
 
-It looks like the plugin is still using the wrong API and either iwd doesn't
-respond or the iwd plugin doesn't handle the error case correctly.
+As far I can tell from quickly looking at the code, the last argument
+will win. The filter logic is in
 
-> Is this still something that could be done? I can build and test any
-> patches pretty quickly (except for next week).
+   __connman_device_isfiltered()
 
-I am not that fast sorry :)
+BTW veth is already in the global ignore list.
+
+> Also, the man page doesn't seem to adequately describe the behaviour
+> of the nodevice option: it is unclear that it uses wildcard matching
+> with g_pattern_match_simple from the wording:
+> 
+> > -I interface[,...], --nodevice=interface[,...]
+> >   Never manage these network interfaces.
+
+Yeah, not very good indeed. We could use the same wording as for --noplugin.
 
 Thanks,
 Daniel
