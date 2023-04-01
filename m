@@ -1,48 +1,48 @@
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F7292CA5
-	for <connman@lists.linux.dev>; Sat,  1 Apr 2023 23:51:21 +0000 (UTC)
-Received: by mail-pl1-f180.google.com with SMTP id u10so24836704plz.7
-        for <connman@lists.linux.dev>; Sat, 01 Apr 2023 16:51:21 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26EF82CA5
+	for <connman@lists.linux.dev>; Sun,  2 Apr 2023 00:00:05 +0000 (UTC)
+Received: by mail-pl1-f177.google.com with SMTP id u10so24844454plz.7
+        for <connman@lists.linux.dev>; Sat, 01 Apr 2023 17:00:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1680393081;
+        d=gmail.com; s=20210112; t=1680393604;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Exda9SyHXeMYrVMA/RMb5G53/fpz5K9VtwrveTN+5mg=;
-        b=FE1NyOG0Oib3w0GoEjpwr64K1sJYMtHQiWJGNvGfBr8wOP1/sNqn9FajqT0A2ol9yW
-         v/p13pScsHzXn9Cw+0PYqbHSkW3Efkuad7+nBRMlX8UvEYaFUNyeFaFEmCbtWKhPuvSY
-         8JAz34AeI0uoo7AUgO/k0f/TWmvgd3tcN/gs1hjefeKJXgaMs09RHhCFxPTq0Ta2p3u+
-         vBxmWbXwl/SPm9ejQD1wJUFK0Gi4UxtwbzP/BXIM/zCFcSz8ioqLLSTuKQNBjPG9mz/f
-         ySgsgFHFcFmYIFKCb6usaYtVGeuShEDSVnY63n6qk8vmGoWQ/mHN9eQQDMXhlf375KJt
-         ed9Q==
+        bh=v4fQzhtLTNMW1h4aGAmlkoMVxdV1f+pAYnb4ZPXFhqo=;
+        b=bs2S1lWJlC/iMOUeWA8IUUnv+QQd6YmAUYUMcVu/r/VarGF4gHiQtjLm7SbsRGGabf
+         BewoHClZMES7PcllFamKBXSz3JtyN80N1oAuPDmJI0sXmPXcfO2wYieaFx055Q/b6TFv
+         xE5xpw3fWU5RtEjPsS9Zi6ri2WKQ8qRKu2jjlwlP536nCDwt0gnCS4XBCoUZGbGND12j
+         mM8chE9xwhAOfNAIkzX4HfHa/3H8Hm5jENL/SqH4ahTNhopU2WZSDNNzSV8Y+sjlPCvB
+         L4VAf4pMBFUbUb1fhruGuJl6LsUnHj3SbfdD9zHEZHg+t4JrUdrCUEeX5xxejGlLN8CB
+         nEAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680393081;
+        d=1e100.net; s=20210112; t=1680393604;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Exda9SyHXeMYrVMA/RMb5G53/fpz5K9VtwrveTN+5mg=;
-        b=g0dP1pnOEHFUWFLyPj7deB1PCoh6ijIo1WroLfSxkkUXJEfnuc3PrMLcEaz7Fa+R4u
-         0iCz3zro7KpNeX83su6YOYP7Ob6WJ+TYB3eq5gyqcxJPkXINA4qOiVkBmmQmrGsCqTyu
-         8USaXesnujx3uPpmrUk/QJ5xgJbBfXRq8BNZehBjWhcIaADFN7ApNJ+TD4mTwes8O7OZ
-         GY8tfglfdQd/4LmyHCy1pPnAGQeQYIpDSqf0vKyg+FC9fa8thtXqnxtTPDl6xRARmtJ/
-         HAzOxosF4FcuOFetASEOcTU4C+y043NDZW4BAALxR1o/dXl3L5wWQ1b6+KD8iR6a6sRY
-         Mp5Q==
-X-Gm-Message-State: AO0yUKUFUXbcb/ZOOxcnsGnSc+c4FKyXLmfj7wuFa1QInohWb5OJ3MRX
-	wXqgKPAF9UTYraL0HtdMUgo=
-X-Google-Smtp-Source: AK7set8Yu+9pi0v2PJAjBM81Ay1aK7zdEfc/BthXq8lv4818Q431qxUkbblBmnQvMSIlcjp+J2SI3Q==
-X-Received: by 2002:a05:6a20:8b9c:b0:da:d9e7:9a5d with SMTP id m28-20020a056a208b9c00b000dad9e79a5dmr27855306pzh.4.1680393080406;
-        Sat, 01 Apr 2023 16:51:20 -0700 (PDT)
+        bh=v4fQzhtLTNMW1h4aGAmlkoMVxdV1f+pAYnb4ZPXFhqo=;
+        b=ex2bVHf4USXwIbbHUTYiFPm5jZycAyxvCgZThNXxh/YhG4NS0vM4LopW7voVvbwaWe
+         rAkjFS7h9bnHCrElTl80lC0swHaoQZN58sdDv4ltexgcuBkLePLaDMC7zwFfMZFbcr+x
+         4c4Qh7CtBUrOsdVdEDhMJ5uhxeoxWGjhmB3404Zvk9K9Vv+vUj2TfaHtutOy30PzzHvK
+         tqtDLwYxN96XsM7MW1i80c9vWghIa0rUyza0LP1FTJkHO0r52BFHP3N4CXlHGHYXfPFC
+         8nLseD4lW8OEFHl1DQdZTJ8PcdPnY/smhFIgnoUmSNNMzQOaPZo8MJOazTFVKHEDYKq0
+         6GHg==
+X-Gm-Message-State: AAQBX9c3uqcuGFXxnmzpHpOgPUZmA08JKbPO9IsPB5XbZMaexG7032Vq
+	YQdeWjlBrIzZ5Vtw7xNC8WM=
+X-Google-Smtp-Source: AKy350bEq4afOiqPhgPGEO9MPnF1+jIUrbAcJCh8DLFO62P4bFLyoml6vIZq52yUNXLlj3k5JaVXOg==
+X-Received: by 2002:a17:90a:b88e:b0:23e:cea5:d37e with SMTP id o14-20020a17090ab88e00b0023ecea5d37emr33754412pjr.46.1680393604361;
+        Sat, 01 Apr 2023 17:00:04 -0700 (PDT)
 Received: from 167-179-157-192.a7b39d.syd.nbn.aussiebb.net (167-179-157-192.a7b39d.syd.nbn.aussiebb.net. [167.179.157.192])
-        by smtp.gmail.com with ESMTPSA id i22-20020aa78b56000000b005e4c3e2022fsm4124192pfd.72.2023.04.01.16.51.19
+        by smtp.gmail.com with ESMTPSA id x14-20020a170902820e00b001a1ccb37847sm3881864pln.146.2023.04.01.17.00.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 01 Apr 2023 16:51:19 -0700 (PDT)
+        Sat, 01 Apr 2023 17:00:03 -0700 (PDT)
 From: Jonathan Liu <net147@gmail.com>
 To: connman@lists.linux.dev
 Cc: Jonathan Liu <net147@gmail.com>
-Subject: [PATCH] ntp: Fix timeserver typo in warning when ntp_data is not NULL
-Date: Sun,  2 Apr 2023 09:51:11 +1000
-Message-Id: <20230401235111.107463-1-net147@gmail.com>
+Subject: [PATCH] rtnl: Ignore adding/removing interface to/from bridge
+Date: Sun,  2 Apr 2023 09:59:19 +1000
+Message-Id: <20230401235919.111754-1-net147@gmail.com>
 X-Mailer: git-send-email 2.40.0
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
@@ -52,25 +52,68 @@ List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The value of the timeserver variable is incorrectly referred to
-as timerserver. Change it to timeserver to be consistent.
+Avoids wifi interface being removed and added again when tethering is
+disabled.
 ---
- src/ntp.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ src/rtnl.c | 17 ++++++++++++++---
+ 1 file changed, 14 insertions(+), 3 deletions(-)
 
-diff --git a/src/ntp.c b/src/ntp.c
-index e7fee22a..5d0df9e5 100644
---- a/src/ntp.c
-+++ b/src/ntp.c
-@@ -577,7 +577,7 @@ int __connman_ntp_start(char *server, __connman_ntp_cb_t callback,
- 		return -EINVAL;
+diff --git a/src/rtnl.c b/src/rtnl.c
+index a87296ff..e8a8325e 100644
+--- a/src/rtnl.c
++++ b/src/rtnl.c
+@@ -886,7 +886,7 @@ static inline void print_attr(struct rtattr *attr, const char *name)
+ 		print("  attr %d (len %d)\n", attr->rta_type, len);
+ }
  
- 	if (ntp_data) {
--		connman_warn("ntp_data is not NULL (timerserver %s)",
-+		connman_warn("ntp_data is not NULL (timeserver %s)",
- 			ntp_data->timeserver);
- 		free_ntp_data(ntp_data);
- 	}
+-static void rtnl_link(struct nlmsghdr *hdr)
++static void rtnl_link(struct nlmsghdr *hdr, bool *has_master)
+ {
+ 	struct ifinfomsg *msg;
+ 	struct rtattr *attr;
+@@ -928,6 +928,7 @@ static void rtnl_link(struct nlmsghdr *hdr)
+ 			print_attr(attr, "priority");
+ 			break;
+ 		case IFLA_MASTER:
++			*has_master = true;
+ 			print_attr(attr, "master");
+ 			break;
+ 		case IFLA_WIRELESS:
+@@ -960,22 +961,32 @@ static void rtnl_link(struct nlmsghdr *hdr)
+ 
+ static void rtnl_newlink(struct nlmsghdr *hdr)
+ {
++	bool has_master = false;
+ 	struct ifinfomsg *msg = (struct ifinfomsg *) NLMSG_DATA(hdr);
+ 
+-	rtnl_link(hdr);
++	rtnl_link(hdr, &has_master);
+ 
+ 	if (hdr->nlmsg_type == IFLA_WIRELESS)
+ 		connman_warn_once("Obsolete WEXT WiFi driver detected");
+ 
++	/* ignore RTM_NEWLINK when adding interface to bridge */
++	if (has_master)
++		return;
++
+ 	process_newlink(msg->ifi_type, msg->ifi_index, msg->ifi_flags,
+ 				msg->ifi_change, msg, IFA_PAYLOAD(hdr));
+ }
+ 
+ static void rtnl_dellink(struct nlmsghdr *hdr)
+ {
++	bool has_master = false;
+ 	struct ifinfomsg *msg = (struct ifinfomsg *) NLMSG_DATA(hdr);
+ 
+-	rtnl_link(hdr);
++	rtnl_link(hdr, &has_master);
++
++	/* ignore RTM_DELLINK when removing interface from bridge */
++	if (has_master)
++		return;
+ 
+ 	process_dellink(msg->ifi_type, msg->ifi_index, msg->ifi_flags,
+ 				msg->ifi_change, msg, IFA_PAYLOAD(hdr));
 -- 
 2.40.0
 
