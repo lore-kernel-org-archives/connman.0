@@ -1,87 +1,40 @@
 Received: from mail.nearlyone.de (mail.nearlyone.de [49.12.199.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57CDB20F0
-	for <connman@lists.linux.dev>; Tue, 11 Apr 2023 06:29:11 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 214A3DE32D;
-	Tue, 11 Apr 2023 08:19:49 +0200 (CEST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BE5628EF
+	for <connman@lists.linux.dev>; Tue, 11 Apr 2023 07:20:08 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 97557DB017;
+	Tue, 11 Apr 2023 09:20:03 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=monom.org; s=dkim;
-	t=1681193991; h=from:subject:date:message-id:to:cc:mime-version:
-	 content-transfer-encoding; bh=4Ho4kiwf3m9nKcd0hfBOReOa4oY11ZfiDtsfcLmSEjE=;
-	b=hNXfgDHpf7NDH8woRGZ7cZv0yiWxkD+T07vynEYWf3aDSnHCGMtGnFzm3TbB2uZOjumoYD
-	6PfcWjH5QpQBBL3Qr1jXuJeU0dvmYYmVhfli3nmyGy5PboWsCiJm4Yv9Vzei0H9r8f1wR7
-	4BWR5GVge/3wDJQRYLVBWfwF/ieIU6lTcp2QdltNaVfsrL5OFtbrNqoBwM6CYnwXpd6Z/n
-	Kym3SoOkzcYGUE+0iPU4anWEimEMMONWlW809tMry27eQ2KKzbxkEhX2yCU1sKWlyXvymQ
-	FST0ao0Cy9dNw8wYHXOCtZbCtF9QXzyJln27TxYSDmnvRUrhpS9IQK5NCwvxzg==
+	t=1681197606; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 in-reply-to:references; bh=D/iQO5ccji+QlXIFCz/YD4tNUEPUKf8aAuqk7aw7Goc=;
+	b=rqD73pXY9P33/5AaPpOQKbTV/f8d5Er+r4trjDHRz33zaR8q/gyg1h3uBLsub9x49Y+6EA
+	N4ztqW9BM3wSewYrFXpRM8MMDwmlsoPTotSN2div9x8HAoaT+G/OzjLSpmRRPYztZw8AhW
+	adI9zYAmy2N2EmX3O6Y5M0woQTtVCrGj+em9ry/8c1O6jFv+YujngfH5PGenIbB58rMIwJ
+	OQNxV2N4DDalBJfuXxCcJD1aicZHh860AnVgQp8+VSfxvHsGCLCFPrtLp7m3ksIhEdUQK3
+	NgJMZ1uGdV/cik4mCB1seydWAPNjPGfxxQ1DoDN4Ni4c3LZR2zRisQZkZsi99w==
+Date: Tue, 11 Apr 2023 09:20:01 +0200
 From: Daniel Wagner <wagi@monom.org>
-To: connman@lists.linux.dev
-Cc: Polina Smirnova <moe.hwr@gmail.com>,
-	Daniel Wagner <wagi@monom.org>
-Subject: [PATCH] gdhcp: Verify and sanitize packet length first
-Date: Tue, 11 Apr 2023 08:19:45 +0200
-Message-Id: <20230411061945.8089-1-wagi@monom.org>
+To: "VAUTRIN Emmanuel (Canal Plus Prestataire)" <Emmanuel.VAUTRIN@cpexterne.org>
+Cc: "connman@lists.linux.dev" <connman@lists.linux.dev>
+Subject: Re: [PATCH] network: Keep failure state after disconnection
+Message-ID: <20230411072001.emdwmpudvggcuopi@beryllium.lan>
+References: <MRZP264MB15448014A6E161ADFD0A280793AF9@MRZP264MB1544.FRAP264.PROD.OUTLOOK.COM>
+ <MRZP264MB1544A26A7D6EBCEB14A0B59793AF9@MRZP264MB1544.FRAP264.PROD.OUTLOOK.COM>
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <MRZP264MB1544A26A7D6EBCEB14A0B59793AF9@MRZP264MB1544.FRAP264.PROD.OUTLOOK.COM>
 X-Last-TLS-Session-Version: TLSv1.3
 
-Avoid overwriting the read packet length after the initial test. Thus
-move all the length checks which depends on the total length first
-and do not use the total lenght from the IP packet afterwards.
+Hi Emmanuel,
 
-Fixes CVE-2023-28488
+I've applied the patch. Let's see what it breaks this time.
 
-Reported by Polina Smirnova <moe.hwr@gmail.com>
----
-
-Patch already applied.
-
- gdhcp/client.c | 16 +++++++++-------
- 1 file changed, 9 insertions(+), 7 deletions(-)
-
-diff --git a/gdhcp/client.c b/gdhcp/client.c
-index 7efa7e45aa4d..8201769261d7 100644
---- a/gdhcp/client.c
-+++ b/gdhcp/client.c
-@@ -1319,9 +1319,9 @@ static bool sanity_check(struct ip_udp_dhcp_packet *packet, int bytes)
- static int dhcp_recv_l2_packet(struct dhcp_packet *dhcp_pkt, int fd,
- 				struct sockaddr_in *dst_addr)
- {
--	int bytes;
- 	struct ip_udp_dhcp_packet packet;
- 	uint16_t check;
-+	int bytes, tot_len;
- 
- 	memset(&packet, 0, sizeof(packet));
- 
-@@ -1329,15 +1329,17 @@ static int dhcp_recv_l2_packet(struct dhcp_packet *dhcp_pkt, int fd,
- 	if (bytes < 0)
- 		return -1;
- 
--	if (bytes < (int) (sizeof(packet.ip) + sizeof(packet.udp)))
--		return -1;
--
--	if (bytes < ntohs(packet.ip.tot_len))
-+	tot_len = ntohs(packet.ip.tot_len);
-+	if (bytes > tot_len) {
-+		/* ignore any extra garbage bytes */
-+		bytes = tot_len;
-+	} else if (bytes < tot_len) {
- 		/* packet is bigger than sizeof(packet), we did partial read */
- 		return -1;
-+	}
- 
--	/* ignore any extra garbage bytes */
--	bytes = ntohs(packet.ip.tot_len);
-+	if (bytes < (int) (sizeof(packet.ip) + sizeof(packet.udp)))
-+		return -1;
- 
- 	if (!sanity_check(&packet, bytes))
- 		return -1;
--- 
-2.40.0
-
+Thanks,
+Daniel
