@@ -1,25 +1,26 @@
 Received: from mail.nearlyone.de (mail.nearlyone.de [49.12.199.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEAD628EF
-	for <connman@lists.linux.dev>; Tue, 11 Apr 2023 07:28:11 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 8D9B2DE361;
-	Tue, 11 Apr 2023 09:28:09 +0200 (CEST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47A4F28EF
+	for <connman@lists.linux.dev>; Tue, 11 Apr 2023 07:33:45 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id A09A2DE3C9;
+	Tue, 11 Apr 2023 09:33:42 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=monom.org; s=dkim;
-	t=1681198089; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 in-reply-to:references; bh=QFmMvavFWTWEhhU0QD7weKFwBOSmxmjgopYMNRNZAUM=;
-	b=WDQkGRf+zQf0E40k/pIsU2g+A72fYzeMirE6WbaCHRor7LLx5smwfA09lhRLlmSyRxq+d9
-	gd1IoEWOe2MNIk0A0Mk76fsgZj8ZoyWLmoue30PDiuRqH2qV5egWHslxCRK4T+3WTm2E/h
-	0ghH8Dj/1XDergZ9q1xwXLK815fQbh5fD+J6pEeHHqA+xkr5NIX6iR429yGKh+1+wIKPwD
-	CdAx0HCM1VCdlLOZDYMNQebN0PM9s1aaKEJK0vscdk+cuznYx1i5X3K4R6BF7CB9c3wsgk
-	dlStFASP2Y8EAcw00wLgTc6Y62DGyuLck18VZ1G8SXdAJnrDy/eAKecusqddaw==
-Date: Tue, 11 Apr 2023 09:28:08 +0200
+	t=1681198422; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 in-reply-to:references; bh=YV8cYEAdS6DX4ccpjQ4ppICFtWzOKYWCROd+kBBzKGg=;
+	b=UMwhxkd+ZMJ4ZxgZBKgq0OD7E+nGUjoZrKGermDfTIZIrdgWJpFNlP7E0aNS+G+W5ZuBe4
+	YanfXT11QNOqLUjaKbB9ctglhGxxHPd5jOHZW6uUXbsDg4v6DB5JsGEqT9xWZs9ATsMZIh
+	z9Z5b1wUAzWnidKtiZax8afq6JD6wz8LTiP7XqrKjko7W+cwUBi7ZQ+zBBC38+R8IdrJ4U
+	lG9YJI/GMhZfxrGVo+ILd2K0e62G5on2DU319jiz/l12S+3wimyy3NO8bZexuqN6wqd8lt
+	9eiA5rNTMTqua7YSHv4qFtvNP+Wh6jrVcmBIR2aeQyXK+ebN4cOLepcgwsUl5g==
+Date: Tue, 11 Apr 2023 09:33:41 +0200
 From: Daniel Wagner <wagi@monom.org>
-To: "VAUTRIN Emmanuel (Canal Plus Prestataire)" <Emmanuel.VAUTRIN@cpexterne.org>
+To: Eivind Naess <eivnaes@yahoo.com>
 Cc: "connman@lists.linux.dev" <connman@lists.linux.dev>
-Subject: Re: [PATCH] service: Fix hidden service with wrong passphrase
-Message-ID: <20230411072808.nkxk6iprmgp6jlnz@beryllium.lan>
-References: <MRZP264MB154400DDFBFE8E6BE89E250193AF9@MRZP264MB1544.FRAP264.PROD.OUTLOOK.COM>
+Subject: Re: [PATCH] Support for compiling against pppd 2.5.0/master
+Message-ID: <20230411073341.uptx4xr3d7dz7ebu@beryllium.lan>
+References: <384208306.398673.1679778274112.ref@mail.yahoo.com>
+ <384208306.398673.1679778274112@mail.yahoo.com>
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
@@ -28,46 +29,16 @@ List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <MRZP264MB154400DDFBFE8E6BE89E250193AF9@MRZP264MB1544.FRAP264.PROD.OUTLOOK.COM>
+In-Reply-To: <384208306.398673.1679778274112@mail.yahoo.com>
 X-Last-TLS-Session-Version: TLSv1.3
 
-Hi Emmanuel,
+Hi Eivind,
 
-On Mon, Feb 27, 2023 at 05:19:37PM +0000, VAUTRIN Emmanuel (Canal Plus Prestataire) wrote:
-> Two cases need to be fixed during the connection to a hidden service
-> with a wrong passphrase:
-> * the invalid key error shall be reported to the user,
-> * another attempt to connect to this hidden service shall be possible,
-> and succeed with the right passphrase
-> ---
->  src/service.c | 17 ++++++++++++++---
->  1 file changed, 14 insertions(+), 3 deletions(-)
-> 
-> diff --git a/src/service.c b/src/service.c
-> index 6f31adb33d6a..06d02322f437 100644
-> --- a/src/service.c
-> +++ b/src/service.c
-> @@ -3241,6 +3241,9 @@ int __connman_service_check_passphrase(enum connman_service_security security,
->  	return 0;
->  }
->  
-> +static void set_error(struct connman_service *service,
-> +					enum connman_service_error error);
-> +
->  int __connman_service_set_passphrase(struct connman_service *service,
->  					const char *passphrase)
->  {
-> @@ -3265,6 +3268,10 @@ int __connman_service_set_passphrase(struct connman_service *service,
->  		connman_network_set_string(service->network, "WiFi.Passphrase",
->  				service->passphrase);
->  
-> +	if (service->hidden_service &&
-> +			service->error == CONNMAN_SERVICE_ERROR_INVALID_KEY)
-> +		set_error(service, CONNMAN_SERVICE_ERROR_UNKNOWN);
-> +
+On Sat, Mar 25, 2023 at 09:04:34PM +0000, Eivind Naess wrote:
+> Attached is a patch for compiling connman-vpn to latest pppd 2.5.0 / master branch
+> Enjoy- Eivind
 
-This should be handled by the caller of the set function. We are already doing
-this, so please move this part also there.
+Nice! Patch applied.
 
-Thanks,
+Thanks!
 Daniel
