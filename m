@@ -1,51 +1,62 @@
-Received: from mail-4321.protonmail.ch (mail-4321.protonmail.ch [185.70.43.21])
+Received: from 5.mo619.mail-out.ovh.net (5.mo619.mail-out.ovh.net [46.105.40.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6327523D48
-	for <connman@lists.linux.dev>; Fri, 12 May 2023 20:27:36 +0000 (UTC)
-Date: Fri, 12 May 2023 20:08:58 +0000
-Authentication-Results: mail-4321.protonmail.ch;
-	dkim=pass (2048-bit key) header.d=protonmail.ch header.i=@protonmail.ch header.b="T5o0+jQn"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.ch;
-	s=protonmail3; t=1683922149; x=1684181349;
-	bh=IgL1IzFqD8vbYpYJ/KaG7OKnBfQqvsCJOfbJ7cQ2nSM=;
-	h=Date:To:From:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
-	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
-	b=T5o0+jQnUrJwxE2yTdQR/jGYjxnpWuVfdT/TyMFwptx/N6VESEGcrrSfRYxRy9zHB
-	 +5/GmErzkXrbPgFCR9Rs6BTbPA5FVOvmyeeELqkwKj+vw7aDTNYo76iMMz1MXCeF7t
-	 RsoT2kUSi63bJs2fBUTv0d5RKMXqk4LdQA4HAAtIzFzEA2xcDnl+/42MHYA19ojA1T
-	 uRcwKuw6bwadrV6DPmoSz06YQ9K89vDB+FgYFxor/qcM2alLJ9NfSiSJ8lhku8eaPE
-	 e1HGMyILAMMDtRWl5t1TahLWgFYmmwGgsBolfw8yWd28NdvDOyLXK9vIoGKU4qFoMl
-	 gSVneOYlikWRg==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80A9F101CA
+	for <connman@lists.linux.dev>; Mon, 15 May 2023 17:16:38 +0000 (UTC)
+Received: from ex.mail.ovh.net (unknown [10.111.172.95])
+	by mo619.mail-out.ovh.net (Postfix) with SMTP id D4F5F22C17
+	for <connman@lists.linux.dev>; Mon, 15 May 2023 17:00:56 +0000 (UTC)
+From: Sam Nazarko <email@samnazarko.co.uk>
 To: "connman@lists.linux.dev" <connman@lists.linux.dev>
-From: Piotr Karbowski <piotr.karbowski@protonmail.ch>
-Subject: MTU configuration when not using DHCP?
-Message-ID: <442783c0-7c42-2e90-657e-81610a65f71f@protonmail.ch>
-Feedback-ID: 7579861:user:proton
+Subject: WPA connectivity issues with 1.41
+Thread-Topic: WPA connectivity issues with 1.41
+Thread-Index: AQHZh063nQqICy5NcUmOb4OrZ9Xmrw==
+Date: Mon, 15 May 2023 17:00:56 +0000
+Message-ID: <0a9616adc89f4fa08a0cd9840fecc582@samnazarko.co.uk>
+Accept-Language: en-GB, en-US
+Content-Language: en-GB
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+x-originating-ip: [77.100.255.239]
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+X-Ovh-Tracer-Id: 7298083199232317298
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: 0
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedrfeehjedguddtkecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecunecujfgurhephffvufhtfffkihgtgfggsehtqhhjtddttddunecuhfhrohhmpefurghmucfprgiirghrkhhouceovghmrghilhesshgrmhhnrgiirghrkhhordgtohdruhhkqeenucggtffrrghtthgvrhhnpefhleehudfgkeeifedvffefhfefffetvdekfeehvdfgueetvdduhfdtveegjeelgfenucfkphepuddvjedrtddrtddruddpjeejrddutddtrddvheehrddvfeelnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepuddvjedrtddrtddruddpmhgrihhlfhhrohhmpeeovghmrghilhesshgrmhhnrgiirghrkhhordgtohdruhhkqedpnhgspghrtghpthhtohepuddprhgtphhtthhopegtohhnnhhmrghnsehlihhsthhsrdhlihhnuhigrdguvghvpdfovfetjfhoshhtpehmoheiudelpdhmohguvgepshhmthhpohhuth
 
 Hi,
 
-I am running on a weird network that needs a lower MTU setting for
-wireless clients otherwise those often have issues with connection.
-Currently there seems to not be interface to set MTU when configuring
-static IP on interfaces.
+At OSMC we recently updated to the latest stable release of ConnMan 1.41.
 
-I went briefly though source code and I see that the MTU sent by DHCP
-will be in used as well as there's '--mtu' for VPN clients.
+Since then, we have reports that users were unable to connect to WiFi netwo=
+rks where they have WPA2 and WPA3 active. Disabling WPA3 functionality on t=
+he AP side allows the devices to connect again.=A0
 
-Is there any chance to support mtu setting per network? Like
+The primary device being used is Raspberry Pi which doesn't appear to imple=
+ment WPA3 support at this time. It's unclear for me why ConnMan is trying t=
+o connect via WPA3. We are using the standard wpa_supplicant from Debian Bu=
+llseye.=A0
 
-=09config wifi_FOOBARBAZ mtu 1458
+If I revert the commits which introduce WPA3 functionality in ConnMan, user=
+s can again connect to an AP which has WPA2 and WPA3 enabled.=A0
+I also tried backporting:=A0wifi: Handle invalid-key case on WPA-SAE authen=
+tication failure to see if this helped resolve the issue but it did not.
 
-or any other per-network or per-interface configuration?
+Is it expected behaviour that ConnMan should fail to connect to an AP which=
+ has WPA3 enabled where the device does not support WPA3, even if the AP al=
+so allows WPA2?
 
--- Piotr.
+Many thanks
 
+Sam Nazarko
+
+
+
+     =
