@@ -1,168 +1,221 @@
-Received: from EUR02-VI1-obe.outbound.protection.outlook.com (mail-vi1eur02on2067.outbound.protection.outlook.com [40.107.241.67])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFDCE34CC0
-	for <connman@lists.linux.dev>; Tue, 16 May 2023 10:40:37 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Kl8/P4WVw+7rSa69maJCPAUzZgyL8wLvmcPBvcEp6OwMigjz8xTF+G/Mzkj0yuGpdQ6xRwx9h01z/gWgAMJw5o3Ifp0tVTZcFfK/hBh+YEgyvILjxxfjQKh70NDK6SCCZKqxOzFufCRoAT+jPdVZ94RTPJhyU3mMl/6mjEeJ3qwHaCOZHANohVHkOLSel8/ZnwWeturDo3tjDw4V0o1CffSv6rMmk1/Jy3G3CxpQf8hVIib9i4QvPoLn1/aEZx0/asUYNQHnb8+hBwlvmPxLe9Hna9QeYwtYxLzk+yWG+iNfJCgGWEeHWaJ1BXV5qugk4rjQhxaRyGDnyqEMj6RuNg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=nNigb3e5g7so3HngQQJg4MsStqsSSSXomz4lTppKzG0=;
- b=BllRNofppg9UeCVIGVo2O8f3CNF4Nag/zVwHGenrfuBX5wyX0l4kXGqErXeiqqmNAMqnTxI4SyGAc9p3K3C+Qyd+QsT82UShshoFB4OT8gckBkN7r81VzxJXdT0RdPw6JxQCzN11Eiq2Nzvq08E9HMpuNJiV1AY8S159UneDxXlm88Oo3BvcQIoO5r9NlsIycfQciF+CurtmpHaKp3OJ42b65nj+ICzHaDKlCqGj1iKLQhMNr9/RDFTBq0FufQ63uVBA/dBFrDCDyIzHRhf3jjt1u3fzTfy2firxLt5fU3pad8YkD7zzkOYyitQhFVMXYgYoSB+pGPUoBoc2PPZKlA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 139.15.153.200) smtp.rcpttodomain=holtmann.org smtp.mailfrom=bshg.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=bshg.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bshg.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=nNigb3e5g7so3HngQQJg4MsStqsSSSXomz4lTppKzG0=;
- b=XZ4E97l1ei/jyJKdklIJ4hiWD02rAxMhU/KsBwSergDoiLqdEKrp2p6zQKlxM0TcJrTu8oDhMX2XQfpZ4FIk2GGxoBa+yxA89WEPCFLoDKTRUd5SLaZG9H+0Qd4iCy3UyqJNCVxw7ovvy/R5aZNmnpY09u0IE6IScuXeO6oHwa6P+4r82BUBbOoTZNQsT5p0eLzxcSy0SAYu8HNAVYC8sZ0jGzav76bgVg9acmcPhMmoYQgGSwcfpeQ7LMg0a+wJX3HgRZbhk2+59Bm3cXOskAd5ZSSukTryXLylqNUzJ9+gRO7QEzeC2DJLZwS+X3DLtLXxN4TYeadOjRYIhf770w==
-Received: from DU2PR04CA0252.eurprd04.prod.outlook.com (2603:10a6:10:28e::17)
- by AS4PR10MB5223.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:4b3::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6387.33; Tue, 16 May
- 2023 10:40:34 +0000
-Received: from DBAEUR03FT021.eop-EUR03.prod.protection.outlook.com
- (2603:10a6:10:28e:cafe::d) by DU2PR04CA0252.outlook.office365.com
- (2603:10a6:10:28e::17) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6387.33 via Frontend
- Transport; Tue, 16 May 2023 10:40:34 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 139.15.153.200)
- smtp.mailfrom=bshg.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=bshg.com;
-Received-SPF: Pass (protection.outlook.com: domain of bshg.com designates
- 139.15.153.200 as permitted sender) receiver=protection.outlook.com;
- client-ip=139.15.153.200; helo=eop.bosch-org.com; pr=C
-Received: from eop.bosch-org.com (139.15.153.200) by
- DBAEUR03FT021.mail.protection.outlook.com (100.127.142.184) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6411.15 via Frontend Transport; Tue, 16 May 2023 10:40:34 +0000
-Received: from FE-EXCAS2001.de.bosch.com (10.139.217.200) by eop.bosch-org.com
- (139.15.153.200) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.23; Tue, 16 May
- 2023 12:40:31 +0200
-Received: from FE-HUB2000.de.bosch.com (10.4.103.109) by
- FE-EXCAS2001.de.bosch.com (10.139.217.200) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.23; Tue, 16 May 2023 12:40:31 +0200
-Received: from FE0SWIEXHC04.bsh.corp.bshg.com (10.49.78.142) by
- FE-HUB2000.de.bosch.com (10.4.103.109) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
- 15.1.2507.23; Tue, 16 May 2023 12:40:30 +0200
-Received: from FE0SWIEXMB4D.bsh.corp.bshg.com (10.49.78.136) by
- FE0SWIEXHC04.bsh.corp.bshg.com (10.49.78.142) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2507.23; Tue, 16 May 2023 12:40:30 +0200
-Received: from FE0SWIEXMB4C.bsh.corp.bshg.com (10.49.78.135) by
- FE0SWIEXMB4D.bsh.corp.bshg.com (10.49.78.136) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.23; Tue, 16 May 2023 12:40:30 +0200
-Received: from FE0SWIEXMB4C.bsh.corp.bshg.com ([fe80::81ac:4f34:2616:9bad]) by
- FE0SWIEXMB4C.bsh.corp.bshg.com ([fe80::81ac:4f34:2616:9bad%6]) with mapi id
- 15.01.2507.023; Tue, 16 May 2023 12:40:30 +0200
-From: "Dembianny, Sven (GDE-EDSO)" <Sven.Dembianny@bshg.com>
-To: Marcel Holtmann <marcel@holtmann.org>
-CC: Ariel D'Alessandro <ariel.dalessandro@collabora.com>,
-	"connman@lists.linux.dev" <connman@lists.linux.dev>
-Subject: Re: [PATCH 1/1] gsupplicant: Add MFP support for WPA2
-Thread-Topic: [PATCH 1/1] gsupplicant: Add MFP support for WPA2
-Thread-Index: AQHYWLZd2qtADdGnG02gfFrLFNvjNq0CHlAAgAAHcICAASo+YIAARooAgBKmxbCCSLVpgA==
-Date: Tue, 16 May 2023 10:40:29 +0000
-Message-ID: <20230516104029.GA2062332@rbgwcw0248.bsh.corp.bshg.com>
-References: <20220425150837.89194-1-sven.dembianny@bshg.com>
- <20220425150837.89194-2-sven.dembianny@bshg.com>
- <4deec7b0-a2e5-0d91-a81c-dc4bb79c1594@collabora.com>
- <8B96358C-6DA1-41E0-8C79-7724AD78EC53@holtmann.org>
- <6dbc9c41e6f5459291a118bdd0dcfc5f@bshg.com>
- <BC5A9223-D70D-4082-930D-AED73268EF8B@holtmann.org>
- <4b9a0754ab29428fb95b53a65c399925@bshg.com>
-In-Reply-To: <4b9a0754ab29428fb95b53a65c399925@bshg.com>
-Accept-Language: de-DE, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-x-originating-ip: [10.49.85.190]
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <9F5CC1D5CC870E4183A4A2C87EB59646@BSHG.COM>
-Content-Transfer-Encoding: quoted-printable
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FF0914266
+	for <connman@lists.linux.dev>; Mon, 22 May 2023 14:23:59 +0000 (UTC)
+Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-64d2c865e4eso2908849b3a.0
+        for <connman@lists.linux.dev>; Mon, 22 May 2023 07:23:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1684765438; x=1687357438;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=Y/3AQEomYj/ImGE76upjoGyes+10MKYSXMWwvK+7j4c=;
+        b=Gb76QpGyFjFkvfJf90puoc8Yyy6H8AX94Aouez0KVFZImYDzHRJuUfUuGEukaVjzSP
+         gUBzBGYvdaQjtzVB0NhaMmOKIoCN5YZ+0O6L7QhFMP5YOclNCRSZwUnxDsRrvv2VpbxF
+         ecNv67MFRBSY8idjnk/exA6clpO+r6A6CmLjNBhsVe287/FsQU4b1+nRC1M53OZX0xIT
+         oCpI7fabVIeaLhmE6Wu76ToDKH0OOhDJRYGHi5fcQvsCjOYuEtgklUPsOpe5qsA047N5
+         ADwtnt6nhq9pV3XH5S/j1sOuQlZpcJO2wmrR/fldQL7ZSGMMELxyDx1RCcIIOJRNph9o
+         eOHg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1684765438; x=1687357438;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Y/3AQEomYj/ImGE76upjoGyes+10MKYSXMWwvK+7j4c=;
+        b=QWc7QRNflLx11b4Kl8T9qws1p9DApGPZ6ujrNRQdwW4nB3cut0632Q8Vryy52RmYsy
+         MZ3LLbPQfekJsxD2Uky6nEqfRXBPCP3oc+LqdOCwfRmc5AG5JexdkvgvQPkZaeuSArQu
+         E/lqGG7B9DL/B3qhSjuGkubeU1GwuwZNni3+XM1S0IGNZ4IL4iH20PCkBMmHQIK7rL7a
+         vAZvivnYE5BSLHxXS/jww7kVaJuq1xBzy2Ta4/lm7usnPHa8MecMANFteUU0iPgpVuDt
+         7eViJlz8WwKQOfbHQR09yuFxHHn7ip2uYiFxzqILxovwFkuHFbXV586NARNHNIUSgWdd
+         FiRw==
+X-Gm-Message-State: AC+VfDygaPjStB8YjfNsa8boN3SobSVWt4uHR8tnzIJ2nfKjjqhidI73
+	hCIFSHK5NU4VgA3CXCYUn1zKQPeBti/eN8hgqGtXqkMID8I=
+X-Google-Smtp-Source: ACHHUZ4G/DxqjMYYdh5iqXakgrogNJIIDuLJG6+DS46G7Y2pyY15SHEM6zFr5LrIoUoK6iP9eBYWiLAsEh0OQOjLAhE=
+X-Received: by 2002:a17:902:c944:b0:1a6:46f2:4365 with SMTP id
+ i4-20020a170902c94400b001a646f24365mr13446815pla.30.1684765438122; Mon, 22
+ May 2023 07:23:58 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-EXCLAIMER-MD-CONFIG: fd782ad6-06f5-4690-bfdd-57c58a3839e9
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DBAEUR03FT021:EE_|AS4PR10MB5223:EE_
-X-MS-Office365-Filtering-Correlation-Id: 59beb4d2-eaea-41fe-7ab3-08db55f9fad0
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	AO4Rk/cn0Lm1knnajzJNlWF4hz+xnlS24elPiFYpeHP79og3hxFTzYbATSgoU/LDBuYeHjXmFacsqjrHJ8okkL5DOCCf4FfFFGgSZycxzRbiUoN2TAC8Mlj+2Rihx58tWo/FbPZATlxrbqj6CvekZsyBsR6nXzcmt+k1xRlNxBGG1sikJ2i/D3cd7upSS+jLmyaUtaPsoHmqcwkZNAPT1asLU7/YTUt83c/SwDbMD1vaz2aAo6Ojw31qNupVna63mFBEBxmx9E2RHeXeqjX7q64U8F9fobhJQlMAndLFFLYHlxGYxNhvIp37vwIJa2UJvqRsgeM6BmOz4gG//2QpzLmoTba1xsbUrX5LV7hcUuQpk7nEry9gEoMCarpfRB2wMOoEDOx8AUjgqZUF6zCnK9CIDN9oMyDWkmwjz7Qi+EcJEIULrXEWVvLjaya0a5K1+JBLvIAzdYLMlw7Snik183qhiaKNyG5vltvdbyo2Q0BbN7XWA4FEGz9FBRMMvtjfcLylcENnEs7EOsrPLPuq2vjcL5RXpAnkV91eRZcDn3ywqzZs9RX00/1QfDn8hmwuYI+OGrfwoC+iHezrsApn7z772dVc/uLBJt8F6uBGrVK/E5SPsdsn4ng71EphW8HJappW3MYLMdNw4ZeWDSd0Aj7GoL9UpnBihw+6Q54ZxrPfZt0SChEzxg4gtS8UlrNzUJ1mM/D/LWl2oInpqaMH/Nl9BiE6Pruvp8hFT7VGypi/AXwRmDm6bPJHAh8C5+a/hkryF7BZt5av9nOdj86g8Q==
-X-Forefront-Antispam-Report:
-	CIP:139.15.153.200;CTRY:DE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:eop.bosch-org.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230028)(4636009)(136003)(346002)(39860400002)(396003)(376002)(451199021)(36840700001)(40470700004)(46966006)(86362001)(54906003)(41300700001)(316002)(8936002)(5660300002)(82310400005)(33656002)(82960400001)(82740400003)(356005)(81166007)(70206006)(66899021)(2906002)(478600001)(6916009)(70586007)(4326008)(8676002)(966005)(36860700001)(26005)(1076003)(47076005)(336012)(40460700003)(426003)(186003)(83380400001)(40480700001)(36900700001);DIR:OUT;SFP:1101;
-X-OriginatorOrg: bshg.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 May 2023 10:40:34.4991
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 59beb4d2-eaea-41fe-7ab3-08db55f9fad0
-X-MS-Exchange-CrossTenant-Id: 0ae51e19-07c8-4e4b-bb6d-648ee58410f4
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=0ae51e19-07c8-4e4b-bb6d-648ee58410f4;Ip=[139.15.153.200];Helo=[eop.bosch-org.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	DBAEUR03FT021.eop-EUR03.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS4PR10MB5223
+References: <20230116081624.12618-1-wagi@monom.org> <CAG17S_PHpxpWnkJrM-NC1J+MDqXzN0zeV-TZ97Euxhfgcj_mMg@mail.gmail.com>
+ <CAG17S_NzXYUOPkF1h0e056=jCBQaP3nUh2t0y0n9R5nzhe9yYA@mail.gmail.com>
+ <20230227074314.pys65eppvaus2wbs@carbon.lan> <CAG17S_OFx6vU9ubpyDO06N49jBMQVqb20L+tzx0gNs7eWaLv2g@mail.gmail.com>
+In-Reply-To: <CAG17S_OFx6vU9ubpyDO06N49jBMQVqb20L+tzx0gNs7eWaLv2g@mail.gmail.com>
+From: KeithG <ys3al35l@gmail.com>
+Date: Mon, 22 May 2023 09:23:47 -0500
+Message-ID: <CAG17S_MkyEqj497spiejQBUMdPiOkCr3ao9tjwaJZnUs_4rHpA@mail.gmail.com>
+Subject: Re: [PATCH] iwd: Add support to Scan in AP mode
+To: Daniel Wagner <wagi@monom.org>
+Cc: connman@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-> > >>>
-> > >>> Shall we also consider the "WPA-PSK" case in the same way?
-> > >
-> > > As to my understanding, MFP requires SHA256.
-> > >
-> > >>
-> > >> I prefer we remove wpa_supplicant support from ConnMan and you start
-> > >> using iwd ;)
-> > >>
-> > >> And I am only half joking since this part of wpa_supplicant is such =
-a mess.
-> > >> Whatever key management they introduce next will turn into your next
-> > >> problem and compatibility issues. I am running independent SSIDs in
-> > >> my home network to deal with end consumer device since they use a
-> > >> wpa_supplicant and management software that is too dumb.
-> > >>
-> > >> With iwd the WiFi protocol is in one daemon and not split between tw=
-o
-> > >> daemons.
-> > >
-> > > Unfortunately in our case we are tied to wpa_supplicant because of ch=
-ip
-> > vendor specifications.
-> >=20
-> > that is horrible. What is missing in nl80211 that you need wpa_supplica=
-nt? I am
-> > really curious about that.
->=20
-> You can find the patches on wpa_supplicant from chip vendor in cypress-ho=
-stap_2_9-1-2022_0321.tar.gz, included in driver package:
->=20
-> https://community.infineon.com/gfawx74859/attachments/gfawx74859/WiFiBlue=
-toothLinux/2314/4/cypress-fmac-v5.10.9-2022_0331.zip
->=20
-> No idea, if Wi-Fi chip will also work with iwd without adaptions.
->=20
-> Best regards, Sven
-Hi Marcel,
+> > On Tue, Feb 14, 2023 at 12:55:37PM -0600, KeithG wrote:
+> >  > ~# iwctl device list
+> > > >                                     Devices
+> > > > --------------------------------------------------------------------------------
+> > > >   Name                  Address               Powered     Adapter     Mode
+> > > > --------------------------------------------------------------------------------
+> > > >   wlan0                 b8:27:eb:a4:6e:0f     on          phy0        ap
+> > > >
+> > > > ~# iwctl ap wlan0 scan
+> > > > ~# iwctl ap wlan0 get-networks
+> > > >                                     Networks
+> > > > --------------------------------------------------------------------------------
+> > > >             Property              Value
+> > > > --------------------------------------------------------------------------------
+> > > >             Name                  spg4
+> > > >             SignalStrength        -4400
+> > > >             Type                  psk
+> > > >
+> > > >             Name                  ATTcVY9ZWa
+> > > >             SignalStrength        -5100
+> > > >             Type                  psk
+> > > >
+> > > >             Name                  ATT3zFM5gH
+> > > >             SignalStrength        -5900
+> > > >             Type                  psk
+> > > >
+> > > >             Name                  2WIRE811
+> > > >             SignalStrength        -6900
+> > > >             Type                  psk
+> > > >
+> > > >             Name                  ATTU8Z3d7i
+> > > >             SignalStrength        -8400
+> > > >             Type                  psk
+> > > >
+> > > > So I am in AP mode and I am connected via WiFi to it.
+> > > >
+> > > > In connman, though, I do not get any wifi SSIDS:
+> > > >
+> > > > ~# connmanctl services
+> > > > *AO Wired                ethernet_b827ebf13b5a_cable
+> > > > ~# connmanctl enable wifi
+> > > > wifi is already enabled
+> > > > ~# connmanctl scan wifi
+> > > > Error /net/connman/technology/wifi: Did not receive a reply. Possible
+> > > > causes include: the remote application did not send a reply, the
+> > > > message bus security policy blocked the reply, the reply timeout
+> > > > expired, or the network connection was broken.
+> >
+> > This means the connmanctl tool didnt' receive any response. Do you have the logs
+> > from the iwd plugins by any chance (connmand -d plugins/iwd.c).
+> >
+> > > > Is this how it might work? This is how we do it when we use hostapd to
+> > > > connect instead of iwd.
+> >
+> > It looks like the plugin is still using the wrong API and either iwd doesn't
+> > respond or the iwd plugin doesn't handle the error case correctly.
+> >
+> > > Is this still something that could be done? I can build and test any
+> > > patches pretty quickly (except for next week).
+> >
+> > I am not that fast sorry :)
+> >
+> Daniel,
+>
+> I am finally back at this again. I appreciate your help with this.
+> I have applied your patch to connman and am running iwd 2.4. I enabled
+> the logging of the iwd plugin:
+> connmand -n -d plugins/iwd.c
+> I get the same response as before. I am connected to the Pi with iwd
+> in AP mode (only, no ethernet)\
+>
+> # connmanctl scan wifi
+> Error /net/connman/technology/wifi: Did not receive a reply. Possible
+> causes include: the remote application did not send a reply, the
+> message bus security policy blocked the reply, the reply timeout
+> expired, or the network connection was broken.
+>
+> when I submit this command, it takes a long time to return and nothing
+> extra appears in the log. Is connman sending a command like 'iwctl
+> station scan' as opposed to 'iwctl ap scan' and 'iwctl ap
+> get-networks'?
+>
+> It is happily connected and iwd can scan for networks while it is
+> connected in AP mode.
+>
+> # iwctl ap wlan0 scan
+> # iwctl ap wlan0 get-networks
+>                                     Networks
+> --------------------------------------------------------------------------------
+>             Property              Value
+> --------------------------------------------------------------------------------
+>             Name                  spg4
+>             SignalStrength        -3000
+>             Type                  psk
+> ...
+>
+> the log in the journal is this:
+> May 11 13:16:40 runeaudio connmand[362]: wlan0 {update} flags 4098 <DOWN>
+> May 11 13:16:40 runeaudio connmand[362]: wlan0 {newlink} index 3
+> address B8:27:EB:52:CC:D0 mtu 1500
+> May 11 13:16:40 runeaudio connmand[362]: wlan0 {newlink} index 3
+> operstate 2 <DOWN>
+> May 11 13:16:40 runeaudio connmand[362]:
+> plugins/iwd.c:object_removed() net.connman.iwd.Station
+> /net/connman/iwd/0/3
+> May 11 13:16:40 runeaudio connmand[362]:
+> plugins/iwd.c:object_removed() net.connman.iwd.SimpleConfiguration
+> /net/connman/iwd/0/3
+> May 11 13:16:40 runeaudio connmand[362]:
+> plugins/iwd.c:object_removed() net.connman.iwd.DeviceProvisioning
+> /net/connman/iwd/0/3
+> May 11 13:16:40 runeaudio connmand[362]:
+> plugins/iwd.c:device_property_change() /net/connman/iwd/0/3 powered 0
+> May 11 13:16:40 runeaudio connmand[362]: wlan0 {update} flags 4099 <UP>
+> May 11 13:16:40 runeaudio connmand[362]: wlan0 {newlink} index 3
+> address B8:27:EB:52:CC:D0 mtu 1500
+> May 11 13:16:40 runeaudio connmand[362]: wlan0 {newlink} index 3
+> operstate 2 <DOWN>
+> May 11 13:16:40 runeaudio connmand[362]: plugins/iwd.c:object_added()
+> net.connman.iwd.AccessPoint /net/connman/iwd/0/3
+> May 11 13:16:41 runeaudio connmand[362]: plugins/iwd.c:create_ap() started 0
+> May 11 13:16:41 runeaudio connmand[362]:
+> plugins/iwd.c:device_property_change() /net/connman/iwd/0/3 powered 1
+> May 11 13:16:41 runeaudio connmand[362]:
+> plugins/iwd.c:device_property_change() /net/connman/iwd/0/3 mode ap
+> May 11 13:16:41 runeaudio connmand[362]: wlan0 {add} address
+> 192.168.5.1/24 label wlan0 family 2
+> May 11 13:16:41 runeaudio connmand[362]: wlan0 {add} route 192.168.5.0
+> gw 0.0.0.0 scope 253 <LINK>
+> May 11 13:16:41 runeaudio connmand[362]: wlan0 {update} flags 69635
+> <UP,LOWER_UP>
+> May 11 13:16:41 runeaudio connmand[362]: wlan0 {newlink} index 3
+> address B8:27:EB:52:CC:D0 mtu 1500
+> May 11 13:16:41 runeaudio connmand[362]: wlan0 {newlink} index 3
+> operstate 5 <DORMANT>
+> May 11 13:16:41 runeaudio connmand[362]: wlan0 {add} route fe80:: gw
+> :: scope 0 <UNIVERSE>
+> May 11 13:16:41 runeaudio connmand[362]: wlan0 {RX} 0 packets 0 bytes
+> May 11 13:16:41 runeaudio connmand[362]: wlan0 {TX} 1 packets 42 bytes
+> May 11 13:16:41 runeaudio connmand[362]: wlan0 {update} flags 69699
+> <UP,RUNNING,LOWER_UP>
+> May 11 13:16:41 runeaudio connmand[362]: wlan0 {newlink} index 3
+> address B8:27:EB:52:CC:D0 mtu 1500
+> May 11 13:16:41 runeaudio connmand[362]: wlan0 {newlink} index 3
+> operstate 6 <UP>
+> May 11 13:16:41 runeaudio connmand[362]: wlan0 {RX} 0 packets 0 bytes
+> May 11 13:16:41 runeaudio connmand[362]: wlan0 {TX} 1 packets 42 bytes
+> May 11 13:16:41 runeaudio connmand[362]: wlan0 {newlink} index 3
+> address B8:27:EB:52:CC:D0 mtu 1500
+> May 11 13:16:41 runeaudio connmand[362]: wlan0 {newlink} index 3
+> operstate 6 <UP>
+> May 11 13:16:41 runeaudio connmand[362]: plugins/iwd.c:object_added()
+> net.connman.iwd.AccessPointDiagnostic /net/connman/iwd/0/3
+> May 11 13:16:41 runeaudio connmand[362]:
+> plugins/iwd.c:ap_property_change() /net/connman/iwd/0/3 started 1
+> May 11 13:18:28 runeaudio connmand[362]: wlan0 {RX} 124 packets 12220 bytes
+> May 11 13:18:28 runeaudio connmand[362]: wlan0 {TX} 93 packets 15083 bytes
+> May 11 13:18:28 runeaudio connmand[362]: wlan0 {newlink} index 3
+> address B8:27:EB:52:CC:D0 mtu 1500
+> May 11 13:18:28 runeaudio connmand[362]: wlan0 {newlink} index 3
+> operstate 6 <UP>
 
-sorry there was connman@lists.linux.dev missing in first mail.
+I neglected to say which version of connman I am using. I am running
+connman 1.41
+with the patch earlier in this thread applied.
 
-any update here?
-Unfortunately we can't solve the vendor dependencies, but I want to get
-rid of
-manual updates of the patch for every connman release.
-
-Asking chip vendor for iwd support is all I could do at the moment. We
-are planning to switch to iwd, but this needs alignment with supplier.
-
-Best regards, Sven=
+Keith
