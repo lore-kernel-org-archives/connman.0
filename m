@@ -1,84 +1,84 @@
-Received: from EUR04-HE1-obe.outbound.protection.outlook.com (mail-he1eur04on2042.outbound.protection.outlook.com [40.107.7.42])
+Received: from EUR02-AM0-obe.outbound.protection.outlook.com (mail-am0eur02on2087.outbound.protection.outlook.com [40.107.247.87])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7893320A
-	for <connman@lists.linux.dev>; Fri, 26 May 2023 06:22:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97BEC21063
+	for <connman@lists.linux.dev>; Thu,  1 Jun 2023 14:12:02 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=JvNVqNhCh33AmBTucBz0HFgZzKrb26E2gW85IT5iDLGNuFacW3pMFSkXpGUTVyFIrfDZLSmYdGsu+EMXmpaRKWfIL4CrKY+lu4hjLKsG1gOlvlQCF+WOeYyUfl2fRjlObMFYP/Hi+enDJ3GAl4K5pyEIipYvEzDLxmyaS3WKZX9MTUzqAdvLfO7Z3kn+ulK7OfQZwRwGhewl2FB1b7RzlJ36dJrSIQUXEioaE56vCKqr5rp+Q3TFDYkihi2x+xcxHHtBji3Czkdu557GO1u+hcb6gTbLJUESojWKYNUbPtkPkuvuuBSnwk70fXJXL9guwtjcam5nTP6FMeAUvhkVyA==
+ b=NUxUBPYMOpw34kKskHxXQNgoGAqeYiZRgsBpVVDGNrXH22uBPERgzR0si8HV/uelJw5/QO1H2pMBDJCeLXadZ43DwZg9af6+qLjcUB7lzyAVwcIIQ00DC/2idvOg8zjqSEYjuyzQGMmMiKt8MG9OeEmrNbE5jrnDsZ0bnrbkTQUQRMJnNGX63fMOW47mQM/KUhDGiRZ9D406hH+TMzamKRrvgjKT46muIcgPG2ZPK2YvDe4HYotV1UfTZqn6FgvwC+WT5e78C3jgvdyCX9WxN5VTtpStgSRBC4Sv3HpPVlhqPAMDxc8rn/fhCxFqnGkgl3NJdmgxl6hiZ4ApEjd7EQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=hvheg7Ksti4K/RI25WdhdlwMn9h6PvPVqb38VDx/ijo=;
- b=f7baR7MPvGLsUwVvhgW3H5BH11iOKZLw0KMkrirEYSTvXx7F5qQKank2GECi76lg0GL5bYB+VHFYHGzEVRZ7Qwlqe/MhUZJikUr5kd1taSg34eGqrmibep6285fQVYMX/1slcy7xlhLYtUyXQ9MomkzAEaMQYKUi3xVXeZU0qnfl19ODW+bm6vLAuBQ37IJRKKeByCi5NvuoM1yJuk/rN0D4bwzce9o8AX2mYq79Fk19Nd8tzYywr5HCfzC36ysORcZ7VjHrVpBYUGrptWTv20F7uN6/PzIGBqCe54XJvTSgZeRFuE9wKkcl0vuDeTgixQntXLq1I1FbnwIDMZcrBQ==
+ bh=WCrSfTgKJhXlFkuTS83KM3PC+77OJZE6OkQD+1BUmZc=;
+ b=ITLy558OV0qgIW0EvChffvmw5CQFPIgqKWdcLnBxbK9jFXaCTGu7YIOm5Q7JbKXHdFxXH45mwVf5GA6mUasTgwPtwl3ehh0/Qyiee0hrnJzEZvRTPmxB53dFbZM/k6c1TgzImsrmSZXNC9CxLyIyfObvbF0HLam4BkoEcSjEoaCraNdjLd2A9C3rAVQLUQ1OPp1hm2c0BZ8WDsOiF01MO8B9xINMeyt0T/hjoTwnn+Md17AUZl36gP9gFKHbIHBgfu5RVZkNvxxyWsvcWSv/L4hfdgmaWQLlhJ6g2cONaojcGqjjwkZcuMn2Lt4aoJM4DXHrgMEyV3sEtrC5a8z3qQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 139.15.153.199) smtp.rcpttodomain=samnazarko.co.uk smtp.mailfrom=bshg.com;
+ 139.15.153.201) smtp.rcpttodomain=monom.org smtp.mailfrom=bshg.com;
  dmarc=pass (p=reject sp=reject pct=100) action=none header.from=bshg.com;
  dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bshg.com; s=selector1;
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bshg.com; s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hvheg7Ksti4K/RI25WdhdlwMn9h6PvPVqb38VDx/ijo=;
- b=SI/AvQPa3ouToQGniLEyes3ldPvNk/Xrg+P6CaGkKHzlcyeplrcL71PH/3ObdFQIlFL6R3Eo1xL8Vx5GWARw16Up32XV5apSNtd1nJMWWuFV6PN9JJjSfml8AL3IuiZvXfYsp+NfpOAA2fg2Dc97pU8U1RzfSd5rBoSnnwT0k0YdzDGgD3+913YembcWrtjumZaSqSCzr4piIJyHJpsBYpvVqkd9oURy+ZHQEod7J+VTR3xFoLeqiieBihwgXBy44qXUo2ARHM3fQodJlyb55OyUfwOo64pE6uhbxXPlde7z3U3yhhsrsLsufEW6Qm0Pi9lOAU03Vh26ji9TrA/SkA==
-Received: from DUZPR01CA0324.eurprd01.prod.exchangelabs.com
- (2603:10a6:10:4ba::29) by PAWPR10MB7365.EURPRD10.PROD.OUTLOOK.COM
- (2603:10a6:102:2e6::13) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6433.18; Fri, 26 May
- 2023 06:21:33 +0000
-Received: from DBAEUR03FT062.eop-EUR03.prod.protection.outlook.com
- (2603:10a6:10:4ba:cafe::d0) by DUZPR01CA0324.outlook.office365.com
- (2603:10a6:10:4ba::29) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6433.18 via Frontend
- Transport; Fri, 26 May 2023 06:21:33 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 139.15.153.199)
+ bh=WCrSfTgKJhXlFkuTS83KM3PC+77OJZE6OkQD+1BUmZc=;
+ b=5cBpnF8XGzueHRKGsU1me7WraaBc6ZjY0kfG4ruIlpQr7QdGXF4hgbyt9bXCckl9U9i5iruH15QoLZSspMqTE64QIaAUNAwqdnfyn2tbKrQbSbUUAAVQFMF1T+ga0mf0qF4CKnmcZRaXRipyUue5AB9d16Ate7HxdZj0Qv2Om8mha02DRd2eZvGLHGtmVyteshl/kLfoNKyTCBwaBUJcdpqaSvb57waLSWTNny6bgKwgUyDksSmjuT5UZMsAwBLJA39qxPytX5SG431/SdFswPAZY6NRaYqwzEYD8iAvDvo4kOWzvwdEa0X39Qx6RJLuM1gt8xrPPOYt6sKaRYq96Q==
+Received: from DUZPR01CA0008.eurprd01.prod.exchangelabs.com
+ (2603:10a6:10:3c3::17) by AS4PR10MB5893.EURPRD10.PROD.OUTLOOK.COM
+ (2603:10a6:20b:515::18) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6455.23; Thu, 1 Jun
+ 2023 14:11:59 +0000
+Received: from DBAEUR03FT035.eop-EUR03.prod.protection.outlook.com
+ (2603:10a6:10:3c3:cafe::6c) by DUZPR01CA0008.outlook.office365.com
+ (2603:10a6:10:3c3::17) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6455.22 via Frontend
+ Transport; Thu, 1 Jun 2023 14:11:59 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 139.15.153.201)
  smtp.mailfrom=bshg.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=bshg.com;
 Received-SPF: Pass (protection.outlook.com: domain of bshg.com designates
- 139.15.153.199 as permitted sender) receiver=protection.outlook.com;
- client-ip=139.15.153.199; helo=eop.bosch-org.com; pr=C
-Received: from eop.bosch-org.com (139.15.153.199) by
- DBAEUR03FT062.mail.protection.outlook.com (100.127.142.64) with Microsoft
+ 139.15.153.201 as permitted sender) receiver=protection.outlook.com;
+ client-ip=139.15.153.201; helo=eop.bosch-org.com; pr=C
+Received: from eop.bosch-org.com (139.15.153.201) by
+ DBAEUR03FT035.mail.protection.outlook.com (100.127.142.136) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6433.18 via Frontend Transport; Fri, 26 May 2023 06:21:33 +0000
-Received: from SI-EXCAS2000.de.bosch.com (10.139.217.201) by eop.bosch-org.com
- (139.15.153.199) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.23; Fri, 26 May
- 2023 08:21:33 +0200
+ 15.20.6455.24 via Frontend Transport; Thu, 1 Jun 2023 14:11:59 +0000
+Received: from SI-EXCAS2001.de.bosch.com (10.139.217.202) by eop.bosch-org.com
+ (139.15.153.201) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.23; Thu, 1 Jun
+ 2023 16:11:57 +0200
 Received: from SI-HUB2000.de.bosch.com (10.4.103.108) by
- SI-EXCAS2000.de.bosch.com (10.139.217.201) with Microsoft SMTP Server
+ SI-EXCAS2001.de.bosch.com (10.139.217.202) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.23; Fri, 26 May 2023 08:21:32 +0200
-Received: from FE0SWIEXHC03.bsh.corp.bshg.com (10.49.78.137) by
+ 15.1.2507.23; Thu, 1 Jun 2023 16:11:57 +0200
+Received: from FE0SWIEXHC04.bsh.corp.bshg.com (10.49.78.142) by
  SI-HUB2000.de.bosch.com (10.4.103.108) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
- 15.1.2507.23; Fri, 26 May 2023 08:21:32 +0200
-Received: from FE0SWIEXMB4C.bsh.corp.bshg.com (10.49.78.135) by
- FE0SWIEXHC03.bsh.corp.bshg.com (10.49.78.137) with Microsoft SMTP Server
+ 15.1.2507.23; Thu, 1 Jun 2023 16:11:57 +0200
+Received: from FE0SWIEXMB4D.bsh.corp.bshg.com (10.49.78.136) by
+ FE0SWIEXHC04.bsh.corp.bshg.com (10.49.78.142) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2507.23; Fri, 26 May 2023 08:21:32 +0200
+ 15.1.2507.23; Thu, 1 Jun 2023 16:11:57 +0200
 Received: from FE0SWIEXMB4C.bsh.corp.bshg.com (10.49.78.135) by
- FE0SWIEXMB4C.bsh.corp.bshg.com (10.49.78.135) with Microsoft SMTP Server
+ FE0SWIEXMB4D.bsh.corp.bshg.com (10.49.78.136) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.23; Fri, 26 May 2023 08:21:32 +0200
+ 15.1.2507.23; Thu, 1 Jun 2023 16:11:56 +0200
 Received: from FE0SWIEXMB4C.bsh.corp.bshg.com ([fe80::49c1:3bea:4800:a3b3]) by
  FE0SWIEXMB4C.bsh.corp.bshg.com ([fe80::49c1:3bea:4800:a3b3%6]) with mapi id
- 15.01.2507.023; Fri, 26 May 2023 08:21:32 +0200
+ 15.01.2507.023; Thu, 1 Jun 2023 16:11:56 +0200
 From: "Dembianny, Sven (GDE-EDSO)" <Sven.Dembianny@bshg.com>
-To: Sam Nazarko <email@samnazarko.co.uk>
-CC: "connman@lists.linux.dev" <connman@lists.linux.dev>
-Subject: Re: WPA connectivity issues with 1.41
-Thread-Topic: WPA connectivity issues with 1.41
-Thread-Index: AQHZh063nQqICy5NcUmOb4OrZ9Xmr69sBHkA
-Date: Fri, 26 May 2023 06:21:32 +0000
-Message-ID: <20230526062130.GA3841275@rbgwcw0248.bsh.corp.bshg.com>
-References: <0a9616adc89f4fa08a0cd9840fecc582@samnazarko.co.uk>
-In-Reply-To: <0a9616adc89f4fa08a0cd9840fecc582@samnazarko.co.uk>
+To: "wagi@monom.org" <wagi@monom.org>, "connman@lists.linux.dev"
+	<connman@lists.linux.dev>
+CC: "Ryll, Jan (GDE-EDS9)" <Jan.Ryll@bshg.com>, "Dembianny, Sven (GDE-EDSO)"
+	<Sven.Dembianny@bshg.com>
+Subject: [PATCH 0/1] Add support to get or remove known services via
+Thread-Topic: [PATCH 0/1] Add support to get or remove known services via
+Thread-Index: AQHZlJMGcYKRpbelm0KPnwsFjZc6YA==
+Date: Thu, 1 Jun 2023 14:11:56 +0000
+Message-ID: <20230601141143.3275285-1-sven.dembianny@bshg.com>
 Accept-Language: de-DE, en-US
 Content-Language: en-US
 X-MS-Has-Attach:
 X-MS-TNEF-Correlator:
-x-originating-ip: [10.49.85.188]
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <93738ECA7B654A429001FDA42311C364@BSHG.COM>
-Content-Transfer-Encoding: base64
+x-mailer: git-send-email 2.25.1
+x-originating-ip: [10.49.85.185]
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
@@ -88,48 +88,51 @@ MIME-Version: 1.0
 X-EXCLAIMER-MD-CONFIG: fd782ad6-06f5-4690-bfdd-57c58a3839e9
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DBAEUR03FT062:EE_|PAWPR10MB7365:EE_
-X-MS-Office365-Filtering-Correlation-Id: d5119c5e-7388-4fd2-dda2-08db5db173b5
+X-MS-TrafficTypeDiagnostic: DBAEUR03FT035:EE_|AS4PR10MB5893:EE_
+X-MS-Office365-Filtering-Correlation-Id: 08fc4a16-b0f7-4502-760d-08db62aa2a19
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info:
-	z9v/EvUlq9uYOEhPXXFl56mVbuNy2SCTT4dSllfH+1oEgKki4S9bZNBYkdPEN2ayQfFymlT7PPnscVwqz3LsBY60B86ASlL2VIRR+06zVVHe4tB7Pw2xThG5P5WoAjZ5NFrJdht8Y7A+ZJsFzyzQYFvkYbK4aT03JlsRO+gYiSzrOSju+Ol5OpkEcgluB/xCKZL/ogmrt4XL7ejwwzLErgKYcM/GyglH9KGJHlKr9EwrQWgB4snWDx7rUXW0YNwL9klL43SeZAZd4g5ih0/9LRO2N3gpZUZ9GlyRhA4Twfk/kAiYTP55RUNOWExqmoa/cy68emujnLR+9EqduWftCYNSr3hnBF53PJTk7D3ahNAKLnvrUe8mJCrywi5d2uDZzuKqRmcg+LSQjXL2FUpYckAGEz5niqvCnMrjFic9xlyFLWh0g1qJuNSbkXOlFpe4gH+bmDijYtd6cSzFrnjdoK0f4NB1JZKckUO0v+nLn8TYy52qPS3NnRP0t2Qi9NrrFJmLM5h//5QFOwr7k5K56jRcwjSL3PLbk+8V1FCenEzkMI5YKNd1IbOoBTvj8nwMeovPKgDuerIEdx3GNa3wAXPVpb82jm2KXT+qvi/g7j3/dEAIDsnMJR1EcoWZ6ZKbZl2GD8D2QIv1JfoHS2dVbH1R4+jwSpPuUJbTstc/NQIgPxhcTjq2lez5hW247E5wHu2fVdGccBGoo7QqsDiqLAwd5MVP12PLgu7c9Q1zGY8TDg2FGdygO3clWpAwyBcyDBj4xCY3T+sDV0utYOT73w==
+	pVvWtuhTVy4APyeJUQ/N2XMs/B0CxdPtqvntCA8l4BlZPLA17CtuxznCezTs5AdZrre6I9KuyrZrD/ITf0Vet6EZOtktKK+7N43Sr/mQFZ5ElrWQ6yrZ4btNsSBbu4jRivM9P4iQFom6fIijxG8VYFPd/aKpFG+m69xAbCqRD9xFjn10osezVD2Lzp8RU0bI4DY1qwcCQTiKstOwhkrYY1zxXjwVm/l2Zxmd5UU/EspZku2xLEISB9AatEEmQKQ97STKuZLRUV3hCP4UyTJ4Gl9eQPgrIHgQi6+sUyfFklovNgTNy8GCyj/yo3GkiRIP1B57z4/8YBpHjFUnH6lIbTHkj7tEqW8+xCiQGakV0B88Kn8C+jY37CTlyj/lkMGsBu2/0XOc4cPfJjwE5Ae7fV3cS/wrg4PE8PPAQCn3f5CWI51/gXD5rvpVlXJyxu3qBYUd/2bLmYrx33TaMVxFhF556SythuzUrQkDe52tkfcms7zT7U3U+0/b3JeV3X3HUuCT4hhbz1eWNXIIigO3GiFeROEPzVkGlMbhxcY7Vmf8ntDSpom+DDwON4vUJ8iSVlGEynX5lamhCRoe1DUhb30dIvo4AsFldSOTKc0tb6SRBBIXz1KJIOk1DywqWf1EV9a746Kelcmf6Epjr6gphhtnblCnFctgvNjz23fFqoCiWiBc+WmL7ULjMV1gQGHgszpeXb+IvPIVfn81H3IwUZG17UPBym1Wy71LkyOFgp7+VUVXsuqeqEexpfiPPxmSP8an7+ygxP52uihjUchAjg==
 X-Forefront-Antispam-Report:
-	CIP:139.15.153.199;CTRY:DE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:eop.bosch-org.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230028)(4636009)(396003)(376002)(136003)(346002)(39860400002)(451199021)(36840700001)(46966006)(40470700004)(40460700003)(478600001)(36860700001)(33656002)(1076003)(336012)(47076005)(83380400001)(426003)(26005)(82310400005)(186003)(86362001)(82740400003)(82960400001)(356005)(81166007)(40480700001)(70206006)(70586007)(6916009)(4326008)(5660300002)(8936002)(8676002)(316002)(2906002)(41300700001)(36900700001);DIR:OUT;SFP:1101;
+	CIP:139.15.153.201;CTRY:DE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:eop.bosch-org.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230028)(4636009)(346002)(396003)(376002)(136003)(39860400002)(451199021)(40470700004)(46966006)(36840700001)(478600001)(47076005)(107886003)(2616005)(26005)(1076003)(40480700001)(36756003)(336012)(36860700001)(7696005)(426003)(186003)(40460700003)(41300700001)(4326008)(82960400001)(81166007)(356005)(70206006)(70586007)(82740400003)(316002)(82310400005)(86362001)(4744005)(2906002)(5660300002)(8936002)(8676002)(54906003)(110136005)(36900700001);DIR:OUT;SFP:1101;
 X-OriginatorOrg: bshg.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 May 2023 06:21:33.3856
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Jun 2023 14:11:59.2081
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: d5119c5e-7388-4fd2-dda2-08db5db173b5
+X-MS-Exchange-CrossTenant-Network-Message-Id: 08fc4a16-b0f7-4502-760d-08db62aa2a19
 X-MS-Exchange-CrossTenant-Id: 0ae51e19-07c8-4e4b-bb6d-648ee58410f4
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=0ae51e19-07c8-4e4b-bb6d-648ee58410f4;Ip=[139.15.153.199];Helo=[eop.bosch-org.com]
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=0ae51e19-07c8-4e4b-bb6d-648ee58410f4;Ip=[139.15.153.201];Helo=[eop.bosch-org.com]
 X-MS-Exchange-CrossTenant-AuthSource:
-	DBAEUR03FT062.eop-EUR03.prod.protection.outlook.com
+	DBAEUR03FT035.eop-EUR03.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAWPR10MB7365
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS4PR10MB5893
 
-T24gTW9uLCBNYXkgMTUsIDIwMjMgYXQgMDU6MDA6NTZQTSArMDAwMCwgU2FtIE5hemFya28gd3Jv
-dGU6DQo+IEhpLA0KPiANCj4gQXQgT1NNQyB3ZSByZWNlbnRseSB1cGRhdGVkIHRvIHRoZSBsYXRl
-c3Qgc3RhYmxlIHJlbGVhc2Ugb2YgQ29ubk1hbiAxLjQxLg0KPiANCj4gU2luY2UgdGhlbiwgd2Ug
-aGF2ZSByZXBvcnRzIHRoYXQgdXNlcnMgd2VyZSB1bmFibGUgdG8gY29ubmVjdCB0byBXaUZpIG5l
-dHdvcmtzIHdoZXJlIHRoZXkgaGF2ZSBXUEEyIGFuZCBXUEEzIGFjdGl2ZS4gRGlzYWJsaW5nIFdQ
-QTMgZnVuY3Rpb25hbGl0eSBvbiB0aGUgQVAgc2lkZSBhbGxvd3MgdGhlIGRldmljZXMgdG8gY29u
-bmVjdCBhZ2Fpbi7CoA0KPiANCj4gVGhlIHByaW1hcnkgZGV2aWNlIGJlaW5nIHVzZWQgaXMgUmFz
-cGJlcnJ5IFBpIHdoaWNoIGRvZXNuJ3QgYXBwZWFyIHRvIGltcGxlbWVudCBXUEEzIHN1cHBvcnQg
-YXQgdGhpcyB0aW1lLiBJdCdzIHVuY2xlYXIgZm9yIG1lIHdoeSBDb25uTWFuIGlzIHRyeWluZyB0
-byBjb25uZWN0IHZpYSBXUEEzLiBXZSBhcmUgdXNpbmcgdGhlIHN0YW5kYXJkIHdwYV9zdXBwbGlj
-YW50IGZyb20gRGViaWFuIEJ1bGxzZXllLsKgDQo+IA0KPiBJZiBJIHJldmVydCB0aGUgY29tbWl0
-cyB3aGljaCBpbnRyb2R1Y2UgV1BBMyBmdW5jdGlvbmFsaXR5IGluIENvbm5NYW4sIHVzZXJzIGNh
-biBhZ2FpbiBjb25uZWN0IHRvIGFuIEFQIHdoaWNoIGhhcyBXUEEyIGFuZCBXUEEzIGVuYWJsZWQu
-wqANCj4gSSBhbHNvIHRyaWVkIGJhY2twb3J0aW5nOsKgd2lmaTogSGFuZGxlIGludmFsaWQta2V5
-IGNhc2Ugb24gV1BBLVNBRSBhdXRoZW50aWNhdGlvbiBmYWlsdXJlIHRvIHNlZSBpZiB0aGlzIGhl
-bHBlZCByZXNvbHZlIHRoZSBpc3N1ZSBidXQgaXQgZGlkIG5vdC4NCj4gDQo+IElzIGl0IGV4cGVj
-dGVkIGJlaGF2aW91ciB0aGF0IENvbm5NYW4gc2hvdWxkIGZhaWwgdG8gY29ubmVjdCB0byBhbiBB
-UCB3aGljaCBoYXMgV1BBMyBlbmFibGVkIHdoZXJlIHRoZSBkZXZpY2UgZG9lcyBub3Qgc3VwcG9y
-dCBXUEEzLCBldmVuIGlmIHRoZSBBUCBhbHNvIGFsbG93cyBXUEEyPw0KPiANCj4gTWFueSB0aGFu
-a3MNCj4gDQo+IFNhbSBOYXphcmtvDQo+IA0KPiANCj4gDQo+ICAgICAgDQpIaSBTYW0sDQoNCndo
-aWNoIFdpLUZpIGRyaXZlci9maXJtd2FyZSBpcyB1c2VkIGluIHlvdXIgc2V0dXA/IE1heWJlIHdl
-IGFyZSBmYWNpbmcgYQ0Kc2ltaWxhciBpc3N1ZS4NCkluZm8gY2FuIGJlIHJldHJpZXZlZCBieToN
-Cg0KIyBkbWVzZyB8IGdyZXAgIkZpcm13YXJlOiINCiMgbW9kaW5mbyBicmNtZm1hYyB8IGdyZXAg
-Il52ZXJzaW9uOiINCg0KQmVzdCByZWdhcmRzLCBTdmVu
+Hi Daniel,
+
+picked up a patch from Jan Ryll that was already provided to connman
+mailing list 2020-05-27 and tried to insert all your remarks.
+
+Unfortunately I can't find the mailing list entry to keep the old thread
+alive.
+
+This patch (without adaptions for your remarks) is now running in productio=
+n
+for years without issues.
+
+Best regards, Sven
+
+Dembianny, Sven (GED-EDSO) (1):
+  Add connman get and remove known services methods
+
+ client/commands.c   | 51 ++++++++++++++++++++++++++++++++
+ doc/manager-api.txt |  9 ++++++
+ src/connman.h       |  2 ++
+ src/manager.c       | 56 +++++++++++++++++++++++++++++++++++
+ src/service.c       | 70 ++++++++++++++++++++++++++++++++++++++++++++
+ tools/manager-api.c | 71 +++++++++++++++++++++++++++++++++++++++++++++
+ 6 files changed, 259 insertions(+)
+
+--=20
+2.25.1
