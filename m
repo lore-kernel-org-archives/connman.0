@@ -1,137 +1,91 @@
-Received: from mail-4322.protonmail.ch (mail-4322.protonmail.ch [185.70.43.22])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0F221774C
-	for <connman@lists.linux.dev>; Tue, 11 Jul 2023 12:25:28 +0000 (UTC)
-Date: Tue, 11 Jul 2023 12:25:21 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
-	s=lwoz6ajhkberrkxwjcecqijwmi.protonmail; t=1689078326; x=1689337526;
-	bh=9seU0UfeajGGyE4qw9T+YhJ7pN45Zvu7AiJtLx7yvS0=;
-	h=Date:To:From:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
-	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
-	b=BlU7uKIJ1EdJ2MMc49AgK0rEhuLVixs2aJVvNDbX5heV5GbjCkcWYblI0n3Qxg0XS
-	 BX8TTACTK7rGXuWjM44EOM9ObWi9LQxQXKjHiuyLQgMgWnhbYgqu7o+ksQbVkvAO5H
-	 5jkHCuzbj/HL5zpMa8kRQdB1sCgiYxSUZV0/q6nFq12IC/LkxPdkFXkv49ZC/c8gnO
-	 ZYMG7ler47IfWb7cG8BM4o4A7G+nG5pHMUfbKJ2326+Fo/6zeygLYRdgwh7EThn+Xw
-	 frMqZRy8s+ESJWnCaXeP4MnoUPwNWrSu691yYiRb9k8Dv0p7G3gzNjBiavePvcK/SM
-	 t55NnVOo1mUJg==
-To: "connman@lists.linux.dev" <connman@lists.linux.dev>
-From: Mo <mo.wei.no.way@proton.me>
-Subject: IPv4LL MAC seeding instead of random IP
-Message-ID: <b_Ofhsln4b7zrWZJerJ3KNkje3ACidY7pCrRjgPgHzEL4yUUIiXbQT-RGNE0rWBQrMnqc2_MbNNoU9uVUbfn7d6JAIlVRo7YxVjZyvZbQ7I=@proton.me>
-Feedback-ID: 73880283:user:proton
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC37A14AB5
+	for <connman@lists.linux.dev>; Tue, 11 Jul 2023 15:40:38 +0000 (UTC)
+Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-51e5672d580so3761859a12.2
+        for <connman@lists.linux.dev>; Tue, 11 Jul 2023 08:40:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1689090036; x=1691682036;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Hpzs/RI/RAhm7sXpu3ICY961MzaQRJaxDCedSXVXErE=;
+        b=dpe+Dgjmc6qJdDZ/lp8JemQNA+5ytPUhtpS6BCzlXD0RveIFvWKFsGrrEgsLzK784P
+         PSoZq+mQtSdYAf72pqCwVGoZPmD/CmbSG9MEDvqQsNKK/dRBGy9EPR6zfsc1D7uILsDB
+         aupBAe8vUONGagF7WEugsfTAJ+NmGs6freFs3v7wyTkBavST51vGmGYSuD7JAZ+B19RD
+         NSCkfesZtpGRipFkCVVw+jrBG0GP23lN6NwjXGG2bjl4G+r5SdHqMsBjs5hMJnUKvRKn
+         3s0kDb6QB6Ywb2tjUzrZIPlvXPkk9eJW2pfrwH7ncmbxyM6kGCBVFPkkFd1yaVpdGG0D
+         0/Eg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1689090036; x=1691682036;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Hpzs/RI/RAhm7sXpu3ICY961MzaQRJaxDCedSXVXErE=;
+        b=XUnywybo6SKq5chLse4WvetXJCkTSphd85XslE/O96ja0Z6DgYudaME55OPFDsr0+A
+         5LPrVehoUGxI/adTJjCxvStIE+zjdm4Y9Ci06lZvvMEIEY2xy6QqirKiz64KPvVJSgKl
+         JlKknhQ0zebzZ7fcM/G3K1PGe23UmcVATbbF0IG5NozbBk+nnpxG4+mEru9bw1TgnVQt
+         H6UA8h2rstNlyu9PVR/G6OkCleVU79rIPtZwPx3nMsLwMrTtqeYnRzH43KE3C2Bixcr7
+         z2ODDBwb71EeiSE55crawIFECfWW2+/Xo5Vsc/MdB8PNHaFom2M/DaCwkJgLbFYOYRFD
+         DEvQ==
+X-Gm-Message-State: ABy/qLb5vVXctojopSMSd3gHEUIQ8aHmIKUePTPyPsW5g5noz+i9g6VP
+	vqfic3+6bT9w/ozylwbF5CHdrhvDwl0=
+X-Google-Smtp-Source: APBJJlFrRWcXYNFLJCwbT8TbJjobK/ksU4JgnrzK//itgylHT0BF01OSpv5VjtsE+tpAEmUYD9uTLA==
+X-Received: by 2002:a17:907:2383:b0:98d:63c5:d132 with SMTP id vf3-20020a170907238300b0098d63c5d132mr15391522ejb.72.1689090036260;
+        Tue, 11 Jul 2023 08:40:36 -0700 (PDT)
+Received: from localhost.lan (dsl51B7D2F9.fixip.t-online.hu. [81.183.210.249])
+        by smtp.gmail.com with ESMTPSA id lc16-20020a170906f91000b0096f6a131b9fsm1314365ejb.23.2023.07.11.08.40.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 11 Jul 2023 08:40:35 -0700 (PDT)
+From: =?UTF-8?q?Zolt=C3=A1n=20B=C3=B6sz=C3=B6rm=C3=A9nyi?= <zboszor@gmail.com>
+To: connman@lists.linux.dev
+Cc: =?UTF-8?q?Zolt=C3=A1n=20B=C3=B6sz=C3=B6rm=C3=A9nyi?= <zboszor@gmail.com>
+Subject: [RFC][PATCH] gdhcp/client: Don't attach a DHCP client to veth* devices
+Date: Tue, 11 Jul 2023 17:40:32 +0200
+Message-ID: <20230711154032.935972-1-zboszor@gmail.com>
+X-Mailer: git-send-email 2.41.0
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; protocol="application/pgp-signature"; micalg=pgp-sha512; boundary="------700f28871d7feecac8bb9f15e06bf9e8361a9090a68ebfa3f62fc70a55e6ea69"; charset=utf-8
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------700f28871d7feecac8bb9f15e06bf9e8361a9090a68ebfa3f62fc70a55e6ea69
-Content-Type: multipart/mixed;boundary=---------------------b8710e326e2cda928e79bb9cb13f00fb
+veth* interfaces are created as sub-interfaces for a bridge
+by Docker and not actually used for communication in my use case.
 
------------------------b8710e326e2cda928e79bb9cb13f00fb
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;charset=utf-8
+But Connman tries to use DHCPv4 on them and they end up with
+an IP address in the 169.254.x.x range with routes added to them,
+which extra routes in turn break networking on the host.
 
-Hi,
+This is a very bad approach, hence the RFC status of the patch.
+It may be better if Connman didn't add routing for interfaces
+with only a link local address. Please give me some pointers
+so I can implement it properly.
 
-When I enable `IPv4.method=3Dauto`=C2=A0on an interface, the device gets a=
- random link-local address each boot (assuming there is no DHCP server on =
-the network).
+Signed-off-by: Zoltán Böszörményi <zboszor@gmail.com>
+---
+ gdhcp/client.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-I'd like to use the MAC as a seed for the IP. This is mentioned in [RFC 39=
-27](https://www.rfc-editor.org/rfc/rfc3927), sec. 2.1:
-
->=C2=A0If the host has access to persistent information that is different =
-for each host, =
-
-
-  such as its IEEE 802 MAC address, then the pseudo-random number generato=
-r
-  SHOULD be seeded using a value derived from this information.
-
-
-Until commit 3da07ebeb4 ConnMan implemented MAC seeding. =
-
-
-It was removed, however, in what seems to be a cleaning effort. As I read =
-it, the feature was lost on accident, but maybe there were other reasons.
-
--=C2=A0Are there plans to (re-)introduce it?
--=C2=A0If not: Why?
-
-
-Yours sincerely
-Mo
-
-
-Version:
-connman 1.41
-
-Mentioned commit:
-```
-commit 3da07ebeb4ae8e6bea3fe71a3854db7744df8bb6 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0
-Author: Patrik Flykt <patrik.flykt@linux.intel.com> =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0
-Date: =C2=A0 Wed Nov 19 12:46:55 2014 +0200 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0
-
-=C2=A0 =C2=A0 gdhcp: Use dhcp_get_random() where necessary =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0
-
-=C2=A0 =C2=A0 Instead of always using the libc rand() function, use the fu=
-nction from =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0
-=C2=A0 =C2=A0 the gdhcp common code. With this change the seed value can b=
-e omitted =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0
-=C2=A0 =C2=A0 from IPv4 link-local code. =C2=A0
-```
------------------------b8710e326e2cda928e79bb9cb13f00fb
-Content-Type: application/pgp-keys; filename="publickey - mo.wei.no.way@proton.me - 0xBA1F4BCD.asc"; name="publickey - mo.wei.no.way@proton.me - 0xBA1F4BCD.asc"
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="publickey - mo.wei.no.way@proton.me - 0xBA1F4BCD.asc"; name="publickey - mo.wei.no.way@proton.me - 0xBA1F4BCD.asc"
-
-LS0tLS1CRUdJTiBQR1AgUFVCTElDIEtFWSBCTE9DSy0tLS0tCgp4ak1FWkZUdzlSWUpLd1lCQkFI
-YVJ3OEJBUWRBenpJZjNySFY4cWpLSldsSjgxNFdDVkRaMUN1THRubW0KZjJMRm5NYzdUdzNOTVcx
-dkxuZGxhUzV1Ynk1M1lYbEFjSEp2ZEc5dUxtMWxJRHh0Ynk1M1pXa3VibTh1CmQyRjVRSEJ5YjNS
-dmJpNXRaVDdDakFRUUZnb0FQZ1dDWkZUdzlRUUxDUWNJQ1pBN0ZCOGtCQmJKN3dNVgpDQW9FRmdB
-Q0FRSVpBUUtiQXdJZUFSWWhCTG9mUzgybTJZU0VXdkNZN1RzVUh5UUVGc252QUFDR0NRRUEKeWVD
-b0U3MTFFY0s1Ykt3dEcva0k5L3BsVC9kLysyTlpvUXdaZTF0MWVpY0EvUkpHdkdoSnUrVnFLdy92
-ClNpaDlYL1g1RC8yQVlCSENvWGhHak1IenhQd0V6amdFWkZUdzlSSUtLd1lCQkFHWFZRRUZBUUVI
-UUMzYQpFcnF6WEFUVXlyRkpiTUNtbWR1bUliMDZjcUt1dVhtbk5qZkNDNHNJQXdFSUI4SjRCQmdX
-Q0FBcUJZSmsKVlBEMUNaQTdGQjhrQkJiSjd3S2JEQlloQkxvZlM4Mm0yWVNFV3ZDWTdUc1VIeVFF
-RnNudkFBQXhad0VBCi9SV01nOExJNitxS3hTUGViR1RqZEIyUk5KaHVXNW9NYWZhaWV0SFViejhC
-QU9uaS9iR0RpZ3IrdTJvQQpjMXpoZ3hxNjkyNGplVmt6MFJpTGdnaGNDTGNMCj1ncWRhCi0tLS0t
-RU5EIFBHUCBQVUJMSUMgS0VZIEJMT0NLLS0tLS0K
------------------------b8710e326e2cda928e79bb9cb13f00fb--
-
---------700f28871d7feecac8bb9f15e06bf9e8361a9090a68ebfa3f62fc70a55e6ea69
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-Version: ProtonMail
-
-wnUEARYKACcFgmStShoJkDsUHyQEFsnvFiEEuh9LzabZhIRa8JjtOxQfJAQW
-ye8AAGBxAP9gqHZgOK7+KWuTC4zUo3h++6EVFV7E73qC/SJVjTkHaQD+Kqom
-M/S6BPR4hjrP9bLkRrOdan37VK/hVAkO7xLcxAQ=
-=+0fp
------END PGP SIGNATURE-----
-
-
---------700f28871d7feecac8bb9f15e06bf9e8361a9090a68ebfa3f62fc70a55e6ea69--
+diff --git a/gdhcp/client.c b/gdhcp/client.c
+index 82017692..36c233a1 100644
+--- a/gdhcp/client.c
++++ b/gdhcp/client.c
+@@ -1175,6 +1175,11 @@ GDHCPClient *g_dhcp_client_new(GDHCPType type,
+ 		goto error;
+ 	}
+ 
++	if (strncmp(dhcp_client->interface, "veth", 4) == 0) {
++		*error = G_DHCP_CLIENT_ERROR_INTERFACE_IN_USE;
++		goto error;
++	}
++
+ 	if (!interface_is_up(ifindex)) {
+ 		*error = G_DHCP_CLIENT_ERROR_INTERFACE_DOWN;
+ 		goto error;
+-- 
+2.41.0
 
