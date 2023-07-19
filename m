@@ -1,306 +1,111 @@
-Received: from mohas.pair.com (mohas.pair.com [209.68.5.112])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f53.google.com (mail-oo1-f53.google.com [209.85.161.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D87C817F6
-	for <connman@lists.linux.dev>; Wed, 19 Jul 2023 16:57:17 +0000 (UTC)
-Received: from mohas.pair.com (localhost [127.0.0.1])
-	by mohas.pair.com (Postfix) with ESMTP id B9A0A7334D
-	for <connman@lists.linux.dev>; Wed, 19 Jul 2023 12:57:16 -0400 (EDT)
-Received: from [IPv6:2601:647:5a83:8c51:c1c9:4e94:766e:a5db] (unknown [IPv6:2601:647:5a83:8c51:c1c9:4e94:766e:a5db])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mohas.pair.com (Postfix) with ESMTPSA id 6FF8673343
-	for <connman@lists.linux.dev>; Wed, 19 Jul 2023 12:57:16 -0400 (EDT)
-From: Grant Erickson <gerickson@nuovations.com>
-Content-Type: text/plain;
-	charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B50D1BB27
+	for <connman@lists.linux.dev>; Wed, 19 Jul 2023 22:58:55 +0000 (UTC)
+Received: by mail-oo1-f53.google.com with SMTP id 006d021491bc7-565a8d74daeso161500eaf.1
+        for <connman@lists.linux.dev>; Wed, 19 Jul 2023 15:58:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1689807535; x=1690412335;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=2BgDKrshvojsIjSrrqVMTqpDjLflOySFrRkyOxowJlA=;
+        b=S/+6YL4e3GMTl6pWq1W0cI0Sp6zr7cwh0dWUtG2Hu8DJbYxpp4SSWXfunadZJ1b33n
+         yebLrvhhfJDcNZKrIHVmPw4b7uQcl0ncIJKCgR8kGohulJrhNHmsNQ/FkJPHjdVJyFDT
+         f39njAbu5vYKjh8ywAqugnOvnxp5GTeHELNrPykOdgbwcubT9Yhf7uK4inwzK030kWpp
+         jBkT1Aye5o54OWbSSbPuhWqW0d5rWym9qRMD0agmVgrtxa2OT2+DVhG0lcHHsUe5189K
+         +dPsmVR+X5Qu8R8FORyWOZGF6JJMTz+7gRJGafZNz+2bYh8DqxqdR3/gTPpSQtKNVjJ6
+         wpmQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1689807535; x=1690412335;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=2BgDKrshvojsIjSrrqVMTqpDjLflOySFrRkyOxowJlA=;
+        b=EwSj+brIkXjRKHACZOjhq3aEGvVgDmYtbrS8AfegBgPzrfWd0Yna9zxdoDnOAE9TZR
+         vn47vftZjUvxuOKHBk1pGOxtZgWyUxSaWNVxRIJIeILQiClBmSN0M9wXR7MnZjMJLYrx
+         v63jXd5lMUgOl1erzm3ZGm/RAfgfxuz9vmS/0zPmzTNUTPJOqco/8eNr9aO8fewxPjYx
+         HyFBeTxNTNceLCP98kq1HiNZT81GksSiYxUlSkI8f063algO+HJ6pGNafWIEza143MAG
+         q8cJF5iIEc0Q4RlIH8bM+TxzFc3A247PNHPhLymJNv3nLa0bNo0iWKQSkYP2aSxHSkYU
+         KHlA==
+X-Gm-Message-State: ABy/qLZ+zMb2tgBWOvQyUTRqpTspFVBMwTy9uFXMjgA71O4RtSkVYIAW
+	UPbMBoaHJWVDm6xnerZm2p4H/x8ztvIdZg==
+X-Google-Smtp-Source: APBJJlFLtOyNjPiYXGXNWBzxqXmbkh+fyJ9G/dvpJUQ1++/wf7lZfey8FErtExKC1e8c7J7avtdYkA==
+X-Received: by 2002:a05:6820:34c:b0:560:b9f0:b9fc with SMTP id m12-20020a056820034c00b00560b9f0b9fcmr968260ooe.0.1689807534962;
+        Wed, 19 Jul 2023 15:58:54 -0700 (PDT)
+Received: from [172.16.49.130] (cpe-70-114-247-242.austin.res.rr.com. [70.114.247.242])
+        by smtp.googlemail.com with ESMTPSA id z138-20020a4a4990000000b00567829a4991sm736772ooa.36.2023.07.19.15.58.53
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 19 Jul 2023 15:58:54 -0700 (PDT)
+Message-ID: <41f83fcb-8ced-75f8-4d42-64c67a886eb3@gmail.com>
+Date: Wed, 19 Jul 2023 17:58:51 -0500
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0 (Mac OS X Mail 13.4 \(3608.120.23.2.4\))
-Subject: A Few Minor Complications on connman + connman-vpn + wpa_supplicant +
- ofono Bringup
-Message-Id: <E519DA16-D9AE-48C9-9731-6DB7A9B7ABE7@nuovations.com>
-Date: Wed, 19 Jul 2023 09:57:15 -0700
-To: connman@lists.linux.dev
-X-Mailer: Apple Mail (2.3608.120.23.2.4)
-X-Scanned-By: mailmunge 3.11 on 209.68.5.112
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: A Few Minor Complications on connman + connman-vpn +
+ wpa_supplicant + ofono Bringup
+To: Grant Erickson <gerickson@nuovations.com>, connman@lists.linux.dev
+References: <E519DA16-D9AE-48C9-9731-6DB7A9B7ABE7@nuovations.com>
+Content-Language: en-US
+From: Denis Kenzior <denkenz@gmail.com>
+In-Reply-To: <E519DA16-D9AE-48C9-9731-6DB7A9B7ABE7@nuovations.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-It=E2=80=99s great to be re-engaged with the connman community after =
-some time away, noting a community and mailing list migration in the =
-intervening time.
+Hi Grant,
 
-I am currently working on modernizing an IP-based communications stack =
-for a Digi i.MX6-based SBC with Ethernet, Wi-Fi, and Cellular (using a =
-Quectel-based =E2=80=9CNimblelink=E2=80=9D) connectivity. The =
-infrastructure has migrated from =
-ifupdown/ifplugd/wpa_supplicant/ppp/chat to connmand (1.41) + =
-connman-vpnd + ofono (2.1) + wpa_supplicant (2.10). All in all, standing =
-up a prototype for this more modern stack was very straightforward and =
-simple relative to when I first engaged on this front in late 2010. =
-Ethernet + Wi-Fi + Cellular worked, mostly, straight away with =
-little-to-no configuration and setup on my part. Congratulations to the =
-community on all the progress in the intervening 13 years!
+On 7/19/23 11:57, Grant Erickson wrote:
+> It’s great to be re-engaged with the connman community after some time away, noting a community and mailing list migration in the intervening time.
+> 
+> I am currently working on modernizing an IP-based communications stack for a Digi i.MX6-based SBC with Ethernet, Wi-Fi, and Cellular (using a Quectel-based “Nimblelink”) connectivity. The infrastructure has migrated from ifupdown/ifplugd/wpa_supplicant/ppp/chat to connmand (1.41) + connman-vpnd + ofono (2.1) + wpa_supplicant (2.10). All in all, standing up a prototype for this more modern stack was very straightforward and simple relative to when I first engaged on this front in late 2010. Ethernet + Wi-Fi + Cellular worked, mostly, straight away with little-to-no configuration and setup on my part. Congratulations to the community on all the progress in the intervening 13 years!
 
-I=E2=80=99ve noted a handful hiccups which I=E2=80=99ll continue to =
-debug and triage and will post updates as I find them. In the interim, =
-if anyone else can confirm seeing the issues below or has suggestion on =
-them, I would welcome the input as I begin to triage each:
+You should check out iwd ;)
 
-1. When ofono indicates to connmand that the Cellular connection has =
-gone down, connmand aborts with signal 11 (SIGABRT) 100% of the time. =
-The logs preceding the abort are:
+> 
+> I suspect an issue with the routing setup:
 
-    Jul 16 08:25:27 19205453 daemon.info connman-vpnd[360]: wwan0 =
-{update} flags 4240 <DOWN>
-    Jul 16 08:25:27 19205453 daemon.info connman-vpnd[360]: wwan0 =
-{newlink} index 8 operstate 2 <DOWN>
-    Jul 16 08:25:27 19205453 daemon.info connmand[377]: wwan0 {RX} 0 =
-packets 0 bytes
-    Jul 16 08:25:27 19205453 daemon.info connmand[377]: wwan0 {TX} 1 =
-packets 48 bytes
-    Jul 16 08:25:27 19205453 daemon.info connmand[377]: wwan0 {update} =
-flags 4240 <DOWN>
-    Jul 16 08:25:27 19205453 daemon.info connmand[377]: wwan0 {newlink} =
-index 8 address 00:00:00:00:00:00 mtu 1500
-    Jul 16 08:25:27 19205453 daemon.info connmand[377]: wwan0 {newlink} =
-index 8 operstate 2 <DOWN>
-    Jul 16 08:25:27 19205453 daemon.info connmand[377]: wwan0 {del} =
-address 100.102.174.234/30 label wwan0
-    Jul 16 08:25:33 19205453 daemon.err connmand[377]: Aborting (signal =
-11) [/usr/sbin/connmand]
+<snip>
 
-Has anyone else observed this?
+> 	# ip -4 route show
+> 	default via 192.168.2.1 dev eth0
+> 	100.87.218.180/30 dev wwan0 proto kernel scope link src 100.87.218.182
+> 	100.87.218.181 dev wwan0 scope link
+> 	192.168.2.0/24 dev wlan0 proto kernel scope link src 192.168.2.46
+> 	192.168.2.0/24 dev eth0 proto kernel scope link src 192.168.2.69
+> 	192.168.2.1 dev eth0 scope link
+> 	192.168.2.1 dev wlan0 scope link
+> 	198.224.173.135 via 100.87.218.181 dev wwan0
+> 	198.224.174.135 via 100.87.218.181 dev wwan0
+>
 
-2. I am attempting to keep Ethernet + Wi-Fi + Cellular concurrent at all =
-times, in that priority order. I expect, of course, that the most =
-preferred and connected technology will keep the default route. However, =
-I would expect that if I bind to an interface, I can still get Internet =
-reachability with that interface. This works for Ethernet (expected, =
-since it has the default route) and Cellular and Wi-Fi for IPv6. =
-However, Wi-Fi over IPv4 can only reach its local subnet but not the =
-Internet when it is not primary:
+Correct.  IPv4 routing is missing any gateway information for wlan and wwan 
+links.  Hence the packets cannot be routed.  iwd uses a default route with a 
+metric set with the assumption that the metric for ethernet devices would be 
+higher priority.
 
-I suspect an issue with the routing setup:
+You can also try doing something like:
 
-	# ifconfig=20
-	eth0      Link encap:Ethernet  HWaddr 00:04:F3:1A:5E:E0 =20
-			  inet addr:192.168.2.69  Bcast:192.168.2.255  =
-Mask:255.255.255.0
-			  inet6 addr: =
-2601:647:5a83:8c52:204:f3ff:fe1a:5ee0/64 Scope:Global
-			  inet6 addr: fe80::204:f3ff:fe1a:5ee0/64 =
-Scope:Link
-			  UP BROADCAST RUNNING MULTICAST  MTU:1500  =
-Metric:1
-			  RX packets:53 errors:0 dropped:0 overruns:0 =
-frame:0
-			  TX packets:112 errors:0 dropped:0 overruns:0 =
-carrier:0
-			  collisions:0 txqueuelen:1000=20
-			  RX bytes:8488 (8.2 KiB)  TX bytes:16201 (15.8 =
-KiB)
+ip route add defult dev wlan0 table 1234
 
-	lo        Link encap:Local Loopback =20
-			  inet addr:127.0.0.1  Mask:255.0.0.0
-			  inet6 addr: ::1/128 Scope:Host
-			  UP LOOPBACK RUNNING  MTU:65536  Metric:1
-			  RX packets:254 errors:0 dropped:0 overruns:0 =
-frame:0
-			  TX packets:254 errors:0 dropped:0 overruns:0 =
-carrier:0
-			  collisions:0 txqueuelen:1=20
-			  RX bytes:16495 (16.1 KiB)  TX bytes:16495 =
-(16.1 KiB)
+> 	# ip -6 route show
+> 	2601:647:5a83:8c52::/64 dev wlan0 proto kernel metric 256 expires 2591856sec pref medium
+> 	2601:647:5a83:8c52::/64 dev eth0 proto kernel metric 256 expires 2591856sec pref medium
+> 	fe80::/64 dev wlan0 proto kernel metric 256 pref medium
+> 	fe80::/64 dev eth0 proto kernel metric 256 pref medium
+> 	ff00::/8 dev wlan0 metric 256 pref medium
+> 	ff00::/8 dev eth0 metric 256 pref medium
+> 	default via fe80::f29f:c2ff:fe10:271e dev wlan0 proto ra metric 1024 expires 1656sec hoplimit 64 pref medium
+> 	default via fe80::f29f:c2ff:fe10:271e dev eth0 proto ra metric 1024 expires 1656sec hoplimit 64 pref medium
+>
 
-	wlan0     Link encap:Ethernet  HWaddr 00:04:F3:1A:5E:E1 =20
-			  inet addr:192.168.2.46  Bcast:192.168.2.255  =
-Mask:255.255.255.0
-			  inet6 addr: =
-2601:647:5a83:8c52:204:f3ff:fe1a:5ee1/64 Scope:Global
-			  inet6 addr: fe80::204:f3ff:fe1a:5ee1/64 =
-Scope:Link
-			  UP BROADCAST RUNNING MULTICAST  MTU:1500  =
-Metric:1
-			  RX packets:41 errors:0 dropped:0 overruns:0 =
-frame:0
-			  TX packets:143 errors:0 dropped:0 overruns:0 =
-carrier:0
-			  collisions:0 txqueuelen:1000=20
-			  RX bytes:7538 (7.3 KiB)  TX bytes:15891 (15.5 =
-KiB)
+ConnMan (or is ConnMan using the kernel to setup IPv6 routes? I don't remember) 
+is setting up default routes for eth0 and wlan0, so things work in this case.
 
-	wwan0     Link encap:UNSPEC  HWaddr =
-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00 =20
-			  inet addr:100.87.218.182  P-t-P:100.87.218.182 =
- Mask:255.255.255.252
-			  UP POINTOPOINT RUNNING NOARP MULTICAST  =
-MTU:1500  Metric:1
-			  RX packets:0 errors:0 dropped:0 overruns:0 =
-frame:0
-			  TX packets:1 errors:0 dropped:0 overruns:0 =
-carrier:0
-			  collisions:0 txqueuelen:1000=20
-			  RX bytes:0 (0.0 B)  TX bytes:48 (48.0 B)
-
-	# ping -c 4 -I eth0 dns.google.com=20
-	PING dns.google.com (8.8.8.8): 56 data bytes
-	64 bytes from 8.8.8.8: seq=3D0 ttl=3D116 time=3D8.249 ms
-	64 bytes from 8.8.8.8: seq=3D1 ttl=3D116 time=3D9.280 ms
-	64 bytes from 8.8.8.8: seq=3D2 ttl=3D116 time=3D8.085 ms
-	64 bytes from 8.8.8.8: seq=3D3 ttl=3D116 time=3D8.804 ms
-
-	--- dns.google.com ping statistics ---
-	4 packets transmitted, 4 packets received, 0% packet loss
-	round-trip min/avg/max =3D 8.085/8.604/9.280 ms
-
-	# ping6 -c 4 -I eth0 dns.google.com=20
-	PING dns.google.com (2001:4860:4860::8844): 56 data bytes
-	64 bytes from 2001:4860:4860::8844: seq=3D0 ttl=3D57 time=3D9.434 =
-ms
-	64 bytes from 2001:4860:4860::8844: seq=3D1 ttl=3D57 time=3D9.235 =
-ms
-	64 bytes from 2001:4860:4860::8844: seq=3D2 ttl=3D57 time=3D9.297 =
-ms
-	64 bytes from 2001:4860:4860::8844: seq=3D3 ttl=3D57 time=3D9.166 =
-ms
-
-	--- dns.google.com ping statistics ---
-	4 packets transmitted, 4 packets received, 0% packet loss
-	round-trip min/avg/max =3D 9.166/9.283/9.434 ms
-
-	# ping -c 4 -I wlan0 dns.google.com=20
-	PING dns.google.com (8.8.8.8): 56 data bytes
-
-	--- dns.google.com ping statistics ---
-	4 packets transmitted, 0 packets received, 100% packet loss
-
-	# ping6 -c 4 -I wlan0 dns.google.com=20
-	PING dns.google.com (2001:4860:4860::8844): 56 data bytes
-	64 bytes from 2001:4860:4860::8844: seq=3D0 ttl=3D57 =
-time=3D100.924 ms
-	64 bytes from 2001:4860:4860::8844: seq=3D1 ttl=3D57 =
-time=3D124.037 ms
-	64 bytes from 2001:4860:4860::8844: seq=3D2 ttl=3D57 time=3D45.249=
- ms
-	64 bytes from 2001:4860:4860::8844: seq=3D3 ttl=3D57 time=3D69.188=
- ms
-
-	--- dns.google.com ping statistics ---
-	4 packets transmitted, 4 packets received, 0% packet loss
-	round-trip min/avg/max =3D 45.249/84.849/124.037 ms
-
-	# ping -c 4 -I wwan0 dns.google.com=20
-	PING dns.google.com (8.8.8.8): 56 data bytes
-	64 bytes from 8.8.8.8: seq=3D0 ttl=3D113 time=3D605.749 ms
-	64 bytes from 8.8.8.8: seq=3D1 ttl=3D113 time=3D287.500 ms
-	64 bytes from 8.8.8.8: seq=3D2 ttl=3D113 time=3D98.122 ms
-	64 bytes from 8.8.8.8: seq=3D3 ttl=3D113 time=3D293.822 ms
-
-	--- dns.google.com ping statistics ---
-	4 packets transmitted, 4 packets received, 0% packet loss
-	round-trip min/avg/max =3D 98.122/321.298/605.749 ms
-
-	# ip -4 route show
-	default via 192.168.2.1 dev eth0=20
-	100.87.218.180/30 dev wwan0 proto kernel scope link src =
-100.87.218.182=20
-	100.87.218.181 dev wwan0 scope link=20
-	192.168.2.0/24 dev wlan0 proto kernel scope link src =
-192.168.2.46=20
-	192.168.2.0/24 dev eth0 proto kernel scope link src 192.168.2.69=20=
-
-	192.168.2.1 dev eth0 scope link=20
-	192.168.2.1 dev wlan0 scope link=20
-	198.224.173.135 via 100.87.218.181 dev wwan0=20
-	198.224.174.135 via 100.87.218.181 dev wwan0=20
-
-	# ip -6 route show
-	2601:647:5a83:8c52::/64 dev wlan0 proto kernel metric 256 =
-expires 2591856sec pref medium
-	2601:647:5a83:8c52::/64 dev eth0 proto kernel metric 256 expires =
-2591856sec pref medium
-	fe80::/64 dev wlan0 proto kernel metric 256 pref medium
-	fe80::/64 dev eth0 proto kernel metric 256 pref medium
-	ff00::/8 dev wlan0 metric 256 pref medium
-	ff00::/8 dev eth0 metric 256 pref medium
-	default via fe80::f29f:c2ff:fe10:271e dev wlan0 proto ra metric =
-1024 expires 1656sec hoplimit 64 pref medium
-	default via fe80::f29f:c2ff:fe10:271e dev eth0 proto ra metric =
-1024 expires 1656sec hoplimit 64 pref medium
-
-Has anyone else observed this?
-
-3. In the aforementioned configuration, connmanctl (or dbus-send) =
-reports that `State =3D ready` nearly indefinitely without a transition =
-to Online, despite the ipv4.connman.net and ipv6.connman.net URLs being =
-readily reachable.
-
-4. Connman complains about not being able to use the configured Google =
-DNS fallback servers:
-
-    FallbackNameservers=3D8.8.8.8,8.8.4.4
-
-with:
-
-    Jul 12 18:12:33 19205453 daemon.err connmand[360]: Failed to connect =
-to server 8.8.8.8
-    Jul 12 18:12:33 19205453 daemon.err connmand[360]: Failed to connect =
-to server 8.8.4.4
-
-5. Despite having set ResolvConf=3D/dev/null per the man page, connman =
-seems to be unhappy with and not following the code path for =
-ResolvConf=3D/dev/null:
-
-    Jul 12 18:02:42 19205453 daemon.warn connmand[360]: Cannot create =
-/var/run/connman/resolv.conf falling back to /etc/resolv.conf
-
-While I realize this is a harmless warning, it seems at odds with the =
-man page and the code path for =E2=80=98resolvfile_export'.
-
-I=E2=80=99ve manually-created a static, read-only /etc/resolv.conf which =
-need not be dynamically updated at runtime:
-
-    nameserver 127.0.0.1
-    nameserver ::1
-
-6. The openvpn plugin seems to be unable to find the =E2=80=98=E2=80=99 =
-symbol:
-
-    Jul 12 18:02:42 19205453 daemon.err connmand[360]: Can't load =
-/usr/lib/connman/plugins/openvpn.so: =
-/usr/lib/connman/plugins/openvpn.so: undefined symbol: =
-vpn_provider_set_nameservers
-
-The contents of /etc/connman/main.conf:
-
-    [General]
-    AllowDomainnameUpdates=3Dfalse
-    AllowHostnameUpdates=3Dfalse
-    AlwaysConnectedTechnologies=3Dethernet,wifi,cellular
-    BackgroundScanning=3Dtrue
-    DefaultAutoConnectTechnologies=3Dethernet,wifi,cellular
-    EnableOnlineCheck=3Dtrue
-    EnableOnlineToReadyTransition=3Dtrue
-    =
-FallbackTimeservers=3D0.pool.ntp.org,1.pool.ntp.org,2.pool.ntp.org,3.pool.=
-ntp.org
-    FallbackNameservers=3D8.8.8.8,8.8.4.4
-    PreferredTechnologies=3Dethernet,wifi,cellular
-    ResolvConf=3D/dev/null
-    SingleConnectedTechnology=3Dfalse
-
-Best,
-
-Grant
-
---=20
-Principal
-Nuovations
-
-gerickson@nuovations.com
-http://www.nuovations.com/
-
+Regards,
+-Denis
