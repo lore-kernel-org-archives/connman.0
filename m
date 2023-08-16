@@ -1,68 +1,63 @@
-Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com [64.147.123.20])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2A1A1FA0
-	for <connman@lists.linux.dev>; Sat,  5 Aug 2023 18:03:00 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
-	by mailout.west.internal (Postfix) with ESMTP id 9646F32007F0;
-	Sat,  5 Aug 2023 14:02:59 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute2.internal (MEProxy); Sat, 05 Aug 2023 14:02:59 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fastmail.com; h=
-	cc:content-type:content-type:date:date:from:from:in-reply-to
-	:message-id:mime-version:reply-to:sender:subject:subject:to:to;
-	 s=fm3; t=1691258579; x=1691344979; bh=k4ufZasxIJXte3MxR9K6+9Dr+
-	+4DeE8F/l22bXPGt9c=; b=k1YT6tYBeYdn12Mzu8r95vC7j4Z1i4N/H0F4+UwXT
-	vwhw2/jLffkLjze/cmtQ662Hfr+XoNU6qUZrBmljihkdPERQJtfEx5R9/EYtRvOa
-	nHAimmh+3kKLYbFAdQNztIcWK90Ontg7OP6q67PiPS2GfDLDO0yWo8/g63ixclND
-	2PNP9LLP6WBR8AbZjPzdT426dp+LNc7wFdvX3pCGOabNprdyGSlo3CixlGClgPYc
-	/KvnSJ1F5EwsT63/YysYjbjEjnwhebsPLSQ6XY+//11fUc6hQ4d4xF+mSFxP9vuK
-	zARjHggG+c9A+Hu81u9N1WUBdoNwOUNyGw1ZnErmc+Lcg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:message-id
-	:mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
-	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
-	1691258579; x=1691344979; bh=k4ufZasxIJXte3MxR9K6+9Dr++4DeE8F/l2
-	2bXPGt9c=; b=DZsIfYdRZzqR4VmRq+QJvGdU6WAnJrrtlbKlxOKKgJpiVvU0C41
-	XVD4xunB0c8vdfkTLRBKEAAl0dUIXMu6i6tfWUNCr6TYPncrKBBm3SZoQ4mM3tLH
-	D0GYSCBzoRv3FXxQSKmZoNdSSFkiytfHzayE58hcz9ZzUyzH+j4zciQuZTozJAgB
-	fdgqQ0vAuchIJDX8REjpF2xwozdqb2866tdk3sg9/HUStnk0e2T7SPYi8H8pPqpM
-	UM6Wd7YKmxOXuWf17KVUlJDYhJ8Y5r5NE/ECBJYUs/tXhZd/F/4p4H41NQsrRVXs
-	I0thoXWE8MQloPWsYuML1+zSOpInr9KZppQ==
-X-ME-Sender: <xms:0o7OZBStLv-kKlWECFx8HVuYFC8nreFaDHUa8c-IGj_ZMIOi3OrF9w>
-    <xme:0o7OZKzFxcS4CqDhXC1d7UXpPP-4NnR6Ua4mtGljYKCdXZgsmx64LP2jmqeEsr-xW
-    rZl91ZuRkYCr67oOA>
-X-ME-Received: <xmr:0o7OZG0KvtHoc8EMG0TYtUvoo38mkrrRm_mgL2FeFdlvs5AU87T1ci5vJILpyxBQ3XQeT73F14LKZxsDqgXhDrVdhDB->
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedviedrkeeigdduudelucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucenucfjughrpeffhffvuffkgggtuggfsehttdfstd
-    dtreejnecuhfhrohhmpeflrghnucfrrghluhhsuceojhhprghluhhssehfrghsthhmrghi
-    lhdrtghomheqnecuggftrfgrthhtvghrnhepjeeiudeuieefteekgeeuudfgtddttdekud
-    dthfejtdefhfffgedvtdejhfekjeffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghr
-    rghmpehmrghilhhfrhhomhepjhhprghluhhssehfrghsthhmrghilhdrtghomh
-X-ME-Proxy: <xmx:0o7OZJDKp3ISxJADUubUrdm40gO4G0pKeeeOtRXXXKKOeDKzXTXVUg>
-    <xmx:0o7OZKhjcmqwVmhwhOouQ4KYSXxO_q1J4loogkz4LYhevL4XfUa7lw>
-    <xmx:0o7OZNr6AyhelTUmWvNFE3OWojAX5kLT_47lUDBiuFCYdQBnuDI4Vg>
-    <xmx:047OZAeC5Ah-WA4018o9P8dm0oANHoC9JQF_ziqVNev7Z0meux-FuQ>
-Feedback-ID: i01894241:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA for
- <connman@lists.linux.dev>; Sat, 5 Aug 2023 14:02:58 -0400 (EDT)
-Date: Sat, 5 Aug 2023 20:02:56 +0200
-From: Jan Palus <jpalus@fastmail.com>
-To: connman@lists.linux.dev
-Subject: connman 1.42 build failure due to missing header
-Message-ID: <56htxwyywekx6sjsq2akitcj6xmqmggkv4uo6wnhmlxmxyzo23@5crxfr5suvpk>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C18145688
+	for <connman@lists.linux.dev>; Wed, 16 Aug 2023 05:40:05 +0000 (UTC)
+Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-2680a031283so3538216a91.3
+        for <connman@lists.linux.dev>; Tue, 15 Aug 2023 22:40:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1692164405; x=1692769205;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Gzf3eqgL4MQNAgL9rgaROVhZjSsNawoy/BRhPHRjxz4=;
+        b=AF4BsHd7qDmie734SK71IAkn7uLp63Ssi3dgkc+KOZx8aXHHbigDpg3OHnFFKk/0oz
+         elxDOBBQbHz8XaabjGwgPtspwdOGwmGvm3odBRLv07+si5C1z97ih9w6AtgZ3NAp2dxp
+         pZJqDtNehQGU6uCUBlAfQfheLA5xEFQHy/F1kqQ3DK7TsktX3IuKx933t+IBdg21OD+3
+         +6uess+cFsJXEtk29QApBt94EL4JluesJojsklVDfJIW4j6gnAu+TUxv4eP5lTLAFIuj
+         tTxciVofluzx+6fKgUV1rnLktBAa7Wo0bKSQTI0bTlMGuBFqoi/eRspwui9nU8P7zg/H
+         H5HA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1692164405; x=1692769205;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Gzf3eqgL4MQNAgL9rgaROVhZjSsNawoy/BRhPHRjxz4=;
+        b=YUOXR5BK9okgRp7XqbU9teMC+dLqSfoV6Ay4ki84+Gq02TAph5l9yN3hFiOTLa3Z8i
+         5QY6hwg5UnFS3BSkMO83WdC0vr+uJx4yEMKxoz2XHHMHDh4tuXfV197RJNzkdEG5j2O0
+         U/8nbxwY7ASeMaGCAMQ1iJaKChtbEyhNDu2J95LMQxHifTrXtKrs2owGI8S+oM+6+DNq
+         h406FFifoxfxNg2AzqX+HE4USIVgw9bawbg3C40xMb8/hUVAW7nPbaPRwggopPnOerYY
+         9nYaomYJfMhXoAnECbnfUMMy4VK9FsM5XgCTHiV6F+vNiymouab8uBcgWcE2GLCSZe9a
+         ARZQ==
+X-Gm-Message-State: AOJu0Yz8d7EDMjW1omYPGvTVWVUGswD8v4AEL69alkdWW2BSlRWHpWMT
+	ZacEoaguz5j2XEnXjXtPhVUv5qj8ynwEI9vJCzA=
+X-Google-Smtp-Source: AGHT+IEUnEmZbxE8AJ3wmrvXPRwOqst91t4BvqAoqohBqGByWSdIAT1rUPh5PtD6G+sCw+/tbAz21S2A/+wqqDhL2mQ=
+X-Received: by 2002:a17:90a:1f42:b0:269:38c2:dbd8 with SMTP id
+ y2-20020a17090a1f4200b0026938c2dbd8mr437611pjy.25.1692164404870; Tue, 15 Aug
+ 2023 22:40:04 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-User-Agent: NeoMutt/20230517
+References: <56htxwyywekx6sjsq2akitcj6xmqmggkv4uo6wnhmlxmxyzo23@5crxfr5suvpk>
+In-Reply-To: <56htxwyywekx6sjsq2akitcj6xmqmggkv4uo6wnhmlxmxyzo23@5crxfr5suvpk>
+From: KeithG <ys3al35l@gmail.com>
+Date: Wed, 16 Aug 2023 00:39:53 -0500
+Message-ID: <CAG17S_O3fNuw3faU=griTL+mKGJKgH8g6OPSzcDia3WipoV7Vw@mail.gmail.com>
+Subject: Re: connman 1.42 build failure due to missing header
+To: Jan Palus <jpalus@fastmail.com>
+Cc: connman@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-It appears that connman 1.42 dist tarball is missing
-scripts/libppp-compat.h header resulting in compilation failure of
-scripts/libppp-plugin.c.
+I can confirm this as well
+
+On Sat, Aug 5, 2023 at 1:03=E2=80=AFPM Jan Palus <jpalus@fastmail.com> wrot=
+e:
+>
+> It appears that connman 1.42 dist tarball is missing
+> scripts/libppp-compat.h header resulting in compilation failure of
+> scripts/libppp-plugin.c.
+>
