@@ -1,48 +1,48 @@
-Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 999CA4418
-	for <connman@lists.linux.dev>; Fri, 29 Sep 2023 03:34:28 +0000 (UTC)
-Received: by mail-qk1-f175.google.com with SMTP id af79cd13be357-77575233633so255604885a.0
-        for <connman@lists.linux.dev>; Thu, 28 Sep 2023 20:34:28 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 519F715C3
+	for <connman@lists.linux.dev>; Fri, 29 Sep 2023 16:45:23 +0000 (UTC)
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-406609df1a6so5959205e9.3
+        for <connman@lists.linux.dev>; Fri, 29 Sep 2023 09:45:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1695958467; x=1696563267; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1696005921; x=1696610721; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=cQHvj8UL7YzmzVxLqNfcPjgzgjzYUzjJ0EAqDmoFlXY=;
-        b=MTX6q1Xf2Lt7yr9pUqjOHYFyw/cOyU7UedQmRu0F0uImlg+XvZ3Jl1nOuuddU9WRMT
-         T5b7T0ZmwqvnnVLkekuN156zAsIV9gjYGUBqcu+KD/FLW3G96ogbC+PIDJdNI6XCjPbw
-         bKX3o7MAyWmUNbfDpF84megxPbQ/Mso2ucWCc0gYaSjaGKdF880Q/3B3KF9coQ+GrTi/
-         yBP/8dIz+yR15UqbIiqwNO3Fbc6wzxoyPfCu37CmTXfqTYqG1aZqacvigwQwpX9E4F2j
-         lH8Jd9UHBfvJjOnG+0DHTsHrlPlq9EJvvhzwGU3vFTZwsVo87Tb9s5rzNr2BSmRAit5+
-         YEUg==
+        bh=jgi7MESiuowEXQ3b5w1ePqnNar58fnFceJffwF6exjw=;
+        b=XmF//n3u7OvU52MQDZhjEOWKqrC/fIo4sBm/bpoFmTMWMf7sDkfz/TTgheYEPa7Olf
+         9Ax1gEe+PD4R/G0qSROazDq8Kso3Ad1i+irIHCsOtkofBVQ0286v0MMdSbcPJ4f+hfym
+         bNvpsFwdMCpA2sRIAuvUecwYZM2gZeUG+KDy7goxTVsSTF0aKmwfGt4GBxz3ZkJVzAXg
+         6ZnUAQMdHy/TrM6H1IJiE7C+U2dm5afYF6kV+kOOj5W3gcM7kLFR1K590Ce6xTxMnjG7
+         gSR6d251UITTifac6gdBHvRYJNkehIbwY6n9ZnQI21KcNrNvOc2KdgEXLJCEWxcNh/bT
+         +IfA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695958467; x=1696563267;
+        d=1e100.net; s=20230601; t=1696005921; x=1696610721;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=cQHvj8UL7YzmzVxLqNfcPjgzgjzYUzjJ0EAqDmoFlXY=;
-        b=LJRpR89jpDvXPz9EwZ8PreIlmRXRJJMa27GtpC+JzzlboRg72rVVnqYAmSuOxhDbx6
-         EtsoATO0T0/QslxfAPklTnvGwQHkb1VfPmeYcokS1lhLIa/IZQ/YjX7h9tIPtT7wCzig
-         8C9u3SaPqVTTZIkxvx+xemMRp1ZvoqhkcW3aKmptW2xKqbMf6ZN1I5oH6uJllBdgqs31
-         JVpYxZUVVkRDe93hsbpmaIbFpDUAV02bsY5jDlamZ5tWW6J2slm/pvWgV48SrheWL/3t
-         C4+JlRiMvSj3SdvYcKx5lTma3RA3gGFpzbURNi7OgAXIXB03fOjBY2+lBgVxwqTHv5eK
-         ivTg==
-X-Gm-Message-State: AOJu0Yz4xdrkXF3tLl6f00nuNi10SGIFQ38BvjDl+sp0MbJEl65LXP1N
-	uS1Jt83wtiIXvQr6SXPqfOX0uJT1eW1+Wg==
-X-Google-Smtp-Source: AGHT+IFkJ1+BjXCpUmB9r4HDBR6ZWpyfk3NdVhv5f+wBaxjEnnnyT1EfL8Ku/4sW21M6reRt1aqPgA==
-X-Received: by 2002:a05:620a:4111:b0:773:d284:cd2f with SMTP id j17-20020a05620a411100b00773d284cd2fmr4216979qko.49.1695958467053;
-        Thu, 28 Sep 2023 20:34:27 -0700 (PDT)
-Received: from nicSlaptop.localdomain (modemcable069.200-80-70.mc.videotron.ca. [70.80.200.69])
-        by smtp.gmail.com with ESMTPSA id z20-20020ae9c114000000b0077589913a8bsm479250qki.132.2023.09.28.20.34.26
+        bh=jgi7MESiuowEXQ3b5w1ePqnNar58fnFceJffwF6exjw=;
+        b=OE/vJly8i5ad+0CZUFWxYCC1ItmvyrRQnqcWMGb48kO4EnKB9u02P/Ua0YyLO88wV2
+         DqmIYBrkOJOUMu+P4rZEqBxJ6NXgxnjU+Z+X5rTgFBZtNCGYnmyj7EEj8OVoSDZQL3Ul
+         iDlWoWga8p/+6njkCWnB4I1LZoXp6n8KfGCAwWDfo0Lv4z7QwrfuImZHQ98r7/hdiBJ3
+         pNIM4ghM94JIro+LSlLwNWL2JHZRFFAj4bk74SCko9t+sRd4fIJEb709z3Ds4MVsJhnE
+         jfEGypljowfKNSR9M1JDNgiLfPsX36jGjR2MceZzFqLL6bqRMshZ5AHyZrU3/yXqYeX4
+         jYEA==
+X-Gm-Message-State: AOJu0Yz+0x1JJ4UtiNDs/dV0elgO4J6K4NPGRMUGXMuznyXjZRGCNZzm
+	oiScAVOZ1bPeP0Vj6tFynSPJIxgFGaE=
+X-Google-Smtp-Source: AGHT+IEJs7/0hgb0QtPd4EOi1rTrJFRkv5XTosPMZ1oIu8qPOtSxaG4fqB3gcvijiNlfrZcXH4AqYg==
+X-Received: by 2002:a7b:ce8f:0:b0:404:f9c1:d5d7 with SMTP id q15-20020a7bce8f000000b00404f9c1d5d7mr4396978wmj.25.1696005920829;
+        Fri, 29 Sep 2023 09:45:20 -0700 (PDT)
+Received: from kali.home (lfbn-ren-1-787-165.w83-197.abo.wanadoo.fr. [83.197.114.165])
+        by smtp.gmail.com with ESMTPSA id 12-20020a05600c024c00b004051f8d6207sm1774621wmj.6.2023.09.29.09.45.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 28 Sep 2023 20:34:26 -0700 (PDT)
-From: Nicolas Gariepy <ngariepy1999@gmail.com>
+        Fri, 29 Sep 2023 09:45:20 -0700 (PDT)
+From: Fabrice Fontaine <fontaine.fabrice@gmail.com>
 To: connman@lists.linux.dev
-Cc: Nicolas Gariepy <ngariepy1999@gmail.com>
-Subject: [PATCH] resolver: FIX path to resolv.conf config option
-Date: Fri, 29 Sep 2023 03:34:08 +0000
-Message-Id: <20230929033408.80874-1-ngariepy1999@gmail.com>
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] resolve: musl does not implement res_ninit
+Date: Fri, 29 Sep 2023 18:45:16 +0200
+Message-Id: <20230929164516.6756-1-fontaine.fabrice@gmail.com>
 X-Mailer: git-send-email 2.40.1
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
@@ -52,49 +52,75 @@ List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-There are two problems with how the "ResolvConf" option was implemented.
+From: Khem Raj <raj.khem@gmail.com>
 
-1. The "ResolvConf" is used in src/resolver.c using the function connman_setting_get_string(const char *key) but the connman_settings.resolv_conf option could only be accessed using the connman_setting_get_bool(const char *key) function at the moment.
-2. The Gerror is not cleared before trying to read the "ResolvConf" parameter of the config.
+ported from
+http://git.alpinelinux.org/cgit/aports/plain/testing/connman/libresolv.patch
 
-This patch fixes the two issues above.
+Upstream-Status: Pending
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+
 ---
- src/main.c | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+ gweb/gresolv.c | 34 +++++++++++++---------------------
+ 1 file changed, 13 insertions(+), 21 deletions(-)
 
-diff --git a/src/main.c b/src/main.c
-index ae4a450d..61881442 100644
---- a/src/main.c
-+++ b/src/main.c
-@@ -599,6 +599,8 @@ static void parse_config(GKeyFile *config)
- 	if (!error)
- 		connman_settings.regdom_follows_timezone = boolean;
+diff --git a/gweb/gresolv.c b/gweb/gresolv.c
+index 954e7cf..2a9bc51 100644
+--- a/gweb/gresolv.c
++++ b/gweb/gresolv.c
+@@ -878,8 +879,6 @@ GResolv *g_resolv_new(int index)
+ 	resolv->index = index;
+ 	resolv->nameserver_list = NULL;
  
-+	g_clear_error(&error);
-+
- 	string = __connman_config_get_string(config, "General",
- 				CONF_RESOLV_CONF, &error);
- 	if (!error)
-@@ -801,6 +803,9 @@ char *connman_setting_get_string(const char *key)
- 		return connman_settings.localtime ?
- 			connman_settings.localtime : DEFAULT_LOCALTIME;
- 
-+	if (g_str_equal(key, CONF_RESOLV_CONF))
-+		return connman_settings.resolv_conf;
-+
- 	return NULL;
- }
- 
-@@ -842,9 +847,6 @@ bool connman_setting_get_bool(const char *key)
- 	if (g_str_equal(key, CONF_REGDOM_FOLLOWS_TIMEZONE))
- 		return connman_settings.regdom_follows_timezone;
- 
--	if (g_str_equal(key, CONF_RESOLV_CONF))
--		return connman_settings.resolv_conf;
+-	res_ninit(&resolv->res);
 -
- 	return false;
+ 	return resolv;
  }
  
--- 
-2.40.1
-
+@@ -919,8 +918,6 @@ void g_resolv_unref(GResolv *resolv)
+ 
+ 	flush_nameservers(resolv);
+ 
+-	res_nclose(&resolv->res);
+-
+ 	g_free(resolv);
+ }
+ 
+@@ -1023,24 +1020,19 @@ guint g_resolv_lookup_hostname(GResolv *resolv, const char *hostname,
+ 	debug(resolv, "hostname %s", hostname);
+ 
+ 	if (!resolv->nameserver_list) {
+-		int i;
+-
+-		for (i = 0; i < resolv->res.nscount; i++) {
+-			char buf[100];
+-			int family = resolv->res.nsaddr_list[i].sin_family;
+-			void *sa_addr = &resolv->res.nsaddr_list[i].sin_addr;
+-
+-			if (family != AF_INET &&
+-					resolv->res._u._ext.nsaddrs[i]) {
+-				family = AF_INET6;
+-				sa_addr = &resolv->res._u._ext.nsaddrs[i]->sin6_addr;
++		FILE *f = fopen("/etc/resolv.conf", "r");
++		if (f) {
++			char line[256], *s;
++			int i;
++			while (fgets(line, sizeof(line), f)) {
++				if (strncmp(line, "nameserver", 10) || !isspace(line[10]))
++					continue;
++				for (s = &line[11]; isspace(s[0]); s++);
++				for (i = 0; s[i] && !isspace(s[i]); i++);
++				s[i] = 0;
++				g_resolv_add_nameserver(resolv, s, 53, 0);
+ 			}
+-
+-			if (family != AF_INET && family != AF_INET6)
+-				continue;
+-
+-			if (inet_ntop(family, sa_addr, buf, sizeof(buf)))
+-				g_resolv_add_nameserver(resolv, buf, 53, 0);
++			fclose(f);
+ 		}
+ 
+ 		if (!resolv->nameserver_list)
