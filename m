@@ -1,49 +1,52 @@
-Received: from mail-oa1-f45.google.com (mail-oa1-f45.google.com [209.85.160.45])
+Received: from mail-oa1-f49.google.com (mail-oa1-f49.google.com [209.85.160.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB14C199A6
-	for <connman@lists.linux.dev>; Sat, 30 Sep 2023 22:27:04 +0000 (UTC)
-Received: by mail-oa1-f45.google.com with SMTP id 586e51a60fabf-1e12f41e496so1177542fac.3
-        for <connman@lists.linux.dev>; Sat, 30 Sep 2023 15:27:04 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F047F199A9
+	for <connman@lists.linux.dev>; Sat, 30 Sep 2023 22:27:05 +0000 (UTC)
+Received: by mail-oa1-f49.google.com with SMTP id 586e51a60fabf-1e0ee4e777bso2455249fac.3
+        for <connman@lists.linux.dev>; Sat, 30 Sep 2023 15:27:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1696112823; x=1696717623; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=bDKTPX8CTOtvfHqeEmHgANVhTvneTAU/niaLzpZdc2Y=;
-        b=RtcPJgx1D3ejBT6DFtU3dn4CAVAw+stn7PMajP0/5xnymm/Jnt7G8eDu1JB67dRand
-         h8EVyKDgr+1l3EFK+OptyLJQR/r5BJWwlQC5jb5AlIBWXLAIkgRRL9RKmnbfHLfx4NsZ
-         KdFDvHrn07oUibeCho1NDcwkLTplu/C63Butr2eGwXbcC5vKmy3I1zyf9V4K3BsDLfmN
-         ppy5vvdHK5RotVpyriyauxH1iFXYrfgIE3RZhF4A3XJt7V3VCLflOGMecs9tQ4v9+Hkc
-         cYDYwYTbhwMgMLiGIlmDPL7ApbvWz00cWqfegDnjykxM5GmdhTNQ+1jVhb/VxTYYqiUJ
-         j6Ww==
+        d=gmail.com; s=20230601; t=1696112824; x=1696717624; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+KouvtJAGo/D95rlXuLp3bsyqh+iMAT2tMo4De8TZC4=;
+        b=ULqJbP9MpComDn5ZO9a4tKIMYATmlyvyWGgfDljCffSa/85jGK6DcRs11YcLyuc4SE
+         Rk3se/SDBFokO9MaIPZPJegnqwhYyLsSIpalhoS74Y9iB1TKkRb+H3oJR9sAk3/hvbB3
+         qgpt/sef7gQlWUCZt40/0y/XUx7O51tCboRTC+I0Wmzwkc5MGV/IRoZp3t1Fppaq3w9S
+         Rg1RqcTvoCYpVIPtDio5wRBFWptxBYlHDeOBKE/jsr8TcgiTjwj1Ky2KWgxFFOaLIYdv
+         pDo2Exh8NgR4ji2uSPW4kZcGY2aFYr4tIHu1n/JsI4J/aBbLE2Hq2nUXj1Zovw7wD/vV
+         Ww0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696112823; x=1696717623;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=bDKTPX8CTOtvfHqeEmHgANVhTvneTAU/niaLzpZdc2Y=;
-        b=oXwfZ2WLIQWHrpxyF9lIwgI/nc5ZYlIHZbxgtZdL4kHExMOVoeq7vmKCgjNjHmW7HC
-         C+uzNMUa47kU3GgNdcylylquFyMtCPQ7YowzSETL5YoivgNyehPxbVXL1Az0CcDc6be2
-         DKsSsIQaT08MGFR+Qc6mzYuuxnlMxlp9kfT1Iafhp8cl6IIlWPQJeXiB7fWy6c6Ncv68
-         6+wijr0t7eJ9SjJSPkLQBZKj7gVDJpYKJNbI9vu2Uyd3oioMl4WnMQum5ILSXRJbyZ8+
-         O/f7o3kKYPIpNAY6W5fNDWrVCai6NFfg2KTz+T6MLx1H7VdY2QBLoh+KZLyrR9uNy1MI
-         sI0Q==
-X-Gm-Message-State: AOJu0YxnjTkz1U6QSj8+cHhHHSG1KEQIG7v/4otGbXI2BVDH1iAE6JTw
-	y3K1snjTksu7I+94zbqZ9lEVHBiWStM=
-X-Google-Smtp-Source: AGHT+IEXO2H3l2Zuv6Uamq+GE1EFfanRJLlPvvs9JSvaOn8ZRPcuLhgMMD+paiSz9s9HJ58TXGXxCw==
-X-Received: by 2002:a05:6870:e256:b0:1c8:bfd1:ecb8 with SMTP id d22-20020a056870e25600b001c8bfd1ecb8mr9088996oac.30.1696112823277;
-        Sat, 30 Sep 2023 15:27:03 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1696112824; x=1696717624;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=+KouvtJAGo/D95rlXuLp3bsyqh+iMAT2tMo4De8TZC4=;
+        b=oR80p6Ww/pcEZj4OHhse0nLTr7LRnkZ029TCtBFlA6aOzhcFRKtamRbZ+h6VDrvBC7
+         nE7be5UVlllX4KvXvws98asrCcZ8lQYXcHFHA3BPpbVj90HXoqLozkEYhshpJzdHtsj+
+         sg6b7oM91O3A8ch97++ZgcSHGJi8NCVHcZrD3PCz+5SC4YR2xFaqrwh8NtckpHAncazu
+         JWSPPcS5SQEWSLY6fjqkwFSbSYGVkqAfEFbC8XCZ1U/ttg3AmyE7rNia6rQUCafN4q3A
+         olPQ0mvec0N27MZ2NNTv/KygBW8Gg2J4fsPhEH/qvnmbPIWe4bOT0pF6vEWWj32/bs4x
+         7gFw==
+X-Gm-Message-State: AOJu0YyNPOPa3G8p+s7Sxb3WXnQNqvde5UIJTL+NOvv1uDnu/8DfWLYB
+	DSTvzauROLrTn1ADNJueW1IDYWzTQgc=
+X-Google-Smtp-Source: AGHT+IFNIUjgTvSDuaPjfo11fel5p/annFavTahDNfyEj0inTVN1twaYVfWw0nuuaY7Lq8sUfhIiWg==
+X-Received: by 2002:a05:6870:470a:b0:1d6:3d31:fb4b with SMTP id b10-20020a056870470a00b001d63d31fb4bmr9192111oaq.24.1696112824465;
+        Sat, 30 Sep 2023 15:27:04 -0700 (PDT)
 Received: from localhost.localdomain (cpe-70-114-247-242.austin.res.rr.com. [70.114.247.242])
-        by smtp.gmail.com with ESMTPSA id h3-20020a056870860300b001dd533c4bd1sm2328360oal.1.2023.09.30.15.27.02
+        by smtp.gmail.com with ESMTPSA id h3-20020a056870860300b001dd533c4bd1sm2328360oal.1.2023.09.30.15.27.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 30 Sep 2023 15:27:02 -0700 (PDT)
+        Sat, 30 Sep 2023 15:27:03 -0700 (PDT)
 From: Denis Kenzior <denkenz@gmail.com>
 To: connman@lists.linux.dev
 Cc: Denis Kenzior <denkenz@gmail.com>
-Subject: [PATCH 1/6] vpn: Remove unused __vpn_provider_check_routes
-Date: Sat, 30 Sep 2023 17:25:52 -0500
-Message-ID: <20230930222615.654178-1-denkenz@gmail.com>
+Subject: [PATCH 2/6] network: Remove unused functions
+Date: Sat, 30 Sep 2023 17:25:53 -0500
+Message-ID: <20230930222615.654178-2-denkenz@gmail.com>
 X-Mailer: git-send-email 2.42.0
+In-Reply-To: <20230930222615.654178-1-denkenz@gmail.com>
+References: <20230930222615.654178-1-denkenz@gmail.com>
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
@@ -52,51 +55,66 @@ List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-__vpn_provider_check_routes isn't used anywhere.  Remove it.
+connman_network_set_wifi_channel and connman_network_get_wifi_channel
+functions were never used.  Get rid of them.
 ---
- vpn/vpn-provider.c | 16 ----------------
- vpn/vpn.h          |  1 -
+ include/network.h |  3 ---
+ src/network.c     | 14 --------------
  2 files changed, 17 deletions(-)
 
-diff --git a/vpn/vpn-provider.c b/vpn/vpn-provider.c
-index cc325967..4bcb8373 100644
---- a/vpn/vpn-provider.c
-+++ b/vpn/vpn-provider.c
-@@ -2952,22 +2952,6 @@ void vpn_provider_set_auth_error_limit(struct vpn_provider *provider,
- 	provider->auth_error_limit = limit;
+diff --git a/include/network.h b/include/network.h
+index 5bca62ad..e831e75e 100644
+--- a/include/network.h
++++ b/include/network.h
+@@ -129,9 +129,6 @@ uint8_t connman_network_get_strength(struct connman_network *network);
+ int connman_network_set_frequency(struct connman_network *network,
+ 					uint16_t frequency);
+ uint16_t connman_network_get_frequency(struct connman_network *network);
+-int connman_network_set_wifi_channel(struct connman_network *network,
+-					uint16_t channel);
+-uint16_t connman_network_get_wifi_channel(struct connman_network *network);
+ int connman_network_set_autoconnect(struct connman_network *network,
+ 				bool autoconnect);
+ 
+diff --git a/src/network.c b/src/network.c
+index e3e02d16..e7a2572d 100644
+--- a/src/network.c
++++ b/src/network.c
+@@ -87,7 +87,6 @@ struct connman_network {
+ 		void *ssid;
+ 		int ssid_len;
+ 		char *mode;
+-		unsigned short channel;
+ 		char *security;
+ 		char *passphrase;
+ 		char *eap;
+@@ -2119,14 +2118,6 @@ uint16_t connman_network_get_frequency(struct connman_network *network)
+ 	return network->frequency;
  }
  
--bool __vpn_provider_check_routes(struct vpn_provider *provider)
+-int connman_network_set_wifi_channel(struct connman_network *network,
+-						uint16_t channel)
 -{
--	if (!provider)
--		return false;
+-	network->wifi.channel = channel;
 -
--	if (provider->user_routes &&
--			g_hash_table_size(provider->user_routes) > 0)
--		return true;
--
--	if (provider->routes &&
--			g_hash_table_size(provider->routes) > 0)
--		return true;
--
--	return false;
+-	return 0;
 -}
 -
- void *vpn_provider_get_data(struct vpn_provider *provider)
+ int connman_network_set_autoconnect(struct connman_network *network,
+ 				bool autoconnect)
  {
- 	return provider->driver_data;
-diff --git a/vpn/vpn.h b/vpn/vpn.h
-index 477cb227..dafb40c3 100644
---- a/vpn/vpn.h
-+++ b/vpn/vpn.h
-@@ -73,7 +73,6 @@ void __vpn_ipconfig_cleanup(void);
- #include "vpn-provider.h"
+@@ -2142,11 +2133,6 @@ bool __connman_network_native_autoconnect(struct connman_network *network)
+ 	return true;
+ }
  
- char *__vpn_provider_create_identifier(const char *host, const char *domain);
--bool __vpn_provider_check_routes(struct vpn_provider *provider);
- int __vpn_provider_append_user_route(struct vpn_provider *provider,
- 				int family, const char *network,
- 				const char *netmask, const char *gateway);
+-uint16_t connman_network_get_wifi_channel(struct connman_network *network)
+-{
+-	return network->wifi.channel;
+-}
+-
+ /**
+  * connman_network_set_string:
+  * @network: network structure
 -- 
 2.42.0
 
