@@ -1,246 +1,134 @@
-Received: from mail-oa1-f43.google.com (mail-oa1-f43.google.com [209.85.160.43])
+Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC2E5199A6
-	for <connman@lists.linux.dev>; Sat, 30 Sep 2023 22:27:09 +0000 (UTC)
-Received: by mail-oa1-f43.google.com with SMTP id 586e51a60fabf-1dd830ed844so3589426fac.2
-        for <connman@lists.linux.dev>; Sat, 30 Sep 2023 15:27:09 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2FCB1CA93
+	for <connman@lists.linux.dev>; Fri,  6 Oct 2023 12:48:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BZ4/tVIc"
+Received: by mail-qt1-f182.google.com with SMTP id d75a77b69052e-419cc494824so11280611cf.2
+        for <connman@lists.linux.dev>; Fri, 06 Oct 2023 05:48:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1696112828; x=1696717628; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1696596523; x=1697201323; darn=lists.linux.dev;
+        h=content-transfer-encoding:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=cTms4ipQu4OBwplGXrpKuvTN67M9L+jRX9wORqr9tp4=;
-        b=UADOVY8088jVKpUrC2u78Q/u+8jomYQPwkfXhOtAVGHYv/bFW4TP9sakAEjh5Ru2ck
-         JJ0nBs1scJ6dxHXktlW/3MxYc5UlAOyy40tgSNhM+peb+W0E4A431ybxi6ay1um3O2Gm
-         SWmB8xM4Dp9S/iMO3lrQs28NoW3kllB7/5RTQ6eTMbB2XxEnX3kTfkhnOe3CowpADUzw
-         s0E7oR3L/+xqZVgmjVbCuOPNmQY51ti0SYvlZPc3xsy7tUrIJFv01/pb3g3fFQlj/rB0
-         lKWMNcMzT4iLA6dV/S80fm5jaD8K6e0i4fcXEqss1QHpDj6RsYrtVFMgFAxSoXuodJYT
-         UGVA==
+        bh=xATFYc032RlOFeLDCuZ5qaSd/1w5KPaFPBh9vFrZIM8=;
+        b=BZ4/tVIcd1Y9YWeL/kp5NooVLIola0D52clxHpBC83Csw8h0XzAp9RktNNdYEEGipH
+         vo+Hcmk3Cug4tSJ7Vf8LDI0fBZpPmWBjFVpwmshQCbhABzhHtzWi2FbL2WvYnt9fYJzH
+         Wc61Tgm3C/A0AOldWY86iognNzVjGTWhxjQ+fWBigh/PlBSyIYJhHhWY+VXMx5LzKhCe
+         +JO28pcfw1ms1uUbAIotaFdWX0+hgRPfakBWNRo/wT6RwrP+uR8PlvryXFyL8jmXW3dT
+         3Odj0t8gsH5/jQCJ1vOjftpZSPkzqNtPqMQGxHgfhUH4HsQxHHaLhvT8L4D03k/8RVH9
+         wblQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696112828; x=1696717628;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1696596523; x=1697201323;
+        h=content-transfer-encoding:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=cTms4ipQu4OBwplGXrpKuvTN67M9L+jRX9wORqr9tp4=;
-        b=R5o1YmFUmQPEUC12InX/lWis4B5hv0Ok8WnIm20/q1vkjSuSpNO3aF/6mFN1Dn9tBP
-         PTgUrjkVPhVA7WZA9EWqr5Vw8vZw9Hr9+48quatpooSmeLQYdUUCARn5bYlg6lS+BMID
-         TxsQxA4InXQ3TPFL3ToEDHosBitxyrJNPrp2SzNNRsJuWjUauArPhMwKQHf2y40vUgpB
-         L95TMcIkdtt1b+tgxkPKqZJFrrK9z/HovcZ6+poBvgHcwLAZ5IaVUjlZ9yJij8IPMboL
-         TnOcQmatK5oGLCgwo15S009/qGufdQXK7Z4vWwFWmFF7qKtB75wyyvO7KM+rWM8ZnM/c
-         keog==
-X-Gm-Message-State: AOJu0YyQxL1WZStjpm2ff3piPSbgR1+cYCsnGkDhXbQ3oDc+IDZ621e3
-	IvhjEZp2wFducU2oHDRHwYus/pgXnMY=
-X-Google-Smtp-Source: AGHT+IG4U8GCT7pNF9BHKXr+o0c1Ge5unpsemc4Uu5QaTh1wqns6HrwsgBl68hu8VxHa1tqzeH/W6w==
-X-Received: by 2002:a05:6870:ec86:b0:1b7:3fd5:87cd with SMTP id eo6-20020a056870ec8600b001b73fd587cdmr9804663oab.48.1696112828454;
-        Sat, 30 Sep 2023 15:27:08 -0700 (PDT)
-Received: from localhost.localdomain (cpe-70-114-247-242.austin.res.rr.com. [70.114.247.242])
-        by smtp.gmail.com with ESMTPSA id h3-20020a056870860300b001dd533c4bd1sm2328360oal.1.2023.09.30.15.27.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 30 Sep 2023 15:27:08 -0700 (PDT)
-From: Denis Kenzior <denkenz@gmail.com>
-To: connman@lists.linux.dev
-Cc: Denis Kenzior <denkenz@gmail.com>
-Subject: [PATCH 6/6] vpn: Remove vpn_rtnl_register & vpn_rtnl_unregister
-Date: Sat, 30 Sep 2023 17:25:57 -0500
-Message-ID: <20230930222615.654178-6-denkenz@gmail.com>
-X-Mailer: git-send-email 2.42.0
-In-Reply-To: <20230930222615.654178-1-denkenz@gmail.com>
-References: <20230930222615.654178-1-denkenz@gmail.com>
+        bh=xATFYc032RlOFeLDCuZ5qaSd/1w5KPaFPBh9vFrZIM8=;
+        b=OkUCwFDLv6mnNfXlQfLCqcJjC4WQblWJ5WepVLcx9gi7m40Ve389cpLLLm3X43M0ZH
+         aWgamq/iF6875KqRZY8yzzaUr5G7fW6vjJ5r3KnkAL/hEKzqIWmmL3BOkPgH+6wBMj5X
+         jbZKN0vG3YAWWXEB3vsrtOWHuFU93XxV8fsLeAwE9AsFC4hxPXdYjmf0fOtk9aQSp9MI
+         Qvm11lOmytsUdBtNcKiGCTvt7PsJlXOe5A2Kol8XYt2W32wrgU0qvGwNDqG6eQFkuopZ
+         keq0lsM3OOKwV7QkL/pNCnPqsOd5O+137iztF+QaAu6+oQS8mV8jTMXp6bplvGPyq9HG
+         5m8g==
+X-Gm-Message-State: AOJu0YwUDLSJhOocCvaNt7cm1TISraACdufSiZ1Jn9Q3DlhxlGtGr+jF
+	lSELhg3NT1wK8Pqaa+4XXsR/6xWHeEypwx7G54DM1Jj9Lx6FVw==
+X-Google-Smtp-Source: AGHT+IEaReH5Y4M2bY3GckP0ZnRagEYDhfVxOYxpmxsDh7rhSdqHGxx9scysoBso6zayJwf92LZe1KQpSEr9ciRRm2o=
+X-Received: by 2002:ac8:5f8c:0:b0:417:9431:c61b with SMTP id
+ j12-20020ac85f8c000000b004179431c61bmr8899083qta.18.1696596523217; Fri, 06
+ Oct 2023 05:48:43 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <CA+iibzCjJP2Y8YW2CV1N+cd75BKi_vd0FH0Yj84qK-whHypZKQ@mail.gmail.com>
+In-Reply-To: <CA+iibzCjJP2Y8YW2CV1N+cd75BKi_vd0FH0Yj84qK-whHypZKQ@mail.gmail.com>
+From: daniel antoine <univac55@gmail.com>
+Date: Fri, 6 Oct 2023 14:48:32 +0200
+Message-ID: <CA+iibzC5m0ZhMV_ibNLjWJBG2ftqGrULd+07C209nHUJoSr2Xg@mail.gmail.com>
+Subject: Re: Polkit package missing during compilation
+To: connman@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-These functions were never used.  In fact, in some functions, the paths
-that used struct vpn_rtnl callbacks were never actually reachable (see
-process_newroute and process_delroute).  Remove these functions.  Also,
-as a result, struct vpn_rtnl is now never actually used.  Remove it as
-well and any code that uses it.
----
- vpn/vpn-rtnl.c | 88 --------------------------------------------------
- vpn/vpn-rtnl.h | 18 -----------
- 2 files changed, 106 deletions(-)
+Hi
+I have tried to compile connman without the option --enable-polkit and
+the warning has disappeared.
+checking for dlopen in -ldl... yes
+checking for glib-2.0 >=3D 2.40... yes
+checking for dbus-1 >=3D 1.4... yes
+checking for xtables >=3D 1.4.11... yes
+checking for libmnl >=3D 1.0.0... yes
+checking for iptables-save... /sbin/iptables-save
+checking for ip6tables-save... /sbin/ip6tables-save
+checking for gnutls... yes
+checking for sys/inotify.h... yes
+checking for inotify_init in -lc... yes
+checking for wpa_supplicant... /sbin/wpa_supplicant
+checking for readline/readline.h... yes
+checking which DNS backend to use... internal
+checking that generated files are newer than configure... done
+configure: creating ./config.status
+config.status: creating Makefile
+config.status: creating include/version.h
+config.status: creating connman.pc
+config.status: creating config.h
+config.status: executing depfiles commands
+config.status: executing libtool commands
 
-diff --git a/vpn/vpn-rtnl.c b/vpn/vpn-rtnl.c
-index 98682722..a6b07858 100644
---- a/vpn/vpn-rtnl.c
-+++ b/vpn/vpn-rtnl.c
-@@ -145,61 +145,6 @@ void vpn_rtnl_remove_watch(unsigned int id)
- 	}
- }
- 
--static void trigger_rtnl(int index, void *user_data)
--{
--	struct vpn_rtnl *rtnl = user_data;
--
--	if (rtnl->newlink) {
--		unsigned short type = __vpn_ipconfig_get_type_from_index(index);
--		unsigned int flags = __vpn_ipconfig_get_flags_from_index(index);
--
--		rtnl->newlink(type, index, flags, 0);
--	}
--}
--
--static GSList *rtnl_list = NULL;
--
--static gint compare_priority(gconstpointer a, gconstpointer b)
--{
--	const struct vpn_rtnl *rtnl1 = a;
--	const struct vpn_rtnl *rtnl2 = b;
--
--	return rtnl2->priority - rtnl1->priority;
--}
--
--/**
-- * vpn_rtnl_register:
-- * @rtnl: RTNL module
-- *
-- * Register a new RTNL module
-- *
-- * Returns: %0 on success
-- */
--int vpn_rtnl_register(struct vpn_rtnl *rtnl)
--{
--	DBG("rtnl %p name %s", rtnl, rtnl->name);
--
--	rtnl_list = g_slist_insert_sorted(rtnl_list, rtnl,
--							compare_priority);
--
--	vpn_ipconfig_foreach(trigger_rtnl, rtnl);
--
--	return 0;
--}
--
--/**
-- * vpn_rtnl_unregister:
-- * @rtnl: RTNL module
-- *
-- * Remove a previously registered RTNL module
-- */
--void vpn_rtnl_unregister(struct vpn_rtnl *rtnl)
--{
--	DBG("rtnl %p name %s", rtnl, rtnl->name);
--
--	rtnl_list = g_slist_remove(rtnl_list, rtnl);
--}
--
- static const char *operstate2str(unsigned char operstate)
- {
- 	switch (operstate) {
-@@ -320,13 +265,6 @@ static void process_newlink(unsigned short type, int index, unsigned flags,
- 					GINT_TO_POINTER(index), interface);
- 	}
- 
--	for (list = rtnl_list; list; list = list->next) {
--		struct vpn_rtnl *rtnl = list->data;
--
--		if (rtnl->newlink)
--			rtnl->newlink(type, index, flags, change);
--	}
--
- 	for (list = watch_list; list; list = list->next) {
- 		struct watch_data *watch = list->data;
- 
-@@ -344,7 +282,6 @@ static void process_dellink(unsigned short type, int index, unsigned flags,
- 	struct rtnl_link_stats stats;
- 	unsigned char operstate = 0xff;
- 	const char *ifname = NULL;
--	GSList *list;
- 
- 	memset(&stats, 0, sizeof(stats));
- 	extract_link(msg, bytes, NULL, &ifname, NULL, &operstate, &stats);
-@@ -354,13 +291,6 @@ static void process_dellink(unsigned short type, int index, unsigned flags,
- 						ifname, index, operstate,
- 						operstate2str(operstate));
- 
--	for (list = rtnl_list; list; list = list->next) {
--		struct vpn_rtnl *rtnl = list->data;
--
--		if (rtnl->dellink)
--			rtnl->dellink(type, index, flags, change);
--	}
--
- 	switch (type) {
- 	case ARPHRD_ETHER:
- 	case ARPHRD_LOOPBACK:
-@@ -426,7 +356,6 @@ static void extract_ipv6_route(struct rtmsg *msg, int bytes, int *index,
- static void process_newroute(unsigned char family, unsigned char scope,
- 						struct rtmsg *msg, int bytes)
- {
--	GSList *list;
- 	char dststr[INET6_ADDRSTRLEN], gatewaystr[INET6_ADDRSTRLEN];
- 	int index = -1;
- 
-@@ -463,21 +392,12 @@ static void process_newroute(unsigned char family, unsigned char scope,
- 
- 		if (!IN6_IS_ADDR_UNSPECIFIED(&dst))
- 			return;
--	} else
--		return;
--
--	for (list = rtnl_list; list; list = list->next) {
--		struct vpn_rtnl *rtnl = list->data;
--
--		if (rtnl->newgateway)
--			rtnl->newgateway(index, gatewaystr);
- 	}
- }
- 
- static void process_delroute(unsigned char family, unsigned char scope,
- 						struct rtmsg *msg, int bytes)
- {
--	GSList *list;
- 	char dststr[INET6_ADDRSTRLEN], gatewaystr[INET6_ADDRSTRLEN];
- 	int index = -1;
- 
-@@ -514,14 +434,6 @@ static void process_delroute(unsigned char family, unsigned char scope,
- 
- 		if (!IN6_IS_ADDR_UNSPECIFIED(&dst))
- 			return;
--	} else
--		return;
--
--	for (list = rtnl_list; list; list = list->next) {
--		struct vpn_rtnl *rtnl = list->data;
--
--		if (rtnl->delgateway)
--			rtnl->delgateway(index, gatewaystr);
- 	}
- }
- 
-diff --git a/vpn/vpn-rtnl.h b/vpn/vpn-rtnl.h
-index aa640a66..514fe02f 100644
---- a/vpn/vpn-rtnl.h
-+++ b/vpn/vpn-rtnl.h
-@@ -40,24 +40,6 @@ unsigned int vpn_rtnl_add_newlink_watch(int index,
- 
- void vpn_rtnl_remove_watch(unsigned int id);
- 
--#define VPN_RTNL_PRIORITY_LOW      -100
--#define VPN_RTNL_PRIORITY_DEFAULT     0
--#define VPN_RTNL_PRIORITY_HIGH      100
--
--struct vpn_rtnl {
--	const char *name;
--	int priority;
--	void (*newlink) (unsigned short type, int index,
--					unsigned flags, unsigned change);
--	void (*dellink) (unsigned short type, int index,
--					unsigned flags, unsigned change);
--	void (*newgateway) (int index, const char *gateway);
--	void (*delgateway) (int index, const char *gateway);
--};
--
--int vpn_rtnl_register(struct vpn_rtnl *rtnl);
--void vpn_rtnl_unregister(struct vpn_rtnl *rtnl);
--
- #ifdef __cplusplus
- }
- #endif
--- 
-2.42.0
+I wonder if the option enable_polkit=3D"yes" is tested. It seems it was
+remove in this commit
+https://git.kernel.org/pub/scm/network/connman/connman.git/commit/?id=3D7c5=
+f70200f076d2afdce9c34dc59ce8fd4e1baba
+a long time ago.
+In fact is the option --enable-polkit needed or is it built in ?
+I have compiled but not tested without the option.
 
+Best regards
+
+Dania
+
+
+d
+
+I wonder if the option
+
+Le dim. 17 sept. 2023 =C3=A0 11:30, daniel antoine <univac55@gmail.com> a =
+=C3=A9crit :
+>
+> Hi
+>
+> During compilation there is a message "Package polkit was not found in
+> the pkg-config search path". Polkit is present as a dependency and
+> also --enable-polkit as an option  in the pkgfile. It doesn't cause a
+> problem as connman work's very well.
+> I send you my compilation log and the result of a cat connman.log | grep =
+polkit
+>
+> root@grat-os1:/mnt/hd/var/log/pkgbuild# cat connman.log | grep polkit
+> patching file src/connman-polkit.conf
+> + ./configure --prefix=3D/usr --sysconfdir=3D/etc --localstatedir=3D/var
+> --bindir=3D/usr/bin --sbindir=3D/usr/bin
+> --with-systemdunitdir=3D/lib/systemd/system --enable-openvpn
+> --enable-polkit --enable-client --enable-nmcompat --enable-pie
+> --enable-iwd
+> Package polkit was not found in the pkg-config search path.
+> Perhaps you should add the directory containing `polkit.pc'
+> No package 'polkit' found
+>   CC       tools/polkit-test.o
+>   CC       plugins/src_connmand-polkit.o
+>   CC       gdbus/polkit.lo
+>   CCLD     tools/polkit-test
+>  /bin/mkdir -p '/tmp/work/pkg/usr/share/polkit-1/actions'
+>  /usr/bin/install -c -m 644 plugins/net.connman.policy
+> vpn/net.connman.vpn.policy '/tmp/work/pkg/usr/share/polkit-1/actions'
+>
+> the version of polkit I use is 122
+>
+> Best regards
+>
+> Dania
