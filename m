@@ -1,19 +1,19 @@
 Received: from mohas.pair.com (mohas.pair.com [209.68.5.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9696C140
-	for <connman@lists.linux.dev>; Thu, 19 Oct 2023 21:30:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E360DC140
+	for <connman@lists.linux.dev>; Thu, 19 Oct 2023 21:34:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nuovations.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nuovations.com
 Authentication-Results: smtp.subspace.kernel.org; dkim=none
 Received: from mohas.pair.com (localhost [127.0.0.1])
-	by mohas.pair.com (Postfix) with ESMTP id DCD4A73184
-	for <connman@lists.linux.dev>; Thu, 19 Oct 2023 17:30:36 -0400 (EDT)
+	by mohas.pair.com (Postfix) with ESMTP id E8C2973248
+	for <connman@lists.linux.dev>; Thu, 19 Oct 2023 17:34:25 -0400 (EDT)
 Received: from [IPv6:2601:647:5a00:15c1:fd9d:6537:8c7d:2c0] (unknown [IPv6:2601:647:5a00:15c1:fd9d:6537:8c7d:2c0])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mohas.pair.com (Postfix) with ESMTPSA id A5E82732EE
-	for <connman@lists.linux.dev>; Thu, 19 Oct 2023 17:30:36 -0400 (EDT)
+	by mohas.pair.com (Postfix) with ESMTPSA id 8696473326
+	for <connman@lists.linux.dev>; Thu, 19 Oct 2023 17:34:25 -0400 (EDT)
 From: Grant Erickson <gerickson@nuovations.com>
 Content-Type: text/plain;
 	charset=us-ascii
@@ -24,83 +24,408 @@ List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 Mime-Version: 1.0 (Mac OS X Mail 13.4 \(3608.120.23.2.4\))
-Subject: [PATCH] Const-qualify 'connman_{network,provider}_get_index'.
-Message-Id: <F5EB01CB-FAAC-4370-A256-D3920ABFF56C@nuovations.com>
-Date: Thu, 19 Oct 2023 14:30:35 -0700
+Subject: [PATCH] Const-qualify service leaf getter functions.
+Message-Id: <F972A4C7-98B0-4667-B919-41A692B22C22@nuovations.com>
+Date: Thu, 19 Oct 2023 14:34:24 -0700
 To: connman@lists.linux.dev
 X-Mailer: Apple Mail (2.3608.120.23.2.4)
 X-Scanned-By: mailmunge 3.11 on 209.68.5.112
 
-Const-qualify the network and provider arguments to make it clear to
-the compiler, static analyzers, and human readers that the function
-is strictly a getter with no network or provider mutation side effects.
+Const-qualify the network service arguments in service leaf getter
+and introspection functions to make it clear to the compiler, static
+analyzers, and human readers that the function is strictly a getter
+or introspection function with no network service mutation side
+effects.
 
 ---
- include/network.h  | 2 +-
- include/provider.h | 2 +-
- src/network.c      | 2 +-
- src/provider.c     | 2 +-
- 4 files changed, 4 insertions(+), 4 deletions(-)
+ include/service.h | 18 +++++++++---------
+ src/connman.h     | 24 ++++++++++++------------
+ src/service.c     | 42 +++++++++++++++++++++---------------------
+ 3 files changed, 42 insertions(+), 42 deletions(-)
 
-diff --git a/include/network.h b/include/network.h
-index 5bca62ad..b0c314fb 100644
---- a/include/network.h
-+++ b/include/network.h
-@@ -85,7 +85,7 @@ enum connman_network_type =
-connman_network_get_type(struct connman_network *netwo
- const char *connman_network_get_identifier(struct connman_network =
-*network);
+diff --git a/include/service.h b/include/service.h
+index 8f6b36b4..e3cf3d36 100644
+--- a/include/service.h
++++ b/include/service.h
+@@ -114,24 +114,24 @@ connman_service_ref_debug(struct connman_service =
+*service,
+ void connman_service_unref_debug(struct connman_service *service,
+ 			const char *file, int line, const char *caller);
 =20
- void connman_network_set_index(struct connman_network *network, int =
-index);
--int connman_network_get_index(struct connman_network *network);
-+int connman_network_get_index(const struct connman_network *network);
+-enum connman_service_type connman_service_get_type(struct =
+connman_service *service);
+-enum connman_service_state connman_service_get_state(struct =
+connman_service *service);
++enum connman_service_type connman_service_get_type(const struct =
+connman_service *service);
++enum connman_service_state connman_service_get_state(const struct =
+connman_service *service);
+ char *connman_service_get_interface(struct connman_service *service);
 =20
- void connman_network_set_group(struct connman_network *network,
- 						const char *group);
-diff --git a/include/provider.h b/include/provider.h
-index 1f120990..3f2e36ad 100644
---- a/include/provider.h
-+++ b/include/provider.h
-@@ -94,7 +94,7 @@ int connman_provider_indicate_error(struct =
-connman_provider *provider,
- 					enum connman_provider_error =
-error);
+-const char *connman_service_get_identifier(struct connman_service =
+*service);
+-const char *connman_service_get_domainname(struct connman_service =
+*service);
+-const char *connman_service_get_dbuspath(struct connman_service =
+*service);
++const char *connman_service_get_identifier(const struct connman_service =
+*service);
++const char *connman_service_get_domainname(const struct connman_service =
+*service);
++const char *connman_service_get_dbuspath(const struct connman_service =
+*service);
+ char **connman_service_get_nameservers(struct connman_service =
+*service);
+ char **connman_service_get_timeservers_config(struct connman_service =
+*service);
+ char **connman_service_get_timeservers(struct connman_service =
+*service);
+ void connman_service_set_proxy_method(struct connman_service *service, =
+enum connman_service_proxy_method method);
+-enum connman_service_proxy_method =
+connman_service_get_proxy_method(struct connman_service *service);
++enum connman_service_proxy_method =
+connman_service_get_proxy_method(const struct connman_service *service);
+ char **connman_service_get_proxy_servers(struct connman_service =
+*service);
+ char **connman_service_get_proxy_excludes(struct connman_service =
+*service);
+-const char *connman_service_get_proxy_url(struct connman_service =
+*service);
++const char *connman_service_get_proxy_url(const struct connman_service =
+*service);
+ const char *connman_service_get_proxy_autoconfig(struct connman_service =
+*service);
+-bool connman_service_get_favorite(struct connman_service *service);
+-bool connman_service_get_autoconnect(struct connman_service *service);
++bool connman_service_get_favorite(const struct connman_service =
+*service);
++bool connman_service_get_autoconnect(const struct connman_service =
+*service);
+ bool connman_service_set_autoconnect(struct connman_service *service,
+ 							bool =
+autoconnect);
 =20
- void connman_provider_set_index(struct connman_provider *provider, int =
-index);
--int connman_provider_get_index(struct connman_provider *provider);
-+int connman_provider_get_index(const struct connman_provider =
-*provider);
+diff --git a/src/connman.h b/src/connman.h
+index b955d98b..c5d33c12 100644
+--- a/src/connman.h
++++ b/src/connman.h
+@@ -710,14 +710,14 @@ void __connman_service_notify_ipv4_configuration(
+ 				struct connman_service *service);
+ void __connman_service_wispr_start(struct connman_service *service,
+                                 enum connman_ipconfig_type type);
+-bool __connman_service_is_connected_state(struct connman_service =
+*service,
++bool __connman_service_is_connected_state(const struct connman_service =
+*service,
+ 					enum connman_ipconfig_type =
+type);
+-const char *__connman_service_get_path(struct connman_service =
+*service);
+-const char *__connman_service_get_name(struct connman_service =
+*service);
++const char *__connman_service_get_path(const struct connman_service =
+*service);
++const char *__connman_service_get_name(const struct connman_service =
+*service);
+ struct connman_network *__connman_service_get_network(struct =
+connman_service *service);
+-enum connman_service_security __connman_service_get_security(struct =
+connman_service *service);
+-const char *__connman_service_get_phase2(struct connman_service =
+*service);
+-bool __connman_service_wps_enabled(struct connman_service *service);
++enum connman_service_security __connman_service_get_security(const =
+struct connman_service *service);
++const char *__connman_service_get_phase2(const struct connman_service =
+*service);
++bool __connman_service_wps_enabled(const struct connman_service =
+*service);
+ int __connman_service_set_favorite(struct connman_service *service,
+ 						bool favorite);
+ int __connman_service_set_favorite_delayed(struct connman_service =
+*service,
+@@ -755,7 +755,7 @@ int __connman_service_disconnect(struct =
+connman_service *service);
+ void __connman_service_set_active_session(bool enable, GSList *list);
+ void __connman_service_auto_connect(enum connman_service_connect_reason =
+reason);
+ bool __connman_service_remove(struct connman_service *service);
+-bool __connman_service_is_provider_pending(struct connman_service =
+*service);
++bool __connman_service_is_provider_pending(const struct connman_service =
+*service);
+ void __connman_service_set_provider_pending(struct connman_service =
+*service,
+ 							DBusMessage =
+*msg);
+ void __connman_service_set_hidden_data(struct connman_service *service,
+@@ -790,17 +790,17 @@ void __connman_service_timeserver_changed(struct =
+connman_service *service,
+ 		GSList *ts_list);
+ void __connman_service_set_pac(struct connman_service *service,
+ 					const char *pac);
+-bool __connman_service_is_hidden(struct connman_service *service);
+-bool __connman_service_is_split_routing(struct connman_service =
+*service);
++bool __connman_service_is_hidden(const struct connman_service =
+*service);
++bool __connman_service_is_split_routing(const struct connman_service =
+*service);
+ bool __connman_service_index_is_split_routing(int index);
+ void __connman_service_set_split_routing(struct connman_service =
+*service,
+ 						bool split_routing);
+ void __connman_service_split_routing_changed(struct connman_service =
+*service);
+-int __connman_service_get_index(struct connman_service *service);
++int __connman_service_get_index(const struct connman_service *service);
+ void __connman_service_set_hidden(struct connman_service *service);
+ void __connman_service_set_hostname(struct connman_service *service,
+ 						const char *hostname);
+-const char *__connman_service_get_hostname(struct connman_service =
+*service);
++const char *__connman_service_get_hostname(const struct connman_service =
+*service);
+ void __connman_service_set_domainname(struct connman_service *service,
+ 						const char *domainname);
+ const char *__connman_service_get_nameserver(struct connman_service =
+*service);
+@@ -823,7 +823,7 @@ void __connman_service_set_agent_identity(struct =
+connman_service *service,
+ 						const char =
+*agent_identity);
+ int __connman_service_set_passphrase(struct connman_service *service,
+ 					const char *passphrase);
+-const char *__connman_service_get_passphrase(struct connman_service =
+*service);
++const char *__connman_service_get_passphrase(const struct =
+connman_service *service);
+ int __connman_service_check_passphrase(enum connman_service_security =
+security,
+ 					const char *passphrase);
+ int __connman_service_reset_ipconfig(struct connman_service *service,
+diff --git a/src/service.c b/src/service.c
+index 06d02322..91d17e32 100644
+--- a/src/service.c
++++ b/src/service.c
+@@ -2717,13 +2717,13 @@ void =
+__connman_service_list_struct(DBusMessageIter *iter)
+ 	g_list_foreach(service_list, append_struct, iter);
+ }
 =20
- void connman_provider_set_data(struct connman_provider *provider, void =
-*data);
- void *connman_provider_get_data(struct connman_provider *provider);
-diff --git a/src/network.c b/src/network.c
-index e3e02d16..d0ecec2e 100644
---- a/src/network.c
-+++ b/src/network.c
-@@ -1404,7 +1404,7 @@ done:
+-bool __connman_service_is_hidden(struct connman_service *service)
++bool __connman_service_is_hidden(const struct connman_service *service)
+ {
+ 	return service->hidden;
+ }
+=20
+ bool
+-__connman_service_is_split_routing(struct connman_service *service)
++__connman_service_is_split_routing(const struct connman_service =
+*service)
+ {
+ 	return service->do_split_routing;
+ }
+@@ -2742,7 +2742,7 @@ bool __connman_service_index_is_split_routing(int =
+index)
+ 	return __connman_service_is_split_routing(service);
+ }
+=20
+-int __connman_service_get_index(struct connman_service *service)
++int __connman_service_get_index(const struct connman_service *service)
+ {
+ 	if (!service)
+ 		return -1;
+@@ -2776,7 +2776,7 @@ void __connman_service_set_hostname(struct =
+connman_service *service,
+ 		service->hostname =3D g_strdup(hostname);
+ }
+=20
+-const char *__connman_service_get_hostname(struct connman_service =
+*service)
++const char *__connman_service_get_hostname(const struct connman_service =
+*service)
+ {
+ 	if (!service)
+ 		return NULL;
+@@ -2799,7 +2799,7 @@ void __connman_service_set_domainname(struct =
+connman_service *service,
+ 	domain_changed(service);
+ }
+=20
+-const char *connman_service_get_domainname(struct connman_service =
+*service)
++const char *connman_service_get_domainname(const struct connman_service =
+*service)
+ {
+ 	if (!service)
+ 		return NULL;
+@@ -2810,7 +2810,7 @@ const char *connman_service_get_domainname(struct =
+connman_service *service)
+ 		return service->domainname;
+ }
+=20
+-const char *connman_service_get_dbuspath(struct connman_service =
+*service)
++const char *connman_service_get_dbuspath(const struct connman_service =
+*service)
+ {
+ 	if (!service)
+ 		return NULL;
+@@ -2883,7 +2883,7 @@ void connman_service_set_proxy_method(struct =
+connman_service *service,
+ }
+=20
+ enum connman_service_proxy_method connman_service_get_proxy_method(
+-					struct connman_service *service)
++					const struct connman_service =
+*service)
+ {
+ 	if (!service)
+ 		return CONNMAN_SERVICE_PROXY_METHOD_UNKNOWN;
+@@ -2909,7 +2909,7 @@ char **connman_service_get_proxy_excludes(struct =
+connman_service *service)
+ 	return g_strdupv(service->excludes);
+ }
+=20
+-const char *connman_service_get_proxy_url(struct connman_service =
+*service)
++const char *connman_service_get_proxy_url(const struct connman_service =
+*service)
+ {
+ 	if (!service)
+ 		return NULL;
+@@ -3275,7 +3275,7 @@ int __connman_service_set_passphrase(struct =
+connman_service *service,
+ 	return 0;
+ }
+=20
+-const char *__connman_service_get_passphrase(struct connman_service =
+*service)
++const char *__connman_service_get_passphrase(const struct =
+connman_service *service)
+ {
+ 	if (!service)
+ 		return NULL;
+@@ -4463,7 +4463,7 @@ static void vpn_auto_connect(void)
+ }
+=20
+ bool
+-__connman_service_is_provider_pending(struct connman_service *service)
++__connman_service_is_provider_pending(const struct connman_service =
+*service)
+ {
+ 	if (!service)
+ 		return false;
+@@ -5487,7 +5487,7 @@ int __connman_service_compare(const struct =
+connman_service *a,
   *
-  * Get index number of network
+  * Get the type of service
   */
--int connman_network_get_index(struct connman_network *network)
-+int connman_network_get_index(const struct connman_network *network)
+-enum connman_service_type connman_service_get_type(struct =
+connman_service *service)
++enum connman_service_type connman_service_get_type(const struct =
+connman_service *service)
  {
- 	return network->index;
- }
-diff --git a/src/provider.c b/src/provider.c
-index e2091846..e3d34d8f 100644
---- a/src/provider.c
-+++ b/src/provider.c
-@@ -535,7 +535,7 @@ done:
- 	provider->index =3D index;
+ 	if (!service)
+ 		return CONNMAN_SERVICE_TYPE_UNKNOWN;
+@@ -5558,7 +5558,7 @@ __connman_service_get_ipconfig(struct =
+connman_service *service, int family)
+=20
  }
 =20
--int connman_provider_get_index(struct connman_provider *provider)
-+int connman_provider_get_index(const struct connman_provider *provider)
+-bool __connman_service_is_connected_state(struct connman_service =
+*service,
++bool __connman_service_is_connected_state(const struct connman_service =
+*service,
+ 					enum connman_ipconfig_type type)
  {
- 	return provider->index;
+ 	if (!service)
+@@ -5579,7 +5579,7 @@ bool __connman_service_is_connected_state(struct =
+connman_service *service,
+ 	return false;
+ }
+ enum connman_service_security __connman_service_get_security(
+-				struct connman_service *service)
++				const struct connman_service *service)
+ {
+ 	if (!service)
+ 		return CONNMAN_SERVICE_SECURITY_UNKNOWN;
+@@ -5587,7 +5587,7 @@ enum connman_service_security =
+__connman_service_get_security(
+ 	return service->security;
+ }
+=20
+-const char *__connman_service_get_phase2(struct connman_service =
+*service)
++const char *__connman_service_get_phase2(const struct connman_service =
+*service)
+ {
+ 	if (!service)
+ 		return NULL;
+@@ -5595,7 +5595,7 @@ const char *__connman_service_get_phase2(struct =
+connman_service *service)
+ 	return service->phase2;
+ }
+=20
+-bool __connman_service_wps_enabled(struct connman_service *service)
++bool __connman_service_wps_enabled(const struct connman_service =
+*service)
+ {
+ 	if (!service)
+ 		return false;
+@@ -5657,12 +5657,12 @@ int __connman_service_set_favorite(struct =
+connman_service *service,
+ 							false);
+ }
+=20
+-bool connman_service_get_favorite(struct connman_service *service)
++bool connman_service_get_favorite(const struct connman_service =
+*service)
+ {
+ 	return service->favorite;
+ }
+=20
+-bool connman_service_get_autoconnect(struct connman_service *service)
++bool connman_service_get_autoconnect(const struct connman_service =
+*service)
+ {
+ 	return service->autoconnect;
+ }
+@@ -7294,22 +7294,22 @@ struct connman_service =
+*__connman_service_lookup_from_index(int index)
+ 	return NULL;
+ }
+=20
+-const char *connman_service_get_identifier(struct connman_service =
+*service)
++const char *connman_service_get_identifier(const struct connman_service =
+*service)
+ {
+ 	return service ? service->identifier : NULL;
+ }
+=20
+-const char *__connman_service_get_path(struct connman_service *service)
++const char *__connman_service_get_path(const struct connman_service =
+*service)
+ {
+ 	return service->path;
+ }
+=20
+-const char *__connman_service_get_name(struct connman_service *service)
++const char *__connman_service_get_name(const struct connman_service =
+*service)
+ {
+ 	return service->name;
+ }
+=20
+-enum connman_service_state connman_service_get_state(struct =
+connman_service *service)
++enum connman_service_state connman_service_get_state(const struct =
+connman_service *service)
+ {
+ 	return service ? service->state : CONNMAN_SERVICE_STATE_UNKNOWN;
  }
 --=20
 2.32.0
