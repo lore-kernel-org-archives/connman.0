@@ -1,19 +1,19 @@
 Received: from mohas.pair.com (mohas.pair.com [209.68.5.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11B016AB3
-	for <connman@lists.linux.dev>; Thu, 19 Oct 2023 20:42:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C3579472
+	for <connman@lists.linux.dev>; Thu, 19 Oct 2023 20:47:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nuovations.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nuovations.com
 Authentication-Results: smtp.subspace.kernel.org; dkim=none
 Received: from mohas.pair.com (localhost [127.0.0.1])
-	by mohas.pair.com (Postfix) with ESMTP id 9B0647336D
-	for <connman@lists.linux.dev>; Thu, 19 Oct 2023 16:42:17 -0400 (EDT)
+	by mohas.pair.com (Postfix) with ESMTP id 8DA627329B
+	for <connman@lists.linux.dev>; Thu, 19 Oct 2023 16:47:08 -0400 (EDT)
 Received: from [IPv6:2601:647:5a00:15c1:fd9d:6537:8c7d:2c0] (unknown [IPv6:2601:647:5a00:15c1:fd9d:6537:8c7d:2c0])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mohas.pair.com (Postfix) with ESMTPSA id 6714F7337A
-	for <connman@lists.linux.dev>; Thu, 19 Oct 2023 16:42:17 -0400 (EDT)
+	by mohas.pair.com (Postfix) with ESMTPSA id 563167336D
+	for <connman@lists.linux.dev>; Thu, 19 Oct 2023 16:47:08 -0400 (EDT)
 From: Grant Erickson <gerickson@nuovations.com>
 Content-Type: text/plain;
 	charset=us-ascii
@@ -24,34 +24,47 @@ List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 Mime-Version: 1.0 (Mac OS X Mail 13.4 \(3608.120.23.2.4\))
-Subject: [PATCH] Return the '<null>' string if the service is null.
-Message-Id: <CA922092-2F05-488E-8FFC-7051323CEE85@nuovations.com>
-Date: Thu, 19 Oct 2023 13:42:16 -0700
+Subject: [PATCH] Leverage 'connman_service_get_identifier' in DBG calls.
+Message-Id: <524C84BA-DC40-4292-A8DE-BA45E9E18DA6@nuovations.com>
+Date: Thu, 19 Oct 2023 13:47:07 -0700
 To: connman@lists.linux.dev
 X-Mailer: Apple Mail (2.3608.120.23.2.4)
 X-Scanned-By: mailmunge 3.11 on 209.68.5.112
 
-This returns the '<null>' string from 'connman_service_get_identifer' if
-the service is null. Unfortunately, not all C Standard Libraries on all
-platforms cope well with a literal null and the '%s' format specifier.
+This leverages 'connman_service_get_identifier' in DBG calls rather
+than re-creating the same logic from 'connman_service_get_identifier'
+in those same calls.
+
 ---
- src/service.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ src/service.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/src/service.c b/src/service.c
-index 06d02322..78a000bc 100644
+index 06d02322..955504b8 100644
 --- a/src/service.c
 +++ b/src/service.c
-@@ -7296,7 +7296,7 @@ struct connman_service =
-*__connman_service_lookup_from_index(int index)
+@@ -4358,7 +4358,7 @@ static gboolean run_vpn_auto_connect(gpointer =
+data) {
+ 		is_connected(def_service->state))) {
 =20
- const char *connman_service_get_identifier(struct connman_service =
-*service)
- {
--	return service ? service->identifier : NULL;
-+	return service ? service->identifier : "<null>";
- }
+ 		DBG("stopped, default service %s connected %d",
+-			def_service ? def_service->identifier : "NULL",
++			connman_service_get_identifier(def_service),
+ 			def_service ? is_connected(def_service->state) : =
+-1);
+ 		goto out;
+ 	}
+@@ -6483,8 +6483,7 @@ int =
+__connman_service_ipconfig_indicate_state(struct connman_service =
+*service,
+ 		return -EALREADY;
 =20
- const char *__connman_service_get_path(struct connman_service *service)
+ 	DBG("service %p (%s) old state %d (%s) new state %d (%s) type %d =
+(%s)",
+-		service, service ? service->identifier : NULL,
++		service, connman_service_get_identifier(service),
+ 		old_state, state2string(old_state),
+ 		new_state, state2string(new_state),
+ 		type, __connman_ipconfig_type2string(type));
 --=20
-2.32.0
+2.32.0=
