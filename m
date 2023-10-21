@@ -1,53 +1,53 @@
-Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77DECD52E
-	for <connman@lists.linux.dev>; Sat, 21 Oct 2023 20:59:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E5155667
+	for <connman@lists.linux.dev>; Sat, 21 Oct 2023 21:01:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="V3IAZO2E"
-Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-507d7b73b74so2861738e87.3
-        for <connman@lists.linux.dev>; Sat, 21 Oct 2023 13:59:54 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JhBz2w6U"
+Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-507975d34e8so2937023e87.1
+        for <connman@lists.linux.dev>; Sat, 21 Oct 2023 14:01:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1697921992; x=1698526792; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1697922097; x=1698526897; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=hAsmyjNmRrrXDDoEFoguYBNNUnrsf6FsmQC3pqrA0R8=;
-        b=V3IAZO2EGrP3oubz8xfh+nc514sV2TXKM+Mp3V4m9vI760AJOb+Lsau/R0CHBgY6M7
-         PgDCMiNuNPiIEe9HsBG66qW5Xaqzc+tJE6TcDZMfAWRFZf2epXZjxM8OyttJXorwqmZt
-         tva4EX9SyfnAtDh7h1jNttJ8AUfPjeH1gaR0DLFwfKcwA7m+HSVzb53uuMjco1verXVZ
-         0+VThbbl0dl5cL/MgaNm/NU1eBD2tSUHr9yYGtD8HyIRryzUFLiZUqKJWPg5ETRAlTbo
-         3+h6NSIE+WZW3nxBdfNt1lyG3UsQKhxoTMsJNF8C9Lfg3LmV35KbhV8gS4s4n1gcqsRU
-         7GPQ==
+        bh=IHGUAktOK1u8+fUwO4ym1gv0rWeuexQjDU8BpkwrDhI=;
+        b=JhBz2w6Uu1D8J/yZ6n9nbnR32RXVoku1RMGnsc31Y/FXPUBbPQ+inTpKDbAOhxMBIw
+         ESQG6GgyXUN2yEScgeOG7rk4k7ecxm2xa7coqI7hoaE4c6QxSvg80qU/mdX+bWv4FpQd
+         P/LOnRARLSwcYrWHdKYMr4UGon3qKqWdnMA/XpvLiT5n6msdU7UDwGw4BGkFNuMPwrSk
+         aZ5oMQ2AuaX/xi/cYoojYAN0vOkf8X40Fts5ubJJWrUP257BTY9CgrVZrmWAEbBa106C
+         iXulmPWc7icR+mZvpEM7fmnONlgGHiZYNV638Iz7s1ziw0JxCTmMhixmv589ryALWPen
+         Od4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697921992; x=1698526792;
+        d=1e100.net; s=20230601; t=1697922097; x=1698526897;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=hAsmyjNmRrrXDDoEFoguYBNNUnrsf6FsmQC3pqrA0R8=;
-        b=Yl/uH3KtZIxTz5CXi5jUhGgxPV38HITtlO3C0AclMmgRl73/zJcl6mCKFEX0JWilx7
-         X0/s3sPHlQQbrnFwW3erzPK8A0lP3COcpcpF9ylIFOHPZynt6xYUirceigqGTucY1i5Q
-         9m4w5U/EkHZ+YEFJsZfzFWOH5BKDxN5AbGjMZwWMlVl0O7SNUTndM8wSkvsqUtDZhgTG
-         llzMn4ROoqCaiaxp2DFV6rewnB2NceXy9FZ7W4gz7B4eP3pU0peHFg0ia0XtLZ/dWxYK
-         JXmilJm3nmT2ChCOQYGQ+GEDGO3ag7uwI1dPaokyeVWkEo3NnjHMbsPrC5l+1eiFb4Wd
-         wk0A==
-X-Gm-Message-State: AOJu0YxwrLZ1zrbYL1HdjVM9RaKqaCNKQUabgn+Nw+aK3f17xk2I7VCD
-	oRzc0hQTF1pow4aWVIvOh5I1uA0Ry+I=
-X-Google-Smtp-Source: AGHT+IE11OTnxrps72sFzI97ex+F39StkNsVw9eJY+Ed+vxPkVOoHECv/iPWvcSNmehAoODl8lubGA==
-X-Received: by 2002:a05:6512:55a:b0:4f8:7513:8cac with SMTP id h26-20020a056512055a00b004f875138cacmr3595059lfl.48.1697921992075;
-        Sat, 21 Oct 2023 13:59:52 -0700 (PDT)
+        bh=IHGUAktOK1u8+fUwO4ym1gv0rWeuexQjDU8BpkwrDhI=;
+        b=rf5D+rHnUumFGZ7Gi2dfgNXBI5N4KeHRrycX8McFV4Yhj76p6Z9e+zL6lnlgaxG1St
+         zl/ULkNUBoMgtUh34epWRzE2sgc5vHfC2rVhtsOTcq2EjPulVxIqeVs/rUbxUr18hg5k
+         O33uWHqxyZTpKOX6bTL0vInIc2UTeyLx8sez6NkTU76SbBgP5pVzwA+lxxOJvXhFVe+9
+         uVpvCtmesKek5+H8vagI3O9w+FBjg46gaBqnaDPz3ckcxLm+ApvCGcCeTT/Pp3NnsqYQ
+         qNrE7pbX5iOj8CoL4sfUo3ja4MSyppa3SRQyrBF3av4gRDJeo6jp9d/if8MIEhRw8rwB
+         yvWQ==
+X-Gm-Message-State: AOJu0YwbsQ22VRaTUSYn8m88xk2OJsP/WqFC8xCJUaKMwBiFiVvJ7HHp
+	yfimBlXMqBPS/BZ3JjKWEHE=
+X-Google-Smtp-Source: AGHT+IFfb4AmcinMDOpGtnbNyA2z1s5d9aMe7ofjCsVzzmpU1seFzM51JHE1GkkxvOfhV5hfMevTaw==
+X-Received: by 2002:ac2:51a5:0:b0:500:af69:5556 with SMTP id f5-20020ac251a5000000b00500af695556mr3667661lfk.29.1697922096716;
+        Sat, 21 Oct 2023 14:01:36 -0700 (PDT)
 Received: from gmail.com (83-233-6-197.cust.bredband2.com. [83.233.6.197])
-        by smtp.gmail.com with ESMTPSA id t16-20020a056512209000b00507b869b068sm992101lfr.302.2023.10.21.13.59.51
+        by smtp.gmail.com with ESMTPSA id q25-20020ac25a19000000b0050089b26ea1sm985759lfn.276.2023.10.21.14.01.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 21 Oct 2023 13:59:51 -0700 (PDT)
-Date: Sat, 21 Oct 2023 23:03:55 +0200
+        Sat, 21 Oct 2023 14:01:36 -0700 (PDT)
+Date: Sat, 21 Oct 2023 23:05:40 +0200
 From: Marcus Folkesson <marcus.folkesson@gmail.com>
 To: Grant Erickson <gerickson@nuovations.com>
 Cc: connman@lists.linux.dev
-Subject: Re: [PATCH] Address scan-build warning in 'get_ipv6_privacy'.
-Message-ID: <w5yb67fptn5nh2pup3b5nx55c4h73ca32hslansvhqel24mz6p@ivechjtum42m>
-References: <2CAC0923-E904-4671-8989-F06F9CAB6213@nuovations.com>
+Subject: Re: [PATCH] Add self-documenting Linux rp_filter enum.
+Message-ID: <xbqhcmu7wzojktr7qj2gwhv46vt46lbqvfz4aglcnbidh4cj3o@xcmxarhgp7lb>
+References: <A838BEF3-E296-4B5A-9B84-8D5D0805FB67@nuovations.com>
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
@@ -55,71 +55,106 @@ List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="xjbglhhv572oe2un"
+	protocol="application/pgp-signature"; boundary="u3jprefveh4y5acv"
 Content-Disposition: inline
-In-Reply-To: <2CAC0923-E904-4671-8989-F06F9CAB6213@nuovations.com>
+In-Reply-To: <A838BEF3-E296-4B5A-9B84-8D5D0805FB67@nuovations.com>
 
 
---xjbglhhv572oe2un
+--u3jprefveh4y5acv
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Oct 20, 2023 at 01:10:04PM -0700, Grant Erickson wrote:
-> This addresses an "undefined or garbage value
-> returned to caller [core.uninitialized.UndefReturn]"
-> warning in 'get_ipv6_privacy' identified by clang/LLVM
-> scan-build-11.
+On Fri, Oct 20, 2023 at 01:19:24PM -0700, Grant Erickson wrote:
+> This improves self-documentation of the Linux reverse path filtering
+> (rp_filter) validation setting values by introducing a file scope
+> enumeration for the possible valid values
 > ---
->  src/ipconfig.c | 7 +++----
->  1 file changed, 3 insertions(+), 4 deletions(-)
+>  src/ipconfig.c | 23 ++++++++++++++++-------
+>  1 file changed, 16 insertions(+), 7 deletions(-)
 >=20
 > diff --git a/src/ipconfig.c b/src/ipconfig.c
-> index 9cd04979..28c0ae0b 100644
+> index 34b1724a..18240458 100644
 > --- a/src/ipconfig.c
 > +++ b/src/ipconfig.c
-> @@ -366,13 +366,12 @@ static int set_ipv6_state(gchar *ifname, bool enabl=
-e)
+> @@ -40,6 +40,14 @@
 > =20
->  static int get_ipv6_privacy(gchar *ifname)
->  {
-> -	int value;
-> +	int value =3D 0;
+>  #include "connman.h"
 > =20
->  	if (!ifname)
-> -		return 0;
-> +		return value;
-> =20
-> -	if (read_ipv6_conf_value(ifname, "use_tempaddr", &value) < 0)
+> +/* Linux reverse path filtering (rp_filter) validation setting values.
+> + */
+> +enum {
+> +	__CONNMAN_LINUX_RP_FILTER_SETTING_NO_VALIDATION          =3D 0,
+> +	__CONNMAN_LINUX_RP_FILTER_SETTING_STRICT_MODE_VALIDATION =3D 1,
+> +	__CONNMAN_LINUX_RP_FILTER_SETTING_LOOSE_MODE_VALIDATION  =3D 2,
+> +};
+> +
+>  struct connman_ipconfig {
+>  	int refcount;
+>  	int index;
+> @@ -406,11 +414,11 @@ static int set_rp_filter(int value)
+>  	/* 0 =3D no validation, 1 =3D strict mode, 2 =3D loose mode */
+>  	switch (value) {
+>  	case -1:
 > -		value =3D 0;
-> +	read_ipv6_conf_value(ifname, "use_tempaddr", &value);
+> +		value =3D __CONNMAN_LINUX_RP_FILTER_SETTING_NO_VALIDATION;
+>  		/* fall through */
+> -	case 0:
+> -	case 1:
+> -	case 2:
+> +	case __CONNMAN_LINUX_RP_FILTER_SETTING_NO_VALIDATION:
+> +	case __CONNMAN_LINUX_RP_FILTER_SETTING_STRICT_MODE_VALIDATION:
+> +	case __CONNMAN_LINUX_RP_FILTER_SETTING_LOOSE_MODE_VALIDATION:
+>  		break;
+>  	default:
+>  		return -EINVAL;
+> @@ -421,6 +429,7 @@ static int set_rp_filter(int value)
+> =20
+>  int __connman_ipconfig_set_rp_filter()
+>  {
+> +	const int default_value =3D __CONNMAN_LINUX_RP_FILTER_SETTING_LOOSE_MOD=
+E_VALIDATION;
+>  	int value;
+> =20
+>  	value =3D get_rp_filter();
+> @@ -428,10 +437,10 @@ int __connman_ipconfig_set_rp_filter()
+>  	if (value < 0)
+>  		return value;
+> =20
+> -	set_rp_filter(2);
+> +	set_rp_filter(default_value);
+> =20
+> -	connman_info("rp_filter set to 2 (loose mode routing), "
+> -			"old value was %d", value);
+> +	connman_info("rp_filter set to %d (loose mode routing), "
+> +			"old value was %d", default_value, value);
 > =20
 >  	return value;
 >  }
 > --=20
 > 2.42.0
->=20
->=20
+
+
 Reviewed-by: Marcus Folkesson <marcus.folkesson@gmail.com>
 
---xjbglhhv572oe2un
+--u3jprefveh4y5acv
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEBVGi6LZstU1kwSxliIBOb1ldUjIFAmU0PLcACgkQiIBOb1ld
-UjKBlhAAhOwU+3z/vxTbL8+B4FpG49dxx+OW2KhrKUp5gUmLFUSZ8EYpkv47T9D7
-SaVuzm1KlIZzy6FVY2eEguw+qdP1fqGB1iZWtmlgdvQopVVA81iE9dAXRCO8CudM
-TPOufxx1k6TEavxG/x/Hezt6H+ey0EtlyzcJbYQJ1aC9gzRmA3F1SaADjasEX279
-3JkiF4F0hCK5LepLUnFtx7vN/jBwuK9MuqfW3KHO+w5nlamp6ABn29znorl+5sDL
-okN6vqyyjY2H6P76MuvdZcA8I2kU8VaJU7qM02Z058D8AfSztBSjU9Nr4WsA4FsE
-fiJH6ilvpMNtWkRjEWYWWFV7kigI0w2u0GO1QW+nR0/wA6lyOkdUJbYx3Z4OPMZW
-YLpgyiyKT814bEZfr0SslSfwiioApbh9dkx9C26G+Rjuk9J3Z0wCo8aNzqD0foNi
-L+GScTCwuEw3VlLqWsvVwGEWm2J0peuOpQ087Z6o3jAmj2w/N8QwlrFq6HJfl7G5
-VT4naW78HCp7vmQqKs41J2pIcmuFKaXUw80Tqe0LQnD9faHBQRil443i3BXU1Ana
-i+KznHMMH7xE8+4YMaYiN9UALKaW9oL8Uzmuoi3g+/lKMrCekwzZpjU6hYVPRZxg
-OtagN5yQWklrPwi+2G1BzLzORuvh+2xzNEESSRzlVAZCal9n1xM=
-=8SYD
+iQIzBAABCAAdFiEEBVGi6LZstU1kwSxliIBOb1ldUjIFAmU0PR8ACgkQiIBOb1ld
+UjJjcQ/+P0fv7wphPwfYB0WZVyGPFnAa51bbXR3breqj7KOG3PNhqjqYZp/wCQWc
+hTjhjrUBuhQ5WOdLZ3Zxthm1zBqLxa8CF8Z7Lk4VwKi60QYX0uM7FqVgCCS5smna
+Db9EMLHnDUcEf9+kjS+FrFrN7eFv+ICdiqXPKV3Kf3TPRQh4Lr3TZARtZ+hP6qzU
+6Hqpp2gt4Gysm+OfWIQijbzJ8RayZtnF5DUoAwuas+uoF/8leHmxpvZrnMM0RBgH
+hK4DzWmmCPrXXlbPCfhgaY/fQgeZ5rGfJtljDVjuE0Xz9ytMD4XZgPxeNrRvfG5Z
+5J2j0s36tcQ7oscihw2bG465qtZET56NslZU2v2EeU406C4Fgy7dTp1ldRJIME3Y
+dDTI9BKjpemZi9a0Ooguhu58lJ10jKzIbKuMGc2MxSpjhr2cz5WZoSdkOjpC6gH4
+DQleir7CET23XmFT0gVvAL1GAUBwW17lHOd5e+7yCCGd6idZgDVEa8aB1iElVe/O
+Tyyhee9Rd2apVXR6Z/SIVrQHZce++MSBdITsH7O+hqsC01O1ULQs+MyqfUHZ9aOw
+xxNaq7gaMCJi/Ex0WIQEWHF8zb7pabzrTGg7j5ePvvZ0dK4bXLvxcrh1I/qh23ux
+GZ8UQgfcmnukrytwvWPAlVTOA3BYiZIcDBLQXDjbUVGW6gCtVTA=
+=MHBt
 -----END PGP SIGNATURE-----
 
---xjbglhhv572oe2un--
+--u3jprefveh4y5acv--
