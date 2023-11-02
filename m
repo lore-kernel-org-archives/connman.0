@@ -1,19 +1,19 @@
 Received: from mohas.pair.com (mohas.pair.com [209.68.5.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5462E1DA2B
-	for <connman@lists.linux.dev>; Thu,  2 Nov 2023 17:03:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 882AB21344
+	for <connman@lists.linux.dev>; Thu,  2 Nov 2023 18:26:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nuovations.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nuovations.com
 Authentication-Results: smtp.subspace.kernel.org; dkim=none
 Received: from mohas.pair.com (localhost [127.0.0.1])
-	by mohas.pair.com (Postfix) with ESMTP id 53BD27315B
-	for <connman@lists.linux.dev>; Thu,  2 Nov 2023 13:03:30 -0400 (EDT)
+	by mohas.pair.com (Postfix) with ESMTP id 3700F731F0
+	for <connman@lists.linux.dev>; Thu,  2 Nov 2023 14:26:07 -0400 (EDT)
 Received: from [IPv6:2601:647:5a00:15c1:dd5a:c80e:674d:c32e] (unknown [IPv6:2601:647:5a00:15c1:dd5a:c80e:674d:c32e])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mohas.pair.com (Postfix) with ESMTPSA id 0A897732B4
-	for <connman@lists.linux.dev>; Thu,  2 Nov 2023 13:03:29 -0400 (EDT)
+	by mohas.pair.com (Postfix) with ESMTPSA id DF39373213
+	for <connman@lists.linux.dev>; Thu,  2 Nov 2023 14:26:06 -0400 (EDT)
 From: Grant Erickson <gerickson@nuovations.com>
 Content-Type: text/plain;
 	charset=us-ascii
@@ -24,173 +24,179 @@ List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 Mime-Version: 1.0 (Mac OS X Mail 13.4 \(3608.120.23.2.4\))
-Subject: [PATCH] Const-qualify 'service' arguments in name and time server 
- getters.
-Message-Id: <70D6ACF5-703E-48D2-841A-24E63F889D9E@nuovations.com>
-Date: Thu, 2 Nov 2023 10:03:28 -0700
+Subject: [PATCH v2] Add a callback parameter to '__connman_wispr_start'.
+Date: Thu, 2 Nov 2023 11:26:05 -0700
+References: <CF970CC5-5AF5-4680-81C1-EB58F8FF44CC@nuovations.com>
 To: connman@lists.linux.dev
+In-Reply-To: <CF970CC5-5AF5-4680-81C1-EB58F8FF44CC@nuovations.com>
+Message-Id: <F050F2F9-BFBF-4590-9B91-1115E276F4B1@nuovations.com>
 X-Mailer: Apple Mail (2.3608.120.23.2.4)
 X-Scanned-By: mailmunge 3.11 on 209.68.5.112
 
-Const-qualify the 'service' arguments in name and time server getter
-functions to make it clear to the compiler, static analyzers,
-and human readers that there are no mutation side effects with
-such arguments and that the returned results are immutable and must
-be copied if mutation is desired.
----
- include/service.h |  6 +++---
- src/connman.h     |  2 +-
- src/service.c     | 10 +++++-----
- src/timeserver.c  | 14 +++++++-------
- 4 files changed, 16 insertions(+), 16 deletions(-)
+This callback provides two benefits.
 
-diff --git a/include/service.h b/include/service.h
-index e3cf3d36..e45d7b58 100644
---- a/include/service.h
-+++ b/include/service.h
-@@ -121,9 +121,9 @@ char *connman_service_get_interface(struct =
-connman_service *service);
- const char *connman_service_get_identifier(const struct connman_service =
-*service);
- const char *connman_service_get_domainname(const struct connman_service =
-*service);
- const char *connman_service_get_dbuspath(const struct connman_service =
-*service);
--char **connman_service_get_nameservers(struct connman_service =
-*service);
--char **connman_service_get_timeservers_config(struct connman_service =
-*service);
--char **connman_service_get_timeservers(struct connman_service =
-*service);
-+char **connman_service_get_nameservers(const struct connman_service =
-*service);
-+const char * const *connman_service_get_timeservers_config(const struct =
-connman_service *service);
-+const char * const *connman_service_get_timeservers(const struct =
-connman_service *service);
- void connman_service_set_proxy_method(struct connman_service *service, =
-enum connman_service_proxy_method method);
- enum connman_service_proxy_method =
-connman_service_get_proxy_method(const struct connman_service *service);
- char **connman_service_get_proxy_servers(struct connman_service =
-*service);
+The first is making static the implementation of the WISPr closure
+function defined in src/service.c.
+
+The second is that it will make easier closing several failure path
+"holes" that currently do not properly "bookend" requests to
+'__connman_wispr_start' by making the closure of those holes
+independent of the function providing the closure.
+---
+ src/connman.h | 10 ++++++----
+ src/service.c |  9 ++++++---
+ src/wispr.c   | 16 +++++++++-------
+ 3 files changed, 21 insertions(+), 14 deletions(-)
+
 diff --git a/src/connman.h b/src/connman.h
-index 74aa3453..0c2d27b5 100644
+index 0c2d27b5..8909b9a5 100644
 --- a/src/connman.h
 +++ b/src/connman.h
-@@ -450,7 +450,7 @@ char **__connman_timeserver_system_get();
+@@ -523,10 +523,15 @@ void __connman_wpad_cleanup(void);
+ int __connman_wpad_start(struct connman_service *service);
+ void __connman_wpad_stop(struct connman_service *service);
 =20
- GSList *__connman_timeserver_add_list(GSList *server_list,
- 		const char *timeserver);
--GSList *__connman_timeserver_get_all(struct connman_service *service);
-+GSList *__connman_timeserver_get_all(const struct connman_service =
-*service);
- void __connman_timeserver_sync(struct connman_service *service,
- 				enum connman_timeserver_sync_reason =
-reason);
- void __connman_timeserver_conf_update(struct connman_service *service);
++typedef void (*__connman_wispr_cb_t) (struct connman_service *service,
++				enum connman_ipconfig_type type,
++				bool success);
++
+ int __connman_wispr_init(void);
+ void __connman_wispr_cleanup(void);
+ int __connman_wispr_start(struct connman_service *service,
+-					enum connman_ipconfig_type =
+type);
++					enum connman_ipconfig_type type,
++					__connman_wispr_cb_t callback);
+ void __connman_wispr_stop(struct connman_service *service);
+=20
+ #include <connman/technology.h>
+@@ -734,9 +739,6 @@ int __connman_service_set_mdns(struct =
+connman_service *service,
+=20
+ void __connman_service_set_string(struct connman_service *service,
+ 					const char *key, const char =
+*value);
+-void __connman_service_online_check(struct connman_service *service,
+-					enum connman_ipconfig_type type,
+-					bool success);
+ int __connman_service_ipconfig_indicate_state(struct connman_service =
+*service,
+ 					enum connman_service_state =
+new_state,
+ 					enum connman_ipconfig_type =
+type);
 diff --git a/src/service.c b/src/service.c
-index c410ff4b..ea36f852 100644
+index 378d7039..6820dce2 100644
 --- a/src/service.c
 +++ b/src/service.c
-@@ -2818,7 +2818,7 @@ const char *connman_service_get_dbuspath(const =
-struct connman_service *service)
- 	return service->path;
+@@ -157,6 +157,9 @@ static struct connman_ipconfig =
+*create_ip6config(struct connman_service *service
+ static void dns_changed(struct connman_service *service);
+ static void vpn_auto_connect(void);
+ static void trigger_autoconnect(struct connman_service *service);
++static void complete_online_check(struct connman_service *service,
++					enum connman_ipconfig_type type,
++					bool success);
+=20
+ struct find_data {
+ 	const char *path;
+@@ -3640,7 +3643,7 @@ void __connman_service_wispr_start(struct =
+connman_service *service,
+ 		service->online_check_interval_ipv6 =3D
+ 					online_check_initial_interval;
+=20
+-	__connman_wispr_start(service, type);
++	__connman_wispr_start(service, type, complete_online_check);
  }
 =20
--char **connman_service_get_nameservers(struct connman_service *service)
-+char **connman_service_get_nameservers(const struct connman_service =
-*service)
- {
- 	if (!service)
- 		return NULL;
-@@ -2852,20 +2852,20 @@ char **connman_service_get_nameservers(struct =
-connman_service *service)
- 	return =
-g_strdupv(connman_setting_get_string_list("FallbackNameservers"));
+ static DBusMessage *set_property(DBusConnection *conn,
+@@ -6370,7 +6373,7 @@ static void redo_wispr(struct connman_service =
+*service,
+ 		__connman_ipconfig_type2string(type),
+ 		service, service->name);
+=20
+-	__connman_wispr_start(service, type);
++	__connman_wispr_start(service, type, complete_online_check);
+ 	connman_service_unref(service);
  }
 =20
--char **connman_service_get_timeservers_config(struct connman_service =
-*service)
-+const char * const *connman_service_get_timeservers_config(const struct =
-connman_service *service)
- {
- 	if (!service)
- 		return NULL;
-=20
--	return service->timeservers_config;
-+	return (const char * const *)service->timeservers_config;
+@@ -6396,7 +6399,7 @@ static gboolean redo_wispr_ipv6(gpointer =
+user_data)
+ 	return FALSE;
  }
 =20
--char **connman_service_get_timeservers(struct connman_service *service)
-+const char * const *connman_service_get_timeservers(const struct =
-connman_service *service)
+-void __connman_service_online_check(struct connman_service *service,
++static void complete_online_check(struct connman_service *service,
+ 					enum connman_ipconfig_type type,
+ 					bool success)
  {
- 	if (!service)
- 		return NULL;
+diff --git a/src/wispr.c b/src/wispr.c
+index 4a81cbd5..ff5b9210 100644
+--- a/src/wispr.c
++++ b/src/wispr.c
+@@ -59,6 +59,7 @@ struct connman_wispr_portal_context {
+ 	int refcount;
+ 	struct connman_service *service;
+ 	enum connman_ipconfig_type type;
++	__connman_wispr_cb_t cb;
+ 	struct connman_wispr_portal *wispr_portal;
 =20
--	return service->timeservers;
-+	return (const char * const *)service->timeservers;
+ 	/* Portal/WISPr common */
+@@ -483,7 +484,7 @@ static void portal_manage_status(GWebResult *result,
+ 					CONNMAN_SERVICE_STATE_ONLINE, =
+type);
+=20
+ 	if (enable_online_to_ready_transition)
+-		__connman_service_online_check(service, type, true);
++		wp_context->cb(service, type, true);
  }
 =20
- void connman_service_set_proxy_method(struct connman_service *service,
-diff --git a/src/timeserver.c b/src/timeserver.c
-index 9c0d7aa5..3eb718aa 100644
---- a/src/timeserver.c
-+++ b/src/timeserver.c
-@@ -52,7 +52,7 @@ static GResolv *resolv =3D NULL;
- static int resolv_id =3D 0;
+ static bool wispr_route_request(const char *address, int ai_family,
+@@ -821,8 +822,7 @@ static bool wispr_portal_web_result(GWebResult =
+*result, gpointer user_data)
+ 		goto done;
+ 	case 400:
+ 	case 404:
+-		__connman_service_online_check(wp_context->service,
+-						wp_context->type, =
+false);
++		wp_context->cb(wp_context->service, wp_context->type, =
+false);
 =20
- static void sync_next(void);
--static void ts_set_nameservers(struct connman_service *service);
-+static void ts_set_nameservers(const struct connman_service *service);
-=20
- static void resolv_debug(const char *str, void *data)
- {
-@@ -234,13 +234,13 @@ GSList *__connman_timeserver_add_list(GSList =
-*server_list,
-  * list which will be used to determine NTP server for time =
-corrections.
-  * The service settings take priority over the global timeservers.
-  */
--GSList *__connman_timeserver_get_all(struct connman_service *service)
-+GSList *__connman_timeserver_get_all(const struct connman_service =
-*service)
- {
- 	GSList *list =3D NULL;
--	struct connman_network *network;
-+	const struct connman_network *network;
- 	char **timeservers;
--	char **service_ts;
--	char **service_ts_config;
-+	const char * const *service_ts;
-+	const char * const *service_ts_config;
- 	const char *service_gw;
- 	char **fallback_ts;
- 	int index, i;
-@@ -267,7 +267,7 @@ GSList *__connman_timeserver_get_all(struct =
-connman_service *service)
- 	 * configuration option is set to true.
- 	 */
- 	if (connman_setting_get_bool("UseGatewaysAsTimeservers")) {
--		network =3D __connman_service_get_network(service);
-+		network =3D __connman_service_get_network((struct =
-connman_service *)service);
- 		if (network) {
- 			index =3D connman_network_get_index(network);
- 			service_gw =3D =
-__connman_ipconfig_get_gateway_from_index(index,
-@@ -379,7 +379,7 @@ static int ts_setup_resolv(struct connman_service =
-*service)
+ 		break;
+ 	case 505:
+@@ -992,17 +992,18 @@ done:
  }
 =20
-=20
--static void ts_set_nameservers(struct connman_service *service)
-+static void ts_set_nameservers(const struct connman_service *service)
+ int __connman_wispr_start(struct connman_service *service,
+-					enum connman_ipconfig_type type)
++					enum connman_ipconfig_type type,
++					__connman_wispr_cb_t callback)
  {
- 	char **nameservers;
- 	int i;
+ 	struct connman_wispr_portal_context *wp_context =3D NULL;
+ 	struct connman_wispr_portal *wispr_portal =3D NULL;
+ 	int index, err;
+=20
+-	DBG("service %p (%s) type %d (%s)",
++	DBG("service %p (%s) type %d (%s) callback %p",
+ 		service, connman_service_get_identifier(service),
+-		type, __connman_ipconfig_type2string(type));
++		type, __connman_ipconfig_type2string(type), callback);
+=20
+-	if (!wispr_portal_hash)
++	if (!wispr_portal_hash || !callback)
+ 		return -EINVAL;
+=20
+ 	switch (connman_service_get_type(service)) {
+@@ -1052,6 +1053,7 @@ int __connman_wispr_start(struct connman_service =
+*service,
+=20
+ 	wp_context->service =3D service;
+ 	wp_context->type =3D type;
++	wp_context->cb =3D callback;
+ 	wp_context->wispr_portal =3D wispr_portal;
+=20
+ 	if (type =3D=3D CONNMAN_IPCONFIG_TYPE_IPV4)
 --=20
 2.42.0
-
 
