@@ -1,55 +1,109 @@
-Received: from mail.holtmann.org (coyote.holtmann.net [212.227.132.17])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0D3623158C
-	for <connman@lists.linux.dev>; Tue,  7 Nov 2023 19:10:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=holtmann.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=holtmann.org
+Received: from mohas.pair.com (mohas.pair.com [209.68.5.112])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5658E3589F
+	for <connman@lists.linux.dev>; Tue,  7 Nov 2023 19:29:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nuovations.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nuovations.com
 Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: from smtpclient.apple (p4ff9f475.dip0.t-ipconnect.de [79.249.244.117])
-	by mail.holtmann.org (Postfix) with ESMTPSA id DBF80CECEE;
-	Tue,  7 Nov 2023 20:10:32 +0100 (CET)
+Received: from mohas.pair.com (localhost [127.0.0.1])
+	by mohas.pair.com (Postfix) with ESMTP id 37EFF7314B
+	for <connman@lists.linux.dev>; Tue,  7 Nov 2023 14:29:11 -0500 (EST)
+Received: from [IPv6:2601:647:5a00:15c1:3e:a2c6:408d:1da4] (unknown [IPv6:2601:647:5a00:15c1:3e:a2c6:408d:1da4])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mohas.pair.com (Postfix) with ESMTPSA id 00BC9731CE
+	for <connman@lists.linux.dev>; Tue,  7 Nov 2023 14:29:10 -0500 (EST)
+From: Grant Erickson <gerickson@nuovations.com>
 Content-Type: text/plain;
 	charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3774.100.2.1.4\))
-Subject: Re: [PATCH v2] Close three '__connman_wisp_start' failure closure
- holes.
-From: Marcel Holtmann <marcel@holtmann.org>
-In-Reply-To: <5B470B03-18A6-494A-B6F6-B2CE614A1A7E@nuovations.com>
-Date: Tue, 7 Nov 2023 20:10:27 +0100
-Cc: connman@lists.linux.dev
-Content-Transfer-Encoding: 7bit
-Message-Id: <F49C9B00-7F11-41EE-9E32-8BB626ACBFD8@holtmann.org>
-References: <6669EDB7-4146-4974-8354-27A259DDF2CB@nuovations.com>
- <5B470B03-18A6-494A-B6F6-B2CE614A1A7E@nuovations.com>
-To: Grant Erickson <gerickson@nuovations.com>
-X-Mailer: Apple Mail (2.3774.100.2.1.4)
+Mime-Version: 1.0 (Mac OS X Mail 13.4 \(3608.120.23.2.4\))
+Subject: [PATCH 2/2 v2] service: Add documentation to proxy-related functions.
+Date: Tue, 7 Nov 2023 11:29:09 -0800
+References: <886269CB-A515-453F-8A14-4500307B0A7C@nuovations.com>
+ <B5EF6141-E568-42FF-80CD-B010B5ABA14C@nuovations.com>
+To: connman@lists.linux.dev
+In-Reply-To: <B5EF6141-E568-42FF-80CD-B010B5ABA14C@nuovations.com>
+Message-Id: <142A53C6-7DB5-49AA-8B7C-763412123A9D@nuovations.com>
+X-Mailer: Apple Mail (2.3608.120.23.2.4)
+X-Scanned-By: mailmunge 3.11 on 209.68.5.112
 
-Hi Grant,
+Add documentation to the proxy-related functions, 'check_proxy_setup'
+and '__connman_service_set_proxy_method'.
+---
+ src/service.c | 41 +++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 41 insertions(+)
 
-There are currently three failure holes in which a request to
-> '__connman_wispr_start' is not properly closed.
-> 
->  1. If 'g_web_request_get' fails to generate a successful gweb request
->     and returns a request identifier of zero (0) in
->     'wispr_portal_request_portal'.
-> 
->  2. If the service proxy is set to CONNMAN_SERVICE_PROXY_METHOD_UNKNOWN.
->     This can happen in 'proxy_callback' if WISPr is started and the
->     service proxy method is set latently or is never set at all.
-> 
->  3. If 'wispr_portal_detect' returns non-zero error status in
->     '__connman_wispr_start'.
-> ---
-> src/wispr.c | 19 +++++++++++++++++--
-> 1 file changed, 17 insertions(+), 2 deletions(-)
-
-patch has been applied.
-
-Regards
-
-Marcel
+diff --git a/src/service.c b/src/service.c
+index bf26736e..5497c1ee 100644
+--- a/src/service.c
++++ b/src/service.c
+@@ -1425,6 +1425,32 @@ void =
+__connman_service_nameserver_del_routes(struct connman_service *service,
+ 		nameserver_del_routes(index, service->nameservers, =
+type);
+ }
+=20
++/**
++ *  @brief
++ *    Check the proxy setup of the specified network service.
++ *
++ *  This checks the proxy configuration of the specified network
++ *  service. The network service, @a service, may be set to
++ *  #CONNMAN_SERVICE_PROXY_METHOD_DIRECT if the current internal
++ *  method is empty or if there is no Proxy Auto-configuration (PAC)
++ *  URL received from DHCP or if the user proxy configuration is empty
++ *  or automatic and the Web Proxy Auto-discovery (WPAD) protocol
++ *  fails.
++ *
++ *  @param[in,out]  service  A pointer to the mutable network service
++ *                           for which the proxy setup is to be
++ *                           checked and for which the method may be
++ *                           updated to
++ *                           #CONNMAN_SERVICE_PROXY_METHOD_DIRECT.
++ *
++ *  @returns
++ *    True if the proxy method has been established for the specified
++ *    service; otherwise, false.
++ *
++ *  @sa connman_service_set_proxy_method
++ *  @sa __connman_wpad_start
++ *
++ */
+ static bool check_proxy_setup(struct connman_service *service)
+ {
+ 	DBG("service %p (%s)", service, =
+connman_service_get_identifier(service));
+@@ -3369,6 +3395,21 @@ char **connman_service_get_timeservers(struct =
+connman_service *service)
+ 	return service->timeservers;
+ }
+=20
++/**
++ *  @brief
++ *    Set the web proxy method of the specified service.
++ *
++ *  This attempts to set the web proxy method of the specified service
++ *  but will fail to do so if @a service is null or is hidden.
++ *
++ *  @param[in,out]  service  A pointer to the mutable network service
++ *                           for which to set the web proxy method.
++ *  @param[in]      method   The web proxy method to set.
++ *
++ *  @sa proxy_changed
++ *  @sa __connman_notifier_proxy_changed
++ *
++ */
+ void connman_service_set_proxy_method(struct connman_service *service,
+ 					enum =
+connman_service_proxy_method method)
+ {
+--=20
+2.42.0
 
