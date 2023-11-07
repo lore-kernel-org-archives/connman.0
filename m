@@ -1,12 +1,12 @@
 Received: from mail.holtmann.org (coyote.holtmann.net [212.227.132.17])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AA9D831A7F
-	for <connman@lists.linux.dev>; Tue,  7 Nov 2023 15:56:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1554A30D1E
+	for <connman@lists.linux.dev>; Tue,  7 Nov 2023 15:57:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=holtmann.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=holtmann.org
 Authentication-Results: smtp.subspace.kernel.org; dkim=none
 Received: from smtpclient.apple (p4ff9f475.dip0.t-ipconnect.de [79.249.244.117])
-	by mail.holtmann.org (Postfix) with ESMTPSA id 179E7CECEB;
-	Tue,  7 Nov 2023 16:56:00 +0100 (CET)
+	by mail.holtmann.org (Postfix) with ESMTPSA id BF24CCECEB;
+	Tue,  7 Nov 2023 16:57:21 +0100 (CET)
 Content-Type: text/plain;
 	charset=us-ascii
 Precedence: bulk
@@ -15,33 +15,42 @@ List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3774.100.2.1.4\))
-Subject: Re: [PATCH v2] Added function documentation for ipconfig getters.
+Subject: Re: [PATCH] configure: add xz archive support to dist target.
 From: Marcel Holtmann <marcel@holtmann.org>
-In-Reply-To: <0366A3BC-9F03-470C-82AB-6273EF43B8D3@nuovations.com>
-Date: Tue, 7 Nov 2023 16:55:49 +0100
+In-Reply-To: <AF69756E-A74C-417D-B3DF-F8A123C94A50@nuovations.com>
+Date: Tue, 7 Nov 2023 16:57:11 +0100
 Cc: connman@lists.linux.dev
-Content-Transfer-Encoding: 7bit
-Message-Id: <BAB821BC-9980-40FC-9DA0-7DA2AC5952CB@holtmann.org>
-References: <44B8A3FE-B61B-4295-8028-DF49DE56FDED@nuovations.com>
- <0366A3BC-9F03-470C-82AB-6273EF43B8D3@nuovations.com>
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <0689A947-A5B4-4673-A1DF-92CF4880BA09@holtmann.org>
+References: <AF69756E-A74C-417D-B3DF-F8A123C94A50@nuovations.com>
 To: Grant Erickson <gerickson@nuovations.com>
 X-Mailer: Apple Mail (2.3774.100.2.1.4)
 
 Hi Grant,
 
-> This adds function documentation for:
-> 
->  * read_conf_value
->  * read_ipv4_conf_value
->  * read_ipv6_conf_value
->  * get_ipv6_privacy
->  * get_rp_filter
-> 
+> For a given base of connman source code, xz compression results in
+> archives about 30% smaller than gzip.
 > ---
-> src/ipconfig.c | 150 ++++++++++++++++++++++++++++++++++++++++++++++++-
-> 1 file changed, 149 insertions(+), 1 deletion(-)
+> configure.ac | 2 +-
+> 1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/configure.ac b/configure.ac
+> index 367b5304..4b845027 100644
+> --- a/configure.ac
+> +++ b/configure.ac
+> @@ -3,7 +3,7 @@ AC_INIT([connman], [1.42])
+>=20
+> AC_CONFIG_MACRO_DIR([m4])
+>=20
+> -AM_INIT_AUTOMAKE([foreign subdir-objects color-tests])
+> +AM_INIT_AUTOMAKE([foreign subdir-objects color-tests dist-xz])
+> AC_CONFIG_HEADERS([config.h])
 
-Patch has been applied.
+I was going to do this when we switch to 2.x numbering. Within a major =
+release version, I kept the tarball compression the same.
+
+If you think we should switch to 2.x, then we can do that. Or minor =
+number is already large ;)
 
 Regards
 
