@@ -1,484 +1,62 @@
-Received: from mohas.pair.com (mohas.pair.com [209.68.5.112])
+Received: from esa.hc1803-32.eu.iphmx.com (esa.hc1803-32.eu.iphmx.com [194.165.193.227])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CF74C12D
-	for <connman@lists.linux.dev>; Tue,  7 Nov 2023 07:59:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nuovations.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nuovations.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FE3E1FA6
+	for <connman@lists.linux.dev>; Tue,  7 Nov 2023 11:40:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=kistler.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kistler.com
 Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: from mohas.pair.com (localhost [127.0.0.1])
-	by mohas.pair.com (Postfix) with ESMTP id 0180973203
-	for <connman@lists.linux.dev>; Tue,  7 Nov 2023 02:59:04 -0500 (EST)
-Received: from [IPv6:2601:647:5a00:15c1:2c74:ca40:c8df:2dcd] (unknown [IPv6:2601:647:5a00:15c1:2c74:ca40:c8df:2dcd])
+X-CSE-ConnectionGUID: a7VzWEu9TfyIRttwHxRNsw==
+X-CSE-MsgGUID: RW1OF7kESJ+voRzwOZNOgg==
+Received: from unknown (HELO sl-win-seppm-1.int.kistler.com) ([91.223.79.46])
+  by ob1.hc1803-32.eu.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2023 12:39:22 +0100
+Received: from esa.hc1803-32.eu.iphmx.com (esa.hc1803-32.eu.iphmx.com [194.165.193.227])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mohas.pair.com (Postfix) with ESMTPSA id ABECE7327D
-	for <connman@lists.linux.dev>; Tue,  7 Nov 2023 02:59:03 -0500 (EST)
-From: Grant Erickson <gerickson@nuovations.com>
-Content-Type: text/plain;
-	charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+	by sl-win-seppm-1.int.kistler.com (Postfix) with ESMTPS
+	for <connman@lists.linux.dev>; Tue,  7 Nov 2023 12:39:22 +0100 (CET)
+X-CSE-ConnectionGUID: Wz4Vyr9lQjqDGL00iZ0OaA==
+X-CSE-MsgGUID: SMVIvbDYTJS1SkEyD/CaJQ==
+Received: from entrypointemea.kistler.com (HELO SW-WIN-EXCH-1.int.kistler.com) ([91.223.79.122])
+  by ob1.hc1803-32.eu.iphmx.com with ESMTP; 07 Nov 2023 12:39:22 +0100
+Received: from SW-WIN-EXCH-2.int.kistler.com (192.168.100.96) by
+ SW-WIN-EXCH-1.int.kistler.com (192.168.100.95) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.6; Tue, 7 Nov 2023 12:39:22 +0100
+Received: from VL-BTS-Cvo-1.int.kistler.com (192.168.100.116) by
+ SW-WIN-EXCH-2.int.kistler.com (192.168.100.96) with Microsoft SMTP Server id
+ 15.1.2507.6 via Frontend Transport; Tue, 7 Nov 2023 12:39:21 +0100
+From: Cvo <miroslav.cuvar@kistler.com>
+To: <connman@lists.linux.dev>
+CC: <miroslav.cuvar@kistler.com>, <robby.zippel@kistler.com>
+Subject: [PATCH 1/1] Added support for setting preferred IP for WiFi tethering
+Date: Tue, 7 Nov 2023 12:39:21 +0100
+Message-ID: <20231107113921.1617291-1-miroslav.cuvar@kistler.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20230125110659.225550-1-miroslav.cuvar@kistler.com>
+References: <20230125110659.225550-1-miroslav.cuvar@kistler.com>
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0 (Mac OS X Mail 13.4 \(3608.120.23.2.4\))
-Subject: [PATCH 3/3] gweb: Add documentation to URL parsing functions.
-Date: Mon, 6 Nov 2023 23:59:03 -0800
-References: <88316395-8306-467E-A9D0-FD0B0F9F8387@nuovations.com>
-To: connman@lists.linux.dev
-In-Reply-To: <88316395-8306-467E-A9D0-FD0B0F9F8387@nuovations.com>
-Message-Id: <D1441574-E298-4CA2-B316-40DD1789E4A6@nuovations.com>
-X-Mailer: Apple Mail (2.3608.120.23.2.4)
-X-Scanned-By: mailmunge 3.11 on 209.68.5.112
+MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+X-C2ProcessedOrg: 78a97207-3cfa-406d-a777-069c09c1300a
+X-SM-outgoing: yes
 
-This adds documentation to the following URL parsing functions:
+Hello,
+I just wanted to check one more time if this is something that's not accept=
+ed or something that nobody looked at yet?
+Could you please let us know?
 
-    * parse_request_and_proxy_urls
-        - parse_url_components
-            o parse_url_scheme
-                + parse_url_scheme_with_default
-            o parse_url_host_and_port
-                + parse_url_host
-                + parse_url_port
-            o parse_url_path
----
- gweb/gweb.c | 362 ++++++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 362 insertions(+)
+Thanks.
+Regards,
+Miro
 
-diff --git a/gweb/gweb.c b/gweb/gweb.c
-index 2a4e6fab..768bd4b8 100644
---- a/gweb/gweb.c
-+++ b/gweb/gweb.c
-@@ -1108,6 +1108,48 @@ static int create_transport(struct web_session =
-*session)
- 	return 0;
- }
-=20
-+/**
-+ *  @brief
-+ *    Attempt to parse the scheme component from a URL with an
-+ *    optional default fallback.
-+ *
-+ *  This attempts to parse the scheme component from the specified URL
-+ *  of the provided length at the specified cursor point in the
-+ *  URL. If a scheme cannot be parsed, the provided optional default
-+ *  fallback is used. If provided, the parsed scheme is copied and
-+ *  assigned to @a scheme.
-+ *
-+ *  @note
-+ *    The caller is responsible for deallocating the memory assigned
-+ *    to @a *scheme, if provided, on success.
-+ *
-+ *  @param[in]      url             A pointer to the immutable null-
-+ *                                  terminated C string from which to
-+ *                                  parse the scheme component.
-+ *  @param[in]      url_length      The length, in bytes, of @a url.
-+ *  @param[in,out]  cursor          A pointer to the current parsing
-+ *                                  position within @a url at which to
-+ *                                  start parsing the scheme. On
-+ *                                  success, this is updated to the
-+ *                                  first byte past the parsed scheme.
-+ *  @param[in,out]  scheme          An optional pointer to storage to
-+ *                                  assign a copy of the parsed scheme
-+ *                                  on success.
-+ *  @param[in]      default_scheme  An optional pointer to the =
-immutable
-+ *                                  null-terminated C string to use of
-+ *                                  a scheme cannot be parsed from @a
-+ *                                  url at @a cursor.
-+ *
-+ *  @retval  0        If successful.
-+ *  @retavl  -EINVAL  If @a url was null, @a url_length was zero, or @a
-+ *                    cursor was null.
-+ *  @retval  -ENOMEM  If memory could not be allocated for the parsed
-+ *                    scheme.
-+ *
-+ *  @sa parse_url_scheme
-+ *  @sa parse_url_components
-+ *
-+ */
- static int parse_url_scheme_with_default(const char *url, size_t =
-url_length,
- 						const char **cursor,
- 						char **scheme,
-@@ -1154,6 +1196,42 @@ static int parse_url_scheme_with_default(const =
-char *url, size_t url_length,
- 	return 0;
- }
-=20
-+/**
-+ *  @brief
-+ *    Attempt to parse the scheme component from a URL.
-+ *
-+ *  This attempts to parse the scheme component from the specified URL
-+ *  of the provided length at the specified cursor point in the
-+ *  URL. If provided, the parsed scheme is copied and
-+ *  assigned to @a scheme.
-+ *
-+ *  @note
-+ *    The caller is responsible for deallocating the memory assigned
-+ *    to @a *scheme, if provided, on success.
-+ *
-+ *  @param[in]      url             A pointer to the immutable null-
-+ *                                  terminated C string from which to
-+ *                                  parse the scheme component.
-+ *  @param[in]      url_length      The length, in bytes, of @a url.
-+ *  @param[in,out]  cursor          A pointer to the current parsing
-+ *                                  position within @a url at which to
-+ *                                  start parsing the scheme. On
-+ *                                  success, this is updated to the
-+ *                                  first byte past the parsed scheme.
-+ *  @param[in,out]  scheme          An optional pointer to storage to
-+ *                                  assign a copy of the parsed scheme
-+ *                                  on success.
-+ *
-+ *  @retval  0        If successful.
-+ *  @retavl  -EINVAL  If @a url was null, @a url_length was zero, or @a
-+ *                    cursor was null.
-+ *  @retval  -ENOMEM  If memory could not be allocated for the parsed
-+ *                    scheme.
-+ *
-+ *  @sa parse_url_scheme_with_default
-+ *  @sa parse_url_components
-+ *
-+ */
- static int parse_url_scheme(const char *url, size_t url_length,
- 						const char **cursor,
- 						char **scheme)
-@@ -1167,6 +1245,53 @@ static int parse_url_scheme(const char *url, =
-size_t url_length,
- 		default_scheme);
- }
-=20
-+/**
-+ *  @brief
-+ *    Attempt to parse the host component from a URL.
-+ *
-+ *  This attempts to parse the host component from the specified
-+ *  URL of the provided length at the specified cursor point in the
-+ *  URL. If provided, the parsed host is copied and assigned to @a
-+ *  host.
-+ *
-+ *  Compliant with RFC 2732, the format of the host component of the
-+ *  URL may be one of the following:
-+ *
-+ *    1. "[\<IPv6 Address>]"
-+ *    2. "[\<IPv6 Address>]:<Port>"
-+ *    4. "\<IPv4 Address>"
-+ *    5. "\<IPv4 Address>:<Port>"
-+ *    6. "\<Host Name>"
-+ *    7. "\<Host Name>:<Port>"
-+ *
-+ *  @note
-+ *    The caller is responsible for deallocating the memory assigned
-+ *    to @a *host, if provided, on success.
-+ *
-+ *  @param[in]      url             A pointer to the immutable null-
-+ *                                  terminated C string from which to
-+ *                                  parse the host component.
-+ *  @param[in]      url_length      The length, in bytes, of @a url.
-+ *  @param[in,out]  cursor          A pointer to the current parsing
-+ *                                  position within @a url at which to
-+ *                                  start parsing the host. On
-+ *                                  success, this is updated to the
-+ *                                  first byte past the parsed host.
-+ *  @param[in,out]  host            An optional pointer to storage to
-+ *                                  assign a copy of the parsed host
-+ *                                  on success.
-+ *
-+ *  @retval  0        If successful.
-+ *  @retavl  -EINVAL  If @a url was null, @a url_length was zero, @a
-+ *                    cursor was null, or if the host portion of @a
-+ *                    url is malformed.
-+ *  @retval  -ENOMEM  If memory could not be allocated for the parsed
-+ *                    host.
-+ *
-+ *  @sa parse_url_host_and_port
-+ *  @sa parse_url_components
-+ *
-+ */
- static int parse_url_host(const char *url, size_t url_length,
- 						const char **cursor,
- 						char **host)
-@@ -1266,6 +1391,50 @@ static int parse_url_host(const char *url, size_t =
-url_length,
- 	return 0;
- }
-=20
-+/**
-+ *  @brief
-+ *    Attempt to parse the port component from a URL.
-+ *
-+ *  This attempts to parse the port component from the specified URL
-+ *  of the provided length at the specified cursor point in the
-+ *  URL. If provided, the parsed port is assigned to @a port.
-+ *
-+ *  Compliant with RFC 2732, the format of the host component of the
-+ *  URL may be one of the following:
-+ *
-+ *    1. "[\<IPv6 Address>]"
-+ *    2. "[\<IPv6 Address>]:<Port>"
-+ *    4. "\<IPv4 Address>"
-+ *    5. "\<IPv4 Address>:<Port>"
-+ *    6. "\<Host Name>"
-+ *    7. "\<Host Name>:<Port>"
-+ *
-+ *  @param[in]      url             A pointer to the immutable null-
-+ *                                  terminated C string from which to
-+ *                                  parse the port component.
-+ *  @param[in]      url_length      The length, in bytes, of @a url.
-+ *  @param[in,out]  cursor          A pointer to the current parsing
-+ *                                  position within @a url at which to
-+ *                                  start parsing the port. On
-+ *                                  success, this is updated to the
-+ *                                  first byte past the parsed port.
-+ *  @param[in,out]  port            An optional pointer to storage to
-+ *                                  assign the parsed port on
-+ *                                  success. On failure or absence of
-+ *                                  a port to parsed, this is assigned
-+ *                                  -1.
-+ *
-+ *  @retval  0        If successful.
-+ *  @retavl  -EINVAL  If @a url was null, @a url_length was zero, @a
-+ *                    cursor was null, or if there were no characters
-+ *                    to parse after the port delimiter (':').
-+ *  @retval  -ERANGE  If the parsed port was outside of the range [0,
-+ *                    65535], inclusive.
-+ *
-+ *  @sa parse_url_host_and_port
-+ *  @sa parse_url_components
-+ *
-+ */
- static int parse_url_port(const char *url, size_t url_length,
- 						const char **cursor,
- 						int16_t *port)
-@@ -1308,6 +1477,63 @@ static int parse_url_port(const char *url, size_t =
-url_length,
- 	return 0;
- }
-=20
-+/**
-+ *  @brief
-+ *    Attempt to parse the host and port components from a URL.
-+ *
-+ *  This attempts to parse the host and port components from the
-+ *  specified URL of the provided length at the specified cursor point
-+ *  in the URL. If provided, the parsed host is copied and assigned to
-+ *  @a host and, if provided, the parsed port is assigned to @a port.
-+ *
-+ *  Compliant with RFC 2732, the format of the host component of the
-+ *  URL may be one of the following:
-+ *
-+ *    1. "[\<IPv6 Address>]"
-+ *    2. "[\<IPv6 Address>]:<Port>"
-+ *    4. "\<IPv4 Address>"
-+ *    5. "\<IPv4 Address>:<Port>"
-+ *    6. "\<Host Name>"
-+ *    7. "\<Host Name>:<Port>"
-+ *
-+ *  @note
-+ *    The caller is responsible for deallocating the memory assigned
-+ *    to @a *host, if provided, on success.
-+ *
-+ *  @param[in]      url             A pointer to the immutable null-
-+ *                                  terminated C string from which to
-+ *                                  parse the host and port components.
-+ *  @param[in]      url_length      The length, in bytes, of @a url.
-+ *  @param[in,out]  cursor          A pointer to the current parsing
-+ *                                  position within @a url at which to
-+ *                                  start parsing the host and
-+ *                                  port. On success, this is updated
-+ *                                  to the first byte past the parsed
-+ *                                  host or port, if present.
-+ *  @param[in,out]  host            An optional pointer to storage to
-+ *                                  assign a copy of the parsed host
-+ *                                  on success.
-+ *  @param[in,out]  port            An optional pointer to storage to
-+ *                                  assign the parsed port on
-+ *                                  success. On failure or absence of
-+ *                                  a port to parsed, this is assigned
-+ *                                  -1.
-+ *
-+ *  @retval  0        If successful.
-+ *  @retavl  -EINVAL  If @a url was null, @a url_length was zero, @a
-+ *                    cursor was null, if the host portion of @a url
-+ *                    is malformed, or if there were no characters to
-+ *                    parse after the port delimiter (':').
-+ *  @retval  -ENOMEM  If memory could not be allocated for the parsed
-+ *                    host.
-+ *  @retval  -ERANGE  If the parsed port was outside of the range [0,
-+ *                    65535], inclusive.
-+ *
-+ *  @sa parse_url_host
-+ *  @sa parse_url_port
-+ *  @sa parse_url_components
-+ *
-+ */
- static int parse_url_host_and_port(const char *url, size_t url_length,
- 						const char **cursor,
- 						char **host,
-@@ -1339,6 +1565,41 @@ static int parse_url_host_and_port(const char =
-*url, size_t url_length,
- 	return 0;
- }
-=20
-+/**
-+ *  @brief
-+ *    Attempt to parse the path component from a URL.
-+ *
-+ *  This attempts to parse the path component from the specified
-+ *  URL of the provided length at the specified cursor point in the
-+ *  URL. If provided, the parsed path is copied and assigned to @a
-+ *  path.
-+ *
-+ *  @note
-+ *    The caller is responsible for deallocating the memory assigned
-+ *    to @a *path, if provided, on success.
-+ *
-+ *  @param[in]      url             A pointer to the immutable null-
-+ *                                  terminated C string from which to
-+ *                                  parse the path component.
-+ *  @param[in]      url_length      The length, in bytes, of @a url.
-+ *  @param[in,out]  cursor          A pointer to the current parsing
-+ *                                  position within @a url at which to
-+ *                                  start parsing the path. On
-+ *                                  success, this is updated to the
-+ *                                  first byte past the parsed path.
-+ *  @param[in,out]  path            An optional pointer to storage to
-+ *                                  assign a copy of the parsed path
-+ *                                  on success.
-+ *
-+ *  @retval  0        If successful.
-+ *  @retavl  -EINVAL  If @a url was null, @a url_length was zero, or @a
-+ *                    cursor was null.
-+ *  @retval  -ENOMEM  If memory could not be allocated for the parsed
-+ *                    path.
-+ *
-+ *  @sa parse_url_components
-+ *
-+ */
- static int parse_url_path(const char *url, size_t url_length,
- 						const char **cursor,
- 						char **path)
-@@ -1371,6 +1632,62 @@ static int parse_url_path(const char *url, size_t =
-url_length,
- 	return 0;
- }
-=20
-+/**
-+ *  @brief
-+ *    Attempt to parse the scheme, host, port, and path components
-+ *    from a URL.
-+ *
-+ *  This attempts to parse the scheme, host, port, and path components
-+ *  from the specified URL. If provided, the parsed scheme, host and
-+ *  path are copied and assigned to @a scheme, @a host, and @a path,
-+ *  respective and the parsed port is assigned to @a port.
-+ *
-+ *  Compliant with RFC 2732, the format of the host component of the
-+ *  URL may be one of the following:
-+ *
-+ *    1. "[\<IPv6 Address>]"
-+ *    2. "[\<IPv6 Address>]:<Port>"
-+ *    4. "\<IPv4 Address>"
-+ *    5. "\<IPv4 Address>:<Port>"
-+ *    6. "\<Host Name>"
-+ *    7. "\<Host Name>:<Port>"
-+ *
-+ *  @param[in]      url             A pointer to the immutable null-
-+ *                                  terminated C string from which to
-+ *                                  parse the scheme component.
-+ *  @param[in,out]  scheme          An optional pointer to storage to
-+ *                                  assign a copy of the parsed scheme
-+ *                                  on success.
-+ *  @param[in,out]  host            An optional pointer to storage to
-+ *                                  assign a copy of the parsed host
-+ *                                  on success.
-+ *  @param[in,out]  port            An optional pointer to storage to
-+ *                                  assign the parsed port on
-+ *                                  success. On failure or absence of
-+ *                                  a port to parsed, this is assigned
-+ *                                  -1.
-+ *  @param[in,out]  path            An optional pointer to storage to
-+ *                                  assign a copy of the parsed path
-+ *                                  on success.
-+ *
-+ *  @retval  0        If successful.
-+ *  @retavl  -EINVAL  If @a url was null, @a url length was zero, if
-+ *                    the host portion of @a url is malformed, or if
-+ *                    there were no characters to parse after the port
-+ *                    delimiter (':').
-+ *  @retval  -ENOMEM  If memory could not be allocated for the parsed
-+ *                    scheme, host, or path.
-+ *  @retval  -ERANGE  If the parsed port was outside of the range [0,
-+ *                    65535], inclusive.
-+ *
-+ *  @sa parse_url_scheme_with_default
-+ *  @sa parse_url_scheme
-+ *  @sa parse_url_host
-+ *  @sa parse_url_port
-+ *  @sa parse_url_host_and_port
-+ *  @sa parse_url_path
-+ *
-+ */
- static int parse_url_components(const char *url,
- 						char **scheme,
- 						char **host,
-@@ -1433,6 +1750,51 @@ static int parse_url_components(const char *url,
- 	return 0;
- }
-=20
-+/**
-+ *  @brief
-+ *    Attempt to parse the request and proxy URLs for the web request
-+ *    session.
-+ *
-+ *  This attempts to parse the specified request and optional proxy
-+ *  URL for the specified web request session. =46rom the request URL,
-+ *  the scheme is parsed, mapped and assigned to the @a session port
-+ *  field and the host and path are parsed, copied, and assigned to
-+ *  the host and request fields, respectively. =46rom the proxy URL, if
-+ *  present, the port component is parsed and assigned to the @a
-+ *  session port field and the host component is parsed, copied, and
-+ *  assigned to the address field.
-+ *
-+ *  Compliant with RFC 2732, the format of the host component of the
-+ *  request and proxy URLs may be one of the following:
-+ *
-+ *    1. "[\<IPv6 Address>]"
-+ *    2. "[\<IPv6 Address>]:<Port>"
-+ *    4. "\<IPv4 Address>"
-+ *    5. "\<IPv4 Address>:<Port>"
-+ *    6. "\<Host Name>"
-+ *    7. "\<Host Name>:<Port>"
-+ *
-+ *  @note
-+ *    The caller is responsible for deallocating the memory assigned
-+ *    to the @a session host, request, and address fields.
-+ *
-+ *  @param[in,out]  session  A pointer to the mutable web session =
-request
-+ *                           object to be populated from @a url and,
-+ *                           if provided, @a proxy. On success, the
-+ *                           session port, host, request, and address
-+ *                           fields will be populated from the parsed
-+ *                           request URL and/or proxy URLs.
-+ *  @param[in]      url      A pointer to the immutable null-terminated
-+ *                           C string containing the request URL to
-+ *                           parse.
-+ *  @param[in]      proxy    An optional pointer to the immutable null-
-+ *                           terminated C string containing the web
-+ *                           proxy URL, if any, to parse.
-+ *
-+ *  @retval  0         If successful.
-+ *  @retval  -EINVAL  If @url was not a valid URL.
-+ *
-+ */
- static int parse_request_and_proxy_urls(struct web_session *session,
- 				const char *url, const char *proxy)
- {
---=20
-2.42.0
-
+Confidentiality Notice: This e-mail is privileged and confidential and for =
+the use of the addressee only. Should you have received this e-mail in erro=
+r please notify us by replying directly to the sender or by sending a messa=
+ge to info@kistler.com. Unauthorised dissemination, disclosure or copying o=
+f the contents of this e-mail, or any similar action, is prohibited. =0A=
