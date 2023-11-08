@@ -1,261 +1,206 @@
-Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
+Received: from mail-oo1-f42.google.com (mail-oo1-f42.google.com [209.85.161.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FF6730656
-	for <connman@lists.linux.dev>; Wed,  8 Nov 2023 16:03:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1658219440
+	for <connman@lists.linux.dev>; Wed,  8 Nov 2023 16:20:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WgIP+eLi"
-Received: by mail-qt1-f174.google.com with SMTP id d75a77b69052e-41b7ec4cceeso43958681cf.1
-        for <connman@lists.linux.dev>; Wed, 08 Nov 2023 08:03:37 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UIE/vKYJ"
+Received: by mail-oo1-f42.google.com with SMTP id 006d021491bc7-5845a94dae1so497013eaf.0
+        for <connman@lists.linux.dev>; Wed, 08 Nov 2023 08:20:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1699459416; x=1700064216; darn=lists.linux.dev;
-        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
+        d=gmail.com; s=20230601; t=1699460441; x=1700065241; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=+9Zs3vRkx1OBTW7ShCpbY/heoqq1z1Ul7gVzveuQKKc=;
-        b=WgIP+eLiqEERzyxzl5u9K8vjXgeV9c2FU+UwQJz7V9s9tyM5g4G1s4ZOTYZdRTUMYf
-         YKhE9iNq5tpZ9Z+pFuCfSxd3KcUYKkh6UVnOqIlzDqnMzkHKb2Nu/O8fQLjuBURFGZcJ
-         nj6pIWIq9DuFYnvhDowh/ACSfzT5+CRasqo13yuRuMl82DM/0hmrDIKEzPUUBn5yQSCW
-         g/lGzD5JZ6Gxw16LkeaYxM+x6yk3F4JtBoeTZ96TTbWnmfeDo/Qe561AJ6IJjlcYA+Lg
-         NyFAE+jc1x4u/sH/HPMC3nlZzyaH3zb7SiI/aFPt54Rc1etrU9uUoinbC7YoqgvNaB7s
-         OcAA==
+        bh=bHgBm8852Fc0APiPhMjX7K5F6Xeo+lf3ztI/k9D9z74=;
+        b=UIE/vKYJB3rEAip1pCpz8AbPE398VZcRiFXypHEJ/G3YO57cmis6qXiAE0xwv7t5Cy
+         sNWd34QNkMP/wjJ6WObLchaZ/mrbjc3+z2zMDnP4pK2COhmyq0qVBlCKo5ge7b0S7mc3
+         ERcrUsVlG3k1P/Zo1UsRDRKYmRWwelVzQQtU5OqCC0GL8nzAC7JMUGUutkDaQHHoy4h7
+         mANzYf/6agwL7vFCL2QMaXFdtaouF5KV8ORGVEB7wuwiLdu6P1ZhyglKbXVhhQtxqNhm
+         KMSIa7ZADq7idMTuV3ojIf/JthRLamWF9SX8VEa6SOa+WfmvMtXQnIUjKJNHgRZs0/jz
+         RiVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699459416; x=1700064216;
-        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
+        d=1e100.net; s=20230601; t=1699460441; x=1700065241;
+        h=content-transfer-encoding:in-reply-to:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=+9Zs3vRkx1OBTW7ShCpbY/heoqq1z1Ul7gVzveuQKKc=;
-        b=aTRKhz1+LMsOwOyhlPUvFP6wyDXkM6nTmKCkN89RxBCdegPe8ryfFBX7uc4AgVCi79
-         aJwgVHnvtybOJ/4dMhbco37MRitIwNpzCpIVrQUuqYRR5dZX9I8Ea+1rYxUSJ8nliNGy
-         vlD7YolOINUbF37osxZlR4D5KtwQQXI+YMEpK/KzPPCehEn9rK+AnXXK8njMkLdEdo8b
-         FBatBBxj2SuFzs3NYLlD2cXCa1vTOv5FNDNZgM/H8/oxAtryUVwd0WktUWgoUhu47RgL
-         3eh1qypLEkpTIfP6V50usjRqzJLgnCgXUJ7abPUavjLNHMtBVJ1MTGTvGJlDN2/m2mIx
-         pDqg==
-X-Gm-Message-State: AOJu0YynJb2pglFFggvbpHtJqCKr4UtG+cHlqDF83O1PcdbA1wmuJjxL
-	Chz4s3OTVKqep9vk0jdMMyneWXTcw2yoHdxZawc=
-X-Google-Smtp-Source: AGHT+IEz/H1wdqqnoGFpIGyWK6c9NYz0m0Sh3qxkA82kM2D4/MsPv+PjqSRlA7HBBdQpgRuHpfRq1Cx6XnCfhGvCCOM=
-X-Received: by 2002:a05:622a:48e:b0:41e:9953:ff93 with SMTP id
- p14-20020a05622a048e00b0041e9953ff93mr2751646qtx.19.1699459415892; Wed, 08
- Nov 2023 08:03:35 -0800 (PST)
+        bh=bHgBm8852Fc0APiPhMjX7K5F6Xeo+lf3ztI/k9D9z74=;
+        b=LOx1ub5oRW3pVlh1ZD/CwHRI5NLNWILeOZKfFXbzHDy8jRuLHLt13D5z7FalCOV4mF
+         1PPhS25pgZBwhF3LfL1NJmi0xiTNlISlegI2kQ09jy24h+wzF3NgfNuFTANyteCq9A5h
+         J//i9aKWtVlO8/ZOvX56HgmXXZYruAmHUeZ6SL8vrirO2GVDklR/+Rtm2rw+AS/X4oX/
+         gkksUYn/2IWrSIe9O54MJLwi7MMpSdEwtuCRZogYbevPaA/+PTOQ3UAWqiP3FF2nXoTP
+         Tkn3+18othiqUjQgucmxCdRhb6RGD22VnRZtdbkFqvbwLQ6NoKY7v52UohF34/TPGzJM
+         AXYg==
+X-Gm-Message-State: AOJu0YyrkPjrGyCPDd+qidFvNUEX7BZG215XxJXM0Q1mk7cfvhVCnYac
+	KFUYF44UGiAYwnqlWoFwma8MrrK3/3g=
+X-Google-Smtp-Source: AGHT+IHQnJOTj1iPRcz+FAJ9d4XrUNl/NqQTrUV9nT+++z/U4cpyR/+InsebJIFSS+WqcyX76kgfxQ==
+X-Received: by 2002:a4a:d003:0:b0:581:ecd4:c2bd with SMTP id h3-20020a4ad003000000b00581ecd4c2bdmr1268320oor.4.1699460441101;
+        Wed, 08 Nov 2023 08:20:41 -0800 (PST)
+Received: from [172.16.49.130] (cpe-70-114-247-242.austin.res.rr.com. [70.114.247.242])
+        by smtp.googlemail.com with ESMTPSA id c11-20020a4aaccb000000b005879d3aa1bfsm1749763oon.5.2023.11.08.08.20.40
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 08 Nov 2023 08:20:40 -0800 (PST)
+Message-ID: <863b1d50-7001-44ed-b3d2-45bb7ffe29db@gmail.com>
+Date: Wed, 8 Nov 2023 10:20:39 -0600
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <2CD24062-D2D6-4E13-A6A9-7EA130D38131@nuovations.com>
- <47128531-37B9-4428-ADE4-6A2251030BF9@nuovations.com> <E9802F66-73D0-49B5-9884-027B757BAE7B@holtmann.org>
- <C03F5DCF-9E72-40BB-AC52-04BBAB498BF9@nuovations.com>
-In-Reply-To: <C03F5DCF-9E72-40BB-AC52-04BBAB498BF9@nuovations.com>
-From: daniel antoine <univac55@gmail.com>
-Date: Wed, 8 Nov 2023 17:03:22 +0100
-Message-ID: <CA+iibzBFr5K5q60fR7PH01UHCZf5kYxR_t8niTos8rRgHoGr=w@mail.gmail.com>
-Subject: Re: Clarifying ConnMan Configuration Multi-technology Feature Fusion
- and Online/Ready Transitions
-To: Grant Erickson <gerickson@nuovations.com>, Marcel Holtmann <marcel@holtmann.org>, 
-	connman@lists.linux.dev, Denis Kenzior <denkenz@gmail.com>
-Content-Type: multipart/mixed; boundary="000000000000cc22d30609a63a28"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/1] Added support for setting preferred IP for WiFi
+ tethering
+Content-Language: en-US
+To: Miroslav Cuvar <miroslav.cuvar@kistler.com>, connman@lists.linux.dev
+References: <20221108071820.14101-1-miroslav.cuvar@kistler.com>
+From: Denis Kenzior <denkenz@gmail.com>
+In-Reply-To: <20221108071820.14101-1-miroslav.cuvar@kistler.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
---000000000000cc22d30609a63a28
-Content-Type: multipart/alternative; boundary="000000000000cc22d20609a63a26"
+Hi Miroslav,
 
---000000000000cc22d20609a63a26
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On 11/8/22 01:18, Miroslav Cuvar wrote:
+> Hello,
+> 
+> This patch is to enable the user to set a preferred IP when enabling WiFi tethering, if the preferred IP is not available, the closest next available IP will be used.
+> The preferred IP is set using DBus and it works by explicitly setting the starting block in static uint32_t get_free_block(unsigned int);
+> Would a feature like this benefit the connman project?
+> 
+> Signed-off-by: Miroslav Cuvar <miroslav.cuvar@kistler.com>
 
-Hi grant
+No Signed-off-by in connman.
 
-Maybe you can try this PKG file with the last commit for both ell and iwd
+> ---
+>   doc/technology-api.txt |  8 ++++++++
+>   src/connman.h          |  6 +++++-
+>   src/ippool.c           | 19 +++++++++++-------
+>   src/peer.c             |  2 +-
+>   src/technology.c       | 45 ++++++++++++++++++++++++++++++++++++++++++
+>   src/tethering.c        | 11 +++++++++--
+>   unit/test-ippool.c     | 20 +++++++++----------
+>   7 files changed, 90 insertions(+), 21 deletions(-)
+> 
+This patch doesn't apply cleanly:
 
-Best regards
+denkenz@archdev connman]$ git am foo.patch
+Applying: Added support for setting preferred IP for WiFi tethering
+.git/rebase-apply/patch:26: trailing whitespace.
+			optional. Default value is 0, which means no preference for IP.
+.git/rebase-apply/patch:86: space before tab in indent.
+        		block = preferred_ip;
+.git/rebase-apply/patch:87: space before tab in indent.
+     	else if (last_block)
+.git/rebase-apply/patch:225: trailing whitespace.
 
-Daniel
+warning: 4 lines add whitespace errors.
 
+> diff --git a/doc/technology-api.txt b/doc/technology-api.txt
+> index cdf30396..4492a7f6 100644
+> --- a/doc/technology-api.txt
+> +++ b/doc/technology-api.txt
+> @@ -107,3 +107,11 @@ Properties	boolean Powered [readwrite]
+>   
+>   			This property is only valid for the WiFi technology and it's
+>   			optional. Default frequency is 2412 Mhz.
+> +
+> +		int TetheringPreferredIP [readwrite]
 
+Maybe uint is more appropriate?  Network order or host order?  But is this an 
+actual IP address?  If so, why is this not a string to be consistent with the 
+rest of the ConnMan APIs?
 
-Le mer. 8 nov. 2023 =C3=A0 16:30, Grant Erickson <gerickson@nuovations.com>=
- a
-=C3=A9crit :
+> +
+> +			Preferred start IP for WiFi tethering IP pool. If the IP is not
+> +			free, closest next free IP will be chosen.
+> +
+> +			This property is only valid for the WiFi technology and it's
+> +			optional. Default value is 0, which means no preference for IP.
 
-> On Nov 8, 2023, at 6:46 AM, Marcel Holtmann <marcel@holtmann.org> wrote:
-> >> I=E2=80=99ve done more testing on this front with some unexpected resu=
-lts using
-> the configuration below:
-> >>
-> >> * I have an Ethernet cable connected to the device under test (DUT) to
-> an eight port desktop Ethernet switch which, in turn, is connected to
-> another local switch which is yet another switch hop away from the backbo=
-ne
-> and the router.
-> >> - If I leave the DUT connected to the desktop switch but disconnect th=
-e
-> desktop switch from its parent switch and then monitor, I eventually see
-> repeated WiSPR failures over Ethernet (404) but I never see Ethernet cede
-> the default route to W-Fi and Wi-Fi transition from =E2=80=9CReady=E2=80=
-=9D to =E2=80=9COnline=E2=80=9D.
-> >> - How many back-to-back WiSPR failures are expected until another
-> technology / service takes over the default route?
-> >>
-> >> I also did a test in which I changed:
-> >>
-> >> * EnableOnlineToReadyTransition=3Dfalse
-> >> * SingleConnectedTechnology=3Dtrue
-> >>
-> >> relative to the below. In this situation, Wi-Fi went crazy with its
-> link transitioning many times a second from associating to configuration =
-to
-> ready to offline. The console became unusable with repeated:
-> >>
-> >>   IPv6: ADDRCONF(NETDEV_UP): wlan0: link is not ready
-> >>   IPv6: ADDRCONF(NETDEV_CHANGE): wlan0: link becomes ready
-> >>
-> >> messages.
-> >
-> > Hmm. I would really prefer you abandon wpa_supplicant and you use iwd.
-> Some things that wpa_supplicant does and various hardware drivers are doi=
-ng
-> is insane and we paper over it. Only when starting with iwd, we can addre=
-ss
-> things properly.
->
-> Marcel,
->
-> I=E2=80=99d like to make that move; unfortunately, for the current projec=
-t I am
-> engaged on, I am locked on linux-4.9.212, glibc-2.28, and GCC 8.x.
-> Unfortunately, with that combination, the latest version of ELL I can get
-> to build is 0.28 and the latest version of IWD won=E2=80=99t compile agai=
-nst it. In
-> parallel, the latest version of ELL fails with a number of errors (I=E2=
-=80=99ll
-> follow up on those later per Denis) and the version of ELL included with
-> IWD fails with an overlapping but also unique set of errors.
->
-> Unfortunately, untangling all of that is more than the client is willing
-> to take on at the moment. I=E2=80=99ve recommended that they pursue IWD a=
-fter a
-> kernel, glibc, toolchain update in a later effort.
->
-> Best,
->
-> Grant
->
-> --
-> Principal
-> Nuovations
->
-> gerickson@nuovations.com
-> http://www.nuovations.com/
->
->
->
+As far as I can tell, ConnMan sets up a single tethering subnet.  How do you 
+ensure that the preferred IP is only used by WiFi?
 
---000000000000cc22d20609a63a26
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+<snip>
 
-<div dir=3D"ltr">Hi grant<div><br></div><div>Maybe you can try this PKG fil=
-e with the last commit for both ell and iwd</div><div><br></div><div>Best r=
-egards</div><div><br></div><div>Daniel</div><div><br></div><div><br></div><=
-/div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">L=
-e=C2=A0mer. 8 nov. 2023 =C3=A0=C2=A016:30, Grant Erickson &lt;<a href=3D"ma=
-ilto:gerickson@nuovations.com">gerickson@nuovations.com</a>&gt; a =C3=A9cri=
-t=C2=A0:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px=
- 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On Nov =
-8, 2023, at 6:46 AM, Marcel Holtmann &lt;<a href=3D"mailto:marcel@holtmann.=
-org" target=3D"_blank">marcel@holtmann.org</a>&gt; wrote:<br>
-&gt;&gt; I=E2=80=99ve done more testing on this front with some unexpected =
-results using the configuration below:<br>
-&gt;&gt; <br>
-&gt;&gt; * I have an Ethernet cable connected to the device under test (DUT=
-) to an eight port desktop Ethernet switch which, in turn, is connected to =
-another local switch which is yet another switch hop away from the backbone=
- and the router.<br>
-&gt;&gt; - If I leave the DUT connected to the desktop switch but disconnec=
-t the desktop switch from its parent switch and then monitor, I eventually =
-see repeated WiSPR failures over Ethernet (404) but I never see Ethernet ce=
-de the default route to W-Fi and Wi-Fi transition from =E2=80=9CReady=E2=80=
-=9D to =E2=80=9COnline=E2=80=9D.<br>
-&gt;&gt; - How many back-to-back WiSPR failures are expected until another =
-technology / service takes over the default route?<br>
-&gt;&gt; <br>
-&gt;&gt; I also did a test in which I changed:<br>
-&gt;&gt; <br>
-&gt;&gt; * EnableOnlineToReadyTransition=3Dfalse<br>
-&gt;&gt; * SingleConnectedTechnology=3Dtrue<br>
-&gt;&gt; <br>
-&gt;&gt; relative to the below. In this situation, Wi-Fi went crazy with it=
-s link transitioning many times a second from associating to configuration =
-to ready to offline. The console became unusable with repeated:<br>
-&gt;&gt; <br>
-&gt;&gt;=C2=A0 =C2=A0IPv6: ADDRCONF(NETDEV_UP): wlan0: link is not ready<br=
->
-&gt;&gt;=C2=A0 =C2=A0IPv6: ADDRCONF(NETDEV_CHANGE): wlan0: link becomes rea=
-dy<br>
-&gt;&gt; <br>
-&gt;&gt; messages.<br>
-&gt; <br>
-&gt; Hmm. I would really prefer you abandon wpa_supplicant and you use iwd.=
- Some things that wpa_supplicant does and various hardware drivers are doin=
-g is insane and we paper over it. Only when starting with iwd, we can addre=
-ss things properly.<br>
-<br>
-Marcel,<br>
-<br>
-I=E2=80=99d like to make that move; unfortunately, for the current project =
-I am engaged on, I am locked on linux-4.9.212, glibc-2.28, and GCC 8.x. Unf=
-ortunately, with that combination, the latest version of ELL I can get to b=
-uild is 0.28 and the latest version of IWD won=E2=80=99t compile against it=
-. In parallel, the latest version of ELL fails with a number of errors (I=
-=E2=80=99ll follow up on those later per Denis) and the version of ELL incl=
-uded with IWD fails with an overlapping but also unique set of errors.<br>
-<br>
-Unfortunately, untangling all of that is more than the client is willing to=
- take on at the moment. I=E2=80=99ve recommended that they pursue IWD after=
- a kernel, glibc, toolchain update in a later effort.<br>
-<br>
-Best,<br>
-<br>
-Grant<br>
-<br>
--- <br>
-Principal<br>
-Nuovations<br>
-<br>
-<a href=3D"mailto:gerickson@nuovations.com" target=3D"_blank">gerickson@nuo=
-vations.com</a><br>
-<a href=3D"http://www.nuovations.com/" rel=3D"noreferrer" target=3D"_blank"=
->http://www.nuovations.com/</a><br>
-<br>
-<br>
-</blockquote></div>
+> @@ -229,6 +239,9 @@ int connman_technology_tethering_notify(struct connman_technology *technology,
+>   	if (technology->tethering == enabled)
+>   		return -EALREADY;
+>   
+> +	if (technology->type == CONNMAN_SERVICE_TYPE_WIFI && technology->tethering_preferred_ip != NULL)
+> +		__connman_tethering_set_preferred_ip(ntohl(inet_addr(technology->tethering_preferred_ip)));
+> +
 
---000000000000cc22d20609a63a26--
---000000000000cc22d30609a63a28
-Content-Type: application/octet-stream; name=Pkgfile
-Content-Disposition: attachment; filename=Pkgfile
-Content-Transfer-Encoding: base64
-Content-ID: <f_lopy8p7n0>
-X-Attachment-Id: f_lopy8p7n0
+This method is global? It doesn't distinguish between technologies?
 
-bWFrZWRlcGVuZHM9KGRidXMgcHl0aG9uLWRvY3V0aWxzIHJlYWRsaW5lKQoKZGVzY3JpcHRpb249
-IkludGVybmV0IFdpcmVsZXNzIERhZW1vbiIKdXJsPSJodHRwczovL2dpdC5rZXJuZWwub3JnL2Nn
-aXQvbmV0d29yay93aXJlbGVzcy9pd2QuZ2l0LyIKCnBhY2thZ2VyPSJZYW9saW51eCBUZWFtIgpt
-YWludGFpbmVyPSJEYW5pYSIKCm5hbWU9aXdkCnZlcnNpb249Mi44CgojTGFzdCBjb21taXQgb24g
-aXdkIHJlcG8KX2NvbW1pdDE9YzU3NGM4MGUyN2Y0ZjI4OTNiNTJkZDI5ZGE1ZDAwMzczMDg4ODIy
-ZgoKI0xhc3QgY29tbWl0IG9uIGVsbCByZXBvCl9jb21taXQyPTQ1ZTBjYTI4NjExNmJjNWZkNzVj
-ZTAzYWE5ODliOTMxODk0Y2VhZmMKCnByZXBhcmUoKSB7CiAgZ2l0IGNsb25lIGh0dHBzOi8vZ2l0
-Lmtlcm5lbC5vcmcvcHViL3NjbS9saWJzL2VsbC9lbGwuZ2l0IGVsbAoKICBjZCBlbGwKICBnaXQg
-Y2hlY2tvdXQgJHtfY29tbWl0Mn0KCiAgY2QgLi4KCiAgZ2l0IGNsb25lIGh0dHBzOi8vZ2l0Lmtl
-cm5lbC5vcmcvcHViL3NjbS9uZXR3b3JrL3dpcmVsZXNzL2l3ZC5naXQgaXdkCgogIGNkIGl3ZAog
-IGdpdCBjaGVja291dCAke19jb21taXQxfQoKICBhdXRvcmVjb25mIC1maXYKfQoKYnVpbGQoKSB7
-CiAgY2QgaXdkCgogIGNwIC91c3IvbGliL3BrZ2NvbmZpZy9uY3Vyc2Vzdy5wYyAvdXNyL2xpYi9w
-a2djb25maWcvbmN1cnNlcy5wYwoKICAuL2NvbmZpZ3VyZSAtLXByZWZpeD0vdXNyIFwKICAgICAg
-ICAgICAgICAtLXN5c2NvbmZkaXI9L2V0YyBcCiAgICAgICAgICAgICAgLS1sb2NhbHN0YXRlZGly
-PS92YXIgXAogICAgICAgICAgICAgIC0tbGliZXhlY2Rpcj0vdXNyL2xpYi9pd2QgXAogICAgICAg
-ICAgICAgIC0tZW5hYmxlLXdpcmVkIFwKICAgICAgICAgICAgICAtLWVuYWJsZS1vZm9ubyBcCiAg
-ICAgICAgICAgICAgLS1lbmFibGUtaHdzaW0gXAogICAgICAgICAgICAgIC0tZGlzYWJsZS10b29s
-cwoKICBtYWtlCiAgbWFrZSBpbnN0YWxsIERFU1RESVI9JFBLRwoKICBybSAvdXNyL2xpYi9wa2dj
-b25maWcvbmN1cnNlcy5wYwoKICBpbnN0YWxsIC1kbTcwMCAkUEtHL3Zhci9saWIvZWFkLwogIGlu
-c3RhbGwgLWRtNzAwICRQS0cvdmFyL2xpYi9pd2QvCn0K
---000000000000cc22d30609a63a28--
+>   	if (enabled) {
+>   		err = __connman_tethering_set_enabled();
+>   		if (err < 0)
+
+<snip>
+
+> @@ -1011,6 +1032,29 @@ static DBusMessage *set_property(DBusConnection *conn,
+>   					DBUS_TYPE_INT32,
+>   					&technology->tethering_freq);
+>   		}
+> +	} else if (g_str_equal(name, "TetheringPreferredIP")) {
+> +		const char *str;
+> +
+> +		dbus_message_iter_get_basic(&value, &str);
+> +		if (technology->type != CONNMAN_SERVICE_TYPE_WIFI)
+> +			return __connman_error_not_supported(msg);
+
+So it is a string after all, and the documentation is wrong?
+
+> +
+> +		uint32_t preferred_ip	= ntohl(inet_addr(str));
+> +		if (preferred_ip != 0 && !__connman_ippool_is_private_address(preferred_ip)) {
+> +			return __connman_error_invalid_arguments(msg);
+> +		}
+> +
+> +		if (g_strcmp0(technology->tethering_preferred_ip, str) != 0) {
+> +			g_free(technology->tethering_preferred_ip);
+> +			technology->tethering_preferred_ip = g_strdup(str);
+> +			technology_save(technology);
+> +
+> +			connman_dbus_property_changed_basic(technology->path,
+> +				CONNMAN_TECHNOLOGY_INTERFACE,
+> +				"TetheringPreferredIP",
+> +				DBUS_TYPE_STRING,
+> +				&technology->tethering_preferred_ip);
+> +		}
+>   	} else if (g_str_equal(name, "Powered")) {
+>   		dbus_bool_t enable;
+>   
+
+<snip>
+
+> diff --git a/src/tethering.c b/src/tethering.c
+> index f930a26b..05958ddd 100644
+> --- a/src/tethering.c
+> +++ b/src/tethering.c
+> @@ -63,6 +63,8 @@ static GHashTable *pn_hash;
+>   
+>   static GHashTable *clients_table;
+>   
+> +static uint32_t tethering_preferred_ip = 0;
+> +
+
+Global variable and not WiFi specific?
+
+> @@ -691,3 +693,8 @@ void __connman_tethering_cleanup(void)
+>   
+>   	dbus_connection_unref(connection);
+>   }
+> +
+> +void __connman_tethering_set_preferred_ip(uint32_t preferred_ip){
+> +    DBG("Setting prefered IP: %d", preferred_ip);
+> +    tethering_preferred_ip = preferred_ip;
+> +}
+
+Wrong coding style?
+
+Regards,
+-Denis
