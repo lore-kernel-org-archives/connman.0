@@ -1,62 +1,74 @@
-Received: from mail.holtmann.org (coyote.holtmann.net [212.227.132.17])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2D1F336B14
-	for <connman@lists.linux.dev>; Wed,  8 Nov 2023 18:34:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=holtmann.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=holtmann.org
+Received: from mohas.pair.com (mohas.pair.com [209.68.5.112])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B0AE36B04
+	for <connman@lists.linux.dev>; Wed,  8 Nov 2023 18:35:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nuovations.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nuovations.com
 Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: from smtpclient.apple (p4ff9f475.dip0.t-ipconnect.de [79.249.244.117])
-	by mail.holtmann.org (Postfix) with ESMTPSA id BFCCCCECD4;
-	Wed,  8 Nov 2023 19:34:29 +0100 (CET)
+Received: from mohas.pair.com (localhost [127.0.0.1])
+	by mohas.pair.com (Postfix) with ESMTP id 325E173191;
+	Wed,  8 Nov 2023 13:35:20 -0500 (EST)
+Received: from [IPv6:2601:647:5a00:15c1:ec32:172b:4c97:6a74] (unknown [IPv6:2601:647:5a00:15c1:ec32:172b:4c97:6a74])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mohas.pair.com (Postfix) with ESMTPSA id C4347731B3;
+	Wed,  8 Nov 2023 13:35:19 -0500 (EST)
 Content-Type: text/plain;
-	charset=utf-8
+	charset=us-ascii
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3774.100.2.1.4\))
-Subject: Re: [PATCH 2/3 v3] gweb: Refactor 'parse_request_and_proxy_urls'.
-From: Marcel Holtmann <marcel@holtmann.org>
-In-Reply-To: <a4e95ca1-61e0-40ee-a1dc-7d170075bc1a@gmail.com>
-Date: Wed, 8 Nov 2023 19:34:19 +0100
-Cc: Grant Erickson <gerickson@nuovations.com>,
- connman@lists.linux.dev
+Mime-Version: 1.0 (Mac OS X Mail 13.4 \(3608.120.23.2.4\))
+Subject: [PATCH 1/3 v4] gweb: Rename 'parse_url'.
+From: Grant Erickson <gerickson@nuovations.com>
+In-Reply-To: <691A5A8B-89B5-4194-983B-63E62A95A5A4@nuovations.com>
+Date: Wed, 8 Nov 2023 10:35:18 -0800
+Cc: Marcel Holtmann <marcel@holtmann.org>,
+ Denis Kenzior <denkenz@gmail.com>
 Content-Transfer-Encoding: quoted-printable
-Message-Id: <B81EE347-C1BC-42EF-9414-22400C9DB8B4@holtmann.org>
+Message-Id: <7F02EF2D-C1C9-4200-9BBC-68845DA9B1ED@nuovations.com>
 References: <88316395-8306-467E-A9D0-FD0B0F9F8387@nuovations.com>
- <E7544151-8840-4E97-A5BF-49569088E6D9@nuovations.com>
- <538FAB81-E180-4D6D-B405-150F8553F843@nuovations.com>
- <6cb6beb7-73f1-4743-bff6-f822ae282786@gmail.com>
- <FBB34102-662F-49AC-A11F-7E92A455C5D9@nuovations.com>
- <a4e95ca1-61e0-40ee-a1dc-7d170075bc1a@gmail.com>
-To: Denis Kenzior <denkenz@gmail.com>
-X-Mailer: Apple Mail (2.3774.100.2.1.4)
+ <01231125-E711-40E1-AA83-C3A2E266981A@nuovations.com>
+ <691A5A8B-89B5-4194-983B-63E62A95A5A4@nuovations.com>
+To: connman@lists.linux.dev
+X-Mailer: Apple Mail (2.3608.120.23.2.4)
+X-Scanned-By: mailmunge 3.11 on 209.68.5.112
 
-Hi Denis,
+This renames 'parse_url' to 'parse_request_and_proxy_urls' to more
+accurately reflect its role and function in processing BOTH a request
+URL and, optionally, a proxy URL for the specified web request session.
+---
+ gweb/gweb.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
->>>=20
->>> Looks like you're running over > 80 chars here.
->> checkpatch.pl warns at 100 though the coding style docs mention 80. =
-Which takes precedence?
->=20
-> I think the Linux kernel changed to 100 lines by default some time in =
-the last two years.  Don't remember exactly.  We are still using 80 by =
-inertia.
->=20
-> I'm fine switching to > 80 lines, but lets have a separate discussion =
-about this.
-
-I prefer we stick with the 80 chars per line. We don=E2=80=99t have to =
-be super strict about it and can let it slide every now and then. =
-However I really prefer that if you hit 80 chars per line, then you take =
-a step back check if your code is too complex or your function or =
-variables are to long.
-
-We need this 80 chars marker as a mental checkpoint for everybody to =
-simplify their code and make the logic understandable even you get back =
-to it years later.
-
-Regards
-
-Marcel
+diff --git a/gweb/gweb.c b/gweb/gweb.c
+index 13c6c5f2..4d464cf2 100644
+--- a/gweb/gweb.c
++++ b/gweb/gweb.c
+@@ -1107,7 +1107,7 @@ static int create_transport(struct web_session =
+*session)
+ 	return 0;
+ }
+=20
+-static int parse_url(struct web_session *session,
++static int parse_request_and_proxy_urls(struct web_session *session,
+ 				const char *url, const char *proxy)
+ {
+ 	char *scheme, *host, *port, *path;
+@@ -1297,7 +1297,7 @@ static guint do_request(GWeb *web, const char =
+*url,
+ 	if (!session)
+ 		return 0;
+=20
+-	if (parse_url(session, url, web->proxy) < 0) {
++	if (parse_request_and_proxy_urls(session, url, web->proxy) < 0) =
+{
+ 		free_session(session);
+ 		return 0;
+ 	}
+--=20
+2.42.0
 
