@@ -1,12 +1,12 @@
 Received: from mail.holtmann.org (coyote.holtmann.net [212.227.132.17])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D61F833D6
-	for <connman@lists.linux.dev>; Wed,  8 Nov 2023 14:46:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6BE4733D6
+	for <connman@lists.linux.dev>; Wed,  8 Nov 2023 14:47:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=holtmann.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=holtmann.org
 Authentication-Results: smtp.subspace.kernel.org; dkim=none
 Received: from smtpclient.apple (p4ff9f475.dip0.t-ipconnect.de [79.249.244.117])
-	by mail.holtmann.org (Postfix) with ESMTPSA id 9283BCECD1;
-	Wed,  8 Nov 2023 15:46:45 +0100 (CET)
+	by mail.holtmann.org (Postfix) with ESMTPSA id 9C3F3CECD0;
+	Wed,  8 Nov 2023 15:47:36 +0100 (CET)
 Content-Type: text/plain;
 	charset=utf-8
 Precedence: bulk
@@ -15,55 +15,81 @@ List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3774.100.2.1.4\))
-Subject: Re: Clarifying ConnMan Configuration Multi-technology Feature Fusion
- and Online/Ready Transitions
+Subject: Re: Request for Comment: Implementing Non-link-level Failure
+ Monitoring / Failover
 From: Marcel Holtmann <marcel@holtmann.org>
-In-Reply-To: <47128531-37B9-4428-ADE4-6A2251030BF9@nuovations.com>
-Date: Wed, 8 Nov 2023 15:46:35 +0100
+In-Reply-To: <805B2C7C-9DB6-44C7-9B10-25ADB0E5B84F@nuovations.com>
+Date: Wed, 8 Nov 2023 15:47:26 +0100
 Cc: connman@lists.linux.dev
 Content-Transfer-Encoding: quoted-printable
-Message-Id: <E9802F66-73D0-49B5-9884-027B757BAE7B@holtmann.org>
-References: <2CD24062-D2D6-4E13-A6A9-7EA130D38131@nuovations.com>
- <47128531-37B9-4428-ADE4-6A2251030BF9@nuovations.com>
+Message-Id: <7D53DC6A-AD44-468D-85CD-373878CB938A@holtmann.org>
+References: <1B47C370-F3D5-4F60-9753-46D39CAB6728@nuovations.com>
+ <805B2C7C-9DB6-44C7-9B10-25ADB0E5B84F@nuovations.com>
 To: Grant Erickson <gerickson@nuovations.com>
 X-Mailer: Apple Mail (2.3774.100.2.1.4)
 
 Hi Grant,
 
-> I=E2=80=99ve done more testing on this front with some unexpected =
-results using the configuration below:
+>> I spent most of Friday doing integration testing between connmand and =
+my application infrastructure inflicting various communications failures =
+and observing how the event chain responds.
+>>=20
+>> Perhaps as no surprise to those here, connmand appears to only be =
+responsive to local link failures. That is, with Ethernet, only a first =
+hop link loss or cable pull at the device under test (DUT) seems to =
+cause a failover to Wi-Fi. Likewise, with Wi-Fi, only a complete loss of =
+association to the access point seems to cause a failover to Cellular.
+>>=20
+>> So, for example, removing an Ethernet link several hops away from the =
+DUT or from the Wi-Fi access point, inducing DNS failures, etc. do not =
+seem to cause default service failovers. However, I can clearly see the =
+WiSPR liveness probes failing with 4xx status=E2=80=94so the right =
+signals seem to be present to induce failover.
+>>=20
+>> If the community is supportive, I would propose some upstream =
+changes=E2=80=94the precise details TBD=E2=80=94that:
+>>=20
+>>   1. After some configurable number of WiSPR liveness probes failing =
+on the currently =E2=80=9Conline=E2=80=9D link, connmand declares a =
+service no longer =E2=80=9Conline=E2=80=9D.
+>>       a. =E2=80=9Conline=E2=80=9D to =E2=80=9Cready=E2=80=9D does not =
+=E2=80=9Cflap=E2=80=9D as it does now for the default service.
+>>       b. Once it is =E2=80=9Conline=E2=80=9D, it stays =E2=80=9Conline=E2=
+=80=9D until those configurable number of WiSPR liveness probes fail.
+>>   2. In response to the configurable number of liveness problems, =
+moves the default route to the next available service (for example, =
+Wi-Fi or Cellular from Ethernet or Wi-Fi, respectively).
+>>       a. For the =E2=80=9Cno longer =E2=80=98online=E2=80=99=E2=80=9D =
+service, connmand would then go into TBD (Fibonacci?) back off for WiSPR =
+probes and would promote the service back to default only when some =
+configurable number of WiSPR liveness probes succeed.
+>>=20
+>> Thoughts?
 >=20
-> * I have an Ethernet cable connected to the device under test (DUT) to =
-an eight port desktop Ethernet switch which, in turn, is connected to =
-another local switch which is yet another switch hop away from the =
-backbone and the router.
-> - If I leave the DUT connected to the desktop switch but disconnect =
-the desktop switch from its parent switch and then monitor, I eventually =
-see repeated WiSPR failures over Ethernet (404) but I never see Ethernet =
-cede the default route to W-Fi and Wi-Fi transition from =E2=80=9CReady=E2=
-=80=9D to =E2=80=9COnline=E2=80=9D.
-> - How many back-to-back WiSPR failures are expected until another =
-technology / service takes over the default route?
+> Connman Community:
 >=20
-> I also did a test in which I changed:
+> After spending some time yesterday digging in on this, it seems like =
+the =E2=80=98EnableOnlineToReadyTransition=E2=80=99 option should, in =
+theory, do what=E2=80=99s desired. However, I can see that there is at =
+least one immediate obstacle that also explains the default service =
+=E2=80=9CReady=E2=80=9D / =E2=80=9COnline=E2=80=9D flapping:
 >=20
-> * EnableOnlineToReadyTransition=3Dfalse
-> * SingleConnectedTechnology=3Dtrue
+>    1. ipv6.connman.net appears to be down.
 >=20
-> relative to the below. In this situation, Wi-Fi went crazy with its =
-link transitioning many times a second from associating to configuration =
-to ready to offline. The console became unusable with repeated:
+> Regarding (1), if I run 'wget -S =
+http://ipv6.connman.net/online/status.html -O -=E2=80=98, I see:
 >=20
->    IPv6: ADDRCONF(NETDEV_UP): wlan0: link is not ready
->    IPv6: ADDRCONF(NETDEV_CHANGE): wlan0: link becomes ready
+>    1. I see DNS resolution to 2001:8d8:8b4:c861:5826:fa5f:6690:0 and =
+87.106.208.187.
+>    2. The connection to 2001:8d8:8b4:c861:5826:fa5f:6690:0 eventually =
+times out.
+>    3. A connection to 87.106.208.187 succeeds thereafter which then =
+returns a 404: Not found HTTP error.
 >=20
-> messages.
+> Is there a monitor process for ipv6.connman.net? If not, can it be =
+restarted manually?
 
-
-Hmm. I would really prefer you abandon wpa_supplicant and you use iwd. =
-Some things that wpa_supplicant does and various hardware drivers are =
-doing is insane and we paper over it. Only when starting with iwd, we =
-can address things properly.
+that is not good. I will look into this.
 
 Regards
 
