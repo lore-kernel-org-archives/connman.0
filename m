@@ -1,136 +1,97 @@
-Received: from mohas.pair.com (mohas.pair.com [209.68.5.112])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F457210B
-	for <connman@lists.linux.dev>; Tue,  7 Nov 2023 23:20:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nuovations.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nuovations.com
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: from mohas.pair.com (localhost [127.0.0.1])
-	by mohas.pair.com (Postfix) with ESMTP id 8249D73289;
-	Tue,  7 Nov 2023 18:20:30 -0500 (EST)
-Received: from [IPv6:2601:647:5a00:15c1:3e:a2c6:408d:1da4] (unknown [IPv6:2601:647:5a00:15c1:3e:a2c6:408d:1da4])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mohas.pair.com (Postfix) with ESMTPSA id 258E873297;
-	Tue,  7 Nov 2023 18:20:30 -0500 (EST)
-Content-Type: text/plain;
-	charset=utf-8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F4021378
+	for <connman@lists.linux.dev>; Wed,  8 Nov 2023 02:33:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bk1TLp+o"
+Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-28035cf6a30so5082436a91.3
+        for <connman@lists.linux.dev>; Tue, 07 Nov 2023 18:33:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1699410783; x=1700015583; darn=lists.linux.dev;
+        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=rxmNh6sjP4obhuNTtHjWbcBuVwdRyAHOqO4IaP5HoNQ=;
+        b=bk1TLp+oV3Ah3izxxv1JvPZSKn2T92C59CTO9wqPEfwC11csQuALmCzJWrg4/QfI5f
+         2TdDOEbq+/cX1N3xOYs+6PyXxokBz2Sct9P2cMqysZ2xAfkQeQqmkmBwsXwAq7j+Z8pF
+         4tG4Wj9lf//dYfN69uZngwlNgdUHB4ygIYSoEkhr1tjDM9WD+Av8u4iZ8C7iKWRK44F9
+         JbAGSjcJYwk6zkUy2qkadBQTsnwiSQFDFtgqxV+mihuKkQEt28ta3IGE2HlQuQiCV42h
+         /1GkU4A4y5IGC+a9sMS7anExVejEgprGxA/T3WQDDEVcbgxFM69L2asyXHEn0KQwlN+Y
+         FC6A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1699410783; x=1700015583;
+        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=rxmNh6sjP4obhuNTtHjWbcBuVwdRyAHOqO4IaP5HoNQ=;
+        b=gS0Bjye+ztic385IGFTY8E9qHeQPdF8QJYfBjMTUfHP18uw04Z5hEPKkf9REfXVDsp
+         a7pPDxKYiNWPMQeNx+ynAirSphdMaXh0ZZTybme3RrxHZDoclkWoDoMLSnH3YsK2Tx45
+         wWJU11zaqHXwsvaG68PxNYDZfSyYQOwi1INguUS18X9aprQQowptzsae4qmmFBMbP9nu
+         quC5MYQLcm8cLFvd9buN3XpELRijsSp4Jr86HzOTowme/3hKF3YWXk55PFAw0ohiUHRH
+         URdzDrUNfIJkjya0ZAZOQEJJqJLaslA9JOz1J9BSLROOVzXplBUlDP4nG8fjzaGoiq5Z
+         wFPg==
+X-Gm-Message-State: AOJu0YzwxVtdWo7irnR79fzzqC6BAP+EaBhBhaESz1gZv1+2H4HNeVp1
+	Ttr7WSX0WkdgHI4OdSZ2pRg6puwPaFFhe8cxx+Hn6LlXjwM=
+X-Google-Smtp-Source: AGHT+IFoCVzcdwaMmuvi0NeZvvbV60PFwOoBBE2X+Z3JzqZmi7QHfHWiWSOgmcp2MDierax6GtqnttCHTbbQEEQlsww=
+X-Received: by 2002:a17:90b:3887:b0:280:1dca:f6a3 with SMTP id
+ mu7-20020a17090b388700b002801dcaf6a3mr522732pjb.43.1699410783038; Tue, 07 Nov
+ 2023 18:33:03 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0 (Mac OS X Mail 13.4 \(3608.120.23.2.4\))
-Subject: Re: [PATCH 2/3] gweb: Refactor 'parse_request_and_proxy_urls'.
-From: Grant Erickson <gerickson@nuovations.com>
-In-Reply-To: <235418B6-F510-4D71-8118-F9FFE915CACD@nuovations.com>
-Date: Tue, 7 Nov 2023 15:20:29 -0800
-Cc: connman@lists.linux.dev,
- Marcel Holtmann <marcel@holtmann.org>
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <3AEDB656-B6C6-4137-ADD9-231C8B8B360C@nuovations.com>
-References: <88316395-8306-467E-A9D0-FD0B0F9F8387@nuovations.com>
- <E7544151-8840-4E97-A5BF-49569088E6D9@nuovations.com>
- <321bbd59-0a7b-4624-8e7f-71f94356d14e@gmail.com>
- <FD6AA3D4-E59E-47A4-BEA1-578BC55F30D7@nuovations.com>
- <a936fc23-1af2-467b-aeb4-317314370a12@gmail.com>
- <235418B6-F510-4D71-8118-F9FFE915CACD@nuovations.com>
-To: Denis Kenzior <denkenz@gmail.com>
-X-Mailer: Apple Mail (2.3608.120.23.2.4)
-X-Scanned-By: mailmunge 3.11 on 209.68.5.112
+MIME-Version: 1.0
+From: KeithG <ys3al35l@gmail.com>
+Date: Tue, 7 Nov 2023 21:32:51 -0500
+Message-ID: <CAG17S_MvGT+fP8-L2zSazgenKS1kkm0hYHLGJnrFAan2xpMQqQ@mail.gmail.com>
+Subject: Feature Request scan SSIDs when iwd is in ap mode
+To: connman@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-Denis,
+We would like connman to be able to scan for SSIDs when iwd is set up
+via iwctl as an AP.
 
-Minor update, 2/3 had some style issues; this has been re-submitted as a =
-v3:
+I last asked for this back in 2022 and a patch was developed by a
+lister which did not quite work. We are still interested in this
+functionality. Is there someone here that would be interested in
+developing it? As I understand it, the patch is to the connman IWD
+plugin to have connman issue a scan command to iwd to be able to get a
+live listing of SSIDs.
 
-   * [PATCH 2/3 v3] gweb: Refactor 'parse_request_and_proxy_urls'.
+What we do now: We have connman and iwd managing our network
+interfaces. If there is no ethernet connected, (with connman and iwd
+running) we launch hostapd on a known IP address with a SSID name and
+key. We then connect to our headless device on that known IP. Once
+this is up, we are served a web page on that address where we can
+select an SSID and set a password. We then reboot and the headless
+device connects to the SSID. When it reboots, connman connects to the
+selected SSID.
 
-Best,
+What we would like to be able to do: Get rid of hostapd and Set iwd
+into AP mode and then have connman be able to issue and receive a
+'scan' command to have a live scan of available SSIDs. This feature is
+intended for initial provisioning.
+What happens now if we try this: connman has a store of the SSIDs from
+when it scanned them before iwd was put into AP mode so signal
+strength and availability are not 'current'. If we rescan, these SSIDs
+vanish as connman does not communicate to iwd to be able to get a live
+scan. When we issue the scan command we get this:
+~# connmanctl scan wifi
+Error /net/connman/technology/wifi: Did not receive a reply. Possible
+causes include: the remote application did not send a reply, the
+message bus security policy blocked the reply, the reply timeout
+expired, or the network connection was broken.
 
-Grant
+The command line inputs to iwd that we would like connman to send are:
+~# iwctl ap wlan0 scan
+~# iwctl ap wlan0 get-networks
+Somehow it is sending these to get a listing when iwctl is in station  mode:
+~# iwctl station wlan0 scan
+~# iwctl station wlan0 get-networks
 
-On Nov 7, 2023, at 2:58 PM, Grant Erickson <gerickson@nuovations.com> =
-wrote:
->=20
-> Denis,
->=20
-> Thank you for the feedback on this series, it has been submitted as v2 =
-patches:
->=20
->    * [PATCH 1/3 v2] gweb: Rename 'parse_url'.
->    * [PATCH 2/3 v2] gweb: Refactor 'parse_request_and_proxy_urls'.
->    * [PATCH 3/3 v2] gweb: Add documentation to URL parsing functions.
->=20
-> Best,
->=20
-> Grant
->=20
-> --=20
-> Principal
-> Nuovations
->=20
-> gerickson@nuovations.com
-> http://www.nuovations.com/
->=20
-> On Nov 7, 2023, at 8:57 AM, Denis Kenzior <denkenz@gmail.com> wrote:
->>>>> +			if (scheme) {
->>>>> +				*scheme =3D g_strndup(*cursor, =
-scheme_length);
->>>>=20
->>>> g_strndup does not fail.
->>> It=E2=80=99s based on malloc and if I run rlimits (such as with =
-monit) or other infrastructure, malloc will fail and consequently, =
-g_strndup will fail, correct?
->>=20
->> No.  All glib functions that do not use g_try_ will not fail at =
-runtime. Instead they will abort:
->>=20
->> https://github.com/GNOME/glib/blob/main/glib/gmem.c#L87
->>=20
->> In the case of g_strndup/g_strdup, it uses g_new.
->>=20
->>> I struggled with this one. There seems to be countervailing style on =
-this front. In some places, malloc-backed allocators are checking for =
-null and returning -ENOMEM, in other places they are checking and are =
-returning -EINVAL (including the prior implementation of parse_url), and =
-in other places, there are no checks.
->>> Is there a preferred, go-forward style?
->>=20
->> So the guidance in other projects (oFono, iwd, ell, and maybe BlueZ) =
-is to avoid using g_try_* for allocations less than 1 page.  Small =
-allocations simply do not fail on Linux.
->>=20
->> For any functions that use g_new/g_malloc/etc, checking for =
-out-of-memory conditions is simply wrong and shouldn't be done.
->>=20
->>>>> +	// Since it's the easiest to detect, first rule out an IPv6
->>>>> +	// address. The only reliably way to do so is to search for the
->>>>> +	// delimiting '[' and ']'. Searching for ':' may yield one of =
-the
->>>>> +	// other forms above (for example, (2), (5), or (7).
->>>>=20
->>>> This is not the preferred comment style for a multi-line comment.
->>> Will update these. Should checkpatch.pl be updated to cover this =
-since it did not flag it?
->>=20
->> I'm surprised checkpatch does flag these.  Maybe there's some command =
-line option missing?
->>=20
->>>> Why not make a temporary to hold scheme using g_autofree and only =
-assign *scheme on success?
->>> I=E2=80=99m not previously-familiar with g_autofree and do not note =
-any current uses of it in the code base. Happy to take a look.
->>=20
->> Somewhat recent addition.  Also equivalent in ell is _auto_(l_free)
->=20
->=20
-
---=20
-Principal
-Nuovations
-
-gerickson@nuovations.com
-http://www.nuovations.com/
-
+From our perspective it would be awesome if it worked as it currently
+does when iwd is in station mode:
+~# connmanctl scan wifi
+~# connmanctl services
