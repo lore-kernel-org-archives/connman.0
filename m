@@ -1,103 +1,117 @@
-Received: from mail.holtmann.org (coyote.holtmann.net [212.227.132.17])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0FEBB199B2
-	for <connman@lists.linux.dev>; Wed,  8 Nov 2023 18:41:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=holtmann.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=holtmann.org
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: from smtpclient.apple (p4ff9f475.dip0.t-ipconnect.de [79.249.244.117])
-	by mail.holtmann.org (Postfix) with ESMTPSA id 7B972CECD4;
-	Wed,  8 Nov 2023 19:41:48 +0100 (CET)
-Content-Type: text/plain;
-	charset=utf-8
+Received: from mail-oa1-f52.google.com (mail-oa1-f52.google.com [209.85.160.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 685545257
+	for <connman@lists.linux.dev>; Thu,  9 Nov 2023 03:14:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="N3kbYRJ2"
+Received: by mail-oa1-f52.google.com with SMTP id 586e51a60fabf-1f03db0a410so216359fac.1
+        for <connman@lists.linux.dev>; Wed, 08 Nov 2023 19:14:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1699499675; x=1700104475; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=KplTtPKn5zllPm6uMSqXcX+XtTnbnE6D4uOppxBkdBQ=;
+        b=N3kbYRJ2vUU1fV8DlBN5XNmlfPDmt3IV8bcuVd9FpuXDXXjzyGv1HmhFpGqD51Xn4o
+         mVusesa2Zs2K5Nz2XGA0FphL5Uu6OxDeAn6fkCD9gUHz+dbrzxWFTLJLYME6dkwpI879
+         2kTz0iIjvQkPACj7wY4UgRL5PviAVZaeqzc/KawqndyoHCBldT59mA7edRIfSak1h2ZV
+         TNd9lC0o0zhsusHqGKe4O9TZTnwZWHyKER+hB4D6HzTtee9NYo55HNphovQxSjIgyJSp
+         QOnQrMF60UqOZ6p0NbElTi7yMESkpmrxlglkQH3qoUJ03aV80a8NvMWfSwfacj1UZkix
+         EFIg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1699499675; x=1700104475;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=KplTtPKn5zllPm6uMSqXcX+XtTnbnE6D4uOppxBkdBQ=;
+        b=ix5rgAM3LgRcorq+b1TadZbAxe0MF3c98/0HjM+8IdU6rGpPxXkmm/aIugVIdDHtwd
+         4AgUjUZ6LvdzObphDX1qYW9uByRcpne1tAJAyqhFxS27uit45MtMU70IVSirsAXY6Gfp
+         qSZX63hBg3k7+XhDqV1rLkzobGNk42Kf++VrqjcgSk10ebM/9pHPM2d5HR8kYBuzQ8/F
+         tsvI6ROV6Su5eAs0VtNpDLMHlkIlewDMX2j5uiA9LbdvoZCmqPVM0MulnQZHegkNqDiO
+         MWisT4/M5XPQUBPGSMF3Q6MSQG44QlPdm42y8Z8TpCB8U+6SQY0+cp99yNc2s6aTROnZ
+         zfBw==
+X-Gm-Message-State: AOJu0YwSmjh+z1vQb0DJ7UZ61xwX13AkwregMM52rKv2Towa+m7NDZPT
+	uu3cKiJxX5DI0yjl9IH7dZP8Pqccr9s=
+X-Google-Smtp-Source: AGHT+IHlYk3z0ktTAIHF53WfhKsHWJVrYNboDmn05wRxx+8CiYkqId1gFTTt59/cXxpdzvwXpBe/2Q==
+X-Received: by 2002:a05:6870:80d1:b0:1ef:b109:b8ca with SMTP id r17-20020a05687080d100b001efb109b8camr4112137oab.34.1699499675315;
+        Wed, 08 Nov 2023 19:14:35 -0800 (PST)
+Received: from [172.16.49.130] (cpe-70-114-247-242.austin.res.rr.com. [70.114.247.242])
+        by smtp.googlemail.com with ESMTPSA id a2-20020a9d3e02000000b006ce2db9e6c4sm2158655otd.36.2023.11.08.19.14.34
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 08 Nov 2023 19:14:34 -0800 (PST)
+Message-ID: <04317b94-6243-40c5-a852-01461f803f97@gmail.com>
+Date: Wed, 8 Nov 2023 21:14:31 -0600
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3774.100.2.1.4\))
-Subject: Re: Clarifying ConnMan Configuration Multi-technology Feature Fusion
- and Online/Ready Transitions
-From: Marcel Holtmann <marcel@holtmann.org>
-In-Reply-To: <C03F5DCF-9E72-40BB-AC52-04BBAB498BF9@nuovations.com>
-Date: Wed, 8 Nov 2023 19:41:38 +0100
-Cc: connman@lists.linux.dev,
- Denis Kenzior <denkenz@gmail.com>
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <A297893B-FD81-42AB-82DB-AFA22387A28A@holtmann.org>
-References: <2CD24062-D2D6-4E13-A6A9-7EA130D38131@nuovations.com>
- <47128531-37B9-4428-ADE4-6A2251030BF9@nuovations.com>
- <E9802F66-73D0-49B5-9884-027B757BAE7B@holtmann.org>
- <C03F5DCF-9E72-40BB-AC52-04BBAB498BF9@nuovations.com>
-To: Grant Erickson <gerickson@nuovations.com>
-X-Mailer: Apple Mail (2.3774.100.2.1.4)
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/3 v4] gweb: Refactor 'parse_request_and_proxy_urls'.
+Content-Language: en-US
+To: Grant Erickson <gerickson@nuovations.com>, connman@lists.linux.dev
+Cc: Marcel Holtmann <marcel@holtmann.org>
+References: <88316395-8306-467E-A9D0-FD0B0F9F8387@nuovations.com>
+ <E7544151-8840-4E97-A5BF-49569088E6D9@nuovations.com>
+ <F9934E45-7ABB-40D7-9631-9BC6D1406EAC@nuovations.com>
+ <B19D916B-9B73-4BBD-8373-971BBC13AE91@nuovations.com>
+From: Denis Kenzior <denkenz@gmail.com>
+In-Reply-To: <B19D916B-9B73-4BBD-8373-971BBC13AE91@nuovations.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
 Hi Grant,
 
->>> I=E2=80=99ve done more testing on this front with some unexpected =
-results using the configuration below:
->>>=20
->>> * I have an Ethernet cable connected to the device under test (DUT) =
-to an eight port desktop Ethernet switch which, in turn, is connected to =
-another local switch which is yet another switch hop away from the =
-backbone and the router.
->>> - If I leave the DUT connected to the desktop switch but disconnect =
-the desktop switch from its parent switch and then monitor, I eventually =
-see repeated WiSPR failures over Ethernet (404) but I never see Ethernet =
-cede the default route to W-Fi and Wi-Fi transition from =E2=80=9CReady=E2=
-=80=9D to =E2=80=9COnline=E2=80=9D.
->>> - How many back-to-back WiSPR failures are expected until another =
-technology / service takes over the default route?
->>>=20
->>> I also did a test in which I changed:
->>>=20
->>> * EnableOnlineToReadyTransition=3Dfalse
->>> * SingleConnectedTechnology=3Dtrue
->>>=20
->>> relative to the below. In this situation, Wi-Fi went crazy with its =
-link transitioning many times a second from associating to configuration =
-to ready to offline. The console became unusable with repeated:
->>>=20
->>>  IPv6: ADDRCONF(NETDEV_UP): wlan0: link is not ready
->>>  IPv6: ADDRCONF(NETDEV_CHANGE): wlan0: link becomes ready
->>>=20
->>> messages.
->>=20
->> Hmm. I would really prefer you abandon wpa_supplicant and you use =
-iwd. Some things that wpa_supplicant does and various hardware drivers =
-are doing is insane and we paper over it. Only when starting with iwd, =
-we can address things properly.
->=20
-> Marcel,
->=20
-> I=E2=80=99d like to make that move; unfortunately, for the current =
-project I am engaged on, I am locked on linux-4.9.212, glibc-2.28, and =
-GCC 8.x. Unfortunately, with that combination, the latest version of ELL =
-I can get to build is 0.28 and the latest version of IWD won=E2=80=99t =
-compile against it. In parallel, the latest version of ELL fails with a =
-number of errors (I=E2=80=99ll follow up on those later per Denis) and =
-the version of ELL included with IWD fails with an overlapping but also =
-unique set of errors.
+On 11/8/23 12:36, Grant Erickson wrote:
+> Prior to this change, 'parse_request_and_proxy_urls' failed to correctly
+> handle RFC 2732-compliant URLs with bracketed IPv6 addresses such as:
+> 
+>      http://[2001:db8:4006:812::200e]:8080/online/status.html
+> 
+> Such bracketing is necessary when using IPv6 addresses to disambiguate
+> the host component from the port component due to the presence of the
+> colon (':') in IPv6 addresses. As such, prior to this change, such URLs
+> resulted in the brackets and the IPv6 address being passed to gresolv
+> which, unsurprisingly, failed to successfully forward resolve since the
+> resulting host was neither a valid host name nor a valid IPv6 address.
+> 
+> As a result, support for such RFC 2732-compliant bracketed IPv6 addresses
+> has been added with this change which refactors the previously-monolithic
+> 'parse_request_and_proxy_urls' into several, focused functions:
+> 
+>      * parse_request_and_proxy_urls
+>          - parse_request_url
+>              o parse_url_components
+>                  + parse_url_scheme
+>                  + parse_url_host_and_port
+>                      * parse_url_host
+>                      * parse_url_port
+>                  + parse_url_path
+>          - parse_proxy_url
+> 
+> In particular, 'parse_url_host' is the new function responsible for parsing
+> the host and correctly handling one of seven possible combinations of host
+> and port, two of which include bracketed IPv6  addresses.
+> 
+> In addition, 'parse_url_host' will now return an error on an empty, non-
+> existent host and 'parse_url_port' will return an error on invalid, out-of-
+> range ports.
+> ---
+>   gweb/gweb.c | 455 ++++++++++++++++++++++++++++++++++++++++++++--------
+>   1 file changed, 390 insertions(+), 65 deletions(-)
+> 
 
-this is the second time this week someone talks about a 4.x kernel. Your =
-kernel is almost 4 years old. And the original 4.9 is 7 years old. I =
-would be running around scared if I had to deploy such an old kernel. So =
-just ugh.
+You still have some lines > 80 characters in this patch and patch 3.  Also 
+there's a couple of comments which are not tab-indented (in 
+parse_request_and_proxy_urls).
 
-> Unfortunately, untangling all of that is more than the client is =
-willing to take on at the moment. I=E2=80=99ve recommended that they =
-pursue IWD after a kernel, glibc, toolchain update in a later effort.
+Other than that, for all three:
 
-I get that part, but the real problem is that wpa_supplicant is a real =
-mess. Look at its release cadence and or the lack of it. Denis and I =
-have solely focused on iwd in the last 7 years and never even tried to =
-fix anything in wpa_supplicant anymore. That might give you an idea on =
-what you are getting into there.
+Acked-By: Denis Kenzior <denkenz@gmail.com>
 
-Lets get ELL compile your kernel of choice. I am surprised it fails to =
-build, but I also don=E2=80=99t have any 4.x nor 5.x kernel flying =
-around anymore ;)
-
-Regards
-
-Marcel
-
+Regards,
+-Denis
