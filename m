@@ -1,19 +1,19 @@
 Received: from mohas.pair.com (mohas.pair.com [209.68.5.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E9791B28C
-	for <connman@lists.linux.dev>; Sat, 11 Nov 2023 18:59:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 065131C291
+	for <connman@lists.linux.dev>; Sat, 11 Nov 2023 18:59:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nuovations.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nuovations.com
 Authentication-Results: smtp.subspace.kernel.org; dkim=none
 Received: from mohas.pair.com (localhost [127.0.0.1])
-	by mohas.pair.com (Postfix) with ESMTP id 84BBD730FB
-	for <connman@lists.linux.dev>; Sat, 11 Nov 2023 13:59:36 -0500 (EST)
+	by mohas.pair.com (Postfix) with ESMTP id 35CBB730F3
+	for <connman@lists.linux.dev>; Sat, 11 Nov 2023 13:59:55 -0500 (EST)
 Received: from [IPv6:2601:647:5a00:15c1:34e1:cabf:fe5f:4f18] (unknown [IPv6:2601:647:5a00:15c1:34e1:cabf:fe5f:4f18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mohas.pair.com (Postfix) with ESMTPSA id 3B3E573122
-	for <connman@lists.linux.dev>; Sat, 11 Nov 2023 13:59:36 -0500 (EST)
+	by mohas.pair.com (Postfix) with ESMTPSA id F32DE7310B
+	for <connman@lists.linux.dev>; Sat, 11 Nov 2023 13:59:54 -0500 (EST)
 From: Grant Erickson <gerickson@nuovations.com>
 Content-Type: text/plain;
 	charset=us-ascii
@@ -24,242 +24,128 @@ List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 Mime-Version: 1.0 (Mac OS X Mail 13.4 \(3608.120.23.2.4\))
-Subject: [PATCH 4/8] gweb: Add documentation to TCP connect timeout-related
- functions.
-Date: Sat, 11 Nov 2023 10:59:36 -0800
+Subject: [PATCH 5/8] main: Introduce the 'OnlineCheckConnectTimeout' setting.
+Date: Sat, 11 Nov 2023 10:59:54 -0800
 References: <7931960F-4A3F-448E-BDDE-773E48A1789B@nuovations.com>
 To: connman@lists.linux.dev
 In-Reply-To: <7931960F-4A3F-448E-BDDE-773E48A1789B@nuovations.com>
-Message-Id: <39D91814-3E36-4DD1-A16A-C8ED4C637103@nuovations.com>
+Message-Id: <23685D88-4C18-4B9D-A011-44B0AEBEF953@nuovations.com>
 X-Mailer: Apple Mail (2.3608.120.23.2.4)
 X-Scanned-By: mailmunge 3.11 on 209.68.5.112
 
-This adds function documentation to the following TCP connect timeout-
-related functions:
-
-    * connect_timeout_cb
-    * add_connect_timeout
-    * cancel_connect_timeout
-    * close_session_transport
-    * connect_session_transport
-    * g_web_set_connect_timeout
-    * g_web_get_connect_timeout
+This introduces the 'OnlineCheckConnectTimeout' setting which is the
+time, in decimal seconds (for example, 12.3), to wait for a successful
+TCP connection to the host associated with "OnlineCheckIPv4URL" or
+"OnlineCheckIPv6URL". Connections that take longer than this will be
+aborted. The default value is zero ('0') which indicates that no =
+explicit
+connection timeout will be used, leaving the timeout to the underlying
+operating system and network stack.
 ---
- gweb/gweb.c | 151 ++++++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 151 insertions(+)
+ src/main.c | 30 ++++++++++++++++++++++++++++++
+ 1 file changed, 30 insertions(+)
 
-diff --git a/gweb/gweb.c b/gweb/gweb.c
-index 584f0106c5ee..1463b588d411 100644
---- a/gweb/gweb.c
-+++ b/gweb/gweb.c
-@@ -177,6 +177,27 @@ static inline void call_route_func(struct =
-web_session *session)
- 				session->web->index, =
-session->user_data);
- }
+diff --git a/src/main.c b/src/main.c
+index d6863e668b38..e9419a603eba 100644
+--- a/src/main.c
++++ b/src/main.c
+@@ -47,6 +47,7 @@
+ #define DEFAULT_ONLINE_CHECK_IPV4_URL =
+"http://ipv4.connman.net/online/status.html"
+ #define DEFAULT_ONLINE_CHECK_IPV6_URL =
+"http://ipv6.connman.net/online/status.html"
 =20
-+/**
-+ *  @brief
-+ *    Handle a TCP connection timeout.
-+ *
-+ *  This callback handles a TCP connection timeout for a GWeb
-+ *  connection. The session transport is closed and the GWeb
-+ *  transaction is terminated with
-+ *  #GWEB_HTTP_STATUS_CODE_REQUEST_TIMEOUT status.
-+ *
-+ *  param[in,out]  user_data  A pointer to the mutable GWeb session
-+ *                            for which the TCP connection timed out.
-+ *
-+ *  @returns
-+ *    G_SOURCE_REMOVE (that is, FALSE) unconditionally, indicating
-+ *    that the timeout source that triggered this callback should be
-+ *    removed on callback completion.
-+ *
-+ *  @sa add_connect_timeout
-+ *  @sa cancel_connect_timeout
-+ *
-+ */
- static gboolean connect_timeout_cb(gpointer user_data)
- {
- 	struct web_session *session =3D user_data;
-@@ -196,6 +217,30 @@ static gboolean connect_timeout_cb(gpointer =
-user_data)
- 	return G_SOURCE_REMOVE;
- }
++#define DEFAULT_ONLINE_CHECK_CONNECT_TIMEOUT (0 * 1000)
+ /*
+  * We set the integer to 1 sec so that we have a chance to get
+  * necessary IPv6 router advertisement messages that might have
+@@ -110,6 +111,7 @@ static struct {
+ 	bool enable_online_to_ready_transition;
+ 	char *online_check_ipv4_url;
+ 	char *online_check_ipv6_url;
++	unsigned int online_check_connect_timeout_ms;
+ 	unsigned int online_check_initial_interval;
+ 	unsigned int online_check_max_interval;
+ 	char *online_check_interval_style;
+@@ -141,6 +143,7 @@ static struct {
+ 	.enable_online_to_ready_transition =3D false,
+ 	.online_check_ipv4_url =3D NULL,
+ 	.online_check_ipv6_url =3D NULL,
++	.online_check_connect_timeout_ms =3D =
+DEFAULT_ONLINE_CHECK_CONNECT_TIMEOUT,
+ 	.online_check_initial_interval =3D =
+DEFAULT_ONLINE_CHECK_INITIAL_INTERVAL,
+ 	.online_check_max_interval =3D =
+DEFAULT_ONLINE_CHECK_MAX_INTERVAL,
+ 	.online_check_interval_style =3D NULL,
+@@ -172,6 +175,7 @@ static struct {
+ #define CONF_ENABLE_ONLINE_TO_READY_TRANSITION =
+"EnableOnlineToReadyTransition"
+ #define CONF_ONLINE_CHECK_IPV4_URL      "OnlineCheckIPv4URL"
+ #define CONF_ONLINE_CHECK_IPV6_URL      "OnlineCheckIPv6URL"
++#define CONF_ONLINE_CHECK_CONNECT_TIMEOUT "OnlineCheckConnectTimeout"
+ #define CONF_ONLINE_CHECK_INITIAL_INTERVAL "OnlineCheckInitialInterval"
+ #define CONF_ONLINE_CHECK_MAX_INTERVAL     "OnlineCheckMaxInterval"
+ #define CONF_ONLINE_CHECK_INTERVAL_STYLE "OnlineCheckIntervalStyle"
+@@ -204,6 +208,7 @@ static const char *supported_options[] =3D {
+ 	CONF_ENABLE_ONLINE_TO_READY_TRANSITION,
+ 	CONF_ONLINE_CHECK_IPV4_URL,
+ 	CONF_ONLINE_CHECK_IPV6_URL,
++	CONF_ONLINE_CHECK_CONNECT_TIMEOUT,
+ 	CONF_ONLINE_CHECK_INITIAL_INTERVAL,
+ 	CONF_ONLINE_CHECK_MAX_INTERVAL,
+ 	CONF_ONLINE_CHECK_INTERVAL_STYLE,
+@@ -338,6 +343,7 @@ static void parse_config(GKeyFile *config)
+ 	char *string;
+ 	gsize len;
+ 	int integer;
++	double real;
 =20
-+/**
-+ *  @brief
-+ *    Add a TCP connection timeout.
-+ *
-+ *  This attempts to add TCP connection timeout and callback to the
-+ *  specified GWeb session. The timeout is successfully added if @a
-+ *  session is non-null and @a timeout_ms is greater than zero.
-+ *
-+ *  @param[in,out]  session     A pointer to the mutable GWeb session
-+ *                              to add the TCP connection timeout
-+ *                              callback to.
-+ *  param[in]       timeout_ms  The time, in milliseconds, for the TCP
-+ *                              connection timeout. Connections that
-+ *                              take longer than this will be
-+ *                              aborted. A value of zero ('0')
-+ *                              indicates that no explicit connection
-+ *                              timeout will be used, leaving the
-+ *                              timeout to the underlying operating
-+ *                              system and its network stack.
-+ *
-+ *  @sa cancel_connect_timeout
-+ *  @sa connect_timeout_cb
-+ *
-+ */
- static void add_connect_timeout(struct web_session *session,
- 						guint timeout_ms)
- {
-@@ -208,6 +253,22 @@ static void add_connect_timeout(struct web_session =
-*session,
- 				connect_timeout_cb, session);
- }
+ 	if (!config) {
+ 		connman_settings.auto_connect =3D
+@@ -530,6 +536,27 @@ static void parse_config(GKeyFile *config)
 =20
-+/**
-+ *  @brief
-+ *    Cancel a TCP connection timeout.
-+ *
-+ *  This attempts to cancel a TCP connection timeout and callback from
-+ *  the specified GWeb session. The timeout is successfully cancelled
-+ *  if @a session is non-null and its associated connect timeout
-+ *  identifier is valid.
-+ *
-+ *  @param[in,out]  session     A pointer to the mutable GWeb session
-+ *                              on which to cancel the TCP connection
-+ *                              timeout.
-+ *
-+ *  @sa add_connect_timeout
-+ *
-+ */
- static void cancel_connect_timeout(struct web_session *session)
- {
- 	if (!session)
-@@ -221,6 +282,21 @@ static void cancel_connect_timeout(struct =
-web_session *session)
- 	}
- }
+ 	g_clear_error(&error);
 =20
-+/**
-+ *  @brief
-+ *    Close the TCP transport a GWeb sesssion.
-+ *
-+ *  This closes the TCP transport associated with the specified GWeb
-+ *  session, removing its transport and send watches and releasing the
-+ *  reference to the transport channel.
-+ *
-+ *  @param[in,out]  session     A pointer to the mutable GWeb session
-+ *                              for which to close the session
-+ *                              transport.
-+ *
-+ *  @sa connect_session_transport
-+ *
-+ */
- static void close_session_transport(struct web_session *session)
- {
- 	if (!session)
-@@ -531,6 +607,28 @@ bool g_web_get_close_connection(GWeb *web)
- 	return web->close_connection;
- }
++	/* OnlineCheckConnecTimeout */
++
++	real =3D g_key_file_get_double(config, "General",
++			CONF_ONLINE_CHECK_CONNECT_TIMEOUT, &error);
++	if (!error) {
++		if (real < 0) {
++			connman_warn("Incorrect online check connect =
+timeout %f",
++				real);
++			connman_settings.online_check_connect_timeout_ms =
+=3D
++				DEFAULT_ONLINE_CHECK_CONNECT_TIMEOUT;
++		} else
++			connman_settings.online_check_connect_timeout_ms =
+=3D
++				real * 1000;
++	}
++
++	if (connman_settings.online_check_connect_timeout_ms)
++		connman_info("Online check connect timeout %ums",
++			=
+connman_settings.online_check_connect_timeout_ms);
++
++	g_clear_error(&error);
++
+ 	string =3D __connman_config_get_string(config, "General",
+ 					CONF_ONLINE_CHECK_IPV4_URL, =
+&error);
+ 	if (!error)
+@@ -885,6 +912,9 @@ bool connman_setting_get_bool(const char *key)
 =20
-+/**
-+ *  @brief
-+ *    Set the TCP connection timeout.
-+ *
-+ *  This sets the TCP connection timeout, in milliseconds, for the
-+ *  specified GWeb object.
-+ *
-+ *  param[in,out]  web         A pointer to the mutable GWeb object
-+ *                             for which the TCP connection timeout is
-+ *                             to be set.
-+ *  param[in]      timeout_ms  The time, in milliseconds, for the TCP
-+ *                             connection timeout. Connections that
-+ *                             take longer than this will be
-+ *                             aborted. A value of zero ('0')
-+ *                             indicates that no explicit connection
-+ *                             timeout will be used, leaving the
-+ *                             timeout to the underlying operating
-+ *                             system and its network stack.
-+ *
-+ *  @sa g_web_get_connect_timeout
-+ *
-+ */
- void g_web_set_connect_timeout(GWeb *web, guint timeout_ms)
+ unsigned int connman_setting_get_uint(const char *key)
  {
- 	if (!web)
-@@ -541,6 +639,26 @@ void g_web_set_connect_timeout(GWeb *web, guint =
-timeout_ms)
- 	web->connect_timeout_ms =3D timeout_ms;
- }
++	if (g_str_equal(key, CONF_ONLINE_CHECK_CONNECT_TIMEOUT))
++		return connman_settings.online_check_connect_timeout_ms;
++
+ 	if (g_str_equal(key, CONF_ONLINE_CHECK_INITIAL_INTERVAL))
+ 		return connman_settings.online_check_initial_interval;
 =20
-+/**
-+ *  @brief
-+ *    Set the TCP connection timeout.
-+ *
-+ *  This sets the TCP connection timeout, in milliseconds, for the
-+ *  specified GWeb object.
-+ *
-+ *  param[in]  web             A pointer to the immutable GWeb object
-+ *                             for which the TCP connection timeout is
-+ *                             to be returned.
-+ *
-+ *  @returns
-+ *    The TCP connection timeout, in milliseconds. A value of zero
-+ *    ('0') indicates that no explicit connection timeout has been
-+ *    set, leaving the timeout to the underlying operating system and
-+ *    its network stack.
-+ *
-+ *  @sa g_web_set_connect_timeout
-+ *
-+ */
- guint g_web_get_connect_timeout(const GWeb *web)
- {
- 	guint timeout_ms =3D 0;
-@@ -1126,6 +1244,39 @@ static inline int bind_socket(int sk, int index, =
-int family)
- 	return err;
- }
-=20
-+/**
-+ *  @brief
-+ *    Establish TCP connection for a GWeb session.
-+ *
-+ *  This attempts to establish a TCP connection for the specified GWeb
-+ *  session with the session-specified address family, peer address,
-+ *  and bound network interface.
-+ *
-+ *  @param[in,out]  session             A pointer to the mutable GWeb
-+ *                                      session for which to establish
-+ *                                      the session transport.
-+ *  param[in]       connect_timeout_ms  The time, in milliseconds, for
-+ *                                      the TCP connection timeout.
-+ *                                      Connections that take longer
-+ *                                      than this will be aborted. A
-+ *                                      value of zero ('0') indicates
-+ *                                      that no explicit connection
-+ *                                      timeout will be used, leaving
-+ *                                      the timeout to the underlying
-+ *                                      operating system and its
-+ *                                      network stack.
-+ *
-+ *  @retval  0        If successful.
-+ *  @retval  -EIO     If a socket could not be created for the =
-specified
-+ *                    session address family, the socket could not be
-+ *                    bound to the specified session network
-+ *                    interface, or the socket could not connect to
-+ *                    the specified session peer address.
-+ *  @retval  -ENOMEM  If a GLib transport channel could not be created.
-+ *
-+ *  @sa close_session_transport
-+ *
-+ */
- static int connect_session_transport(struct web_session *session,
- 			guint connect_timeout_ms)
- {
 --=20
 2.42.0
 
