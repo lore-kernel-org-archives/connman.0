@@ -1,19 +1,19 @@
 Received: from mohas.pair.com (mohas.pair.com [209.68.5.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4255F1B28C
-	for <connman@lists.linux.dev>; Sat, 11 Nov 2023 18:59:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E9791B28C
+	for <connman@lists.linux.dev>; Sat, 11 Nov 2023 18:59:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nuovations.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nuovations.com
 Authentication-Results: smtp.subspace.kernel.org; dkim=none
 Received: from mohas.pair.com (localhost [127.0.0.1])
-	by mohas.pair.com (Postfix) with ESMTP id A8B5B730CE
-	for <connman@lists.linux.dev>; Sat, 11 Nov 2023 13:59:15 -0500 (EST)
+	by mohas.pair.com (Postfix) with ESMTP id 84BBD730FB
+	for <connman@lists.linux.dev>; Sat, 11 Nov 2023 13:59:36 -0500 (EST)
 Received: from [IPv6:2601:647:5a00:15c1:34e1:cabf:fe5f:4f18] (unknown [IPv6:2601:647:5a00:15c1:34e1:cabf:fe5f:4f18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mohas.pair.com (Postfix) with ESMTPSA id 7386773108
-	for <connman@lists.linux.dev>; Sat, 11 Nov 2023 13:59:15 -0500 (EST)
+	by mohas.pair.com (Postfix) with ESMTPSA id 3B3E573122
+	for <connman@lists.linux.dev>; Sat, 11 Nov 2023 13:59:36 -0500 (EST)
 From: Grant Erickson <gerickson@nuovations.com>
 Content-Type: text/plain;
 	charset=us-ascii
@@ -24,214 +24,242 @@ List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 Mime-Version: 1.0 (Mac OS X Mail 13.4 \(3608.120.23.2.4\))
-Subject: [PATCH 3/8] gweb: Leverage TCP connect timeout.
-Date: Sat, 11 Nov 2023 10:59:15 -0800
+Subject: [PATCH 4/8] gweb: Add documentation to TCP connect timeout-related
+ functions.
+Date: Sat, 11 Nov 2023 10:59:36 -0800
 References: <7931960F-4A3F-448E-BDDE-773E48A1789B@nuovations.com>
 To: connman@lists.linux.dev
 In-Reply-To: <7931960F-4A3F-448E-BDDE-773E48A1789B@nuovations.com>
-Message-Id: <13557DEE-684A-4575-B186-47F3D8069C1B@nuovations.com>
+Message-Id: <39D91814-3E36-4DD1-A16A-C8ED4C637103@nuovations.com>
 X-Mailer: Apple Mail (2.3608.120.23.2.4)
 X-Scanned-By: mailmunge 3.11 on 209.68.5.112
 
-This leverages the GWeb TCP connect timeout member and getter and adds
-a new GLib TCP connect timeout identifier to the GWeb session object.
+This adds function documentation to the following TCP connect timeout-
+related functions:
 
-If the GWeb TCP connect timeout is greater than zero, a GLib connection
-timeout timer and callback are added to the session such that, when they
-expire, the in flight TCP connection is aborted and the session closure
-function invoked with 'GWEB_HTTP_STATUS_CODE_REQUEST_TIMEOUT'.
-
-A TCP connect timeout of zero ('0') indicates that no explicit =
-connection
-timeout will be used and no timer or callback added to the session, =
-leaving
-the timeout to the underlying operating system and its network stack.
+    * connect_timeout_cb
+    * add_connect_timeout
+    * cancel_connect_timeout
+    * close_session_transport
+    * connect_session_transport
+    * g_web_set_connect_timeout
+    * g_web_get_connect_timeout
 ---
- gweb/gweb.c | 99 +++++++++++++++++++++++++++++++++++++++++------------
- 1 file changed, 77 insertions(+), 22 deletions(-)
+ gweb/gweb.c | 151 ++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 151 insertions(+)
 
 diff --git a/gweb/gweb.c b/gweb/gweb.c
-index 5f09cb3a99cf..584f0106c5ee 100644
+index 584f0106c5ee..1463b588d411 100644
 --- a/gweb/gweb.c
 +++ b/gweb/gweb.c
-@@ -75,6 +75,7 @@ struct web_session {
- 	char *content_type;
-=20
- 	GIOChannel *transport_channel;
-+	guint connect_timeout;
- 	guint transport_watch;
- 	guint send_watch;
-=20
-@@ -133,6 +134,8 @@ struct _GWeb {
- #define debug(web, format, arg...)				\
- 	_debug(web, __FILE__, __func__, format, ## arg)
-=20
-+static void close_session_transport(struct web_session *session);
-+
- static void _debug(GWeb *web, const char *file, const char *caller,
- 						const char *format, ...)
- {
-@@ -154,6 +157,70 @@ static void _debug(GWeb *web, const char *file, =
-const char *caller,
- 	va_end(ap);
+@@ -177,6 +177,27 @@ static inline void call_route_func(struct =
+web_session *session)
+ 				session->web->index, =
+session->user_data);
  }
 =20
-+static inline void call_result_func(struct web_session *session, =
-guint16 status)
-+{
-+
-+	if (!session->result_func)
-+		return;
-+
-+	if (status !=3D GWEB_HTTP_STATUS_CODE_UNKNOWN)
-+		session->result.status =3D status;
-+
-+	session->result_func(&session->result, session->user_data);
-+
-+}
-+
-+static inline void call_route_func(struct web_session *session)
-+{
-+	if (session->route_func)
-+		session->route_func(session->address, =
-session->addr->ai_family,
-+				session->web->index, =
-session->user_data);
-+}
-+
-+static gboolean connect_timeout_cb(gpointer user_data)
-+{
-+	struct web_session *session =3D user_data;
-+
-+	debug(session->web, "session %p connect timeout after %ums",
-+			session, =
-g_web_get_connect_timeout(session->web));
-+
-+	session->connect_timeout =3D 0;
-+
-+	close_session_transport(session);
-+
-+	session->result.buffer =3D NULL;
-+	session->result.length =3D 0;
-+
-+	call_result_func(session, =
-GWEB_HTTP_STATUS_CODE_REQUEST_TIMEOUT);
-+
-+	return G_SOURCE_REMOVE;
-+}
-+
-+static void add_connect_timeout(struct web_session *session,
-+						guint timeout_ms)
-+{
-+	if (!session || !timeout_ms)
-+		return;
-+
-+	debug(session->web, "add connect timeout %u ms", timeout_ms);
-+
-+	session->connect_timeout =3D g_timeout_add(timeout_ms,
-+				connect_timeout_cb, session);
-+}
-+
-+static void cancel_connect_timeout(struct web_session *session)
-+{
-+	if (!session)
-+		return;
-+
-+	if (session->connect_timeout > 0) {
-+		g_source_remove(session->connect_timeout);
-+		session->connect_timeout =3D 0;
-+
-+		debug(session->web, "cancelled connect timeout");
-+	}
-+}
-+
++/**
++ *  @brief
++ *    Handle a TCP connection timeout.
++ *
++ *  This callback handles a TCP connection timeout for a GWeb
++ *  connection. The session transport is closed and the GWeb
++ *  transaction is terminated with
++ *  #GWEB_HTTP_STATUS_CODE_REQUEST_TIMEOUT status.
++ *
++ *  param[in,out]  user_data  A pointer to the mutable GWeb session
++ *                            for which the TCP connection timed out.
++ *
++ *  @returns
++ *    G_SOURCE_REMOVE (that is, FALSE) unconditionally, indicating
++ *    that the timeout source that triggered this callback should be
++ *    removed on callback completion.
++ *
++ *  @sa add_connect_timeout
++ *  @sa cancel_connect_timeout
++ *
++ */
+ static gboolean connect_timeout_cb(gpointer user_data)
+ {
+ 	struct web_session *session =3D user_data;
+@@ -196,6 +217,30 @@ static gboolean connect_timeout_cb(gpointer =
+user_data)
+ 	return G_SOURCE_REMOVE;
+ }
+=20
++/**
++ *  @brief
++ *    Add a TCP connection timeout.
++ *
++ *  This attempts to add TCP connection timeout and callback to the
++ *  specified GWeb session. The timeout is successfully added if @a
++ *  session is non-null and @a timeout_ms is greater than zero.
++ *
++ *  @param[in,out]  session     A pointer to the mutable GWeb session
++ *                              to add the TCP connection timeout
++ *                              callback to.
++ *  param[in]       timeout_ms  The time, in milliseconds, for the TCP
++ *                              connection timeout. Connections that
++ *                              take longer than this will be
++ *                              aborted. A value of zero ('0')
++ *                              indicates that no explicit connection
++ *                              timeout will be used, leaving the
++ *                              timeout to the underlying operating
++ *                              system and its network stack.
++ *
++ *  @sa cancel_connect_timeout
++ *  @sa connect_timeout_cb
++ *
++ */
+ static void add_connect_timeout(struct web_session *session,
+ 						guint timeout_ms)
+ {
+@@ -208,6 +253,22 @@ static void add_connect_timeout(struct web_session =
+*session,
+ 				connect_timeout_cb, session);
+ }
+=20
++/**
++ *  @brief
++ *    Cancel a TCP connection timeout.
++ *
++ *  This attempts to cancel a TCP connection timeout and callback from
++ *  the specified GWeb session. The timeout is successfully cancelled
++ *  if @a session is non-null and its associated connect timeout
++ *  identifier is valid.
++ *
++ *  @param[in,out]  session     A pointer to the mutable GWeb session
++ *                              on which to cancel the TCP connection
++ *                              timeout.
++ *
++ *  @sa add_connect_timeout
++ *
++ */
+ static void cancel_connect_timeout(struct web_session *session)
+ {
+ 	if (!session)
+@@ -221,6 +282,21 @@ static void cancel_connect_timeout(struct =
+web_session *session)
+ 	}
+ }
+=20
++/**
++ *  @brief
++ *    Close the TCP transport a GWeb sesssion.
++ *
++ *  This closes the TCP transport associated with the specified GWeb
++ *  session, removing its transport and send watches and releasing the
++ *  reference to the transport channel.
++ *
++ *  @param[in,out]  session     A pointer to the mutable GWeb session
++ *                              for which to close the session
++ *                              transport.
++ *
++ *  @sa connect_session_transport
++ *
++ */
  static void close_session_transport(struct web_session *session)
  {
  	if (!session)
-@@ -194,6 +261,8 @@ static void free_session(struct web_session =
-*session)
- 	if (session->resolv_action > 0)
- 		g_resolv_cancel_lookup(web->resolv, =
-session->resolv_action);
-=20
-+	cancel_connect_timeout(session);
-+
- 	close_session_transport(session);
-=20
- 	g_free(session->result.last_key);
-@@ -485,26 +554,6 @@ done:
- 	return timeout_ms;
+@@ -531,6 +607,28 @@ bool g_web_get_close_connection(GWeb *web)
+ 	return web->close_connection;
  }
 =20
--static inline void call_result_func(struct web_session *session, =
-guint16 status)
--{
--
--	if (!session->result_func)
--		return;
--
--	if (status !=3D GWEB_HTTP_STATUS_CODE_UNKNOWN)
--		session->result.status =3D status;
--
--	session->result_func(&session->result, session->user_data);
--
--}
--
--static inline void call_route_func(struct web_session *session)
--{
--	if (session->route_func)
--		session->route_func(session->address, =
-session->addr->ai_family,
--				session->web->index, =
-session->user_data);
--}
--
- static bool process_send_buffer(struct web_session *session)
++/**
++ *  @brief
++ *    Set the TCP connection timeout.
++ *
++ *  This sets the TCP connection timeout, in milliseconds, for the
++ *  specified GWeb object.
++ *
++ *  param[in,out]  web         A pointer to the mutable GWeb object
++ *                             for which the TCP connection timeout is
++ *                             to be set.
++ *  param[in]      timeout_ms  The time, in milliseconds, for the TCP
++ *                             connection timeout. Connections that
++ *                             take longer than this will be
++ *                             aborted. A value of zero ('0')
++ *                             indicates that no explicit connection
++ *                             timeout will be used, leaving the
++ *                             timeout to the underlying operating
++ *                             system and its network stack.
++ *
++ *  @sa g_web_get_connect_timeout
++ *
++ */
+ void g_web_set_connect_timeout(GWeb *web, guint timeout_ms)
  {
- 	GString *buf;
-@@ -915,6 +964,8 @@ static gboolean received_data(GIOChannel *channel, =
-GIOCondition cond,
- 	gsize bytes_read;
- 	GIOStatus status;
+ 	if (!web)
+@@ -541,6 +639,26 @@ void g_web_set_connect_timeout(GWeb *web, guint =
+timeout_ms)
+ 	web->connect_timeout_ms =3D timeout_ms;
+ }
 =20
-+	cancel_connect_timeout(session);
-+
- 	if (cond & (G_IO_NVAL | G_IO_ERR | G_IO_HUP)) {
- 		session->transport_watch =3D 0;
- 		session->result.buffer =3D NULL;
-@@ -1075,7 +1126,8 @@ static inline int bind_socket(int sk, int index, =
++/**
++ *  @brief
++ *    Set the TCP connection timeout.
++ *
++ *  This sets the TCP connection timeout, in milliseconds, for the
++ *  specified GWeb object.
++ *
++ *  param[in]  web             A pointer to the immutable GWeb object
++ *                             for which the TCP connection timeout is
++ *                             to be returned.
++ *
++ *  @returns
++ *    The TCP connection timeout, in milliseconds. A value of zero
++ *    ('0') indicates that no explicit connection timeout has been
++ *    set, leaving the timeout to the underlying operating system and
++ *    its network stack.
++ *
++ *  @sa g_web_set_connect_timeout
++ *
++ */
+ guint g_web_get_connect_timeout(const GWeb *web)
+ {
+ 	guint timeout_ms =3D 0;
+@@ -1126,6 +1244,39 @@ static inline int bind_socket(int sk, int index, =
 int family)
  	return err;
  }
 =20
--static int connect_session_transport(struct web_session *session)
-+static int connect_session_transport(struct web_session *session,
-+			guint connect_timeout_ms)
++/**
++ *  @brief
++ *    Establish TCP connection for a GWeb session.
++ *
++ *  This attempts to establish a TCP connection for the specified GWeb
++ *  session with the session-specified address family, peer address,
++ *  and bound network interface.
++ *
++ *  @param[in,out]  session             A pointer to the mutable GWeb
++ *                                      session for which to establish
++ *                                      the session transport.
++ *  param[in]       connect_timeout_ms  The time, in milliseconds, for
++ *                                      the TCP connection timeout.
++ *                                      Connections that take longer
++ *                                      than this will be aborted. A
++ *                                      value of zero ('0') indicates
++ *                                      that no explicit connection
++ *                                      timeout will be used, leaving
++ *                                      the timeout to the underlying
++ *                                      operating system and its
++ *                                      network stack.
++ *
++ *  @retval  0        If successful.
++ *  @retval  -EIO     If a socket could not be created for the =
+specified
++ *                    session address family, the socket could not be
++ *                    bound to the specified session network
++ *                    interface, or the socket could not connect to
++ *                    the specified session peer address.
++ *  @retval  -ENOMEM  If a GLib transport channel could not be created.
++ *
++ *  @sa close_session_transport
++ *
++ */
+ static int connect_session_transport(struct web_session *session,
+ 			guint connect_timeout_ms)
  {
- 	GIOFlags flags;
- 	int sk;
-@@ -1133,6 +1185,8 @@ static int connect_session_transport(struct =
-web_session *session)
- 				G_IO_OUT | G_IO_HUP | G_IO_NVAL | =
-G_IO_ERR,
- 						send_data, session);
-=20
-+	add_connect_timeout(session, connect_timeout_ms);
-+
- 	return 0;
- }
-=20
-@@ -1140,7 +1194,8 @@ static int create_transport(struct web_session =
-*session)
- {
- 	int err;
-=20
--	err =3D connect_session_transport(session);
-+	err =3D connect_session_transport(session,
-+			g_web_get_connect_timeout(session->web));
- 	if (err < 0)
- 		return err;
-=20
 --=20
 2.42.0
 
