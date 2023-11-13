@@ -1,45 +1,56 @@
-Received: from mail.nearlyone.de (mail.nearlyone.de [49.12.199.46])
+Received: from mohas.pair.com (mohas.pair.com [209.68.5.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5206D1DDDE
-	for <connman@lists.linux.dev>; Mon, 13 Nov 2023 14:40:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=monom.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=monom.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=monom.org header.i=@monom.org header.b="dDsZLS0P"
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 50A79E1A09
-	for <connman@lists.linux.dev>; Mon, 13 Nov 2023 15:33:30 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=monom.org; s=dkim;
-	t=1699886010; h=from:subject:date:message-id:to:mime-version:content-type:
-	 content-transfer-encoding:content-language;
-	bh=d0g8ZCqfOC5l2VcfJH04sG5cSYtHKCHmygTpJ5IYFcI=;
-	b=dDsZLS0Peuz+sNSVzIlCkX0zfBnreYMPNsSPfheuR7HRGh/8qCDn8vag23cIPmSiGQCx7f
-	Eyd/+RAonCA9WXCSt8VtZzOdry+Hl6qSBwvEtE4gw2tJIOHZ3dTdtbVn9Yt5twr5OCZKAf
-	Jm04uKoaiWizi6pca7xEeRh2YwPWPEMr7AjIHpe2mUb9CgJ+fKxmUkNQLxIOlwGxUbTz7X
-	h2GnRylEExLj1O66vuYmHFLAu62f0V1TEDNkDPDfvkFX3qElsCeUjAuh2/zzddwI0UgHal
-	x2Vb2fFbcy1y7JQqBVrF0UdKKpYrvW5ZSPkNjKOqLzd3yi7yJgAju8kgLnTy2Q==
-Message-ID: <b0e1c8ab-4157-4153-bc7c-529a54fbcd65@monom.org>
-Date: Mon, 13 Nov 2023 15:35:22 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BF1822F09
+	for <connman@lists.linux.dev>; Mon, 13 Nov 2023 18:38:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nuovations.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nuovations.com
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
+Received: from mohas.pair.com (localhost [127.0.0.1])
+	by mohas.pair.com (Postfix) with ESMTP id B51E3730EE
+	for <connman@lists.linux.dev>; Mon, 13 Nov 2023 13:38:29 -0500 (EST)
+Received: from [IPv6:2601:647:5a00:15c1:c8d5:962d:86fc:6954] (unknown [IPv6:2601:647:5a00:15c1:c8d5:962d:86fc:6954])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mohas.pair.com (Postfix) with ESMTPSA id 807F8730FE
+	for <connman@lists.linux.dev>; Mon, 13 Nov 2023 13:38:29 -0500 (EST)
+From: Grant Erickson <gerickson@nuovations.com>
+Content-Type: text/plain;
+	charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
+Mime-Version: 1.0 (Mac OS X Mail 13.4 \(3608.120.23.2.4\))
+Subject: When 'EnableOnlineCheck' Is Asserted Two Recurring IPv4 and One IPv6
+ Reachability Checks Get Scheduled
+Message-Id: <5B0B6864-28B9-4891-B30A-6024F9D8CED8@nuovations.com>
+Date: Mon, 13 Nov 2023 10:38:28 -0800
 To: connman@lists.linux.dev
-Content-Language: en-US
-From: Daniel Wagner <wagi@monom.org>
-Subject: libppp-compat.h missing in tar file
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Last-TLS-Session-Version: TLSv1.3
+X-Mailer: Apple Mail (2.3608.120.23.2.4)
+X-Scanned-By: mailmunge 3.11 on 209.68.5.112
 
-Hi,
+ConnMan Community:
 
-I noticed that the scripts/libppp-compath.h header file is missing in
-the tar file. The file is added to EXTRA_DIST variable but this seems
-not to be right. Where should it be listed?
+The latest issue I am jumping into in top-of-tree now that the two =
+heap-use-after-free issues have been
+addressed is "When 'EnableOnlineCheck' Is Asserted Two (2) Recurring =
+IPv4 and One (1) IPv6
+Reachability Checks Get Scheduled=E2=80=9D rather than one of each. Feel =
+free to track progress here:
 
-Thanks,
-Daniel
+    https://github.com/Nuovations/connman/issues/74
+
+Best,
+
+Grant
+
+--=20
+Principal
+Nuovations
+
+gerickson@nuovations.com
+http://www.nuovations.com/
+
