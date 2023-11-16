@@ -1,106 +1,116 @@
 Received: from mohas.pair.com (mohas.pair.com [209.68.5.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF63241768
-	for <connman@lists.linux.dev>; Tue, 14 Nov 2023 15:45:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD3267E
+	for <connman@lists.linux.dev>; Thu, 16 Nov 2023 01:03:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nuovations.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nuovations.com
 Authentication-Results: smtp.subspace.kernel.org; dkim=none
 Received: from mohas.pair.com (localhost [127.0.0.1])
-	by mohas.pair.com (Postfix) with ESMTP id 8A1C57313B
-	for <connman@lists.linux.dev>; Tue, 14 Nov 2023 10:45:04 -0500 (EST)
-Received: from [IPv6:2601:647:5a00:15c1:1977:2609:55c5:1eeb] (unknown [IPv6:2601:647:5a00:15c1:1977:2609:55c5:1eeb])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	by mohas.pair.com (Postfix) with ESMTP id 9A29373118
+	for <connman@lists.linux.dev>; Wed, 15 Nov 2023 20:03:00 -0500 (EST)
+Received: from localhost.localdomain (unknown [IPv6:2601:647:5a00:15c1:230d:b2c9:c388:f96b])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mohas.pair.com (Postfix) with ESMTPSA id 4FF1B73142
-	for <connman@lists.linux.dev>; Tue, 14 Nov 2023 10:45:04 -0500 (EST)
+	by mohas.pair.com (Postfix) with ESMTPSA id 5330373154
+	for <connman@lists.linux.dev>; Wed, 15 Nov 2023 20:03:00 -0500 (EST)
 From: Grant Erickson <gerickson@nuovations.com>
-Content-Type: text/plain;
-	charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+To: connman@lists.linux.dev
+Subject: [PATCH 00/17] Address Redundant IPv4 Reachability Checks
+Date: Wed, 15 Nov 2023 17:02:41 -0800
+Message-ID: <20231116010259.628527-1-gerickson@nuovations.com>
+X-Mailer: git-send-email 2.42.0
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0 (Mac OS X Mail 13.4 \(3608.120.23.2.4\))
-Subject: Re: When 'EnableOnlineCheck' Is Asserted Two Recurring IPv4 and One
- IPv6 Reachability Checks Get Scheduled
-Date: Tue, 14 Nov 2023 07:45:03 -0800
-References: <5B0B6864-28B9-4891-B30A-6024F9D8CED8@nuovations.com>
- <3497BF07-2F1A-4D75-A955-45BC604F022F@nuovations.com>
-To: connman@lists.linux.dev
-In-Reply-To: <3497BF07-2F1A-4D75-A955-45BC604F022F@nuovations.com>
-Message-Id: <A1E9F9EF-0B21-470D-AE8C-BBF1548ABB53@nuovations.com>
-X-Mailer: Apple Mail (2.3608.120.23.2.4)
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-Scanned-By: mailmunge 3.11 on 209.68.5.112
 
-On Nov 13, 2023, at 3:16 PM, Grant Erickson <gerickson@nuovations.com> =
-wrote:
-> On Nov 13, 2023, at 10:38 AM, Grant Erickson =
-<gerickson@nuovations.com> wrote:
->> The latest issue I am jumping into in top-of-tree now that the two =
-heap-use-after-free issues have been
->> addressed is "When 'EnableOnlineCheck' Is Asserted Two (2) Recurring =
-IPv4 and One (1) IPv6
->> Reachability Checks Get Scheduled=E2=80=9D rather than one of each. =
-Feel free to track progress here:
->>=20
->>   https://github.com/Nuovations/connman/issues/74
->=20
-> As each of the above probes come back around to =
-=E2=80=98complete_online_check' and then, eventually, =
-=E2=80=98reschedule_online_check', from a design perspective, we are =
-left with three opportunities to correct what is likely regarded as =
-misbehavior here:
->=20
->    1. Prevent two parallel outstanding IPv4 probes from ever being =
-rescheduled. However, this only handles the =
-=E2=80=98EnableOnlineToReadyTransition' is asserted case.
->        * Given this impartial solve, this seems like like a =
-non-starter.
->    2. Prevent the second outstanding IPv4 probe from being issued.
->        a. This would cover BOTH =E2=80=98EnableOnlineToReadyTransition' =
-being asserted AND not being asserted.
->        b. Infrastructure-wise, this would require more state in the =
-service module to track outstanding probes or different treatment the =
-WISPr module in '__connman_wispr_start' wherein an existing, in flight =
-context is displaced.
->             * =E2=80=98-EALREADY' could be returned in such a case.
->    3. Prevent the first outstanding IPv4 probe from completing once =
-the second outstanding IPv4 probe is issued:
->        a. This would also cover both EnableOnlineToReadyTransition =
-being asserted and not being asserted.
->        b. Again, in the WISPr module in =E2=80=98__connman_wispr_start',=
- when the existing =E2=80=98wp_context' context is displaced =
-=E2=80=98g_web_unref' would need to be called to destroy the GWeb =
-instance, closing the in flight connection which would ensure that the =
-first probe never completes, either successfully or unsuccessfully =
-(though you could argue the request should still be closed but perhaps =
-expanded to include system status, such as -ECANCELED, such that the =
-WISPr closure callback could elect to ignore the failure).
->=20
-> One could imagine a currently-absent API to help with some of these =
-use cases: '__connman_wispr_cancel(service, type)=E2=80=99.
+This addresses an issue in which, when 'EnableOnlineCheck' is
+asserted, two (2) concurrent IPv4 and one (1) IPv6 reachability checks
+get queued.
 
-I ended up prototyping approach (3) above, including implementing the =
-as-yet-missing '__connman_wispr_cancel(service, type)=E2=80=99, and it =
-appears to be working well with very tactical changes, per the raw and =
-annotated log traces at:
+The issue is addressed by introducing and leveraging
+'__connman_wispr_cancel' in 'cancel_online_check' to ensure that a
+pending or in-flight WISPr portal detection request or an "online"
+HTTP-based Internet reachability check is canceled not only in the
+service module but in the WISPr module as well.
 
-    =
-https://github.com/Nuovations/connman/issues/74#issuecomment-1810434718
+This prevents two concurrent, outstanding, and redundant IPv4 WISPr
+requests from being in-flight when EnableOnlineCheck is asserted.
 
-Patches forthcoming.
+Prior to these changes, this redundancy was set in motion by:
 
-Best,
+    1. The two back-to-back IPv4 probes get triggered by both of the
+       following paths:
 
-Grant
+       a. Triggered from 'default_changed' and
+          'start_wispr_if_connected'. This is the newer path,
+          chronologically, in the code base.
 
---=20
-Principal
-Nuovations
+       b. Triggered from 'service_ip_bound', 'address_updated', and
+          'start_online_check'. This is the older path, chronologically,
+          in the code base.
 
-gerickson@nuovations.com
-http://www.nuovations.com/
+    2. With the following commits addressed:
+
+       a. 812e171 ("Close three '__connman_wisp_start' failure closure
+          holes.")
+
+          * With this fix alone, at minimum, the first probe above (1)
+            would have resulted, eventually in a failure closure with
+            'complete_online_check'.
+
+       b. 5f95851 ("wispr: Avoid 'connman_proxy_lookup' call for
+          'UNKNOWN' proxy method.") fixed, the first IPv4 probe from
+          (1) no longer "falls down a 'hole'" and gets lost (closure-
+          and accounting-wise).
+
+          * With this fix, the first IPv4 probe is no longer a
+            complete throwaway--it actually succeeds. However, since
+            it does so, it becomes the first of the two redundant IPv4
+            checks.
+
+By employing '__connman_wispr_cancel', 'cancel_online_check' quells
+the first IPv4 check triggered from 'default_changed' and
+'start_wispr_if_connected' and replaces it, fully (in both the service
+and WISpr modules), with the second IPv4 check triggered from
+'service_ip_bound', 'address_updated', and 'start_online_check'.
+
+Grant Erickson (17):
+  wispr: Rename context proxy-related data members.
+  wispr: Add and leverage 'is_wispr_supported'.
+  wispr: Add documentation to 'is_wispr_supported'.
+  service: Document service unref calls in 'cancel_online_check'.
+  wispr: Add documentation to 'wispr_portal_detect'.
+  wispr: Add documentation to '__connman_wispr_stop'.
+  wispr: Add and leverage 'cancel_connman_wispr_portal_context'.
+  wispr: Add documentation to 'cancel_connman_wispr_portal_context'.
+  gweb: Add optional OS error status parameter to 'g_web_request_*'.
+  wispr: Add and leverage an OS error parameter to
+    '__connman_wispr_cb_t'.
+  service: Add IP configuration type to 'cancel_online_check'.
+  gweb: Add reference count debug statements.
+  gweb: Factor out GWeb destruction into 'g_web_free'.
+  wispr: Add '__connman_wispr_cancel' interface.
+  wispr: Add documentation to '__connman_wispr_cancel'.
+  wispr: Avoid double-free in 'free_wispr_routes'.
+  service: Leverage '__connman_wispr_cancel'.
+
+ gweb/gweb.c      |  88 ++++++++----
+ gweb/gweb.h      |   8 +-
+ src/6to4.c       |   2 +-
+ src/connman.h    |   5 +-
+ src/service.c    |  70 ++++++++--
+ src/wispr.c      | 341 ++++++++++++++++++++++++++++++++++++++++-------
+ tools/web-test.c |   3 +-
+ tools/wispr.c    |   8 +-
+ 8 files changed, 433 insertions(+), 92 deletions(-)
+
+-- 
+2.42.0
 
