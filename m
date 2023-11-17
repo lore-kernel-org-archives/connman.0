@@ -1,28 +1,26 @@
 Received: from mohas.pair.com (mohas.pair.com [209.68.5.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE34736B18
-	for <connman@lists.linux.dev>; Fri, 17 Nov 2023 21:05:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 294C55A109
+	for <connman@lists.linux.dev>; Fri, 17 Nov 2023 21:19:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nuovations.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nuovations.com
 Authentication-Results: smtp.subspace.kernel.org; dkim=none
 Received: from mohas.pair.com (localhost [127.0.0.1])
-	by mohas.pair.com (Postfix) with ESMTP id B6FE3731BE
-	for <connman@lists.linux.dev>; Fri, 17 Nov 2023 16:05:21 -0500 (EST)
+	by mohas.pair.com (Postfix) with ESMTP id 2811873145
+	for <connman@lists.linux.dev>; Fri, 17 Nov 2023 16:19:35 -0500 (EST)
 Received: from localhost.localdomain (unknown [IPv6:2601:647:5a00:15c1:230d:b2c9:c388:f96b])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mohas.pair.com (Postfix) with ESMTPSA id 65B09731FE
-	for <connman@lists.linux.dev>; Fri, 17 Nov 2023 16:05:21 -0500 (EST)
+	by mohas.pair.com (Postfix) with ESMTPSA id D1D1C731D1
+	for <connman@lists.linux.dev>; Fri, 17 Nov 2023 16:19:34 -0500 (EST)
 From: Grant Erickson <gerickson@nuovations.com>
 To: connman@lists.linux.dev
-Subject: [PATCH v2] service: Make DBG in '__connman_service_ipconfig_indicate_state' consistent.
-Date: Fri, 17 Nov 2023 13:05:14 -0800
-Message-ID: <20231117210514.699193-1-gerickson@nuovations.com>
+Subject: [PATCH] service: Const-qualify 'connman_service_get_interface'.
+Date: Fri, 17 Nov 2023 13:19:29 -0800
+Message-ID: <20231117211929.705335-1-gerickson@nuovations.com>
 X-Mailer: git-send-email 2.42.0
-In-Reply-To: <20231117210336.699149-1-gerickson@nuovations.com>
-References: <20231117210336.699149-1-gerickson@nuovations.com>
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
@@ -32,36 +30,54 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: mailmunge 3.11 on 209.68.5.112
 
-This makes the DBG statement in '__connman_service_ipconfig_indicate_state'
-consistent in format of 'service <service_pointer> (<service_name>) type
-<ipconfig_type> (<ipconfig_type_name>)' with that of other DBG statements
-in the module.
-
-This makes at-a-glance, columnar correlation and comparison of service
-activities easier.
+Const-qualify the network service argument to make it clear to the
+compiler, static analyzers, and human readers that the function is
+strictly a getter with no network service mutation side effects.
 ---
- src/service.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ include/service.h     | 2 +-
+ src/service.c         | 2 +-
+ tools/iptables-unit.c | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
+diff --git a/include/service.h b/include/service.h
+index e45d7b58da7d..69f93574bafb 100644
+--- a/include/service.h
++++ b/include/service.h
+@@ -116,7 +116,7 @@ void connman_service_unref_debug(struct connman_service *service,
+ 
+ enum connman_service_type connman_service_get_type(const struct connman_service *service);
+ enum connman_service_state connman_service_get_state(const struct connman_service *service);
+-char *connman_service_get_interface(struct connman_service *service);
++char *connman_service_get_interface(const struct connman_service *service);
+ 
+ const char *connman_service_get_identifier(const struct connman_service *service);
+ const char *connman_service_get_domainname(const struct connman_service *service);
 diff --git a/src/service.c b/src/service.c
-index 81a1bebdc14b..a5aef1402933 100644
+index 81a1bebdc14b..a94d14652eb2 100644
 --- a/src/service.c
 +++ b/src/service.c
-@@ -7126,11 +7126,11 @@ int __connman_service_ipconfig_indicate_state(struct connman_service *service,
- 	if (old_state == new_state)
- 		return -EALREADY;
+@@ -6196,7 +6196,7 @@ enum connman_service_type connman_service_get_type(const struct connman_service
+  *
+  * Get network interface of service
+  */
+-char *connman_service_get_interface(struct connman_service *service)
++char *connman_service_get_interface(const struct connman_service *service)
+ {
+ 	int index;
  
--	DBG("service %p (%s) old state %d (%s) new state %d (%s) type %d (%s)",
-+	DBG("service %p (%s) type %d (%s) old state %d (%s) new state %d (%s)",
- 		service, connman_service_get_identifier(service),
-+		type, __connman_ipconfig_type2string(type),
- 		old_state, state2string(old_state),
--		new_state, state2string(new_state),
--		type, __connman_ipconfig_type2string(type));
-+		new_state, state2string(new_state));
+diff --git a/tools/iptables-unit.c b/tools/iptables-unit.c
+index b91591f23e7f..d490b87d80ca 100644
+--- a/tools/iptables-unit.c
++++ b/tools/iptables-unit.c
+@@ -624,7 +624,7 @@ struct connman_service {
+ 	char *dummy;
+ };
  
- 	switch (new_state) {
- 	case CONNMAN_SERVICE_STATE_UNKNOWN:
+-char *connman_service_get_interface(struct connman_service *service)
++char *connman_service_get_interface(const struct connman_service *service)
+ {
+ 	return "eth0";
+ }
 -- 
 2.42.0
 
