@@ -1,80 +1,79 @@
-Received: from mail.holtmann.org (coyote.holtmann.net [212.227.132.17])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2F05B29A9
-	for <connman@lists.linux.dev>; Sun, 19 Nov 2023 14:14:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=holtmann.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=holtmann.org
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: from smtpclient.apple (p4fefc822.dip0.t-ipconnect.de [79.239.200.34])
-	by mail.holtmann.org (Postfix) with ESMTPSA id ACED1CECCE;
-	Sun, 19 Nov 2023 15:05:49 +0100 (CET)
-Content-Type: text/plain;
-	charset=us-ascii
+Received: from mail.nearlyone.de (mail.nearlyone.de [49.12.199.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2DE3B648
+	for <connman@lists.linux.dev>; Sun, 19 Nov 2023 16:56:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=monom.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=monom.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=monom.org header.i=@monom.org header.b="PgcKd7pT"
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 67CBEE1C5D;
+	Sun, 19 Nov 2023 17:56:20 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=monom.org; s=dkim;
+	t=1700412980; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=yOXy58u84asB87vbE4IXcgzFM0YDpsV7rlpV72nttW4=;
+	b=PgcKd7pTdwhe7xWhX0syIqqQNg8dN+5WzxV5m40snzv72QvOsGEcOEksvjxCx5/HstNVmp
+	cR6PUOqiA15dJ5oSO9QTvDER6cpD8o16z2jYOJOmXo8S3RAs/V95iSX0xL2QRKBksPyto6
+	BBMStnvJh15JBWPp4mnjUbw/dZUckhlXPuWUbIWcj+M6aOJ27R/G1kSNP+TnHYJ77h6C/A
+	XNol1jGBnzvrFhOs/iOC3wA65SxaMUr1OBLBe8xUSXQIxcu2otazCWvLg2S7rvhtqo8H8m
+	mXSCSt7XXKYswoBPgGo56Em/SRwDYuEOEmw0Rwf29OFF/KYLR0tA0WpLnknXPA==
+Date: Sun, 19 Nov 2023 17:56:18 +0100
+From: Daniel Wagner <wagi@monom.org>
+To: Marcel Holtmann <marcel@holtmann.org>
+Cc: connman@lists.linux.dev
+Subject: Re: libppp-compat.h missing in tar file
+Message-ID: <bacp2536omiilw272akl5xjqaqvodo7aro66tti7gvri36jbb2@brfjeq53sjr4>
+References: <b0e1c8ab-4157-4153-bc7c-529a54fbcd65@monom.org>
+ <0A339003-F2B6-4BA5-A80D-2211979BEB64@holtmann.org>
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3774.200.91.1.1\))
-Subject: Re: [PATCH 0/8] Add Configurable Online Check TCP Connect Timeout
-From: Marcel Holtmann <marcel@holtmann.org>
-In-Reply-To: <7931960F-4A3F-448E-BDDE-773E48A1789B@nuovations.com>
-Date: Sun, 19 Nov 2023 15:05:38 +0100
-Cc: connman@lists.linux.dev
-Content-Transfer-Encoding: 7bit
-Message-Id: <1D8EBFC2-8DE5-4926-9299-FB034EAC4252@holtmann.org>
-References: <7931960F-4A3F-448E-BDDE-773E48A1789B@nuovations.com>
-To: Grant Erickson <gerickson@nuovations.com>
-X-Mailer: Apple Mail (2.3774.200.91.1.1)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <0A339003-F2B6-4BA5-A80D-2211979BEB64@holtmann.org>
+X-Last-TLS-Session-Version: TLSv1.3
 
-Hi Grant,
+Hi Marcel,
 
-> This introduces support for a configurable "online" HTTP-based Internet
-> reachability check TCP connection timeout by:
+On Sun, Nov 19, 2023 at 03:08:29PM +0100, Marcel Holtmann wrote:
+> Hi Daniel,
 > 
->    1. Introducing a new 'OnlineCheckConnectTimeout' setting.
->    2. Adding to GWeb a TCP connection timeout member, getter, and setter.
->    3. Leveraging both (1) and (2) in the service and WISPr code to pass
->       (1) to (2) when so configured.
+> > I noticed that the scripts/libppp-compath.h header file is missing in
+> > the tar file. The file is added to EXTRA_DIST variable but this seems
+> > not to be right. Where should it be listed?
 > 
-> If the GWeb TCP connect timeout is greater than zero, a GLib connection
-> timeout timer and callback are added to the session such that, when they
-> expire, the in flight TCP connection is aborted and the session closure
-> function invoked with 'GWEB_HTTP_STATUS_CODE_REQUEST_TIMEOUT'.
-> 
-> A TCP connect timeout of zero (0) indicates that no explicit connection
-> timeout will be used and no timer or callback added to the session,
-> leaving the timeout to the underlying operating system and its network
-> stack.
-> 
-> With an operating system default connection time out of roughly 130
-> seconds, when the 'EnableOnlineToReadyTransition' setting is asserted,
-> failovers to an alternative network service can take unreasonably long
-> without such a setting as this since the connection timeout dominates
-> the failover time.
-> 
-> Grant Erickson (8):
->  gweb: Add TCP connect timeout member and getter/setter.
->  gweb: Factor out session transport closure.
->  gweb: Leverage TCP connect timeout.
->  gweb: Add documentation to TCP connect timeout-related functions.
->  main: Introduce the 'OnlineCheckConnectTimeout' setting.
->  Leverage GWeb connect timeout and 'OnlineCheckConnectTimeout'.
->  Add documentation for 'OnlineCheckConnectTimeout'.
->  wispr: Add documentation to '__connman_wispr_start'.
-> 
-> doc/connman.conf.5.in |   9 ++
-> gweb/gweb.c           | 286 +++++++++++++++++++++++++++++++++++++++---
-> gweb/gweb.h           |   3 +
-> src/connman.h         |   1 +
-> src/main.c            |  30 +++++
-> src/main.conf         |   9 ++
-> src/service.c         |  10 +-
-> src/wispr.c           |  57 ++++++++-
-> 8 files changed, 379 insertions(+), 26 deletions(-)
+> in general EXTRA_DIST is correct.
 
-all 8 patches have been applied.
+Good at least this is correct.
 
-Regards
+> Why a C header is in scripts/ however is total different question.
 
-Marcel
+This header file came in via
 
+ a48864a2e5d2 ("vpn: Adding support for latest pppd 2.5.0 release")
+
+I thought it looked reasonable at this point.
+
+> Can you give some more details here.
+
+Sure, I was updating the rpm package for Tumbleweed. The spec file uses
+
+   http://www.kernel.org/pub/linux/network/connman/connman-%{version}.tar.xz
+
+as source and builds all plugins. And this tar file, the header file is missing.
+
+  https://build.opensuse.org/package/view_file/openSUSE:Factory/connman/connman.spec
+
+> I didn’t even realize we included a PPP header since pppd was
+> something we never preferred and even oFono brings in its own PPP
+> implementation.
+
+It's used for l2tp. Does oFono also implement this part?
+
+Thanks,
+Daniel
