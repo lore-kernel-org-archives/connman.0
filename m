@@ -1,25 +1,25 @@
 Received: from mohas.pair.com (mohas.pair.com [209.68.5.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EBBC1865E
-	for <connman@lists.linux.dev>; Sun, 19 Nov 2023 17:07:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3771418040
+	for <connman@lists.linux.dev>; Sun, 19 Nov 2023 17:07:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nuovations.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nuovations.com
 Authentication-Results: smtp.subspace.kernel.org; dkim=none
 Received: from mohas.pair.com (localhost [127.0.0.1])
-	by mohas.pair.com (Postfix) with ESMTP id 44CBD731A4
-	for <connman@lists.linux.dev>; Sun, 19 Nov 2023 12:07:19 -0500 (EST)
+	by mohas.pair.com (Postfix) with ESMTP id 0CD9D73200
+	for <connman@lists.linux.dev>; Sun, 19 Nov 2023 12:07:21 -0500 (EST)
 Received: from localhost.localdomain (unknown [IPv6:2601:647:5a00:15c1:230d:b2c9:c388:f96b])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mohas.pair.com (Postfix) with ESMTPSA id F1A06731F8
-	for <connman@lists.linux.dev>; Sun, 19 Nov 2023 12:07:18 -0500 (EST)
+	by mohas.pair.com (Postfix) with ESMTPSA id B9F3C73206
+	for <connman@lists.linux.dev>; Sun, 19 Nov 2023 12:07:20 -0500 (EST)
 From: Grant Erickson <gerickson@nuovations.com>
 To: connman@lists.linux.dev
-Subject: [PATCH v2 07/17] wispr: Add and leverage 'cancel_connman_wispr_portal_context'.
-Date: Sun, 19 Nov 2023 09:07:03 -0800
-Message-ID: <20231119170714.775270-8-gerickson@nuovations.com>
+Subject: [PATCH v2 11/17] service: Add IP configuration type to 'cancel_online_check'.
+Date: Sun, 19 Nov 2023 09:07:07 -0800
+Message-ID: <20231119170714.775270-12-gerickson@nuovations.com>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20231119170714.775270-1-gerickson@nuovations.com>
 References: <20231116010259.628527-1-gerickson@nuovations.com>
@@ -33,116 +33,95 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: mailmunge 3.11 on 209.68.5.112
 
-This factors out from 'free_connman_wispr_portal_context', adds, and
-leverages as an independent, file-scoped function
-'cancel_connman_wispr_portal_context'. It attempts to cancel any
-outstanding WISPr request associated with the specified WISPr/portal
-context, deallocating any resources associated with the context,
-except for the context itself which still requires invoking
-'free_connman_wispr_portal_context'.
+WISPr / portal detection and HTTP-based "online" Internet reachability
+checks are, by design, IP configuration-specific. There may be parallel,
+independent requests or checks in flight: one for IPv4 and one for IPv6.
+Consequently, when attempting to cancel such requests or checks, require
+the IP configuration type to indicate which specific request or check is
+to be canceled.
 ---
- src/wispr.c | 60 ++++++++++++++++++++++++++++++++++++++++-------------
- 1 file changed, 46 insertions(+), 14 deletions(-)
+ src/service.c | 25 ++++++++++++++++---------
+ 1 file changed, 16 insertions(+), 9 deletions(-)
 
-diff --git a/src/wispr.c b/src/wispr.c
-index 41f5d462da41..8ec2b78e8e5f 100644
---- a/src/wispr.c
-+++ b/src/wispr.c
-@@ -166,9 +166,12 @@ static void free_wispr_routes(struct connman_wispr_portal_context *wp_context)
+diff --git a/src/service.c b/src/service.c
+index 0882cd167699..d78ed0123160 100644
+--- a/src/service.c
++++ b/src/service.c
+@@ -1559,11 +1559,11 @@ static guint online_check_timeout_compute_geometric(unsigned int interval)
+ /**
+  *  @brief
+  *    Cancel any "online" HTTP-based Internet reachability checks for
+- *    the specified network service.
++ *    the specified network service IP configuration type.
+  *
+  *  This cancels any current or pending IPv4 and/or IPv6 "online"
+  *  HTTP-based Internet reachability checks for the specified network
+- *  service.
++ *  service IP configuration type.
+  *
+  *  @note
+  *    Any lingering WISPr portal reachability context will be lazily
+@@ -1574,6 +1574,9 @@ static guint online_check_timeout_compute_geometric(unsigned int interval)
+  *                           for which any current or pending IPv4 or
+  *                           IPv6 "online" reachability checks should
+  *                           be canceled.
++ *  @param[in]      type     The IP configuration type for which the
++ *                           "online" reachability check is to be
++ *                           canceled.
+  *
+  *  @sa start_online_check
+  *  @sa complete_online_check
+@@ -1581,14 +1584,18 @@ static guint online_check_timeout_compute_geometric(unsigned int interval)
+  *  @sa __connman_wispr_stop
+  *
+  */
+-static void cancel_online_check(struct connman_service *service)
++static void cancel_online_check(struct connman_service *service,
++				enum connman_ipconfig_type type)
+ {
+-	DBG("service %p (%s) online_timeout_ipv4 %d online_timeout_ipv6 %d",
++	DBG("service %p (%s) type %d (%s) "
++		"online_timeout_ipv4 %d online_timeout_ipv6 %d",
+ 		service, connman_service_get_identifier(service),
++		type, __connman_ipconfig_type2string(type),
+ 		service->online_timeout_ipv4,
+ 		service->online_timeout_ipv6);
+ 
+-	if (service->online_timeout_ipv4) {
++	if (type == CONNMAN_IPCONFIG_TYPE_IPV4 &&
++		service->online_timeout_ipv4) {
+ 		g_source_remove(service->online_timeout_ipv4);
+ 		service->online_timeout_ipv4 = 0;
+ 
+@@ -1598,8 +1605,8 @@ static void cancel_online_check(struct connman_service *service)
+ 		 * now-cancelled scheduled online check.
+ 		 */
+ 		connman_service_unref(service);
+-	}
+-	if (service->online_timeout_ipv6) {
++	} else if (type == CONNMAN_IPCONFIG_TYPE_IPV6 &&
++		service->online_timeout_ipv6) {
+ 		g_source_remove(service->online_timeout_ipv6);
+ 		service->online_timeout_ipv6 = 0;
+ 
+@@ -1683,7 +1690,7 @@ static void start_online_check(struct connman_service *service,
+ 		return;
+ 
+ 	if (type == CONNMAN_IPCONFIG_TYPE_IPV6 || check_proxy_setup(service)) {
+-		cancel_online_check(service);
++		cancel_online_check(service, type);
+ 		__connman_service_wispr_start(service, type);
  	}
  }
+@@ -7185,7 +7192,7 @@ int __connman_service_ipconfig_indicate_state(struct connman_service *service,
  
--static void free_connman_wispr_portal_context(
-+static void cancel_connman_wispr_portal_context(
- 		struct connman_wispr_portal_context *wp_context)
- {
-+	if (!wp_context)
-+		return;
-+
- 	DBG("wispr/portal context %p service %p (%s) type %d (%s)",
- 		wp_context,
- 		wp_context->service,
-@@ -176,38 +179,67 @@ static void free_connman_wispr_portal_context(
- 		wp_context->type,
- 		__connman_ipconfig_type2string(wp_context->type));
+ 	if (is_connected(old_state) && !is_connected(new_state)) {
+ 		nameserver_remove_all(service, type);
+-		cancel_online_check(service);
++		cancel_online_check(service, type);
+ 	}
  
--	if (wp_context->wispr_portal) {
--		if (wp_context->wispr_portal->ipv4_context == wp_context)
--			wp_context->wispr_portal->ipv4_context = NULL;
--
--		if (wp_context->wispr_portal->ipv6_context == wp_context)
--			wp_context->wispr_portal->ipv6_context = NULL;
--	}
--
--	if (wp_context->proxy_token > 0)
-+	if (wp_context->proxy_token > 0) {
- 		connman_proxy_lookup_cancel(wp_context->proxy_token);
-+		wp_context->proxy_token = 0;
-+	}
- 
--	if (wp_context->request_id > 0)
-+	if (wp_context->request_id > 0) {
- 		g_web_cancel_request(wp_context->web, wp_context->request_id);
-+		wp_context->request_id = 0;
-+	}
- 
--	if (wp_context->proxy_timeout > 0)
-+	if (wp_context->proxy_timeout > 0) {
- 		g_source_remove(wp_context->proxy_timeout);
-+		wp_context->proxy_timeout = 0;
-+	}
- 
--	if (wp_context->web)
-+	if (wp_context->web) {
- 		g_web_unref(wp_context->web);
-+		wp_context->web = NULL;
-+	}
- 
- 	g_free(wp_context->redirect_url);
-+	wp_context->redirect_url = NULL;
- 
--	if (wp_context->wispr_parser)
-+	if (wp_context->wispr_parser) {
- 		g_web_parser_unref(wp_context->wispr_parser);
-+		wp_context->wispr_parser = NULL;
-+	}
- 
- 	connman_wispr_message_init(&wp_context->wispr_msg);
- 
- 	g_free(wp_context->wispr_username);
-+	wp_context->wispr_username = NULL;
-+
- 	g_free(wp_context->wispr_password);
-+	wp_context->wispr_password = NULL;
-+
- 	g_free(wp_context->wispr_formdata);
-+	wp_context->wispr_formdata = NULL;
- 
- 	free_wispr_routes(wp_context);
-+}
-+
-+static void free_connman_wispr_portal_context(
-+		struct connman_wispr_portal_context *wp_context)
-+{
-+	DBG("wispr/portal context %p service %p (%s) type %d (%s)",
-+		wp_context,
-+		wp_context->service,
-+		connman_service_get_identifier(wp_context->service),
-+		wp_context->type,
-+		__connman_ipconfig_type2string(wp_context->type));
-+
-+	if (wp_context->wispr_portal) {
-+		if (wp_context->wispr_portal->ipv4_context == wp_context)
-+			wp_context->wispr_portal->ipv4_context = NULL;
-+
-+		if (wp_context->wispr_portal->ipv6_context == wp_context)
-+			wp_context->wispr_portal->ipv6_context = NULL;
-+	}
-+
-+	cancel_connman_wispr_portal_context(wp_context);
- 
- 	g_free(wp_context);
- }
+ 	if (type == CONNMAN_IPCONFIG_TYPE_IPV4)
 -- 
 2.42.0
 
