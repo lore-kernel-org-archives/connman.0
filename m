@@ -1,79 +1,129 @@
-Received: from mail.nearlyone.de (mail.nearlyone.de [49.12.199.46])
+Received: from mohas.pair.com (mohas.pair.com [209.68.5.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2DE3B648
-	for <connman@lists.linux.dev>; Sun, 19 Nov 2023 16:56:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=monom.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=monom.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=monom.org header.i=@monom.org header.b="PgcKd7pT"
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 67CBEE1C5D;
-	Sun, 19 Nov 2023 17:56:20 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=monom.org; s=dkim;
-	t=1700412980; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=yOXy58u84asB87vbE4IXcgzFM0YDpsV7rlpV72nttW4=;
-	b=PgcKd7pTdwhe7xWhX0syIqqQNg8dN+5WzxV5m40snzv72QvOsGEcOEksvjxCx5/HstNVmp
-	cR6PUOqiA15dJ5oSO9QTvDER6cpD8o16z2jYOJOmXo8S3RAs/V95iSX0xL2QRKBksPyto6
-	BBMStnvJh15JBWPp4mnjUbw/dZUckhlXPuWUbIWcj+M6aOJ27R/G1kSNP+TnHYJ77h6C/A
-	XNol1jGBnzvrFhOs/iOC3wA65SxaMUr1OBLBe8xUSXQIxcu2otazCWvLg2S7rvhtqo8H8m
-	mXSCSt7XXKYswoBPgGo56Em/SRwDYuEOEmw0Rwf29OFF/KYLR0tA0WpLnknXPA==
-Date: Sun, 19 Nov 2023 17:56:18 +0100
-From: Daniel Wagner <wagi@monom.org>
-To: Marcel Holtmann <marcel@holtmann.org>
-Cc: connman@lists.linux.dev
-Subject: Re: libppp-compat.h missing in tar file
-Message-ID: <bacp2536omiilw272akl5xjqaqvodo7aro66tti7gvri36jbb2@brfjeq53sjr4>
-References: <b0e1c8ab-4157-4153-bc7c-529a54fbcd65@monom.org>
- <0A339003-F2B6-4BA5-A80D-2211979BEB64@holtmann.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE7BE1428C
+	for <connman@lists.linux.dev>; Sun, 19 Nov 2023 17:07:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nuovations.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nuovations.com
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
+Received: from mohas.pair.com (localhost [127.0.0.1])
+	by mohas.pair.com (Postfix) with ESMTP id 972D173104
+	for <connman@lists.linux.dev>; Sun, 19 Nov 2023 12:07:16 -0500 (EST)
+Received: from localhost.localdomain (unknown [IPv6:2601:647:5a00:15c1:230d:b2c9:c388:f96b])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mohas.pair.com (Postfix) with ESMTPSA id 50B2F73118
+	for <connman@lists.linux.dev>; Sun, 19 Nov 2023 12:07:16 -0500 (EST)
+From: Grant Erickson <gerickson@nuovations.com>
+To: connman@lists.linux.dev
+Subject: [PATCH v2 01/17] wispr: Rename context proxy-related data members.
+Date: Sun, 19 Nov 2023 09:06:57 -0800
+Message-ID: <20231119170714.775270-2-gerickson@nuovations.com>
+X-Mailer: git-send-email 2.42.0
+In-Reply-To: <20231119170714.775270-1-gerickson@nuovations.com>
+References: <20231116010259.628527-1-gerickson@nuovations.com>
+ <20231119170714.775270-1-gerickson@nuovations.com>
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <0A339003-F2B6-4BA5-A80D-2211979BEB64@holtmann.org>
-X-Last-TLS-Session-Version: TLSv1.3
+X-Scanned-By: mailmunge 3.11 on 209.68.5.112
 
-Hi Marcel,
+This renames the WISPr/portal context structure proxy-related data
+members 'token' and 'timeout' as 'proxy_token' and 'proxy_timeout',
+respectively, to make it clearer in what context they are used.
+---
+ src/wispr.c | 25 +++++++++++++------------
+ 1 file changed, 13 insertions(+), 12 deletions(-)
 
-On Sun, Nov 19, 2023 at 03:08:29PM +0100, Marcel Holtmann wrote:
-> Hi Daniel,
-> 
-> > I noticed that the scripts/libppp-compath.h header file is missing in
-> > the tar file. The file is added to EXTRA_DIST variable but this seems
-> > not to be right. Where should it be listed?
-> 
-> in general EXTRA_DIST is correct.
+diff --git a/src/wispr.c b/src/wispr.c
+index ab763d5bada0..79cb713449bc 100644
+--- a/src/wispr.c
++++ b/src/wispr.c
+@@ -64,7 +64,7 @@ struct connman_wispr_portal_context {
+ 
+ 	/* Portal/WISPr common */
+ 	GWeb *web;
+-	unsigned int token;
++	unsigned int proxy_token;
+ 	guint request_id;
+ 
+ 	const char *status_url;
+@@ -83,7 +83,7 @@ struct connman_wispr_portal_context {
+ 
+ 	GSList *route_list;
+ 
+-	guint timeout;
++	guint proxy_timeout;
+ };
+ 
+ struct connman_wispr_portal {
+@@ -184,14 +184,14 @@ static void free_connman_wispr_portal_context(
+ 			wp_context->wispr_portal->ipv6_context = NULL;
+ 	}
+ 
+-	if (wp_context->token > 0)
+-		connman_proxy_lookup_cancel(wp_context->token);
++	if (wp_context->proxy_token > 0)
++		connman_proxy_lookup_cancel(wp_context->proxy_token);
+ 
+ 	if (wp_context->request_id > 0)
+ 		g_web_cancel_request(wp_context->web, wp_context->request_id);
+ 
+-	if (wp_context->timeout > 0)
+-		g_source_remove(wp_context->timeout);
++	if (wp_context->proxy_timeout > 0)
++		g_source_remove(wp_context->proxy_timeout);
+ 
+ 	if (wp_context->web)
+ 		g_web_unref(wp_context->web);
+@@ -934,7 +934,7 @@ static void proxy_callback(const char *proxy, void *user_data)
+ 
+ 	DBG("proxy %s", proxy);
+ 
+-	wp_context->token = 0;
++	wp_context->proxy_token = 0;
+ 
+ 	proxy_server = parse_proxy(proxy);
+ 	if (proxy_server) {
+@@ -961,7 +961,7 @@ static gboolean no_proxy_callback(gpointer user_data)
+ {
+ 	struct connman_wispr_portal_context *wp_context = user_data;
+ 
+-	wp_context->timeout = 0;
++	wp_context->proxy_timeout = 0;
+ 
+ 	proxy_callback("DIRECT", wp_context);
+ 
+@@ -1049,19 +1049,20 @@ static int wispr_portal_detect(struct connman_wispr_portal_context *wp_context,
+ 			proxy_method != CONNMAN_SERVICE_PROXY_METHOD_UNKNOWN) {
+ 		wispr_portal_context_ref(wp_context);
+ 
+-		wp_context->token = connman_proxy_lookup(interface,
++		wp_context->proxy_token = connman_proxy_lookup(interface,
+ 						wp_context->status_url,
+ 						wp_context->service,
+ 						proxy_callback, wp_context);
+ 
+-		if (wp_context->token == 0) {
++		if (wp_context->proxy_token == 0) {
+ 			err = -EINVAL;
+ 			wispr_portal_context_unref(wp_context);
+ 		}
+-	} else if (wp_context->timeout == 0) {
++	} else if (wp_context->proxy_timeout == 0) {
+ 		wispr_portal_context_ref(wp_context);
+ 
+-		wp_context->timeout = g_idle_add(no_proxy_callback, wp_context);
++		wp_context->proxy_timeout = g_idle_add(no_proxy_callback,
++						wp_context);
+ 	}
+ 
+ done:
+-- 
+2.42.0
 
-Good at least this is correct.
-
-> Why a C header is in scripts/ however is total different question.
-
-This header file came in via
-
- a48864a2e5d2 ("vpn: Adding support for latest pppd 2.5.0 release")
-
-I thought it looked reasonable at this point.
-
-> Can you give some more details here.
-
-Sure, I was updating the rpm package for Tumbleweed. The spec file uses
-
-   http://www.kernel.org/pub/linux/network/connman/connman-%{version}.tar.xz
-
-as source and builds all plugins. And this tar file, the header file is missing.
-
-  https://build.opensuse.org/package/view_file/openSUSE:Factory/connman/connman.spec
-
-> I didn’t even realize we included a PPP header since pppd was
-> something we never preferred and even oFono brings in its own PPP
-> implementation.
-
-It's used for l2tp. Does oFono also implement this part?
-
-Thanks,
-Daniel
