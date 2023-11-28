@@ -1,25 +1,25 @@
 Received: from mohas.pair.com (mohas.pair.com [209.68.5.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BA365733E
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05D2A5C09B
 	for <connman@lists.linux.dev>; Tue, 28 Nov 2023 23:08:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nuovations.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nuovations.com
 Authentication-Results: smtp.subspace.kernel.org; dkim=none
 Received: from mohas.pair.com (localhost [127.0.0.1])
-	by mohas.pair.com (Postfix) with ESMTP id 5073773159
-	for <connman@lists.linux.dev>; Tue, 28 Nov 2023 18:08:51 -0500 (EST)
+	by mohas.pair.com (Postfix) with ESMTP id 3A86E731A8
+	for <connman@lists.linux.dev>; Tue, 28 Nov 2023 18:08:52 -0500 (EST)
 Received: from localhost.localdomain (unknown [IPv6:2601:647:5a00:15c1:230d:b2c9:c388:f96b])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mohas.pair.com (Postfix) with ESMTPSA id 08AA673174
-	for <connman@lists.linux.dev>; Tue, 28 Nov 2023 18:08:50 -0500 (EST)
+	by mohas.pair.com (Postfix) with ESMTPSA id E63E5731F7
+	for <connman@lists.linux.dev>; Tue, 28 Nov 2023 18:08:51 -0500 (EST)
 From: Grant Erickson <gerickson@nuovations.com>
 To: connman@lists.linux.dev
-Subject: [PATCH 6/8] connection: Document 'connection_{add,del}gateway'.
-Date: Tue, 28 Nov 2023 15:08:44 -0800
-Message-ID: <20231128230847.1224497-7-gerickson@nuovations.com>
+Subject: [PATCH 8/8] connection: Document '__connman_connection_update_gateway'.
+Date: Tue, 28 Nov 2023 15:08:46 -0800
+Message-ID: <20231128230847.1224497-9-gerickson@nuovations.com>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20231128230847.1224497-1-gerickson@nuovations.com>
 References: <20231128230847.1224497-1-gerickson@nuovations.com>
@@ -32,124 +32,52 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: mailmunge 3.11 on 209.68.5.112
 
-This adds documentation to the 'connection_{add,del}gateway'
-functions.
+This adds documentation to the '__connman_connection_update_gateway'
+function.
 ---
- src/connection.c | 67 ++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 67 insertions(+)
+ src/connection.c | 22 ++++++++++++++++++++++
+ 1 file changed, 22 insertions(+)
 
 diff --git a/src/connection.c b/src/connection.c
-index 90cc33106ca7..db7212d44af4 100644
+index 8208671d6986..75591a741ad4 100644
 --- a/src/connection.c
 +++ b/src/connection.c
-@@ -777,6 +777,29 @@ static bool choose_default_gateway(struct gateway_data *data,
- 	return downgraded;
- }
- 
-+/**
-+ *  @brief
-+ *    Handler for gateway, or default route, -specific routes newly
-+ *    added to the Linux kernel routing tables.
-+ *
-+ *  This is the Linux Routing Netlink (rtnl) handler for gateway, or
-+ *  default route, -specific routes newly-added to the Linux kernel
-+ *  routing tables. Its primary role and goal is to serve as a
-+ *  round-trip acknowledgement that gateway-, or default route,
-+ *  related routes added or set to the kernel are now active and in
-+ *  use.
-+ *
-+ *  @param[in]  index    The network interface index associated with
-+ *                       the newly-added gateway, or default router.
-+ *  @param[in]  gateway  An pointer to an immutable null-terminated
-+ *                       C string containing the text-
-+ *                       formatted address of the gateway, or default
-+ *                       router, that was added.
-+ *
-+ *  @sa set_default_gateway
-+ *  @sa connection_delgateway
-+ *
-+ */
- static void connection_newgateway(int index, const char *gateway)
- {
- 	g_autofree char *interface = NULL;
-@@ -791,12 +814,23 @@ static void connection_newgateway(int index, const char *gateway)
- 	DBG("index %d (%s) gateway %s", index, maybe_null(interface),
- 		gateway);
- 
-+	/*
-+	 * If there is no gateway configuration, then this is not a
-+	 * gateway, or default router, route we added or
-+	 * set. Consequently, ignore it and return.
-+	 */
- 	config = find_gateway(index, gateway);
- 	if (!config)
- 		return;
- 
- 	GATEWAY_CONFIG_DBG("config", config);
- 
-+	/*
-+	 * Otherwise, this is a gateway, or default router, route we added
-+	 * or set and it is now acknowledged by the kernel. Consequently,
-+	 * prospectively mark it as active; however, this may be
-+	 * subsequently modified as default route determinations are made.
-+	 */
- 	config->active = true;
- 
- 	/*
-@@ -869,6 +903,29 @@ static void remove_gateway(gpointer user_data)
- 	g_free(data);
- }
- 
-+/**
-+ *  @brief
-+ *    Handler for gateway, or default route, -specific routes newly
-+ *    removed from the Linux kernel routing tables.
-+ *
-+ *  This is the Linux Routing Netlink (rtnl) handler for gateway, or
-+ *  default route, -specific routes newly-removed from the Linux
-+ *  kernel routing tables. Its primary role and goal is to serve as
-+ *  a round-trip acknowledgement that gateway-, or default route,
-+ *  related routes removed or cleared from the kernel are now inactive
-+ *  and are no longer in use.
-+ *
-+ *  @param[in]  index    The network interface index associated with
-+ *                       the newly-removed gateway, or default router.
-+ *  @param[in]  gateway  An pointer to an immutable null-terminated
-+ *                       C string containing the text-
-+ *                       formatted address of the gateway, or default
-+ *                       router, that was removed.
-+ *
-+ *  @sa connection_newgateway
-+ *  @sa set_default_gateway
-+ *
-+ */
- static void connection_delgateway(int index, const char *gateway)
- {
- 	g_autofree char *interface = NULL;
-@@ -880,6 +937,10 @@ static void connection_delgateway(int index, const char *gateway)
- 	DBG("index %d (%s) gateway %s", index, maybe_null(interface),
- 		gateway);
- 
-+	/*
-+	 * This ends the lifecycle of the gateway associated with the
-+	 * newly-removed route; mark it as no longer active.
-+	 */
- 	config = find_gateway(index, gateway);
- 	if (config) {
- 		GATEWAY_CONFIG_DBG("config", config);
-@@ -887,6 +948,12 @@ static void connection_delgateway(int index, const char *gateway)
- 		config->active = false;
+@@ -1320,6 +1320,24 @@ void __connman_connection_gateway_remove(struct connman_service *service,
  	}
+ }
+ 
++/**
++ *  @brief
++ *    Handle a potential change in gateways.
++ *
++ *  This may be invoked by other modules in the event of service and
++ *  technology changes to reexamine and, if necessary, update active
++ *  network interface gateways and their associated routing table
++ *  entries.
++ *
++ *  @returns
++ *    True if an active gateway was updated; otherwise, false.
++ *
++ *  @sa __connman_connection_gateway_add
++ *  @sa __connman_connection_gateway_remove
++ *  @sa set_default_gateway
++ *  @sa unset_default_gateway
++ *
++ */
+ bool __connman_connection_update_gateway(void)
+ {
+ 	struct gateway_data *default_gateway;
+@@ -1329,6 +1347,10 @@ bool __connman_connection_update_gateway(void)
+ 
+ 	DBG("");
  
 +	/*
-+	 * Due to the newly-removed gateway route, there may have been a
-+	 * concomitant change in service order that has resulted in a new,
-+	 * default service, if any. If so, ensure that service acquires
-+	 * the high priority default route.
++	 * If there is no service-to-gateway data hash, then there is
++	 * nothing to update and do; simply return.
 +	 */
- 	data = find_default_gateway();
- 	if (data) {
- 		GATEWAY_DATA_DBG("data", data);
+ 	if (!gateway_hash)
+ 		return updated;
+ 
 -- 
 2.42.0
 
