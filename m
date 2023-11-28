@@ -1,25 +1,25 @@
 Received: from mohas.pair.com (mohas.pair.com [209.68.5.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7ED15733D
-	for <connman@lists.linux.dev>; Tue, 28 Nov 2023 23:08:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD41C5C095
+	for <connman@lists.linux.dev>; Tue, 28 Nov 2023 23:08:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nuovations.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nuovations.com
 Authentication-Results: smtp.subspace.kernel.org; dkim=none
 Received: from mohas.pair.com (localhost [127.0.0.1])
-	by mohas.pair.com (Postfix) with ESMTP id ECDE57314E
+	by mohas.pair.com (Postfix) with ESMTP id 7C59073147
 	for <connman@lists.linux.dev>; Tue, 28 Nov 2023 18:08:49 -0500 (EST)
 Received: from localhost.localdomain (unknown [IPv6:2601:647:5a00:15c1:230d:b2c9:c388:f96b])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mohas.pair.com (Postfix) with ESMTPSA id A3BBC7315A
+	by mohas.pair.com (Postfix) with ESMTPSA id 35F6273156
 	for <connman@lists.linux.dev>; Tue, 28 Nov 2023 18:08:49 -0500 (EST)
 From: Grant Erickson <gerickson@nuovations.com>
 To: connman@lists.linux.dev
-Subject: [PATCH 3/8] connection: Introduce and leverage 'gateway_{config,data}_debug'.
-Date: Tue, 28 Nov 2023 15:08:41 -0800
-Message-ID: <20231128230847.1224497-4-gerickson@nuovations.com>
+Subject: [PATCH 2/8] log: Document debugging preprocessor macros.
+Date: Tue, 28 Nov 2023 15:08:40 -0800
+Message-ID: <20231128230847.1224497-3-gerickson@nuovations.com>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20231128230847.1224497-1-gerickson@nuovations.com>
 References: <20231128230847.1224497-1-gerickson@nuovations.com>
@@ -32,256 +32,164 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: mailmunge 3.11 on 209.68.5.112
 
-This introduces and leverages two functions
-'gateway_{config,data}_debug' to conditionally log gateway data and
-configuration at the debug level.
----
- src/connection.c | 119 ++++++++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 117 insertions(+), 2 deletions(-)
+This adds documentation to the following debugging- / debug
+logging-related data types and preprocessor macros:
 
-diff --git a/src/connection.c b/src/connection.c
-index 9d2c6961306d..cba1508da3b8 100644
---- a/src/connection.c
-+++ b/src/connection.c
-@@ -32,6 +32,12 @@
+    * connman_debug_desc
+    * CONNMAN_DEBUG_DESC_INSTANTIATE
+    * CONNMAN_DEBUG_ALIAS
+    * CONNMAN_DEBUG
+
+and expands the existing documentation for the 'DBG' preprocessor
+macro.
+---
+ include/log.h | 107 +++++++++++++++++++++++++++++++++++++++++++++++---
+ 1 file changed, 102 insertions(+), 5 deletions(-)
+
+diff --git a/include/log.h b/include/log.h
+index fd47c8d53c9b..bff8a1634ab4 100644
+--- a/include/log.h
++++ b/include/log.h
+@@ -49,6 +49,10 @@ void connman_debug(const char *format, ...)
+ 	}						\
+ } while (0)
  
- #include "connman.h"
++/**
++ *  Debug-level logging descriptor that may be used to control debug
++ *  output on a per-file or -symbol basis.
++ */
+ struct connman_debug_desc {
+ 	const char *name;
+ 	const char *file;
+@@ -58,18 +62,88 @@ struct connman_debug_desc {
+ 	unsigned int flags;
+ } __attribute__((aligned(8)));
  
-+#define GATEWAY_CONFIG_DBG(description, config) \
-+	gateway_config_debug(__func__, description, config)
-+
-+#define GATEWAY_DATA_DBG(description, data) \
-+	gateway_data_debug(__func__, description, data)
-+
- struct gateway_config {
- 	bool active;
- 	char *gateway;
-@@ -53,6 +59,79 @@ struct gateway_data {
- 
- static GHashTable *gateway_hash = NULL;
- 
-+static const char *maybe_null(const void *pointer)
-+{
-+	return pointer ? pointer : "<null>";
-+}
-+
-+static void gateway_config_debug(const char *function,
-+				const char *description,
-+				const struct gateway_config *config)
-+{
-+	g_autofree char *vpn_phy_interface = NULL;
-+
-+	if (!function || !description)
-+		return;
-+
-+	if (!config)
-+		CONNMAN_DEBUG(function, "%s %p", description, config);
-+	else {
-+		if (config->vpn_phy_index >= 0)
-+			vpn_phy_interface =
-+				connman_inet_ifname(config->vpn_phy_index);
-+
-+		CONNMAN_DEBUG(function,
-+			"%s %p: { active: %u, gateway: %p (%s), "
-+			"vpn: %u, vpn_ip: %p (%s), vpn_phy_index: %d (%s), "
-+			"vpn_phy_ip: %p (%s) }",
-+			description,
-+			config,
-+			config->active,
-+			config->gateway, maybe_null(config->gateway),
-+			config->vpn,
-+			config->vpn_ip, maybe_null(config->vpn_ip),
-+			config->vpn_phy_index, maybe_null(vpn_phy_interface),
-+			config->vpn_phy_ip, maybe_null(config->vpn_phy_ip));
-+	}
-+}
-+
-+static void gateway_data_debug(const char *function,
-+				const char *description,
-+				const struct gateway_data *data)
-+{
-+	g_autofree char *interface = NULL;
-+
-+	if (!function || !description)
-+		return;
-+
-+	if (!data)
-+		CONNMAN_DEBUG(function, "%s %p", description, data);
-+	else {
-+		interface = connman_inet_ifname(data->index);
-+
-+		CONNMAN_DEBUG(function,
-+			"%s %p: { index: %d (%s), service: %p (%s), "
-+			"ipv4_gateway: %p, ipv6_gateway: %p, default_checked: %u }",
-+			description,
-+			data,
-+			data->index,
-+			maybe_null(interface),
-+			data->service,
-+			connman_service_get_identifier(data->service),
-+			data->ipv4_gateway,
-+			data->ipv6_gateway,
-+			data->default_checked);
-+
-+		if (data->ipv4_gateway)
-+			gateway_config_debug(function, "ipv4_gateway",
-+				data->ipv4_gateway);
-+
-+		if (data->ipv6_gateway)
-+			gateway_config_debug(function, "ipv6_gateway",
-+				data->ipv6_gateway);
-+	}
-+}
-+
- static struct gateway_config *find_gateway(int index, const char *gateway)
- {
- 	GHashTableIter iter;
-@@ -282,6 +361,8 @@ static int del_routes(struct gateway_data *data,
- 	int status4 = 0, status6 = 0;
- 	bool do_ipv4 = false, do_ipv6 = false;
- 
-+	GATEWAY_DATA_DBG("data", data);
-+
- 	if (type == CONNMAN_IPCONFIG_TYPE_IPV4)
- 		do_ipv4 = true;
- 	else if (type == CONNMAN_IPCONFIG_TYPE_IPV6)
-@@ -334,6 +415,8 @@ static int disable_gateway(struct gateway_data *data,
- {
- 	bool active = false;
- 
-+	GATEWAY_DATA_DBG("data", data);
-+
- 	if (type == CONNMAN_IPCONFIG_TYPE_IPV4) {
- 		if (data->ipv4_gateway)
- 			active = data->ipv4_gateway->active;
-@@ -426,6 +509,8 @@ static void set_default_gateway(struct gateway_data *data,
- 	int status4 = 0, status6 = 0;
- 	bool do_ipv4 = false, do_ipv6 = false;
- 
-+	GATEWAY_DATA_DBG("data", data);
-+
- 	if (type == CONNMAN_IPCONFIG_TYPE_IPV4)
- 		do_ipv4 = true;
- 	else if (type == CONNMAN_IPCONFIG_TYPE_IPV6)
-@@ -507,6 +592,8 @@ static void unset_default_gateway(struct gateway_data *data,
- 	int index;
- 	bool do_ipv4 = false, do_ipv6 = false;
- 
-+	GATEWAY_DATA_DBG("data", data);
-+
- 	if (type == CONNMAN_IPCONFIG_TYPE_IPV4)
- 		do_ipv4 = true;
- 	else if (type == CONNMAN_IPCONFIG_TYPE_IPV6)
-@@ -586,6 +673,9 @@ static bool choose_default_gateway(struct gateway_data *data,
- {
- 	bool downgraded = false;
- 
-+	GATEWAY_DATA_DBG("data", data);
-+	GATEWAY_DATA_DBG("candidate", candidate);
-+
- 	/*
- 	 * If the current default is not active, then we mark
- 	 * this one as default. If the other one is already active
-@@ -641,6 +731,8 @@ static void connection_newgateway(int index, const char *gateway)
- 	if (!config)
- 		return;
- 
-+	GATEWAY_CONFIG_DBG("config", config);
-+
- 	config->active = true;
- 
- 	/*
-@@ -652,6 +744,8 @@ static void connection_newgateway(int index, const char *gateway)
- 	if (!data)
- 		return;
- 
-+	GATEWAY_DATA_DBG("data", data);
-+
- 	if (data->default_checked)
- 		return;
- 
-@@ -690,6 +784,8 @@ static void remove_gateway(gpointer user_data)
- 
- 	DBG("gateway ipv4 %p ipv6 %p", data->ipv4_gateway, data->ipv6_gateway);
- 
-+	GATEWAY_DATA_DBG("data", data);
-+
- 	if (data->ipv4_gateway) {
- 		g_free(data->ipv4_gateway->gateway);
- 		g_free(data->ipv4_gateway->vpn_ip);
-@@ -717,12 +813,18 @@ static void connection_delgateway(int index, const char *gateway)
- 	DBG("index %d gateway %s", index, gateway);
- 
- 	config = find_gateway(index, gateway);
--	if (config)
-+	if (config) {
-+		GATEWAY_CONFIG_DBG("config", config);
-+
- 		config->active = false;
-+	}
- 
- 	data = find_default_gateway();
--	if (data)
-+	if (data) {
-+		GATEWAY_DATA_DBG("data", data);
-+
- 		set_default_gateway(data, CONNMAN_IPCONFIG_TYPE_ALL);
-+	}
- }
- 
- static struct connman_rtnl connection_rtnl = {
-@@ -836,11 +938,15 @@ int __connman_connection_gateway_add(struct connman_service *service,
- 	if (!new_gateway)
- 		return -EINVAL;
- 
-+	GATEWAY_DATA_DBG("new_gateway", new_gateway);
-+
- 	active_gateway = find_active_gateway();
- 
- 	DBG("active %p index %d new %p", active_gateway,
- 		active_gateway ? active_gateway->index : -1, new_gateway);
- 
-+	GATEWAY_DATA_DBG("active_gateway", active_gateway);
-+
- 	if (type == CONNMAN_IPCONFIG_TYPE_IPV4 &&
- 				new_gateway->ipv4_gateway) {
- 		add_host_route(AF_INET, index, gateway, service_type);
-@@ -931,6 +1037,8 @@ void __connman_connection_gateway_remove(struct connman_service *service,
- 	if (!data)
- 		return;
- 
-+	GATEWAY_DATA_DBG("service_data", data);
-+
- 	if (do_ipv4 && data->ipv4_gateway)
- 		set_default4 = data->ipv4_gateway->vpn;
- 
-@@ -977,6 +1085,9 @@ void __connman_connection_gateway_remove(struct connman_service *service,
- 	 */
- 	if (set_default4 || set_default6 || err < 0) {
- 		data = find_default_gateway();
-+
-+		GATEWAY_DATA_DBG("default_data", data);
-+
- 		if (data)
- 			set_default_gateway(data, type);
++/**
++ *  @def CONNMAN_DEBUG_DESC_INSTANTIATE(symbol, _name, _file, _flags)
++ *
++ *  @brief
++ *    Convenience preprocessor macro for declaring and instantiating an
++ *    instance of #connmand_debug_desc.
++ *
++ *  @param[in]  symbol   The name of the #connman_debug_desc instance
++ *                       to instantiate.
++ *  @param[in]  _name    An optional pointer to an immutable null-
++ *                       terminated C string containing the name of
++ *                       the #connman_debug_desc- controlled symbol.
++ *  @param[in]  _file    A pointer to an immutable null-terminated C
++ *                       string containing the name of the
++ *                       #connman_debug_desc-controlled source file.
++ *  @param[in]  _flags   Flags that control the interpretation and
++ *                       behavior of the instantiated
++ *                       #connman_debug_desc instance.
++ *
++ */
+ #define CONNMAN_DEBUG_DESC_INSTANTIATE(symbol, _name, _file, _flags) \
+ 	static struct connman_debug_desc symbol \
+ 	__attribute__((used, section("__debug"), aligned(8))) = { \
+ 		.name = _name, .file = _file, .flags = _flags \
  	}
-@@ -996,6 +1107,8 @@ bool __connman_connection_update_gateway(void)
  
- 	DBG("default %p", default_gateway);
++/**
++ *  @def CONNMAN_DEBUG_ALIAS(suffix)
++ *
++ *  @brief
++ *    Convenience preprocessor macro for declaring and instantiating
++ *    an alias (see #CONNMAN_DEBUG_FLAG_ALIAS) instance of
++ *    #connmand_debug_desc.
++ *
++ *  @param[in]  suffix  The suffix to concatenate to the name of the
++ *                      #connman_debug_desc alias instance to
++ *                      instantiate.
++ *
++ */
+ #define CONNMAN_DEBUG_ALIAS(suffix) \
+ 	CONNMAN_DEBUG_DESC_INSTANTIATE(__debug_alias_##suffix, \
+ 		#suffix, \
+ 		__FILE__, \
+ 		CONNMAN_DEBUG_FLAG_ALIAS)
  
-+	GATEWAY_DATA_DBG("default_gateway", default_gateway);
-+
- 	/*
- 	 * There can be multiple active gateways so we need to
- 	 * check them all.
-@@ -1005,6 +1118,8 @@ bool __connman_connection_update_gateway(void)
- 	while (g_hash_table_iter_next(&iter, &key, &value)) {
- 		struct gateway_data *active_gateway = value;
++/**
++ *  @def CONNMAN_DEBUG(function, fmt, args...)
++ *
++ *  @brief
++ *    Convenience preprocessor macro for declaring and instantiating
++ *    an instance of #connmand_debug_desc for controlling an
++ *    invocation of #connman_debug with it that includes both the
++ *    file and function name the macro was invoked in or attributed
++ *    to.
++ *
++ *  This instantiates a scoped-instance of #connmand_debug_desc and
++ *  then, if that instance has its #CONNMAN_DEBUG_FLAG_PRINT flag
++ *  asserted, invokes a call to #connman_debug with the format:
++ *
++ *    "<file>:<function>() <fmt> ..."
++ *
++ *  where <file> is the preprocessor symbol __FILE__, <function> is
++ *  caller-specified, <fmt> is from @a fmt, and '...' is from @a
++ *  'args...'.
++ *
++ *  @param[in]  function  A pointer to an immutble null-terminated C
++ *                        string containing the name of the function
++ *                        in which the macro is being instantiated or
++ *                        to which the invocation of the macro should
++ *                        be attributed to. For example, __FUNCTION__.
++ *  @param[in]  fmt       A pointer to an immutable null-terminated C
++ *                        string container the log message, consisting
++ *                        of a printf-style format string composed of
++ *                        zero or more output conversion directives.
++ *  @param[in]  args...   A variadic argument list, where each
++ *                        argument corresponds with its peer output
++ *                        conversion directive in @a fmt.
++ *
++ *  @sa CONNMAN_DEBUG_DESC_INSTANTIATE
++ *  @sa connman_debug
++ *
++ */
+ #define CONNMAN_DEBUG(function, fmt, args...) do { \
+ 	CONNMAN_DEBUG_DESC_INSTANTIATE(__connman_debug_desc, \
+ 		0, \
+@@ -81,12 +155,35 @@ struct connman_debug_desc {
+ 	} while (0)
  
-+		GATEWAY_DATA_DBG("active_gateway", active_gateway);
-+
- 		if (active_gateway == default_gateway)
- 			continue;
+ /**
+- * DBG:
+- * @fmt: format string
+- * @arg...: list of arguments
++ *  @def DBG(fmt, args...)
++ *
++ *  @brief
++ *    Convenience preprocessor macro for declaring an instance of
++ *    #connmand_debug_desc for controlling an invocation of
++ *    #connman_debug with it that includes both the file and function
++ *    name the macro was invoked in.
++ *
++ *  This instantiates a scoped-instance of #connmand_debug_desc and
++ *  then, if that instance has its #CONNMAN_DEBUG_FLAG_PRINT flag
++ *  asserted, invokes a call to #connman_debug with the format:
++ *
++ *    "<file>:<function>() <fmt> ..."
++ *
++ *  where <file> is the preprocessor symbol __FILE__, <function> is
++ *  the preprocessor symbol __func__, <fmt> is from @a fmt, and
++ *  '...' is from @a 'args...'.
++ *
++ *  @param[in]  fmt      A pointer to an immutable null-terminated C
++ *                       string container the log message, consisting
++ *                       of a printf-style format string composed of
++ *                       zero or more output conversion directives.
++ *  @param[in]  args...  A variadic argument list, where each
++ *                       argument corresponds with its peer output
++ *                       conversion directive in @a fmt.
++ *
++ *  @sa CONNMAN_DEBUG
++ *  @sa connman_debug
+  *
+- * Simple macro around connman_debug() which also include the function
+- * name it is called in.
+  */
+ #define DBG(fmt, args...) CONNMAN_DEBUG(__func__, fmt, ##args)
  
 -- 
 2.42.0
