@@ -1,28 +1,26 @@
 Received: from mohas.pair.com (mohas.pair.com [209.68.5.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E423046B92
-	for <connman@lists.linux.dev>; Tue, 28 Nov 2023 19:23:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C1F246BA7
+	for <connman@lists.linux.dev>; Tue, 28 Nov 2023 19:33:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nuovations.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nuovations.com
 Authentication-Results: smtp.subspace.kernel.org; dkim=none
 Received: from mohas.pair.com (localhost [127.0.0.1])
-	by mohas.pair.com (Postfix) with ESMTP id B3F177314B
-	for <connman@lists.linux.dev>; Tue, 28 Nov 2023 14:23:06 -0500 (EST)
+	by mohas.pair.com (Postfix) with ESMTP id A6790730C5
+	for <connman@lists.linux.dev>; Tue, 28 Nov 2023 14:33:51 -0500 (EST)
 Received: from localhost.localdomain (unknown [IPv6:2601:647:5a00:15c1:230d:b2c9:c388:f96b])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mohas.pair.com (Postfix) with ESMTPSA id 6127073159
-	for <connman@lists.linux.dev>; Tue, 28 Nov 2023 14:23:06 -0500 (EST)
+	by mohas.pair.com (Postfix) with ESMTPSA id 580D2730FB
+	for <connman@lists.linux.dev>; Tue, 28 Nov 2023 14:33:51 -0500 (EST)
 From: Grant Erickson <gerickson@nuovations.com>
 To: connman@lists.linux.dev
-Subject: [PATCH 2/2] ipconfig: Document '__connman_ipconfig_gateway_{add,remove}'.
-Date: Tue, 28 Nov 2023 11:23:04 -0800
-Message-ID: <20231128192304.1179479-3-gerickson@nuovations.com>
+Subject: [PATCH] network: Const-qualify network leaf getter functions.
+Date: Tue, 28 Nov 2023 11:33:48 -0800
+Message-ID: <20231128193348.1186889-1-gerickson@nuovations.com>
 X-Mailer: git-send-email 2.42.0
-In-Reply-To: <20231128192304.1179479-1-gerickson@nuovations.com>
-References: <20231128192304.1179479-1-gerickson@nuovations.com>
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
@@ -32,73 +30,75 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: mailmunge 3.11 on 209.68.5.112
 
-This adds documentation to the
-'__connman_ipconfig_gateway_{add,remove}' functions.
+Const-qualify the network arguments in network leaf getter and
+introspection functions to make it clear to the compiler, static
+analyzers, and human readers that the function is strictly a getter or
+introspection function with no network mutation side effects.
 ---
- src/ipconfig.c | 43 +++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 43 insertions(+)
+ include/network.h | 4 ++--
+ src/connman.h     | 2 +-
+ src/network.c     | 6 +++---
+ 3 files changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/src/ipconfig.c b/src/ipconfig.c
-index 7c3418d51982..2ca4483ce61c 100644
---- a/src/ipconfig.c
-+++ b/src/ipconfig.c
-@@ -1326,6 +1326,31 @@ void __connman_ipconfig_set_gateway(struct connman_ipconfig *ipconfig,
- 	ipconfig->address->gateway = g_strdup(gateway);
+diff --git a/include/network.h b/include/network.h
+index f1a158afce8e..2078509e75bf 100644
+--- a/include/network.h
++++ b/include/network.h
+@@ -81,8 +81,8 @@ connman_network_ref_debug(struct connman_network *network,
+ void connman_network_unref_debug(struct connman_network *network,
+ 			const char *file, int line, const char *caller);
+ 
+-enum connman_network_type connman_network_get_type(struct connman_network *network);
+-const char *connman_network_get_identifier(struct connman_network *network);
++enum connman_network_type connman_network_get_type(const struct connman_network *network);
++const char *connman_network_get_identifier(const struct connman_network *network);
+ 
+ void connman_network_set_index(struct connman_network *network, int index);
+ int connman_network_get_index(const struct connman_network *network);
+diff --git a/src/connman.h b/src/connman.h
+index ae04cd9a26c6..8b900ff185f8 100644
+--- a/src/connman.h
++++ b/src/connman.h
+@@ -623,7 +623,7 @@ int __connman_network_clear_ipconfig(struct connman_network *network,
+ int __connman_network_enable_ipconfig(struct connman_network *network,
+ 				struct connman_ipconfig *ipconfig);
+ 
+-const char *__connman_network_get_type(struct connman_network *network);
++const char *__connman_network_get_type(const struct connman_network *network);
+ const char *__connman_network_get_group(struct connman_network *network);
+ const char *__connman_network_get_ident(struct connman_network *network);
+ bool __connman_network_get_weakness(struct connman_network *network);
+diff --git a/src/network.c b/src/network.c
+index e5fadd9cea36..3f844f76120d 100644
+--- a/src/network.c
++++ b/src/network.c
+@@ -1333,7 +1333,7 @@ void connman_network_unref_debug(struct connman_network *network,
+ 	network_destruct(network);
  }
  
-+/**
-+ *  @brief
-+ *    Add, or set, the gateway, or default router, for a network
-+ *    service.
-+ *
-+ *  This attempts to add, or set, the gateway, or default router, for
-+ *  a network service using the specified IP configuration.
-+ *
-+ *  @param[in]  ipconfig  A pointer to the immutable IP configuration
-+ *                        containing the network interface index @a
-+ *                        index as the lookup key for the network
-+ *                        service for which to add, or set, the
-+ *                        gateway.
-+ *
-+ *  @retval  0        If successful.
-+ *  @retval  -EINVAL  If the @a address field of @a ipconfig is null,
-+ *                    if a cooresponding service cannot be found for
-+ *                    the network interface index @a index of @a
-+ *                    ipconfig, or if the network interface index
-+ *                    associated with @a service is invalid.
-+ *
-+ *  @sa __connman_ipconfig_gateway_remove
-+ *  @sa __connman_connection_gateway_add
-+ *
-+ */
- int __connman_ipconfig_gateway_add(const struct connman_ipconfig *ipconfig)
+-const char *__connman_network_get_type(struct connman_network *network)
++const char *__connman_network_get_type(const struct connman_network *network)
  {
- 	struct connman_service *service;
-@@ -1357,6 +1382,24 @@ int __connman_ipconfig_gateway_add(const struct connman_ipconfig *ipconfig)
- 	return 0;
+ 	return type2string(network->type);
  }
- 
-+/**
-+ *  @brief
-+ *    Remove, or clear, the gateway, or default router, for a network
-+ *    service.
-+ *
-+ *  This attempts to remove, or clear, the gateway, or default router, for
-+ *  a network service using the specified IP configuration.
-+ *
-+ *  @param[in]  ipconfig  A pointer to the immutable IP configuration
-+ *                        containing the network interface index @a
-+ *                        index as the lookup key for the network
-+ *                        service for which to remove, or clear, the
-+ *                        gateway.
-+ *
-+ *  @sa __connman_ipconfig_gateway_add
-+ *  @sa __connman_connection_gateway_remove
-+ *
-+ */
- void __connman_ipconfig_gateway_remove(const struct connman_ipconfig *ipconfig)
+@@ -1345,7 +1345,7 @@ const char *__connman_network_get_type(struct connman_network *network)
+  * Get type of network
+  */
+ enum connman_network_type connman_network_get_type(
+-				struct connman_network *network)
++				const struct connman_network *network)
  {
- 	struct connman_service *service;
+ 	return network->type;
+ }
+@@ -1356,7 +1356,7 @@ enum connman_network_type connman_network_get_type(
+  *
+  * Get identifier of network
+  */
+-const char *connman_network_get_identifier(struct connman_network *network)
++const char *connman_network_get_identifier(const struct connman_network *network)
+ {
+ 	return network->identifier;
+ }
 -- 
 2.42.0
 
