@@ -1,25 +1,25 @@
 Received: from mohas.pair.com (mohas.pair.com [209.68.5.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D0CE5DF30
-	for <connman@lists.linux.dev>; Wed, 29 Nov 2023 19:21:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D84575DF2C
+	for <connman@lists.linux.dev>; Wed, 29 Nov 2023 19:21:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nuovations.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nuovations.com
 Authentication-Results: smtp.subspace.kernel.org; dkim=none
 Received: from mohas.pair.com (localhost [127.0.0.1])
-	by mohas.pair.com (Postfix) with ESMTP id 0703C7322A
-	for <connman@lists.linux.dev>; Wed, 29 Nov 2023 14:21:09 -0500 (EST)
+	by mohas.pair.com (Postfix) with ESMTP id C5B0B7322E
+	for <connman@lists.linux.dev>; Wed, 29 Nov 2023 14:21:10 -0500 (EST)
 Received: from localhost.localdomain (unknown [IPv6:2601:647:5a00:15c1:230d:b2c9:c388:f96b])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mohas.pair.com (Postfix) with ESMTPSA id B403773248
-	for <connman@lists.linux.dev>; Wed, 29 Nov 2023 14:21:08 -0500 (EST)
+	by mohas.pair.com (Postfix) with ESMTPSA id 7E6307324C
+	for <connman@lists.linux.dev>; Wed, 29 Nov 2023 14:21:10 -0500 (EST)
 From: Grant Erickson <gerickson@nuovations.com>
 To: connman@lists.linux.dev
-Subject: [PATCH v2 2/8] log: Document debugging preprocessor macros.
-Date: Wed, 29 Nov 2023 11:21:00 -0800
-Message-ID: <20231129192106.1295868-3-gerickson@nuovations.com>
+Subject: [PATCH v2 6/8] connection: Document 'connection_{add,del}gateway'.
+Date: Wed, 29 Nov 2023 11:21:04 -0800
+Message-ID: <20231129192106.1295868-7-gerickson@nuovations.com>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20231129192106.1295868-1-gerickson@nuovations.com>
 References: <20231128230847.1224497-1-gerickson@nuovations.com>
@@ -33,120 +33,124 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: mailmunge 3.11 on 209.68.5.112
 
-This adds documentation to the following debugging- / debug
-logging-related data types and preprocessor macros:
-
-    * connman_debug_desc
-    * CONNMAN_DEBUG_DESC_INSTANTIATE
-    * CONNMAN_DEBUG_ALIAS
-
-and expands the existing documentation for the 'DBG' preprocessor
-macro.
+This adds documentation to the 'connection_{add,del}gateway'
+functions.
 ---
- include/log.h | 69 +++++++++++++++++++++++++++++++++++++++++++++++----
- 1 file changed, 64 insertions(+), 5 deletions(-)
+ src/connection.c | 67 ++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 67 insertions(+)
 
-diff --git a/include/log.h b/include/log.h
-index a9b0f17f392b..f4e1e3a10fde 100644
---- a/include/log.h
-+++ b/include/log.h
-@@ -49,6 +49,10 @@ void connman_debug(const char *format, ...)
- 	}						\
- } while (0)
+diff --git a/src/connection.c b/src/connection.c
+index b772a6367570..a4610202d0ba 100644
+--- a/src/connection.c
++++ b/src/connection.c
+@@ -777,6 +777,29 @@ static bool choose_default_gateway(struct gateway_data *data,
+ 	return downgraded;
+ }
  
 +/**
-+ *  Debug-level logging descriptor that may be used to control debug
-+ *  output on a per-file or -symbol basis.
-+ */
- struct connman_debug_desc {
- 	const char *name;
- 	const char *file;
-@@ -58,12 +62,45 @@ struct connman_debug_desc {
- 	unsigned int flags;
- } __attribute__((aligned(8)));
- 
-+/**
-+ *  @def CONNMAN_DEBUG_DESC_INSTANTIATE(symbol, _name, _file, _flags)
-+ *
 + *  @brief
-+ *    Convenience preprocessor macro for declaring and instantiating an
-+ *    instance of #connmand_debug_desc.
++ *    Handler for gateway, or default route, -specific routes newly
++ *    added to the Linux kernel routing tables.
 + *
-+ *  @param[in]  symbol   The name of the #connman_debug_desc instance
-+ *                       to instantiate.
-+ *  @param[in]  _name    An optional pointer to an immutable null-
-+ *                       terminated C string containing the name of
-+ *                       the #connman_debug_desc- controlled symbol.
-+ *  @param[in]  _file    A pointer to an immutable null-terminated C
-+ *                       string containing the name of the
-+ *                       #connman_debug_desc-controlled source file.
-+ *  @param[in]  _flags   Flags that control the interpretation and
-+ *                       behavior of the instantiated
-+ *                       #connman_debug_desc instance.
++ *  This is the Linux Routing Netlink (rtnl) handler for gateway, or
++ *  default route, -specific routes newly-added to the Linux kernel
++ *  routing tables. Its primary role and goal is to serve as a
++ *  round-trip acknowledgement that gateway-, or default route,
++ *  related routes added or set to the kernel are now active and in
++ *  use.
++ *
++ *  @param[in]  index    The network interface index associated with
++ *                       the newly-added gateway, or default router.
++ *  @param[in]  gateway  An pointer to an immutable null-terminated
++ *                       C string containing the text-
++ *                       formatted address of the gateway, or default
++ *                       router, that was added.
++ *
++ *  @sa set_default_gateway
++ *  @sa connection_delgateway
 + *
 + */
- #define CONNMAN_DEBUG_DESC_INSTANTIATE(symbol, _name, _file, _flags) \
- 	static struct connman_debug_desc symbol \
- 	__attribute__((used, section("__debug"), aligned(8))) = { \
- 		.name = _name, .file = _file, .flags = _flags \
+ static void connection_newgateway(int index, const char *gateway)
+ {
+ 	g_autofree char *interface = NULL;
+@@ -791,12 +814,23 @@ static void connection_newgateway(int index, const char *gateway)
+ 	DBG("index %d (%s) gateway %s", index, maybe_null(interface),
+ 		gateway);
+ 
++	/*
++	 * If there is no gateway configuration, then this is not a
++	 * gateway, or default router, route we added or
++	 * set. Consequently, ignore it and return.
++	 */
+ 	config = find_gateway(index, gateway);
+ 	if (!config)
+ 		return;
+ 
+ 	GATEWAY_CONFIG_DBG("config", config);
+ 
++	/*
++	 * Otherwise, this is a gateway, or default router, route we added
++	 * or set and it is now acknowledged by the kernel. Consequently,
++	 * prospectively mark it as active; however, this may be
++	 * subsequently modified as default route determinations are made.
++	 */
+ 	config->active = true;
+ 
+ 	/*
+@@ -869,6 +903,29 @@ static void remove_gateway(gpointer user_data)
+ 	g_free(data);
+ }
+ 
++/**
++ *  @brief
++ *    Handler for gateway, or default route, -specific routes newly
++ *    removed from the Linux kernel routing tables.
++ *
++ *  This is the Linux Routing Netlink (rtnl) handler for gateway, or
++ *  default route, -specific routes newly-removed from the Linux
++ *  kernel routing tables. Its primary role and goal is to serve as
++ *  a round-trip acknowledgement that gateway-, or default route,
++ *  related routes removed or cleared from the kernel are now inactive
++ *  and are no longer in use.
++ *
++ *  @param[in]  index    The network interface index associated with
++ *                       the newly-removed gateway, or default router.
++ *  @param[in]  gateway  An pointer to an immutable null-terminated
++ *                       C string containing the text-
++ *                       formatted address of the gateway, or default
++ *                       router, that was removed.
++ *
++ *  @sa connection_newgateway
++ *  @sa set_default_gateway
++ *
++ */
+ static void connection_delgateway(int index, const char *gateway)
+ {
+ 	g_autofree char *interface = NULL;
+@@ -880,6 +937,10 @@ static void connection_delgateway(int index, const char *gateway)
+ 	DBG("index %d (%s) gateway %s", index, maybe_null(interface),
+ 		gateway);
+ 
++	/*
++	 * This ends the lifecycle of the gateway associated with the
++	 * newly-removed route; mark it as no longer active.
++	 */
+ 	config = find_gateway(index, gateway);
+ 	if (config) {
+ 		GATEWAY_CONFIG_DBG("config", config);
+@@ -887,6 +948,12 @@ static void connection_delgateway(int index, const char *gateway)
+ 		config->active = false;
  	}
  
-+/**
-+ *  @def CONNMAN_DEBUG_ALIAS(suffix)
-+ *
-+ *  @brief
-+ *    Convenience preprocessor macro for declaring and instantiating
-+ *    an alias (see #CONNMAN_DEBUG_FLAG_ALIAS) instance of
-+ *    #connmand_debug_desc.
-+ *
-+ *  @param[in]  suffix  The suffix to concatenate to the name of the
-+ *                      #connman_debug_desc alias instance to
-+ *                      instantiate.
-+ *
-+ */
- #define CONNMAN_DEBUG_ALIAS(suffix) \
- 	CONNMAN_DEBUG_DESC_INSTANTIATE(__debug_alias_##suffix, \
- 		#suffix, \
-@@ -71,12 +108,34 @@ struct connman_debug_desc {
- 		CONNMAN_DEBUG_FLAG_ALIAS)
- 
- /**
-- * DBG:
-- * @fmt: format string
-- * @arg...: list of arguments
-+ *  @def DBG(fmt, arg...)
-+ *
-+ *  @brief
-+ *    Convenience preprocessor macro for declaring an instance of
-+ *    #connmand_debug_desc for controlling an invocation of
-+ *    #connman_debug with it that includes both the file and function
-+ *    name the macro was invoked in.
-+ *
-+ *  This instantiates a scoped-instance of #connmand_debug_desc and
-+ *  then, if that instance has its #CONNMAN_DEBUG_FLAG_PRINT flag
-+ *  asserted, invokes a call to #connman_debug with the format:
-+ *
-+ *    "<file>:<function>() <fmt> ..."
-+ *
-+ *  where <file> is the preprocessor symbol __FILE__, <function> is
-+ *  the preprocessor symbol __func__, <fmt> is from @a fmt, and
-+ *  '...' is from @a 'arg...'.
-+ *
-+ *  @param[in]  fmt      A pointer to an immutable null-terminated C
-+ *                       string container the log message, consisting
-+ *                       of a printf-style format string composed of
-+ *                       zero or more output conversion directives.
-+ *  @param[in]  arg...   A variadic argument list, where each
-+ *                       argument corresponds with its peer output
-+ *                       conversion directive in @a fmt.
-+ *
-+ *  @sa connman_debug
-  *
-- * Simple macro around connman_debug() which also include the function
-- * name it is called in.
-  */
- #define DBG(fmt, arg...) do { \
- 	CONNMAN_DEBUG_DESC_INSTANTIATE(__connman_debug_desc, \
++	/*
++	 * Due to the newly-removed gateway route, there may have been a
++	 * concomitant change in service order that has resulted in a new,
++	 * default service, if any. If so, ensure that service acquires
++	 * the high priority default route.
++	 */
+ 	data = find_default_gateway();
+ 	if (data) {
+ 		GATEWAY_DATA_DBG("data", data);
 -- 
 2.42.0
 
