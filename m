@@ -1,26 +1,28 @@
 Received: from mohas.pair.com (mohas.pair.com [209.68.5.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F20E3382
-	for <connman@lists.linux.dev>; Wed, 29 Nov 2023 00:48:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94BB4626
+	for <connman@lists.linux.dev>; Wed, 29 Nov 2023 00:48:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nuovations.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nuovations.com
 Authentication-Results: smtp.subspace.kernel.org; dkim=none
 Received: from mohas.pair.com (localhost [127.0.0.1])
-	by mohas.pair.com (Postfix) with ESMTP id 9A5A6730F9
-	for <connman@lists.linux.dev>; Tue, 28 Nov 2023 19:48:00 -0500 (EST)
+	by mohas.pair.com (Postfix) with ESMTP id 834EC73122
+	for <connman@lists.linux.dev>; Tue, 28 Nov 2023 19:48:01 -0500 (EST)
 Received: from localhost.localdomain (unknown [IPv6:2601:647:5a00:15c1:230d:b2c9:c388:f96b])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mohas.pair.com (Postfix) with ESMTPSA id 4680573118
-	for <connman@lists.linux.dev>; Tue, 28 Nov 2023 19:48:00 -0500 (EST)
+	by mohas.pair.com (Postfix) with ESMTPSA id 3479273140
+	for <connman@lists.linux.dev>; Tue, 28 Nov 2023 19:48:01 -0500 (EST)
 From: Grant Erickson <gerickson@nuovations.com>
 To: connman@lists.linux.dev
-Subject: [PATCH 0/4] connection: Harmonize Search Function Names and Document Search Functions
-Date: Tue, 28 Nov 2023 16:47:54 -0800
-Message-ID: <20231129004759.1240786-1-gerickson@nuovations.com>
+Subject: [PATCH 2/4] service: Const-qualify 'lookup_gateway_data'.
+Date: Tue, 28 Nov 2023 16:47:56 -0800
+Message-ID: <20231129004759.1240786-3-gerickson@nuovations.com>
 X-Mailer: git-send-email 2.42.0
+In-Reply-To: <20231129004759.1240786-1-gerickson@nuovations.com>
+References: <20231129004759.1240786-1-gerickson@nuovations.com>
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
@@ -30,18 +32,28 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: mailmunge 3.11 on 209.68.5.112
 
-This colocates service/gateway search functions, harmonizes their
-names, and documents them.
+Const-qualify the gateway configuration argument of
+'lookup_gateway_data' to make it clear to the compiler, static
+analyzers, and human readers that the function is strictly a getter
+with no gateway configuration mutation side effects.
+---
+ src/connection.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-Grant Erickson (4):
-  connection: Colocate search functions.
-  service: Const-qualify 'lookup_gateway_data'.
-  connection: Harmonize search function names.
-  connection: Document search functions.
-
- src/connection.c | 161 +++++++++++++++++++++++++++++++++--------------
- 1 file changed, 115 insertions(+), 46 deletions(-)
-
+diff --git a/src/connection.c b/src/connection.c
+index 7b73b48ab1ea..a6ec3c7ab5fa 100644
+--- a/src/connection.c
++++ b/src/connection.c
+@@ -216,7 +216,8 @@ static struct gateway_config *find_gateway(int index, const char *gateway)
+ 	return NULL;
+ }
+ 
+-static struct gateway_data *lookup_gateway_data(struct gateway_config *config)
++static struct gateway_data *lookup_gateway_data(
++				const struct gateway_config *config)
+ {
+ 	GHashTableIter iter;
+ 	gpointer value, key;
 -- 
 2.42.0
 
