@@ -1,25 +1,25 @@
 Received: from mohas.pair.com (mohas.pair.com [209.68.5.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 792EF5DF2C
-	for <connman@lists.linux.dev>; Wed, 29 Nov 2023 19:21:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF74A5DF35
+	for <connman@lists.linux.dev>; Wed, 29 Nov 2023 19:21:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nuovations.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nuovations.com
 Authentication-Results: smtp.subspace.kernel.org; dkim=none
 Received: from mohas.pair.com (localhost [127.0.0.1])
-	by mohas.pair.com (Postfix) with ESMTP id 8F79573222
-	for <connman@lists.linux.dev>; Wed, 29 Nov 2023 14:21:08 -0500 (EST)
+	by mohas.pair.com (Postfix) with ESMTP id E06C673227
+	for <connman@lists.linux.dev>; Wed, 29 Nov 2023 14:21:09 -0500 (EST)
 Received: from localhost.localdomain (unknown [IPv6:2601:647:5a00:15c1:230d:b2c9:c388:f96b])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mohas.pair.com (Postfix) with ESMTPSA id 4689973232
-	for <connman@lists.linux.dev>; Wed, 29 Nov 2023 14:21:08 -0500 (EST)
+	by mohas.pair.com (Postfix) with ESMTPSA id 9947A73247
+	for <connman@lists.linux.dev>; Wed, 29 Nov 2023 14:21:09 -0500 (EST)
 From: Grant Erickson <gerickson@nuovations.com>
 To: connman@lists.linux.dev
-Subject: [PATCH v2 1/8] log: Refactor debugging preprocessor macros.
-Date: Wed, 29 Nov 2023 11:20:59 -0800
-Message-ID: <20231129192106.1295868-2-gerickson@nuovations.com>
+Subject: [PATCH v2 4/8] connection: Document 'gateway_{config,data}_debug'.
+Date: Wed, 29 Nov 2023 11:21:02 -0800
+Message-ID: <20231129192106.1295868-5-gerickson@nuovations.com>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20231129192106.1295868-1-gerickson@nuovations.com>
 References: <20231128230847.1224497-1-gerickson@nuovations.com>
@@ -33,84 +33,92 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: mailmunge 3.11 on 209.68.5.112
 
-This refactors the debugging / debug log preprocessor-related
-macros. In particular, it:
-
-    * Introduces CONNMAN_DEBUG_DESC_INSTANTIATE which declares and
-      instantiates an instance of 'connman_debug_desc'.
-
-    * Replaces CONNMAN_DEBUG_DEFINE with CONNMAN_DEBUG_ALIAS which
-      declares and instantiates an alias (that is, asserts the
-      CONNMAN_DEBUG_FLAG_ALIAS flag) instance of
-      'connmand_debug_desc', using CONNMAN_DEBUG_DESC_INSTANTIATE.
-
-    * Redefines 'DBG' against 'CONNMAN_DEBUG_DESC_INSTANTIATE' with
-      '__func__' as the function parameter.
+This adds documentation to the 'gateway_{config,data}_debug'
+functions.
 ---
- include/log.h | 28 +++++++++++++++++-----------
- src/log.c     |  2 +-
- 2 files changed, 18 insertions(+), 12 deletions(-)
+ src/connection.c | 57 ++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 57 insertions(+)
 
-diff --git a/include/log.h b/include/log.h
-index 8b00e9dc979c..a9b0f17f392b 100644
---- a/include/log.h
-+++ b/include/log.h
-@@ -58,11 +58,17 @@ struct connman_debug_desc {
- 	unsigned int flags;
- } __attribute__((aligned(8)));
+diff --git a/src/connection.c b/src/connection.c
+index 586c44330e89..7b530f26c2f2 100644
+--- a/src/connection.c
++++ b/src/connection.c
+@@ -59,11 +59,45 @@ struct gateway_data {
  
--#define CONNMAN_DEBUG_DEFINE(name) \
--	static struct connman_debug_desc __debug_alias_ ## name \
-+#define CONNMAN_DEBUG_DESC_INSTANTIATE(symbol, _name, _file, _flags) \
-+	static struct connman_debug_desc symbol \
- 	__attribute__((used, section("__debug"), aligned(8))) = { \
--		#name, __FILE__, CONNMAN_DEBUG_FLAG_ALIAS \
--	};
-+		.name = _name, .file = _file, .flags = _flags \
-+	}
-+
-+#define CONNMAN_DEBUG_ALIAS(suffix) \
-+	CONNMAN_DEBUG_DESC_INSTANTIATE(__debug_alias_##suffix, \
-+		#suffix, \
-+		__FILE__, \
-+		CONNMAN_DEBUG_FLAG_ALIAS)
+ static GHashTable *gateway_hash = NULL;
  
- /**
-  * DBG:
-@@ -73,13 +79,13 @@ struct connman_debug_desc {
-  * name it is called in.
-  */
- #define DBG(fmt, arg...) do { \
--	static struct connman_debug_desc __connman_debug_desc \
--	__attribute__((used, section("__debug"), aligned(8))) = { \
--		.file = __FILE__, .flags = CONNMAN_DEBUG_FLAG_DEFAULT, \
--	}; \
--	if (__connman_debug_desc.flags & CONNMAN_DEBUG_FLAG_PRINT) \
--		connman_debug("%s:%s() " fmt, \
--					__FILE__, __FUNCTION__ , ## arg); \
-+	CONNMAN_DEBUG_DESC_INSTANTIATE(__connman_debug_desc, \
-+		0, \
-+		__FILE__, \
-+		CONNMAN_DEBUG_FLAG_DEFAULT); \
-+		if (__connman_debug_desc.flags & CONNMAN_DEBUG_FLAG_PRINT) \
-+			connman_debug("%s:%s() " fmt, \
-+					__FILE__, __func__, ##arg); \
- } while (0)
++/**
++ *  @brief
++ *    Return the specified pointer if non-null; otherwise, the
++ *    immutable "<null>" string.
++ *
++ *  @param[in]  pointer  The pointer to be returned if non-null.
++ *
++ *  @returns
++ *     @a pointer if non-null; otherwise the "<null>" immutable
++ *     null-terminated C string.
++ *
++ */
+ static const char *maybe_null(const void *pointer)
+ {
+ 	return pointer ? pointer : "<null>";
+ }
  
- #ifdef __cplusplus
-diff --git a/src/log.c b/src/log.c
-index 554b046b07fa..f7483194b230 100644
---- a/src/log.c
-+++ b/src/log.c
-@@ -38,7 +38,7 @@ static const char *program_exec;
- static const char *program_path;
++/**
++ *  @brief
++ *    Conditionally log the specified gateway configuration.
++ *
++ *  This conditionally logs at the debug level the specified
++ *  #gateway_config gateway configuration, @a config, with the
++ *  provided description, @a description, attributed to the provided
++ *  function name, @a function.
++ *
++ *  @param[in]  function     A pointer to an immutable null-terminated
++ *                           C string containing the function name to
++ *                           which the call to this function should be
++ *                           attributed.
++ *  @param[in]  description  A pointer to an immutable null-terminated
++ *                           C string briefly describing @a
++ *                           config. For example, "ipv4_config".
++ *  @param[in]  config       A pointer to the immutable gateway
++ *                           configuration to conditionally log.
++ *
++ *  @sa DBG
++ *
++ */
+ static void gateway_config_debug(const char *function,
+ 				const char *description,
+ 				const struct gateway_config *config)
+@@ -95,6 +129,29 @@ static void gateway_config_debug(const char *function,
+ 	}
+ }
  
- /* This makes sure we always have a __debug section. */
--CONNMAN_DEBUG_DEFINE(dummy);
-+CONNMAN_DEBUG_ALIAS(dummy);
- 
- /**
-  * connman_info:
++/**
++ *  @brief
++ *    Conditionally log the specified gateway data.
++ *
++ *  This conditionally logs at the debug level the specified
++ *  #gateway_data gateway data, @a data, with the provided
++ *  description, @a description, attributed to the provided function
++ *  name, @a function.
++ *
++ *  @param[in]  function     A pointer to an immutable null-terminated
++ *                           C string containing the function name to
++ *                           which the call to this function should be
++ *                           attributed.
++ *  @param[in]  description  A pointer to an immutable null-terminated
++ *                           C string briefly describing @a
++ *                           data. For example, "default_gateway".
++ *  @param[in]  data         A pointer to the immutable gateway
++ *                           data to conditionally log.
++ *
++ *  @sa DBG
++ *  @sa gateway_config_debug
++ *
++ */
+ static void gateway_data_debug(const char *function,
+ 				const char *description,
+ 				const struct gateway_data *data)
 -- 
 2.42.0
 
