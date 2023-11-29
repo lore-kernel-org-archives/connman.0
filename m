@@ -1,84 +1,94 @@
 Received: from mohas.pair.com (mohas.pair.com [209.68.5.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FD075DF3D
-	for <connman@lists.linux.dev>; Wed, 29 Nov 2023 19:21:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7585914AB9
+	for <connman@lists.linux.dev>; Wed, 29 Nov 2023 19:22:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nuovations.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nuovations.com
 Authentication-Results: smtp.subspace.kernel.org; dkim=none
 Received: from mohas.pair.com (localhost [127.0.0.1])
-	by mohas.pair.com (Postfix) with ESMTP id AC8E073232
-	for <connman@lists.linux.dev>; Wed, 29 Nov 2023 14:21:11 -0500 (EST)
-Received: from localhost.localdomain (unknown [IPv6:2601:647:5a00:15c1:230d:b2c9:c388:f96b])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	by mohas.pair.com (Postfix) with ESMTP id D740F731A4;
+	Wed, 29 Nov 2023 14:22:55 -0500 (EST)
+Received: from [IPv6:2601:647:5a00:15c1:382d:cec3:11a2:ed7a] (unknown [IPv6:2601:647:5a00:15c1:382d:cec3:11a2:ed7a])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mohas.pair.com (Postfix) with ESMTPSA id 643957324A
-	for <connman@lists.linux.dev>; Wed, 29 Nov 2023 14:21:11 -0500 (EST)
-From: Grant Erickson <gerickson@nuovations.com>
-To: connman@lists.linux.dev
-Subject: [PATCH v2 8/8] connection: Document '__connman_connection_update_gateway'.
-Date: Wed, 29 Nov 2023 11:21:06 -0800
-Message-ID: <20231129192106.1295868-9-gerickson@nuovations.com>
-X-Mailer: git-send-email 2.42.0
-In-Reply-To: <20231129192106.1295868-1-gerickson@nuovations.com>
-References: <20231128230847.1224497-1-gerickson@nuovations.com>
- <20231129192106.1295868-1-gerickson@nuovations.com>
+	by mohas.pair.com (Postfix) with ESMTPSA id 8EB9973225;
+	Wed, 29 Nov 2023 14:22:55 -0500 (EST)
+Content-Type: text/plain;
+	charset=utf-8
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0 (Mac OS X Mail 13.4 \(3608.120.23.2.4\))
+Subject: Re: [PATCH 1/8] log: Refactor debugging preprocessor macros.
+From: Grant Erickson <gerickson@nuovations.com>
+In-Reply-To: <27BE5445-5F4C-43FD-8913-9EDD7C29FDF9@holtmann.org>
+Date: Wed, 29 Nov 2023 11:22:54 -0800
+Cc: connman@lists.linux.dev
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <170632B2-CC29-4ED4-928F-BA2AFB776DCC@nuovations.com>
+References: <20231128230847.1224497-1-gerickson@nuovations.com>
+ <20231128230847.1224497-2-gerickson@nuovations.com>
+ <D3A8D3AA-9EFA-4D23-B4D6-01A96B45E9C0@holtmann.org>
+ <06E9A152-301F-4791-BB06-8CCCE22889CB@nuovations.com>
+ <27BE5445-5F4C-43FD-8913-9EDD7C29FDF9@holtmann.org>
+To: Marcel Holtmann <marcel@holtmann.org>
+X-Mailer: Apple Mail (2.3608.120.23.2.4)
 X-Scanned-By: mailmunge 3.11 on 209.68.5.112
 
-This adds documentation to the '__connman_connection_update_gateway'
-function.
----
- src/connection.c | 22 ++++++++++++++++++++++
- 1 file changed, 22 insertions(+)
+On Nov 29, 2023, at 10:18 AM, Marcel Holtmann <marcel@holtmann.org> =
+wrote:
+>>>> This refactors the debugging / debug log preprocessor-related
+>>>> macros. In particular, it:
+>>>>=20
+>>>> * Introduces CONNMAN_DEBUG_DESC_INSTANTIATE which declares and
+>>>>   instantiates an instance of 'connmand_debug_desc'.
+>>>>=20
+>>>> * Replaces CONNMAN_DEBUG_DEFINE with CONNMAN_DEBUG_ALIAS which
+>>>>   declares and instantiates an alias (that is, asserts the
+>>>>   CONNMAN_DEBUG_FLAG_ALIAS flag) instance of
+>>>>   'connmand_debug_desc', using CONNMAN_DEBUG_DESC_INSTANTIATE.
+>>>>=20
+>>>> * Introduces CONNMAN_DEBUG which declares and instantiates
+>>>>   an instance of 'connmand_debug_desc', again using
+>>>>   CONNMAN_DEBUG_DESC_INSTANTIATE, for controlling an invocation of
+>>>>   'connman_debug' with it that includes both the file and function
+>>>>   name the macro was invoked in or attributed to.
+>>>>=20
+>>>>   - The key difference between this and 'DBG' is that this allows
+>>>>     the caller to specify the function string rather than relying =
+on
+>>>>     '__FUNCTION__' (or __func__).
+>>>>=20
+>>>> * Redefines 'DBG' against 'CONNMAN_DEBUG' with '__func__' as the
+>>>>   function parameter.
+>>>> ---
+>>>> include/log.h | 34 +++++++++++++++++++++-------------
+>>>> src/log.c     |  2 +-
+>>>> 2 files changed, 22 insertions(+), 14 deletions(-)
+>>>=20
+>>> I don=E2=80=99t like this since it ends up bloating the DBG part of =
+it...
+>>=20
+>> CONNMAN_DEBUG aside, are you otherwise OK with the clean ups and =
+documentation to log.h embodied in this patch?
+>=20
+> I am fine with all the cleanups, but I prefer you don=E2=80=99t =
+introduce CONNMAN_DEBUG and stick with DBG instead and we try to figure =
+out on how to make DBG work the way you want to use it.
 
-diff --git a/src/connection.c b/src/connection.c
-index 58abf2ae1925..7c65b0951243 100644
---- a/src/connection.c
-+++ b/src/connection.c
-@@ -1320,6 +1320,24 @@ void __connman_connection_gateway_remove(struct connman_service *service,
- 	}
- }
- 
-+/**
-+ *  @brief
-+ *    Handle a potential change in gateways.
-+ *
-+ *  This may be invoked by other modules in the event of service and
-+ *  technology changes to reexamine and, if necessary, update active
-+ *  network interface gateways and their associated routing table
-+ *  entries.
-+ *
-+ *  @returns
-+ *    True if an active gateway was updated; otherwise, false.
-+ *
-+ *  @sa __connman_connection_gateway_add
-+ *  @sa __connman_connection_gateway_remove
-+ *  @sa set_default_gateway
-+ *  @sa unset_default_gateway
-+ *
-+ */
- bool __connman_connection_update_gateway(void)
- {
- 	struct gateway_data *default_gateway;
-@@ -1329,6 +1347,10 @@ bool __connman_connection_update_gateway(void)
- 
- 	DBG("");
- 
-+	/*
-+	 * If there is no service-to-gateway data hash, then there is
-+	 * nothing to update and do; simply return.
-+	 */
- 	if (!gateway_hash)
- 		return updated;
- 
--- 
-2.42.0
+Resubmitted as a v2 patch with the suggested revisions.
+
+Best,
+
+Grant
+
+--=20
+Principal
+Nuovations
+
+gerickson@nuovations.com
+http://www.nuovations.com/
 
