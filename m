@@ -1,12 +1,12 @@
 Received: from mail.holtmann.org (coyote.holtmann.net [212.227.132.17])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 35A911C6BE
-	for <connman@lists.linux.dev>; Wed, 29 Nov 2023 12:53:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9D8581C6BE
+	for <connman@lists.linux.dev>; Wed, 29 Nov 2023 12:54:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=holtmann.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=holtmann.org
 Authentication-Results: smtp.subspace.kernel.org; dkim=none
 Received: from smtpclient.apple (p5b3d29b7.dip0.t-ipconnect.de [91.61.41.183])
-	by mail.holtmann.org (Postfix) with ESMTPSA id E6F22CECD1;
-	Wed, 29 Nov 2023 13:53:53 +0100 (CET)
+	by mail.holtmann.org (Postfix) with ESMTPSA id BA27ACECD1;
+	Wed, 29 Nov 2023 13:54:15 +0100 (CET)
 Content-Type: text/plain;
 	charset=us-ascii
 Precedence: bulk
@@ -15,34 +15,29 @@ List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3774.200.91.1.1\))
-Subject: Re: [PATCH 0/2] ipconfig: Add DBG and Documentation to
- '__connman_ipconfig_gateway_{add,remove}'
+Subject: Re: [PATCH] ipconfig: Const-qualify 'ipconfig' parameters.
 From: Marcel Holtmann <marcel@holtmann.org>
-In-Reply-To: <20231128192304.1179479-1-gerickson@nuovations.com>
-Date: Wed, 29 Nov 2023 13:53:43 +0100
+In-Reply-To: <20231128185136.1171884-1-gerickson@nuovations.com>
+Date: Wed, 29 Nov 2023 13:54:05 +0100
 Cc: connman@lists.linux.dev
 Content-Transfer-Encoding: 7bit
-Message-Id: <2DE070AC-2294-49DD-A591-4B766D75CB57@holtmann.org>
-References: <20231128192304.1179479-1-gerickson@nuovations.com>
+Message-Id: <3DD38F2F-4E52-458E-893D-E60E9CA94960@holtmann.org>
+References: <20231128185136.1171884-1-gerickson@nuovations.com>
 To: Grant Erickson <gerickson@nuovations.com>
 X-Mailer: Apple Mail (2.3774.200.91.1.1)
 
 Hi Grant,
 
-> This not only expands and harmonizes the initial 'DBG' statements in
-> '__connman_ipconfig_gateway_{add,remove}' to aid debugging in a
-> multi-technology environment with "EnableOnlineToReadyTransition" but
-> also adds function documentation to these functions.
-> 
-> Grant Erickson (2):
->  ipconfig: Expand and harmonize 'DBG' in
->    '__connman_ipconfig_gateway_{add,remove}'
->  ipconfig: Document '__connman_ipconfig_gateway_{add,remove}'.
-> 
-> src/ipconfig.c | 64 +++++++++++++++++++++++++++++++++++++++++++++++---
-> 1 file changed, 61 insertions(+), 3 deletions(-)
+> Const-qualify the ipconfig arguments of '__connman_ipconfig_get_gateway'
+> and '__connman_ipconfig_gateway_{add,remove}' to make it clear to the
+> compiler, static analyzers, and human readers that the functions have
+> no ipconfig mutation side effects.
+> ---
+> src/connman.h  | 6 +++---
+> src/ipconfig.c | 6 +++---
+> 2 files changed, 6 insertions(+), 6 deletions(-)
 
-both patches have been applied.
+patch has been applied.
 
 Regards
 
