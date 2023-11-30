@@ -1,117 +1,57 @@
-Received: from mohas.pair.com (mohas.pair.com [209.68.5.112])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA71C14F6A
-	for <connman@lists.linux.dev>; Thu, 30 Nov 2023 05:26:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nuovations.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nuovations.com
+Received: from mail.holtmann.org (coyote.holtmann.net [212.227.132.17])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 94E0A134C3
+	for <connman@lists.linux.dev>; Thu, 30 Nov 2023 08:40:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=holtmann.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=holtmann.org
 Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: from mohas.pair.com (localhost [127.0.0.1])
-	by mohas.pair.com (Postfix) with ESMTP id C490373154
-	for <connman@lists.linux.dev>; Thu, 30 Nov 2023 00:26:26 -0500 (EST)
-Received: from localhost.localdomain (unknown [IPv6:2601:647:5a00:15c1:230d:b2c9:c388:f96b])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mohas.pair.com (Postfix) with ESMTPSA id 7065D731D1
-	for <connman@lists.linux.dev>; Thu, 30 Nov 2023 00:26:26 -0500 (EST)
-From: Grant Erickson <gerickson@nuovations.com>
-To: connman@lists.linux.dev
-Subject: [PATCH 4/4] connection: Document '{un,}set_default_gateway'.
-Date: Wed, 29 Nov 2023 21:26:22 -0800
-Message-ID: <20231130052622.1335266-5-gerickson@nuovations.com>
-X-Mailer: git-send-email 2.42.0
-In-Reply-To: <20231130052622.1335266-1-gerickson@nuovations.com>
-References: <20231130052622.1335266-1-gerickson@nuovations.com>
+Received: from smtpclient.apple (p5b3d29b7.dip0.t-ipconnect.de [91.61.41.183])
+	by mail.holtmann.org (Postfix) with ESMTPSA id EE1C7CECCF;
+	Thu, 30 Nov 2023 09:40:07 +0100 (CET)
+Content-Type: text/plain;
+	charset=us-ascii
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: mailmunge 3.11 on 209.68.5.112
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3774.200.91.1.1\))
+Subject: Re: [PATCH v2 1/8] log: Refactor debugging preprocessor macros.
+From: Marcel Holtmann <marcel@holtmann.org>
+In-Reply-To: <20231129192106.1295868-2-gerickson@nuovations.com>
+Date: Thu, 30 Nov 2023 09:39:57 +0100
+Cc: connman@lists.linux.dev
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <5F8910ED-30EC-41A1-81AA-47D74E4E152A@holtmann.org>
+References: <20231128230847.1224497-1-gerickson@nuovations.com>
+ <20231129192106.1295868-1-gerickson@nuovations.com>
+ <20231129192106.1295868-2-gerickson@nuovations.com>
+To: Grant Erickson <gerickson@nuovations.com>
+X-Mailer: Apple Mail (2.3774.200.91.1.1)
 
-This adds documentation to the '{un,}set_default_gateway'
-functions.
----
- src/connection.c | 56 ++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 56 insertions(+)
+Hi Grant,
 
-diff --git a/src/connection.c b/src/connection.c
-index 716569debfa5..94b2f90f515b 100644
---- a/src/connection.c
-+++ b/src/connection.c
-@@ -864,6 +864,35 @@ static int add_gateway(struct connman_service *service,
- 	return err;
- }
- 
-+/**
-+ *  @brief
-+ *    Set, or assign, the gateway, or default route, for the specified
-+ *    IP configuration type from the provided gateway data.
-+ *
-+ *  This attempts to set, or assign, the gateway, or default, route
-+ *  for the specified IP configuration type from the provided gateway
-+ *  data. The network interface and, by extension, the network service
-+ *  with which the gateway is associated is determined by the @a index
-+ *  field of @a data.
-+ *
-+ *  On success, the gateway configuration specific to @a type will
-+ *  have its @a active field set to true and the gateway data network
-+ *  service @a service will be signaled as the default via
-+ *  #__connman_service_indicate_default.
-+ *
-+ *  @param[in,out]  data  A pointer to the mutable gateway data to
-+ *                        assign as the default route.
-+ *  @param[in]      type  The IP configuration type for which the
-+ *                        gateway, or default router, configuration
-+ *                        will be selected from @a data and used to
-+ *                        set the default route.
-+ *
-+ *  @sa __connman_inet_add_default_to_table
-+ *  @sa __connman_service_indicate_default
-+ *  @sa connman_inet_set_gateway_interface
-+ *  @sa connman_inet_set_ipv6_gateway_interface
-+ *
-+ */
- static void set_default_gateway(struct gateway_data *data,
- 				enum connman_ipconfig_type type)
- {
-@@ -952,6 +981,33 @@ static void set_default_gateway(struct gateway_data *data,
- 	__connman_service_indicate_default(data->service);
- }
- 
-+/**
-+ *  @brief
-+ *    Unset the gateway, or default route, for the specified IP
-+ *    configuration type from the provided gateway data.
-+ *
-+ *  This attempts to unset, or clear, the gateway, or default, route
-+ *  for the specified IP configuration type from the provided gateway
-+ *  data. The network interface and, by extension, the network service
-+ *  with which the gateway is associated is determined by the @a index
-+ *  field of @a data.
-+ *
-+ *  On success, the gateway configuration specific to @a type will
-+ *  have its @a active field set to false.
-+ *
-+ *  @param[in,out]  data  A pointer to the mutable gateway data to
-+ *                        clear as the default route.
-+ *  @param[in]      type  The IP configuration type for which the
-+ *                        gateway, or default router, configuration
-+ *                        will be selected from @a data and used to
-+ *                        unset the default route.
-+ *
-+ *  @sa connman_inet_clear_gateway_address
-+ *  @sa connman_inet_clear_gateway_interface
-+ *  @sa connman_inet_clear_ipv6_gateway_address
-+ *  @sa connman_inet_clear_ipv6_gateway_interface
-+ *
-+ */
- static void unset_default_gateway(struct gateway_data *data,
- 				enum connman_ipconfig_type type)
- {
--- 
-2.42.0
+> This refactors the debugging / debug log preprocessor-related
+> macros. In particular, it:
+>=20
+>    * Introduces CONNMAN_DEBUG_DESC_INSTANTIATE which declares and
+>      instantiates an instance of 'connman_debug_desc'.
+>=20
+>    * Replaces CONNMAN_DEBUG_DEFINE with CONNMAN_DEBUG_ALIAS which
+>      declares and instantiates an alias (that is, asserts the
+>      CONNMAN_DEBUG_FLAG_ALIAS flag) instance of
+>      'connmand_debug_desc', using CONNMAN_DEBUG_DESC_INSTANTIATE.
+>=20
+>    * Redefines 'DBG' against 'CONNMAN_DEBUG_DESC_INSTANTIATE' with
+>      '__func__' as the function parameter.
+> ---
+> include/log.h | 28 +++++++++++++++++-----------
+> src/log.c     |  2 +-
+> 2 files changed, 18 insertions(+), 12 deletions(-)
+
+I am bit confused. I thought we leave this out for now and get the fixes =
+merged and look into improving DBG.
+
+Regards
+
+Marcel
 
