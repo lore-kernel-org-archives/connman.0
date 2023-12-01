@@ -1,100 +1,117 @@
-Received: from mohas.pair.com (mohas.pair.com [209.68.5.112])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7450B524A3
-	for <connman@lists.linux.dev>; Thu, 30 Nov 2023 15:43:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nuovations.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nuovations.com
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: from mohas.pair.com (localhost [127.0.0.1])
-	by mohas.pair.com (Postfix) with ESMTP id 1BF06731A4;
-	Thu, 30 Nov 2023 10:43:05 -0500 (EST)
-Received: from [IPv6:2601:647:5a00:15c1:9122:acf7:a1da:25ee] (unknown [IPv6:2601:647:5a00:15c1:9122:acf7:a1da:25ee])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mohas.pair.com (Postfix) with ESMTPSA id C230E731FE;
-	Thu, 30 Nov 2023 10:43:04 -0500 (EST)
-Content-Type: text/plain;
-	charset=utf-8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61E2C1C2B1
+	for <connman@lists.linux.dev>; Fri,  1 Dec 2023 06:31:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gpV2lMBG"
+Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-50bc21821a1so2488022e87.0
+        for <connman@lists.linux.dev>; Thu, 30 Nov 2023 22:31:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1701412273; x=1702017073; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=74GGO/73dMW3fVERnrmJfcwONId80jAnGKMrGNUne3M=;
+        b=gpV2lMBG1AizIDSFlpFU/bLnUJr+4R6DOJqqHXJTdA4vsRU1HoxDPfICe927nP/UIy
+         cx5cf1E/KECeWlOWI7yD8QTgqYCvppQ94DzNtadDRIaXklAOheLKttpzOo+quN0qNOW0
+         VOAYXxjH772sP3W2WVyqqdsriaUetzgHGxoy5khx50DR+EDyNe1vqjGRumx4Kb8h9X3f
+         O6l3M1wnsHR3Av80uWMc5ctt8yTdiM1pm2ibMOl4pfZ9IjL4fAlHbQOf3kWOOcBacKvg
+         Rcb2JcJbOGTTmwISMHjM8Bo/5VsMyLVJsFWm9CiYeXcnYS8rMXkDdVCXU964kH/m4LoV
+         MmXw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701412273; x=1702017073;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=74GGO/73dMW3fVERnrmJfcwONId80jAnGKMrGNUne3M=;
+        b=BkN98FIOCmKt+KLHl0N1/ef4YYn9WGgxZt1EaeGU0UsvBHPbX9+vTC/VVWzoDOlxxV
+         N96/9qqkqRXQr2Pnna5RRrY8KQ0GKWjJT8vG9mrZq3Vtl2GrFTzMfUIq+W6Sy3bwYkns
+         8yk5V8CAIHSNAMFSifXSqDMujeeCL9PD3V1OkVerNfXauTfzQDLw21ySQWIRhDvmHjOM
+         to+nmxHJySdUZTZnAVS4u2S96yxMOB5Nql2YanA40s6jd4/i9INEE79pKQjc8Hf9bGL+
+         JngIHZk5wyWF3j4lzzRsphnGx67kmGUTW8fcNeW69w+biHsUWd4CMz3U8MRecV5u6DwL
+         G3zw==
+X-Gm-Message-State: AOJu0YzOKZKVdLwhs0zpGcNwsIE9KOF8QLTp6tbs/JqqJmKoX0mUrPua
+	2DElOuLDVjaUSVH7/U1+lLE=
+X-Google-Smtp-Source: AGHT+IFLHTvjH8THKLtLfSocmYzDSRmmCBsLdGFQHeep1Zj1ttOl4O93+I2y4oH8pjvSTK49eLKkTQ==
+X-Received: by 2002:a19:9153:0:b0:50b:d764:8041 with SMTP id y19-20020a199153000000b0050bd7648041mr354964lfj.116.1701412273020;
+        Thu, 30 Nov 2023 22:31:13 -0800 (PST)
+Received: from gmail.com (83-233-6-197.cust.bredband2.com. [83.233.6.197])
+        by smtp.gmail.com with ESMTPSA id bi3-20020a0565120e8300b0050aa6bd6d8csm344951lfb.178.2023.11.30.22.31.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 30 Nov 2023 22:31:12 -0800 (PST)
+Date: Fri, 1 Dec 2023 07:35:43 +0100
+From: Marcus Folkesson <marcus.folkesson@gmail.com>
+To: Grant Erickson <gerickson@nuovations.com>
+Cc: KeithG <ys3al35l@gmail.com>, connman@lists.linux.dev
+Subject: Re: Thanks!
+Message-ID: <ZWl-v9clAt13NeP3@gmail.com>
+References: <CAG17S_PomgZSoy+Z=rS-u4_TM=S33G7FMAHRqnTaf+42U0LkMw@mail.gmail.com>
+ <37635FF1-7B94-4E72-913B-D1AA38A2D466@nuovations.com>
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0 (Mac OS X Mail 13.4 \(3608.120.23.2.4\))
-Subject: Re: [PATCH v2 1/8] log: Refactor debugging preprocessor macros.
-From: Grant Erickson <gerickson@nuovations.com>
-In-Reply-To: <5F8910ED-30EC-41A1-81AA-47D74E4E152A@holtmann.org>
-Date: Thu, 30 Nov 2023 07:43:03 -0800
-Cc: connman@lists.linux.dev
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="xqV+oBLhyTZRyimH"
+Content-Disposition: inline
+In-Reply-To: <37635FF1-7B94-4E72-913B-D1AA38A2D466@nuovations.com>
+
+
+--xqV+oBLhyTZRyimH
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-Message-Id: <C8A65857-A8FE-4FE3-B290-4D9A8F2AD26B@nuovations.com>
-References: <20231128230847.1224497-1-gerickson@nuovations.com>
- <20231129192106.1295868-1-gerickson@nuovations.com>
- <20231129192106.1295868-2-gerickson@nuovations.com>
- <5F8910ED-30EC-41A1-81AA-47D74E4E152A@holtmann.org>
-To: Marcel Holtmann <marcel@holtmann.org>
-X-Mailer: Apple Mail (2.3608.120.23.2.4)
-X-Scanned-By: mailmunge 3.11 on 209.68.5.112
 
-On Nov 30, 2023, at 12:39 AM, Marcel Holtmann <marcel@holtmann.org> =
-wrote:
->> This refactors the debugging / debug log preprocessor-related
->> macros. In particular, it:
->>=20
->>   * Introduces CONNMAN_DEBUG_DESC_INSTANTIATE which declares and
->>     instantiates an instance of 'connman_debug_desc'.
->>=20
->>   * Replaces CONNMAN_DEBUG_DEFINE with CONNMAN_DEBUG_ALIAS which
->>     declares and instantiates an alias (that is, asserts the
->>     CONNMAN_DEBUG_FLAG_ALIAS flag) instance of
->>     'connmand_debug_desc', using CONNMAN_DEBUG_DESC_INSTANTIATE.
->>=20
->>   * Redefines 'DBG' against 'CONNMAN_DEBUG_DESC_INSTANTIATE' with
->>     '__func__' as the function parameter.
->> ---
->> include/log.h | 28 +++++++++++++++++-----------
->> src/log.c     |  2 +-
->> 2 files changed, 18 insertions(+), 12 deletions(-)
+I can only agree with Keith, thank you.
+
+Best regards,
+Marcus Folkesson
+
+On Wed, Nov 29, 2023 at 08:59:47AM -0800, Grant Erickson wrote:
+> On Nov 29, 2023, at 6:45 AM, KeithG <ys3al35l@gmail.com> wrote:
+> > A big thanks to Grant and Marcel for tackling all these issues. I was
+> > concerned that connman may go away, but this renewed effort gives me
+> > hope that it'll keep going for a bit longer.
 >=20
-> I am bit confused. I thought we leave this out for now and get the =
-fixes merged and look into improving DBG.
-
-As we last discussed on the thread:
-
->> CONNMAN_DEBUG aside, are you otherwise OK with the clean ups and =
-documentation to log.h embodied in this patch?
+> Keith,
 >=20
-> I am fine with all the cleanups, but I prefer you don=E2=80=99t =
-introduce CONNMAN_DEBUG and stick with DBG instead and we try to figure =
-out on how to make DBG work the way you want to use it.
+> You=E2=80=99re welcome!
+>=20
+> Best,
+>=20
+> Grant
+>=20
+> --=20
+> Principal
+> Nuovations
+>=20
+> gerickson@nuovations.com
+> http://www.nuovations.com/
+>=20
+>=20
 
+--xqV+oBLhyTZRyimH
+Content-Type: application/pgp-signature; name="signature.asc"
 
-As discussed and agreed, I dropped the CONNMAN_DEBUG macro from that =
-part of the patch set and simply documented the existing macros and =
-eliminated the copy-and-paste by preserving the =
-CONNMAN_DEBUG_DESC_INSTANTIATE macro. So, as preferred, everything that =
-follows remains exclusively with DBG and DBG only.
+-----BEGIN PGP SIGNATURE-----
 
-I remain happy to loop back and improve DBG at a later time. =
-Specifically, for the =E2=80=9Ccalled by function=E2=80=9D use case of =
-DBG that we discussed, there are a healthy number of existing use cases =
-in the code base that would benefit, the most notable of which are the =
-=E2=80=98*_{ref,unref}_debug=E2=80=99 functions used for reference =
-counting tracking and debugging (the whole reference counting pattern =
-seems replicated, ideally it could all be embodied in infrastructure =
-written once and instantiated where necessary).
+iQIzBAEBCAAdFiEEBVGi6LZstU1kwSxliIBOb1ldUjIFAmVpfrsACgkQiIBOb1ld
+UjLzExAAxXdl73CFQV6exbHuTHlrIxULB3aIq0gtrrDK/WhH2CklWpycyXcZMEL2
+feWQ9hslIj8oWm9AXQVkhzDOW/dOrxfHLt/JXsDxEciwnPO/epamynqcUo6ZvSOa
+aFQQLLbnSRsijN6UsxbLE7e6SY5EuR9/rPZ2D7/zSo4VV6Nnn8ri3fxBGATLMOu8
+f+AdPX9EhNeWSP/RgiiWqm0oinJS7cIoj7VfMB2DP7gWMFMZIm5+79bEvSbovGty
+4rc6UeFufxRyceiTiPM7+vndNSXvLuu7aGVnCjY7WqhKRa425k/hZ2Zz8QIJ8lI2
+Y2rtFkVPnFPxb1pijM5P8IV8pT523islZt1O2n8iUlvllZZOVlrbbi8XXsDE3MR3
+yhP9O33u0JrBlgEmW/c6jzoRsB2ZtvKyJPEPbSZRevr3C1ILXmyt7Xvrs6T0BTcq
+Q49BOKmeYE4tjtqFTqq3eb+9tu22nhzz3O4BITdchtlAKZrqJ4J4jI3/mYs0+xp9
+aL04J2gckfaGxFv9ghPEDox9IqXXPoVrHx6APGQBWlEYkIA/Waqul7cNAOBr85IE
+DsAMlTLbsUj/T8WF6LgiUuz7j62+/7MHgcqMvBzPAy/mEgSYS2KVgZrLA6vF5WRk
+DTJl7YohJG7ud7PAEjs1w5c4ZgBlxdfZSVAfHY6dugJY+IaKd2s=
+=RWCH
+-----END PGP SIGNATURE-----
 
-Does that help clarify?
-
-Best,
-
-Grant
-
---=20
-Principal
-Nuovations
-
-gerickson@nuovations.com
-http://www.nuovations.com/
-
+--xqV+oBLhyTZRyimH--
