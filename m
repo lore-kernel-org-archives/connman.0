@@ -1,24 +1,24 @@
 Received: from mohas.pair.com (mohas.pair.com [209.68.5.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32DD5328B6
-	for <connman@lists.linux.dev>; Wed,  6 Dec 2023 23:51:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B314D328CD
+	for <connman@lists.linux.dev>; Wed,  6 Dec 2023 23:51:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nuovations.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nuovations.com
 Received: from mohas.pair.com (localhost [127.0.0.1])
-	by mohas.pair.com (Postfix) with ESMTP id 9ED8673214
-	for <connman@lists.linux.dev>; Wed,  6 Dec 2023 18:51:28 -0500 (EST)
+	by mohas.pair.com (Postfix) with ESMTP id 2B89E73203
+	for <connman@lists.linux.dev>; Wed,  6 Dec 2023 18:51:25 -0500 (EST)
 Received: from localhost.localdomain (unknown [IPv6:2601:647:5a00:15c1:dc81:1201:2884:36dd])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mohas.pair.com (Postfix) with ESMTPSA id 61E247322E
-	for <connman@lists.linux.dev>; Wed,  6 Dec 2023 18:51:28 -0500 (EST)
+	by mohas.pair.com (Postfix) with ESMTPSA id E274673219
+	for <connman@lists.linux.dev>; Wed,  6 Dec 2023 18:51:24 -0500 (EST)
 From: Grant Erickson <gerickson@nuovations.com>
 To: connman@lists.linux.dev
-Subject: [PATCH 75/90] connection: Document 'unset_ipv6_high_priority_default_gateway_route_cb'.
-Date: Wed,  6 Dec 2023 15:50:41 -0800
-Message-ID: <20231206235056.322578-79-gerickson@nuovations.com>
+Subject: [PATCH 66/90] connection: Document 'add_host_route'.
+Date: Wed,  6 Dec 2023 15:50:32 -0800
+Message-ID: <20231206235056.322578-70-gerickson@nuovations.com>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20231206235056.322578-1-gerickson@nuovations.com>
 References: <20231206235056.322578-1-gerickson@nuovations.com>
@@ -31,59 +31,45 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: mailmunge 3.11 on 209.68.5.112
 
-This adds documentation to the
-'unset_ipv6_high_priority_default_gateway_route_cb' function.
+This adds documentation to the 'add_host_route' function.
 ---
- src/connection.c | 36 ++++++++++++++++++++++++++++++++++++
- 1 file changed, 36 insertions(+)
+ src/connection.c | 23 +++++++++++++++++++++++
+ 1 file changed, 23 insertions(+)
 
 diff --git a/src/connection.c b/src/connection.c
-index e890877f21b0..4aaffbf7e5c3 100644
+index b2b5f01867b9..90e6f9f9d6be 100644
 --- a/src/connection.c
 +++ b/src/connection.c
-@@ -2072,6 +2072,42 @@ done:
- 	return err;
- }
+@@ -2591,6 +2591,29 @@ static struct connman_rtnl connection_rtnl = {
+ 	.delgateway	= connection_delgateway,
+ };
  
 +/**
 + *  @brief
-+ *    Unset, or remove, the IPv6 high-priority default route for the
-+ *    specified gateway data and configuration using a function
-+ *    utilizing a SIOCDELRT socket ioctl or a RTM_DELROUTE Linux
-+ *    Routing Netlink (rtnl) command.
++ *    Add, or set, a host route for the specified IP configuration
++ *    type for the provided gateway data.
 + *
-+ *  This attempts to unset, or remove, the IPv6 high-priority (that
-+ *  is, metric 0) default route for the specified gateway data and
-+ *  configuration using a function utilizing a SIOCDELRT socket ioctl
-+ *  or a RTM_DELROUTE Linux Routing Netlink (rtnl) command to modify
-+ *  the Linux routing table.
++ *  This attempts to add, or set, a host route (that is, the RTF_HOST
++ *  flag is asserted on the route) for the specified IP configuration
++ *  type for the provided gateway data.
 + *
-+ *  @param[in,out]  data    A pointer to the mutable gateway data to
-+ *                          use to unset, or remove, the IPv6
-+ *                          high-priority default route.
-+ *  @param[in,out]  config  A pointer to the mutable gateway
-+ *                          configuration to use to unset, or remove,
-+ *                          the IPv6 high-priority default route.
++ *  @param[in]  data           A pointer to the mutable gateway data
++ *                             for which to add a host route.
++ *  @param[in]  ipconfig_type  The IP configuration type for which the
++ *                             gateway host route(s) are to be added.
++ *  @param[in]  service_type   The service type for the network service
++ *                             associated with @a index for which the
++ *                             host route is being added.
 + *
-+ *  @retval  0        If successful.
-+ *  @retval  -EINVAL  If @a data or @a config are null; or if
-+ *                    the routing information to be unset, or
-+ *                    removed, was invalid.
-+ *  @retval  -EFAULT  If the address to the routing information
-+ *                    to be set, or added, was invalid.
-+ *  @retval  -EPERM   If the current process does not have the
-+ *                    credentials or capabilities to set, or
-+ *                    add, routes.
-+ *  @retval  -ESRCH   A request was made to delete a non-existing
-+ *                    routing entry.
-+ *
-+ *  @sa connman_inet_clear_ipv6_gateway_interface
-+ *  @sa connman_inet_clear_ipv6_gateway_address
++ *  @sa connman_inet_add_host_route
++ *  @sa connman_inet_add_ipv6_host_route
++ *  @sa connman_inet_get_dest_addr
++ *  @sa connman_inet_ipv6_get_dest_addr
 + *
 + */
- static int unset_ipv6_high_priority_default_gateway_route_cb(
- 				struct gateway_data *data,
- 				struct gateway_config *config)
+ static void add_host_route(struct gateway_data *data,
+ 			enum connman_ipconfig_type ipconfig_type,
+ 			enum connman_service_type service_type)
 -- 
 2.42.0
 
