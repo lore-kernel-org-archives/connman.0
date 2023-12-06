@@ -1,24 +1,24 @@
 Received: from mohas.pair.com (mohas.pair.com [209.68.5.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46BB1328D2
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 059C7328B6
 	for <connman@lists.linux.dev>; Wed,  6 Dec 2023 23:51:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nuovations.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nuovations.com
 Received: from mohas.pair.com (localhost [127.0.0.1])
-	by mohas.pair.com (Postfix) with ESMTP id 997F87314E
-	for <connman@lists.linux.dev>; Wed,  6 Dec 2023 18:51:11 -0500 (EST)
+	by mohas.pair.com (Postfix) with ESMTP id 01A9A73156
+	for <connman@lists.linux.dev>; Wed,  6 Dec 2023 18:51:12 -0500 (EST)
 Received: from localhost.localdomain (unknown [IPv6:2601:647:5a00:15c1:dc81:1201:2884:36dd])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mohas.pair.com (Postfix) with ESMTPSA id 5B44073171
+	by mohas.pair.com (Postfix) with ESMTPSA id B8871731A4
 	for <connman@lists.linux.dev>; Wed,  6 Dec 2023 18:51:11 -0500 (EST)
 From: Grant Erickson <gerickson@nuovations.com>
 To: connman@lists.linux.dev
-Subject: [PATCH 34/90] connection: Document 'unset_default_gateway_route_common'.
-Date: Wed,  6 Dec 2023 15:49:57 -0800
-Message-ID: <20231206235056.322578-35-gerickson@nuovations.com>
+Subject: [PATCH 35/90] inet: Add '__connman_inet_table2string'.
+Date: Wed,  6 Dec 2023 15:49:58 -0800
+Message-ID: <20231206235056.322578-36-gerickson@nuovations.com>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20231206235056.322578-1-gerickson@nuovations.com>
 References: <20231206235056.322578-1-gerickson@nuovations.com>
@@ -31,66 +31,56 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: mailmunge 3.11 on 209.68.5.112
 
-This adds documentation to the 'unset_default_gateway_route_common'
-function.
+This adds the function '__connman_inet_table2string', which returns a
+null-terminated C string describing a Linux Routing Netlink (rtnl)
+routing table identifier.
 ---
- src/connection.c | 43 +++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 43 insertions(+)
+ src/connman.h |  2 ++
+ src/inet.c    | 18 ++++++++++++++++++
+ 2 files changed, 20 insertions(+)
 
-diff --git a/src/connection.c b/src/connection.c
-index 6dcb93f887ca..f29f42870cdf 100644
---- a/src/connection.c
-+++ b/src/connection.c
-@@ -1339,6 +1339,49 @@ done:
- 	return err;
+diff --git a/src/connman.h b/src/connman.h
+index 6b86be6f5ab3..19de86346565 100644
+--- a/src/connman.h
++++ b/src/connman.h
+@@ -174,6 +174,8 @@ int __connman_inet_get_interface_mac_address(int index, uint8_t *mac_address);
+ 
+ bool __connman_inet_is_any_addr(const char *address, int family);
+ 
++const char *__connman_inet_table2string(uint32_t table_id);
++
+ #include <netinet/ip6.h>
+ #include <netinet/icmp6.h>
+ 
+diff --git a/src/inet.c b/src/inet.c
+index 3465d50cc84b..3d40f8d09e82 100644
+--- a/src/inet.c
++++ b/src/inet.c
+@@ -256,6 +256,24 @@ out:
+ 	return ret;
  }
  
-+/**
-+ *  @brief
-+ *    Unset, or remove, the default route, for the specified gateway
-+ *    data and configuration using the provided gateway configuration
-+ *    type and callback function.
-+ *
-+ *  This attempts to unset, or remove, the default route for the
-+ *  specified gateway data and configuration using the provided
-+ *  gateway configuration type and callback function.
-+ *
-+ *  On success, the gateway configuration state will be set to
-+ *  #CONNMAN_GATEWAY_CONFIG_STATE_REMOVED.
-+ *
-+ *  @param[in,out]  data    A pointer to the mutable gateway data to
-+ *                          unset, or remove, as the default route.
-+ *  @param[in,out]  config  A pointer to the mutable gateway
-+ *                          configuration to unset, or remove, as the
-+ *                          default route.
-+ *  @param[in]      type    The gateway configuration type that @a
-+ *                          config is expected to be.
-+ *  @param[in]      cb      The callback function used to unset, or
-+ *                          remove, the default route.
-+ *
-+ *  @retval  0              If successful.
-+ *  @retval  -EINVAL        If @a data, @a config, or @a cb are
-+ *                          null; if the gateway configuration type is
-+ *                          not @a type; or if the routing information
-+ *                          to be unset, or cleared, was invalid.
-+ *  @retval  -EINPROGRESS   If the state of @a config is
-+ *                          #CONNMAN_GATEWAY_CONFIG_STATE_REMOVED.
-+ *  @retval  -EALREADY      If the state of @a config is
-+ *                          #CONNMAN_GATEWAY_CONFIG_STATE_INACTIVE.
-+ *  @retval  -EFAULT        If the address to the routing information
-+ *                          to be unset, or cleared, was invalid.
-+ *  @retval  -EPERM         If the current process does not have the
-+ *                          credentials or capabilities to unset, or
-+ *                          clear, routes.
-+ *  @retval  -ESRCH         A request was made to unset, or clear a
-+ *                          non-existing routing entry.
-+ *
-+ *  @sa set_default_gateway_route_common
-+ *
-+ */
- static int unset_default_gateway_route_common(struct gateway_data *data,
- 				struct gateway_config *config,
- 				enum gateway_config_type type,
++const char *__connman_inet_table2string(uint32_t table_id)
++{
++	switch (table_id) {
++	case RT_TABLE_UNSPEC:
++		return "unspecified";
++	case RT_TABLE_COMPAT:
++		return "compat";
++	case RT_TABLE_DEFAULT:
++		return "default";
++	case RT_TABLE_MAIN:
++		return "main";
++	case RT_TABLE_LOCAL:
++		return "local";
++	}
++
++	return "";
++}
++
+ int connman_inet_ifindex(const char *name)
+ {
+ 	struct ifreq ifr;
 -- 
 2.42.0
 
