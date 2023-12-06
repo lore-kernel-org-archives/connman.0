@@ -1,24 +1,24 @@
 Received: from mohas.pair.com (mohas.pair.com [209.68.5.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D919328C6
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3065328C8
 	for <connman@lists.linux.dev>; Wed,  6 Dec 2023 23:51:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nuovations.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nuovations.com
 Received: from mohas.pair.com (localhost [127.0.0.1])
-	by mohas.pair.com (Postfix) with ESMTP id 0014773144
-	for <connman@lists.linux.dev>; Wed,  6 Dec 2023 18:51:00 -0500 (EST)
+	by mohas.pair.com (Postfix) with ESMTP id 2853B73145
+	for <connman@lists.linux.dev>; Wed,  6 Dec 2023 18:51:01 -0500 (EST)
 Received: from localhost.localdomain (unknown [IPv6:2601:647:5a00:15c1:dc81:1201:2884:36dd])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mohas.pair.com (Postfix) with ESMTPSA id B735473159
-	for <connman@lists.linux.dev>; Wed,  6 Dec 2023 18:50:59 -0500 (EST)
+	by mohas.pair.com (Postfix) with ESMTPSA id C4B8873156
+	for <connman@lists.linux.dev>; Wed,  6 Dec 2023 18:51:00 -0500 (EST)
 From: Grant Erickson <gerickson@nuovations.com>
 To: connman@lists.linux.dev
-Subject: [PATCH 05/90] connection: Replace gateway config VPN Boolean.
-Date: Wed,  6 Dec 2023 15:49:28 -0800
-Message-ID: <20231206235056.322578-6-gerickson@nuovations.com>
+Subject: [PATCH 07/90] connection: Introduce gateway configuration 'type'.
+Date: Wed,  6 Dec 2023 15:49:30 -0800
+Message-ID: <20231206235056.322578-8-gerickson@nuovations.com>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20231206235056.322578-1-gerickson@nuovations.com>
 References: <20231206235056.322578-1-gerickson@nuovations.com>
@@ -37,243 +37,192 @@ There is presently overloading of gateway configuration state. That
 is, using configuration fields for purposes beyond those for which
 they may have originally been intended.
 
-While the current VPN Boolean appears unoverloaded, this migrates it
-from a single Boolean to a flag in a 32-bit flags field, allowing for
-other future flags that alter how a gateway configuration behaves or
-is treated, relative to its state and type.
+This adds a new gateway configuration field, 'type', an enumeration
+indicating the current type or use of the gateway configuration. This
+may be used in conjunction with the 'state' and 'flags' fields to
+conditionally treat the gateway configuration.
 ---
- src/connection.c | 91 +++++++++++++++++++++++++++++++++++++-----------
- 1 file changed, 71 insertions(+), 20 deletions(-)
+ src/connection.c | 69 ++++++++++++++++++++++++++++++++++++++++++++----
+ 1 file changed, 64 insertions(+), 5 deletions(-)
 
 diff --git a/src/connection.c b/src/connection.c
-index 63c22be0cf83..b13403c4a673 100644
+index 17d3805cd5fd..bcecd886b85b 100644
 --- a/src/connection.c
 +++ b/src/connection.c
-@@ -38,6 +38,11 @@
- #define GATEWAY_DATA_DBG(description, data) \
- 	gateway_data_debug(__func__, description, data)
- 
-+enum gateway_config_flags {
-+	CONNMAN_GATEWAY_CONFIG_FLAG_NONE = 0,
-+	CONNMAN_GATEWAY_CONFIG_FLAG_VPN	 = 1U << 0
-+};
-+
- /**
-  *	@brief
-  *    Indicates the current lifecycle state of the gateway
-@@ -67,6 +72,7 @@ enum gateway_config_state {
+@@ -81,6 +81,11 @@ enum gateway_config_state {
+ 	CONNMAN_GATEWAY_CONFIG_STATE_ACTIVE	  = 1
  };
  
++enum gateway_config_type {
++	CONNMAN_GATEWAY_CONFIG_TYPE_NONE				  = 0,
++	CONNMAN_GATEWAY_CONFIG_TYPE_HIGH_PRIORITY_DEFAULT = 1
++};
++
  struct gateway_config {
-+	uint32_t flags;
- 
  	/**
- 	 *	Indicates the current state of the gateway configuration. See
-@@ -76,7 +82,6 @@ struct gateway_config {
+ 	 *	A 32-bit flag bitfield governing the state and use of the
+@@ -93,6 +98,7 @@ struct gateway_config {
+ 	 *	#gateway_config_state.
+ 	 */
+ 	enum gateway_config_state state;
++	enum gateway_config_type type;
  	char *gateway;
  
  	/* VPN extra data */
--	bool vpn;
- 	char *vpn_ip;
- 	int vpn_phy_index;
- 	char *vpn_phy_ip;
-@@ -120,6 +125,48 @@ static const char *maybe_null(const void *pointer)
- 	return pointer ? pointer : "<null>";
+@@ -193,6 +199,18 @@ static const char *gateway_config_state2string(enum gateway_config_state state)
+ 	return NULL;
  }
  
-+static bool is_gateway_config_flags_set(const struct gateway_config *config,
-+		uint32_t flags)
++static const char *gateway_config_type2string(enum gateway_config_type type)
 +{
-+	return config && ((config->flags & flags) == flags);
++	switch (type) {
++	case CONNMAN_GATEWAY_CONFIG_TYPE_NONE:
++		return "none";
++	case CONNMAN_GATEWAY_CONFIG_TYPE_HIGH_PRIORITY_DEFAULT:
++		return "high-priority default";
++	}
++
++	return NULL;
 +}
 +
-+static void gateway_config_flags_clear(struct gateway_config *config,
-+		uint32_t flags)
-+{
-+	config->flags &= ~flags;
-+}
-+
-+static void gateway_config_flags_set(struct gateway_config *config,
-+	uint32_t flags)
-+{
-+	config->flags |= flags;
-+}
-+
-+static bool is_gateway_config_vpn(const struct gateway_config *config)
-+{
-+	static const uint32_t flags =
-+		CONNMAN_GATEWAY_CONFIG_FLAG_VPN;
-+
-+	return is_gateway_config_flags_set(config, flags);
-+}
-+
-+static void gateway_config_set_vpn(struct gateway_config *config)
-+{
-+	static const uint32_t flags =
-+		CONNMAN_GATEWAY_CONFIG_FLAG_VPN;
-+
-+	return gateway_config_flags_set(config, flags);
-+}
-+
-+static void gateway_config_clear_vpn(struct gateway_config *config)
-+{
-+	static const uint32_t flags =
-+		CONNMAN_GATEWAY_CONFIG_FLAG_VPN;
-+
-+	return gateway_config_flags_clear(config, flags);
-+}
-+
- static const char *gateway_config_state2string(enum gateway_config_state state)
+ static void gateway_config_state_set(struct gateway_config *config,
+ 				enum gateway_config_state state)
  {
- 	switch (state) {
-@@ -194,16 +241,19 @@ static void gateway_config_debug(const char *function,
+@@ -216,6 +234,17 @@ static bool is_gateway_config_state_active(const struct gateway_config *config)
+ 				CONNMAN_GATEWAY_CONFIG_STATE_ACTIVE);
+ }
+ 
++static void gateway_config_type_set(struct gateway_config *config,
++				enum gateway_config_type type)
++{
++	DBG("config %p old type %d (%s) => new type %d (%s)",
++		config,
++		config->type, gateway_config_type2string(config->type),
++		type, gateway_config_type2string(type));
++
++	config->type = type;
++}
++
+ /**
+  *  @brief
+  *    Conditionally log the specified gateway configuration.
+@@ -255,7 +284,7 @@ static void gateway_config_debug(const char *function,
  				connman_inet_ifname(config->vpn_phy_index);
  
  		DBG("from %s() "
--			"%s %p: { state: %d (%s), gateway: %p (%s), "
--			"vpn: %u, vpn_ip: %p (%s), vpn_phy_index: %d (%s), "
-+			"%s %p: { state: %d (%s), "
-+			"flags: 0x%x (%s), "
-+			"gateway: %p (%s), "
-+			"vpn_ip: %p (%s), vpn_phy_index: %d (%s), "
- 			"vpn_phy_ip: %p (%s) }",
- 			function,
- 			description,
+-			"%s %p: { state: %d (%s), "
++			"%s %p: { state: %d (%s), type %d (%s), "
+ 			"flags: 0x%x (%s), "
+ 			"gateway: %p (%s), "
+ 			"vpn_ip: %p (%s), vpn_phy_index: %d (%s), "
+@@ -265,6 +294,8 @@ static void gateway_config_debug(const char *function,
  			config,
  			config->state,
  			maybe_null(gateway_config_state2string(config->state)),
-+			config->flags,
-+			is_gateway_config_vpn(config) ? "VPN" : "",
++			config->type,
++			maybe_null(gateway_config_type2string(config->type)),
+ 			config->flags,
+ 			is_gateway_config_vpn(config) ? "VPN" : "",
  			config->gateway, maybe_null(config->gateway),
--			config->vpn,
- 			config->vpn_ip, maybe_null(config->vpn_ip),
- 			config->vpn_phy_index, maybe_null(vpn_phy_interface),
- 			config->vpn_phy_ip, maybe_null(config->vpn_phy_ip));
-@@ -590,7 +640,8 @@ static void set_vpn_routes(struct gateway_data *new_gateway,
- 		int index = __connman_ipconfig_get_index(ipconfig);
- 		struct get_gateway_params *params;
- 
--		config->vpn = true;
-+		gateway_config_set_vpn(config);
-+
- 		if (peer)
- 			config->vpn_ip = g_strdup(peer);
- 		else if (gateway)
-@@ -720,7 +771,7 @@ static int del_gateway_routes(struct gateway_data *data,
- 		return -EINVAL;
- 
- 	if (do_ipv4 && data->ipv4_config) {
--		if (data->ipv4_config->vpn) {
-+		if (is_gateway_config_vpn(data->ipv4_config)) {
- 			status4 = connman_inet_clear_gateway_address(
- 						data->index,
- 						data->ipv4_config->vpn_ip);
-@@ -738,7 +789,7 @@ static int del_gateway_routes(struct gateway_data *data,
- 	}
- 
- 	if (do_ipv6 && data->ipv6_config) {
--		if (data->ipv6_config->vpn) {
-+		if (is_gateway_config_vpn(data->ipv6_config)) {
- 			status6 = connman_inet_clear_ipv6_gateway_address(
- 						data->index,
- 						data->ipv6_config->vpn_ip);
-@@ -912,10 +963,10 @@ static int add_gateway(struct connman_service *service,
+@@ -977,6 +1008,7 @@ static int add_gateway(struct connman_service *service,
  		return -ENOMEM;
  
  	config->state = CONNMAN_GATEWAY_CONFIG_STATE_INACTIVE;
-+	config->flags = CONNMAN_GATEWAY_CONFIG_FLAG_NONE;
++	config->type = CONNMAN_GATEWAY_CONFIG_TYPE_NONE;
+ 	config->flags = CONNMAN_GATEWAY_CONFIG_FLAG_NONE;
  	config->gateway = g_strdup(gateway);
  	config->vpn_ip = NULL;
- 	config->vpn_phy_ip = NULL;
--	config->vpn = false;
- 	config->vpn_phy_index = -1;
- 
- 	if (type == CONNMAN_IPCONFIG_TYPE_IPV4)
-@@ -1003,7 +1054,7 @@ static void set_default_gateway(struct gateway_data *data,
- 		return;
- 
- 	if (do_ipv4 && data->ipv4_config) {
--		if (data->ipv4_config->vpn) {
-+		if (is_gateway_config_vpn(data->ipv4_config)) {
- 			connman_inet_set_gateway_interface(data->index);
- 
- 			gateway_config_state_set(data->ipv4_config,
-@@ -1035,7 +1086,7 @@ static void set_default_gateway(struct gateway_data *data,
+@@ -1097,6 +1129,9 @@ static void set_default_gateway(struct gateway_data *data,
+ 			DBG("set %p index %d gateway %s",
+ 				data, data->index, data->ipv4_config->gateway);
+ 		}
++
++		gateway_config_type_set(data->ipv4_config,
++			CONNMAN_GATEWAY_CONFIG_TYPE_HIGH_PRIORITY_DEFAULT);
  	}
  
  	if (do_ipv6 && data->ipv6_config) {
--		if (data->ipv6_config->vpn) {
-+		if (is_gateway_config_vpn(data->ipv6_config)) {
- 			connman_inet_set_ipv6_gateway_interface(data->index);
- 
- 			gateway_config_state_set(data->ipv6_config,
-@@ -1121,7 +1172,7 @@ static void unset_default_gateway(struct gateway_data *data,
- 		return;
- 
- 	if (do_ipv4 && data->ipv4_config) {
--		if (data->ipv4_config->vpn) {
-+		if (is_gateway_config_vpn(data->ipv4_config)) {
- 			connman_inet_clear_gateway_interface(data->index);
- 
- 			gateway_config_state_set(data->ipv4_config,
-@@ -1149,7 +1200,7 @@ static void unset_default_gateway(struct gateway_data *data,
+@@ -1129,6 +1164,9 @@ static void set_default_gateway(struct gateway_data *data,
+ 			DBG("set %p index %d gateway %s",
+ 				data, data->index, data->ipv4_config->gateway);
+ 		}
++
++		gateway_config_type_set(data->ipv6_config,
++			CONNMAN_GATEWAY_CONFIG_TYPE_HIGH_PRIORITY_DEFAULT);
  	}
  
- 	if (do_ipv6 && data->ipv6_config) {
--		if (data->ipv6_config->vpn) {
-+		if (is_gateway_config_vpn(data->ipv6_config)) {
- 			connman_inet_clear_ipv6_gateway_interface(data->index);
+ 	DBG("status4 %d status6 %d", status4, status6);
+@@ -1270,6 +1308,8 @@ static void unset_default_gateway(struct gateway_data *data,
+ static bool yield_default_gateway(struct gateway_data *activated,
+ 					struct gateway_data *existing)
+ {
++	static const enum gateway_config_type config_type =
++		CONNMAN_GATEWAY_CONFIG_TYPE_HIGH_PRIORITY_DEFAULT;
+ 	enum connman_ipconfig_type type;
+ 	bool yield_activated = false;
  
- 			gateway_config_state_set(data->ipv6_config,
-@@ -1687,11 +1738,11 @@ int __connman_connection_gateway_add(struct connman_service *service,
- 	} else {
- 		if (type == CONNMAN_IPCONFIG_TYPE_IPV4 &&
- 					new_gateway->ipv4_config)
--			new_gateway->ipv4_config->vpn = false;
-+			gateway_config_clear_vpn(new_gateway->ipv4_config);
+@@ -1293,7 +1333,11 @@ static bool yield_default_gateway(struct gateway_data *activated,
+ 		 * activated gateway data.
+ 		 */
+ 		if (!is_gateway_config_state_active(existing->ipv4_config)) {
+-			DBG("ipv4 existing %p yielding default", existing);
++			DBG("%s existing %p yielding %s",
++				__connman_ipconfig_type2string(type),
++				existing,
++				maybe_null(gateway_config_type2string(
++					config_type)));
  
- 		if (type == CONNMAN_IPCONFIG_TYPE_IPV6 &&
- 					new_gateway->ipv6_config)
--			new_gateway->ipv6_config->vpn = false;
-+			gateway_config_clear_vpn(new_gateway->ipv6_config);
+ 			unset_default_gateway(existing, type);
+ 		}
+@@ -1308,7 +1352,11 @@ static bool yield_default_gateway(struct gateway_data *activated,
+ 		if (is_gateway_config_state_active(existing->ipv4_config) &&
+ 				__connman_service_compare(existing->service,
+ 						activated->service) < 0) {
+-			DBG("ipv4 activated %p yielding default", activated);
++			DBG("%s activated %p yielding %s",
++				__connman_ipconfig_type2string(type),
++				activated,
++				maybe_null(gateway_config_type2string(
++					config_type)));
+ 
+ 			unset_default_gateway(activated, type);
+ 
+@@ -1331,7 +1379,11 @@ static bool yield_default_gateway(struct gateway_data *activated,
+ 		 * activated gateway data.
+ 		 */
+ 		if (!is_gateway_config_state_active(existing->ipv6_config)) {
+-			DBG("ipv6 existing %p yielding default", existing);
++			DBG("%s existing %p yielding %s",
++				__connman_ipconfig_type2string(type),
++				existing,
++				maybe_null(gateway_config_type2string(
++					config_type)));
+ 
+ 			unset_default_gateway(existing, type);
+ 		}
+@@ -1346,7 +1398,11 @@ static bool yield_default_gateway(struct gateway_data *activated,
+ 		if (is_gateway_config_state_active(existing->ipv6_config) &&
+ 			__connman_service_compare(existing->service,
+ 					activated->service) < 0) {
+-			DBG("ipv6 activated %p yielding default", activated);
++			DBG("%s activated %p yielding %s",
++				__connman_ipconfig_type2string(type),
++				activated,
++				maybe_null(gateway_config_type2string(
++					config_type)));
+ 
+ 			unset_default_gateway(activated, type);
+ 
+@@ -1572,6 +1628,9 @@ static void connection_delgateway(int index, const char *gateway)
+ 
+ 		gateway_config_state_set(config,
+ 			CONNMAN_GATEWAY_CONFIG_STATE_INACTIVE);
++
++		gateway_config_type_set(config,
++			CONNMAN_GATEWAY_CONFIG_TYPE_NONE);
  	}
  
- 	if (!any_active_gateway) {
-@@ -1700,8 +1751,8 @@ int __connman_connection_gateway_add(struct connman_service *service,
- 	}
- 
- 	if (type == CONNMAN_IPCONFIG_TYPE_IPV4 &&
--				new_gateway->ipv4_config &&
--				new_gateway->ipv4_config->vpn) {
-+			new_gateway->ipv4_config &&
-+			is_gateway_config_vpn(new_gateway->ipv4_config)) {
- 		if (!__connman_service_is_split_routing(new_gateway->service))
- 			connman_inet_clear_gateway_address(
- 				any_active_gateway->index,
-@@ -1709,8 +1760,8 @@ int __connman_connection_gateway_add(struct connman_service *service,
- 	}
- 
- 	if (type == CONNMAN_IPCONFIG_TYPE_IPV6 &&
--				new_gateway->ipv6_config &&
--				new_gateway->ipv6_config->vpn) {
-+			new_gateway->ipv6_config &&
-+			is_gateway_config_vpn(new_gateway->ipv6_config)) {
- 		if (!__connman_service_is_split_routing(new_gateway->service))
- 			connman_inet_clear_ipv6_gateway_address(
- 				any_active_gateway->index,
-@@ -1791,10 +1842,10 @@ void __connman_connection_gateway_remove(struct connman_service *service,
- 	GATEWAY_DATA_DBG("service_data", data);
- 
- 	if (do_ipv4 && data->ipv4_config)
--		is_vpn4 = data->ipv4_config->vpn;
-+		is_vpn4 = is_gateway_config_vpn(data->ipv4_config);
- 
- 	if (do_ipv6 && data->ipv6_config)
--		is_vpn6 = data->ipv6_config->vpn;
-+		is_vpn6 = is_gateway_config_vpn(data->ipv6_config);
- 
- 	DBG("ipv4 gateway %s ipv6 gateway %s vpn %d/%d",
- 		data->ipv4_config ? data->ipv4_config->gateway : "<null>",
+ 	/*
 -- 
 2.42.0
 
