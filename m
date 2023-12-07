@@ -1,24 +1,24 @@
 Received: from mohas.pair.com (mohas.pair.com [209.68.5.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4342057328
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 433A657320
 	for <connman@lists.linux.dev>; Thu,  7 Dec 2023 23:41:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nuovations.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nuovations.com
 Received: from mohas.pair.com (localhost [127.0.0.1])
-	by mohas.pair.com (Postfix) with ESMTP id 01C7173123
+	by mohas.pair.com (Postfix) with ESMTP id BE0A673145
 	for <connman@lists.linux.dev>; Thu,  7 Dec 2023 18:41:33 -0500 (EST)
 Received: from localhost.localdomain (unknown [IPv6:2601:647:5a00:15c1:851a:6a54:a980:b9a9])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mohas.pair.com (Postfix) with ESMTPSA id AFF7A7314B
-	for <connman@lists.linux.dev>; Thu,  7 Dec 2023 18:41:32 -0500 (EST)
+	by mohas.pair.com (Postfix) with ESMTPSA id 7E52F73154
+	for <connman@lists.linux.dev>; Thu,  7 Dec 2023 18:41:33 -0500 (EST)
 From: Grant Erickson <gerickson@nuovations.com>
 To: connman@lists.linux.dev
-Subject: [PATCH 2/4] service: Const-qualify 'lookup_gateway_data'.
-Date: Thu,  7 Dec 2023 15:41:28 -0800
-Message-ID: <20231207234130.1093617-3-gerickson@nuovations.com>
+Subject: [PATCH 4/4] connection: Document search functions.
+Date: Thu,  7 Dec 2023 15:41:30 -0800
+Message-ID: <20231207234130.1093617-5-gerickson@nuovations.com>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20231207234130.1093617-1-gerickson@nuovations.com>
 References: <20231207234130.1093617-1-gerickson@nuovations.com>
@@ -31,28 +31,107 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: mailmunge 3.11 on 209.68.5.112
 
-Const-qualify the gateway configuration argument of
-'lookup_gateway_data' to make it clear to the compiler, static
-analyzers, and human readers that the function is strictly a getter
-with no gateway configuration mutation side effects.
+This adds documentation to the following service/gateway map search
+functions:
+
+    * find_gateway_config
+    * find_gateway_data
+    * find_default_gateway_data
 ---
- src/connection.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ src/connection.c | 66 ++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 66 insertions(+)
 
 diff --git a/src/connection.c b/src/connection.c
-index c74dd0741995..c42988bf337d 100644
+index cd28f8e80ac6..deab2c034dc7 100644
 --- a/src/connection.c
 +++ b/src/connection.c
-@@ -216,7 +216,8 @@ static struct gateway_config *find_gateway(int index, const char *gateway)
+@@ -189,6 +189,35 @@ static void gateway_data_debug(const char *function,
+ 	}
+ }
+ 
++/**
++ *  @brief
++ *    Find the gateway, or default router, configuration associated
++ *    with a network interface index.
++ *
++ *  This attempts to find a gateway, or default router, configuration
++ *  associated with the specified network interface index.
++ *
++ *  It is possible that there is both an IPv4 and IPv6 gateway, or
++ *  default router, configuration exist for an index. The IP address
++ *  family associated with @a gateway will uniqueify and select among
++ *  them.
++ *
++ *  @param[in]  index    The network interface index for which to find
++ *                       gateway, or default router, configuration.
++ *  @param[in]  gateway  A pointer to an immutable null-
++ *                       terminated C string containing the
++ *                       text-formatted address of the gateway, or
++ *                       default router, for which to find its
++ *                       associated configuration.
++ *
++ *  @returns
++ *    A pointer to the gateway, or default router, configuration
++ *    associated with the provided network interface index on success;
++ *    otherwise, null.
++ *
++ *  @sa find_gateway_data
++ *
++ */
+ static struct gateway_config *find_gateway_config(int index,
+ 				const char *gateway)
+ {
+@@ -217,6 +246,25 @@ static struct gateway_config *find_gateway_config(int index,
  	return NULL;
  }
  
--static struct gateway_data *lookup_gateway_data(struct gateway_config *config)
-+static struct gateway_data *lookup_gateway_data(
-+				const struct gateway_config *config)
++/**
++ *  @brief
++ *    Find the gateway, or default router, data associated
++ *    with the configuration.
++ *
++ *  This attempts to find a gateway, or default router, data
++ *  associated with the specified configuration.
++ *
++ *  @param[in]  config   A pointer to an immutable gateway, or
++ *                       default router, configuration for which to
++ *                       find the associated gateway data.
++ *
++ *  @returns
++ *    A pointer to the gateway, or default router, data associated
++ *    with the provided configuration on success; otherwise, null.
++ *
++ *  @sa find_gateway_config
++ *
++ */
+ static struct gateway_data *find_gateway_data(
+ 				const struct gateway_config *config)
  {
- 	GHashTableIter iter;
- 	gpointer value, key;
+@@ -267,6 +315,24 @@ static struct gateway_data *find_active_gateway_data(void)
+ 	return NULL;
+ }
+ 
++/**
++ *  @brief
++ *    Find the gateway, or default router, data associated with the
++ *    default service.
++ *
++ *  This attempts to find the gateway, or default router, data
++ *  associated with default network service (that is, has the default
++ *  route).
++ *
++ *  @returns
++ *    A pointer to the gateway, or default router, data associated
++ *    with the default network service (that is, has the default
++ *    route) on success; otherwise, null.
++ *
++ *  @sa find_active_gateway_data
++ *  @sa find_gateway_data
++ *
++ */
+ static struct gateway_data *find_default_gateway_data(void)
+ {
+ 	struct connman_service *service;
 -- 
 2.42.0
 
