@@ -1,261 +1,161 @@
 Received: from mohas.pair.com (mohas.pair.com [209.68.5.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 421D9328C5
-	for <connman@lists.linux.dev>; Wed,  6 Dec 2023 23:51:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7C49125C5
+	for <connman@lists.linux.dev>; Thu,  7 Dec 2023 17:04:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nuovations.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nuovations.com
 Received: from mohas.pair.com (localhost [127.0.0.1])
-	by mohas.pair.com (Postfix) with ESMTP id AB4C973208
-	for <connman@lists.linux.dev>; Wed,  6 Dec 2023 18:51:33 -0500 (EST)
-Received: from localhost.localdomain (unknown [IPv6:2601:647:5a00:15c1:dc81:1201:2884:36dd])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	by mohas.pair.com (Postfix) with ESMTP id 28D2873123
+	for <connman@lists.linux.dev>; Thu,  7 Dec 2023 12:04:09 -0500 (EST)
+Received: from [IPv6:2601:647:5a00:15c1:35ac:6d56:9158:e069] (unknown [IPv6:2601:647:5a00:15c1:35ac:6d56:9158:e069])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mohas.pair.com (Postfix) with ESMTPSA id 6E11B73225
-	for <connman@lists.linux.dev>; Wed,  6 Dec 2023 18:51:33 -0500 (EST)
+	by mohas.pair.com (Postfix) with ESMTPSA id DAF7573144
+	for <connman@lists.linux.dev>; Thu,  7 Dec 2023 12:04:08 -0500 (EST)
 From: Grant Erickson <gerickson@nuovations.com>
-To: connman@lists.linux.dev
-Subject: [PATCH 88/90] connection: Add @file comment.
-Date: Wed,  6 Dec 2023 15:50:54 -0800
-Message-ID: <20231206235056.322578-92-gerickson@nuovations.com>
-X-Mailer: git-send-email 2.42.0
-In-Reply-To: <20231206235056.322578-1-gerickson@nuovations.com>
-References: <20231206235056.322578-1-gerickson@nuovations.com>
+Content-Type: text/plain;
+	charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0 (Mac OS X Mail 13.4 \(3608.120.23.2.4\))
+Subject: RFC: __connman_service_get_route_metric
+Message-Id: <129F38C5-2B36-40FB-A240-EE0542FCB5D7@nuovations.com>
+Date: Thu, 7 Dec 2023 09:04:07 -0800
+To: connman@lists.linux.dev
+X-Mailer: Apple Mail (2.3608.120.23.2.4)
 X-Scanned-By: mailmunge 3.11 on 209.68.5.112
 
-This adds a detailed @file comment, providing a high-level overview of
-the module, key issues and principles, and theory of operation.
----
- src/connection.c | 208 +++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 208 insertions(+)
+Was out on my morning ride this morning and had this revelation: =
+https://github.com/Nuovations/connman/issues/6:
 
-diff --git a/src/connection.c b/src/connection.c
-index 8f745a4387bb..47ec67e6717a 100644
---- a/src/connection.c
-+++ b/src/connection.c
-@@ -20,6 +20,214 @@
-  *
-  */
- 
-+/**
-+ *  @file
-+ *    This implements non-client-facing functionality for managing
-+ *    network service gateways and routes. It also serves as a Linux
-+ *    Routing Netlink (rtnl) listener for routing table additions and
-+ *    deletions in the Linux kernel.
-+ *
-+ *    Gateway lifecycle is generally top-down, from user space to
-+ *    kernel. That is, Connection Manager manages and adds/sets or
-+ *    gateway routes and then uses notifications from the kernel
-+ *    Routing Netlink (rtnl) to confirm and "activate" those
-+ *    routes. Likewise, Connection Manager removes/clears/deletes
-+ *    gateway routes an then uses notifications from the kernel
-+ *    Routing Netlink (rtnl) to confirm and "inactivate" those
-+ *    routes. The following is the state machine for that lifecycle:
-+ *
-+ *                              .----------.    SIOCADDRT /
-+ *                              |          |    RTM_NEWROUTE
-+ *           .------------------| Inactive |--------------------.
-+ *           |                  |          |                    |
-+ *           |                  '----------'                    |
-+ *           | connman_rtnl                                     |
-+ *           | .delgateway                                      |
-+ *           |                                                  V
-+ *      .---------.         SIOCADDRT / RTM_NEWROUTE        .-------.
-+ *      |         |---------------------------------------->|       |
-+ *      | Removed |                                         | Added |
-+ *      |         |<----------------------------------------|       |
-+ *      '---------'         SIOCDELRT / RTM_DELROUTE        '-------'
-+ *           ^                                                  |
-+ *           | SIOCDELRT /                                      |
-+ *           | RTM_DELROUTE                                     |
-+ *           |                   .--------.     connman_rtnl    |
-+ *           |                   |        |     .newgateway     |
-+ *           '-------------------| Active |<--------------------'
-+ *                               |        |
-+ *                               '--------'
-+ *
-+ *    Gateways, and their associated routes, are generally of two types:
-+ *
-+ *      1. High-priority (that is, metric 0) default route.
-+ *
-+ *         This is used by the default service and its underlying
-+ *         network interface.
-+ *
-+ *      2. Low-priority (that is, metric > 0) default route.
-+ *
-+ *         This is used by non-default services and their underlying
-+ *         network interface.
-+ *
-+ *         For IPv6, these are handled and managed automatically by
-+ *         the kernel as part of Router Discovery (RD) Router
-+ *         Advertisements (RAs) and because link-local addresses and
-+ *         multi-homing are a natural part of IPv6, nothing needs to
-+ *         be done here. These routes show up in 'ip -6 route show'
-+ *         as:
-+ *
-+ *             default via fe80::f29f:c2ff:fe10:271e dev eth0
-+ *                 proto ra metric 1024 expires 1622sec hoplimit 64
-+ *                 pref medium
-+ *             default via fe80::f29f:c2ff:fe10:271e dev wlan0
-+ *                 proto ra metric 1024 expires 1354sec hoplimit 64
-+ *                 pref medium
-+ *
-+ *         For IPv4, largely invented before the advent of link-local
-+ *         addresses and multi-homing hosts, these need to be
-+ *         fully-managed here and, with such management, show up in
-+ *         'ip -4 route show' as low-priority (that is, high metric
-+ *         value) default routes:
-+ *
-+ *             default via 192.168.2.1 dev wlan0 metric 4294967295
-+ *
-+ *         The other alternative to low-priority routes would be to
-+ *         use "def1" default routes commonly used by VPNs that have a
-+ *         prefix length of 1 (hence the "def1" name). These would
-+ *         show up as:
-+ *
-+ *             0.0.0.0/1 via 192.168.2.1 dev wlan0
-+ *             128.0.0.0/1 via 192.168.2.1 dev wlan0
-+ *
-+ *         However, since these require twice the number of routing
-+ *         table entries and seem no more effective than the
-+ *         low-priority route approach, this alternative is not used
-+ *         here at present.
-+ *
-+ *    VPNs and point-to-point (P2P) links get special treatment but
-+ *    otherwise utilize the same states and types as described above.
-+ *
-+ *    Operationally, down calls from outside this module generally
-+ *    come from the following three functions:
-+ *
-+ *      1. __connman_connection_gateway_add
-+ *      2. __connman_connection_gateway_remove
-+ *      3. __connman_connection_update_gateway
-+ *
-+ *    and up calls generally come from the following two functions:
-+ *
-+ *      1. connection_newgateway
-+ *      2. connection_delgateway
-+ *
-+ *    From these five functions above, we are then attempting to do
-+ *    the following for a gateway associated with a network service
-+ *    and its underlying network interface:
-+ *
-+ *      1. Set, or add, the high- or low-priority default route(s).
-+ *      2. Unset, or remove, the high- or low-priority default route(s).
-+ *      3. Promote the default route from low- to high-priority.
-+ *      4. Demote the default route from high- to low-priority.
-+ *
-+ *    The call trees for these operations amount to:
-+ *
-+ *      set_default_gateway (1)
-+ *        |
-+ *        '-mutate_default_gateway
-+ *            |
-+ *            |-set_ipv4_high_priority_default_gateway
-+ *            |   |
-+ *            |   '-set_default_gateway_route_common
-+ *            |       |
-+ *            |       '-set_ipv4_high_priority_default_gateway_route_cb
-+ *            |
-+ *            '-set_ipv6_high_priority_default_gateway
-+ *                |
-+ *                '-set_default_gateway_route_common
-+ *                    |
-+ *                    '-set_ipv6_high_priority_default_gateway_route_cb
-+ *
-+ *      set_low_priority_default_gateway (1)
-+ *        |
-+ *        '-mutate_default_gateway
-+ *            |
-+ *            '-set_ipv4_low_priority_default_gateway
-+ *                |
-+ *                '-set_default_gateway_route_common
-+ *                    |
-+ *                    '-set_ipv4_low_priority_default_gateway_route_cb
-+ *                        |
-+ *                        '-compute_low_priority_metric
-+ *
-+ *      unset_default_gateway (2)
-+ *        |
-+ *        '-mutate_default_gateway
-+ *            |
-+ *            |-unset_ipv4_high_priority_default_gateway
-+ *            |   |
-+ *            |   '-unset_default_gateway_route_common
-+ *            |       |
-+ *            |       '-unset_ipv4_high_priority_default_gateway_route_cb
-+ *            |
-+ *            '-unset_ipv6_high_priority_default_gateway
-+ *                |
-+ *                '-unset_default_gateway_route_common
-+ *                    |
-+ *                    '-unset_ipv6_high_priority_default_gateway_route_cb
-+ *
-+ *      unset_low_priority_default_gateway (2)
-+ *        |
-+ *        '-mutate_default_gateway
-+ *            |
-+ *            '-unset_ipv4_low_priority_default_gateway
-+ *                |
-+ *                '-unset_default_gateway_route_common
-+ *                    |
-+ *                    '-unset_ipv4_low_priority_default_gateway_route_cb
-+ *                        |
-+ *                        '-compute_low_priority_metric
-+ *
-+ *      promote_default_gateway (3)
-+ *        |
-+ *        |-unset_low_priority_default_gateway (2)
-+ *        |
-+ *        '-set_default_gateway (1)
-+ *
-+ *      demote_default_gateway (4)
-+ *        |
-+ *        |-unset_default_gateway (2)
-+ *        |
-+ *        '-set_low_priority_default_gateway (1)
-+ *
-+ *    where:
-+ *
-+ *      * 'mutate_default_gateway' and
-+ *        '{un,}set_default_gateway_route_common' are abstract,
-+ *        generalized handlers that manage the broad error conditions
-+ *        and gateway data and configuration lifecycle management.
-+ *
-+ *      * '*_route_cb' callbacks handle the actual routing table
-+ *        manipulation as appropriate for the IP configuration and
-+ *        gateway type, largely through the use of gateway
-+ *        configuration "ops" to help neutralize differences between
-+ *        IPv4 and IPv6.
-+ *
-+ *        In the fullness of time, the use of the gateway
-+ *        configuration "ops" should allow further collapsing the IPv4
-+ *        and IPv6 cases and simplifying the IP type-specific branches
-+ *        of the above call trees.
-+ *
-+ *        The low-priority metric is determined on a per-network
-+ *        interface basis and is computed by
-+ *        'compute_low_priority_metric'.
-+ *
-+ *    Historically, this file started life as "connection.c". However,
-+ *    today it might be better named "route.c" or, perhaps more
-+ *    precisely, "gateway.c" since its primary focus is gateway routes
-+ *    and gateway route management.
-+ *
-+ */
-+
- #ifdef HAVE_CONFIG_H
- #include <config.h>
- #endif
--- 
-2.42.0
+Addressing https://github.com/Nuovations/connman/issues/5 will "paper =
+over it"; however, fundamentally, there is the same high- vs. =
+low-priority routing metric at play here for online check failover. For =
+the online check / WiSPr, host routes for the IPv4 or IPv6 URL host are =
+installed and removed.
+
+INSTALLED
+
+static bool wispr_route_request(...)
+{
+    switch (wp_context->type) {
+    case CONNMAN_IPCONFIG_TYPE_IPV4:
+        result =3D connman_inet_add_host_route(if_index, address, =
+gateway);
+        break;
+    case CONNMAN_IPCONFIG_TYPE_IPV6:
+        result =3D connman_inet_add_ipv6_host_route(if_index, address, =
+gateway);
+        break;
+   =20
+    [=E2=80=A6]
+   =20
+    return true;
+}
+
+REMOVED
+
+static void free_wispr_routes(...)
+{
+    switch (wp_context->type) {
+    case CONNMAN_IPCONFIG_TYPE_IPV4:   =20
+        connman_inet_del_host_route(route->if_index, route->address);
+        break;
+       =20
+    case CONNMAN_IPCONFIG_TYPE_IPV6:
+        connman_inet_del_ipv6_host_route(route->if_index, =
+route->address);
+        break;
+       =20
+    [=E2=80=A6]   =20
+}
+
+However, note that there is not a metric parameter in =
+connman_inet_{add,del}{_ipv6,}_host_route. So, in a failover scenario, =
+there may be host routes installed for one or more of Ethernet, Wi-Fi, =
+and Cellular as each tries to recover online connectivity. However, =
+since the metric for all is implicitly zero, one and only one network =
+interface index will get the host route and all the others will silently =
+fail (because connman_inet_{add,del}{_ipv6,}_host_route silently =
+swallows -EEXIST).
+
+In the recent set of patches to =
+https://github.com/Nuovations/connman/issues/5, I'd commented in =
+compute_low_priority_metric:
+
+static uint32_t compute_low_priority_metric(...)
+{
+    [=E2=80=A6]
+
+    /*
+     * The algorithm uses the network interface index since it is
+     * assumed to be stable for the uptime of the network interface
+     * and, consequently, the potential maximum lifetime of the route.
+     *
+     * The algorithm establishes UINT32_MAX as the metric base (the
+     * lowest possible priority) and a somewhat-arbitrary 2^20 as the
+     * ceiling (to keep metrics out of a range that might be used by
+     * other applications). The metric is then adjusted in increments
+     * of 1,024 (2^10) from the base, but less than the ceiling, by
+     * multiplying the increment by the network interface index. This
+     * is easy and simple to compute and is invariant on service
+     * order.
+     *
+     * In the fullness of time, the "rule of least astonishment" for
+     * Connection Manager might be that low priority metrics follow
+     * the service order with the default service always having metric
+     * zero (0) and lowest priority metric assigned to the lowest
+     * priority service, etc. Achieving this would require 1) caching
+     * the computed metric in the gateway data since services may
+     * re-sort by the time we are asked to recompute high- and
+     * low-priority routes and we need a stable and matching metric to
+     * successfully delete a previously-created route and 2) having
+     * access to an API (such as
+     * '__connman_service_get_order(data->service)') that exposes a
+     * strictly-in/decreasing service order with no duplicates. Today,
+     * there is no such API nor is there such a durable service order
+     * meeting that mathematical requirement.
+     */
+
+    return MAX(metric_ceiling, metric_base - (data->index * =
+metric_index_step));
+}
+
+However, because this routing metric is needed across multiple modules =
+(right now, both wispr.c and connection.c) the right approach given this =
+revelation might be an API:
+
+    __connman_service_get_route_metric(const struct connman_service =
+*service);
+
+where the default service returns zero (0) and the rest return a metric =
+reflective of their service order, between some ceiling (say, 2^20) and =
+some floor (say, UINT32_MAX).
+
+This could then be applied easily to both gateway network and on-link =
+network routes as well, making routing determinant based on service =
+order, not kernel preference, for all routes.
+
+Thoughts on the proposed:
+
+    __connman_service_get_route_metric(const struct connman_service =
+*service);
+
+API?
+
+Best,
+
+Grant
+
+--=20
+Principal
+Nuovations
+
+gerickson@nuovations.com
+http://www.nuovations.com/
 
