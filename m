@@ -1,24 +1,24 @@
 Received: from mohas.pair.com (mohas.pair.com [209.68.5.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD9C742ABB
-	for <connman@lists.linux.dev>; Thu,  7 Dec 2023 23:41:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4342057328
+	for <connman@lists.linux.dev>; Thu,  7 Dec 2023 23:41:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nuovations.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nuovations.com
 Received: from mohas.pair.com (localhost [127.0.0.1])
-	by mohas.pair.com (Postfix) with ESMTP id 93A8873118
-	for <connman@lists.linux.dev>; Thu,  7 Dec 2023 18:41:32 -0500 (EST)
+	by mohas.pair.com (Postfix) with ESMTP id 01C7173123
+	for <connman@lists.linux.dev>; Thu,  7 Dec 2023 18:41:33 -0500 (EST)
 Received: from localhost.localdomain (unknown [IPv6:2601:647:5a00:15c1:851a:6a54:a980:b9a9])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mohas.pair.com (Postfix) with ESMTPSA id 511987312C
+	by mohas.pair.com (Postfix) with ESMTPSA id AFF7A7314B
 	for <connman@lists.linux.dev>; Thu,  7 Dec 2023 18:41:32 -0500 (EST)
 From: Grant Erickson <gerickson@nuovations.com>
 To: connman@lists.linux.dev
-Subject: [PATCH 1/4] connection: Colocate search functions.
-Date: Thu,  7 Dec 2023 15:41:27 -0800
-Message-ID: <20231207234130.1093617-2-gerickson@nuovations.com>
+Subject: [PATCH 2/4] service: Const-qualify 'lookup_gateway_data'.
+Date: Thu,  7 Dec 2023 15:41:28 -0800
+Message-ID: <20231207234130.1093617-3-gerickson@nuovations.com>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20231207234130.1093617-1-gerickson@nuovations.com>
 References: <20231207234130.1093617-1-gerickson@nuovations.com>
@@ -31,108 +31,28 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: mailmunge 3.11 on 209.68.5.112
 
-This relocates 'find_active_gateway' and 'find_default_gateway' such
-that they are colocated with other service/gateway map search
-functions.
+Const-qualify the gateway configuration argument of
+'lookup_gateway_data' to make it clear to the compiler, static
+analyzers, and human readers that the function is strictly a getter
+with no gateway configuration mutation side effects.
 ---
- src/connection.c | 70 ++++++++++++++++++++++++------------------------
- 1 file changed, 35 insertions(+), 35 deletions(-)
+ src/connection.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/src/connection.c b/src/connection.c
-index d4873861e0b6..c74dd0741995 100644
+index c74dd0741995..c42988bf337d 100644
 --- a/src/connection.c
 +++ b/src/connection.c
-@@ -241,6 +241,41 @@ static struct gateway_data *lookup_gateway_data(struct gateway_config *config)
+@@ -216,7 +216,8 @@ static struct gateway_config *find_gateway(int index, const char *gateway)
  	return NULL;
  }
  
-+static struct gateway_data *find_active_gateway(void)
-+{
-+	GHashTableIter iter;
-+	gpointer value, key;
-+
-+	DBG("");
-+
-+	g_hash_table_iter_init(&iter, gateway_hash);
-+
-+	while (g_hash_table_iter_next(&iter, &key, &value)) {
-+		struct gateway_data *data = value;
-+
-+		if (data->ipv4_config &&
-+				data->ipv4_config->active)
-+			return data;
-+
-+		if (data->ipv6_config &&
-+				data->ipv6_config->active)
-+			return data;
-+	}
-+
-+	return NULL;
-+}
-+
-+static struct gateway_data *find_default_gateway(void)
-+{
-+	struct connman_service *service;
-+
-+	service = connman_service_get_default();
-+	if (!service)
-+		return NULL;
-+
-+	return g_hash_table_lookup(gateway_hash, service);
-+}
-+
- static struct gateway_data *find_vpn_gateway(int index, const char *gateway)
+-static struct gateway_data *lookup_gateway_data(struct gateway_config *config)
++static struct gateway_data *lookup_gateway_data(
++				const struct gateway_config *config)
  {
  	GHashTableIter iter;
-@@ -717,17 +752,6 @@ static void unset_default_gateway(struct gateway_data *data,
- 						data->ipv4_config->gateway);
- }
- 
--static struct gateway_data *find_default_gateway(void)
--{
--	struct connman_service *service;
--
--	service = connman_service_get_default();
--	if (!service)
--		return NULL;
--
--	return g_hash_table_lookup(gateway_hash, service);
--}
--
- static bool choose_default_gateway(struct gateway_data *data,
- 					struct gateway_data *candidate)
- {
-@@ -968,30 +992,6 @@ static struct connman_rtnl connection_rtnl = {
- 	.delgateway	= connection_delgateway,
- };
- 
--static struct gateway_data *find_active_gateway(void)
--{
--	GHashTableIter iter;
--	gpointer value, key;
--
--	DBG("");
--
--	g_hash_table_iter_init(&iter, gateway_hash);
--
--	while (g_hash_table_iter_next(&iter, &key, &value)) {
--		struct gateway_data *data = value;
--
--		if (data->ipv4_config &&
--				data->ipv4_config->active)
--			return data;
--
--		if (data->ipv6_config &&
--				data->ipv6_config->active)
--			return data;
--	}
--
--	return NULL;
--}
--
- static void add_host_route(int family, int index, const char *gateway,
- 			enum connman_service_type service_type)
- {
+ 	gpointer value, key;
 -- 
 2.42.0
 
