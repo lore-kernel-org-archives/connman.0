@@ -1,55 +1,53 @@
-Received: from mail.holtmann.org (coyote.holtmann.net [212.227.132.17])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 12E62481BC
-	for <connman@lists.linux.dev>; Thu,  7 Dec 2023 23:46:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=holtmann.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=holtmann.org
-Received: from smtpclient.apple (p5b3d29b7.dip0.t-ipconnect.de [91.61.41.183])
-	by mail.holtmann.org (Postfix) with ESMTPSA id DB2DFCECD5;
-	Fri,  8 Dec 2023 00:46:10 +0100 (CET)
-Content-Type: text/plain;
-	charset=us-ascii
+Received: from mohas.pair.com (mohas.pair.com [209.68.5.112])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D7B0382
+	for <connman@lists.linux.dev>; Fri,  8 Dec 2023 01:27:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nuovations.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nuovations.com
+Received: from mohas.pair.com (localhost [127.0.0.1])
+	by mohas.pair.com (Postfix) with ESMTP id DBA82730F2
+	for <connman@lists.linux.dev>; Thu,  7 Dec 2023 20:27:17 -0500 (EST)
+Received: from localhost.localdomain (unknown [IPv6:2601:647:5a00:15c1:851a:6a54:a980:b9a9])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mohas.pair.com (Postfix) with ESMTPSA id 9581073106
+	for <connman@lists.linux.dev>; Thu,  7 Dec 2023 20:27:17 -0500 (EST)
+From: Grant Erickson <gerickson@nuovations.com>
+To: connman@lists.linux.dev
+Subject: [PATCH] connection: Fix typo in @file comment.
+Date: Thu,  7 Dec 2023 17:27:16 -0800
+Message-ID: <20231208012716.1097174-1-gerickson@nuovations.com>
+X-Mailer: git-send-email 2.42.0
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3774.200.91.1.1\))
-Subject: Re: [PATCH v2 0/3] connection: Introduce and Leverage IP Any /
- Unspecified Address String Constants and Functions
-From: Marcel Holtmann <marcel@holtmann.org>
-In-Reply-To: <20231129204156.1298225-1-gerickson@nuovations.com>
-Date: Fri, 8 Dec 2023 00:46:00 +0100
-Cc: connman@lists.linux.dev
-Content-Transfer-Encoding: 7bit
-Message-Id: <4BBFCA9A-B3DC-47B4-B110-241D5489617B@holtmann.org>
-References: <20231129015253.1254116-1-gerickson@nuovations.com>
- <20231129204156.1298225-1-gerickson@nuovations.com>
-To: Grant Erickson <gerickson@nuovations.com>
-X-Mailer: Apple Mail (2.3774.200.91.1.1)
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: mailmunge 3.11 on 209.68.5.112
 
-Hi Grant,
+This fixes a minor grammatical typo in the @file comment.
 
-> The IPv4 and IPv6 any / unspecified address string literals, "0.0.0.0"
-> and "::" respectively, and comparisons against them appear often
-> enough throughout the code where they warrant referencing through
-> file-scoped constants and introducing and leveraging introspection
-> functions to encapsulate the comparison patterns.
-> 
-> This introduces and uses such constants and 'is_ipv[46]_addr_any_str'
-> introspection functions to encapsulate these comparison patterns.
-> 
-> Grant Erickson (3):
->  connection: Introduce and leverage 'ipv[46]_addr_any_str' constants.
->  connection: Introduce and leverage 'is_ipv[46]_addr_any_str'
->    functions.
->  connection: Document 'is_ipv[46]_addr_any_str'.
-> 
-> src/connection.c | 92 ++++++++++++++++++++++++++++++++++++++----------
-> 1 file changed, 73 insertions(+), 19 deletions(-)
+---
+ src/connection.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-all 3 patches have been applied.
-
-Regards
-
-Marcel
+diff --git a/src/connection.c b/src/connection.c
+index 0c1bdba7f515..30e7d736e1e0 100644
+--- a/src/connection.c
++++ b/src/connection.c
+@@ -32,7 +32,7 @@
+  *    gateway routes and then uses notifications from the kernel
+  *    Routing Netlink (rtnl) to confirm and "activate" those
+  *    routes. Likewise, Connection Manager removes/clears/deletes
+- *    gateway routes an then uses notifications from the kernel
++ *    gateway routes and then uses notifications from the kernel
+  *    Routing Netlink (rtnl) to confirm and "inactivate" those
+  *    routes. The following is the state machine for that lifecycle:
+  *
+-- 
+2.42.0
 
