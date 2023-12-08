@@ -1,53 +1,41 @@
-Received: from mohas.pair.com (mohas.pair.com [209.68.5.112])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D7B0382
-	for <connman@lists.linux.dev>; Fri,  8 Dec 2023 01:27:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nuovations.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nuovations.com
-Received: from mohas.pair.com (localhost [127.0.0.1])
-	by mohas.pair.com (Postfix) with ESMTP id DBA82730F2
-	for <connman@lists.linux.dev>; Thu,  7 Dec 2023 20:27:17 -0500 (EST)
-Received: from localhost.localdomain (unknown [IPv6:2601:647:5a00:15c1:851a:6a54:a980:b9a9])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mohas.pair.com (Postfix) with ESMTPSA id 9581073106
-	for <connman@lists.linux.dev>; Thu,  7 Dec 2023 20:27:17 -0500 (EST)
-From: Grant Erickson <gerickson@nuovations.com>
-To: connman@lists.linux.dev
-Subject: [PATCH] connection: Fix typo in @file comment.
-Date: Thu,  7 Dec 2023 17:27:16 -0800
-Message-ID: <20231208012716.1097174-1-gerickson@nuovations.com>
-X-Mailer: git-send-email 2.42.0
+Received: from mail.holtmann.org (coyote.holtmann.net [212.227.132.17])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 436B149F97
+	for <connman@lists.linux.dev>; Fri,  8 Dec 2023 19:05:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=holtmann.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=holtmann.org
+Received: from smtpclient.apple (p5b3d29b7.dip0.t-ipconnect.de [91.61.41.183])
+	by mail.holtmann.org (Postfix) with ESMTPSA id BEDFDCECC4;
+	Fri,  8 Dec 2023 20:05:03 +0100 (CET)
+Content-Type: text/plain;
+	charset=us-ascii
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: mailmunge 3.11 on 209.68.5.112
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3774.200.91.1.1\))
+Subject: Re: [PATCH] connection: Fix typo in @file comment.
+From: Marcel Holtmann <marcel@holtmann.org>
+In-Reply-To: <20231208012716.1097174-1-gerickson@nuovations.com>
+Date: Fri, 8 Dec 2023 20:04:53 +0100
+Cc: connman@lists.linux.dev
+Content-Transfer-Encoding: 7bit
+Message-Id: <30919DB3-325A-418D-80DD-FA4FCAF763B6@holtmann.org>
+References: <20231208012716.1097174-1-gerickson@nuovations.com>
+To: Grant Erickson <gerickson@nuovations.com>
+X-Mailer: Apple Mail (2.3774.200.91.1.1)
 
-This fixes a minor grammatical typo in the @file comment.
+Hi Grant,
 
----
- src/connection.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> This fixes a minor grammatical typo in the @file comment.
+> 
+> ---
+> src/connection.c | 2 +-
+> 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/src/connection.c b/src/connection.c
-index 0c1bdba7f515..30e7d736e1e0 100644
---- a/src/connection.c
-+++ b/src/connection.c
-@@ -32,7 +32,7 @@
-  *    gateway routes and then uses notifications from the kernel
-  *    Routing Netlink (rtnl) to confirm and "activate" those
-  *    routes. Likewise, Connection Manager removes/clears/deletes
-- *    gateway routes an then uses notifications from the kernel
-+ *    gateway routes and then uses notifications from the kernel
-  *    Routing Netlink (rtnl) to confirm and "inactivate" those
-  *    routes. The following is the state machine for that lifecycle:
-  *
--- 
-2.42.0
+patch has been applied.
+
+Regards
+
+Marcel
 
