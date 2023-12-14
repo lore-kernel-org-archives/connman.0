@@ -1,58 +1,60 @@
-Received: from mohas.pair.com (mohas.pair.com [209.68.5.112])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30D2C7D8AF
-	for <connman@lists.linux.dev>; Wed, 13 Dec 2023 20:00:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nuovations.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nuovations.com
-Received: from mohas.pair.com (localhost [127.0.0.1])
-	by mohas.pair.com (Postfix) with ESMTP id 3EF7573106
-	for <connman@lists.linux.dev>; Wed, 13 Dec 2023 15:00:09 -0500 (EST)
-Received: from localhost.localdomain (unknown [IPv6:2601:647:5a00:15c1:f04b:507e:d663:adf2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mohas.pair.com (Postfix) with ESMTPSA id EC0487312B
-	for <connman@lists.linux.dev>; Wed, 13 Dec 2023 15:00:03 -0500 (EST)
-From: Grant Erickson <gerickson@nuovations.com>
-To: connman@lists.linux.dev
-Subject: [PATCH 2/3] gateway: Updated @file comment to reflect recent rename.
-Date: Wed, 13 Dec 2023 12:00:00 -0800
-Message-ID: <20231213200001.1994492-3-gerickson@nuovations.com>
-X-Mailer: git-send-email 2.42.0
-In-Reply-To: <20231213200001.1994492-1-gerickson@nuovations.com>
-References: <20231213200001.1994492-1-gerickson@nuovations.com>
+Received: from mail.holtmann.org (coyote.holtmann.net [212.227.132.17])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8972A3C473
+	for <connman@lists.linux.dev>; Thu, 14 Dec 2023 11:33:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=holtmann.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=holtmann.org
+Received: from smtpclient.apple (p5b3d29b7.dip0.t-ipconnect.de [91.61.41.183])
+	by mail.holtmann.org (Postfix) with ESMTPSA id 11E96CECD9;
+	Thu, 14 Dec 2023 12:33:13 +0100 (CET)
+Content-Type: text/plain;
+	charset=us-ascii
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: mailmunge 3.11 on 209.68.5.112
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3774.300.61.1.2\))
+Subject: Re: [PATCH 0/3] connection: Rename 'connection.c' to 'gateway.c'
+From: Marcel Holtmann <marcel@holtmann.org>
+In-Reply-To: <20231213200001.1994492-1-gerickson@nuovations.com>
+Date: Thu, 14 Dec 2023 12:33:02 +0100
+Cc: connman@lists.linux.dev
+Content-Transfer-Encoding: 7bit
+Message-Id: <5C79A24E-6791-4753-AE10-A3D2E0B10706@holtmann.org>
+References: <20231213200001.1994492-1-gerickson@nuovations.com>
+To: Grant Erickson <gerickson@nuovations.com>
+X-Mailer: Apple Mail (2.3774.300.61.1.2)
 
-This updates the @file comment to reflect the recent rename of this
-file from "connection.c" to "gateway.c".
----
- src/gateway.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+Hi Grant,
 
-diff --git a/src/gateway.c b/src/gateway.c
-index 30e7d736e1e0..35ca9cc6cfc5 100644
---- a/src/gateway.c
-+++ b/src/gateway.c
-@@ -222,9 +222,8 @@
-  *        'compute_low_priority_metric'.
-  *
-  *    Historically, this file started life as "connection.c". However,
-- *    today it might be better named "route.c" or, perhaps more
-- *    precisely, "gateway.c" since its primary focus is gateway routes
-- *    and gateway route management.
-+ *    it was renamed to "gateway.c" since its primary focus is gateway
-+ *    routes and gateway route management.
-  *
-  */
- 
--- 
-2.42.0
+> While historically, "connection.c" might have been a contextually-apt
+> name, today it might be better named "gateway.c" since its primary
+> focus is gateway routes and gateway route management.
+> 
+> Reflective of that, this renames "connection.c" to "gateway.c" and
+> updates public and private symbol names accordingly.
+> 
+> Grant Erickson (3):
+>  connection: Rename 'connection.c' to 'gateway.c'.
+>  gateway: Updated @file comment to reflect recent rename.
+>  gateway: Rename public and private symbols after file rename.
+> 
+> Makefile.am                     |  2 +-
+> src/connman.h                   | 14 +++----
+> src/dnsproxy.c                  |  2 +-
+> src/{connection.c => gateway.c} | 65 ++++++++++++++++-----------------
+> src/inet.c                      |  2 +-
+> src/ipconfig.c                  |  8 ++--
+> src/main.c                      |  4 +-
+> src/network.c                   |  2 +-
+> src/provider.c                  |  4 +-
+> src/service.c                   | 22 +++++------
+> 10 files changed, 62 insertions(+), 63 deletions(-)
+> rename src/{connection.c => gateway.c} (98%)
+
+all 3 patches have been applied.
+
+Regards
+
+Marcel
 
