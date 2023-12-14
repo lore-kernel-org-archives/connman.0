@@ -1,153 +1,180 @@
-Received: from mail.holtmann.org (coyote.holtmann.net [212.227.132.17])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8688F3FB35
-	for <connman@lists.linux.dev>; Thu, 14 Dec 2023 11:35:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=holtmann.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=holtmann.org
-Received: from smtpclient.apple (p5b3d29b7.dip0.t-ipconnect.de [91.61.41.183])
-	by mail.holtmann.org (Postfix) with ESMTPSA id 41700CECD9;
-	Thu, 14 Dec 2023 12:35:18 +0100 (CET)
-Content-Type: text/plain;
-	charset=utf-8
+Received: from mohas.pair.com (mohas.pair.com [209.68.5.112])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FB8065ECC
+	for <connman@lists.linux.dev>; Thu, 14 Dec 2023 17:27:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nuovations.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nuovations.com
+Received: from mohas.pair.com (localhost [127.0.0.1])
+	by mohas.pair.com (Postfix) with ESMTP id 57A9373146
+	for <connman@lists.linux.dev>; Thu, 14 Dec 2023 12:27:14 -0500 (EST)
+Received: from localhost.localdomain (unknown [IPv6:2601:647:5a00:15c1:839:244f:d841:d551])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mohas.pair.com (Postfix) with ESMTPSA id 18B9573150
+	for <connman@lists.linux.dev>; Thu, 14 Dec 2023 12:27:14 -0500 (EST)
+From: Grant Erickson <gerickson@nuovations.com>
+To: connman@lists.linux.dev
+Subject: [PATCH 1/2] inet: Add '__connman_inet_rtnl_recv'.
+Date: Thu, 14 Dec 2023 09:27:11 -0800
+Message-ID: <20231214172712.2083929-2-gerickson@nuovations.com>
+X-Mailer: git-send-email 2.42.0
+In-Reply-To: <20231214172712.2083929-1-gerickson@nuovations.com>
+References: <20231214172712.2083929-1-gerickson@nuovations.com>
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3774.300.61.1.2\))
-Subject: Re: RFC: __connman_service_get_route_metric
-From: Marcel Holtmann <marcel@holtmann.org>
-In-Reply-To: <129F38C5-2B36-40FB-A240-EE0542FCB5D7@nuovations.com>
-Date: Thu, 14 Dec 2023 12:35:07 +0100
-Cc: connman@lists.linux.dev
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <AE15E661-4815-49A0-A9B8-1B2BF41FC2A8@holtmann.org>
-References: <129F38C5-2B36-40FB-A240-EE0542FCB5D7@nuovations.com>
-To: Grant Erickson <gerickson@nuovations.com>
-X-Mailer: Apple Mail (2.3774.300.61.1.2)
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: mailmunge 3.11 on 209.68.5.112
 
-Hi Grant,
+This refactors the private, file-scope interface 'inet_rtnl_recv' into
+a separate semi-public, project-scope interface
+'__connman_inet_rtnl_recv'.
 
-> Was out on my morning ride this morning and had this revelation: =
-https://github.com/Nuovations/connman/issues/6:
->=20
-> Addressing https://github.com/Nuovations/connman/issues/5 will "paper =
-over it"; however, fundamentally, there is the same high- vs. =
-low-priority routing metric at play here for online check failover. For =
-the online check / WiSPr, host routes for the IPv4 or IPv6 URL host are =
-installed and removed.
->=20
-> INSTALLED
->=20
-> static bool wispr_route_request(...)
-> {
->    switch (wp_context->type) {
->    case CONNMAN_IPCONFIG_TYPE_IPV4:
->        result =3D connman_inet_add_host_route(if_index, address, =
-gateway);
->        break;
->    case CONNMAN_IPCONFIG_TYPE_IPV6:
->        result =3D connman_inet_add_ipv6_host_route(if_index, address, =
-gateway);
->        break;
->=20
->    [=E2=80=A6]
->=20
->    return true;
-> }
->=20
-> REMOVED
->=20
-> static void free_wispr_routes(...)
-> {
->    switch (wp_context->type) {
->    case CONNMAN_IPCONFIG_TYPE_IPV4:   =20
->        connman_inet_del_host_route(route->if_index, route->address);
->        break;
->=20
->    case CONNMAN_IPCONFIG_TYPE_IPV6:
->        connman_inet_del_ipv6_host_route(route->if_index, =
-route->address);
->        break;
->=20
->    [=E2=80=A6]   =20
-> }
->=20
-> However, note that there is not a metric parameter in =
-connman_inet_{add,del}{_ipv6,}_host_route. So, in a failover scenario, =
-there may be host routes installed for one or more of Ethernet, Wi-Fi, =
-and Cellular as each tries to recover online connectivity. However, =
-since the metric for all is implicitly zero, one and only one network =
-interface index will get the host route and all the others will silently =
-fail (because connman_inet_{add,del}{_ipv6,}_host_route silently =
-swallows -EEXIST).
->=20
-> In the recent set of patches to =
-https://github.com/Nuovations/connman/issues/5, I'd commented in =
-compute_low_priority_metric:
->=20
-> static uint32_t compute_low_priority_metric(...)
-> {
->    [=E2=80=A6]
->=20
->    /*
->     * The algorithm uses the network interface index since it is
->     * assumed to be stable for the uptime of the network interface
->     * and, consequently, the potential maximum lifetime of the route.
->     *
->     * The algorithm establishes UINT32_MAX as the metric base (the
->     * lowest possible priority) and a somewhat-arbitrary 2^20 as the
->     * ceiling (to keep metrics out of a range that might be used by
->     * other applications). The metric is then adjusted in increments
->     * of 1,024 (2^10) from the base, but less than the ceiling, by
->     * multiplying the increment by the network interface index. This
->     * is easy and simple to compute and is invariant on service
->     * order.
->     *
->     * In the fullness of time, the "rule of least astonishment" for
->     * Connection Manager might be that low priority metrics follow
->     * the service order with the default service always having metric
->     * zero (0) and lowest priority metric assigned to the lowest
->     * priority service, etc. Achieving this would require 1) caching
->     * the computed metric in the gateway data since services may
->     * re-sort by the time we are asked to recompute high- and
->     * low-priority routes and we need a stable and matching metric to
->     * successfully delete a previously-created route and 2) having
->     * access to an API (such as
->     * '__connman_service_get_order(data->service)') that exposes a
->     * strictly-in/decreasing service order with no duplicates. Today,
->     * there is no such API nor is there such a durable service order
->     * meeting that mathematical requirement.
->     */
->=20
->    return MAX(metric_ceiling, metric_base - (data->index * =
-metric_index_step));
-> }
->=20
-> However, because this routing metric is needed across multiple modules =
-(right now, both wispr.c and connection.c) the right approach given this =
-revelation might be an API:
->=20
->    __connman_service_get_route_metric(const struct connman_service =
-*service);
->=20
-> where the default service returns zero (0) and the rest return a =
-metric reflective of their service order, between some ceiling (say, =
-2^20) and some floor (say, UINT32_MAX).
->=20
-> This could then be applied easily to both gateway network and on-link =
-network routes as well, making routing determinant based on service =
-order, not kernel preference, for all routes.
->=20
-> Thoughts on the proposed:
->=20
->    __connman_service_get_route_metric(const struct connman_service =
-*service);
->=20
-> API?
+Currently, 'inet_rtnl_recv' is intended to be used as a glib runloop
+helper in conjunction with '__connman_inet_rtnl_talk' for longer or
+multi-phase Routing Netlink (rtnl) interactions.
 
-I would say go for it and try it out. See if it works.
+However, for short, concise open/send/recv/close Routing Netlink
+(rtnl) interactions in which there is a single request/response phase
+or the complexity of an asynchronous run loop interaction is not
+needed, there is not an appropriate 'recv' interface to peer with
+open/send/close.
 
-Regards
+With this change, the core of 'inet_rtnl_recv' is factored out into
+that missing 'recv' interface, '__connman_inet_rtnl_recv' with
+'inet_rtnl_recv' invoking it.
+---
+ src/connman.h |  3 ++-
+ src/inet.c    | 53 +++++++++++++++++++++++++++++++++++++--------------
+ 2 files changed, 41 insertions(+), 15 deletions(-)
 
-Marcel
+diff --git a/src/connman.h b/src/connman.h
+index d179374e2247..24e667d8e1f4 100644
+--- a/src/connman.h
++++ b/src/connman.h
+@@ -244,7 +244,8 @@ int __connman_inet_rtnl_send(struct __connman_inet_rtnl_handle *rtnl,
+ {
+ 	return __connman_inet_rtnl_talk(rtnl, n, 0, NULL, NULL);
+ }
+-
++int __connman_inet_rtnl_recv(const struct __connman_inet_rtnl_handle *rtnl,
++			struct nlmsghdr **n);
+ void __connman_inet_rtnl_close(struct __connman_inet_rtnl_handle *rth);
+ int __connman_inet_rtnl_addattr_l(struct nlmsghdr *n, size_t max_length,
+ 			int type, const void *data, size_t data_length);
+diff --git a/src/inet.c b/src/inet.c
+index 779ed7b2b995..5b938cbade13 100644
+--- a/src/inet.c
++++ b/src/inet.c
+@@ -2574,33 +2574,34 @@ static gboolean inet_rtnl_timeout_cb(gpointer user_data)
+ 	return FALSE;
+ }
+ 
+-static int inet_rtnl_recv(GIOChannel *chan, struct inet_rtnl_cb_data *rtnl_data)
++int __connman_inet_rtnl_recv(const struct __connman_inet_rtnl_handle *rtnl,
++	struct nlmsghdr **n)
+ {
+-	struct __connman_inet_rtnl_handle *rth = rtnl_data->rtnl;
+ 	struct nlmsghdr *h = NULL;
+ 	struct sockaddr_nl nladdr;
+ 	socklen_t addr_len = sizeof(nladdr);
+ 	unsigned char buf[4096];
+ 	void *ptr = buf;
+ 	gsize len;
+-	int status, fd;
++	int status;
++
++	if (!rtnl)
++		return -EINVAL;
+ 
+ 	memset(buf, 0, sizeof(buf));
+ 	memset(&nladdr, 0, sizeof(nladdr));
+ 
+-	fd = g_io_channel_unix_get_fd(chan);
+-
+-	status = recvfrom(fd, buf, sizeof(buf), 0,
++	status = recvfrom(rtnl->fd, buf, sizeof(buf), 0,
+                        (struct sockaddr *) &nladdr, &addr_len);
+ 	if (status < 0) {
+ 		if (errno == EINTR || errno == EAGAIN)
+ 			return 0;
+ 
+-		return -1;
++		return -errno;
+ 	}
+ 
+ 	if (status == 0)
+-		return -1;
++		return -ECONNRESET;
+ 
+ 	if (nladdr.nl_pid != 0) { /* not sent by kernel, ignore */
+ 		DBG("Received msg from %u, ignoring it", nladdr.nl_pid);
+@@ -2615,11 +2616,11 @@ static int inet_rtnl_recv(GIOChannel *chan, struct inet_rtnl_cb_data *rtnl_data)
+ 		h = ptr;
+ 
+ 		if (!NLMSG_OK(h, len))
+-			return -1;
++			return -EBADMSG;
+ 
+-		if (h->nlmsg_seq != rth->seq) {
++		if (h->nlmsg_seq != rtnl->seq) {
+ 			/* Skip this msg */
+-			DBG("skip %d/%d len %d", rth->seq,
++			DBG("skip %d/%d len %d", rtnl->seq,
+ 				h->nlmsg_seq, h->nlmsg_len);
+ 
+ 			len -= h->nlmsg_len;
+@@ -2630,18 +2631,42 @@ static int inet_rtnl_recv(GIOChannel *chan, struct inet_rtnl_cb_data *rtnl_data)
+ 		switch (h->nlmsg_type) {
+ 		case NLMSG_NOOP:
+ 		case NLMSG_OVERRUN:
+-			return -1;
++			return -EBADMSG;
+ 
+ 		case NLMSG_ERROR:
+ 			err = (struct nlmsgerr *)NLMSG_DATA(h);
+-			connman_error("RTNETLINK answers %s (%d)",
+-				strerror(-err->error), -err->error);
++			if (err->error != 0)
++				DBG("RTNETLINK answers %s (%d)",
++					strerror(-err->error), -err->error);
+ 			return err->error;
+ 		}
+ 
+ 		break;
+ 	}
+ 
++	if (h && n)
++		*n = h;
++
++	return 0;
++}
++
++static int inet_rtnl_recv(GIOChannel *chan, struct inet_rtnl_cb_data *rtnl_data)
++{
++	struct __connman_inet_rtnl_handle *rth = rtnl_data->rtnl;
++	struct nlmsghdr *h = NULL;
++	int status;
++
++	/*
++	 * Both the chan and rth contain the socket descriptor and should
++	 * be identical. __connman_inet_rtnl_recv uses rth; consequently,
++	 * chan goes unused here.
++	 */
++	(void)chan;
++
++	status = __connman_inet_rtnl_recv(rth, &h);
++	if (status < 0)
++		return status;
++
+ 	if (h->nlmsg_seq == rth->seq) {
+ 		DBG("received %d seq %d", h->nlmsg_len, h->nlmsg_seq);
+ 
+-- 
+2.42.0
 
