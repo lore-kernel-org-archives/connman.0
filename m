@@ -1,11 +1,11 @@
 Received: from mail.holtmann.org (coyote.holtmann.net [212.227.132.17])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 848F41E4B3
-	for <connman@lists.linux.dev>; Sat, 16 Dec 2023 18:47:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 25ACF31A62
+	for <connman@lists.linux.dev>; Sat, 16 Dec 2023 18:47:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=holtmann.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=holtmann.org
 Received: from smtpclient.apple (p5b3d29b7.dip0.t-ipconnect.de [91.61.41.183])
-	by mail.holtmann.org (Postfix) with ESMTPSA id AC7E5CECE4;
-	Sat, 16 Dec 2023 19:47:06 +0100 (CET)
+	by mail.holtmann.org (Postfix) with ESMTPSA id 09F50CECE4;
+	Sat, 16 Dec 2023 19:47:33 +0100 (CET)
 Content-Type: text/plain;
 	charset=us-ascii
 Precedence: bulk
@@ -14,57 +14,64 @@ List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3774.300.61.1.2\))
-Subject: Re: [PATCH 00/11] service/wispr: Add Per-service-unique WISPr Host
- Route Metric/Priority
+Subject: Re: [PATCH 0/9] inet: Add Missing Gateway Parameter to Host Route
+ Deletion Interfaces
 From: Marcel Holtmann <marcel@holtmann.org>
-In-Reply-To: <20231216061223.2199037-1-gerickson@nuovations.com>
-Date: Sat, 16 Dec 2023 19:46:56 +0100
+In-Reply-To: <20231216082805.2221938-1-gerickson@nuovations.com>
+Date: Sat, 16 Dec 2023 19:47:22 +0100
 Cc: connman@lists.linux.dev
 Content-Transfer-Encoding: 7bit
-Message-Id: <671647AE-51D4-4B49-BA7D-6001827F99EC@holtmann.org>
-References: <20231216061223.2199037-1-gerickson@nuovations.com>
+Message-Id: <EF39FEFE-A513-4363-B711-8EBDDCD075AD@holtmann.org>
+References: <20231216082805.2221938-1-gerickson@nuovations.com>
 To: Grant Erickson <gerickson@nuovations.com>
 X-Mailer: Apple Mail (2.3774.300.61.1.2)
 
 Hi Grant,
 
-> This add and leverages '__connman_service_get_route_metric' to select
-> an appropriate service-specific route metric/priority when adding or
-> deleting WISPr host routes.
+> Routing table manipulation, host routes among them, should be
+> fundamentally symmetric. The routing table entry parameters used to
+> add a route should be identical to those used to delete the same
+> route. Otherwise, an 'ESRCH' error may occur which, at present, are
+> suppressed due to commit e03a01d3182d ("inet: Fix error handling when
+> adding/removing routes") that is masking route deletion errors where
+> this gateway parameter asymmetry is occurring.
 > 
-> This allows multiple such routes to coexist simultaneously, supporting
-> "continuous" mode online checks in which one or more services may be
-> conducting "online" WISPr-based Internet reachability checks as they
-> move in and out of reachability success/failure.
+> This adds a previously-missing gateway address parameter to the
+> 'connman_inet_del_{,ipv6_}host_route' functions. In addition, call
+> sites to 'connman_inet_del_{,ipv6_}host_route' are updated to pass the
+> gateway parameter.
 > 
-> '__connman_service_get_route_metric' is a non-public service
-> interface, which attempts to get the route metric/priority for the
-> specified service based on the current service and services state.
+> In addition, in the process, this refactors 'nameserver_del_routes'
+> into a second, helper function 'del_nameserver_route' such that host
+> route deletion is separated from DNS server iteration. This structure
+> now mirrors that of 'nameserver_add_routes' and 'add_nameserver_route'
+> since, again, route addition and deletion should be symmetric.
 > 
-> If the service is the default or if it is the only service, then the
-> metric is zero (0). Otherwise, a low-priority metric (metric > 0)
-> unique to the service and its underlying network interface is computed
-> and returned.
+> NOTE: This is only the first half of the necessary change. The second
+> half is revising the actual implementation of
+> 'connman_inet_del_{,ipv6_}host_route' to take advantage of the
+> newly-added gateway parameter. Implementation notes in each of
+> 'connman_inet_del_{,ipv6_}host_route' have been added toward that end.
 > 
-> Grant Erickson (11):
->  service: Add '__connman_service_get_route_metric'.
->  service: Document '__connman_service_get_route_metric'.
->  wispr: Expand 'DBG' in 'wispr_portal_detect'.
->  wispr: Add 'DBG' to '__connman_wispr_start' error path.
->  wispr: Update 'DBG' in '__connman_wispr_start'.
->  wispr: Refactor 'free_wispr_routes'.
->  wispr: Simplify IPv4 vs. IPv6 host route management.
->  wispr: Document 'free_wispr_route{,s}'.
->  wispr: Document 'wispr_route'.
->  wispr: Document 'wispr_portal_context_route_ops'.
->  wispr: Leverage '__connman_service_get_route_metric'.
+> Grant Erickson (9):
+>  service: Refactor 'nameserver_del_routes'.
+>  service: Add gateway parameter to DNS host route deletion paths.
+>  inet: Add gateway parameter to 'connman_inet_del_{,ipv6_}host_route'.
+>  inet: Document 'connman_inet_{add,del}_{,ipv6_}host_route'.
+>  service: Const-qualify 'add_nameserver_route'.
+>  service: Add 'DBG' to 'add_nameserver_route'.
+>  inet: Document '{add,del}_nameserver_route'.
+>  inet: Document 'nameserver_{add,del}_routes'.
+>  inet: Document '__connman_service_nameserver_{add,del}_routes'.
 > 
-> src/connman.h |   2 +
-> src/service.c |  98 ++++++++++++++++++++++++
-> src/wispr.c   | 207 +++++++++++++++++++++++++++++++++++++++++---------
-> 3 files changed, 271 insertions(+), 36 deletions(-)
+> include/inet.h |  17 ++--
+> src/connman.h  |   1 +
+> src/gateway.c  |  33 +++++---
+> src/inet.c     | 184 ++++++++++++++++++++++++++++++++++++++--
+> src/service.c  | 225 ++++++++++++++++++++++++++++++++++++++++++++-----
+> 5 files changed, 419 insertions(+), 41 deletions(-)
 
-all 11 patches have been applied.
+all 9 patches have been applied.
 
 Regards
 
