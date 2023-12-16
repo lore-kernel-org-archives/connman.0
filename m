@@ -1,27 +1,25 @@
 Received: from mohas.pair.com (mohas.pair.com [209.68.5.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4B1E12B85
-	for <connman@lists.linux.dev>; Sat, 16 Dec 2023 06:12:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FB3013AD2
+	for <connman@lists.linux.dev>; Sat, 16 Dec 2023 08:28:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nuovations.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nuovations.com
 Received: from mohas.pair.com (localhost [127.0.0.1])
-	by mohas.pair.com (Postfix) with ESMTP id 0537F7312B
-	for <connman@lists.linux.dev>; Sat, 16 Dec 2023 01:12:28 -0500 (EST)
+	by mohas.pair.com (Postfix) with ESMTP id 6C42673106
+	for <connman@lists.linux.dev>; Sat, 16 Dec 2023 03:28:06 -0500 (EST)
 Received: from localhost.localdomain (unknown [IPv6:2601:647:5a00:15c1:29e5:59c3:7c60:32d3])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mohas.pair.com (Postfix) with ESMTPSA id B7BDD73147
-	for <connman@lists.linux.dev>; Sat, 16 Dec 2023 01:12:27 -0500 (EST)
+	by mohas.pair.com (Postfix) with ESMTPSA id 2B1DF73123
+	for <connman@lists.linux.dev>; Sat, 16 Dec 2023 03:28:06 -0500 (EST)
 From: Grant Erickson <gerickson@nuovations.com>
 To: connman@lists.linux.dev
-Subject: [PATCH 06/11] wispr: Refactor 'free_wispr_routes'.
-Date: Fri, 15 Dec 2023 22:12:18 -0800
-Message-ID: <20231216061223.2199037-7-gerickson@nuovations.com>
+Subject: [PATCH 0/9] inet: Add Missing Gateway Parameter to Host Route Deletion Interfaces
+Date: Sat, 16 Dec 2023 00:27:55 -0800
+Message-ID: <20231216082805.2221938-1-gerickson@nuovations.com>
 X-Mailer: git-send-email 2.42.0
-In-Reply-To: <20231216061223.2199037-1-gerickson@nuovations.com>
-References: <20231216061223.2199037-1-gerickson@nuovations.com>
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
@@ -31,74 +29,49 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: mailmunge 3.11 on 209.68.5.112
 
-This refactors 'free_wispr_routes' into a second, helper function
-'free_wispr_route' such that host route deallocation is separated from
-container iteration.
----
- src/wispr.c | 45 ++++++++++++++++++++++++++-------------------
- 1 file changed, 26 insertions(+), 19 deletions(-)
+Routing table manipulation, host routes among them, should be
+fundamentally symmetric. The routing table entry parameters used to
+add a route should be identical to those used to delete the same
+route. Otherwise, an 'ESRCH' error may occur which, at present, are
+suppressed due to commit e03a01d3182d ("inet: Fix error handling when
+adding/removing routes") that is masking route deletion errors where
+this gateway parameter asymmetry is occurring.
 
-diff --git a/src/wispr.c b/src/wispr.c
-index 04229d045cab..568b7f0fc8a7 100644
---- a/src/wispr.c
-+++ b/src/wispr.c
-@@ -135,30 +135,37 @@ static void connman_wispr_message_init(struct connman_wispr_message *msg)
- 	msg->location_name = NULL;
- }
- 
-+static void free_wispr_route(
-+		const struct connman_wispr_portal_context *wp_context,
-+		struct wispr_route *route)
-+{
-+	DBG("free route to %s if %d type %d", route->address,
-+			route->if_index, wp_context->type);
-+
-+	switch (wp_context->type) {
-+	case CONNMAN_IPCONFIG_TYPE_IPV4:
-+		connman_inet_del_host_route(route->if_index,
-+				route->address);
-+		break;
-+	case CONNMAN_IPCONFIG_TYPE_IPV6:
-+		connman_inet_del_ipv6_host_route(route->if_index,
-+				route->address);
-+		break;
-+	case CONNMAN_IPCONFIG_TYPE_UNKNOWN:
-+	case CONNMAN_IPCONFIG_TYPE_ALL:
-+		break;
-+	}
-+
-+	g_free(route->address);
-+	route->address = NULL;
-+}
-+
- static void free_wispr_routes(struct connman_wispr_portal_context *wp_context)
- {
- 	while (wp_context->route_list) {
- 		struct wispr_route *route = wp_context->route_list->data;
- 
--		DBG("free route to %s if %d type %d", route->address,
--				route->if_index, wp_context->type);
--
--		switch (wp_context->type) {
--		case CONNMAN_IPCONFIG_TYPE_IPV4:
--			connman_inet_del_host_route(route->if_index,
--					route->address);
--			break;
--		case CONNMAN_IPCONFIG_TYPE_IPV6:
--			connman_inet_del_ipv6_host_route(route->if_index,
--					route->address);
--			break;
--		case CONNMAN_IPCONFIG_TYPE_UNKNOWN:
--		case CONNMAN_IPCONFIG_TYPE_ALL:
--			break;
--		}
--
--		g_free(route->address);
--		route->address = NULL;
-+		free_wispr_route(wp_context, route);
- 
- 		g_free(route);
- 		wp_context->route_list->data = NULL;
+This adds a previously-missing gateway address parameter to the
+'connman_inet_del_{,ipv6_}host_route' functions. In addition, call
+sites to 'connman_inet_del_{,ipv6_}host_route' are updated to pass the
+gateway parameter.
+
+In addition, in the process, this refactors 'nameserver_del_routes'
+into a second, helper function 'del_nameserver_route' such that host
+route deletion is separated from DNS server iteration. This structure
+now mirrors that of 'nameserver_add_routes' and 'add_nameserver_route'
+since, again, route addition and deletion should be symmetric.
+
+NOTE: This is only the first half of the necessary change. The second
+half is revising the actual implementation of
+'connman_inet_del_{,ipv6_}host_route' to take advantage of the
+newly-added gateway parameter. Implementation notes in each of
+'connman_inet_del_{,ipv6_}host_route' have been added toward that end.
+
+Grant Erickson (9):
+  service: Refactor 'nameserver_del_routes'.
+  service: Add gateway parameter to DNS host route deletion paths.
+  inet: Add gateway parameter to 'connman_inet_del_{,ipv6_}host_route'.
+  inet: Document 'connman_inet_{add,del}_{,ipv6_}host_route'.
+  service: Const-qualify 'add_nameserver_route'.
+  service: Add 'DBG' to 'add_nameserver_route'.
+  inet: Document '{add,del}_nameserver_route'.
+  inet: Document 'nameserver_{add,del}_routes'.
+  inet: Document '__connman_service_nameserver_{add,del}_routes'.
+
+ include/inet.h |  17 ++--
+ src/connman.h  |   1 +
+ src/gateway.c  |  33 +++++---
+ src/inet.c     | 184 ++++++++++++++++++++++++++++++++++++++--
+ src/service.c  | 225 ++++++++++++++++++++++++++++++++++++++++++++-----
+ 5 files changed, 419 insertions(+), 41 deletions(-)
+
 -- 
 2.42.0
 
