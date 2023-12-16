@@ -1,59 +1,70 @@
-Received: from mail.holtmann.org (coyote.holtmann.net [212.227.132.17])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E9C7818C15
-	for <connman@lists.linux.dev>; Fri, 15 Dec 2023 08:52:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=holtmann.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=holtmann.org
-Received: from smtpclient.apple (p5b3d29b7.dip0.t-ipconnect.de [91.61.41.183])
-	by mail.holtmann.org (Postfix) with ESMTPSA id C8C5CCECC3;
-	Fri, 15 Dec 2023 09:52:45 +0100 (CET)
-Content-Type: text/plain;
-	charset=us-ascii
+Received: from mohas.pair.com (mohas.pair.com [209.68.5.112])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9774F12B6E
+	for <connman@lists.linux.dev>; Sat, 16 Dec 2023 06:12:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nuovations.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nuovations.com
+Received: from mohas.pair.com (localhost [127.0.0.1])
+	by mohas.pair.com (Postfix) with ESMTP id A0574730F9
+	for <connman@lists.linux.dev>; Sat, 16 Dec 2023 01:12:25 -0500 (EST)
+Received: from localhost.localdomain (unknown [IPv6:2601:647:5a00:15c1:29e5:59c3:7c60:32d3])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mohas.pair.com (Postfix) with ESMTPSA id 5F80973122
+	for <connman@lists.linux.dev>; Sat, 16 Dec 2023 01:12:25 -0500 (EST)
+From: Grant Erickson <gerickson@nuovations.com>
+To: connman@lists.linux.dev
+Subject: [PATCH 00/11] service/wispr: Add Per-service-unique WISPr Host Route Metric/Priority
+Date: Fri, 15 Dec 2023 22:12:12 -0800
+Message-ID: <20231216061223.2199037-1-gerickson@nuovations.com>
+X-Mailer: git-send-email 2.42.0
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3774.300.61.1.2\))
-Subject: Re: [PATCH 0/2] service: Both Cancel and Stop Online Checks where
- Appropriate
-From: Marcel Holtmann <marcel@holtmann.org>
-In-Reply-To: <20231215021653.2156275-1-gerickson@nuovations.com>
-Date: Fri, 15 Dec 2023 09:52:35 +0100
-Cc: connman@lists.linux.dev
-Content-Transfer-Encoding: 7bit
-Message-Id: <ABF35AE4-777D-4A9D-9618-0587B567DDE8@holtmann.org>
-References: <20231215021653.2156275-1-gerickson@nuovations.com>
-To: Grant Erickson <gerickson@nuovations.com>
-X-Mailer: Apple Mail (2.3774.300.61.1.2)
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: mailmunge 3.11 on 209.68.5.112
 
-Hi Grant,
+This add and leverages '__connman_service_get_route_metric' to select
+an appropriate service-specific route metric/priority when adding or
+deleting WISPr host routes.
+    
+This allows multiple such routes to coexist simultaneously, supporting
+"continuous" mode online checks in which one or more services may be
+conducting "online" WISPr-based Internet reachability checks as they
+move in and out of reachability success/failure.
 
-> This both cancels, via 'cancel_online_check', and stops, via
-> '__connman_wispr_stop' online checks on service disconnect or
-> free. The former terminates any in-flight or recurring check activity
-> in "service.c" and the latter terminates the same in "wispr.c".
-> 
-> Failure to cancel as well as stop can lead to a use-after-free fault
-> in one-shot or continuous online check mode when a latent online check
-> reschedule timer fires after the service has been disconnected or
-> deallocated.
-> 
-> To support these cancelations with a single 'cancel_online_check'
-> function call, support is added for passing
-> 'CONNMAN_IPCONFIG_TYPE_ALL' to 'cancel_online_check' as the IP
-> configuration type parameter.
-> 
-> Grant Erickson (2):
->  service: Add support for 'CONNMAN_IPCONFIG_TYPE_ALL' to
->    'cancel_online_check'.
->  service: Both cancel and stop online checks where appropriate.
-> 
-> src/service.c | 43 +++++++++++++++++++++++++++++++++----------
-> 1 file changed, 33 insertions(+), 10 deletions(-)
+'__connman_service_get_route_metric' is a non-public service
+interface, which attempts to get the route metric/priority for the
+specified service based on the current service and services state.
 
-both patches have been applied.
+If the service is the default or if it is the only service, then the
+metric is zero (0). Otherwise, a low-priority metric (metric > 0)
+unique to the service and its underlying network interface is computed
+and returned.
 
-Regards
+Grant Erickson (11):
+  service: Add '__connman_service_get_route_metric'.
+  service: Document '__connman_service_get_route_metric'.
+  wispr: Expand 'DBG' in 'wispr_portal_detect'.
+  wispr: Add 'DBG' to '__connman_wispr_start' error path.
+  wispr: Update 'DBG' in '__connman_wispr_start'.
+  wispr: Refactor 'free_wispr_routes'.
+  wispr: Simplify IPv4 vs. IPv6 host route management.
+  wispr: Document 'free_wispr_route{,s}'.
+  wispr: Document 'wispr_route'.
+  wispr: Document 'wispr_portal_context_route_ops'.
+  wispr: Leverage '__connman_service_get_route_metric'.
 
-Marcel
+ src/connman.h |   2 +
+ src/service.c |  98 ++++++++++++++++++++++++
+ src/wispr.c   | 207 +++++++++++++++++++++++++++++++++++++++++---------
+ 3 files changed, 271 insertions(+), 36 deletions(-)
+
+-- 
+2.42.0
 
