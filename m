@@ -1,86 +1,90 @@
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mohas.pair.com (mohas.pair.com [209.68.5.112])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE6EC3FE4E
-	for <connman@lists.linux.dev>; Wed, 20 Dec 2023 15:42:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=konsulko.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=konsulko.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=konsulko.com header.i=@konsulko.com header.b="rsucoq49"
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-3365f1326e4so4407622f8f.1
-        for <connman@lists.linux.dev>; Wed, 20 Dec 2023 07:42:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=konsulko.com; s=google; t=1703086975; x=1703691775; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Q4DsyEDlqSEPyjQH0/pdX3LM60vOk7T7a+E015g90L0=;
-        b=rsucoq49sly4TGrHxbw8qYztAJsCyUxCBk1HQ0XehBTTMZ27o9j+vtCrmRNvoMnGVa
-         fDk1/hUuH/PcRB9aJNMGe0zgDDf+NlZDNOI4Y8Qc0pOLkooHkEzvSWVNfAO9xJPAwa0g
-         mztBdf39FO/mGD7Kk2TZ6kO8KVpyhHo6vmk+c=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703086975; x=1703691775;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Q4DsyEDlqSEPyjQH0/pdX3LM60vOk7T7a+E015g90L0=;
-        b=lyNFdfFtt+Bb1b+21kSDC03+4SIsWaxEQww7lhyr/5fw/lb7aZnWex5Vf21cxl+6yZ
-         K6U1BUbXqQXBPoQqwiyfAHeQLLjT+tAkXlvCFS6GUAcbKi9Dw31tNDzWLsPfw6agDn7J
-         of2q96OP2mYf1v+n/QtNc0LWr3sVLbfSo1H35xYYxIC15Qw+4GU+nBR6DbjYPhtAFhsq
-         E7L8CVUCsUxUfqJzDLa3zwKHkhmI/OZ3EULHg9ll2SYxhsqocQc8xccjH53N/fEHUN2H
-         bfNzVGBG+WB7OS6p2jGfC+DZftXX0m2kJtFcveEkvzA65uFuivzGp6im+AzMobkwokpl
-         5sow==
-X-Gm-Message-State: AOJu0YzOol0M1iElC5CJzUu504sPhP9pFM0AQ8e/K0wl8aUCUk6Ho/8L
-	BLfcMexiqdIJ+TEFPhw02/fAbx+bP1FS+R1CTpI=
-X-Google-Smtp-Source: AGHT+IGx1VAEfaODDvNFIK7hAI76PbaQpS4iONsMDzNVqwuc1vAw8B6YiKZsNL/IolOlzaBX7m6PdA==
-X-Received: by 2002:adf:ea48:0:b0:336:7632:cdbb with SMTP id j8-20020adfea48000000b003367632cdbbmr1380247wrn.22.1703086974930;
-        Wed, 20 Dec 2023 07:42:54 -0800 (PST)
-Received: from acme-iron-carrot.home ([2a01:14:112:2860:24e1:e1c3:823a:9b45])
-        by smtp.gmail.com with ESMTPSA id j16-20020a5d6050000000b003367433118bsm4327938wrt.78.2023.12.20.07.42.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Dec 2023 07:42:54 -0800 (PST)
-From: =?UTF-8?q?Ant=C3=B3nio=20Oliveira?= <antonio.oliveira@konsulko.com>
-To: connman@lists.linux.dev
-Cc: =?UTF-8?q?Ant=C3=B3nio=20Oliveira?= <antonio.oliveira@konsulko.com>
-Subject: [PATCH 2/2] add documentation for OmitClientIdentifier
-Date: Wed, 20 Dec 2023 15:42:48 +0000
-Message-Id: <20231220154248.91773-3-antonio.oliveira@konsulko.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20231220154248.91773-1-antonio.oliveira@konsulko.com>
-References: <20231220154248.91773-1-antonio.oliveira@konsulko.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 819714B5B6
+	for <connman@lists.linux.dev>; Wed, 20 Dec 2023 16:20:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nuovations.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nuovations.com
+Received: from mohas.pair.com (localhost [127.0.0.1])
+	by mohas.pair.com (Postfix) with ESMTP id 7820873123;
+	Wed, 20 Dec 2023 11:20:34 -0500 (EST)
+Received: from [IPv6:2601:647:5a00:15c1:dc8d:b6d6:ffb0:8467] (unknown [IPv6:2601:647:5a00:15c1:dc8d:b6d6:ffb0:8467])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mohas.pair.com (Postfix) with ESMTPSA id 393B673154;
+	Wed, 20 Dec 2023 11:20:34 -0500 (EST)
+Content-Type: text/plain;
+	charset=utf-8
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0 (Mac OS X Mail 13.4 \(3608.120.23.2.4\))
+Subject: Re: [PATCH 0/2] Add option to omit DHCP Client Identifier
+From: Grant Erickson <gerickson@nuovations.com>
+In-Reply-To: <20231220154248.91773-1-antonio.oliveira@konsulko.com>
+Date: Wed, 20 Dec 2023 08:20:33 -0800
+Cc: connman@lists.linux.dev
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <47B181A7-0A76-45D8-8E0B-3183A4177FB9@nuovations.com>
+References: <20231220154248.91773-1-antonio.oliveira@konsulko.com>
+To: =?utf-8?Q?Ant=C3=B3nio_Oliveira?= <antonio.oliveira@konsulko.com>
+X-Mailer: Apple Mail (2.3608.120.23.2.4)
+X-Scanned-By: mailmunge 3.11 on 209.68.5.112
 
-* added the documentation for the OmitClientIdentifier in
-  main.conf
+On Dec 20, 2023, at 7:42 AM, Ant=C3=B3nio Oliveira =
+<antonio.oliveira@konsulko.com> wrote:
+> While recently working a customer project, I ran into an issue after
+> upgrading the OS to a newer version which uses connman for network
+> management.
+>=20
+> The DHCP client in the old OS didn't include option 61 (Client
+> Identifier) but connman does. In this scenario, when the system
+> reboots after an upgrade, it changes IP address, which can get very
+> confusing, especially if a UI is waiting for the device to come back
+> alive to signal completion of the update.
+>=20
+> This proposed change adds an option to main.conf - =
+OmitClientIdentifier,
+> which, if set to true causes that option to not be added to DHCP
+> packets.
+>=20
+> The default behaviour is retained in case no option is set in =
+main.conf.
+>=20
+> The change is relatively small, and I'm posting it here in case it is
+> helpful for connman users facing the same issue.
+>=20
+> Please feel free to consider or exclude it. If there's anything that I
+> can do to improve it to match upstream requirements, please let me =
+know
+> and I'll do what I can to help.
 
-Signed-off-by: António Oliveira <antonio.oliveira@konsulko.com>
----
- doc/connman.conf.5.in | 5 +++++
- 1 file changed, 5 insertions(+)
+Ant=C3=B3nio,
 
-diff --git a/doc/connman.conf.5.in b/doc/connman.conf.5.in
-index 9049d703..71263675 100644
---- a/doc/connman.conf.5.in
-+++ b/doc/connman.conf.5.in
-@@ -159,6 +159,11 @@ Set DHCP option 60 (Vendor Class ID) to the given string. This option can
- be used by DHCP servers to identify specific clients without having to
- rely on MAC address ranges, etc
- .TP
-+.BI OmitClientIdentifier=false\ \fR|\fB\ true
-+Omit the Client Identifier from DHCP DISCOVER packets. When true,
-+DHCP DISCOVER will not contain the Client Identifier (option 61).
-+Default value is false.
-+.TP
- .BI EnableOnlineCheck=true\ \fR|\fB\ false
- Enable or disable use of HTTP GET as an online status check.
- When a service is in a READY state, and is selected as default,
--- 
-2.34.1
+It=E2=80=99s slightly different than the client identifier; however, did =
+you experiment with the existing AllowHostnameUpdates configuration =
+option?
+
+Also, connman should request the last-issued DHCP address to the DHCP =
+server. Assuming another client hasn=E2=80=99t reserved it first, the =
+client should get a semi-stable IP address. Did you chase that down as =
+well?
+
+Finally, if the DHCP server is configured to serve a different IPv4 =
+address for the specified client ID rather than the one the client has, =
+might this be better addressed at the DHCP server? Though, I can see =
+that you might not have access to the server.
+
+Best,
+
+Grant
+
+--=20
+Principal
+Nuovations
+
+gerickson@nuovations.com
+http://www.nuovations.com/
 
