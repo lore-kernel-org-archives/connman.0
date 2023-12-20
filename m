@@ -1,24 +1,24 @@
 Received: from mohas.pair.com (mohas.pair.com [209.68.5.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4D321D528
-	for <connman@lists.linux.dev>; Wed, 20 Dec 2023 05:56:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61A301D69C
+	for <connman@lists.linux.dev>; Wed, 20 Dec 2023 05:56:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nuovations.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nuovations.com
 Received: from mohas.pair.com (localhost [127.0.0.1])
-	by mohas.pair.com (Postfix) with ESMTP id C9E8F73100
-	for <connman@lists.linux.dev>; Wed, 20 Dec 2023 00:56:15 -0500 (EST)
+	by mohas.pair.com (Postfix) with ESMTP id 8E39273145
+	for <connman@lists.linux.dev>; Wed, 20 Dec 2023 00:56:16 -0500 (EST)
 Received: from localhost.localdomain (unknown [IPv6:2601:647:5a00:15c1:ed73:7d5e:cff0:c0f5])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mohas.pair.com (Postfix) with ESMTPSA id 8D79E7312C
-	for <connman@lists.linux.dev>; Wed, 20 Dec 2023 00:56:15 -0500 (EST)
+	by mohas.pair.com (Postfix) with ESMTPSA id 5217E73150
+	for <connman@lists.linux.dev>; Wed, 20 Dec 2023 00:56:16 -0500 (EST)
 From: Grant Erickson <gerickson@nuovations.com>
 To: connman@lists.linux.dev
-Subject: [PATCH 1/5] inet: Use '__connman_inet_rtnl_recv' for RTNL default route transaction.
-Date: Tue, 19 Dec 2023 21:56:09 -0800
-Message-ID: <20231220055613.2287074-2-gerickson@nuovations.com>
+Subject: [PATCH 3/5] gateway: Address unhandled gateway lifecycle events/transitions.
+Date: Tue, 19 Dec 2023 21:56:11 -0800
+Message-ID: <20231220055613.2287074-4-gerickson@nuovations.com>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20231220055613.2287074-1-gerickson@nuovations.com>
 References: <20231220055613.2287074-1-gerickson@nuovations.com>
@@ -31,52 +31,90 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: mailmunge 3.11 on 209.68.5.112
 
-This leverages '__connman_inet_rtnl_recv', introduced at commit
-97967b4aae40 ("inet: Add '__connman_inet_rtnl_recv'."), to complete
-the Routing Netlink (rtnl) default route addition or deletion
-transaction in 'iproute_default_modify'.
+There were a number of "escapes" or unhandled events and transitions
+that did not adhere to the documented gateway configuration lifecycle
+/ state machine. This handles those events and transitions.
 
-Every rtnl route addition or deletion transaction consists of a
-request and a response phase. The request phase contains the details
-of the route to be added or deleted. The response phase contains the
-status of whether the request succeeded. Unfortunately, to date,
-'iproute_default_modify' did not include the response phase.
-Therefore, it did not complete the route request transaction,
-rendering the returns status incomplete in that it only reflected the
-success or failure of the request phase.
-
-Unfortunately, for callers of interfaces that, in turn, called
-'iproute_default_modify', this made all routing requests appear to
-artificially succeed even when, in fact, they were failing and elided
-response status that callers need to conditionally act in the face of
-the transaction failure.
-
-By adding '__connman_inet_rtnl_recv' to complete the response phase of
-the rtnl route transaction, the return status of
-'iproute_default_modify', and those interfaces that call it, now
-accurately reflect both the request and response status of the
-transaction.
+Failure to handle these was resulting in duplicate default routes, no
+default routes, and incorrect default route priorities for some
+services and their underlying network interfaces.
 ---
- src/inet.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ src/gateway.c | 33 +++++++++++++++++++++------------
+ 1 file changed, 21 insertions(+), 12 deletions(-)
 
-diff --git a/src/inet.c b/src/inet.c
-index e0f927a12dcb..8a1e34235230 100644
---- a/src/inet.c
-+++ b/src/inet.c
-@@ -4748,6 +4748,12 @@ static int iproute_default_modify(int cmd, uint32_t table_id, uint32_t metric,
- 		goto done;
+diff --git a/src/gateway.c b/src/gateway.c
+index db8636eb20ef..b5a1e2ddbf19 100644
+--- a/src/gateway.c
++++ b/src/gateway.c
+@@ -787,12 +787,6 @@ static bool is_gateway_config_type(const struct gateway_config *config,
+ 	return config->type == type;
+ }
  
- 	ret = __connman_inet_rtnl_send(&rth, &rth.req.n);
-+	if (ret < 0)
-+		goto done;
+-static bool is_gateway_config_type_none(const struct gateway_config *config)
+-{
+-	return is_gateway_config_type(config,
+-				CONNMAN_GATEWAY_CONFIG_TYPE_NONE);
+-}
+-
+ /**
+  *  @brief
+  *    Conditionally log the specified gateway configuration.
+@@ -1809,7 +1803,8 @@ static int set_default_gateway_route_common(struct gateway_data *data,
+ 	if (!data || !config || !cb)
+ 		return -EINVAL;
+ 
+-	if (!is_gateway_config_type_none(config) &&
++	if ((is_gateway_config_state_added(config) ||
++		is_gateway_config_state_active(config)) &&
+ 		!is_gateway_config_type(config, type))
+ 		return -EINVAL;
+ 
+@@ -1886,7 +1881,8 @@ static int unset_default_gateway_route_common(struct gateway_data *data,
+ 	if (!data || !config || !cb)
+ 		return -EINVAL;
+ 
+-	if (!is_gateway_config_type(config, type))
++	if (!is_gateway_config_state_inactive(config) &&
++		!is_gateway_config_type(config, type))
+ 		return -EINVAL;
+ 
+ 	if (is_gateway_config_state_removed(config))
+@@ -3359,6 +3355,12 @@ static void gateway_rtnl_new(int index, const char *gateway)
+ 		return;
+ 	}
+ 
++	if (is_gateway_config_state_inactive(config)) {
++		DBG("ignoring inactive gateway activation");
 +
-+	ret = __connman_inet_rtnl_recv(&rth, NULL);
-+	if (ret < 0)
-+		goto done;
++		return;
++	}
++
+ 	/*
+ 	 * Otherwise, this is a gateway default route we added, or set,
+ 	 * and it is now acknowledged by the kernel. Consequently, mark it
+@@ -3469,11 +3471,18 @@ static void gateway_rtnl_del(int index, const char *gateway)
+ 	if (config) {
+ 		GATEWAY_CONFIG_DBG("config", config);
  
- done:
- 	__connman_inet_rtnl_close(&rth);
+-		gateway_config_state_set(config,
+-			CONNMAN_GATEWAY_CONFIG_STATE_INACTIVE);
++		if (is_gateway_config_state_removed(config)) {
++			gateway_config_state_set(config,
++				CONNMAN_GATEWAY_CONFIG_STATE_INACTIVE);
+ 
+-		gateway_config_type_set(config,
+-			CONNMAN_GATEWAY_CONFIG_TYPE_NONE);
++			gateway_config_type_set(config,
++				CONNMAN_GATEWAY_CONFIG_TYPE_NONE);
++		} else {
++			DBG("ignoring gateway stale removed activation; "
++			"probably added before removed activation completed");
++
++			return;
++		}
+ 	} else
+ 		DBG("no matching gateway config");
+ 
 -- 
 2.42.0
 
