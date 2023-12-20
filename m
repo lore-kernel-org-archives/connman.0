@@ -1,24 +1,24 @@
 Received: from mohas.pair.com (mohas.pair.com [209.68.5.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A2EF1D698
-	for <connman@lists.linux.dev>; Wed, 20 Dec 2023 05:56:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 766B0FC07
+	for <connman@lists.linux.dev>; Wed, 20 Dec 2023 05:56:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nuovations.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nuovations.com
 Received: from mohas.pair.com (localhost [127.0.0.1])
-	by mohas.pair.com (Postfix) with ESMTP id 3217773128
-	for <connman@lists.linux.dev>; Wed, 20 Dec 2023 00:56:16 -0500 (EST)
+	by mohas.pair.com (Postfix) with ESMTP id 54AF473146
+	for <connman@lists.linux.dev>; Wed, 20 Dec 2023 00:56:17 -0500 (EST)
 Received: from localhost.localdomain (unknown [IPv6:2601:647:5a00:15c1:ed73:7d5e:cff0:c0f5])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mohas.pair.com (Postfix) with ESMTPSA id E966373147
-	for <connman@lists.linux.dev>; Wed, 20 Dec 2023 00:56:15 -0500 (EST)
+	by mohas.pair.com (Postfix) with ESMTPSA id 15E0473171
+	for <connman@lists.linux.dev>; Wed, 20 Dec 2023 00:56:17 -0500 (EST)
 From: Grant Erickson <gerickson@nuovations.com>
 To: connman@lists.linux.dev
-Subject: [PATCH 2/5] gateway: Handle -ESRCH in 'unset_default_gateway_route_common'.
-Date: Tue, 19 Dec 2023 21:56:10 -0800
-Message-ID: <20231220055613.2287074-3-gerickson@nuovations.com>
+Subject: [PATCH 5/5] gateway: Expand the @param documentation for 'yield_default_gateway{,_for_type}'.
+Date: Tue, 19 Dec 2023 21:56:13 -0800
+Message-ID: <20231220055613.2287074-6-gerickson@nuovations.com>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20231220055613.2287074-1-gerickson@nuovations.com>
 References: <20231220055613.2287074-1-gerickson@nuovations.com>
@@ -31,83 +31,45 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: mailmunge 3.11 on 209.68.5.112
 
-This maps the error '-ESRCH' in 'unset_default_gateway_route_common'
-to 0 ("Success").
-
-Generally, we mandate that gateway routes follow the documented
-lifecycle and finite state machine, using events and down- and upcalls
-to drive the lifecycle.
-
-There is one exception, however. When the Linux kernel
-recognizes that the next hop (that is, the "via" or RTA_GATEWAY
-portion of the route) for a route becomes unreachable, it is
-automatically purged from the routing table with no
-RTM_DELROUTE RTNL notification. Consequently, routes so purged
-will return -ESRCH when we attempt to delete them here in the
-mistaken belief they are still there.
-
-By mapping -ESRCH to 0 ("Success") we ensure that gateway
-configuration for such routes is not indefinitely stuck in the
-"active" or "added" states but rather is correctly advanced to the
-"removed" state.
+This expands on the @param documentation for the
+'yield_default_gateway{,_for_type}' functions by being more clear
+about the source of the parameters.
 ---
- src/gateway.c | 28 +++++++++++++++++++++++++---
- 1 file changed, 25 insertions(+), 3 deletions(-)
+ src/gateway.c | 12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
 
 diff --git a/src/gateway.c b/src/gateway.c
-index 29115250d243..db8636eb20ef 100644
+index 42a8da72642c..16c87f83b4d6 100644
 --- a/src/gateway.c
 +++ b/src/gateway.c
-@@ -221,6 +221,11 @@
-  *        interface basis and is computed by
-  *        'compute_low_priority_metric'.
+@@ -3102,9 +3102,11 @@ static int promote_default_gateway(struct gateway_data *data,
+  *  existing gateway from the services-to-gateway data hash.
   *
-+ *    There is one exception to the above. When the Linux kernel
-+ *    recognizes that the next hop for a route becomes unreachable, it
-+ *    is automatically purged from the routing table with no
-+ *    RTM_DELROUTE RTNL notification.
-+ *
-  *    Historically, this file started life as "connection.c". However,
-  *    it was renamed to "gateway.c" since its primary focus is gateway
-  *    routes and gateway route management.
-@@ -1864,8 +1869,6 @@ done:
-  *  @retval  -EPERM         If the current process does not have the
-  *                          credentials or capabilities to unset, or
-  *                          clear, routes.
-- *  @retval  -ESRCH         A request was made to unset, or clear a
-- *                          non-existing routing entry.
+  *  @param[in,out]  activated  A pointer to a mutable newly-activated
+- *                             gateway.
++ *                             gateway from a Routing Netlink (rtnl)
++ *                             notification.
+  *  @param[in,out]  existing   A pointer to a mutable existing
+- *                             gateway.
++ *                             gateway from the services-to-gateway
++ *                             hash.
+  *  @param[in]      type       The IP configuration type for which
+  *                             gateway, or default router, is to be
+  *                             yielded.
+@@ -3200,9 +3202,11 @@ done:
+  *  existing gateway from the services-to-gateway data hash.
   *
-  *  @sa gateway_config_state_set
-  *  @sa is_gateway_config_state
-@@ -1892,8 +1895,27 @@ static int unset_default_gateway_route_common(struct gateway_data *data,
- 	if (is_gateway_config_state_inactive(config))
- 		return -EALREADY;
- 
-+	/*
-+	 * Generally, we mandate that gateway routes follow the documented
-+	 * lifecycle and state machine, using events and down- and upcalls
-+	 * to drive the lifecycle.
-+	 *
-+	 * There is one exception, however. When the Linux kernel
-+	 * recognizes that the next hop (that is, the "via" or RTA_GATEWAY
-+	 * part of the route) for a route becomes unreachable, it is
-+	 * automatically purged from the routing table with no
-+	 * RTM_DELROUTE RTNL notification. Consequently, routes so purged
-+	 * will return -ESRCH when we attempt to delete them here in the
-+	 * mistaken belief they are still there.
-+	 *
-+	 * Map -ESRCH to success such that gateway configuration for such
-+	 * routes is not indefinitely stuck in the "active" or "added"
-+	 * states.
-+	 */
- 	err = cb(data, config);
--	if (err < 0)
-+	if (err == -ESRCH)
-+		err = 0;
-+	else if (err < 0)
- 		goto done;
- 
- 	gateway_config_state_set(config,
+  *  @param[in,out]  activated  A pointer to a mutable newly-activated
+- *                             gateway.
++ *                             gateway from a Routing Netlink (rtnl)
++ *                             notification.
+  *  @param[in,out]  existing   A pointer to a mutable existing
+- *                             gateway.
++ *                             gateway from the services-to-gateway
++ *                             hash.
+  *
+  *  @returns
+  *    True if @a activated yielded the default gateway; otherwise,
 -- 
 2.42.0
 
