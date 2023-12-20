@@ -1,50 +1,53 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 393DF4123A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23F9A4123E
 	for <connman@lists.linux.dev>; Wed, 20 Dec 2023 15:42:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=konsulko.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=konsulko.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=konsulko.com header.i=@konsulko.com header.b="JyUm2tCY"
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-3366827ca79so3242810f8f.3
-        for <connman@lists.linux.dev>; Wed, 20 Dec 2023 07:42:54 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=konsulko.com header.i=@konsulko.com header.b="CGD0udP+"
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-336788cb261so837718f8f.3
+        for <connman@lists.linux.dev>; Wed, 20 Dec 2023 07:42:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=konsulko.com; s=google; t=1703086973; x=1703691773; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=JimXoe1M/x7y8uDuk6sUFCHNm8EtX96wi+Kfh3LzPg0=;
-        b=JyUm2tCYMZ+9GKhYYatoY7bOhAaUC6uvD/wJ5fAhYgSs8SY+dSnlnOMaLGi1XETWPY
-         skXL7i9nlaK8NAe5WLRT0ldpTJ/L31Fvl33omKbHaejNswty1yMvfJ0IU/LqG9uCt+uS
-         La1KgcoArdYFe5BSC4xKRl41TRhrbScb1gRTQ=
+        d=konsulko.com; s=google; t=1703086974; x=1703691774; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=GJkNV5NErn2wr+Vq8tMb5sLdgjIoZyWiuJsHQa47BXE=;
+        b=CGD0udP+oL02RRRu7vc2fjeky77TxhMRzfN90eAe3+RH2af6BI659ORFvBvta/DUxm
+         vzDyUMFXp0oev7EkXfkW/NQZaF+r1ZfJI9VfxR/RR1o1S5yxhr1wJxpTKYg1S/gt+e5t
+         gVURQY0smqlzdwu2Wse/iX8xXP+/nXVEvlFVs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703086973; x=1703691773;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=JimXoe1M/x7y8uDuk6sUFCHNm8EtX96wi+Kfh3LzPg0=;
-        b=SHL3dTq6wT9woc6wtZXsl4ZuXL/oxWzGKgZuwG/SSHH/VhvFpTY8XAIvyq0G3uw+k+
-         KmxFF1swHzfWVPb/q+7rwHf3Gjr4vfnra87zjf/vDqS8MOEuOSDqwvDtx5MynN1q3xd9
-         /fmO5p6J4OumgXFc3lxh+elYRe/Z+oe8xzoO0CPfoj5JXdZSralUY9FIb+bhw9aPiIuK
-         M+OTWYLUBCUECf7hBUcKHxLPOkWUcnf0EwZEzrkPhSVXG/NsQdWVnsEsU0GSkTZSJMU/
-         KBoVt6lPDoYDmuPP+z3J81sn80kll1clZz5BNNWWPramK9frWXKUs5QqTmUz6XmAAUmB
-         XW8A==
-X-Gm-Message-State: AOJu0Yxtdd2qN3hZJNIhE+DgkoLLdlACV5v9og9R7sCcwofX5FYDQRy5
-	6IZWN4Ns+r6YdoKnjUY275q06+K4hYl8e737kM8=
-X-Google-Smtp-Source: AGHT+IHuMQOhGBbWdNF9eA862kfMtK+PBkYFctDuHqt4j/9Own74nPSnpxQNCR0CeVyQ692x+OEjOg==
-X-Received: by 2002:a5d:64c7:0:b0:336:6b17:a394 with SMTP id f7-20020a5d64c7000000b003366b17a394mr4800091wri.97.1703086973051;
-        Wed, 20 Dec 2023 07:42:53 -0800 (PST)
+        d=1e100.net; s=20230601; t=1703086974; x=1703691774;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=GJkNV5NErn2wr+Vq8tMb5sLdgjIoZyWiuJsHQa47BXE=;
+        b=O391eTGLsYQEktB6Y48mu3lvfIV+6q5CvJvrnrb/e6nmbLCpJ/1q/hXr+MabSQj2yy
+         b7pVnB6EhUHOuCllc6SS5amCU8Ascrm9aI+EGgLemGhPn9kGoArYsjfsDXk5V/2MCALx
+         euSAeX54JbLUI2wMHaB/FHIicMm6zxwc346pM6uc8gUt10gqkyK/ilqce2xD9mPIN8Ao
+         xmftVwbqLU6lCYuUuKuXcJKUdiJjpqJJ8FEHB38EG9vmAlYiN0R6CFW/k4H6aM3ogRSt
+         iJI7Mkouhfae9oKgjruvT/zU69STLAhEalxbOazYUVnDVA8jTEjkeoSxCdXbvKZ/3a7+
+         1Dwg==
+X-Gm-Message-State: AOJu0YznLhxtWP4uId2i1yQXytS/4k9XA3M2Da9i55Eq3Xg4O41j4GM6
+	bteff/ln+AyLDMqwFDj1P+spD6foxLThxxSelnw=
+X-Google-Smtp-Source: AGHT+IHvdD3YrbkSL3DMlxWe1T2GoQ6QBCwXbNAFXf9AK+YFbmWmOET4aiZ7sbBnb63O50VzfUcqnA==
+X-Received: by 2002:a5d:64aa:0:b0:336:6a76:40cd with SMTP id m10-20020a5d64aa000000b003366a7640cdmr3406758wrp.62.1703086974041;
+        Wed, 20 Dec 2023 07:42:54 -0800 (PST)
 Received: from acme-iron-carrot.home ([2a01:14:112:2860:24e1:e1c3:823a:9b45])
-        by smtp.gmail.com with ESMTPSA id j16-20020a5d6050000000b003367433118bsm4327938wrt.78.2023.12.20.07.42.52
+        by smtp.gmail.com with ESMTPSA id j16-20020a5d6050000000b003367433118bsm4327938wrt.78.2023.12.20.07.42.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Dec 2023 07:42:52 -0800 (PST)
+        Wed, 20 Dec 2023 07:42:53 -0800 (PST)
 From: =?UTF-8?q?Ant=C3=B3nio=20Oliveira?= <antonio.oliveira@konsulko.com>
 To: connman@lists.linux.dev
 Cc: =?UTF-8?q?Ant=C3=B3nio=20Oliveira?= <antonio.oliveira@konsulko.com>
-Subject: [PATCH 0/2] Add option to omit DHCP Client Identifier
-Date: Wed, 20 Dec 2023 15:42:46 +0000
-Message-Id: <20231220154248.91773-1-antonio.oliveira@konsulko.com>
+Subject: [PATCH 1/2] add option to omit dhcp client identifier
+Date: Wed, 20 Dec 2023 15:42:47 +0000
+Message-Id: <20231220154248.91773-2-antonio.oliveira@konsulko.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20231220154248.91773-1-antonio.oliveira@konsulko.com>
+References: <20231220154248.91773-1-antonio.oliveira@konsulko.com>
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
@@ -54,41 +57,136 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-While recently working a customer project, I ran into an issue after
-upgrading the OS to a newer version which uses connman for network
-management.
+* add "OmitClientIdenfier" option to main.conf, which causes the DHCP
+  client to not include the option 61 (Client Identifier) in DHCP
+  packets.
 
-The DHCP client in the old OS didn't include option 61 (Client
-Identifier) but connman does. In this scenario, when the system
-reboots after an upgrade, it changes IP address, which can get very
-confusing, especially if a UI is waiting for the device to come back
-alive to signal completion of the update.
+Signed-off-by: António Oliveira <antonio.oliveira@konsulko.com>
+---
+ src/dhcp.c | 18 ++++++++++++++++--
+ src/main.c | 17 +++++++++++++++++
+ 2 files changed, 33 insertions(+), 2 deletions(-)
 
-This proposed change adds an option to main.conf - OmitClientIdentifier,
-which, if set to true causes that option to not be added to DHCP
-packets.
-
-The default behaviour is retained in case no option is set in main.conf.
-
-The change is relatively small, and I'm posting it here in case it is
-helpful for connman users facing the same issue.
-
-Please feel free to consider or exclude it. If there's anything that I
-can do to improve it to match upstream requirements, please let me know
-and I'll do what I can to help.
-
-Cheers,
-António
-
-António Oliveira (2):
-  add option to omit dhcp client identifier
-  add documentation for OmitClientIdentifier
-
- doc/connman.conf.5.in |  5 +++++
- src/dhcp.c            | 18 ++++++++++++++++--
- src/main.c            | 17 +++++++++++++++++
- 3 files changed, 38 insertions(+), 2 deletions(-)
-
+diff --git a/src/dhcp.c b/src/dhcp.c
+index 18dbab27..d7689ae4 100644
+--- a/src/dhcp.c
++++ b/src/dhcp.c
+@@ -61,6 +61,7 @@ struct connman_dhcp {
+ 	char *dhcp_debug_prefix;
+ 
+ 	bool ipv4ll_running;
++	bool omit_client_identifier;
+ };
+ 
+ static GHashTable *ipconfig_table;
+@@ -209,7 +210,9 @@ static int ipv4ll_start_client(struct connman_dhcp *dhcp)
+ 					dhcp->ipv4ll_debug_prefix);
+ 	}
+ 
+-	g_dhcp_client_set_id(ipv4ll_client);
++	if ( !dhcp->omit_client_identifier ) {
++		g_dhcp_client_set_id(ipv4ll_client);
++	}
+ 
+ 	if (dhcp->network) {
+ 		hostname = connman_utsname_get_hostname();
+@@ -572,6 +575,7 @@ static int dhcp_initialize(struct connman_dhcp *dhcp)
+ 	GDHCPClientError error;
+ 	int index;
+ 	const char *vendor_class_id;
++	const char *omit_client_id;
+ 
+ 	DBG("dhcp %p", dhcp);
+ 
+@@ -588,7 +592,17 @@ static int dhcp_initialize(struct connman_dhcp *dhcp)
+ 					dhcp->dhcp_debug_prefix);
+ 	}
+ 
+-	g_dhcp_client_set_id(dhcp_client);
++	omit_client_id = connman_setting_get_string("OmitClientIdentifier");
++	if ( omit_client_id && g_str_equal(omit_client_id,"true" ) ) {
++		dhcp->omit_client_identifier = true;
++	}
++	else {
++		dhcp->omit_client_identifier = false;
++	}
++
++	if ( ! dhcp->omit_client_identifier ) {
++		g_dhcp_client_set_id(dhcp_client);
++	}
+ 
+ 	if (dhcp->network) {
+ 		struct connman_service *service;
+diff --git a/src/main.c b/src/main.c
+index d2ec8296..7b3d8b17 100644
+--- a/src/main.c
++++ b/src/main.c
+@@ -107,6 +107,7 @@ static struct {
+ 	bool persistent_tethering_mode;
+ 	bool enable_6to4;
+ 	char *vendor_class_id;
++	char *omit_client_id;
+ 	bool enable_online_check;
+ 	bool enable_online_to_ready_transition;
+ 	char *online_check_ipv4_url;
+@@ -139,6 +140,7 @@ static struct {
+ 	.persistent_tethering_mode = false,
+ 	.enable_6to4 = false,
+ 	.vendor_class_id = NULL,
++	.omit_client_id = NULL,
+ 	.enable_online_check = true,
+ 	.enable_online_to_ready_transition = false,
+ 	.online_check_ipv4_url = NULL,
+@@ -171,6 +173,7 @@ static struct {
+ #define CONF_PERSISTENT_TETHERING_MODE  "PersistentTetheringMode"
+ #define CONF_ENABLE_6TO4                "Enable6to4"
+ #define CONF_VENDOR_CLASS_ID            "VendorClassID"
++#define CONF_OMIT_CLIENT_ID             "OmitClientIdentifier"
+ #define CONF_ENABLE_ONLINE_CHECK        "EnableOnlineCheck"
+ #define CONF_ENABLE_ONLINE_TO_READY_TRANSITION "EnableOnlineToReadyTransition"
+ #define CONF_ONLINE_CHECK_IPV4_URL      "OnlineCheckIPv4URL"
+@@ -204,6 +207,7 @@ static const char *supported_options[] = {
+ 	CONF_PERSISTENT_TETHERING_MODE,
+ 	CONF_ENABLE_6TO4,
+ 	CONF_VENDOR_CLASS_ID,
++	CONF_OMIT_CLIENT_ID,
+ 	CONF_ENABLE_ONLINE_CHECK,
+ 	CONF_ENABLE_ONLINE_TO_READY_TRANSITION,
+ 	CONF_ONLINE_CHECK_IPV4_URL,
+@@ -518,6 +522,15 @@ static void parse_config(GKeyFile *config)
+ 
+ 	g_clear_error(&error);
+ 
++	string = __connman_config_get_string(config, "General",
++										 CONF_OMIT_CLIENT_ID, &error);
++	if (!error) {
++		connman_settings.omit_client_id = string;
++		connman_info("OMIT_CLIENT_ID: %s\n",string);
++	}
++
++	g_clear_error(&error);
++
+ 	boolean = __connman_config_get_bool(config, "General",
+ 					CONF_ENABLE_ONLINE_CHECK, &error);
+ 	if (!error) {
+@@ -843,6 +856,9 @@ char *connman_setting_get_string(const char *key)
+ 	if (g_str_equal(key, CONF_VENDOR_CLASS_ID))
+ 		return connman_settings.vendor_class_id;
+ 
++	if (g_str_equal(key, CONF_OMIT_CLIENT_ID))
++		return connman_settings.omit_client_id;
++
+ 	if (g_str_equal(key, CONF_ONLINE_CHECK_IPV4_URL))
+ 		return connman_settings.online_check_ipv4_url;
+ 
+@@ -1146,6 +1162,7 @@ int main(int argc, char *argv[])
+ 	g_strfreev(connman_settings.blacklisted_interfaces);
+ 	g_strfreev(connman_settings.tethering_technologies);
+ 	g_free(connman_settings.vendor_class_id);
++	g_free(connman_settings.omit_client_id);
+ 	g_free(connman_settings.online_check_ipv4_url);
+ 	g_free(connman_settings.online_check_ipv6_url);
+ 	g_free(connman_settings.localtime);
 -- 
 2.34.1
 
