@@ -1,24 +1,24 @@
 Received: from mohas.pair.com (mohas.pair.com [209.68.5.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51DCEBA38
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75BA7B669
 	for <connman@lists.linux.dev>; Thu, 21 Dec 2023 06:17:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nuovations.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nuovations.com
 Received: from mohas.pair.com (localhost [127.0.0.1])
-	by mohas.pair.com (Postfix) with ESMTP id 2033D73233
+	by mohas.pair.com (Postfix) with ESMTP id DCF7773203
 	for <connman@lists.linux.dev>; Thu, 21 Dec 2023 01:17:49 -0500 (EST)
 Received: from localhost.localdomain (unknown [IPv6:2601:647:5a00:15c1:f5ab:4a5e:2861:14b3])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mohas.pair.com (Postfix) with ESMTPSA id D4B1573247
-	for <connman@lists.linux.dev>; Thu, 21 Dec 2023 01:17:48 -0500 (EST)
+	by mohas.pair.com (Postfix) with ESMTPSA id 9ED5973230
+	for <connman@lists.linux.dev>; Thu, 21 Dec 2023 01:17:49 -0500 (EST)
 From: Grant Erickson <gerickson@nuovations.com>
 To: connman@lists.linux.dev
-Subject: [PATCH 32/60] service: Document 'online_check_{failures,successes}_reset'.
-Date: Wed, 20 Dec 2023 22:16:55 -0800
-Message-ID: <20231221061734.2344286-33-gerickson@nuovations.com>
+Subject: [PATCH 34/60] service: Document 'online_check_counters_log'.
+Date: Wed, 20 Dec 2023 22:16:57 -0800
+Message-ID: <20231221061734.2344286-35-gerickson@nuovations.com>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20231221061734.2344286-1-gerickson@nuovations.com>
 References: <20231221061734.2344286-1-gerickson@nuovations.com>
@@ -31,54 +31,42 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: mailmunge 3.11 on 209.68.5.112
 
-This adds documentation to the
-'online_check_{failures,successes}_reset' functions.
+This adds documentation to the 'online_check_counters_log' function.
 ---
- src/service.c | 24 ++++++++++++++++++++++++
- 1 file changed, 24 insertions(+)
+ src/service.c | 20 ++++++++++++++++++++
+ 1 file changed, 20 insertions(+)
 
 diff --git a/src/service.c b/src/service.c
-index 8a1d09f1a4fd..810ff68cf4f4 100644
+index 5dfada3af3f5..e6652f53363c 100644
 --- a/src/service.c
 +++ b/src/service.c
-@@ -2266,6 +2266,18 @@ static inline void online_check_counter_reset(
- 	*counter = 0;
+@@ -2335,6 +2335,26 @@ static void online_check_state_reset(struct connman_service *service)
+ 	clear_error(service);
  }
  
 +/**
 + *  @brief
-+ *    Reset to zero (0) the IPv4 and IPv6 online check failure
-+ *    counters for the specified service.
++ *    Log the specified IPv4 and IPv6 online check counters for the
++ *    specified service.
 + *
-+ *  @param[in]   service   A pointer to the mutable service for which
-+ *                         to reset the IPv4 and IPv6 online check
-+ *                         failure counters.
++ *  This logs the specified IPv4 and IPv6 online check counters
++ *  described by the provided description for the specified network
++ *  service.
 + *
-+ *  @sa online_check_successes_reset
-+ *
-+ */
- static void online_check_failures_reset(struct connman_service *service)
- {
- 	DBG("service %p (%s)",
-@@ -2275,6 +2287,18 @@ static void online_check_failures_reset(struct connman_service *service)
- 	online_check_counter_reset(&service->online_check_state_ipv6.failures);
- }
- 
-+/**
-+ *  @brief
-+ *    Reset to zero (0) the IPv4 and IPv6 online check success
-+ *    counters for the specified service.
-+ *
-+ *  @param[in]   service   A pointer to the mutable service for which
-+ *                         to reset the IPv4 and IPv6 online check
-+ *                         success counters.
-+ *
-+ *  @sa online_check_failures_reset
++ *  @param[in]  service              A pointer to the immutable network
++ *                                   service associated with @a
++ *                                   ipv4_counter and @a ipv6_counter.
++ *  @param[in]  counter_description  A pointer to a null-terminated C
++ *                                   string describing @a ipv4_counter
++ *                                   and @a ipv6_counter. For example,
++ *                                   "failure".
++ *  @param[in]  ipv4_counter         The IPv4-specific counter to log.
++ *  @param[in]  ipv6_counter         The IPv6-specific counter to log.
 + *
 + */
- static void online_check_successes_reset(struct connman_service *service)
- {
- 	DBG("service %p (%s)",
+ static void online_check_counters_log(
+ 			const struct connman_service *service,
+ 			const char *counter_description,
 -- 
 2.42.0
 
