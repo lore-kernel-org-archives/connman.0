@@ -1,24 +1,24 @@
 Received: from mohas.pair.com (mohas.pair.com [209.68.5.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EEBF6AB3
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BADF4B64A
 	for <connman@lists.linux.dev>; Thu, 21 Dec 2023 06:17:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nuovations.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nuovations.com
 Received: from mohas.pair.com (localhost [127.0.0.1])
-	by mohas.pair.com (Postfix) with ESMTP id B7FDC73204
-	for <connman@lists.linux.dev>; Thu, 21 Dec 2023 01:17:55 -0500 (EST)
+	by mohas.pair.com (Postfix) with ESMTP id 2B88573219
+	for <connman@lists.linux.dev>; Thu, 21 Dec 2023 01:17:56 -0500 (EST)
 Received: from localhost.localdomain (unknown [IPv6:2601:647:5a00:15c1:f5ab:4a5e:2861:14b3])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mohas.pair.com (Postfix) with ESMTPSA id 79BBA73222
+	by mohas.pair.com (Postfix) with ESMTPSA id D94C373225
 	for <connman@lists.linux.dev>; Thu, 21 Dec 2023 01:17:55 -0500 (EST)
 From: Grant Erickson <gerickson@nuovations.com>
 To: connman@lists.linux.dev
-Subject: [PATCH 49/60] service: Document 'downgrade_connected_services'.
-Date: Wed, 20 Dec 2023 22:17:12 -0800
-Message-ID: <20231221061734.2344286-50-gerickson@nuovations.com>
+Subject: [PATCH 50/60] service: Document 'service_schedule_changed'.
+Date: Wed, 20 Dec 2023 22:17:13 -0800
+Message-ID: <20231221061734.2344286-51-gerickson@nuovations.com>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20231221061734.2344286-1-gerickson@nuovations.com>
 References: <20231221061734.2344286-1-gerickson@nuovations.com>
@@ -31,36 +31,31 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: mailmunge 3.11 on 209.68.5.112
 
-This adds documentation to the 'downgrade_connected_services'
-functions.
+This adds documentation to the 'service_schedule_changed' functions.
 ---
- src/service.c | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+ src/service.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
 diff --git a/src/service.c b/src/service.c
-index cae4258fca7f..efed2fc50ac9 100644
+index efed2fc50ac9..0f3ea526967c 100644
 --- a/src/service.c
 +++ b/src/service.c
-@@ -8709,6 +8709,19 @@ static void request_input_cb(struct connman_service *service,
- 	}
+@@ -7389,6 +7389,15 @@ static gboolean service_send_changed(gpointer data)
+ 	return FALSE;
  }
  
 +/**
 + *  @brief
-+ *    Downgrade the service IPv4 and IPv6 states from "online" to
-+ *    "ready" of all connected services.
++ *    Schedule a D-Bus "ServicesChanged" signal at 100 milliseconds
++ *    from now.
 + *
-+ *  This attempts to downgrade the IPv4 and IPv6 states of all
-+ *  @a is_connected services to "ready" if they are "online".
-+ *
-+ *  @sa service_ipconfig_downgrade_online_state
-+ *  @sa service_downgrade_online_state
-+ *  @sa service_downgrade_online_state_if_default
++ *  @sa service_send_changed
++ *  @sa service_list_sort
 + *
 + */
- static void downgrade_connected_services(void)
+ static void service_schedule_changed(void)
  {
- 	struct connman_service *up_service;
+ 	if (services_notify->id != 0)
 -- 
 2.42.0
 
