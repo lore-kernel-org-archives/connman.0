@@ -1,24 +1,24 @@
 Received: from mohas.pair.com (mohas.pair.com [209.68.5.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67E63BE4D
-	for <connman@lists.linux.dev>; Thu, 21 Dec 2023 06:40:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF8E1B678
+	for <connman@lists.linux.dev>; Thu, 21 Dec 2023 06:40:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nuovations.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nuovations.com
 Received: from mohas.pair.com (localhost [127.0.0.1])
-	by mohas.pair.com (Postfix) with ESMTP id 9765373200
-	for <connman@lists.linux.dev>; Thu, 21 Dec 2023 01:40:09 -0500 (EST)
+	by mohas.pair.com (Postfix) with ESMTP id 5FEE773145
+	for <connman@lists.linux.dev>; Thu, 21 Dec 2023 01:40:10 -0500 (EST)
 Received: from localhost.localdomain (unknown [IPv6:2601:647:5a00:15c1:f5ab:4a5e:2861:14b3])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mohas.pair.com (Postfix) with ESMTPSA id 59C3C73206
-	for <connman@lists.linux.dev>; Thu, 21 Dec 2023 01:40:09 -0500 (EST)
+	by mohas.pair.com (Postfix) with ESMTPSA id 220CA73219
+	for <connman@lists.linux.dev>; Thu, 21 Dec 2023 01:40:10 -0500 (EST)
 From: Grant Erickson <gerickson@nuovations.com>
 To: connman@lists.linux.dev
-Subject: [PATCH v2 03/60] service: Rename 'online_check_enabled_check'.
-Date: Wed, 20 Dec 2023 22:39:07 -0800
-Message-ID: <20231221064007.2347566-4-gerickson@nuovations.com>
+Subject: [PATCH v2 05/60] service: Change return type of 'start_wispr_if_connected'.
+Date: Wed, 20 Dec 2023 22:39:09 -0800
+Message-ID: <20231221064007.2347566-6-gerickson@nuovations.com>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20231221064007.2347566-1-gerickson@nuovations.com>
 References: <20231221064007.2347566-1-gerickson@nuovations.com>
@@ -31,45 +31,51 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: mailmunge 3.11 on 209.68.5.112
 
-Since 'online_check_enabled_check' is a predicate function, follow
-prevailing function name style for such predicates by adding '_is_' to
-the name.
+This changes the return type of 'start_wispr_if_connected' from 'void'
+to 'int' to allow callers to conditionally handle its return status.
 ---
- src/service.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ src/service.c | 14 ++++++++++++--
+ 1 file changed, 12 insertions(+), 2 deletions(-)
 
 diff --git a/src/service.c b/src/service.c
-index e5cd6fcd306a..87ef3b575b1f 100644
+index 0c8a4bc0a0c9..5077e3fb2d1a 100644
 --- a/src/service.c
 +++ b/src/service.c
-@@ -1881,7 +1881,8 @@ static void cancel_online_check(struct connman_service *service,
-  *  @sa start_wispr_if_connected
+@@ -2394,15 +2394,23 @@ static void complete_online_check(struct connman_service *service,
+  *                       reachability probes if the IPv4 or IPv6 state
+  *                       is "connected" (that is, "ready" or "online").
   *
++ *  @retval  0          If successful.
++ *  @retval  -EINVAL    If @a service is null or @a type is invalid.
++ *  @retval  -EPERM     If online checks are disabled via
++ *                      configuration.
++ *
   */
--static bool online_check_enabled_check(const struct connman_service *service)
-+static bool online_check_is_enabled_check(
-+		const struct connman_service *service)
+-static void start_wispr_if_connected(struct connman_service *service)
++static int start_wispr_if_connected(struct connman_service *service)
  {
- 	if (!connman_setting_get_bool("EnableOnlineCheck")) {
- 		connman_info("Online check disabled. "
-@@ -1927,7 +1928,7 @@ static void start_online_check(struct connman_service *service,
- 		type,
- 		__connman_ipconfig_type2string(type));
- 
--	if (!online_check_enabled_check(service))
-+	if (!online_check_is_enabled_check(service))
- 		return;
- 
- 	if (type == CONNMAN_IPCONFIG_TYPE_IPV6 || check_proxy_setup(service)) {
-@@ -2380,7 +2381,7 @@ static void start_wispr_if_connected(struct connman_service *service)
+ 	DBG("service %p (%s) maybe start WISPr",
  		service,
  		connman_service_get_identifier(service));
  
--	if (!online_check_enabled_check(service))
-+	if (!online_check_is_enabled_check(service))
- 		return;
++	if (!service)
++		return -EINVAL;
++
+ 	if (!online_check_is_enabled_check(service))
+-		return;
++		return -EPERM;
  
  	if (__connman_service_is_connected_state(service,
+ 			CONNMAN_IPCONFIG_TYPE_IPV4))
+@@ -2413,6 +2421,8 @@ static void start_wispr_if_connected(struct connman_service *service)
+ 			CONNMAN_IPCONFIG_TYPE_IPV6))
+ 		__connman_service_wispr_start(service,
+ 					CONNMAN_IPCONFIG_TYPE_IPV6);
++
++	return 0;
+ }
+ 
+ /**
 -- 
 2.42.0
 
