@@ -1,24 +1,24 @@
 Received: from mohas.pair.com (mohas.pair.com [209.68.5.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC4F120317
-	for <connman@lists.linux.dev>; Thu, 21 Dec 2023 22:35:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0B771E4A2
+	for <connman@lists.linux.dev>; Thu, 21 Dec 2023 22:35:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nuovations.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nuovations.com
 Received: from mohas.pair.com (localhost [127.0.0.1])
-	by mohas.pair.com (Postfix) with ESMTP id DFCEF731FC
-	for <connman@lists.linux.dev>; Thu, 21 Dec 2023 17:35:11 -0500 (EST)
+	by mohas.pair.com (Postfix) with ESMTP id 1E89273202
+	for <connman@lists.linux.dev>; Thu, 21 Dec 2023 17:35:13 -0500 (EST)
 Received: from localhost.localdomain (unknown [IPv6:2601:647:5a00:15c1:f5ab:4a5e:2861:14b3])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mohas.pair.com (Postfix) with ESMTPSA id 9DC7E73203
-	for <connman@lists.linux.dev>; Thu, 21 Dec 2023 17:35:11 -0500 (EST)
+	by mohas.pair.com (Postfix) with ESMTPSA id C85D073219
+	for <connman@lists.linux.dev>; Thu, 21 Dec 2023 17:35:12 -0500 (EST)
 From: Grant Erickson <gerickson@nuovations.com>
 To: connman@lists.linux.dev
-Subject: [PATCH v3 04/60] service: Change return type of 'start_online_check'.
-Date: Thu, 21 Dec 2023 14:34:11 -0800
-Message-ID: <20231221223508.2365510-5-gerickson@nuovations.com>
+Subject: [PATCH v3 07/60] service: Document 'online_check_state' 'active' member.
+Date: Thu, 21 Dec 2023 14:34:14 -0800
+Message-ID: <20231221223508.2365510-8-gerickson@nuovations.com>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20231221223508.2365510-1-gerickson@nuovations.com>
 References: <20231221223508.2365510-1-gerickson@nuovations.com>
@@ -31,69 +31,26 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: mailmunge 3.11 on 209.68.5.112
 
-This changes the return type of 'start_online_check' from 'void' to
-'int' to allow callers to conditionally handle its return status.
+This documents the 'active' member of the 'online_check_state'
+structure.
 ---
- src/service.c | 28 ++++++++++++++++++++++++----
- 1 file changed, 24 insertions(+), 4 deletions(-)
+ src/service.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
 diff --git a/src/service.c b/src/service.c
-index 87ef3b575b1f..0c8a4bc0a0c9 100644
+index 669337ab6734..27d261861b7c 100644
 --- a/src/service.c
 +++ b/src/service.c
-@@ -1913,28 +1913,48 @@ static bool online_check_is_enabled_check(
-  *                           "online" reachability check is to be
-  *                           started.
-  *
-+ *  @retval  0          If successful.
-+ *  @retval  -EINVAL    If @a service is null or @a type is invalid.
-+ *  @retval  -EPERM     If online checks are disabled via
-+ *                      configuration.
-+ *
-  *  @sa cancel_online_check
-  *  @sa complete_online_check
-  *  @sa start_wispr_if_connected
-  *  @sa __connman_service_wispr_start
+@@ -93,6 +93,9 @@ struct connman_stats_counter {
   *
   */
--static void start_online_check(struct connman_service *service,
-+static int start_online_check(struct connman_service *service,
- 				enum connman_ipconfig_type type)
- {
-+	int status = 0;
-+
- 	DBG("service %p (%s) type %d (%s) maybe start WISPr",
- 		service,
- 		connman_service_get_identifier(service),
- 		type,
- 		__connman_ipconfig_type2string(type));
+ struct online_check_state {
++	/**
++	 *  Indicates whether an online check is active and in-flight.
++	 */
+ 	bool active;
  
--	if (!online_check_is_enabled_check(service))
--		return;
-+	if (!service) {
-+		status = -EINVAL;
-+		goto done;
-+	}
-+
-+	if (!online_check_is_enabled_check(service)) {
-+		status = -EPERM;
-+		goto done;
-+	}
- 
- 	if (type == CONNMAN_IPCONFIG_TYPE_IPV6 || check_proxy_setup(service)) {
- 		cancel_online_check(service, type);
--		__connman_service_wispr_start(service, type);
-+
-+		status = __connman_service_wispr_start(service, type);
- 	}
-+
-+done:
-+	DBG("status %d (%s)", status, strerror(-status));
-+
-+	return status;
- }
- 
- /**
+ 	/**
 -- 
 2.42.0
 
