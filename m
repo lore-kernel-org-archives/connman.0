@@ -1,24 +1,24 @@
 Received: from mohas.pair.com (mohas.pair.com [209.68.5.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 861CA1E4A1
-	for <connman@lists.linux.dev>; Thu, 21 Dec 2023 22:35:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 070A11E4A2
+	for <connman@lists.linux.dev>; Thu, 21 Dec 2023 22:35:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nuovations.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nuovations.com
 Received: from mohas.pair.com (localhost [127.0.0.1])
-	by mohas.pair.com (Postfix) with ESMTP id EA78C73200
-	for <connman@lists.linux.dev>; Thu, 21 Dec 2023 17:35:25 -0500 (EST)
+	by mohas.pair.com (Postfix) with ESMTP id 6ED6F73203
+	for <connman@lists.linux.dev>; Thu, 21 Dec 2023 17:35:26 -0500 (EST)
 Received: from localhost.localdomain (unknown [IPv6:2601:647:5a00:15c1:f5ab:4a5e:2861:14b3])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mohas.pair.com (Postfix) with ESMTPSA id AC5B373222
-	for <connman@lists.linux.dev>; Thu, 21 Dec 2023 17:35:25 -0500 (EST)
+	by mohas.pair.com (Postfix) with ESMTPSA id 171627321D
+	for <connman@lists.linux.dev>; Thu, 21 Dec 2023 17:35:26 -0500 (EST)
 From: Grant Erickson <gerickson@nuovations.com>
 To: connman@lists.linux.dev
-Subject: [PATCH v3 39/60] service: Document 'online_check_successes_threshold_is_met'.
-Date: Thu, 21 Dec 2023 14:34:46 -0800
-Message-ID: <20231221223508.2365510-40-gerickson@nuovations.com>
+Subject: [PATCH v3 40/60] service: Document 'online_check_counter_increment_and_log'.
+Date: Thu, 21 Dec 2023 14:34:47 -0800
+Message-ID: <20231221223508.2365510-41-gerickson@nuovations.com>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20231221223508.2365510-1-gerickson@nuovations.com>
 References: <20231221223508.2365510-1-gerickson@nuovations.com>
@@ -32,42 +32,40 @@ Content-Transfer-Encoding: 8bit
 X-Scanned-By: mailmunge 3.11 on 209.68.5.112
 
 This adds documentation to the
-'online_check_successes_threshold_is_met' function.
+'online_check_counter_increment_and_log' function.
 ---
- src/service.c | 20 ++++++++++++++++++++
- 1 file changed, 20 insertions(+)
+ src/service.c | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
 
 diff --git a/src/service.c b/src/service.c
-index 6a9db3c98e56..333c072739ed 100644
+index 333c072739ed..9d27a5692034 100644
 --- a/src/service.c
 +++ b/src/service.c
-@@ -2608,6 +2608,26 @@ static bool is_online_check_success_threshold_met_predicate(
- 	return threshold_met;
+@@ -2836,6 +2836,24 @@ static void reschedule_online_check(struct connman_service *service,
+ 		online_check_state->interval++;
  }
  
 +/**
 + *  @brief
-+ *    Determine whether the online check successes threshold is met.
++ *    Increment and log the specified online check counter.
 + *
-+ *  This attempts to determine whether the online check successes
-+ *  threshold is met, comparing the current IPv4 and IPv6 online check
-+ *  success counts against the "OnlineCheckSuccessesThreshold" settings
-+ *  value and returning @a true if @b either the IPv4 @b or IPv6 counts
-+ *  meet or exceed the threshold.
++ *  This increments by one (1) and logs the post-increment value of
++ *  the specified online check counter associated with the specified
++ *  network service.
 + *
-+ *  @param[in]  service  A pointer to the immutable service for which
-+ *                       to determine whether the online check success
-+ *                       threshold is met.
-+ *
-+ *  @returns
-+ *    True if the success threshold is met; otherwise, false.
-+ *
-+ *  @sa online_check_failures_threshold_is_met
++ *  @param[in]  service              A pointer to the immutable network
++ *                                   service associated with @a
++ *                                   counter.
++ *  @param[in]  type                 The IP configuration type associated
++ *                                   with @a counter.
++ *  @param[in]  counter_description  A pointer to a null-terminated C
++ *                                   string describing @a counter. For
++ *                                   example, "failure".
 + *
 + */
- static bool online_check_successes_threshold_is_met(
- 			const struct connman_service *service)
- {
+ static void online_check_counter_increment_and_log(
+ 			const struct connman_service *service,
+ 			enum connman_ipconfig_type type,
 -- 
 2.42.0
 
