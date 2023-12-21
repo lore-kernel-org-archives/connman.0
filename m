@@ -1,24 +1,24 @@
 Received: from mohas.pair.com (mohas.pair.com [209.68.5.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 509B5B674
-	for <connman@lists.linux.dev>; Thu, 21 Dec 2023 06:17:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71AA86AB3
+	for <connman@lists.linux.dev>; Thu, 21 Dec 2023 06:17:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nuovations.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nuovations.com
 Received: from mohas.pair.com (localhost [127.0.0.1])
-	by mohas.pair.com (Postfix) with ESMTP id 070C773144
-	for <connman@lists.linux.dev>; Thu, 21 Dec 2023 01:17:41 -0500 (EST)
+	by mohas.pair.com (Postfix) with ESMTP id 31FF973218
+	for <connman@lists.linux.dev>; Thu, 21 Dec 2023 01:17:44 -0500 (EST)
 Received: from localhost.localdomain (unknown [IPv6:2601:647:5a00:15c1:f5ab:4a5e:2861:14b3])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mohas.pair.com (Postfix) with ESMTPSA id BD31773171
-	for <connman@lists.linux.dev>; Thu, 21 Dec 2023 01:17:40 -0500 (EST)
+	by mohas.pair.com (Postfix) with ESMTPSA id E6DD173226
+	for <connman@lists.linux.dev>; Thu, 21 Dec 2023 01:17:43 -0500 (EST)
 From: Grant Erickson <gerickson@nuovations.com>
 To: connman@lists.linux.dev
-Subject: [PATCH 12/60] service: Refactor 'start_online_check_if_connected'.
-Date: Wed, 20 Dec 2023 22:16:35 -0800
-Message-ID: <20231221061734.2344286-13-gerickson@nuovations.com>
+Subject: [PATCH 20/60] main: Introduce the 'OnlineCheck{Failures,Successes}Threshold' settings.
+Date: Wed, 20 Dec 2023 22:16:43 -0800
+Message-ID: <20231221061734.2344286-21-gerickson@nuovations.com>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20231221061734.2344286-1-gerickson@nuovations.com>
 References: <20231221061734.2344286-1-gerickson@nuovations.com>
@@ -31,116 +31,128 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: mailmunge 3.11 on 209.68.5.112
 
-This refactors 'start_online_check_if_connected' into a support
-function, 'start_online_check_if_connected_with_type' to reduce
-copy-and-paste and to make common, checking the 'type' parameter,
-returning '-ENOTCONN' if the '__connman_service_is_connected_state'
-predicate is false, and passing along return status from
-'__connman_service_wispr_start'.
----
- src/service.c | 63 +++++++++++++++++++++++++++++++++++++++------------
- 1 file changed, 49 insertions(+), 14 deletions(-)
+When both "EnableOnlineCheck" and "EnableOnlineToReadyTransition" are
+asserted, "OnlineCheckFailuresThreshold" is the number of failed
+back-to-back "ready" to "online" HTTP-based Internet reachability
+checks that will be allowed before marking a service as "failed" from
+a reachability perspective, sorting it at a lower priority than other
+services not so marked.
 
-diff --git a/src/service.c b/src/service.c
-index cd684fbc0b4f..b1880fbc6457 100644
---- a/src/service.c
-+++ b/src/service.c
-@@ -2553,6 +2553,28 @@ static void complete_online_check(struct connman_service *service,
- 		online_check_active_clear(service, type);
- }
+When both "EnableOnlineCheck" and "EnableOnlineToReadyTransition" are
+asserted, "OnlineCheckSuccessesThreshold" is the number of successful
+back-to-back "ready" to "online" HTTP-based Internet reachability
+checks that must be met before clearing a service as "failed" from a
+reachability perspective and allowing it to transition to the "online"
+state again, allowing it to sort back to a higher priority relative to
+other network services.
+---
+ src/main.c | 51 +++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 51 insertions(+)
+
+diff --git a/src/main.c b/src/main.c
+index d2ec8296f490..8e47426f2e8c 100644
+--- a/src/main.c
++++ b/src/main.c
+@@ -56,6 +56,9 @@
+ #define DEFAULT_ONLINE_CHECK_INITIAL_INTERVAL 1
+ #define DEFAULT_ONLINE_CHECK_MAX_INTERVAL 12
  
-+static int start_online_check_if_connected_with_type(
-+					struct connman_service *service,
-+					enum connman_ipconfig_type type)
-+{
-+	int status = 0;
++#define DEFAULT_ONLINE_CHECK_FAILURES_THRESHOLD 6
++#define DEFAULT_ONLINE_CHECK_SUCCESSES_THRESHOLD 6
 +
-+	switch (type) {
-+	case CONNMAN_IPCONFIG_TYPE_IPV4:
-+	case CONNMAN_IPCONFIG_TYPE_IPV6:
-+		break;
-+	default:
-+		return -EINVAL;
+ #define ONLINE_CHECK_INTERVAL_STYLE_FIBONACCI "fibonacci"
+ #define ONLINE_CHECK_INTERVAL_STYLE_GEOMETRIC "geometric"
+ 
+@@ -114,6 +117,8 @@ static struct {
+ 	unsigned int online_check_connect_timeout_ms;
+ 	unsigned int online_check_initial_interval;
+ 	unsigned int online_check_max_interval;
++	unsigned int online_check_failures_threshold;
++	unsigned int online_check_successes_threshold;
+ 	char *online_check_interval_style;
+ 	bool auto_connect_roaming_services;
+ 	bool acd;
+@@ -146,6 +151,10 @@ static struct {
+ 	.online_check_connect_timeout_ms = DEFAULT_ONLINE_CHECK_CONNECT_TIMEOUT,
+ 	.online_check_initial_interval = DEFAULT_ONLINE_CHECK_INITIAL_INTERVAL,
+ 	.online_check_max_interval = DEFAULT_ONLINE_CHECK_MAX_INTERVAL,
++	.online_check_failures_threshold =
++		DEFAULT_ONLINE_CHECK_FAILURES_THRESHOLD,
++	.online_check_successes_threshold =
++		DEFAULT_ONLINE_CHECK_SUCCESSES_THRESHOLD,
+ 	.online_check_interval_style = NULL,
+ 	.auto_connect_roaming_services = false,
+ 	.acd = false,
+@@ -178,6 +187,8 @@ static struct {
+ #define CONF_ONLINE_CHECK_CONNECT_TIMEOUT "OnlineCheckConnectTimeout"
+ #define CONF_ONLINE_CHECK_INITIAL_INTERVAL "OnlineCheckInitialInterval"
+ #define CONF_ONLINE_CHECK_MAX_INTERVAL     "OnlineCheckMaxInterval"
++#define CONF_ONLINE_CHECK_FAILURES_THRESHOLD "OnlineCheckFailuresThreshold"
++#define CONF_ONLINE_CHECK_SUCCESSES_THRESHOLD "OnlineCheckSuccessesThreshold"
+ #define CONF_ONLINE_CHECK_INTERVAL_STYLE "OnlineCheckIntervalStyle"
+ #define CONF_AUTO_CONNECT_ROAMING_SERVICES "AutoConnectRoamingServices"
+ #define CONF_ACD                        "AddressConflictDetection"
+@@ -211,6 +222,8 @@ static const char *supported_options[] = {
+ 	CONF_ONLINE_CHECK_CONNECT_TIMEOUT,
+ 	CONF_ONLINE_CHECK_INITIAL_INTERVAL,
+ 	CONF_ONLINE_CHECK_MAX_INTERVAL,
++	CONF_ONLINE_CHECK_FAILURES_THRESHOLD,
++	CONF_ONLINE_CHECK_SUCCESSES_THRESHOLD,
+ 	CONF_ONLINE_CHECK_INTERVAL_STYLE,
+ 	CONF_AUTO_CONNECT_ROAMING_SERVICES,
+ 	CONF_ACD,
+@@ -604,6 +617,38 @@ static void parse_config(GKeyFile *config)
+ 			DEFAULT_ONLINE_CHECK_MAX_INTERVAL;
+ 	}
+ 
++	/* OnlineCheckFailuresThreshold */
++
++	integer = g_key_file_get_integer(config, "General",
++			CONF_ONLINE_CHECK_FAILURES_THRESHOLD, &error);
++	if (!error && integer >= 0)
++		connman_settings.online_check_failures_threshold = integer;
++
++	if (connman_settings.online_check_failures_threshold < 1) {
++		connman_warn("Incorrect online check failures threshold [%d]",
++			connman_settings.online_check_failures_threshold);
++		connman_settings.online_check_failures_threshold =
++			DEFAULT_ONLINE_CHECK_FAILURES_THRESHOLD;
 +	}
 +
-+	if (!__connman_service_is_connected_state(service, type))
-+		status = -ENOTCONN;
-+	else
-+		status = __connman_service_wispr_start(service, type);
++	g_clear_error(&error);
 +
-+	return status;
-+}
++	/* OnlineCheckSuccessesThreshold */
 +
- /**
-  *  @brief
-  *    Start HTTP-based Internet reachability probes if the specified
-@@ -2562,21 +2584,34 @@ static void complete_online_check(struct connman_service *service,
-  *  reachability probes if the IPv4 state or IPv6 state is connected
-  *  (that is, "ready" or "online").
-  *
-- *  @param[in]  service  A pointer to a mutable service on which to start
-- *                       reachability probes if the IPv4 or IPv6 state
-- *                       is "connected" (that is, "ready" or "online").
-+ *  @param[in,out]  service  A pointer to a mutable service on which
-+ *                           to start "online" HTTP-based Internet
-+ *                           reachability checks if the IPv4 or IPv6
-+ *                           state is "connected" (that is, "ready" or
-+ *                           "online").
-  *
-  *  @retval  0          If successful.
-  *  @retval  -EINVAL    If @a service is null or @a type is invalid.
-  *  @retval  -EPERM     If online checks are disabled via
-  *                      configuration.
-+ *  @retval  -ENOTCONN  If @a service is not "connected" (that is,
-+ *                      "ready" or "online").
-+ *  @retval  -EALEADY   If online checks are already active for @a
-+ *                      service.
-+ *
-+ *  @sa start_online_check
-+ *  @sa start_online_check_if_connected_with_type
-  *
-  */
- static int start_online_check_if_connected(struct connman_service *service)
- {
--	DBG("service %p (%s) maybe start WISPr",
-+	int status4 = 0, status6 = 0;
++	integer = g_key_file_get_integer(config, "General",
++			CONF_ONLINE_CHECK_SUCCESSES_THRESHOLD, &error);
++	if (!error && integer >= 0)
++		connman_settings.online_check_successes_threshold = integer;
 +
-+	DBG("service %p (%s) state4 %d (%s) state6 %d (%s) maybe start WISPr",
- 		service,
--		connman_service_get_identifier(service));
-+		connman_service_get_identifier(service),
-+		service->state_ipv4, state2string(service->state_ipv4),
-+		service->state_ipv6, state2string(service->state_ipv6));
- 
- 	if (!service)
- 		return -EINVAL;
-@@ -2584,17 +2619,17 @@ static int start_online_check_if_connected(struct connman_service *service)
- 	if (!online_check_is_enabled_check(service))
- 		return -EPERM;
- 
--	if (__connman_service_is_connected_state(service,
--			CONNMAN_IPCONFIG_TYPE_IPV4))
--		__connman_service_wispr_start(service,
--					CONNMAN_IPCONFIG_TYPE_IPV4);
-+	status4 = start_online_check_if_connected_with_type(service,
-+			CONNMAN_IPCONFIG_TYPE_IPV4);
- 
--	if (__connman_service_is_connected_state(service,
--			CONNMAN_IPCONFIG_TYPE_IPV6))
--		__connman_service_wispr_start(service,
--					CONNMAN_IPCONFIG_TYPE_IPV6);
-+	status6 = start_online_check_if_connected_with_type(service,
-+			CONNMAN_IPCONFIG_TYPE_IPV6);
- 
--	return 0;
-+	DBG("status4 %d (%s) status6 %d (%s)",
-+		status4, strerror(-status4),
-+		status6, strerror(-status6));
++	if (connman_settings.online_check_successes_threshold < 1) {
++		connman_warn("Incorrect online check successes threshold [%d]",
++			connman_settings.online_check_successes_threshold);
++		connman_settings.online_check_successes_threshold =
++			DEFAULT_ONLINE_CHECK_SUCCESSES_THRESHOLD;
++	}
 +
-+	return (status4 < 0 ? status4 : status6);
++	g_clear_error(&error);
++
+ 	string = __connman_config_get_string(config, "General",
+ 					CONF_ONLINE_CHECK_INTERVAL_STYLE, &error);
+ 	if (!error) {
+@@ -921,6 +966,12 @@ unsigned int connman_setting_get_uint(const char *key)
+ 	if (g_str_equal(key, CONF_ONLINE_CHECK_MAX_INTERVAL))
+ 		return connman_settings.online_check_max_interval;
+ 
++	if (g_str_equal(key, CONF_ONLINE_CHECK_FAILURES_THRESHOLD))
++		return connman_settings.online_check_failures_threshold;
++
++	if (g_str_equal(key, CONF_ONLINE_CHECK_SUCCESSES_THRESHOLD))
++		return connman_settings.online_check_successes_threshold;
++
+ 	return 0;
  }
  
- /**
 -- 
 2.42.0
 
