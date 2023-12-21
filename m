@@ -1,24 +1,24 @@
 Received: from mohas.pair.com (mohas.pair.com [209.68.5.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2BD0B678
-	for <connman@lists.linux.dev>; Thu, 21 Dec 2023 06:40:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34FE6BE49
+	for <connman@lists.linux.dev>; Thu, 21 Dec 2023 06:40:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nuovations.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nuovations.com
 Received: from mohas.pair.com (localhost [127.0.0.1])
-	by mohas.pair.com (Postfix) with ESMTP id 2AE3773246
+	by mohas.pair.com (Postfix) with ESMTP id 976FA730B4
 	for <connman@lists.linux.dev>; Thu, 21 Dec 2023 01:40:27 -0500 (EST)
 Received: from localhost.localdomain (unknown [IPv6:2601:647:5a00:15c1:f5ab:4a5e:2861:14b3])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mohas.pair.com (Postfix) with ESMTPSA id E164E73269
-	for <connman@lists.linux.dev>; Thu, 21 Dec 2023 01:40:26 -0500 (EST)
+	by mohas.pair.com (Postfix) with ESMTPSA id 4AE9573256
+	for <connman@lists.linux.dev>; Thu, 21 Dec 2023 01:40:27 -0500 (EST)
 From: Grant Erickson <gerickson@nuovations.com>
 To: connman@lists.linux.dev
-Subject: [PATCH v2 47/60] service: Document the internals of 'service_compare'.
-Date: Wed, 20 Dec 2023 22:39:51 -0800
-Message-ID: <20231221064007.2347566-48-gerickson@nuovations.com>
+Subject: [PATCH v2 48/60] service: Document interval assignment in '__connman_service_wispr_start'.
+Date: Wed, 20 Dec 2023 22:39:52 -0800
+Message-ID: <20231221064007.2347566-49-gerickson@nuovations.com>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20231221064007.2347566-1-gerickson@nuovations.com>
 References: <20231221064007.2347566-1-gerickson@nuovations.com>
@@ -31,100 +31,28 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: mailmunge 3.11 on 209.68.5.112
 
-This documents the major internal comparison blocks of the
-'service_compare' function.
+This adds a comment documenting the rationale for setting the check
+interval to the initial interval in '__connman_service_wispr_start'.
 ---
- src/service.c | 44 ++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 44 insertions(+)
+ src/service.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
 diff --git a/src/service.c b/src/service.c
-index c376b559e915..b1fb6a3e532a 100644
+index b1fb6a3e532a..cae4258fca7f 100644
 --- a/src/service.c
 +++ b/src/service.c
-@@ -7972,8 +7972,21 @@ static gint service_compare(gconstpointer a, gconstpointer b)
- 	a_connected = is_connected(state_a);
- 	b_connected = is_connected(state_b);
+@@ -3832,6 +3832,11 @@ int __connman_service_wispr_start(struct connman_service *service,
+ 	if (online_check_is_active(service, type))
+ 		return -EALREADY;
  
 +	/*
-+	 * If both services are connected (that is, "ready" or "online"),
-+	 * then further sort by whether the services are VPN type, then
-+	 * service order if there is VPN equivalence, and then by their
-+	 * preferred technology status.
++	 * At this particular entry point, we assume to be starting an
++	 * "online" HTTP-based Internet reachability check
++	 * afresh. Consequently, set the check interval to initial.
 +	 */
- 	if (a_connected && b_connected) {
- 		int rval;
-+
-+		/*
-+		 * If at this point the services are still comparing as
-+		 * equivalent, then use online check failure status, giving
-+		 * priority to the service that has not met the failure
-+		 * threshold.
-+		 */
- 		if (!online_check_failures_threshold_was_met(service_a) &&
- 			online_check_failures_threshold_was_met(service_b)) {
- 			return -1;
-@@ -8004,6 +8017,15 @@ static gint service_compare(gconstpointer a, gconstpointer b)
- 			return rval;
- 	}
- 
-+	/*
-+	 * If at this point the services are still comparing as
-+	 * equilvalent, then check whether their combined states are
-+	 * different. If they are, then prefer the service that is
-+	 * "online" to that which is only "ready", then prefer @a a being
-+	 * connected versus @a b being connected, and, finally, then
-+	 * prefer @a a being in the process of connecting to @a b being in
-+	 * the process of connecting.
-+	 */
- 	if (state_a != state_b) {
- 		if (a_connected && b_connected) {
- 			/* We prefer online over ready state */
-@@ -8025,12 +8047,26 @@ static gint service_compare(gconstpointer a, gconstpointer b)
- 			return 1;
- 	}
- 
-+	/*
-+	 * If at this point the services are still comparing as
-+	 * equivalent, then use favorite status, giving priority to @a a
-+	 * as a favorite versus @a b as a favorite.
-+	 */
- 	if (service_a->favorite && !service_b->favorite)
- 		return -1;
- 
- 	if (!service_a->favorite && service_b->favorite)
- 		return 1;
- 
-+	/*
-+	 * If at this point the services are still comparing as
-+	 * equivalent, then check whether their types are different. If
-+	 * they are, then compare their types. First, against the
-+	 * PreferredTechnologies priority list and then by an internal
-+	 * prioritization favoring Ethernet over Wi-Fi, Wi-Fi over
-+	 * Cellular, Cellular over Bluetooth, Bluetooth over VPN, and VPN
-+	 * over Gadget (that is, USB Ethernet).
-+	 */
- 	if (service_a->type != service_b->type) {
- 		int rval;
- 
-@@ -8069,10 +8105,18 @@ static gint service_compare(gconstpointer a, gconstpointer b)
- 			return 1;
- 	}
- 
-+	/*
-+	 * If at this point the services are still comparing as
-+	 * equivalent, then check their strengths.
-+	 */
- 	strength = (gint) service_b->strength - (gint) service_a->strength;
- 	if (strength)
- 		return strength;
- 
-+	/*
-+	 * Finally, if at this point the services are still comparing as
-+	 * equivalent, then check their names.
-+	 */
- 	return g_strcmp0(service_a->name, service_b->name);
- }
- 
+ 	if (type == CONNMAN_IPCONFIG_TYPE_IPV4)
+ 		service->online_check_state_ipv4.interval =
+ 					online_check_initial_interval;
 -- 
 2.42.0
 
