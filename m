@@ -1,24 +1,24 @@
 Received: from mohas.pair.com (mohas.pair.com [209.68.5.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9215BE5D
-	for <connman@lists.linux.dev>; Thu, 21 Dec 2023 06:40:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47F88BE4D
+	for <connman@lists.linux.dev>; Thu, 21 Dec 2023 06:40:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nuovations.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nuovations.com
 Received: from mohas.pair.com (localhost [127.0.0.1])
-	by mohas.pair.com (Postfix) with ESMTP id 44A2273200
+	by mohas.pair.com (Postfix) with ESMTP id AA6FD73204
 	for <connman@lists.linux.dev>; Thu, 21 Dec 2023 01:40:15 -0500 (EST)
 Received: from localhost.localdomain (unknown [IPv6:2601:647:5a00:15c1:f5ab:4a5e:2861:14b3])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mohas.pair.com (Postfix) with ESMTPSA id 0736C7321A
-	for <connman@lists.linux.dev>; Thu, 21 Dec 2023 01:40:14 -0500 (EST)
+	by mohas.pair.com (Postfix) with ESMTPSA id 64D4E7321D
+	for <connman@lists.linux.dev>; Thu, 21 Dec 2023 01:40:15 -0500 (EST)
 From: Grant Erickson <gerickson@nuovations.com>
 To: connman@lists.linux.dev
-Subject: [PATCH v2 17/60] doc/service: Document online check failure service error.
-Date: Wed, 20 Dec 2023 22:39:21 -0800
-Message-ID: <20231221064007.2347566-18-gerickson@nuovations.com>
+Subject: [PATCH v2 18/60] service: Introduce and use online check 'failures/successes' state.
+Date: Wed, 20 Dec 2023 22:39:22 -0800
+Message-ID: <20231221064007.2347566-19-gerickson@nuovations.com>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20231221064007.2347566-1-gerickson@nuovations.com>
 References: <20231221064007.2347566-1-gerickson@nuovations.com>
@@ -31,45 +31,27 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: mailmunge 3.11 on 209.68.5.112
 
-This adds documentation for the online check failure service error
-enumeration and string.
+This introduces a per-IP configuration online check 'failures' and
+'successes' state member that represent the number of sustained,
+back-to-back "online" reachability check failures and successes,
+respectively, for "continuous" online check mode.
 ---
- doc/service-api.txt | 3 ++-
- include/service.h   | 7 +++++++
- 2 files changed, 9 insertions(+), 1 deletion(-)
+ src/service.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/doc/service-api.txt b/doc/service-api.txt
-index c0d5adbb2b57..89208a6dc55f 100644
---- a/doc/service-api.txt
-+++ b/doc/service-api.txt
-@@ -157,7 +157,8 @@ Properties	string State [readonly]
- 
- 			Currently defined error codes are: "out-of-range",
- 			"pin-missing", "dhcp-failed", "connect-failed",
--			"login-failed", "auth-failed" and "invalid-key".
-+			"login-failed", "auth-failed", "invalid-key",
-+			"blocked", and "online-check-failed".
- 
- 		string Name [readonly]
- 
-diff --git a/include/service.h b/include/service.h
-index bfa3ab2592e4..f194422fae48 100644
---- a/include/service.h
-+++ b/include/service.h
-@@ -80,6 +80,13 @@ enum connman_service_error {
- 	CONNMAN_SERVICE_ERROR_AUTH_FAILED         = 6,
- 	CONNMAN_SERVICE_ERROR_INVALID_KEY         = 7,
- 	CONNMAN_SERVICE_ERROR_BLOCKED             = 8,
-+
-+	/**
-+	 *	In "continuous" online check mode,
-+	 *	the back-to-back online check
-+	 *	failures threshold was met or
-+	 *	exceeded.
-+	 */
- 	CONNMAN_SERVICE_ERROR_ONLINE_CHECK_FAILED = 9,
+diff --git a/src/service.c b/src/service.c
+index 2599acd832ce..db1d45f61063 100644
+--- a/src/service.c
++++ b/src/service.c
+@@ -109,6 +109,8 @@ struct online_check_state {
+ 	 *
+ 	 */
+ 	unsigned int interval;
++	unsigned int successes;
++	unsigned int failures;
  };
  
+ struct connman_service {
 -- 
 2.42.0
 
