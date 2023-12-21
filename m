@@ -1,24 +1,24 @@
 Received: from mohas.pair.com (mohas.pair.com [209.68.5.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 070A11E4A2
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BC8F14AB5
 	for <connman@lists.linux.dev>; Thu, 21 Dec 2023 22:35:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nuovations.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nuovations.com
 Received: from mohas.pair.com (localhost [127.0.0.1])
-	by mohas.pair.com (Postfix) with ESMTP id 6ED6F73203
+	by mohas.pair.com (Postfix) with ESMTP id CFB6673202
 	for <connman@lists.linux.dev>; Thu, 21 Dec 2023 17:35:26 -0500 (EST)
 Received: from localhost.localdomain (unknown [IPv6:2601:647:5a00:15c1:f5ab:4a5e:2861:14b3])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mohas.pair.com (Postfix) with ESMTPSA id 171627321D
+	by mohas.pair.com (Postfix) with ESMTPSA id 906DE7321A
 	for <connman@lists.linux.dev>; Thu, 21 Dec 2023 17:35:26 -0500 (EST)
 From: Grant Erickson <gerickson@nuovations.com>
 To: connman@lists.linux.dev
-Subject: [PATCH v3 40/60] service: Document 'online_check_counter_increment_and_log'.
-Date: Thu, 21 Dec 2023 14:34:47 -0800
-Message-ID: <20231221223508.2365510-41-gerickson@nuovations.com>
+Subject: [PATCH v3 41/60] service: Document 'online_check_log_success'.
+Date: Thu, 21 Dec 2023 14:34:48 -0800
+Message-ID: <20231221223508.2365510-42-gerickson@nuovations.com>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20231221223508.2365510-1-gerickson@nuovations.com>
 References: <20231221223508.2365510-1-gerickson@nuovations.com>
@@ -31,41 +31,36 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: mailmunge 3.11 on 209.68.5.112
 
-This adds documentation to the
-'online_check_counter_increment_and_log' function.
+This adds documentation to the 'online_check_log_success' function.
 ---
- src/service.c | 18 ++++++++++++++++++
- 1 file changed, 18 insertions(+)
+ src/service.c | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
 diff --git a/src/service.c b/src/service.c
-index 333c072739ed..9d27a5692034 100644
+index 9d27a5692034..029d7b8b6122 100644
 --- a/src/service.c
 +++ b/src/service.c
-@@ -2836,6 +2836,24 @@ static void reschedule_online_check(struct connman_service *service,
- 		online_check_state->interval++;
+@@ -2871,6 +2871,20 @@ static void online_check_counter_increment_and_log(
+ 		counter_description, *counter);
  }
  
 +/**
 + *  @brief
-+ *    Increment and log the specified online check counter.
++ *    Log an online check success.
 + *
-+ *  This increments by one (1) and logs the post-increment value of
-+ *  the specified online check counter associated with the specified
-+ *  network service.
++ *  This logs an online check success for the specified network
++ *  service IP configuration type.
 + *
-+ *  @param[in]  service              A pointer to the immutable network
-+ *                                   service associated with @a
-+ *                                   counter.
-+ *  @param[in]  type                 The IP configuration type associated
-+ *                                   with @a counter.
-+ *  @param[in]  counter_description  A pointer to a null-terminated C
-+ *                                   string describing @a counter. For
-+ *                                   example, "failure".
++ *  @param[in]  service  A pointer to the immutable network
++ *                       service for which to log an online
++ *                       check success.
++ *  @param[in]  type     The IP configuration type for which
++ *                       the online check was successful.
 + *
 + */
- static void online_check_counter_increment_and_log(
- 			const struct connman_service *service,
- 			enum connman_ipconfig_type type,
+ static void online_check_log_success(const struct connman_service *service,
+ 			enum connman_ipconfig_type type)
+ {
 -- 
 2.42.0
 
