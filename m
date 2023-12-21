@@ -1,24 +1,24 @@
 Received: from mohas.pair.com (mohas.pair.com [209.68.5.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BC8F14AB5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8278BE6B
 	for <connman@lists.linux.dev>; Thu, 21 Dec 2023 22:35:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nuovations.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nuovations.com
 Received: from mohas.pair.com (localhost [127.0.0.1])
-	by mohas.pair.com (Postfix) with ESMTP id CFB6673202
-	for <connman@lists.linux.dev>; Thu, 21 Dec 2023 17:35:26 -0500 (EST)
+	by mohas.pair.com (Postfix) with ESMTP id 3B41B73204
+	for <connman@lists.linux.dev>; Thu, 21 Dec 2023 17:35:27 -0500 (EST)
 Received: from localhost.localdomain (unknown [IPv6:2601:647:5a00:15c1:f5ab:4a5e:2861:14b3])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mohas.pair.com (Postfix) with ESMTPSA id 906DE7321A
+	by mohas.pair.com (Postfix) with ESMTPSA id F0AA97321D
 	for <connman@lists.linux.dev>; Thu, 21 Dec 2023 17:35:26 -0500 (EST)
 From: Grant Erickson <gerickson@nuovations.com>
 To: connman@lists.linux.dev
-Subject: [PATCH v3 41/60] service: Document 'online_check_log_success'.
-Date: Thu, 21 Dec 2023 14:34:48 -0800
-Message-ID: <20231221223508.2365510-42-gerickson@nuovations.com>
+Subject: [PATCH v3 42/60] service: Document 'continuous_online_check_log_{counter,failures,successes}_threshold_met'.
+Date: Thu, 21 Dec 2023 14:34:49 -0800
+Message-ID: <20231221223508.2365510-43-gerickson@nuovations.com>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20231221223508.2365510-1-gerickson@nuovations.com>
 References: <20231221223508.2365510-1-gerickson@nuovations.com>
@@ -31,36 +31,89 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: mailmunge 3.11 on 209.68.5.112
 
-This adds documentation to the 'online_check_log_success' function.
+This adds documentation to the
+'continuous_online_check_log_{counter,failures,successes}_threshold_met'
+functions.
 ---
- src/service.c | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+ src/service.c | 51 +++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 51 insertions(+)
 
 diff --git a/src/service.c b/src/service.c
-index 9d27a5692034..029d7b8b6122 100644
+index 029d7b8b6122..1e2282572892 100644
 --- a/src/service.c
 +++ b/src/service.c
-@@ -2871,6 +2871,20 @@ static void online_check_counter_increment_and_log(
- 		counter_description, *counter);
+@@ -2901,6 +2901,29 @@ static void online_check_log_success(const struct connman_service *service,
+ 			connman_setting_get_string("OnlineCheckIPv6URL"));
  }
  
 +/**
 + *  @brief
-+ *    Log an online check success.
++ *    Log that an online check counter has met its threshold.
 + *
-+ *  This logs an online check success for the specified network
-+ *  service IP configuration type.
++ *  This logs that an online check counter associated with the
++ *  specified network service has met its threshold.
 + *
-+ *  @param[in]  service  A pointer to the immutable network
-+ *                       service for which to log an online
-+ *                       check success.
-+ *  @param[in]  type     The IP configuration type for which
-+ *                       the online check was successful.
++ *  @param[in]  service                A pointer to the immutable
++ *                                     network service for which to
++ *                                     log that one of its online
++ *                                     check counters has met its
++ *                                     threshold.
++ *  @param[in]  counter_threshold_key  A pointer to a null-terminated
++ *                                     C string containing the key to
++ *                                     use with the configuration
++ *                                     store to access the threshold
++ *                                     value for the counter.
++ *  @param[in]  counter_description    A pointer to a null-terminated
++ *                                     C string describing the counter
++ *                                     to check. For example,
++ *                                     "failure(s)".
 + *
 + */
- static void online_check_log_success(const struct connman_service *service,
- 			enum connman_ipconfig_type type)
- {
+ static void continuous_online_check_log_counter_threshold_met(
+ 			const struct connman_service *service,
+ 			const char *counter_threshold_key,
+@@ -2919,6 +2942,20 @@ static void continuous_online_check_log_counter_threshold_met(
+ 				 counter_description);
+ }
+ 
++/**
++ *  @brief
++ *    Log that an online check success counter has met its threshold.
++ *
++ *  This logs that an online check success counter associated with the
++ *  specified network service has met its threshold.
++ *
++ *  @param[in]  service                A pointer to the immutable
++ *                                     network service for which to
++ *                                     log that its online check
++ *                                     success counter has met its
++ *                                     threshold.
++ *
++ */
+ static void continuous_online_check_log_successes_threshold_met(
+ 			const struct connman_service *service
+ )
+@@ -2933,6 +2970,20 @@ static void continuous_online_check_log_successes_threshold_met(
+ 		counter_description);
+ }
+ 
++/**
++ *  @brief
++ *    Log that an online check failure counter has met its threshold.
++ *
++ *  This logs that an online check failure counter associated with the
++ *  specified network service has met its threshold.
++ *
++ *  @param[in]  service                A pointer to the immutable
++ *                                     network service for which to
++ *                                     log that its online check
++ *                                     failure counter has met its
++ *                                     threshold.
++ *
++ */
+ static void continuous_online_check_log_failures_threshold_met(
+ 			const struct connman_service *service
+ )
 -- 
 2.42.0
 
