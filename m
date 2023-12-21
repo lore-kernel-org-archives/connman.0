@@ -1,24 +1,24 @@
 Received: from mohas.pair.com (mohas.pair.com [209.68.5.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F6675991E
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B6B71642B
 	for <connman@lists.linux.dev>; Thu, 21 Dec 2023 22:35:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nuovations.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nuovations.com
 Received: from mohas.pair.com (localhost [127.0.0.1])
-	by mohas.pair.com (Postfix) with ESMTP id 9E89A73218
-	for <connman@lists.linux.dev>; Thu, 21 Dec 2023 17:35:29 -0500 (EST)
+	by mohas.pair.com (Postfix) with ESMTP id 0BF3673204
+	for <connman@lists.linux.dev>; Thu, 21 Dec 2023 17:35:30 -0500 (EST)
 Received: from localhost.localdomain (unknown [IPv6:2601:647:5a00:15c1:f5ab:4a5e:2861:14b3])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mohas.pair.com (Postfix) with ESMTPSA id 5671573225
+	by mohas.pair.com (Postfix) with ESMTPSA id C0FA573227
 	for <connman@lists.linux.dev>; Thu, 21 Dec 2023 17:35:29 -0500 (EST)
 From: Grant Erickson <gerickson@nuovations.com>
 To: connman@lists.linux.dev
-Subject: [PATCH v3 48/60] service: Document interval assignment in '__connman_service_wispr_start'.
-Date: Thu, 21 Dec 2023 14:34:55 -0800
-Message-ID: <20231221223508.2365510-49-gerickson@nuovations.com>
+Subject: [PATCH v3 49/60] service: Document 'downgrade_connected_services'.
+Date: Thu, 21 Dec 2023 14:34:56 -0800
+Message-ID: <20231221223508.2365510-50-gerickson@nuovations.com>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20231221223508.2365510-1-gerickson@nuovations.com>
 References: <20231221223508.2365510-1-gerickson@nuovations.com>
@@ -31,28 +31,36 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: mailmunge 3.11 on 209.68.5.112
 
-This adds a comment documenting the rationale for setting the check
-interval to the initial interval in '__connman_service_wispr_start'.
+This adds documentation to the 'downgrade_connected_services'
+functions.
 ---
- src/service.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ src/service.c | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
 diff --git a/src/service.c b/src/service.c
-index b1fb6a3e532a..cae4258fca7f 100644
+index cae4258fca7f..efed2fc50ac9 100644
 --- a/src/service.c
 +++ b/src/service.c
-@@ -3832,6 +3832,11 @@ int __connman_service_wispr_start(struct connman_service *service,
- 	if (online_check_is_active(service, type))
- 		return -EALREADY;
+@@ -8709,6 +8709,19 @@ static void request_input_cb(struct connman_service *service,
+ 	}
+ }
  
-+	/*
-+	 * At this particular entry point, we assume to be starting an
-+	 * "online" HTTP-based Internet reachability check
-+	 * afresh. Consequently, set the check interval to initial.
-+	 */
- 	if (type == CONNMAN_IPCONFIG_TYPE_IPV4)
- 		service->online_check_state_ipv4.interval =
- 					online_check_initial_interval;
++/**
++ *  @brief
++ *    Downgrade the service IPv4 and IPv6 states from "online" to
++ *    "ready" of all connected services.
++ *
++ *  This attempts to downgrade the IPv4 and IPv6 states of all
++ *  @a is_connected services to "ready" if they are "online".
++ *
++ *  @sa service_ipconfig_downgrade_online_state
++ *  @sa service_downgrade_online_state
++ *  @sa service_downgrade_online_state_if_default
++ *
++ */
+ static void downgrade_connected_services(void)
+ {
+ 	struct connman_service *up_service;
 -- 
 2.42.0
 
