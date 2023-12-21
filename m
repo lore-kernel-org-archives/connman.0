@@ -1,24 +1,24 @@
 Received: from mohas.pair.com (mohas.pair.com [209.68.5.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96408B662
-	for <connman@lists.linux.dev>; Thu, 21 Dec 2023 06:17:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEA47B671
+	for <connman@lists.linux.dev>; Thu, 21 Dec 2023 06:17:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nuovations.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nuovations.com
 Received: from mohas.pair.com (localhost [127.0.0.1])
-	by mohas.pair.com (Postfix) with ESMTP id 652CA73159
-	for <connman@lists.linux.dev>; Thu, 21 Dec 2023 01:17:41 -0500 (EST)
+	by mohas.pair.com (Postfix) with ESMTP id D3D1273203
+	for <connman@lists.linux.dev>; Thu, 21 Dec 2023 01:17:39 -0500 (EST)
 Received: from localhost.localdomain (unknown [IPv6:2601:647:5a00:15c1:f5ab:4a5e:2861:14b3])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mohas.pair.com (Postfix) with ESMTPSA id 2737273206
-	for <connman@lists.linux.dev>; Thu, 21 Dec 2023 01:17:41 -0500 (EST)
+	by mohas.pair.com (Postfix) with ESMTPSA id 951B373213
+	for <connman@lists.linux.dev>; Thu, 21 Dec 2023 01:17:39 -0500 (EST)
 From: Grant Erickson <gerickson@nuovations.com>
 To: connman@lists.linux.dev
-Subject: [PATCH 13/60] service: Document 'start_online_check_if_connected_with_type'.
-Date: Wed, 20 Dec 2023 22:16:36 -0800
-Message-ID: <20231221061734.2344286-14-gerickson@nuovations.com>
+Subject: [PATCH 09/60] service: Document 'online_check_active_set_value'.
+Date: Wed, 20 Dec 2023 22:16:32 -0800
+Message-ID: <20231221061734.2344286-10-gerickson@nuovations.com>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20231221061734.2344286-1-gerickson@nuovations.com>
 References: <20231221061734.2344286-1-gerickson@nuovations.com>
@@ -31,57 +31,45 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: mailmunge 3.11 on 209.68.5.112
 
-This adds documentation to the
-'start_online_check_if_connected_with_type' function.
+This adds documentation to the 'online_check_active_set_value'
+function.
 ---
- src/service.c | 34 ++++++++++++++++++++++++++++++++++
- 1 file changed, 34 insertions(+)
+ src/service.c | 22 ++++++++++++++++++++++
+ 1 file changed, 22 insertions(+)
 
 diff --git a/src/service.c b/src/service.c
-index b1880fbc6457..b35a4dad1f29 100644
+index 0c1ed63c0ade..4238d81c7c0d 100644
 --- a/src/service.c
 +++ b/src/service.c
-@@ -2553,6 +2553,40 @@ static void complete_online_check(struct connman_service *service,
- 		online_check_active_clear(service, type);
+@@ -1748,6 +1748,28 @@ static bool online_check_is_active(const struct connman_service *service,
+ 	return active;
  }
  
 +/**
 + *  @brief
-+ *    Start HTTP-based Internet reachability probes if the specified
-+ *    service is connected.
++ *    Assign the "online" HTTP-based Internet reachability check
++ *    active state.
 + *
-+ *  This attempts to start IPv4 or IPv6 HTTP-based Internet
-+ *  reachability probes if the IPv4 state or IPv6 state is connected
-+ *  (that is, "ready" or "online") and if the online check state is
-+ *  not already active for the specified network service IP
-+ *  configuration type.
++ *  This assigns the "online" HTTP-based Internet reachability check
++ *  active state for the specified network service IP configuration
++ *  type.
 + *
-+ *  @param[in,out]  service  A pointer to a mutable service on which
-+ *                           to start "online" HTTP-based Internet
-+ *                           reachability checks if the IP
-+ *                           configuration state associated with @a
-+ *                           type is "connected" (that is, "ready" or
-+ *                           "online").
++ *  @param[in,out]  service  A pointer to the mutable network service
++ *                           for which to assign the "online" HTTP-
++ *                           based Internet reachability active
++ *                           state.
 + *  @param[in]      type     The IP configuration type for which to
-+ *                           start the "online" HTTP-based Internet
-+ *                           reachability checks.
++ *                           assign the "online" HTTP-based Internet
++ *                           reachability active state.
++ *  @param[in]      active   The "online" HTTP-based Internet
++ *                           reachability active state to assign.
 + *
-+ *  @retval  0          If successful.
-+ *  @retval  -EINVAL    If @a service is null or @a type is invalid.
-+ *  @retval  -EPERM     If online checks are disabled via
-+ *                      configuration.
-+ *  @retval  -ENOTCONN  If @a service is not "connected" (that is,
-+ *                      "ready" or "online").
-+ *  @retval  -EALREADY  If online checks are already active for @a
-+ *                      service.
-+ *
-+ *  @sa start_online_check
-+ *  @sa start_online_check_if_connected_with_type
++ *  @sa online_check_is_active
 + *
 + */
- static int start_online_check_if_connected_with_type(
- 					struct connman_service *service,
- 					enum connman_ipconfig_type type)
+ static void online_check_active_set_value(struct connman_service *service,
+ 		enum connman_ipconfig_type type,
+ 		bool active)
 -- 
 2.42.0
 
