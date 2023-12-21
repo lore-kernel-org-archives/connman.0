@@ -1,24 +1,24 @@
 Received: from mohas.pair.com (mohas.pair.com [209.68.5.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEA47B671
-	for <connman@lists.linux.dev>; Thu, 21 Dec 2023 06:17:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23E7EBA29
+	for <connman@lists.linux.dev>; Thu, 21 Dec 2023 06:17:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nuovations.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nuovations.com
 Received: from mohas.pair.com (localhost [127.0.0.1])
-	by mohas.pair.com (Postfix) with ESMTP id D3D1273203
-	for <connman@lists.linux.dev>; Thu, 21 Dec 2023 01:17:39 -0500 (EST)
+	by mohas.pair.com (Postfix) with ESMTP id 68F8273208
+	for <connman@lists.linux.dev>; Thu, 21 Dec 2023 01:17:43 -0500 (EST)
 Received: from localhost.localdomain (unknown [IPv6:2601:647:5a00:15c1:f5ab:4a5e:2861:14b3])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mohas.pair.com (Postfix) with ESMTPSA id 951B373213
-	for <connman@lists.linux.dev>; Thu, 21 Dec 2023 01:17:39 -0500 (EST)
+	by mohas.pair.com (Postfix) with ESMTPSA id 22EF373224
+	for <connman@lists.linux.dev>; Thu, 21 Dec 2023 01:17:43 -0500 (EST)
 From: Grant Erickson <gerickson@nuovations.com>
 To: connman@lists.linux.dev
-Subject: [PATCH 09/60] service: Document 'online_check_active_set_value'.
-Date: Wed, 20 Dec 2023 22:16:32 -0800
-Message-ID: <20231221061734.2344286-10-gerickson@nuovations.com>
+Subject: [PATCH 18/60] service: Introduce and use online check 'failures/successes' state.
+Date: Wed, 20 Dec 2023 22:16:41 -0800
+Message-ID: <20231221061734.2344286-19-gerickson@nuovations.com>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20231221061734.2344286-1-gerickson@nuovations.com>
 References: <20231221061734.2344286-1-gerickson@nuovations.com>
@@ -31,45 +31,27 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: mailmunge 3.11 on 209.68.5.112
 
-This adds documentation to the 'online_check_active_set_value'
-function.
+This introduces a per-IP configuration online check 'failures' and
+'successes' state member that represent the number of sustained,
+back-to-back "online" reachability check failures and successes,
+respectively, for "continuous" online check mode.
 ---
- src/service.c | 22 ++++++++++++++++++++++
- 1 file changed, 22 insertions(+)
+ src/service.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
 diff --git a/src/service.c b/src/service.c
-index 0c1ed63c0ade..4238d81c7c0d 100644
+index 2599acd832ce..db1d45f61063 100644
 --- a/src/service.c
 +++ b/src/service.c
-@@ -1748,6 +1748,28 @@ static bool online_check_is_active(const struct connman_service *service,
- 	return active;
- }
+@@ -109,6 +109,8 @@ struct online_check_state {
+ 	 *
+ 	 */
+ 	unsigned int interval;
++	unsigned int successes;
++	unsigned int failures;
+ };
  
-+/**
-+ *  @brief
-+ *    Assign the "online" HTTP-based Internet reachability check
-+ *    active state.
-+ *
-+ *  This assigns the "online" HTTP-based Internet reachability check
-+ *  active state for the specified network service IP configuration
-+ *  type.
-+ *
-+ *  @param[in,out]  service  A pointer to the mutable network service
-+ *                           for which to assign the "online" HTTP-
-+ *                           based Internet reachability active
-+ *                           state.
-+ *  @param[in]      type     The IP configuration type for which to
-+ *                           assign the "online" HTTP-based Internet
-+ *                           reachability active state.
-+ *  @param[in]      active   The "online" HTTP-based Internet
-+ *                           reachability active state to assign.
-+ *
-+ *  @sa online_check_is_active
-+ *
-+ */
- static void online_check_active_set_value(struct connman_service *service,
- 		enum connman_ipconfig_type type,
- 		bool active)
+ struct connman_service {
 -- 
 2.42.0
 
