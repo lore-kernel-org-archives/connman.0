@@ -1,24 +1,24 @@
 Received: from mohas.pair.com (mohas.pair.com [209.68.5.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B048B64A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80586B664
 	for <connman@lists.linux.dev>; Thu, 21 Dec 2023 06:17:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nuovations.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nuovations.com
 Received: from mohas.pair.com (localhost [127.0.0.1])
-	by mohas.pair.com (Postfix) with ESMTP id 879FC73200
+	by mohas.pair.com (Postfix) with ESMTP id E638F73202
 	for <connman@lists.linux.dev>; Thu, 21 Dec 2023 01:17:54 -0500 (EST)
 Received: from localhost.localdomain (unknown [IPv6:2601:647:5a00:15c1:f5ab:4a5e:2861:14b3])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mohas.pair.com (Postfix) with ESMTPSA id 49B3C7321E
+	by mohas.pair.com (Postfix) with ESMTPSA id A7D4073226
 	for <connman@lists.linux.dev>; Thu, 21 Dec 2023 01:17:54 -0500 (EST)
 From: Grant Erickson <gerickson@nuovations.com>
 To: connman@lists.linux.dev
-Subject: [PATCH 46/60] service: Add @sa documentation references.
-Date: Wed, 20 Dec 2023 22:17:09 -0800
-Message-ID: <20231221061734.2344286-47-gerickson@nuovations.com>
+Subject: [PATCH 47/60] service: Document the internals of 'service_compare'.
+Date: Wed, 20 Dec 2023 22:17:10 -0800
+Message-ID: <20231221061734.2344286-48-gerickson@nuovations.com>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20231221061734.2344286-1-gerickson@nuovations.com>
 References: <20231221061734.2344286-1-gerickson@nuovations.com>
@@ -31,45 +31,100 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: mailmunge 3.11 on 209.68.5.112
 
-This adds additional @sa ("see also") documentation references to the
-'handle_online_check_{failure,success}' and 'complete_online_check'
-functions.
+This documents the major internal comparison blocks of the
+'service_compare' function.
 ---
- src/service.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ src/service.c | 44 ++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 44 insertions(+)
 
 diff --git a/src/service.c b/src/service.c
-index 20cc5914a016..c376b559e915 100644
+index c376b559e915..b1fb6a3e532a 100644
 --- a/src/service.c
 +++ b/src/service.c
-@@ -3220,6 +3220,8 @@ static bool handle_continuous_online_check_success(
-  *    false.
-  *
-  *  @sa handle_online_check_failure
-+ *  @sa handle_oneshot_online_check_success
-+ *  @sa handle_continuous_online_check_success
-  *
-  */
- static bool handle_online_check_success(struct connman_service *service,
-@@ -3514,6 +3516,8 @@ static bool handle_continuous_online_check_failure(
-  *    false.
-  *
-  *  @sa handle_online_check_success
-+ *  @sa handle_oneshot_online_check_failure
-+ *  @sa handle_continuous_online_check_failure
-  *
-  */
- static bool handle_online_check_failure(struct connman_service *service,
-@@ -3615,6 +3619,9 @@ done:
-  *  @sa start_online_check
-  *  @sa start_online_check_if_connected
-  *  @sa __connman_service_wispr_start
-+ *  @sa handle_online_check_success
-+ *  @sa handle_online_check_failure
-+ *  @sa reschedule_online_check
-  *
-  */
- static void complete_online_check(struct connman_service *service,
+@@ -7972,8 +7972,21 @@ static gint service_compare(gconstpointer a, gconstpointer b)
+ 	a_connected = is_connected(state_a);
+ 	b_connected = is_connected(state_b);
+ 
++	/*
++	 * If both services are connected (that is, "ready" or "online"),
++	 * then further sort by whether the services are VPN type, then
++	 * service order if there is VPN equivalence, and then by their
++	 * preferred technology status.
++	 */
+ 	if (a_connected && b_connected) {
+ 		int rval;
++
++		/*
++		 * If at this point the services are still comparing as
++		 * equivalent, then use online check failure status, giving
++		 * priority to the service that has not met the failure
++		 * threshold.
++		 */
+ 		if (!online_check_failures_threshold_was_met(service_a) &&
+ 			online_check_failures_threshold_was_met(service_b)) {
+ 			return -1;
+@@ -8004,6 +8017,15 @@ static gint service_compare(gconstpointer a, gconstpointer b)
+ 			return rval;
+ 	}
+ 
++	/*
++	 * If at this point the services are still comparing as
++	 * equilvalent, then check whether their combined states are
++	 * different. If they are, then prefer the service that is
++	 * "online" to that which is only "ready", then prefer @a a being
++	 * connected versus @a b being connected, and, finally, then
++	 * prefer @a a being in the process of connecting to @a b being in
++	 * the process of connecting.
++	 */
+ 	if (state_a != state_b) {
+ 		if (a_connected && b_connected) {
+ 			/* We prefer online over ready state */
+@@ -8025,12 +8047,26 @@ static gint service_compare(gconstpointer a, gconstpointer b)
+ 			return 1;
+ 	}
+ 
++	/*
++	 * If at this point the services are still comparing as
++	 * equivalent, then use favorite status, giving priority to @a a
++	 * as a favorite versus @a b as a favorite.
++	 */
+ 	if (service_a->favorite && !service_b->favorite)
+ 		return -1;
+ 
+ 	if (!service_a->favorite && service_b->favorite)
+ 		return 1;
+ 
++	/*
++	 * If at this point the services are still comparing as
++	 * equivalent, then check whether their types are different. If
++	 * they are, then compare their types. First, against the
++	 * PreferredTechnologies priority list and then by an internal
++	 * prioritization favoring Ethernet over Wi-Fi, Wi-Fi over
++	 * Cellular, Cellular over Bluetooth, Bluetooth over VPN, and VPN
++	 * over Gadget (that is, USB Ethernet).
++	 */
+ 	if (service_a->type != service_b->type) {
+ 		int rval;
+ 
+@@ -8069,10 +8105,18 @@ static gint service_compare(gconstpointer a, gconstpointer b)
+ 			return 1;
+ 	}
+ 
++	/*
++	 * If at this point the services are still comparing as
++	 * equivalent, then check their strengths.
++	 */
+ 	strength = (gint) service_b->strength - (gint) service_a->strength;
+ 	if (strength)
+ 		return strength;
+ 
++	/*
++	 * Finally, if at this point the services are still comparing as
++	 * equivalent, then check their names.
++	 */
+ 	return g_strcmp0(service_a->name, service_b->name);
+ }
+ 
 -- 
 2.42.0
 
