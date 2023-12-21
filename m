@@ -1,24 +1,24 @@
 Received: from mohas.pair.com (mohas.pair.com [209.68.5.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05E79BA29
-	for <connman@lists.linux.dev>; Thu, 21 Dec 2023 06:17:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22FF8B678
+	for <connman@lists.linux.dev>; Thu, 21 Dec 2023 06:17:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nuovations.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nuovations.com
 Received: from mohas.pair.com (localhost [127.0.0.1])
-	by mohas.pair.com (Postfix) with ESMTP id 6E12B73206
-	for <connman@lists.linux.dev>; Thu, 21 Dec 2023 01:17:51 -0500 (EST)
+	by mohas.pair.com (Postfix) with ESMTP id 4D33773200
+	for <connman@lists.linux.dev>; Thu, 21 Dec 2023 01:17:48 -0500 (EST)
 Received: from localhost.localdomain (unknown [IPv6:2601:647:5a00:15c1:f5ab:4a5e:2861:14b3])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mohas.pair.com (Postfix) with ESMTPSA id 2FF7373227
-	for <connman@lists.linux.dev>; Thu, 21 Dec 2023 01:17:51 -0500 (EST)
+	by mohas.pair.com (Postfix) with ESMTPSA id 0EB7C73238
+	for <connman@lists.linux.dev>; Thu, 21 Dec 2023 01:17:47 -0500 (EST)
 From: Grant Erickson <gerickson@nuovations.com>
 To: connman@lists.linux.dev
-Subject: [PATCH 38/60] service: Document 'is_online_check_success_threshold_met_predicate'.
-Date: Wed, 20 Dec 2023 22:17:01 -0800
-Message-ID: <20231221061734.2344286-39-gerickson@nuovations.com>
+Subject: [PATCH 30/60] service: Document 'online_check_failures_threshold_was_met_{set,clear}'.
+Date: Wed, 20 Dec 2023 22:16:53 -0800
+Message-ID: <20231221061734.2344286-31-gerickson@nuovations.com>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20231221061734.2344286-1-gerickson@nuovations.com>
 References: <20231221061734.2344286-1-gerickson@nuovations.com>
@@ -32,48 +32,51 @@ Content-Transfer-Encoding: 8bit
 X-Scanned-By: mailmunge 3.11 on 209.68.5.112
 
 This adds documentation to the
-'is_online_check_success_threshold_met_predicate' function.
+'online_check_failures_threshold_was_met_{set,clear}' functions.
 ---
- src/service.c | 26 ++++++++++++++++++++++++++
- 1 file changed, 26 insertions(+)
+ src/service.c | 23 +++++++++++++++++++++++
+ 1 file changed, 23 insertions(+)
 
 diff --git a/src/service.c b/src/service.c
-index beb339b89256..6a9db3c98e56 100644
+index b41f29d73d60..6e34b4c8ef34 100644
 --- a/src/service.c
 +++ b/src/service.c
-@@ -2546,6 +2546,32 @@ static bool online_check_failures_threshold_is_met(
- 			is_online_check_failure_threshold_met_predicate);
+@@ -2215,12 +2215,35 @@ static void online_check_failures_threshold_was_met_set_value(
+ 	service->online_check_failures_met_threshold = value;
  }
  
 +/**
 + *  @brief
-+ *    Determine whether the service has met the online check success
-+ *    threshold.
++ *    Set (that is, assert) the online check failures threshold state.
 + *
-+ *  This predicate determines whether the online check success
-+ *  threshold has been met by the specified network service.
++ *  @param[in,out]  service  A pointer to the mutable service for which
++ *                           to set the failures threshold state.
 + *
-+ *  @param[in]  service                A pointer to the immutable
-+ *                                     network service for which to
-+ *                                     check whether its has met the
-+ *                                     online check success threshold.
-+ *  @param[in]  counter_description    A pointer to a null-terminated
-+ *                                     C string describing the success
-+ *                                     counter. For example,
-+ *                                     "success".
-+ *  @param[in]  counter_threshold      The threshold value to check the
-+ *                                     success counter against.
-+ *
-+ *  @returns
-+ *    True if the online check success counter has met the success
-+ *    threshold; otherwise, false.
-+ *
-+ *  @sa online_check_successes_threshold_is_met
++ *  @sa online_check_failures_threshold_was_met_set_value
++ *  @sa online_check_failures_threshold_was_met_clear
 + *
 + */
- static bool is_online_check_success_threshold_met_predicate(
- 			const struct connman_service *service,
- 			const char *counter_description,
+ static void online_check_failures_threshold_was_met_set(
+ 			struct connman_service *service)
+ {
+ 	online_check_failures_threshold_was_met_set_value(service, true);
+ }
+ 
++/**
++ *  @brief
++ *    Clear (that is, deassert) the online check failures threshold
++ *    state.
++ *
++ *  @param[in,out]  service  A pointer to the mutable service for which
++ *                           to clear the failures threshold state.
++ *
++ *  @sa online_check_failures_threshold_was_met_set_value
++ *  @sa online_check_failures_threshold_was_met_set
++ *
++ */
+ static void online_check_failures_threshold_was_met_clear(
+ 			struct connman_service *service)
+ {
 -- 
 2.42.0
 
