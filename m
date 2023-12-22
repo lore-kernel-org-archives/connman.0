@@ -1,103 +1,144 @@
-Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
+Received: from mail-io1-f54.google.com (mail-io1-f54.google.com [209.85.166.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD6B72E832
-	for <connman@lists.linux.dev>; Fri, 22 Dec 2023 20:13:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96AC32E83E
+	for <connman@lists.linux.dev>; Fri, 22 Dec 2023 20:21:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gI9GtHuq"
-Received: by mail-pg1-f175.google.com with SMTP id 41be03b00d2f7-5c6839373f8so1523652a12.0
-        for <connman@lists.linux.dev>; Fri, 22 Dec 2023 12:13:27 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ctGzzhCz"
+Received: by mail-io1-f54.google.com with SMTP id ca18e2360f4ac-7b7fb34265fso90829939f.3
+        for <connman@lists.linux.dev>; Fri, 22 Dec 2023 12:21:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1703276007; x=1703880807; darn=lists.linux.dev;
-        h=content-transfer-encoding:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=OkgMyz1adLEUNRFlbZ2EhyDbQXa/6USwAb6Mlfnz9H0=;
-        b=gI9GtHuqvWOnMJHSMc8VAWJs19Aj/FYrK64RyamdipPcwqXV1XUTnZC4yWhoxfjv3r
-         LMh6pBlMuVkEx2EE7efpsq9HwFsD7lDH2miFM2HWwrvPqo/H51pUyVoZ+uBz9NS5DWQV
-         wS9Y9qE6wwguMDsNIHmFeKnz/Ps25O8DYqKAlBqHnCqfCXF51Dp5afYrhSM5/0oCxOc+
-         9flGzkF/xZadSWqz9Y8PwkREizaq6JAWJgjgb1LGi3cY/IJhg0P2ZmXi4dE863xFtULq
-         r05Sor3d+PfeiBNdei/Wl76JUew7TEbDWErbxZTvVWW6CxQLQsJBWzuzk+cVhn+KsAcV
-         zHfQ==
+        d=gmail.com; s=20230601; t=1703276512; x=1703881312; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=nbBVzqYvA7fR+jqDXxKbjFE+HAtFqOgJj0gII/jWfEY=;
+        b=ctGzzhCzYuC7q704M3A8Cdi/0eS3OyIzif6l53yYHgTaDMKDTjUxSWsfycsMfljVao
+         IkKP1w8ofyw6iOMtDZ72tiEmk3ypVzAPNPAi3vWJ5CZUHdYBlePGSeeLtxp9RC77V9EM
+         Nr1IBeOyV3VuHHFULLBAUh5SQ8YJRqmNkqb/0ilJfzHH/I1+jeJ+UWhRtVSq+MoO+KK7
+         UKKDSjSr3NlPIwmDYltbtzyn9DJGdklWASaxVM3dNCBwvQMI/B06RjhAIJnc5Pfjl7oj
+         T77Si/OiH5+KfP+S8LwL+/g97I1wdeefJyzFYQGJjs7VNvCL4mINofLb3BkiTnboBe3j
+         NGpA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703276007; x=1703880807;
-        h=content-transfer-encoding:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=OkgMyz1adLEUNRFlbZ2EhyDbQXa/6USwAb6Mlfnz9H0=;
-        b=ivSEuQnO+oqwNzbfh4relPc8UeHBfHvic9H0pXOkP/9/AkTq5mnWQrzk5QzHpRcdMD
-         JoZkzaHWSl8eEuX07dbHdtb3dPY7Q2S4OoOBeE83WT4gvJPr7eeT8b48tH+yUbQbNzZ/
-         pZqJlK4BDnD349SUIYr8dgboM0jdEYYiCXPwBRwroqu4oD4ni/QaQFbN/RTpgpyvGSLW
-         QWPubKRieIl3q/lNHGu8U8swtxrx+ly8YAxXpvb2eYiSy3btK0qrYRBQoNEBzIZHQDZa
-         3B9rbsImkZiy3D0o7+Ss+nMo2megTByE/ZXoXejSrRkweupk/ERXB25WCPT90lrnptno
-         9dFQ==
-X-Gm-Message-State: AOJu0Yzi44a8CVEC15jii2X2BT3Pf+eSP9V3rkzOZVjTuCwnSkGcBKP0
-	cHWu/OEjC4lLLbq8Txk8p+pIiAn3wmfhwo6nqQddK7oH
-X-Google-Smtp-Source: AGHT+IFYPXTEtzc/MrKVc82Cb+SAkxkW6IgT/ezxijqsCf5vtbfT7a6h/Tn2HlnOuwMT2S1nhFlwCuAMsiU9VJ1GkoQ=
-X-Received: by 2002:a17:90a:ae11:b0:28b:6004:c29e with SMTP id
- t17-20020a17090aae1100b0028b6004c29emr3457485pjq.23.1703276006599; Fri, 22
- Dec 2023 12:13:26 -0800 (PST)
+        d=1e100.net; s=20230601; t=1703276512; x=1703881312;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=nbBVzqYvA7fR+jqDXxKbjFE+HAtFqOgJj0gII/jWfEY=;
+        b=lW8ljOgW2PFvR7r2zkyuCB426VsXu5LONCVXkaIdPPqYwQq3T62gGYGejZiBQ6L7wW
+         8K/zSxx09tOVCuJB5OuPzNBFx29sIWpGZ+Y6tzg18Uc9eQphyS9OnIYLc56uRFTFyUu0
+         J02IksyzfXUoXucVhqrAQx782C1TwRGUJ3ymgkOOmtdKx1Tn6qa+FphynoYuIu12ctde
+         G48/byKMtZW9VSlXUiK/qrAie7//Oo3xZuaU57mz1voCXBwW7weD4knDiXb47aKGYvzY
+         I+uiXeAQZUSekntpFOd+VbtlwEN7mpL10zap0QQhLmjwahOn8zdZ1m/6TmSb7Zo4UUsM
+         nc5Q==
+X-Gm-Message-State: AOJu0Yzax8enpE4lOx/8+uNmubH85uBgGtrSOWG/Hc+AnDWdzlr+8x2e
+	PvAYrirvuLpHfefjaR2WdO18RlTTLb0=
+X-Google-Smtp-Source: AGHT+IFWtDJJ+40stLe2XLeIza+joMih4UwiJDk1JykeAYpiYKX0nuzNAbZTz22wfG82cjf9b69ZSg==
+X-Received: by 2002:a05:6602:3f81:b0:7ba:a635:55cd with SMTP id fb1-20020a0566023f8100b007baa63555cdmr1463701iob.24.1703276512714;
+        Fri, 22 Dec 2023 12:21:52 -0800 (PST)
+Received: from [172.16.49.130] ([136.33.23.24])
+        by smtp.googlemail.com with ESMTPSA id n10-20020a05663831ca00b00469967ab901sm1215571jav.108.2023.12.22.12.21.52
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 22 Dec 2023 12:21:52 -0800 (PST)
+Message-ID: <3f26fcea-3b09-490b-bfae-85f41a728249@gmail.com>
+Date: Fri, 22 Dec 2023 14:21:51 -0600
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <CAG17S_PAwPF6BaL6SqLcZi7HxgGjho2oUOT1vHqbiqyA8LfJtg@mail.gmail.com>
-In-Reply-To: <CAG17S_PAwPF6BaL6SqLcZi7HxgGjho2oUOT1vHqbiqyA8LfJtg@mail.gmail.com>
-From: KeithG <ys3al35l@gmail.com>
-Date: Fri, 22 Dec 2023 14:13:15 -0600
-Message-ID: <CAG17S_MLsYxcvFpf3v4t578a6=0MuTUiNYj8SinzA5-DQr6jWw@mail.gmail.com>
-Subject: Re: cannot build release 1.42 on RPiOS
-To: connman@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] main: Use static global rather than 'General' string
+ literal.
+Content-Language: en-US
+To: Grant Erickson <gerickson@nuovations.com>
+Cc: connman@lists.linux.dev
+References: <20231221070523.2354507-1-gerickson@nuovations.com>
+ <e18f7683-5cf0-41bf-9a10-930d7a76b848@gmail.com>
+ <B6F60FC9-6B09-4258-BE67-2327604660BF@nuovations.com>
+From: Denis Kenzior <denkenz@gmail.com>
+In-Reply-To: <B6F60FC9-6B09-4258-BE67-2327604660BF@nuovations.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Fri, Dec 22, 2023 at 7:49=E2=80=AFAM KeithG <ys3al35l@gmail.com> wrote:
->
-> In the past,I have successfully built connman versions 1.38-41 from
-> source on numerous RPi based systems runnign arch and rpios. I tried
-> to build the latest, 1.42, and cannot get past this error:
->
-> scripts/libppp-plugin.c:37:10: fatal error: libppp-compat.h: No such
-> file or directory
->    37 | #include "libppp-compat.h"
->       |          ^~~~~~~~~~~~~~~~~
-> compilation terminated.
->
-> A search for a debian package with this file reveals nothing. What am
-> I missing here?
->
-> I have used this 'config' for a while w/o issue (I borrowed it from Arch =
-Linux):
->
->   ./configure --prefix=3D/usr --sysconfdir=3D/etc --localstatedir=3D/var =
-\
->       --runstatedir=3D'/run' \
->       --enable-iwd \
->       --enable-l2tp \
->       --enable-openconnect \
->       --enable-openvpn \
->       --enable-pie \
->       --enable-polkit \
->       --enable-pptp \
->       --enable-selinux \
->       --enable-threads \
->       --with-openconnect=3D/usr/sbin/openconnect \
->       --with-openvpn=3D/usr/sbin/openvpn \
->       --with-systemdunitdir=3D/lib/systemd/system \
->       --with-tmpfilesdir=3D/usr/lib/tmpfiles.d
->
-> Any help appreciated.
->
-> Keith
+Hi Grant,
 
-Problem solved. Someone noted this previously that it was in the wrong
-place in the tar file. I am guessing that between 1.42 and Head there
-is a patch to fix it b/c I was able to build connman-git to the
-current Head with the config as above. I tested it and it seems to run
-w/o issue on arm64 on a RPi.
+>>   Since this is something that makes sense to make into the accepted (and encouraged) pattern, would it make sense to document this in doc/coding-style.txt and avoid replicating this verbiage across the project?
+> 
+> I think so. I’d probably phrase something to the effect of:
+> 
+>      If there are no preprocessor requirements (such as concatenation), string constants should be declared at the narrowest
+>      possible scope as declared as 'const char *const' to effect an immutable pointer to an immutable null-terminated character
+>      string such that it ends up in .text, not .data (which would otherwise be the case for a 'const char *’ declaration).
+> 
+>      Unless the scope is cross-module, they should also be declared with the ‘static' storage/scope qualifier such that the
+>      compiler can locally optimize its use within the scope as it sees fit.
+> 
+>      If there are preprocessor requirements (such as concatenation), string constants should be declared as preprocessor
+>      definitions.
+> 
 
-Keith
+Yeah, that sounds reasonable to me.  I think this change should be added to 
+connman/ell/iwd/ofono
+
+>>> +static const char *const general_group_name = "General";
+>>
+>> Given doc/coding-style.txt, item M3, should this be 'static const char * const'?
+> 
+> Unfortunately, checkpatch.pl would be in conflict with M3 and insists they be declared as I did.
+> 
+
+Hmm, that seems counter to what the linux kernel seems to prefer by a 8x margin:
+
+[denkenz@archdev linux]$ grep -R 'const char \*const' * | wc -l
+1595
+[denkenz@archdev linux]$ grep -R 'const char \* const' * | wc -l
+13650
+
+> I run checkpatch.pl as:
+> 
+>      checkpatch.pl --max-line-length=80 --no-signoff --no-tree --ignore SPLIT_STRING,INITIALISED_STATIC
+
+Which version of checkpatch are you running?  I see no warning when I run latest 
+linux git version against such a diff:
+
+diff --git a/src/main.c b/src/main.c
+index 3ce8340fc90b..c41668a6de35 100644
+--- a/src/main.c
++++ b/src/main.c
+@@ -54,6 +54,8 @@
+
+  #include "src/backtrace.h"
+
++static const char * const foobar = "sdf2434";
++
+
+> 
+> since that seems to embody most of the style deviations I see in connman relative to what checkpatch.pl expects by default for the kernel. Ideally, there’d be a local wrapper in the project for checkpatch that specifies the desired options that reflect the project’s preferred style. As I’ve mentioned previously, in the future, I’d like to see a script in the project that uses clang-format to both verify and enforce project syntactic style.
+
+Yes, agreed.  I was hoping to play with CI over the holidays.
+
+> 
+>> Also, since you're using this somewhat like a #defined constant, should this be capitalized for clarity?
+> 
+> Personally, I like to reserve all capitalized symbol names for the preprocessor as a convention.
+
+Okay, no strong feeling here.  Linux coding style doesn't really say much except:
+"Names of macros defining constants and labels in enums are capitalized."
+
+Having constants capitalized is a pretty general pattern though, and in ConnMan 
+as well.  For example, gdchp/common.h:
+
+static const uint8_t MAC_BCAST_ADDR[ETH_ALEN] __attribute__((aligned(2))) = {
+
+static const uint8_t MAC_ANY_ADDR[ETH_ALEN] __attribute__((aligned(2))) = {
+
+iwd did something pretty similar to what you're doing in this patch and 
+approached it this way:
+https://git.kernel.org/pub/scm/network/wireless/iwd.git/tree/src/knownnetworks.c#n69
+
+Regards,
+-Denis
