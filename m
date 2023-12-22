@@ -1,86 +1,119 @@
-Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fgw20-7.mail.saunalahti.fi (fgw20-7.mail.saunalahti.fi [62.142.5.81])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6ED801D53B
-	for <connman@lists.linux.dev>; Fri, 22 Dec 2023 13:49:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LW15/JuF"
-Received: by mail-pg1-f175.google.com with SMTP id 41be03b00d2f7-5cd51c0e8ebso1046533a12.3
-        for <connman@lists.linux.dev>; Fri, 22 Dec 2023 05:49:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1703252979; x=1703857779; darn=lists.linux.dev;
-        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=BRnboN6uaVXz3cH3ChHYLZiWLsWj+o5rEqFcor8qFBk=;
-        b=LW15/JuFjVNbboMTIACo4gzi8ZaNMPFZI03se/AubpjQiGtJjZ8FhU9YFDL3MOoPmH
-         int/6EJEmHzIO5C7lDrjZAHJX7sFaoZGYh2z4/5kGbNpg1xzHcTAYe626tT6SAJ0w+Lf
-         j6/7PLL6UkhzOnZHdq5d4F3ARxhQl+MRbvss+cLXry3k/7g9t/dE859iflgsS6KGkodH
-         0zoHXZUKVfQc2sMbU8FcnhY2tFtfl4Dfs+W9x7o7piwWPGuReo38v6D9UooVDxfIN7HR
-         Y1S+UuwxdiPoPzXgp2YYWuWvcCnpmsDUIDTHGbSFP4Npmd8ect/b3fOqc95YagGsZtDX
-         WuUA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703252979; x=1703857779;
-        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=BRnboN6uaVXz3cH3ChHYLZiWLsWj+o5rEqFcor8qFBk=;
-        b=jb/T9su5Eeqk/CV052HmvpI5NfskcYJRR8RDTbAKga6X+SJrZlBpy7AxtToRG9iemr
-         gYVui3tQ3qixDa8MHx+1LJp5U0MkAH5XYSrIVtdiJ8vUmthR0n1UFIyYFJKAwDrMK+Pa
-         yNqlGB7v6TrtB5HMy80jJAyCbuHcTQ+LcRncBxMNUzX64DMtoXDjeZoZEZRYUIgD22Em
-         12gYRbmQyXXmyX4x1gFbWy+XT1nAivgMYpnuvyqxLB1SUgVwNPcIx7BvTkrq6P8sFuBW
-         StdoNXVY4kACZgKmTul3HDlSz8793TwPe2Td3oY98jP7QxaoJbPFvAYr14KMqmExtXZ4
-         JY+A==
-X-Gm-Message-State: AOJu0YzU0CRyeBreKxBsQpKZETWxKRrUp9ARPxGTHf/BLWOlh630MBik
-	bNsiMLygO+51X+pFyPfNi8bW29ba4EfPULJSqUSrvwO47dc=
-X-Google-Smtp-Source: AGHT+IF+U6XHzyCDX0ljKX6pTpS0zBCvGB0UVUd7KAjXTGRMJqAx76HY16yZAz9WxmssPcNp22QkRyERubPUOlqprMk=
-X-Received: by 2002:a05:6a20:6d13:b0:18c:5c04:a548 with SMTP id
- fv19-20020a056a206d1300b0018c5c04a548mr899187pzb.28.1703252979309; Fri, 22
- Dec 2023 05:49:39 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BD0523753
+	for <connman@lists.linux.dev>; Fri, 22 Dec 2023 15:47:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=jolla.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=jolla.com
+Received: from localhost.localdomain (88-113-60-79.elisa-laajakaista.fi [88.113.60.79])
+	by fgw20.mail.saunalahti.fi (Halon) with ESMTP
+	id 50b914ca-a0e1-11ee-b3cf-005056bd6ce9;
+	Fri, 22 Dec 2023 17:46:47 +0200 (EET)
+From: Jussi Laakkonen <jussi.laakkonen@jolla.com>
+To: connman@lists.linux.dev
+Subject: [PATCH 1/3] technology: Add global regdom and regdom getter
+Date: Fri, 22 Dec 2023 17:46:43 +0200
+Message-Id: <20231222154645.278128-2-jussi.laakkonen@jolla.com>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20231222154645.278128-1-jussi.laakkonen@jolla.com>
+References: <20231222154645.278128-1-jussi.laakkonen@jolla.com>
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-From: KeithG <ys3al35l@gmail.com>
-Date: Fri, 22 Dec 2023 07:49:28 -0600
-Message-ID: <CAG17S_PAwPF6BaL6SqLcZi7HxgGjho2oUOT1vHqbiqyA8LfJtg@mail.gmail.com>
-Subject: cannot build release 1.42 on RPiOS
-To: connman@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-In the past,I have successfully built connman versions 1.38-41 from
-source on numerous RPi based systems runnign arch and rpios. I tried
-to build the latest, 1.42, and cannot get past this error:
+Add a global regdom to be saved when setting technology regdom because
+the technologies are not loaded yet at bootup. Loading of plugins
+initializes technologies which then sets up the regdom if it has been set
+up earlier by timezone.c. The getter prioritizes the technology regdom
+and then the global regdom and is to be used by devices when powering
+up.
+---
+ src/connman.h    |  1 +
+ src/technology.c | 27 +++++++++++++++++++++++++++
+ 2 files changed, 28 insertions(+)
 
-scripts/libppp-plugin.c:37:10: fatal error: libppp-compat.h: No such
-file or directory
-   37 | #include "libppp-compat.h"
-      |          ^~~~~~~~~~~~~~~~~
-compilation terminated.
+diff --git a/src/connman.h b/src/connman.h
+index 622a7785..34e1463e 100644
+--- a/src/connman.h
++++ b/src/connman.h
+@@ -595,6 +595,7 @@ void __connman_technology_remove_interface(enum connman_service_type type,
+ 				int index, const char *ident);
+ void __connman_technology_notify_regdom_by_device(struct connman_device *device,
+ 						int result, const char *alpha2);
++const char *__connman_technology_get_regdom(enum connman_service_type type);
+ 
+ #include <connman/device.h>
+ 
+diff --git a/src/technology.c b/src/technology.c
+index 5c469111..65fb9854 100644
+--- a/src/technology.c
++++ b/src/technology.c
+@@ -43,6 +43,8 @@ static GHashTable *rfkill_list;
+ 
+ static bool global_offlinemode;
+ 
++static char *global_regdom = NULL;
++
+ struct connman_rfkill {
+ 	unsigned int index;
+ 	enum connman_service_type type;
+@@ -333,8 +335,14 @@ int connman_technology_set_regdom(const char *alpha2)
+ 					driver->set_regdom(technology, alpha2);
+ 			}
+ 		}
++
++		/* Save regdom for this technology */
++		connman_technology_regdom_notify(technology, alpha2);
+ 	}
+ 
++	g_free(global_regdom);
++	global_regdom = g_strdup(alpha2);
++
+ 	return 0;
+ }
+ 
+@@ -354,6 +362,22 @@ static struct connman_technology *technology_find(enum connman_service_type type
+ 	return NULL;
+ }
+ 
++const char *__connman_technology_get_regdom(enum connman_service_type type)
++{
++	struct connman_technology *technology;
++
++	DBG("type %d/%s", type, get_name(type));
++
++	technology = technology_find(type);
++	if (!technology)
++		return NULL;
++
++	if (technology->regdom)
++		return technology->regdom;
++
++	return global_regdom;
++}
++
+ enum connman_service_type connman_technology_get_type
+ 				(struct connman_technology *technology)
+ {
+@@ -1283,6 +1307,7 @@ static struct connman_technology *technology_get(enum connman_service_type type)
+ 	technology_load(technology);
+ 	technology_list = g_slist_prepend(technology_list, technology);
+ 	technology->driver_list = tech_drivers;
++	technology->regdom = g_strdup(global_regdom);
+ 
+ 	for (list = tech_drivers; list; list = list->next) {
+ 		driver = list->data;
+@@ -1905,4 +1930,6 @@ void __connman_technology_cleanup(void)
+ 	g_hash_table_destroy(rfkill_list);
+ 
+ 	dbus_connection_unref(connection);
++
++	g_free(global_regdom);
+ }
+-- 
+2.30.2
 
-A search for a debian package with this file reveals nothing. What am
-I missing here?
-
-I have used this 'config' for a while w/o issue (I borrowed it from Arch Linux):
-
-  ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var \
-      --runstatedir='/run' \
-      --enable-iwd \
-      --enable-l2tp \
-      --enable-openconnect \
-      --enable-openvpn \
-      --enable-pie \
-      --enable-polkit \
-      --enable-pptp \
-      --enable-selinux \
-      --enable-threads \
-      --with-openconnect=/usr/sbin/openconnect \
-      --with-openvpn=/usr/sbin/openvpn \
-      --with-systemdunitdir=/lib/systemd/system \
-      --with-tmpfilesdir=/usr/lib/tmpfiles.d
-
-Any help appreciated.
-
-Keith
