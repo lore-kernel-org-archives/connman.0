@@ -1,18 +1,18 @@
 Received: from mohas.pair.com (mohas.pair.com [209.68.5.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 485C5BA30
-	for <connman@lists.linux.dev>; Fri, 22 Dec 2023 18:31:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E60272C1A0
+	for <connman@lists.linux.dev>; Fri, 22 Dec 2023 18:48:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nuovations.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nuovations.com
 Received: from mohas.pair.com (localhost [127.0.0.1])
-	by mohas.pair.com (Postfix) with ESMTP id 19A7473106;
-	Fri, 22 Dec 2023 13:31:17 -0500 (EST)
+	by mohas.pair.com (Postfix) with ESMTP id BDF81730F3;
+	Fri, 22 Dec 2023 13:48:01 -0500 (EST)
 Received: from [IPv6:2601:647:5a00:15c1:5920:dc28:e386:f138] (unknown [IPv6:2601:647:5a00:15c1:5920:dc28:e386:f138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mohas.pair.com (Postfix) with ESMTPSA id CE5EE7312C;
-	Fri, 22 Dec 2023 13:31:16 -0500 (EST)
+	by mohas.pair.com (Postfix) with ESMTPSA id 7C86973100;
+	Fri, 22 Dec 2023 13:48:01 -0500 (EST)
 Content-Type: text/plain;
 	charset=utf-8
 Precedence: bulk
@@ -21,51 +21,84 @@ List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 Mime-Version: 1.0 (Mac OS X Mail 13.4 \(3608.120.23.2.4\))
-Subject: Re: [PATCH 1/2] service: Make log output of
- 'online_check_is_enabled_check' consistent.
+Subject: Re: [PATCH] main: Use static global rather than 'General' string
+ literal.
 From: Grant Erickson <gerickson@nuovations.com>
-In-Reply-To: <22f2e328-ee23-4086-bc78-d2ce6c52303c@gmail.com>
-Date: Fri, 22 Dec 2023 10:31:15 -0800
+In-Reply-To: <e18f7683-5cf0-41bf-9a10-930d7a76b848@gmail.com>
+Date: Fri, 22 Dec 2023 10:48:00 -0800
 Cc: connman@lists.linux.dev
 Content-Transfer-Encoding: quoted-printable
-Message-Id: <66532F49-1D68-4333-8F50-9EDE845E7AA4@nuovations.com>
-References: <20231221073307.2361429-1-gerickson@nuovations.com>
- <20231221073307.2361429-2-gerickson@nuovations.com>
- <22f2e328-ee23-4086-bc78-d2ce6c52303c@gmail.com>
+Message-Id: <B6F60FC9-6B09-4258-BE67-2327604660BF@nuovations.com>
+References: <20231221070523.2354507-1-gerickson@nuovations.com>
+ <e18f7683-5cf0-41bf-9a10-930d7a76b848@gmail.com>
 To: Denis Kenzior <denkenz@gmail.com>
 X-Mailer: Apple Mail (2.3608.120.23.2.4)
 X-Scanned-By: mailmunge 3.11 on 209.68.5.112
 
-On Dec 22, 2023, at 10:23 AM, Denis Kenzior <denkenz@gmail.com> wrote:
->> @@ -2195,9 +2195,17 @@ static void cancel_online_check(struct =
-connman_service *service,
->>  static bool online_check_is_enabled_check(
->>  		const struct connman_service *service)
->>  {
->> +	g_autofree char *interface =3D NULL;
->> +
->>  	if (!__connman_service_is_online_check_enabled()) {
->> -		connman_info("Online check disabled. "
->> -			"Default service remains in READY state.");
->> +		interface =3D connman_service_get_interface(service);
->> +
->> +		connman_info("Online check disabled; "
->> +			"interface %s [ %s ] remains in %s state.",
->> +			interface,
->> +			__connman_service_type2string(service->type),
->> +			state2string(CONNMAN_SERVICE_STATE_READY));
->> +
+On Dec 22, 2023, at 10:18 AM, Denis Kenzior <denkenz@gmail.com> wrote:
+>>  +/*
+>> + * This is declared as 'const char *const' to effect an immutable
+>> + * pointer to an immutable null-terminated character string such =
+that
+>> + * it ends up in .text, not .data (which would otherwise be the case
+>> + * for a 'const char *' declaration), and with the 'static'
+>> + * storage/scope qualifier, the compiler can optimize its use within
+>> + * this file as it sees fit.
+>> + */
 >=20
-> Does it make sense to add a specific method for such informational =
-prints that will enforce the desired formatting pattern instead of =
-relying on human intervention?
+> I think you already had a similar comment in src/gateway.c.
 
-Denis,
+Confirmed; I had added that per Marcel=E2=80=99s feedback.
 
-It=E2=80=99s a great point and one I=E2=80=99d considered. The scope of =
-my changes seemed to small / narrow at that / this juncture. As we =
-review logging across modules and the project at large and there=E2=80=99s=
- an emergent pattern, I=E2=80=99m all for such a function / method.
+>  Since this is something that makes sense to make into the accepted =
+(and encouraged) pattern, would it make sense to document this in =
+doc/coding-style.txt and avoid replicating this verbiage across the =
+project?
+
+I think so. I=E2=80=99d probably phrase something to the effect of:
+
+    If there are no preprocessor requirements (such as concatenation), =
+string constants should be declared at the narrowest
+    possible scope as declared as 'const char *const' to effect an =
+immutable pointer to an immutable null-terminated character
+    string such that it ends up in .text, not .data (which would =
+otherwise be the case for a 'const char *=E2=80=99 declaration).
+
+    Unless the scope is cross-module, they should also be declared with =
+the =E2=80=98static' storage/scope qualifier such that the
+    compiler can locally optimize its use within the scope as it sees =
+fit.
+
+    If there are preprocessor requirements (such as concatenation), =
+string constants should be declared as preprocessor
+    definitions.
+
+>> +static const char *const general_group_name =3D "General";
+>=20
+> Given doc/coding-style.txt, item M3, should this be 'static const char =
+* const'?
+
+Unfortunately, checkpatch.pl would be in conflict with M3 and insists =
+they be declared as I did.
+
+I run checkpatch.pl as:
+
+    checkpatch.pl --max-line-length=3D80 --no-signoff --no-tree --ignore =
+SPLIT_STRING,INITIALISED_STATIC
+
+since that seems to embody most of the style deviations I see in connman =
+relative to what checkpatch.pl expects by default for the kernel. =
+Ideally, there=E2=80=99d be a local wrapper in the project for =
+checkpatch that specifies the desired options that reflect the =
+project=E2=80=99s preferred style. As I=E2=80=99ve mentioned previously, =
+in the future, I=E2=80=99d like to see a script in the project that uses =
+clang-format to both verify and enforce project syntactic style.
+
+> Also, since you're using this somewhat like a #defined constant, =
+should this be capitalized for clarity?
+
+Personally, I like to reserve all capitalized symbol names for the =
+preprocessor as a convention.
 
 Best,
 
