@@ -1,58 +1,63 @@
-Received: from mohas.pair.com (mohas.pair.com [209.68.5.112])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBCE11EB31
-	for <connman@lists.linux.dev>; Fri, 22 Dec 2023 22:47:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nuovations.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nuovations.com
-Received: from mohas.pair.com (localhost [127.0.0.1])
-	by mohas.pair.com (Postfix) with ESMTP id 83EBF73106
-	for <connman@lists.linux.dev>; Fri, 22 Dec 2023 17:47:13 -0500 (EST)
-Received: from localhost.localdomain (unknown [IPv6:2601:647:5a00:15c1:601e:89f:ea32:6713])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mohas.pair.com (Postfix) with ESMTPSA id 451FA73144
-	for <connman@lists.linux.dev>; Fri, 22 Dec 2023 17:47:13 -0500 (EST)
-From: Grant Erickson <gerickson@nuovations.com>
-To: connman@lists.linux.dev
-Subject: [PATCH] doc: Correct 'OnlineCheck{Initial,Max}Interval' units.
-Date: Fri, 22 Dec 2023 14:47:11 -0800
-Message-ID: <20231222224711.2371812-1-gerickson@nuovations.com>
-X-Mailer: git-send-email 2.42.0
+Received: from mail.holtmann.org (coyote.holtmann.net [212.227.132.17])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B8649D505
+	for <connman@lists.linux.dev>; Sat, 23 Dec 2023 12:20:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=holtmann.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=holtmann.org
+Received: from smtpclient.apple (p5b3d29b7.dip0.t-ipconnect.de [91.61.41.183])
+	by mail.holtmann.org (Postfix) with ESMTPSA id 66235CECD8;
+	Sat, 23 Dec 2023 13:20:31 +0100 (CET)
+Content-Type: text/plain;
+	charset=us-ascii
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: mailmunge 3.11 on 209.68.5.112
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3774.300.61.1.2\))
+Subject: Re: [PATCH] service: Qualify call to '__connman_timeserver_sync' with
+ default check.
+From: Marcel Holtmann <marcel@holtmann.org>
+In-Reply-To: <20231220012437.2259325-1-gerickson@nuovations.com>
+Date: Sat, 23 Dec 2023 13:20:20 +0100
+Cc: connman@lists.linux.dev
+Content-Transfer-Encoding: 7bit
+Message-Id: <B3B1E61A-267E-4A6F-BF3A-AD5A63B86A4E@holtmann.org>
+References: <20231220012437.2259325-1-gerickson@nuovations.com>
+To: Grant Erickson <gerickson@nuovations.com>
+X-Mailer: Apple Mail (2.3774.300.61.1.2)
 
-This corrects the 'OnlineCheck{Initial,Max}Interval' units from 'secs'
-to 'interval'.
+Hi Grant,
 
-Ultimately, in conjunction with a function associated with
-'OnlineCheckIntervalStyle', 'OnlineCheck{Initial,Max}Interval' can be
-translated into seconds; however, the values themselves are simply
-unitless interval indices.
----
- doc/connman.conf.5.in | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> This qualifies the call to '__connman_timeserver_sync' in
+> '__connman_service_ipconfig_indicate_state' with a check against
+> 'connman_service_is_default'.
+> 
+> In a multi-technology and -service environment, there may be a senior,
+> default service that is providing the network service for time-of-day
+> synchronization.
+> 
+> Without the 'connman_service_is_default' qualification, in a
+> multi-technology and -service environment, as junior services
+> transitions to the 'ready' state, each of those service usurp the
+> senior, default service and start trying to provide time-of-day
+> synchronization which is NOT what is desired.
+> 
+> So, in a configuration with Ethernet, Wi-Fi, and Cellular in which
+> they are preferred in that order and in which Ethernet is the default
+> and becomes 'ready' first, Ethernet will provide the network service
+> for time-of-day synchronization. Then, once Wi-Fi becomes 'ready', it
+> will usurp time-of-day synchronization from Ethernet. Similarly, when
+> Cellular becomes 'ready' it will usurp time-of-day synchronization
+> from Wi-Fi. In all of those cases, time-of-day synchronization should
+> have remained with Ethernet until such time as it was/is no longer the
+> senior, default service.
+> ---
+> src/service.c | 21 +++++++++++++++++++--
+> 1 file changed, 19 insertions(+), 2 deletions(-)
 
-diff --git a/doc/connman.conf.5.in b/doc/connman.conf.5.in
-index 966c20709724..1f323980948c 100644
---- a/doc/connman.conf.5.in
-+++ b/doc/connman.conf.5.in
-@@ -225,7 +225,7 @@ default value is zero ('0') which indicates that no explicit
- connection timeout will be used, leaving the timeout to the underlying
- operating system and network stack.
- .TP
--.BI OnlineCheckInitialInterval= secs, OnlineCheckMaxInterval= secs
-+.BI OnlineCheckInitialInterval= interval, OnlineCheckMaxInterval= interval
- Range of intervals between two online check requests.
- Please refer to the README for more detailed information.
- Default values are 1 and 12 respectively.
--- 
-2.42.0
+patch has been applied.
+
+Regards
+
+Marcel
 
