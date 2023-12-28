@@ -1,86 +1,370 @@
-Received: from mail.holtmann.org (coyote.holtmann.net [212.227.132.17])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6FA2B63B1
-	for <connman@lists.linux.dev>; Thu, 28 Dec 2023 09:54:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=holtmann.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=holtmann.org
-Received: from smtpclient.apple (p5b3d275b.dip0.t-ipconnect.de [91.61.39.91])
-	by mail.holtmann.org (Postfix) with ESMTPSA id 069EFCECC3;
-	Thu, 28 Dec 2023 10:54:45 +0100 (CET)
-Content-Type: text/plain;
-	charset=utf-8
+Received: from mohas.pair.com (mohas.pair.com [209.68.5.112])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9AE5F4EC
+	for <connman@lists.linux.dev>; Thu, 28 Dec 2023 16:38:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nuovations.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nuovations.com
+Received: from mohas.pair.com (localhost [127.0.0.1])
+	by mohas.pair.com (Postfix) with ESMTP id 84B3073150
+	for <connman@lists.linux.dev>; Thu, 28 Dec 2023 11:38:35 -0500 (EST)
+Received: from localhost.localdomain (unknown [IPv6:2601:647:5a00:15c1:edec:a4a0:9136:62c6])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mohas.pair.com (Postfix) with ESMTPSA id 3F0D0731A8
+	for <connman@lists.linux.dev>; Thu, 28 Dec 2023 11:38:35 -0500 (EST)
+From: Grant Erickson <gerickson@nuovations.com>
+To: connman@lists.linux.dev
+Subject: [PATCH v2] main: Use preprocessor definition rather than 'General' string literal.
+Date: Thu, 28 Dec 2023 08:38:33 -0800
+Message-ID: <20231228163833.3909969-1-gerickson@nuovations.com>
+X-Mailer: git-send-email 2.42.0
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3774.300.61.1.2\))
-Subject: Re: [PATCH] main: Use static global rather than 'General' string
- literal.
-From: Marcel Holtmann <marcel@holtmann.org>
-In-Reply-To: <03CF0B0A-0AAF-4DE1-896B-32251D778A36@nuovations.com>
-Date: Thu, 28 Dec 2023 10:54:34 +0100
-Cc: connman@lists.linux.dev
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <52A513BB-2667-45D6-B644-4C4F614AD98A@holtmann.org>
-References: <20231223185801.2389526-1-gerickson@nuovations.com>
- <962F7450-B2D2-476D-B0D6-90751F7A8649@holtmann.org>
- <03CF0B0A-0AAF-4DE1-896B-32251D778A36@nuovations.com>
-To: Grant Erickson <gerickson@nuovations.com>
-X-Mailer: Apple Mail (2.3774.300.61.1.2)
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: mailmunge 3.11 on 209.68.5.112
 
-Hi Grant,
+This converts a potential run time error due to a mis-spelling of the
+"General" configuration group name repeatedly used as a string literal
+into a potential compile time error due to a mis-spelling of the
+preprocessor definition that now references it.
 
->>> This converts a potential run time error due to a mis-spelling of =
-the
->>> "General" configuration group name repeatedly used a string literal
->>> into a potential compile time error due to a mis-spelling of the
->>> static global that now references it once and only once.
->>> ---
->>> src/main.c | 85 =
-+++++++++++++++++++++++++++++++-----------------------
->>> 1 file changed, 49 insertions(+), 36 deletions(-)
->>=20
->> wouldn=E2=80=99t be
->>=20
->> #define GENERAL_GROUP =E2=80=9CGeneral=E2=80=9D
->>=20
->> or
->>=20
->> #define GROUP_GENERAL =E2=80=9CGeneral=E2=80=9D
->>=20
->> be actually more consistent with the other constants we use here.
->=20
-> There are definitely an appreciable number of existing preprocessor =
-definitions in this file. So, with that in mind, a preprocessor =
-definition would be stylistically more consistent.
->=20
->> I do like the all upper-case to indicate a constant here (and =
-scrapping
->> the =E2=80=9Cname=E2=80=9D portion).
->>=20
->> Otherwise, yes, it is stupid from us to keep using =E2=80=9CGeneral=E2=80=
-=9D in all
->> places :(
->=20
-> At -O2 optimization, all three approaches are neutral from a =
-code-generation perspective. So, the question comes down to one of =
-style:
->=20
->   text   data    bss    dec    hex filename
->   9817    756    264  10837   2a55 connmand-main.o // "General" string =
-literals
->   9817    756    264  10837   2a55 connmand-main.o // "General" static =
-const char * const global
->   9817    756    264  10837   2a55 connmand-main.o // "General" =
-preprocessor macro
->=20
-> I=E2=80=99d be happy to re-submit a v2 patch with the preprocessor =
-definition.
+There is no change in code size to .bss, .data, or .text due to
+this change.
+---
+ src/main.c | 75 ++++++++++++++++++++++++++++--------------------------
+ 1 file changed, 39 insertions(+), 36 deletions(-)
 
-then lets use the preprocessor macro. We defiantly have used that more
-than the global string.
-
-Regards
-
-Marcel
+diff --git a/src/main.c b/src/main.c
+index 241c713d7980..f5da979b0366 100644
+--- a/src/main.c
++++ b/src/main.c
+@@ -69,6 +69,8 @@
+ #define MAINFILE "main.conf"
+ #define CONFIGMAINFILE CONFIGDIR "/" MAINFILE
+ 
++#define GENERAL_GROUP "General"
++
+ static char *default_auto_connect[] = {
+ 	"wifi",
+ 	"ethernet",
+@@ -321,14 +323,14 @@ static void check_config(GKeyFile *config)
+ 	keys = g_key_file_get_groups(config, NULL);
+ 
+ 	for (j = 0; keys && keys[j]; j++) {
+-		if (g_strcmp0(keys[j], "General") != 0)
++		if (g_strcmp0(keys[j], GENERAL_GROUP) != 0)
+ 			connman_warn("Unknown group %s in %s",
+ 						keys[j], MAINFILE);
+ 	}
+ 
+ 	g_strfreev(keys);
+ 
+-	keys = g_key_file_get_keys(config, "General", NULL, NULL);
++	keys = g_key_file_get_keys(config, GENERAL_GROUP, NULL, NULL);
+ 
+ 	for (j = 0; keys && keys[j]; j++) {
+ 		bool found;
+@@ -450,21 +452,21 @@ static void parse_config(GKeyFile *config)
+ 
+ 	DBG("parsing %s", MAINFILE);
+ 
+-	boolean = g_key_file_get_boolean(config, "General",
++	boolean = g_key_file_get_boolean(config, GENERAL_GROUP,
+ 						CONF_BG_SCAN, &error);
+ 	if (!error)
+ 		connman_settings.bg_scan = boolean;
+ 
+ 	g_clear_error(&error);
+ 
+-	timeservers = __connman_config_get_string_list(config, "General",
++	timeservers = __connman_config_get_string_list(config, GENERAL_GROUP,
+ 					CONF_PREF_TIMESERVERS, NULL, &error);
+ 	if (!error)
+ 		connman_settings.pref_timeservers = timeservers;
+ 
+ 	g_clear_error(&error);
+ 
+-	str_list = __connman_config_get_string_list(config, "General",
++	str_list = __connman_config_get_string_list(config, GENERAL_GROUP,
+ 			CONF_AUTO_CONNECT_TECHS, &len, &error);
+ 
+ 	if (!error)
+@@ -478,7 +480,7 @@ static void parse_config(GKeyFile *config)
+ 
+ 	g_clear_error(&error);
+ 
+-	str_list = __connman_config_get_string_list(config, "General",
++	str_list = __connman_config_get_string_list(config, GENERAL_GROUP,
+ 			CONF_FAVORITE_TECHS, &len, &error);
+ 
+ 	if (!error)
+@@ -492,7 +494,7 @@ static void parse_config(GKeyFile *config)
+ 
+ 	g_clear_error(&error);
+ 
+-	str_list = __connman_config_get_string_list(config, "General",
++	str_list = __connman_config_get_string_list(config, GENERAL_GROUP,
+ 			CONF_PREFERRED_TECHS, &len, &error);
+ 
+ 	if (!error)
+@@ -503,7 +505,7 @@ static void parse_config(GKeyFile *config)
+ 
+ 	g_clear_error(&error);
+ 
+-	str_list = __connman_config_get_string_list(config, "General",
++	str_list = __connman_config_get_string_list(config, GENERAL_GROUP,
+ 			CONF_ALWAYS_CONNECTED_TECHS, &len, &error);
+ 
+ 	if (!error)
+@@ -514,7 +516,7 @@ static void parse_config(GKeyFile *config)
+ 
+ 	g_clear_error(&error);
+ 
+-	str_list = __connman_config_get_string_list(config, "General",
++	str_list = __connman_config_get_string_list(config, GENERAL_GROUP,
+ 			CONF_FALLBACK_NAMESERVERS, &len, &error);
+ 
+ 	if (!error)
+@@ -525,21 +527,21 @@ static void parse_config(GKeyFile *config)
+ 
+ 	g_clear_error(&error);
+ 
+-	integer = g_key_file_get_integer(config, "General",
++	integer = g_key_file_get_integer(config, GENERAL_GROUP,
+ 			CONF_TIMEOUT_INPUTREQ, &error);
+ 	if (!error && integer >= 0)
+ 		connman_settings.timeout_inputreq = integer * 1000;
+ 
+ 	g_clear_error(&error);
+ 
+-	integer = g_key_file_get_integer(config, "General",
++	integer = g_key_file_get_integer(config, GENERAL_GROUP,
+ 			CONF_TIMEOUT_BROWSERLAUNCH, &error);
+ 	if (!error && integer >= 0)
+ 		connman_settings.timeout_browserlaunch = integer * 1000;
+ 
+ 	g_clear_error(&error);
+ 
+-	interfaces = __connman_config_get_string_list(config, "General",
++	interfaces = __connman_config_get_string_list(config, GENERAL_GROUP,
+ 			CONF_BLACKLISTED_INTERFACES, &len, &error);
+ 
+ 	if (!error)
+@@ -550,7 +552,7 @@ static void parse_config(GKeyFile *config)
+ 
+ 	g_clear_error(&error);
+ 
+-	boolean = __connman_config_get_bool(config, "General",
++	boolean = __connman_config_get_bool(config, GENERAL_GROUP,
+ 					CONF_ALLOW_HOSTNAME_UPDATES,
+ 					&error);
+ 	if (!error)
+@@ -558,7 +560,7 @@ static void parse_config(GKeyFile *config)
+ 
+ 	g_clear_error(&error);
+ 
+-	boolean = __connman_config_get_bool(config, "General",
++	boolean = __connman_config_get_bool(config, GENERAL_GROUP,
+ 					CONF_ALLOW_DOMAINNAME_UPDATES,
+ 					&error);
+ 	if (!error)
+@@ -566,14 +568,14 @@ static void parse_config(GKeyFile *config)
+ 
+ 	g_clear_error(&error);
+ 
+-	boolean = __connman_config_get_bool(config, "General",
++	boolean = __connman_config_get_bool(config, GENERAL_GROUP,
+ 			CONF_SINGLE_TECH, &error);
+ 	if (!error)
+ 		connman_settings.single_tech = boolean;
+ 
+ 	g_clear_error(&error);
+ 
+-	tethering = __connman_config_get_string_list(config, "General",
++	tethering = __connman_config_get_string_list(config, GENERAL_GROUP,
+ 			CONF_TETHERING_TECHNOLOGIES, &len, &error);
+ 
+ 	if (!error)
+@@ -581,7 +583,7 @@ static void parse_config(GKeyFile *config)
+ 
+ 	g_clear_error(&error);
+ 
+-	boolean = __connman_config_get_bool(config, "General",
++	boolean = __connman_config_get_bool(config, GENERAL_GROUP,
+ 					CONF_PERSISTENT_TETHERING_MODE,
+ 					&error);
+ 	if (!error)
+@@ -589,14 +591,14 @@ static void parse_config(GKeyFile *config)
+ 
+ 	g_clear_error(&error);
+ 
+-	boolean = __connman_config_get_bool(config, "General",
++	boolean = __connman_config_get_bool(config, GENERAL_GROUP,
+ 					CONF_ENABLE_6TO4, &error);
+ 	if (!error)
+ 		connman_settings.enable_6to4 = boolean;
+ 
+ 	g_clear_error(&error);
+ 
+-	string = __connman_config_get_string(config, "General",
++	string = __connman_config_get_string(config, GENERAL_GROUP,
+ 					CONF_VENDOR_CLASS_ID, &error);
+ 	if (!error)
+ 		connman_settings.vendor_class_id = string;
+@@ -605,7 +607,7 @@ static void parse_config(GKeyFile *config)
+ 
+ 	/* EnableOnlineCheck */
+ 
+-	boolean = __connman_config_get_bool(config, "General",
++	boolean = __connman_config_get_bool(config, GENERAL_GROUP,
+ 					CONF_ENABLE_ONLINE_CHECK, &error);
+ 	if (!error) {
+ 		connman_warn("\"%s\" is deprecated; use \"%s\" instead.",
+@@ -619,7 +621,7 @@ static void parse_config(GKeyFile *config)
+ 
+ 	/* EnableOnlineToReadyTransition */
+ 
+-	boolean = __connman_config_get_bool(config, "General",
++	boolean = __connman_config_get_bool(config, GENERAL_GROUP,
+ 			CONF_ENABLE_ONLINE_TO_READY_TRANSITION, &error);
+ 	if (!error) {
+ 		connman_warn("\"%s\" is deprecated; use \"%s\" instead.",
+@@ -633,7 +635,7 @@ static void parse_config(GKeyFile *config)
+ 
+ 	/* OnlineCheckMode */
+ 
+-	string = __connman_config_get_string(config, "General",
++	string = __connman_config_get_string(config, GENERAL_GROUP,
+ 				CONF_ONLINE_CHECK_MODE, &error);
+ 	if (!error) {
+ 		connman_settings.online_check_mode =
+@@ -653,7 +655,7 @@ static void parse_config(GKeyFile *config)
+ 
+ 	/* OnlineCheckConnectTimeout */
+ 
+-	real = g_key_file_get_double(config, "General",
++	real = g_key_file_get_double(config, GENERAL_GROUP,
+ 			CONF_ONLINE_CHECK_CONNECT_TIMEOUT, &error);
+ 	if (!error) {
+ 		if (real < 0) {
+@@ -670,7 +672,7 @@ static void parse_config(GKeyFile *config)
+ 
+ 	/* OnlineCheckIPv4URL */
+ 
+-	string = __connman_config_get_string(config, "General",
++	string = __connman_config_get_string(config, GENERAL_GROUP,
+ 					CONF_ONLINE_CHECK_IPV4_URL, &error);
+ 	if (!error)
+ 		connman_settings.online_check_ipv4_url = string;
+@@ -682,7 +684,7 @@ static void parse_config(GKeyFile *config)
+ 
+ 	/* OnlineCheckIPv6URL */
+ 
+-	string = __connman_config_get_string(config, "General",
++	string = __connman_config_get_string(config, GENERAL_GROUP,
+ 					CONF_ONLINE_CHECK_IPV6_URL, &error);
+ 	if (!error)
+ 		connman_settings.online_check_ipv6_url = string;
+@@ -694,14 +696,14 @@ static void parse_config(GKeyFile *config)
+ 
+ 	/* OnlineCheck{Initial,Max}Interval */
+ 
+-	integer = g_key_file_get_integer(config, "General",
++	integer = g_key_file_get_integer(config, GENERAL_GROUP,
+ 			CONF_ONLINE_CHECK_INITIAL_INTERVAL, &error);
+ 	if (!error && integer >= 0)
+ 		connman_settings.online_check_initial_interval = integer;
+ 
+ 	g_clear_error(&error);
+ 
+-	integer = g_key_file_get_integer(config, "General",
++	integer = g_key_file_get_integer(config, GENERAL_GROUP,
+ 			CONF_ONLINE_CHECK_MAX_INTERVAL, &error);
+ 	if (!error && integer >= 0)
+ 		connman_settings.online_check_max_interval = integer;
+@@ -722,7 +724,7 @@ static void parse_config(GKeyFile *config)
+ 
+ 	/* OnlineCheckFailuresThreshold */
+ 
+-	integer = g_key_file_get_integer(config, "General",
++	integer = g_key_file_get_integer(config, GENERAL_GROUP,
+ 			CONF_ONLINE_CHECK_FAILURES_THRESHOLD, &error);
+ 	if (!error && integer >= 0)
+ 		connman_settings.online_check_failures_threshold = integer;
+@@ -738,7 +740,7 @@ static void parse_config(GKeyFile *config)
+ 
+ 	/* OnlineCheckSuccessesThreshold */
+ 
+-	integer = g_key_file_get_integer(config, "General",
++	integer = g_key_file_get_integer(config, GENERAL_GROUP,
+ 			CONF_ONLINE_CHECK_SUCCESSES_THRESHOLD, &error);
+ 	if (!error && integer >= 0)
+ 		connman_settings.online_check_successes_threshold = integer;
+@@ -754,7 +756,7 @@ static void parse_config(GKeyFile *config)
+ 
+ 	/* OnlineCheckIntervalStyle */
+ 
+-	string = __connman_config_get_string(config, "General",
++	string = __connman_config_get_string(config, GENERAL_GROUP,
+ 					CONF_ONLINE_CHECK_INTERVAL_STYLE, &error);
+ 	if (!error) {
+ 		if ((g_strcmp0(string, ONLINE_CHECK_INTERVAL_STYLE_FIBONACCI) == 0) ||
+@@ -772,27 +774,28 @@ static void parse_config(GKeyFile *config)
+ 
+ 	g_clear_error(&error);
+ 
+-	boolean = __connman_config_get_bool(config, "General",
++	boolean = __connman_config_get_bool(config, GENERAL_GROUP,
+ 				CONF_AUTO_CONNECT_ROAMING_SERVICES, &error);
+ 	if (!error)
+ 		connman_settings.auto_connect_roaming_services = boolean;
+ 
+ 	g_clear_error(&error);
+ 
+-	boolean = __connman_config_get_bool(config, "General", CONF_ACD, &error);
++	boolean = __connman_config_get_bool(config, GENERAL_GROUP,
++				CONF_ACD, &error);
+ 	if (!error)
+ 		connman_settings.acd = boolean;
+ 
+ 	g_clear_error(&error);
+ 
+-	boolean = __connman_config_get_bool(config, "General",
++	boolean = __connman_config_get_bool(config, GENERAL_GROUP,
+ 				CONF_USE_GATEWAYS_AS_TIMESERVERS, &error);
+ 	if (!error)
+ 		connman_settings.use_gateways_as_timeservers = boolean;
+ 
+ 	g_clear_error(&error);
+ 
+-	string = __connman_config_get_string(config, "General",
++	string = __connman_config_get_string(config, GENERAL_GROUP,
+ 				CONF_LOCALTIME, &error);
+ 	if (!error)
+ 		connman_settings.localtime = string;
+@@ -801,14 +804,14 @@ static void parse_config(GKeyFile *config)
+ 
+ 	g_clear_error(&error);
+ 
+-	boolean = __connman_config_get_bool(config, "General",
++	boolean = __connman_config_get_bool(config, GENERAL_GROUP,
+ 				CONF_REGDOM_FOLLOWS_TIMEZONE, &error);
+ 	if (!error)
+ 		connman_settings.regdom_follows_timezone = boolean;
+ 
+ 	g_clear_error(&error);
+ 
+-	string = __connman_config_get_string(config, "General",
++	string = __connman_config_get_string(config, GENERAL_GROUP,
+ 				CONF_RESOLV_CONF, &error);
+ 	if (!error)
+ 		connman_settings.resolv_conf = string;
+-- 
+2.42.0
 
