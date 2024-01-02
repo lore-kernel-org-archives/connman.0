@@ -1,52 +1,52 @@
-Received: from mail-ot1-f42.google.com (mail-ot1-f42.google.com [209.85.210.42])
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 403D9EBC
-	for <connman@lists.linux.dev>; Tue,  2 Jan 2024 01:53:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5895A3C
+	for <connman@lists.linux.dev>; Tue,  2 Jan 2024 01:59:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="M0mVs/6U"
-Received: by mail-ot1-f42.google.com with SMTP id 46e09a7af769-6dbc4675749so3984286a34.3
-        for <connman@lists.linux.dev>; Mon, 01 Jan 2024 17:53:34 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="COFRzhw7"
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-1d3ed1ca402so69413255ad.2
+        for <connman@lists.linux.dev>; Mon, 01 Jan 2024 17:59:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1704160414; x=1704765214; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1704160761; x=1704765561; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Zu4BT1L9zU4sZawlPxX1Sr1JbpE81JatxWOwg/FvzCw=;
-        b=M0mVs/6UKmH6kfL9rvW/0eqF/6qtj76LEia18hcG83uLFCRM1P9DdOu+rkTmYJ4lae
-         Sl7DdCw6eMnuzpjRq5w69N42akEwPunExPDxAzPoAAXj9vD/O6wKZLuKTVZPz7mAE4hf
-         fTQ+WDrafixLocc6WNJyVLfVEtaWS77TT4KKsmDfUv0FvSGhUx5wHT/TYxB1sigafoFK
-         nzMQTqrl3YOolYL3xjNaFn0ZDH/MQgVZPj0oOIFYbfDcUbvJWpnZVH3C8fXO1NkzntYB
-         HE9qPTZBqnedOpJ1iyITnneQk2aW8lWTv+UP2QJFHRJ8zPGLZMoYUewb+ZO80/qRNdV7
-         h/Rg==
+        bh=PkMDQMz+OSux5Sij7qyilChAOcswZlRCV1veO0YrER8=;
+        b=COFRzhw7p/3bB/Tz1VeUO2N+MiYNYqs6ecTkTNI4QryT7B7DsIVenGsPlQRJ3nn5pl
+         wakyzhErcgKiq8ZX3neqb5xt5j+jukYlhLnNDBL14LjKpwUq8QJOktqDeo/VAxzA8L2Y
+         R+exGAaV/hRcMfOU7Bn8r85kJ8VgrnOAguWyIkNuYe76G/liMmabMO2Y7o6KUbnldgGz
+         LwMR1GDPDUb2geAYj+c+bviNhS2tmYZvNoqUISZgCBK7nLGPId/SVwCbuJ5vjnwNRefy
+         nBH36t6RfRu4zagStQ44aVV0euZ43yjzflsSDT7hYlki9uNNAW6j8qfgA1iyUASBw7+z
+         LYag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704160414; x=1704765214;
+        d=1e100.net; s=20230601; t=1704160761; x=1704765561;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Zu4BT1L9zU4sZawlPxX1Sr1JbpE81JatxWOwg/FvzCw=;
-        b=oo3SWl4iFumR2D09LxSZUyoUijxLpNlAvqDJSDQ4g7LcpSwOevaiQJR7/X3vx1LiDE
-         8ZkhSiG1UFQjbbu7bpWdKJy6eG3eKvAl5FEMgugnzYF0c7f3/lj8IzewIO3RQH0Ajzak
-         PqImsv9IRlvdJJKh/0q5mJTvwZx4zgrPgvOpwiNmI5B1Hp20tHFNF1d3mutPwpGRdF5o
-         xArYd2fTyRjcVGZ4+E30NpPSOvDeCVuPrPvkMXKIG4oIORfCB6+ZcJTCgcohKTTzas+B
-         74jC7hJp86VyP9NG5UL3IxKaQAV+KE4mfmvG/zcf/DT1Jk3ZusSH4VSHDHQQW2ryVPbm
-         IN5g==
-X-Gm-Message-State: AOJu0YyXyuJ3+Lr+bsAj6+IauheWm7M8jI2NowhTHfo48/pCNtIP9A+m
-	+G+tjNDJbJG5Tm0ZmgnOM8VNjrzvL0A=
-X-Google-Smtp-Source: AGHT+IEKv3E1Lh7yqVj8QppywqOiRFavC0I1Z3uQoFN76pw9ivL8qxL+xK6sE0i+ouz1dmTmCf13Uw==
-X-Received: by 2002:a05:6808:1301:b0:3bb:d02f:1443 with SMTP id y1-20020a056808130100b003bbd02f1443mr6850558oiv.21.1704160413808;
-        Mon, 01 Jan 2024 17:53:33 -0800 (PST)
+        bh=PkMDQMz+OSux5Sij7qyilChAOcswZlRCV1veO0YrER8=;
+        b=VF0JjGpzt5KvSisxt+Ms6gsTbIzZzFh4YWmXBEqpWEVpxzHjl8WQLt8uZWWNft6Uq3
+         FfzY46Af0Ygsj/AubB9mktWPZR1/At+33GQhuEOSsjt4NfH+iK0p+/xY3II/P0XoPhjI
+         5kgxJNfNcfoEvT+7chlpHlpvOljxA7rUEAiZFmwSOaFVe7F4Rn7ArwQuh19ohvsHAkLN
+         OaSSq7h05QmClbIYO++QKPNoc2GwUEZm5SleDVeiNcGQXG+KYvn7OxNH3Ay5ZHFwbFIR
+         FTdhyXuS7Cv6CR6fYaGZdGOqS7mq4KSk6f9hCfOAuaSYniPgyOQwvMmNbbRrs3bgXAzU
+         fp1g==
+X-Gm-Message-State: AOJu0YycoNYGlFXr+FV4V1k2IAH2cJ+zry/fSYGQhNhMybKASRDyxXky
+	nPZdD+8lkKGzwtNgfQOGtbXasI2hT6o=
+X-Google-Smtp-Source: AGHT+IHYaRQ3Hc0zmvzPs5YTdpwOsaiLU6MHXqBn55Ebt/SQKJxFXty27nrd7OAHAy7xCW/XVNEqUA==
+X-Received: by 2002:a17:902:684f:b0:1d0:6ffe:9f5 with SMTP id f15-20020a170902684f00b001d06ffe09f5mr7759366pln.83.1704160760627;
+        Mon, 01 Jan 2024 17:59:20 -0800 (PST)
 Received: from apollo.hsd1.ca.comcast.net ([2601:646:9d80:4380::4b6f])
-        by smtp.gmail.com with ESMTPSA id g30-20020aa79f1e000000b006d942f43140sm16192388pfr.34.2024.01.01.17.53.33
+        by smtp.gmail.com with ESMTPSA id u1-20020a170902e5c100b001cf658f20ecsm20649326plf.96.2024.01.01.17.59.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 Jan 2024 17:53:33 -0800 (PST)
+        Mon, 01 Jan 2024 17:59:20 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: connman@lists.linux.dev
 Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] src/log.c: Include libgen.h for basename API
-Date: Mon,  1 Jan 2024 17:53:30 -0800
-Message-ID: <20240102015330.3730946-1-raj.khem@gmail.com>
+Subject: [PATCH v2] src/log.c: Include libgen.h for basename API
+Date: Mon,  1 Jan 2024 17:59:17 -0800
+Message-ID: <20240102015917.3732089-1-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
@@ -67,11 +67,13 @@ may modify the input string.
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
+v2: Fix formatting
+
  src/log.c | 6 ++++--
  1 file changed, 4 insertions(+), 2 deletions(-)
 
 diff --git a/src/log.c b/src/log.c
-index 554b046..941e078 100644
+index 554b046..2df3af7 100644
 --- a/src/log.c
 +++ b/src/log.c
 @@ -24,6 +24,7 @@
@@ -86,7 +88,7 @@ index 554b046..941e078 100644
  		const char *program_name, const char *program_version)
  {
  	static char path[PATH_MAX];
-+  char* tmp = strdup(program);
++	char* tmp = strdup(program);
  	int option = LOG_NDELAY | LOG_PID;
  
  	program_exec = program;
@@ -97,7 +99,7 @@ index 554b046..941e078 100644
 -	openlog(basename(program), option, LOG_DAEMON);
 -
 +	openlog(basename(tmp), option, LOG_DAEMON);
-+  free(tmp);
++	free(tmp);
  	syslog(LOG_INFO, "%s version %s", program_name, program_version);
  
  	return 0;
