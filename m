@@ -1,56 +1,53 @@
-Received: from EUR01-HE1-obe.outbound.protection.outlook.com (mail-he1eur01on2040.outbound.protection.outlook.com [40.107.13.40])
+Received: from EUR03-AM7-obe.outbound.protection.outlook.com (mail-am7eur03on2060.outbound.protection.outlook.com [40.107.105.60])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 470AAEAD7
-	for <connman@lists.linux.dev>; Tue,  2 Jan 2024 11:57:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B44AEECC
+	for <connman@lists.linux.dev>; Tue,  2 Jan 2024 12:16:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=jolla.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jolla.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=jolla.com header.i=@jolla.com header.b="S4c2/Aj7"
+	dkim=pass (2048-bit key) header.d=jolla.com header.i=@jolla.com header.b="wsgL96tu"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=n4eHYCoyvKVKMD1cjEyyWlcx2y0B54ASfdCfZmUoAFcDfg7AXpWj8Ms8TCZVlIrM6sZrUH7MSCvxr1Z+gSJ8sMbldwv1ztcoMtBnu78bJQmiENxvvN5cSapNno1ORwD2IDdV+mGBOOA5CD/GnffzOqxQxH0okKoxCPiKt6jy9kCjEBvg3QPNkbvHbULUqzLW5obRqBxaiXiC13t7T1wTn0MKntIm9GIxWU7UGlSjXr1Fj2XJKzPaHTQV/VHo2iBMUga8ulR9/G7vzFIGGKJ/WscL5rUSvOjFytbTTuUAP0zVSFGmXCTBFpxYwXTezpa7HiQ22dK+G7wdq/sBWMw+6Q==
+ b=P6uEAgHx10iM1yGZj4WGG4nokOl/RuNj64g2k3cbfoQ1+OJ0TWRH/ik4l+1jc4Ijh7+cP9n36dnWR6kSGVJ9A6RnwliYXZoxL3u51PaNlUxyyZeBGbkw2ompooAJ1+hLPKXtU3Sp5rTeDoidYE5n2r1/I6otviyyxjcEeiE/sRBdvhUVN+YiegymCpQzxqt2jXc81iS0yAVjGTZ/VLUf/5I+Ej1dJxwar7KWad9jVwrXudMRSQiwFzJ3I/+C3iUxz28WcXM9h2g9OoTU4boTnsHfX030R/7CHBW/61sC7SB/wDP6/Rwwi1CvFsCgiX0z3qVgVgNIk78hGBaszM1mKw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ZzjF+z1oU9c2rCUNJyQRrdlkHXBkR1ZJeGVtvcsgkbg=;
- b=FnKGOWehGUW292zhNCrHc10Bk+oUpahVFVMKn+zQUqpb2Be+Pp8lWylUhmvEUO1YXm1djIu5oN5RpjuomUolV1AVT1MvO4Xx8K4eKQGi/lDCpVw3VfMvDJuLQXIx7QGZwMWoEe7OJch5cyTNdWFFbu4bOYlOVXRuxGUZ4JjKRxPGQH7/5ypJIYjxvVHF9cKmQ19ArpH1laO4IWaqRy0TCq6JvKT6OZ5XUB6FmJZhch0WIBM9Z2VKA9k2vg47ZZ2m6eyWAX4irDjEr/fREenjowe5wmRWz47hvjraxs9fcnwK7sf7PhXwUW1Um0k7N59dCwH2NHVBtFwnboS4x9vUng==
+ bh=3LvGLI8yhGBUfrjqcQi5Pj4l3+3Ay9NNw4qzWF/7y2w=;
+ b=GY1gkQteiWNV9/vJsGAE0kqnhRXQzAI7h6HD8jpaxcrwAQl43fjYGuwL7BDqL5ajI4HzyTuBhklKwp5yTV1Cl71qYtFvl0zeJVLJBZTkMWsxJrSyTLSTmSfdNT+URZNYMA3TmEpjBnLSDGSjg7ZdrGL19CRZvEa4mbh6KrQ3oKzjqXi6xl6UwLW+GNF48A9eJn5IgoeD50QdA4JsYalD5pqyRWoRneI5+cU7OwwDc1Q3bvmryUVQeBXtrpEBryrHDf04kcMGhm02nQ88ZVSgNw/24RkxUe7+OuzpVhlIzerN7dmzoLN6fNaFJGP1e3NzejkBoghJSR9hcoN4FGt5eg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=jolla.com; dmarc=pass action=none header.from=jolla.com;
  dkim=pass header.d=jolla.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jolla.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ZzjF+z1oU9c2rCUNJyQRrdlkHXBkR1ZJeGVtvcsgkbg=;
- b=S4c2/Aj7Kl4tkBiCPEsAcEuUI19DyZ/sTiKqUxXzqHGfNqdZuKw0skIDoRoU4ykrKtaKE9izQaipADVDdYs4FLquKXEzBjj5Lioez7JWMAG9brEl/H4glnPjl+CWmyjSm3Af5cVqOVs8sbgvW1odcRjGvHj4zfRnxqB3P0D1g3R2OpaE7DOBMcnruY6s68xU47A68m8fB62WZC60pSgg0ACbk3aVb0JNTP9L+3AM/FozAWY1+1j6hkmDwPjz/u7piM3ANTTPibZWc3q1dGcffiM9Hc+LCbiZpht4zA6nHiWLCVBjOK1V1zumve+Be5EdHxdWz6zW/npkVWvRmb4zXQ==
+ bh=3LvGLI8yhGBUfrjqcQi5Pj4l3+3Ay9NNw4qzWF/7y2w=;
+ b=wsgL96tuRCvCzfyGEwDkBmk4JtCVi3wY6ie2uG/S5/f81EY8d5NqeJcRLBGlqq1szPRqhFODzrWBzJnSxOw/xxFGsmMtIMic1onJ8/rm/BwwRXEOpzX9OfwA7e+znQEm40wtjAgj4ney4LiOFeKQNrAY2WQzRoUSqFn1hQrE4N92olXRFHeRIPQuKIDWikEEazJhAIrjsbija1peBxJR/b12jwEGB1+a96wc/LjPv4f2ZXSXtO2XCqsOvBTDJzfANxdMZ+B1ER96IRv84EvHn2xtQ6FsGrWEd7F9aJ/G9+UQvWUWAeg0MECj7bYPQnl1hbgaxEEXHYxcCzhbxRb82Q==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=jolla.com;
 Received: from GV1PR06MB8370.eurprd06.prod.outlook.com (2603:10a6:150:21::11)
- by PAXPR06MB7376.eurprd06.prod.outlook.com (2603:10a6:102:15a::9) with
+ by AM8PR06MB7073.eurprd06.prod.outlook.com (2603:10a6:20b:1dd::8) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7135.25; Tue, 2 Jan
- 2024 11:57:09 +0000
+ 2024 12:16:49 +0000
 Received: from GV1PR06MB8370.eurprd06.prod.outlook.com
  ([fe80::1a8:462f:5146:101d]) by GV1PR06MB8370.eurprd06.prod.outlook.com
  ([fe80::1a8:462f:5146:101d%6]) with mapi id 15.20.7135.023; Tue, 2 Jan 2024
- 11:57:09 +0000
-Message-ID: <ad84aa34-f467-4589-82e6-1bdd7a2a867c@jolla.com>
-Date: Tue, 2 Jan 2024 13:57:06 +0200
+ 12:16:49 +0000
+Message-ID: <b34cc24f-b7cd-490d-9a1b-c7ba2ecbce92@jolla.com>
+Date: Tue, 2 Jan 2024 14:16:46 +0200
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/3] connection: Rename 'connection.c' to 'gateway.c'
+Subject: Re: [PATCH 0/3] Ensure resolving and setting of proper ISO3166 code
 Content-Language: en-US
 To: Grant Erickson <gerickson@nuovations.com>
-Cc: connman@lists.linux.dev, marcel@holtmann.org
-References: <20231213200001.1994492-1-gerickson@nuovations.com>
- <93ee2de3-a7bf-4a43-9893-799af7bb97aa@jolla.com>
- <1857CD1F-DCD2-414F-B0A7-7E167242A058@nuovations.com>
- <d6dfa0ff-202a-49f7-b097-f098334764ce@jolla.com>
- <496375AA-E120-4C67-8253-A5DF4DD01154@nuovations.com>
+Cc: connman@lists.linux.dev
+References: <20231222154645.278128-1-jussi.laakkonen@jolla.com>
+ <3D272FAC-BA62-4533-B6A7-750F563D3F9F@nuovations.com>
 From: Jussi Laakkonen <jussi.laakkonen@jolla.com>
-In-Reply-To: <496375AA-E120-4C67-8253-A5DF4DD01154@nuovations.com>
+In-Reply-To: <3D272FAC-BA62-4533-B6A7-750F563D3F9F@nuovations.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: GVX0EPF00011B61.SWEP280.PROD.OUTLOOK.COM
- (2603:10a6:144:1:0:8:0:14) To GV1PR06MB8370.eurprd06.prod.outlook.com
+X-ClientProxiedBy: GV2PEPF00003859.SWEP280.PROD.OUTLOOK.COM
+ (2603:10a6:144:1:0:9:0:14) To GV1PR06MB8370.eurprd06.prod.outlook.com
  (2603:10a6:150:21::11)
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
@@ -59,123 +56,173 @@ List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: GV1PR06MB8370:EE_|PAXPR06MB7376:EE_
-X-MS-Office365-Filtering-Correlation-Id: b4dd67d2-56e0-4e1f-246f-08dc0b89f2a7
+X-MS-TrafficTypeDiagnostic: GV1PR06MB8370:EE_|AM8PR06MB7073:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7a85fbab-f05d-4728-e83d-08dc0b8cb1fd
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info:
-	CJTvpv3l/DxzIZxFt3YDhh2Rk8Ru3HaZe6Hrhe0h+wnYR+ryEQa/T7nPaZdxm0CMpxy2dhmKpoTM8VmxuRdsgnV/W88Sa3skJ6HwhA61oxC91FQ1jrVERNQYtSpVdc5gw48fbkbCxQxWJIQ+H8WdBHKI4YO7dDtrW6SHvB/yGBn14c46psg7icz/33fXAPoc8ntd9ZiJaSekawEQt4o1sTI3g/CkV2LT/nPVLeYhGRhCumLsCr3P+4WEX7LZbgMFqrr/wZTqoZTR4IF3B8Fm3BleLJUH+wmIwjp3tnL/BueVptMx0Hu/Psd16BHi+gxCuTOq5sJQqNlv6bp2FyRHcxLLAfSw4MvWq55OfxEx4bkXxG2bAwYH4rR6dbYxn/svxavxgYudGolWvK+k0dKaTVrp6kFfLY6fwmBvL/m9cTPPBzsBjuvIW478+zh1D9eRX4JLPrYM6mgs0SsorgxzyH3YfJrLzfBKs2R7syXX33LFKYRd82UzUfYGphAF9YqJxhaEZc2iRoZjlNBGWeukPt2F7nNNsqyvZD/SDpg9qMSUk8VY4m4qP57fyBH2Rd2Uf+1pw3+6JqLlJH2vjMvUZMRMcIMoA2Dov4f5M1MiAHyVKBoD9eMMl5zk1cy8MITPY3UEmlW7RNDpiRo4VYyhZw==
+	mBt2nGZuUYe34qz2df7WJwhPMItU9qMmpB2JknqsbpPSMNEBwLoTPKJT3GSZf8mdgXIFqYSIgmsvWsDnOXoiFfjwyu2EKeVwJKm1l4TBbKi9WIRRZ308IhQDmzeaRPbcgVoWKpLGchMH3lT903mDA/Ax+IiXYZtvLH2zmPkicgUonrQ4WJQmkST9YllYoU5pjnBFuc8A/J3uk4tOf1UmrI9jYp675KVcmKZ8yGT3uJ/NeknDxJes69iLtbTToP2+W/KGvH9UHnui4j6Yc8fljZcNRUQ88FSyEG2x6yvJ6gjMfyRWVJ4FdIi1xwDaGH5p8rMl/mAa4ORiuQ3Of8+ASTveYuUNgfAblnPl9kFXyAQYcFN8WOOMSt5RoyQbF+wPKdTK+vYWyfWNjpFTfiQEtYpjZTAKnXjvriC5bPa4FErVAC1r3NMDIsuyVTZ3eCQQmAtMKn85GfnEeDW9hfQ+7cefmospibL4Mkt57B0b4JZuIUCGY+tuNBzopoDMpUEAgRMxUxjvARIkM6/tVJlCqKMwLrcbJXgKSPkoAWSuF5gN5/xBFicLduyNdUXXqHjj8oDMnOiIV6OtmugBafOwFAO3f46s1SZspbK6DP8nGWOQZkQFlOQJqmWqOQeKgR5AJ58EwUHNU/TbeI9EUrC4Ug==
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV1PR06MB8370.eurprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(136003)(376002)(346002)(39830400003)(396003)(366004)(230922051799003)(64100799003)(186009)(1800799012)(451199024)(66946007)(66476007)(66556008)(6486002)(4326008)(44832011)(6916009)(316002)(8676002)(8936002)(2616005)(26005)(6666004)(83380400001)(478600001)(966005)(53546011)(6512007)(2906002)(41300700001)(5660300002)(6506007)(36756003)(38100700002)(31696002)(86362001)(31686004)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV1PR06MB8370.eurprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(39830400003)(346002)(396003)(366004)(376002)(136003)(230922051799003)(451199024)(1800799012)(64100799003)(186009)(66899024)(83380400001)(41300700001)(2616005)(26005)(66574015)(38100700002)(8676002)(6666004)(8936002)(5660300002)(316002)(4326008)(2906002)(478600001)(44832011)(6916009)(6506007)(6512007)(53546011)(66946007)(66556008)(6486002)(66476007)(31696002)(86362001)(36756003)(31686004)(43740500002)(45980500001);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?VzRFbUxoVkhISXhBbkdkdUVNWUVtTFd0VCtEaGY3a1FyT012QlZobUdSUFhM?=
- =?utf-8?B?ZkVyaGdTQU5IVXZEZUltRjM3MnFaeU1mMUJCWUpaSWFSOVRtTnQrdmhVRm8z?=
- =?utf-8?B?QkpIS3pPbEhRT2JxRzBtSE96Vm9pRDdJMS9CMXJLZE53YnBtLzZnNGtaZzNh?=
- =?utf-8?B?bXlmNi9Tckc2QnZsdjdTSHRQaVZHdC9CL2I3cTJJSGhRK2ZueVNUWGc1Tkwy?=
- =?utf-8?B?VEdSR1U0R0FES1V3ZEVQQkQxM0d1bU5zM0hiSFJIUzJXS242YWFTaENmZVpk?=
- =?utf-8?B?eVE1WEdySEVwZjZ0OWxweEtMVXkrSVdlRWxoZ3hQeVhJK2NwRWpzMzI0bWhs?=
- =?utf-8?B?bzg3OEc1T0dnOEMza0RoejdZazJtTFpOR1ZNZ3IzcnJtZkFaNURZRno4aUxi?=
- =?utf-8?B?dThTSHd5dkdraVpGdnlGS1JUbEJlUFpYVXVjN0pFSE9LeUlBdXF1TXE1ZHdO?=
- =?utf-8?B?azM3OTQ5czJQWEJqWllMUnZ1VVBmZDliZWNFbC9jZHh4M1NQUzRERFNNa2Nr?=
- =?utf-8?B?UDNTakttb05ScHRnRXdoRHRNUUpXWW9tMzZIWDg1bGJUNWQrNVhLMXc4VjM4?=
- =?utf-8?B?bm5WbkwyaTk4UGt5S2oremxpYytuV3VwU0lycCtqdnU3UkFQWkMyQjBhZ0tl?=
- =?utf-8?B?YmlJT3dpWTFLK202cjEvdllVVFlHS1g0YzcxNlQwOVNXcVU1VDRoQkt5WG1F?=
- =?utf-8?B?WW93bXkwN245QjA2ZUpBQk9PemZRU3ZlNXhPaU55a0gyWUdVZUlCMDMwMGRx?=
- =?utf-8?B?YjJFdjhOc3lUM2pQOTUvYVVORjZ0RUQzb3ZOV09MUVhaUlJGdTRUTmpHQlNj?=
- =?utf-8?B?aVpHMnI0YW5uM3FIS2lxNnV0YWg1TGRCakFKaHlldUNoS1NoYzdRWVpHOG54?=
- =?utf-8?B?Z2RqVzJYRi90OUZYS0ZYdnpVWW9MRWxOZWhvREFmb1dmV0xHSzFycXJKK2M3?=
- =?utf-8?B?T252YlpheE1IN2ZLVC9KQ0c0M1JKU3hTeDV5amZKN21LSnRmTVAwTVFRNzNR?=
- =?utf-8?B?WUNqMDlhUk9RQmhselJTVVBLTTlROVZpNVlEZHgrTUl1bUxNdU9KWitadTht?=
- =?utf-8?B?RzYrTlJ0VW1DaFQ4YVJvb2lkWDZyazd0aUM0M1BhRlZqeEEvMG13MGRXOGJt?=
- =?utf-8?B?NVdsTG9QUjVqZG93NEVPTlVCVGxNd1NjNndVSHlQVFVVdFI5NVNmblJOeER2?=
- =?utf-8?B?V05hWDdDUDd2UmxsS1lyTE1hcTE4QXZCbEVicmp6ZnlQcVhYTFp4TXdvVzR5?=
- =?utf-8?B?bHZycVJmb294QUN0OHhqd3MyRngwemFJZ1dVcFJ5MVJ5Sm1vTmJtV3dnRVRI?=
- =?utf-8?B?TFlhM0JBYVA1blRTN3V2Z2tsSDFNVEZaMXB5NGJ4MXZEb3pMNW93eldqV05Q?=
- =?utf-8?B?dUM2cFNpbS9ZWlY5a3hqT2Q2Z2dXY2RVUDE1Tzd2U2I0citEU2hXeWxCb21O?=
- =?utf-8?B?TVdaMkhGdkY0Z1cxOUFzb0lnb3FVVE1YaVBrT0RYRHJYYkN1N1RncFMxLzJi?=
- =?utf-8?B?d0VqV1VuNHNNWEhWZW9yVVN4cWNWMVU2V2FnU1hOaU55UjhtN0VVbC8zcnR4?=
- =?utf-8?B?T2FKaURFNmdiU0tlTDd4dll6aXpyQm4rYm52d1BUNzlqR3lCZEd0bC9SYVdC?=
- =?utf-8?B?dVBZVVNMUU40eHFsclhJV3J3R21nZGNxNVgrelJyVnZZN2JqMWY1aGtDVjV0?=
- =?utf-8?B?Vk5STWFNR3JuR1ZYWGk1MTFhNDd0My9GMDRBcFpRQTJrRmc2eGZnc0xLaXZt?=
- =?utf-8?B?bm1aMjFhdzZsUzVXdEhaampqUXlEOHZLdEE3bkVuakptMWJlYkJlVERiTEZs?=
- =?utf-8?B?Wi9iWTgwdHp1QllXZmhyR3hqRVVvUml4dDJYTWM1SmJERVRwT3c1UkNXbGJJ?=
- =?utf-8?B?WTBQYmpSaDdCZzh2UTVKRHZrdk9TYyt0ZVBWc3h2akY4SjJGc2t0K0hmUnNq?=
- =?utf-8?B?VzlUZXM1UlJKKy9FUkFyMGM0dEl1dkx4bVpIN2VURlZHZkdFVnA2d1AyRzFn?=
- =?utf-8?B?OGczei91WVZyYXRmdHNHTXhTZVdjSFQwai9pcVNXTlpRWXdYUXh2UmVuMEJu?=
- =?utf-8?B?bkN5VitaUisyOEFJcU1PcW1aaUhZMlUzT2p1S3hyRi9sQWlvS1BOa1F0Smtz?=
- =?utf-8?B?ZThVbVUzWHdVUHFxa2RQci9QOWxpNjl1eDRUSzJkNlZMTlRCa1Q5azdHZzdB?=
- =?utf-8?B?aHc9PQ==?=
+	=?utf-8?B?ei9MU1RLajVCWkNsRDZGcTY0UEpKc1k3MFl0TzZmdTFLcmNmTytoZDFqd0ta?=
+ =?utf-8?B?TlhGN0JPZWRHaU1meEY2MkhmR3gvdVRUdkV1VXRHNFVWYjQrQ1hZY053eHRU?=
+ =?utf-8?B?eDNoZ0lHeEVwTldFRnpTWmY3cmFKMDdFS0VLNEtCMjJqeUVCYnZPSXhFT1BY?=
+ =?utf-8?B?b3Z1ckFuL0ZISStJVEpMUUtmNUlQbStsbHc1N2hQVjJrTjd6bmI2OGU4Njd5?=
+ =?utf-8?B?L0FBblhCUDJGWC8rY3l3V0xaQ3hXeDNUWW5XRkE1UEJ5VHZsN2pSdjJXMDVx?=
+ =?utf-8?B?UGNWYnI1SkRpS1JvajEvNWdLaGhlaDJ0aDV6dGxZMElnWTZUS2RyMm1LYWpP?=
+ =?utf-8?B?Vmw5RnBNR3Jxd2lGMERrOVpxcXpQWUZ4TytQU3dxL2R4K3V2SE44WVdCbDR0?=
+ =?utf-8?B?b3gwOGxjRmxsLzNEVDJ4SzlOcStxNHMwUWRzZjEvOTBqWk1KZVNtZ3pDTklC?=
+ =?utf-8?B?MGd2L2NqRk1EbHhpYk1hbW0rTXcyUzNDM2xzUkFaSXUzcmM3MzNacmlHakE1?=
+ =?utf-8?B?NFFTYTR3a0VWNUlWUHlvS2dKd0t3MGlUSGpLanVneDN3VlJsUjlBT3NMSGtS?=
+ =?utf-8?B?cjFiSi9BeEh1c042RmFwaTl3MUxNamszY3VmSVhOV1lHZXcvYWVzMzVuS3FB?=
+ =?utf-8?B?NVNielUwcXZ3YWZjajFzOTVyY012VXVmQ1huUVlUbmU5WWNPWnZrYU9qSzBW?=
+ =?utf-8?B?N3ZueEh2S21VbTRTUXFXbkJqOEpPYTgyamVoWjNFSXM1Q1oxaU52c24yNy9X?=
+ =?utf-8?B?YzBEdzlLT2NkNkhCeGFzaDlSVGhValN4MkJqK0RoN3JEWWNzTnlxTlNTWGpR?=
+ =?utf-8?B?b2hnNXYrRzZ5bkU1T0FaU3FMTExPTUc2dFRsUnFkVXBaQnRXUEVZS0grNWwy?=
+ =?utf-8?B?ejRRSzRFdHc1L2ppZ0E4NlpvZ3pGMm1ycVpKL1VRZkNCcE5Ta1J4c2JLck5t?=
+ =?utf-8?B?OWVTTUsrcHJGTDRuWUgrb2VLZWllVWFVclkxNkQxaVNPZ0p1dlRXMGo3c0VS?=
+ =?utf-8?B?N1hVV2hlODV0MHE1VkFJTjhkN2VFMDlQS29iMHlYOENFVm05TEtsYUhZYWh4?=
+ =?utf-8?B?cGNYa2pHMzREV1NYd1Z0RERuTjdRR01DZk1HY2JRNCtmaVFxQ0NQdFFxM29t?=
+ =?utf-8?B?ZHZKaG5vSFR0ZXZKUHBoeVJJODJCeFpzUlJVYytaN3BVM0xIWDBnZFVEL1pX?=
+ =?utf-8?B?T3FWQVFDcDhUR3FIUFhGNG1VQmRoN0RSOXE5aEhESllRQjdvVFlzWmd0QjVV?=
+ =?utf-8?B?L09CdjBaRlFPQU5kQVJWWWNPTndubnRxNlNMcnFwSW1PeXlxTTJGdDFndGdU?=
+ =?utf-8?B?MS9hSlRYRDUyU3lvRVJLbHdwMVB6MGwwcmNQRElGdEJpV3ZmZW1SRXoxdGFm?=
+ =?utf-8?B?NXN1eGJFalc4YWFSdUtHd3dCVmZiUnZqK2RsM0lWQjlwRGF1OUZyVmVYVWVT?=
+ =?utf-8?B?QVJIYWZoWXE1bUZTNGN6aXhvendZMExObzUvT2Q1cjJlbHdmQXc1eGdwRk54?=
+ =?utf-8?B?RHNnUGxiWWZwZFg3Tnl3b1NEbmx6QXJsNE0wbE90VHBBUEFaOUxtbXhHUkts?=
+ =?utf-8?B?YjRtVHhqSFJNUVlHSHJsNFZUZmtlOEpqU0c5OWlEQTNqbkF1VExtK2dKMzdY?=
+ =?utf-8?B?MCtUbnYzKzNYZkdrVmJScXRJQ2M0MWtxQTlQdEFiMitSZ3pnZ0dFQ2UwWnVk?=
+ =?utf-8?B?cS9wK2pJZU9ieStUOVJmM3FpTjgwRDBvZjlZbnp4S3N3U280Q1ZZa2dSdm54?=
+ =?utf-8?B?NS80Uml6clVVZnZtai8xMHQxa015QS9BS2x2U2NZVjVYVHBXMkhMWXFMSExG?=
+ =?utf-8?B?RG9RYXZRbTUyaDI0SHdsQThRQkRJbUg5NTRWcHhLVlBVNCtEUk0yQTY3Zmpq?=
+ =?utf-8?B?cktiTExXbVdGS0x3TTdwMDROUVZTb0ZlZVplQWFoWW9BSlFYNUFKcGdmN0FJ?=
+ =?utf-8?B?azNLaS9BcnByU3VSa1AyVjBjTHJGUE5GeURFVnE2cjJFek0wTFE5SzZvbGVL?=
+ =?utf-8?B?Vis0T2hIZURhQ2hRZmFCQWFCWTJHc2Nrc0g5NzBzbi9XSE9uTXpQazFhS3kx?=
+ =?utf-8?B?cmVZVmVCN1FWdTJsbHREYkFBRkdFNmN6ZjlmcFFZeXNzRWpBWmV1MkhNK1dv?=
+ =?utf-8?B?M29NZmVrSW03U25FZ2FzSlRncWFkLy9sWEw1N05Mb3l1b3FTdHJWRVRqb3M2?=
+ =?utf-8?B?N3c9PQ==?=
 X-OriginatorOrg: jolla.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b4dd67d2-56e0-4e1f-246f-08dc0b89f2a7
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7a85fbab-f05d-4728-e83d-08dc0b8cb1fd
 X-MS-Exchange-CrossTenant-AuthSource: GV1PR06MB8370.eurprd06.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Jan 2024 11:57:09.1008
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Jan 2024 12:16:49.0777
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: b6cd1562-9512-488f-a364-34d46554c96a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: jgxfIHwhRaFmLomZi1nClbnv/375e6YohTPKKL5NPFkMIh/30KxEIxqFFqaQayZcKQLtjDE8ygj1Tvi1gU+NVbG2OwBW+5uiCwNieY3sISU=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR06MB7376
+X-MS-Exchange-CrossTenant-UserPrincipalName: lRudqFx3lteXV+vqHOqGye1zdkksFuUe11j9LJXNNthA6JfbCwTySVe/MeqQ3evh6DKl0nOirEBBj/eP1Auce9xrhyn6GuabkA8hGWj1u9U=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM8PR06MB7073
 
 
 
-On 12/22/23 18:24, Grant Erickson wrote:
-> On Dec 20, 2023, at 9:10 AM, Jussi Laakkonen <jussi.laakkonen@jolla.com> wrote:
->> On 12/20/23 07:53, Grant Erickson wrote:
->>> On Dec 19, 2023, at 5:32 AM, Jussi Laakkonen <jussi.laakkonen@jolla.com> wrote:
->>>> I'm not really understanding what is the real benefit here in renaming connection.c to gateway.c. Granted (pun), it is more clear name for it but it still has some vpn-related functionality to get the physical device index etc. so it is still misleading.
->>>>
->>>> My point here is that this just brings a lot of drawbacks:
->>>> - It is rather complex now to apply patches from older versions, forks or heavily patched forks to upstream that contain changes to old connection.c
->>>> - It is really not straightforward just to pick an upstream patch made with changes to connection.c into these older versions or forks that from one reason or another, or like million reasons, like with our fork, cannot just be updated directly to latest upstream.
->>>> - And the name was there for... 15 years? It really hasn't gone through so much changes that it would need to be renamed from my opinion.
->>>>
->>>>  From my perspective the simple SWOT analysis here would result a negative outcome to renaming and positive towards keeping the name.
->>>>
->>>> Also, choose vs. yield, well, for non-native English speakers the first would be more obvious in definition and one glance of the name would tell what it is supposed to do. Personally I'd prefer concise language throughout the project, the function does not really give up anything but selects the most suitable one, right? The commit:
->>>> https://git.kernel.org/pub/scm/network/connman/connman.git/commit/src/connection.c?id=64a986109880828a4aa727ecb7a82cb97b004623
->>>>
->>>> It is good that stuff gets documented here but reformatting should not be done just because reformatting needs. I'd say that compatibility should weight there a lot when deciding whether to rename or not.
->>>>
->>>> If the process of upstreaming because of this kind of changes becomes rather complex (even more than it already is because of historic reasons) and time required to do them increases a lot it just might be that those patches do not get done/sent. But this is just my view on the matter.
->>> Jussi,
->>> In terms of the file and function rename(s), I approached both as someone who was somewhat-initiated in having worked on connman some 13 years ago but was coming back to it with fresh eyes. I reasoned that if file and function names (those in connection.c/gateway.c, in particular) were confusing to me, then they would be more so to someone even less initiated than I. To the extent Marcel and the community were supportive, I submitted the patches. Having substantially refactored a large portion of connection.c/gateway.c, I believe it is more understandable for the uninitiated today than it was before.
->>> For my own insight, are there specific down-revision features of connman on which Sailfish (I assume Sailfish is the fork in question) would not or could not work with top-of-tree connman?
->>> Best,
->>> Grant
+On 12/22/23 18:33, Grant Erickson wrote:
+> On Dec 22, 2023, at 7:46 AM, Jussi Laakkonen <jussi.laakkonen@jolla.com> wrote:
+>> This patch set amends the functionality added in commit
+>> bce73f1bdbf1aa6fc28d2f75b7780f4f1d8b0e3a by making sure that the ISO3166 code:
+>> - is resolved in every case using both zone1970.tab and zone.tab
+>> - gets set for the technology when it powers up
+>> - and, is kept in sync between technology and device(s)
 >>
->> Hi Grant,
+>> Technology now stores the regulatory domain as an internal value which is
+>> changed whenever a change is detected. Similarly each device ensures that the
+>> value is being kept in sync with technology as it is set always when the device
+>> gets powered. Technology gets the change notifification via Ofono or via the
+>> Localtime setting watched by timezone.
 >>
->> I was just concerned that the contributions in form of new features and fixing existing we and many others have been doing becomes even more difficult with renaming of the content hence the differences of the forks. Personally I try to avoid renaming much in order to not to break any workflows people already have. I'd just reason it in this way that better to have a bit of odd naming than break anything ;).
+>> In order to always resolve, or attempt to resolve, the correct ISO3166 code in
+>> every country sub-region both zone1970.tab and the deprecated zone.tab files
+>> are used. Initially the ISO3166 code is retrieved from zone1970.tab but if not
+>> found then the deprecated timezone map is used to get the correct iso ISO3166
+>> which is used as a search parameter to again search from the zone1970.tab but
+>> this time searching from the string lists. This is needed in special cases,
+>> such as Ålands and Pacific/Midway regions to name but a few, to have the
+>> ISO3166 code set. Otherwise in these regions WiFi plugin, for instance, is
+>> told to use the default region, resulting in some channels being inaccessible.
 >>
->> But this "yield" word just really sounded odd, especially since the definition would be, from my perspective, ok in thread/fork-related cases, or in what https://www.merriam-webster.com/dictionary/yield defines but in selecting the default gw it just seems a bit off? Sorry about the nag on this.
+>>
+>> Jussi Laakkonen (3):
+>>   technology: Add global regdom and regdom getter
+>>   device: Setup regdom when powering up to maintain consistency
+>>   timezone: Fix resolving of proper ISO3166 code from tz data
+>>
+>> src/connman.h    |   1 +
+>> src/device.c     |  11 +++
+>> src/technology.c |  27 +++++++
+>> src/timezone.c   | 178 ++++++++++++++++++++++++++++++++++++++++-------
+>> 4 files changed, 191 insertions(+), 26 deletions(-)
+>>
+>> -- 
+>> 2.30.2
 > 
-> In breaking down the syntactic and semantic choice of “choose” versus “yield”, to me, “choose” implied “you have two gateways to consider that are, at the outset, equal. That is, choose one of the two specified gateways and then give it the (what is now) high-priority (that is, metric 0) default route. However, the reality (somewhat complicated more now by the existence of BOTH high- and low-priority default routes) is not only that the action of the function is not simply a side-effect-free choice but also that it is a demotion / unset / give up / yielding of the high-priority default route for one of the two gateways.
+> Jussi,
 > 
-> Regardless of its function name, on entry to the function one of the two gateways holds the high-priority (that is, metric 0) default route, so there is not such much a choice between equal gateways. On exit from the function, one of those two gateways will have unset it / given it up / have “yielded” the high-priority default route and will have assumed a low-priority (that is, metric > 0) default route. It is not until after ‘yield_default_gateway’ is called that the activated, if it was not the gateway to unset / give up / yield the high-priority route, is promoted from its low-priority route to the high-priority route.
+> Thank you for this patch.
 > 
-> Given that this demotion / unset / give up / yielding of the high-priority default route was a central and key side-effect of this function being called, I felt that “yield” was a much more apt action verb than “choose”.
+> I have a system where the timezone is currently set to "America/Denver" which periodically results in the being incorrectly identified as “Navajo”:
 > 
-> Comparing it to, say, “pthread_yield”, in that case it is a thread giving up or yielding the processor / scheduler. In this case, it is a gateway giving up or yielding the high-priority default route.
+> 2023-12-22T09:27:46-0700 [19205453]# cat /etc/timezone
+> America/Denver
 > 
-> Does that help color and explain the rationale I had?
+> But is identified as “Navajo” here:
 > 
-
+> connmand[<PID>]: src/timezone.c:__connman_timezone_init()
+> connmand[<PID>]: src/timezone.c:__connman_timezone_lookup() sysconfig zone (null)
+> connmand[<PID>]: src/timezone.c:__connman_timezone_lookup() localtime zone Navajo
+> 
+> But in another run is identified as “America/Denver”:
+> 
+> connmand[<PID>]: src/timezone.c:__connman_timezone_init()
+> connmand[<PID>]: src/timezone.c:__connman_timezone_lookup() sysconfig zone (null)
+> connmand[<PID>]: src/timezone.c:__connman_timezone_lookup() localtime zone America/Denver
+> 
+> I will be eager to see if this patch series fixes this issue.
+> 
+> Best,
+> 
+> Grant
+> 
 
 Hi Grant,
 
-Thanks for the explanation, with the two priorities of routes it makes a 
-bit more sense. Still, it just occurred to me that "provide" might also 
-work now that I thought this again after this detailed explanation of 
-yours. However, would that confuse as "provider" is already used as a 
-term for the VPNs inside ConnMan.
+I think it should help with that issue since comparing the tz files by 
+their content was not ideal as many of them are either equal files or 
+they are symlinks. Like that Navajo vs. America/Denver is, and as well 
+as the case that triggered the need for this change; Mariehamn and 
+Helsinki is:
 
-Lots of changes happening here and getting hard to keep up with all of 
-those. Oh well, it just takes time.
+$ ls /usr/share/zoneinfo/*/Navajo -l
+lrwxrwxrwx 1 root root 14 Dec  1 23:51 /usr/share/zoneinfo/posix/Navajo 
+-> America/Denver
+lrwxrwxrwx 1 root root 14 Dec  1 23:51 /usr/share/zoneinfo/right/Navajo 
+-> America/Denver
 
-Sorry for the late reply, I was bit of indisposed during the holidays.
+and
+$ ls /usr/share/zoneinfo/*Navajo -l
+lrwxrwxrwx 1 root root 14 Dec  1 23:51 /usr/share/zoneinfo/Navajo -> 
+America/Denver
+
+
+Likewise Mariehamn -> Helsinki:
+
+$ ls /usr/share/zoneinfo/*/Mariehamn -l
+lrwxrwxrwx 1 root root 8 Dec  1 23:51 
+/usr/share/zoneinfo/Europe/Mariehamn -> Helsinki
+
+
+Did a small test on our devices and they do seem to set the correct one 
+with America/Denver set as timezone, at bootup and when changing it 
+manually.
+
+I guess you are also using the option to set the regdom on timezone 
+changes in the configuration and not to rely on ofono plugin to set 
+regdom? The change for the option was included in commits:
+f035539d46ac23ccb8916ed7ae8d38ab553d32b1 to support path for localtime
+aaab2161b247588bbee32fefe775ef55acc69c4d to set regdom to follow timezone
+
+Let me know how it works on other systems.
 
 Cheers!
 
