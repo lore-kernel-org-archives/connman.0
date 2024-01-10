@@ -1,123 +1,62 @@
-Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D51B828E02
-	for <connman@lists.linux.dev>; Thu,  4 Jan 2024 18:15:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=konsulko.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=konsulko.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C6CE48CC7
+	for <connman@lists.linux.dev>; Wed, 10 Jan 2024 13:39:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=konsulko.com header.i=@konsulko.com header.b="hizOzWk5"
-Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-427f5cc49afso4006891cf.2
-        for <connman@lists.linux.dev>; Thu, 04 Jan 2024 10:15:55 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ezbAJ/1V"
+Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-28c467446f0so3569671a91.0
+        for <connman@lists.linux.dev>; Wed, 10 Jan 2024 05:39:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=konsulko.com; s=google; t=1704392154; x=1704996954; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=wEg40idPZkPCbvs+9rljkh/1hISFpbpFmQBgGuH+8kc=;
-        b=hizOzWk56s1w+vCV8FNhpMhVJILYOPJaGu9UNmSrcufgPDavW5zWpTJifkpcPlugw6
-         XF3YCFLjtGpu/DTtFYH2mbCsx/VTiLjxYamSBnJ3PDxaTTXjFI1Lq+IorTNGWDThEn8p
-         kBz5LcZuDhPdia9W+b+UGHyA1oxGNE7sbAK1o=
+        d=gmail.com; s=20230601; t=1704893969; x=1705498769; darn=lists.linux.dev;
+        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=9Hp9E/AyifwUDp+wFa5atF/r+qqLzBuSfBxsJKR7Ybc=;
+        b=ezbAJ/1VLlo9qIU5rlDb9Zyrninm51R/QsfBQhQIq82TNzCi7hNYeuVsGnVDgRM1uH
+         HqMEORJXiM1kVMGjgFjMBOhpLYSS6OPDCGebi3M4q8yjONrzCielw4S+arTrMSz6iCKm
+         ilI56TH0898U/5LrT40AWtvDHGH+ja4dr+ue0sJawyeviLKtV7HxEtz29O27BilgBs6w
+         qCnajxQaxCf5O1CurHhneuHcG7rVXdMUDAtRqdqw3wcwgEhBI2DYAFoHb3wfOrjO03OE
+         +logAbxJXwEUzl+TFDkRz7RWfoQrIxj9MXtwtOaaK6NpwNOosyy10jGk4jSdW880pEdf
+         6V+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704392154; x=1704996954;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=wEg40idPZkPCbvs+9rljkh/1hISFpbpFmQBgGuH+8kc=;
-        b=eQ8u8nyyhHg45geBOEy3Ty3SLqet6nRWZBhWicrXelxPahfWisBSlvO/sDIpFITVIu
-         1SsZpvnWsWKnbRxutqdCAm1T9UKZgYWLSCSrplOTzOtFsfINKXA2q2fopISxVxXGVvEH
-         x1F1sbSGAVftZ5Woa/+GhmMIfq5ZsygbHsx0Ddk8yC3zlFOHE8S3ah7rpbMZ/fPHrBaV
-         KJBbp9qF+f2I5bvGAY6GsaxuJSpqVzoKDaPzCUIWHGciyY7nQKlf5/MOtCG7T2NXe8Nq
-         FGmn/j1f2y0NybATDxeIxuNTnDyso7DQw/jQNi6w4ukF6KrnJoc1Ls0/8kMH+4zQnGGK
-         Fovw==
-X-Gm-Message-State: AOJu0YyqI9nUtvMOf0gOxatUVCqhFua0JLM9aaRc3VFzgo647FHnOdhC
-	eh/VDpSi90Pq0lCPzsiQMySddjteujRzeSU0ttitnNIyr+4E0jw/3RVXiTck
-X-Google-Smtp-Source: AGHT+IHNwFVa6h7oJHXOi4hjZhf1019iM2zMWL+xB5BgdU+yOMIvYgDCupM7YcZwFSDCk5Bc88KdtK17LKtQJkKj5x8=
-X-Received: by 2002:a05:622a:b:b0:427:9036:425f with SMTP id
- x11-20020a05622a000b00b004279036425fmr1050554qtw.11.1704392154707; Thu, 04
- Jan 2024 10:15:54 -0800 (PST)
+        d=1e100.net; s=20230601; t=1704893969; x=1705498769;
+        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=9Hp9E/AyifwUDp+wFa5atF/r+qqLzBuSfBxsJKR7Ybc=;
+        b=tVDRgG/qLwODLthJuvplC3wAWi1t+bq4DM40pzEjvCtMkY6tOtRc3S9VlitcBF9S2X
+         aJ9I+Ju8GN0i+sPxv9al7HzaQniPgqqp4vXFqFyDNggsghmKagNmbdY3oEnIPu57+8OD
+         fzzyJn2qtE9r2KX8gYthPsrhKI1pgbHX7AKWLRA7TcAZEzmqe6g/npWG8p9DH2+Hck/K
+         PYhH43MkuWnD1N/Wg/IxINyWzZyQ2sfswj47BtTDfSxHOhtRdh57ibgEvfMvqkpg2Oli
+         ab461IGdKoPESRfP3n8cRByl8VVXJHjeysfgUBxwJDpotLp0iBo6oAp0KMwbNNCEzMTr
+         Wzvw==
+X-Gm-Message-State: AOJu0YwFSqKq0s00oFR4T5wMBtrZUqTzTX9dLw0JFgOW/IAqcENXQpfM
+	/aekaJs/FtZCnryhg7gWDZ4Q8t+7AR5IN5XwV9bKHbg2Xgo=
+X-Google-Smtp-Source: AGHT+IGg7ICuxYLmMhvyFOWNMbdDDBRMtITJFHpmadV9iPD2VrelenUUxT3zyR//A1ucqHmXox1fzCtFfs8ama80Z8o=
+X-Received: by 2002:a17:90a:6b0d:b0:28c:ee69:c1c6 with SMTP id
+ v13-20020a17090a6b0d00b0028cee69c1c6mr101606pjj.41.1704893969514; Wed, 10 Jan
+ 2024 05:39:29 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20231220154248.91773-1-antonio.oliveira@konsulko.com>
- <47B181A7-0A76-45D8-8E0B-3183A4177FB9@nuovations.com> <5F5F2F14-2D51-46E1-9D2C-50FA16749271@holtmann.org>
-In-Reply-To: <5F5F2F14-2D51-46E1-9D2C-50FA16749271@holtmann.org>
-From: =?UTF-8?Q?Ant=C3=B3nio_Oliveira?= <antonio.oliveira@konsulko.com>
-Date: Thu, 4 Jan 2024 18:15:43 +0000
-Message-ID: <CAB0iYDYTB22J0rQZ0eAbiyqCi0xXNsc0ER+qhSSAaZEzOKA_7Q@mail.gmail.com>
-Subject: Re: [PATCH 0/2] Add option to omit DHCP Client Identifier
-To: Marcel Holtmann <marcel@holtmann.org>
-Cc: Grant Erickson <gerickson@nuovations.com>, connman@lists.linux.dev
+From: KeithG <ys3al35l@gmail.com>
+Date: Wed, 10 Jan 2024 07:39:18 -0600
+Message-ID: <CAG17S_M2JoeMXnTVRU=Pa=QYjkS69jJ1zK_sYr_8CP2tfS1vtg@mail.gmail.com>
+Subject: resolvectl versus openresolv with connman
+To: connman@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Thu, 21 Dec 2023 at 22:18, Marcel Holtmann <marcel@holtmann.org> wrote:
->
-> Hi Grant,
->
-> >> While recently working a customer project, I ran into an issue after
-> >> upgrading the OS to a newer version which uses connman for network
-> >> management.
-> >>
-> >> The DHCP client in the old OS didn't include option 61 (Client
-> >> Identifier) but connman does. In this scenario, when the system
-> >> reboots after an upgrade, it changes IP address, which can get very
-> >> confusing, especially if a UI is waiting for the device to come back
-> >> alive to signal completion of the update.
-> >>
-> >> This proposed change adds an option to main.conf - OmitClientIdentifie=
-r,
-> >> which, if set to true causes that option to not be added to DHCP
-> >> packets.
-> >>
-> >> The default behaviour is retained in case no option is set in main.con=
-f.
-> >>
-> >> The change is relatively small, and I'm posting it here in case it is
-> >> helpful for connman users facing the same issue.
-> >>
-> >> Please feel free to consider or exclude it. If there's anything that I
-> >> can do to improve it to match upstream requirements, please let me kno=
-w
-> >> and I'll do what I can to help.
-> >
-> > Ant=C3=B3nio,
-> >
-> > It=E2=80=99s slightly different than the client identifier; however, di=
-d you experiment with the existing AllowHostnameUpdates configuration optio=
-n?
-> >
-> > Also, connman should request the last-issued DHCP address to the DHCP s=
-erver. Assuming another client hasn=E2=80=99t reserved it first, the client=
- should get a semi-stable IP address. Did you chase that down as well?
-> >
-> > Finally, if the DHCP server is configured to serve a different IPv4 add=
-ress for the specified client ID rather than the one the client has, might =
-this be better addressed at the DHCP server? Though, I can see that you mig=
-ht not have access to the server.
->
-> I think that Denis already mentioned this. We need to kill the ConnMan DH=
-CP client in favor of the one from ELL.
+I am trying to set up connman to work with resolvectl/systemd-resolved
+Is there a way to do this without re-building with a flag?
 
-Sorry, a combination of holiday season and spam filter made me miss
-this message.
-If this is a pointless change given the short term plans for connman,
-that's fine, sure.
+According to the Arch Wiki, connman would need to be rebuilt with this flag:
+--with-dns-backend=systemd-resolved
+to work with resolved.
 
-FWIW, it'd be nice to consider some option to not fill the Client
-Identifier in DHCP packets in the future. It seems legitimate to
-upgrade a system that didn't use that option to a new version running
-connman, and the likelyhood of it changing IP in the process is high.
+Could this be added as a runtime config in /etc/connman/main.conf?
 
-Cheers,
-Ant=C3=B3nio
-
-
->
-> Regards
->
-> Marcel
->
+Keith
