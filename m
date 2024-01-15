@@ -1,62 +1,83 @@
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C6CE48CC7
-	for <connman@lists.linux.dev>; Wed, 10 Jan 2024 13:39:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ezbAJ/1V"
-Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-28c467446f0so3569671a91.0
-        for <connman@lists.linux.dev>; Wed, 10 Jan 2024 05:39:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1704893969; x=1705498769; darn=lists.linux.dev;
-        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=9Hp9E/AyifwUDp+wFa5atF/r+qqLzBuSfBxsJKR7Ybc=;
-        b=ezbAJ/1VLlo9qIU5rlDb9Zyrninm51R/QsfBQhQIq82TNzCi7hNYeuVsGnVDgRM1uH
-         HqMEORJXiM1kVMGjgFjMBOhpLYSS6OPDCGebi3M4q8yjONrzCielw4S+arTrMSz6iCKm
-         ilI56TH0898U/5LrT40AWtvDHGH+ja4dr+ue0sJawyeviLKtV7HxEtz29O27BilgBs6w
-         qCnajxQaxCf5O1CurHhneuHcG7rVXdMUDAtRqdqw3wcwgEhBI2DYAFoHb3wfOrjO03OE
-         +logAbxJXwEUzl+TFDkRz7RWfoQrIxj9MXtwtOaaK6NpwNOosyy10jGk4jSdW880pEdf
-         6V+w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704893969; x=1705498769;
-        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=9Hp9E/AyifwUDp+wFa5atF/r+qqLzBuSfBxsJKR7Ybc=;
-        b=tVDRgG/qLwODLthJuvplC3wAWi1t+bq4DM40pzEjvCtMkY6tOtRc3S9VlitcBF9S2X
-         aJ9I+Ju8GN0i+sPxv9al7HzaQniPgqqp4vXFqFyDNggsghmKagNmbdY3oEnIPu57+8OD
-         fzzyJn2qtE9r2KX8gYthPsrhKI1pgbHX7AKWLRA7TcAZEzmqe6g/npWG8p9DH2+Hck/K
-         PYhH43MkuWnD1N/Wg/IxINyWzZyQ2sfswj47BtTDfSxHOhtRdh57ibgEvfMvqkpg2Oli
-         ab461IGdKoPESRfP3n8cRByl8VVXJHjeysfgUBxwJDpotLp0iBo6oAp0KMwbNNCEzMTr
-         Wzvw==
-X-Gm-Message-State: AOJu0YwFSqKq0s00oFR4T5wMBtrZUqTzTX9dLw0JFgOW/IAqcENXQpfM
-	/aekaJs/FtZCnryhg7gWDZ4Q8t+7AR5IN5XwV9bKHbg2Xgo=
-X-Google-Smtp-Source: AGHT+IGg7ICuxYLmMhvyFOWNMbdDDBRMtITJFHpmadV9iPD2VrelenUUxT3zyR//A1ucqHmXox1fzCtFfs8ama80Z8o=
-X-Received: by 2002:a17:90a:6b0d:b0:28c:ee69:c1c6 with SMTP id
- v13-20020a17090a6b0d00b0028cee69c1c6mr101606pjj.41.1704893969514; Wed, 10 Jan
- 2024 05:39:29 -0800 (PST)
+Received: from mail.holtmann.org (coyote.holtmann.net [212.227.132.17])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E977A6ADC
+	for <connman@lists.linux.dev>; Mon, 15 Jan 2024 07:53:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=holtmann.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=holtmann.org
+Received: from smtpclient.apple (p5b3d275b.dip0.t-ipconnect.de [91.61.39.91])
+	by mail.holtmann.org (Postfix) with ESMTPSA id 852B1CECC3;
+	Mon, 15 Jan 2024 08:53:31 +0100 (CET)
+Content-Type: text/plain;
+	charset=us-ascii
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-From: KeithG <ys3al35l@gmail.com>
-Date: Wed, 10 Jan 2024 07:39:18 -0600
-Message-ID: <CAG17S_M2JoeMXnTVRU=Pa=QYjkS69jJ1zK_sYr_8CP2tfS1vtg@mail.gmail.com>
-Subject: resolvectl versus openresolv with connman
-To: connman@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3774.300.61.1.2\))
+Subject: Re: [PATCH] src/log.c: Include libgen.h for basename API
+From: Marcel Holtmann <marcel@holtmann.org>
+In-Reply-To: <20240102015330.3730946-1-raj.khem@gmail.com>
+Date: Mon, 15 Jan 2024 08:53:20 +0100
+Cc: connman@lists.linux.dev
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <31E99B2E-3284-4B12-93B5-DDE3B8935100@holtmann.org>
+References: <20240102015330.3730946-1-raj.khem@gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+X-Mailer: Apple Mail (2.3774.300.61.1.2)
 
-I am trying to set up connman to work with resolvectl/systemd-resolved
-Is there a way to do this without re-building with a flag?
+Hi Khem,
 
-According to the Arch Wiki, connman would need to be rebuilt with this flag:
---with-dns-backend=systemd-resolved
-to work with resolved.
+> Use POSIX version of basename. This comes to front with latest musl
+> which dropped the declaration from string.h [1] it fails to build with
+> clang-17+ because it treats implicit function declaration as error.
+>=20
+> Fix it by applying the basename on a copy of string since posix =
+version
+> may modify the input string.
+>=20
+> [1] =
+https://git.musl-libc.org/cgit/musl/commit/?id=3D725e17ed6dff4d0cd22487bb6=
+4470881e86a92e7
+>=20
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ---
+> src/log.c | 6 ++++--
+> 1 file changed, 4 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/src/log.c b/src/log.c
+> index 554b046..941e078 100644
+> --- a/src/log.c
+> +++ b/src/log.c
+> @@ -24,6 +24,7 @@
+> #endif
+>=20
+> #include <stdio.h>
+> +#include <libgen.h>
+> #include <unistd.h>
+> #include <stdarg.h>
+> #include <stdlib.h>
+> @@ -196,6 +197,7 @@ int __connman_log_init(const char *program, const =
+char *debug,
+> const char *program_name, const char *program_version)
+> {
+> static char path[PATH_MAX];
+> +  char* tmp =3D strdup(program);
+> int option =3D LOG_NDELAY | LOG_PID;
+>=20
+> program_exec =3D program;
+> @@ -212,8 +214,8 @@ int __connman_log_init(const char *program, const =
+char *debug,
+> if (backtrace)
+> signal_setup(signal_handler);
+>=20
+> - openlog(basename(program), option, LOG_DAEMON);
+> -
+> + openlog(basename(tmp), option, LOG_DAEMON);
+> +  free(tmp);
 
-Could this be added as a runtime config in /etc/connman/main.conf?
+can you please follow the coding style.
 
-Keith
+Regards
+
+Marcel
+
