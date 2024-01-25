@@ -1,162 +1,690 @@
-Received: from EUR04-HE1-obe.outbound.protection.outlook.com (mail-he1eur04on2114.outbound.protection.outlook.com [40.107.7.114])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f44.google.com (mail-oo1-f44.google.com [209.85.161.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 201AFC2D6
-	for <connman@lists.linux.dev>; Fri, 19 Jan 2024 07:38:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.7.114
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705649913; cv=fail; b=ak2tT5sEOlzDWp5OM9A1SuBP7FxtQTfOR8SEbjkgAKtw6cZEwsSzHXUcoJ7LljuL6C0P7LX9KDv1Jx+8TpZn3pTrFTNZDY+U1/m1Jbsij7/AytqVexzG7QIBGt//vYCZtjpMrYGKn9FJZ3dhHkMngceOvl1pbHViBdecogCR5MI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705649913; c=relaxed/simple;
-	bh=fgtfNOm7tv9WvbDxchcDlJpOr4bcMEm085vgO8GsKbM=;
-	h=From:To:Subject:Date:Message-ID:Content-Type:MIME-Version; b=I5wwYe3m65LGv74fXb4/u95P871pB4iH5qmU/L/nrIfplg6F52P9JnKjeVS7GhHSbOGb3ywb6ZbXwTdHmuXe8OQHjy7KVUtZL2ONpqosmoMJH2nSskUcH1wA+KfmIYKkPvsxyI43SOinN7Xh8byLmsWHKz5BSP8zdWos9npg2sA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=prevas.dk; spf=pass smtp.mailfrom=prevas.dk; dkim=pass (1024-bit key) header.d=prevas.dk header.i=@prevas.dk header.b=EjzhJqby; arc=fail smtp.client-ip=40.107.7.114
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=prevas.dk
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=prevas.dk
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B536A13A25D
+	for <connman@lists.linux.dev>; Thu, 25 Jan 2024 21:56:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.44
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1706219784; cv=none; b=Z0V1UZaO2rGBh118iCY5VRhpVRyeWV0e13qbHO1jE1N5ePa9lft8VEZDB2Yy1BDpKQRgmOaZHIm/yH9VfidOtZMj1U736axYbCmJ8QYdcvF4dG8KEmiL1A7z30nWge31gWP+Dvu6rxoK30iSzZ2kpWxi45InJlFqC80VO3tEjhU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1706219784; c=relaxed/simple;
+	bh=65E8B7RH67cIfnihEbxXftNdb7fTalICW3waVA4ZOgQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=l4eQ1oOYHgAIDoJdVcQ8GEuiGaZTN1FKbnJh5cl/5+l0SZ0QlL7Rr15M9v2islJrmsvQ/Cq4HbHWnoIBdN/DNd6RXytGwSp/r+Cu1v8EwFEUfK26yW+WBdXrdH6ARmHHFN2qi13Wk6hp6AtN0u/reLEsxPj0NphkvRD4LjwuGg8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Qyz+7C2k; arc=none smtp.client-ip=209.85.161.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=prevas.dk header.i=@prevas.dk header.b="EjzhJqby"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=S2V3AADxNSVa1jt1cVx8CebhdVBgfOGJJwe2gA+vJz7jL+iXVoeHWbUnPv8f5jJiGuWEYckdoEr3JJvWb+zWqI+HqykF/W1Jnk3q0NLboiau2knor8IPpX9KrvIl+KhcLB2otR0nmKNmSra8Zl7CpNVWiANbeMnBhWdK16OcgMRjX3Dhe4OT48kp4Hw5WiHmZj8CpRwVf4O36HtFjFOZDF1pZSEWiTNpugrGUSFzNHjnqynnKS3XLCb1HmZnEPz1RjJB65kMBGNXjWuYlHN5nXDebLlMn7Lk5FMntgxhOMQpA15e4H58nXaZAydeFRge3gqZyJYO0Gjy2zlWHKIo8w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=fgtfNOm7tv9WvbDxchcDlJpOr4bcMEm085vgO8GsKbM=;
- b=cI0X7NvHfih3h2mrvWwoqhXTZQfD/Y5NRiB8X0G0f0X9GKIv8MTSX367WDl433W6nJZrPImqS4axfHVNs3BIGeLMwMKJ2mS0WSQLpUGsY9pKz1Ag2tF755cUR/AvKdMY4G1nyIJCqMCzHj0lfD7EIN8KW0iCaQP/ZDNEtvPdVe1vnmoTFT7aM1hSFfmHWtFxmyEzPssZw2Em9liYWJZxL1x92NgV84X2FgXTjhZPV1Vxa+7mC3YvJ86yDJcAs48DtgkGFPNLCnEFYT4qd40qzDuMkiTRFWmwYrHnqv901no/PX3BqzrlnRHn0AcFFLhnuzrrkFWuf2rZvh4Hit5YKg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=prevas.dk; dmarc=pass action=none header.from=prevas.dk;
- dkim=pass header.d=prevas.dk; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=prevas.dk;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=fgtfNOm7tv9WvbDxchcDlJpOr4bcMEm085vgO8GsKbM=;
- b=EjzhJqbyUAkGicOIpgr4+jlF8z9ey46ok78CEjdQ5hzy01FYKX4SUWTniXI1PRzaRJ6/nZWydX0YjdbIjQN5hkqdRsZUCpEQHen3vDRxwJHAl5lcfLF6jyruEu6gBrPaVO3P2hYBkfv1jFRn9H5sxgQPN+GQ4t/XQsAHR3S1Xpg=
-Received: from AM9PR10MB4854.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:416::15)
- by DU0PR10MB5606.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:318::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7202.24; Fri, 19 Jan
- 2024 07:38:25 +0000
-Received: from AM9PR10MB4854.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::724f:ad66:ebea:8246]) by AM9PR10MB4854.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::724f:ad66:ebea:8246%6]) with mapi id 15.20.7202.024; Fri, 19 Jan 2024
- 07:38:25 +0000
-From: Gabriel Sanches <gabriel.sanches@prevas.dk>
-To: "connman@lists.linux.dev" <connman@lists.linux.dev>
-Subject: Online check failure does not downgrades service
-Thread-Topic: Online check failure does not downgrades service
-Thread-Index: AQHaSqpiq5fsa/MBPECOJL3GP1Q4TQ==
-Date: Fri, 19 Jan 2024 07:38:25 +0000
-Message-ID:
- <AM9PR10MB485454A9E0F1F672126EA4EFE1702@AM9PR10MB4854.EURPRD10.PROD.OUTLOOK.COM>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-msip_labels:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=prevas.dk;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: AM9PR10MB4854:EE_|DU0PR10MB5606:EE_
-x-ms-office365-filtering-correlation-id: 3d0d1d86-a938-4451-1a30-08dc18c19ec8
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info:
- qxvBo0beS8Gg2nWvDFeyPBUDAJuk519FkcnWNSC5f/zg6TsI15EFhdZ+f/8Vw9KLFH8pvzskuYUMp6DjZwP4DR3+ySlGvvt1Q6iCbuFECzmgOSJq+aiyNRgiiNzmv+DBeAVIsvxsl34oqZg2Goaen5p0DeJtgBTN1USu0CPjxfRHM2FRiCj+xngfRaZhJbmA2pgQX3+7XA1ndxDEDqVJvhr7W3L5G781BOlD8kHmUMvFg+oj5905YUG/UArdYJk6CFI9LbccGO3MnUEPjmmyYIHkdFlhli4JIGdlErqKEipgNcBigMMD4rpQmvu7oGeQ2FC+WdclRGjn7F4ZeKW/WADNGyl5EV1ztu56IIE+HwpPRBjLtA/7xC2Qh246JUyMjARnLGJJqA62WlSuwZkerX5lxPJdHQclX6D1EQPnN/KmA5SKRNQTxdpA4hl/MH0EZJDPr4aahTynNfCoiXG/vcKo59KSrxX45VqOxfSzVZBDf2hP9Zc+2sDAte4reKS8lEWC3JUksGEt4zi+QF8NfN+K2FgIxaX2timIgQtvNu8XbuDCDVLvMazdlvJ0Smk78ueiPowfeLnYYISkRqzt73LRZh23NMUlC7WnGovWyVYtnv0rxQ/i+0Qv8KmEiCOh
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM9PR10MB4854.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230031)(136003)(376002)(396003)(346002)(39850400004)(366004)(230922051799003)(451199024)(186009)(1800799012)(64100799003)(26005)(71200400001)(478600001)(19627235002)(7696005)(6506007)(9686003)(83380400001)(5660300002)(2906002)(41300700001)(91956017)(66476007)(316002)(66556008)(66946007)(76116006)(66446008)(64756008)(6916009)(44832011)(52536014)(8936002)(8676002)(38070700009)(38100700002)(122000001)(86362001)(33656002)(55016003);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?iso-8859-1?Q?oTjoG9pltgbeMLEhS/0iXWaE3b3ZE++asCEQ8ZoTxzsQ9Gsue5HNBiD1nz?=
- =?iso-8859-1?Q?WBXnEXsQgyaC8hvM6kmiwJ5ttAb0bzABKYnhGRa4+J9Q/fVYQTBkAbOLsj?=
- =?iso-8859-1?Q?W7UQKqHEfb49PMRBGN/Tjb5Mw1azVqafldgwcQmmgV99isLzfGtCKau8yy?=
- =?iso-8859-1?Q?1AwPFU0JZ4f/RfZscj0DuSPRjgKQPNbqortGXC6pnspbf/EU/HwmCFzV2V?=
- =?iso-8859-1?Q?8LqrSP/prhGY3fNx4apwlO5E2lQtxxaFfDkIRWeCXQP5I65xhTp6Er65nY?=
- =?iso-8859-1?Q?xyhM3VFD5wqoagi146H8rMB9XXV2pyg7tA+7RZcutmBjLmX50a51aR8F3r?=
- =?iso-8859-1?Q?Ge3A+CVd/KQds7XqgByC6qgFF/5hBkzU4pwZuX3i0JSBCln2gan46TdiJd?=
- =?iso-8859-1?Q?V7nNVMPn1f6e3e+ivpB2MXZXvci+H0+EXeMLfLEaGuArVGThewyBVv572n?=
- =?iso-8859-1?Q?9c7FUpzalQCYqcSG1dupDOSCrk6wJg/zBr11PnyF7oLheb5BygMW2maUO2?=
- =?iso-8859-1?Q?LE2n97qns7wr5kZwAYOWs+2hJ2J/EPABohWJsd37azObuFreE+rg6rCUGd?=
- =?iso-8859-1?Q?zd2GrcpUeTHJWfuikx1DguuO6gwQWmXFjtVjAojLriHmrR4zlq3N1X4kiR?=
- =?iso-8859-1?Q?xjIwuUWon5RCmn4svGhc0qcqb5QD9S7ppEKk2nsdwf6jWstiqvCwwgti+o?=
- =?iso-8859-1?Q?YuMn6MnugAlTzxn31ZNS0w2ygIKpRXzdPeiaK42xZp57ZMYSHLATjte9wY?=
- =?iso-8859-1?Q?f0nbhiLk7/ewE4oaA+4DRXJj8umi8FbH/KRmgVlWVvWbXON+dTwcSd0vGo?=
- =?iso-8859-1?Q?4T9uTTgck3uvAXw9/lFHND1uCplFnHris/80hMGtVvXRugPtt2BEp6MPzB?=
- =?iso-8859-1?Q?lwQYnj3Kgp2aakcPxT7FT9U2yBQHvOx9WU15K23o+hSd71NEXL60NgXGPv?=
- =?iso-8859-1?Q?Ctars4UcG4n+Owe3a0NYAXs67O+UZXQ6oLTg5tFcK93NDwjAcFMXyHjZ8e?=
- =?iso-8859-1?Q?UvxWAdcVP/3JmWlZwR26ndIMwrWbt8mM+unU/T4koXviqU+uIYPdYM2L3D?=
- =?iso-8859-1?Q?9rahuOcGNMsur5njFiEq+KWx9BoFcP8HXJEO81W6LOa8EAiHKOMz/03n2z?=
- =?iso-8859-1?Q?6qxTacIXHLwh8Lw+alEw2UpL/1gyxI6h3Yll5u1lOXKcSqhTBA3IpLrr/K?=
- =?iso-8859-1?Q?K/NBLARVDQ+SsUrHVuuRWdi7zuyoxk/YYXv4BjgoJ2vdN52/sLynyWvVpO?=
- =?iso-8859-1?Q?P8t3Xn1UuTGjCsSIU9u5H+VMWCi2L8L7N7tQxioSrXg7zEcjqP1JyeC19A?=
- =?iso-8859-1?Q?qk4H6GhXwVeo07naiz011JeLuowlsEbFKOeNHYgGBGg4gpEcyORQZTXV+y?=
- =?iso-8859-1?Q?SHlFDp/UgdcC0noVQ3JEDFQW6FAOLFyBnPrqcHm7Ze5yEw/rD4lLNYDzIR?=
- =?iso-8859-1?Q?Z8knBtEDqnmJjJBkKcETzzwDArdLZJkqOVowoONEVjzdC4mPeS/4qMVCPo?=
- =?iso-8859-1?Q?25X2QFW9r4Ec6c04qDPhWDOIenDBhTJReSeZQFIcFt9rj/sLmPtWzPBUEx?=
- =?iso-8859-1?Q?co38bxicxmGVf1zt2Hrw7QPTiRkWH7A1RvYEJWlFN/Rxn8JrWeTWJpuTz8?=
- =?iso-8859-1?Q?QazpFcY540o4EVhNnhAmQdP7efb20GLny6?=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Qyz+7C2k"
+Received: by mail-oo1-f44.google.com with SMTP id 006d021491bc7-5993047a708so3741464eaf.3
+        for <connman@lists.linux.dev>; Thu, 25 Jan 2024 13:56:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1706219781; x=1706824581; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=1UEyVUyFM6o5DpXyB3qwrmmnY/CQ2EHgHNQaLJUXpdE=;
+        b=Qyz+7C2kUcAmRkwwJVyVjOelKHVbdCrrSobjIcgXlFLnDM6PDcooTLUua6RVbPEJ6P
+         YrUMTBxhiOdtMUO9bAPTLcJPpdf0Yib7ue9oCgC0cCn8khKElrXoWmcwCtLkagrblsjJ
+         MzPqypU4Cs5/E9O1Uyq6uZozw7zz+7n5d6866U1DX8EaOY8nh+mr/Eza+H8lpvPq5MRr
+         2wt46/b9Kq6LFXWS7McMYb6pDGaY/gOLalj7X7UUjZ8TUaPyrP37Da9TWADnIGOzoTVZ
+         C5ZYMS77IqdArCfGMg9OIdjaOB2zcb5HGIggQNPQhfzLZaveMRmxlgPAtMqqq4+aYnMn
+         wfFg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706219781; x=1706824581;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=1UEyVUyFM6o5DpXyB3qwrmmnY/CQ2EHgHNQaLJUXpdE=;
+        b=jD395NO80+Ka21y/MDRWfBucrkDPM+3cZIsPpmSa6tTba4faS3Ii0tzV4TBhHK41BZ
+         7uUKlkBD+tJ/bZkbe3TKjkn/oslWf8WJNtZwvXHULLLBeDsr1xGCf4R4CJVVG/bsYjLx
+         H4d7DkFxlcmRdWNEDbpgq0JeVp7wYEWbmSyDn6G8FhdYoDOjK+D3xIQD4O9VGxpIrCCe
+         /uwVRfbrp/AoIOJj4Z1msO/zljxJK5UCD1LJJg0aMVP/duQF08Yix6NRc03yzjx3HgVj
+         ZVitSdhlnQoE5yjynPDtJzj1j/jXWTzD3akyDEhLN3fZqg9/cNffrTeq/YNU+8iNtLaQ
+         SooQ==
+X-Gm-Message-State: AOJu0YxmL41l3Si1zycxoyZTZsV9nz+VAg9N5BBw2CdOmu4pA62AX+Yh
+	lo2vFP+sveLpEshldAtUACA4xiLkL7sxHZSnnXRfGx2+/06GjXU82kkIr87k
+X-Google-Smtp-Source: AGHT+IGUoYHpMHKn24er1BIYx0jLiTP6cygpwWzuejoykva9bFEcJpQFBi8/eEUDOJZvTHuE+TInHw==
+X-Received: by 2002:a4a:c4cb:0:b0:599:c981:61f6 with SMTP id g11-20020a4ac4cb000000b00599c98161f6mr415247ooq.4.1706219781418;
+        Thu, 25 Jan 2024 13:56:21 -0800 (PST)
+Received: from localhost.localdomain (070-114-247-242.res.spectrum.com. [70.114.247.242])
+        by smtp.gmail.com with ESMTPSA id j1-20020a4ac541000000b00598d6a3ff3bsm586467ooq.13.2024.01.25.13.56.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 25 Jan 2024 13:56:21 -0800 (PST)
+From: Denis Kenzior <denkenz@gmail.com>
+To: connman@lists.linux.dev
+Cc: Denis Kenzior <denkenz@gmail.com>
+Subject: [PATCH 1/2] ofono: Remove support for CDMA
+Date: Thu, 25 Jan 2024 15:55:15 -0600
+Message-ID: <20240125215533.640304-1-denkenz@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-OriginatorOrg: prevas.dk
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: AM9PR10MB4854.EURPRD10.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3d0d1d86-a938-4451-1a30-08dc18c19ec8
-X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Jan 2024 07:38:25.0816
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: d350cf71-778d-4780-88f5-071a4cb1ed61
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: Y0iiNRoA+SF7blOPWSsI8CQQmHjfQJLqPADd5L6FIAPHCNkd2dno2K0/cTz4y2XK3qGloqb3Q13Ia1KO1WpwuSJAvt/9RZ119rk/DNPiIc4=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0PR10MB5606
+Content-Transfer-Encoding: 8bit
 
-While testing the online check on continuous mode, I found out that it does=
- not downgrades the service after the threshold is met.Seems like ipv6 bein=
-g on state (ready) already prevents the downgrade. My assumption comes from=
- inspecting=0A=
-=0A=
-src/service.c:is_online_check_failure_threshold_met_predicate=0A=
-=0A=
-Is this the correct behavior?=0A=
-=0A=
-connman is on master@807ad961777ffffad36f53ea034583466a7073de=0A=
-=0A=
-my main.conf file :=0A=
-[General]=0A=
-PreferredTechnologies=3Dwifi,ethernet=0A=
-DefaultAutoConnectTechnologies=3Dwifi,ethernet=0A=
-BackgroundScanning=3Dtrue=0A=
-EnableOnlineCheck=3Dtrue=0A=
-OnlineCheckConnectTimeout=3D10=0A=
-OnlineCheckMode=3Dcontinuous=0A=
-OnlineCheckIntervalStyle=3Dgeometric=0A=
-OnlineCheckInitialInterval=3D1=0A=
-OnlineCheckMaxInterval=3D8=0A=
-OnlineCheckFailuresThreshold=3D1=0A=
-=0A=
-relevant log:=0A=
-connmand[2065]: /usr/src/debug/connman/1.43-r0/src/service.c:online_check_c=
-ounters_log() service 0x18f29b0 (wifi_e8fb1ccdfacb_6d7563686f626f6d3547_man=
-aged_psk) ipv4 state 5 (online) failure(s/es) 2 ipv6 state 4=0A=
-(ready) failure(s/es) 0=0A=
-connmand[2065]: /usr/src/debug/connman/1.43-r0/src/service.c:online_check_c=
-ounter_threshold_is_met() service 0x18f29b0 (wifi_e8fb1ccdfacb_6d7563686f62=
-6f6d3547_managed_psk) failure threshold 1 failure(s) met 0=0A=
-connmand[2065]: /usr/src/debug/connman/1.43-r0/src/service.c:handle_continu=
-ous_online_check_failure() failures threshold was met 0 failures threshold =
-is met 0 default 1=0A=
-connmand[2065]: /usr/src/debug/connman/1.43-r0/src/service.c:online_check_c=
-ounters_log() service 0x18f29b0 (wifi_e8fb1ccdfacb_6d7563686f626f6d3547_man=
-aged_psk) ipv4 state 5 (online) failure(s/es) 2 ipv6 state 4=0A=
-(ready) failure(s/es) 0=0A=
-connmand[2065]: /usr/src/debug/connman/1.43-r0/src/service.c:online_check_c=
-ounter_threshold_is_met() service 0x18f29b0 (wifi_e8fb1ccdfacb_6d7563686f62=
-6f6d3547_managed_psk) failure threshold 1 failure(s) met 0=0A=
-connmand[2065]: /usr/src/debug/connman/1.43-r0/src/service.c:handle_continu=
-ous_online_check_failure() failures threshold was met 0, default 1=0A=
-connmand[2065]: /usr/src/debug/connman/1.43-r0/src/service.c:complete_onlin=
-e_check() reschedule online check 1=0A=
+oFono 2.2 removed all support for CDMA since most CDMA networks have
+now been shut down.  Remove support for CDMA inside the ofono plugin as
+well.
+---
+ plugins/ofono.c | 425 +-----------------------------------------------
+ 1 file changed, 8 insertions(+), 417 deletions(-)
+
+diff --git a/plugins/ofono.c b/plugins/ofono.c
+index 8bb5394926e0..9d0d44547a2c 100644
+--- a/plugins/ofono.c
++++ b/plugins/ofono.c
+@@ -52,8 +52,6 @@
+ #define OFONO_NETREG_INTERFACE		OFONO_SERVICE ".NetworkRegistration"
+ #define OFONO_CM_INTERFACE		OFONO_SERVICE ".ConnectionManager"
+ #define OFONO_CONTEXT_INTERFACE		OFONO_SERVICE ".ConnectionContext"
+-#define OFONO_CDMA_CM_INTERFACE		OFONO_SERVICE ".cdma.ConnectionManager"
+-#define OFONO_CDMA_NETREG_INTERFACE	OFONO_SERVICE ".cdma.NetworkRegistration"
+ 
+ #define MODEM_ADDED			"ModemAdded"
+ #define MODEM_REMOVED			"ModemRemoved"
+@@ -72,8 +70,6 @@ enum ofono_api {
+ 	OFONO_API_SIM =		0x1,
+ 	OFONO_API_NETREG =	0x2,
+ 	OFONO_API_CM =		0x4,
+-	OFONO_API_CDMA_NETREG =	0x8,
+-	OFONO_API_CDMA_CM =	0x10,
+ };
+ 
+ /*
+@@ -103,27 +99,6 @@ enum ofono_api {
+  * successful the modem is connected to the network. oFono will inform
+  * the plugin about IP configuration through the updating the context's
+  * properties.
+- *
+- * CDMA working flow:
+- *
+- * When a new modem appears, the plugin always powers it up. This
+- * allows the plugin to create connman_device either using IMSI either
+- * using modem Serial if the modem got a SIM interface or not.
+- *
+- * As for GSM, the core will call modem_enable() if the technology
+- * is enabled. modem_enable() will then set the modem online.
+- * If the technology is disabled then modem_disable() will just set the
+- * modem offline. The modem is always kept powered all the time.
+- *
+- * After setting the modem online the plugin waits for CdmaConnectionManager
+- * interface to appear. Then, once CdmaNetworkRegistration appears, a new
+- * Service will be created and registered at the core.
+- *
+- * When asked to connect to the network (network_connect()) the plugin
+- * will power up the CdmaConnectionManager interface.
+- * If the operation is successful the modem is connected to the network.
+- * oFono will inform the plugin about IP configuration through the
+- * updating CdmaConnectionManager settings properties.
+  */
+ 
+ static DBusConnection *connection;
+@@ -166,9 +141,6 @@ struct modem_data {
+ 
+ 	bool set_powered;
+ 
+-	/* CDMA ConnectionManager Interface */
+-	bool cdma_cm_powered;
+-
+ 	/* ConnectionManager Interface */
+ 	bool attached;
+ 	bool cm_powered;
+@@ -179,7 +151,6 @@ struct modem_data {
+ 	/* Netreg Interface */
+ 	char *name;
+ 	uint8_t strength;
+-	uint8_t data_strength; /* 1xEVDO signal strength */
+ 	bool registered;
+ 	bool roaming;
+ 
+@@ -198,10 +169,6 @@ static const char *api2string(enum ofono_api api)
+ 		return "netreg";
+ 	case OFONO_API_CM:
+ 		return "cm";
+-	case OFONO_API_CDMA_NETREG:
+-		return "cdma-netreg";
+-	case OFONO_API_CDMA_CM:
+-		return "cmda-cm";
+ 	}
+ 
+ 	return "unknown";
+@@ -660,63 +627,6 @@ static int context_set_active(struct modem_data *modem,
+ 	return err;
+ }
+ 
+-static void cdma_cm_set_powered_reply(struct modem_data *modem,
+-				struct network_context *context, bool success)
+-{
+-	DBG("%s", context->path);
+-
+-	if (success) {
+-		/*
+-		 * Don't handle do anything on success here. oFono will send
+-		 * the change via PropertyChanged signal.
+-		 */
+-		return;
+-	}
+-
+-	/*
+-	 * Powered = True might fail due a timeout. That means oFono
+-	 * still tries to go online. If we retry to set Powered = True,
+-	 * we just get a InProgress error message. Should we power
+-	 * cycle the modem in such cases?
+-	 */
+-
+-	if (!context->network) {
+-		/*
+-		 * In the case where we power down the device
+-		 * we don't wait for the reply, therefore the network
+-		 * might already be gone.
+-		 */
+-		return;
+-	}
+-
+-	connman_network_set_error(context->network,
+-				CONNMAN_NETWORK_ERROR_ASSOCIATE_FAIL);
+-}
+-
+-static int cdma_cm_set_powered(struct modem_data *modem, dbus_bool_t powered)
+-{
+-	int err;
+-	struct network_context *context = NULL;
+-
+-	if (!modem->context_list)
+-		return -1;
+-
+-	DBG("%s powered %d", modem->path, powered);
+-
+-	/* In case of CDMA, there is only one context */
+-	context = modem->context_list->data;
+-	err = set_property(modem, context, modem->path,
+-				OFONO_CDMA_CM_INTERFACE,
+-				"Powered", DBUS_TYPE_BOOLEAN,
+-				&powered,
+-				cdma_cm_set_powered_reply);
+-
+-	if (!powered && err == -EINPROGRESS)
+-		return 0;
+-
+-	return err;
+-}
+-
+ static int modem_set_online(struct modem_data *modem, dbus_bool_t online)
+ {
+ 	DBG("%s online %d", modem->path, online);
+@@ -793,10 +703,6 @@ static uint8_t extract_interfaces(DBusMessageIter *array)
+ 			interfaces |= OFONO_API_NETREG;
+ 		else if (g_str_equal(name, OFONO_CM_INTERFACE))
+ 			interfaces |= OFONO_API_CM;
+-		else if (g_str_equal(name, OFONO_CDMA_CM_INTERFACE))
+-			interfaces |= OFONO_API_CDMA_CM;
+-		else if (g_str_equal(name, OFONO_CDMA_NETREG_INTERFACE))
+-			interfaces |= OFONO_API_CDMA_NETREG;
+ 
+ 		dbus_message_iter_next(&entry);
+ 	}
+@@ -1018,27 +924,19 @@ out:
+ 	g_free(gateway);
+ }
+ 
++/*
++ * This functions tests if we have the necessary information gathered
++ * before we are able to create a device.
++ */
+ static bool ready_to_create_device(struct modem_data *modem)
+ {
+-	/*
+-	 * There are three different modem types which behave slightly
+-	 * different:
+-	 * - GSM modems will expose the SIM interface then the
+-	 *   CM interface.
+-	 * - CDMA modems will expose CM first and sometime later
+-	 *   a unique serial number.
+-	 *
+-	 * This functions tests if we have the necessary information gathered
+-	 * before we are able to create a device.
+-	 */
+-
+ 	if (modem->device)
+ 		return false;
+ 
+-	if (modem->imsi || modem->serial)
+-		return true;
++	if (!modem->imsi)
++		return false;
+ 
+-	return false;
++	return true;
+ }
+ 
+ static void create_device(struct modem_data *modem)
+@@ -1050,8 +948,6 @@ static void create_device(struct modem_data *modem)
+ 
+ 	if (modem->imsi)
+ 		ident = modem->imsi;
+-	else if (modem->serial)
+-		ident = modem->serial;
+ 
+ 	if (!connman_dbus_validate_ident(ident))
+ 		ident = connman_dbus_encode_string(ident);
+@@ -1611,22 +1507,6 @@ static void netreg_update_strength(struct modem_data *modem,
+ 	if (!modem->context_list)
+ 		return;
+ 
+-	/*
+-	 * GSM:
+-	 * We don't have 2 signal notifications we always report the strength
+-	 * signal. data_strength is always equal to 0.
+-	 *
+-	 * CDMA:
+-	 * In the case we have a data_strength signal (from 1xEVDO network)
+-	 * we don't need to update the value with strength signal (from 1xCDMA)
+-	 * because the modem is registered to 1xEVDO network for data call.
+-	 * In case we have no data_strength signal (not registered to 1xEVDO
+-	 * network), we must report the strength signal (registered to 1xCDMA
+-	 * network e.g slow mode).
+-	 */
+-	if (modem->data_strength != 0)
+-		return;
+-
+ 	/* For all the context */
+ 	for (list = modem->context_list; list; list = list->next) {
+ 		struct network_context *context = list->data;
+@@ -1639,39 +1519,6 @@ static void netreg_update_strength(struct modem_data *modem,
+ 	}
+ }
+ 
+-/* Retrieve 1xEVDO Data Strength signal */
+-static void netreg_update_datastrength(struct modem_data *modem,
+-					DBusMessageIter *value)
+-{
+-	GSList *list;
+-
+-	dbus_message_iter_get_basic(value, &modem->data_strength);
+-
+-	DBG("%s Data Strength %d", modem->path, modem->data_strength);
+-
+-	if (!modem->context_list)
+-		return;
+-
+-	/*
+-	 * CDMA modem is not registered to 1xEVDO network, let
+-	 * update_signal_strength() reporting the value on the Strength signal
+-	 * notification.
+-	 */
+-	if (modem->data_strength == 0)
+-		return;
+-
+-	/* For all the context */
+-	for (list = modem->context_list; list; list = list->next) {
+-		struct network_context *context = list->data;
+-
+-		if (context->network) {
+-			connman_network_set_strength(context->network,
+-							modem->data_strength);
+-			connman_network_update(context->network);
+-		}
+-	}
+-}
+-
+ static void netreg_update_status(struct modem_data *modem,
+ 					DBusMessageIter *value)
+ {
+@@ -1821,115 +1668,6 @@ static int netreg_get_properties(struct modem_data *modem)
+ 			netreg_properties_reply, modem);
+ }
+ 
+-static void add_cdma_network(struct modem_data *modem)
+-{
+-	struct network_context *context = NULL;
+-	/* Be sure that device is created before adding CDMA network */
+-	if (!modem->device)
+-		return;
+-
+-	/*
+-	 * CDMA modems don't need contexts for data call, however the current
+-	 * add_network() logic needs one, so we create one to proceed.
+-	 */
+-	if (!modem->context_list) {
+-		context = network_context_alloc(modem->path);
+-		modem->context_list = g_slist_prepend(modem->context_list,
+-							context);
+-	} else
+-		context = modem->context_list->data;
+-
+-	if (!modem->name)
+-		modem->name = g_strdup("CDMA Network");
+-
+-	add_network(modem, context);
+-
+-	if (modem->cdma_cm_powered)
+-		set_connected(modem, context);
+-}
+-
+-static gboolean cdma_netreg_changed(DBusConnection *conn,
+-					DBusMessage *message,
+-					void *user_data)
+-{
+-	const char *path = dbus_message_get_path(message);
+-	struct modem_data *modem;
+-	DBusMessageIter iter, value;
+-	const char *key;
+-
+-	DBG("");
+-
+-	modem = g_hash_table_lookup(modem_hash, path);
+-	if (!modem)
+-		return TRUE;
+-
+-	if (modem->ignore)
+-		return TRUE;
+-
+-	if (!dbus_message_iter_init(message, &iter))
+-		return TRUE;
+-
+-	dbus_message_iter_get_basic(&iter, &key);
+-
+-	dbus_message_iter_next(&iter);
+-	dbus_message_iter_recurse(&iter, &value);
+-
+-	if (g_str_equal(key, "Name"))
+-		netreg_update_name(modem, &value);
+-	else if (g_str_equal(key, "Strength"))
+-		netreg_update_strength(modem, &value);
+-	else if (g_str_equal(key, "DataStrength"))
+-		netreg_update_datastrength(modem, &value);
+-	else if (g_str_equal(key, "Status"))
+-		netreg_update_status(modem, &value);
+-
+-	if (modem->registered)
+-		add_cdma_network(modem);
+-	else
+-		remove_all_networks(modem);
+-
+-	return TRUE;
+-}
+-
+-static void cdma_netreg_properties_reply(struct modem_data *modem,
+-					DBusMessageIter *dict)
+-{
+-	DBG("%s", modem->path);
+-
+-	while (dbus_message_iter_get_arg_type(dict) == DBUS_TYPE_DICT_ENTRY) {
+-		DBusMessageIter entry, value;
+-		const char *key;
+-
+-		dbus_message_iter_recurse(dict, &entry);
+-		dbus_message_iter_get_basic(&entry, &key);
+-
+-		dbus_message_iter_next(&entry);
+-		dbus_message_iter_recurse(&entry, &value);
+-
+-		if (g_str_equal(key, "Name"))
+-			netreg_update_name(modem, &value);
+-		else if (g_str_equal(key, "Strength"))
+-			netreg_update_strength(modem, &value);
+-		else if (g_str_equal(key, "DataStrength"))
+-			netreg_update_datastrength(modem, &value);
+-		else if (g_str_equal(key, "Status"))
+-			netreg_update_status(modem, &value);
+-
+-		dbus_message_iter_next(dict);
+-	}
+-
+-	if (modem->registered)
+-		add_cdma_network(modem);
+-	else
+-		remove_all_networks(modem);
+-}
+-
+-static int cdma_netreg_get_properties(struct modem_data *modem)
+-{
+-	return get_properties(modem->path, OFONO_CDMA_NETREG_INTERFACE,
+-			cdma_netreg_properties_reply, modem);
+-}
+-
+ static void cm_update_attached(struct modem_data *modem,
+ 				DBusMessageIter *value)
+ {
+@@ -1999,67 +1737,6 @@ static gboolean cm_changed(DBusConnection *conn, DBusMessage *message,
+ 	return TRUE;
+ }
+ 
+-static void cdma_cm_update_powered(struct modem_data *modem,
+-					DBusMessageIter *value)
+-{
+-	struct network_context *context =  NULL;
+-	dbus_bool_t cdma_cm_powered;
+-
+-	dbus_message_iter_get_basic(value, &cdma_cm_powered);
+-	modem->cdma_cm_powered = cdma_cm_powered;
+-
+-	DBG("%s CDMA cm Powered %d", modem->path, modem->cdma_cm_powered);
+-
+-	if (!modem->context_list)
+-		return;
+-
+-	/* In case of CDMA, there is only one context */
+-	context = modem->context_list->data;
+-	if (modem->cdma_cm_powered)
+-		set_connected(modem, context);
+-	else
+-		set_disconnected(context);
+-}
+-
+-static void cdma_cm_update_settings(struct modem_data *modem,
+-					DBusMessageIter *value)
+-{
+-	DBG("%s Settings", modem->path);
+-
+-	extract_ipv4_settings(value, modem->context_list->data);
+-}
+-
+-static gboolean cdma_cm_changed(DBusConnection *conn,
+-				DBusMessage *message, void *user_data)
+-{
+-	const char *path = dbus_message_get_path(message);
+-	struct modem_data *modem;
+-	DBusMessageIter iter, value;
+-	const char *key;
+-
+-	modem = g_hash_table_lookup(modem_hash, path);
+-	if (!modem)
+-		return TRUE;
+-
+-	if (modem->online && !modem->context_list)
+-		cdma_netreg_get_properties(modem);
+-
+-	if (!dbus_message_iter_init(message, &iter))
+-		return TRUE;
+-
+-	dbus_message_iter_get_basic(&iter, &key);
+-
+-	dbus_message_iter_next(&iter);
+-	dbus_message_iter_recurse(&iter, &value);
+-
+-	if (g_str_equal(key, "Powered"))
+-		cdma_cm_update_powered(modem, &value);
+-	if (g_str_equal(key, "Settings"))
+-		cdma_cm_update_settings(modem, &value);
+-
+-	return TRUE;
+-}
+-
+ static void cm_properties_reply(struct modem_data *modem, DBusMessageIter *dict)
+ {
+ 	DBG("%s", modem->path);
+@@ -2089,39 +1766,6 @@ static int cm_get_properties(struct modem_data *modem)
+ 				cm_properties_reply, modem);
+ }
+ 
+-static void cdma_cm_properties_reply(struct modem_data *modem,
+-					DBusMessageIter *dict)
+-{
+-	DBG("%s", modem->path);
+-
+-	if (modem->online)
+-		cdma_netreg_get_properties(modem);
+-
+-	while (dbus_message_iter_get_arg_type(dict) == DBUS_TYPE_DICT_ENTRY) {
+-		DBusMessageIter entry, value;
+-		const char *key;
+-
+-		dbus_message_iter_recurse(dict, &entry);
+-		dbus_message_iter_get_basic(&entry, &key);
+-
+-		dbus_message_iter_next(&entry);
+-		dbus_message_iter_recurse(&entry, &value);
+-
+-		if (g_str_equal(key, "Powered"))
+-			cdma_cm_update_powered(modem, &value);
+-		if (g_str_equal(key, "Settings"))
+-			cdma_cm_update_settings(modem, &value);
+-
+-		dbus_message_iter_next(dict);
+-	}
+-}
+-
+-static int cdma_cm_get_properties(struct modem_data *modem)
+-{
+-	return get_properties(modem->path, OFONO_CDMA_CM_INTERFACE,
+-				cdma_cm_properties_reply, modem);
+-}
+-
+ static void sim_update_imsi(struct modem_data *modem,
+ 				DBusMessageIter *value)
+ {
+@@ -2279,25 +1923,11 @@ static void modem_update_interfaces(struct modem_data *modem,
+ 		}
+ 	}
+ 
+-	if (api_added(old_ifaces, new_ifaces, OFONO_API_CDMA_CM)) {
+-		if (ready_to_create_device(modem)) {
+-			create_device(modem);
+-			if (modem->registered)
+-				add_cdma_network(modem);
+-		}
+-
+-		if (modem->device)
+-			cdma_cm_get_properties(modem);
+-	}
+-
+ 	if (api_added(old_ifaces, new_ifaces, OFONO_API_NETREG)) {
+ 		if (modem->attached)
+ 			netreg_get_properties(modem);
+ 	}
+ 
+-	if (api_added(old_ifaces, new_ifaces, OFONO_API_CDMA_NETREG))
+-		cdma_netreg_get_properties(modem);
+-
+ 	if (api_removed(old_ifaces, new_ifaces, OFONO_API_CM)) {
+ 		if (modem->call_get_contexts) {
+ 			DBG("cancelling pending GetContexts call");
+@@ -2308,14 +1938,8 @@ static void modem_update_interfaces(struct modem_data *modem,
+ 		remove_all_contexts(modem);
+ 	}
+ 
+-	if (api_removed(old_ifaces, new_ifaces, OFONO_API_CDMA_CM))
+-		remove_all_contexts(modem);
+-
+ 	if (api_removed(old_ifaces, new_ifaces, OFONO_API_NETREG))
+ 		remove_all_networks(modem);
+-
+-	if (api_removed(old_ifaces, new_ifaces, OFONO_API_CDMA_NETREG))
+-		remove_all_networks(modem);
+ }
+ 
+ static gboolean modem_changed(DBusConnection *conn, DBusMessage *message,
+@@ -2385,15 +2009,6 @@ static gboolean modem_changed(DBusConnection *conn, DBusMessage *message,
+ 		modem->serial = g_strdup(serial);
+ 
+ 		DBG("%s Serial %s", modem->path, modem->serial);
+-
+-		if (has_interface(modem->interfaces,
+-					 OFONO_API_CDMA_CM)) {
+-			if (ready_to_create_device(modem)) {
+-				create_device(modem);
+-				if (modem->registered)
+-					add_cdma_network(modem);
+-			}
+-		}
+ 	}
+ 
+ 	return TRUE;
+@@ -2717,8 +2332,6 @@ static int network_connect(struct connman_network *network)
+ 
+ 	if (has_interface(modem->interfaces, OFONO_API_CM))
+ 		return context_set_active(modem, context, TRUE);
+-	else if (has_interface(modem->interfaces, OFONO_API_CDMA_CM))
+-		return cdma_cm_set_powered(modem, TRUE);
+ 
+ 	connman_error("Connection manager interface not available");
+ 
+@@ -2741,8 +2354,6 @@ static int network_disconnect(struct connman_network *network)
+ 
+ 	if (has_interface(modem->interfaces, OFONO_API_CM))
+ 		return context_set_active(modem, context, FALSE);
+-	else if (has_interface(modem->interfaces, OFONO_API_CDMA_CM))
+-		return cdma_cm_set_powered(modem, FALSE);
+ 
+ 	connman_error("Connection manager interface not available");
+ 
+@@ -2833,8 +2444,6 @@ static guint context_added_watch;
+ static guint context_removed_watch;
+ static guint netreg_watch;
+ static guint context_watch;
+-static guint cdma_cm_watch;
+-static guint cdma_netreg_watch;
+ 
+ static int ofono_init(void)
+ {
+@@ -2907,25 +2516,11 @@ static int ofono_init(void)
+ 						netreg_changed,
+ 						NULL, NULL);
+ 
+-	cdma_cm_watch = g_dbus_add_signal_watch(connection, OFONO_SERVICE,
+-						NULL, OFONO_CDMA_CM_INTERFACE,
+-						PROPERTY_CHANGED,
+-						cdma_cm_changed,
+-						NULL, NULL);
+-
+-	cdma_netreg_watch = g_dbus_add_signal_watch(connection, OFONO_SERVICE,
+-						NULL, OFONO_CDMA_NETREG_INTERFACE,
+-						PROPERTY_CHANGED,
+-						cdma_netreg_changed,
+-						NULL, NULL);
+-
+-
+ 	if (watch == 0 || modem_added_watch == 0 || modem_removed_watch == 0 ||
+ 			modem_watch == 0 || cm_watch == 0 || sim_watch == 0 ||
+ 			context_added_watch == 0 ||
+ 			context_removed_watch == 0 ||
+-			context_watch == 0 || netreg_watch == 0 ||
+-			cdma_cm_watch == 0 || cdma_netreg_watch == 0) {
++			context_watch == 0 || netreg_watch == 0) {
+ 		err = -EIO;
+ 		goto remove;
+ 	}
+@@ -2950,8 +2545,6 @@ static int ofono_init(void)
+ 	return 0;
+ 
+ remove:
+-	g_dbus_remove_watch(connection, cdma_netreg_watch);
+-	g_dbus_remove_watch(connection, cdma_cm_watch);
+ 	g_dbus_remove_watch(connection, netreg_watch);
+ 	g_dbus_remove_watch(connection, context_watch);
+ 	g_dbus_remove_watch(connection, context_removed_watch);
+@@ -2994,8 +2587,6 @@ static void ofono_exit(void)
+ 	connman_device_driver_unregister(&modem_driver);
+ 	connman_network_driver_unregister(&network_driver);
+ 
+-	g_dbus_remove_watch(connection, cdma_netreg_watch);
+-	g_dbus_remove_watch(connection, cdma_cm_watch);
+ 	g_dbus_remove_watch(connection, netreg_watch);
+ 	g_dbus_remove_watch(connection, context_watch);
+ 	g_dbus_remove_watch(connection, context_removed_watch);
+-- 
+2.43.0
+
