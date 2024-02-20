@@ -1,53 +1,56 @@
 Received: from EUR04-DB3-obe.outbound.protection.outlook.com (mail-db3eur04on2133.outbound.protection.outlook.com [40.107.6.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80A3263512
-	for <connman@lists.linux.dev>; Tue, 20 Feb 2024 10:12:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 212245FDC5
+	for <connman@lists.linux.dev>; Tue, 20 Feb 2024 10:12:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.6.133
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708423967; cv=fail; b=oS8xEqwNOEFXEBX6/iEb2BgV8VqfnynGvm7vkz9GTqI3GusmKonIJEWNAtfNBw7Sf3lTB6/vl1+4RasJiqlyDzkZzZIrfbfDDemYWIBAJvezz5WaKMIowmdttSxM91LgRJrk7h+mMszcd/VlLzkr5705v4ymL+83Qsp3WfONRco=
+	t=1708423969; cv=fail; b=IdaHl0yKvTAtAhb0ddshGOpFqsIqBa7PeTQt13D3DXas0bBqDGBOnxuL67nEFx0SCe+mgIiEHwnXeCFznfjJd3ycszORg5ZavkwNr5/9omhVy+AeS2pUBIMNViVVgRdagIujFPdJz4jA1K5L8kiV1CtYfi6vUvaMCeKWwGg2vnM=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708423967; c=relaxed/simple;
-	bh=rwp307qnboAOXNjs10YIoCw7jPfas2gihUn8uKJQeeA=;
-	h=From:To:Cc:Subject:Date:Message-Id:Content-Type:MIME-Version; b=YLyY866Q+C6uGa4My1Y+7eu7t7+Y31BkVBR/EF6M+9l+vm61aeaqsHQ8a161J5dBOr1pfkXDEuNTOmUtkbhihzhuqy77zHCkhQo3QOJr1qye0T0d1vkaAYqDQdMDcBbSNpXGf8lyyqVLpYxQJuKYYcRCPKeKijh8+EEj4HN4iPo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=kerlink.fr; spf=pass smtp.mailfrom=kerlink.fr; dkim=pass (2048-bit key) header.d=kerlink.fr header.i=@kerlink.fr header.b=WJ/D3T8H; arc=fail smtp.client-ip=40.107.6.133
+	s=arc-20240116; t=1708423969; c=relaxed/simple;
+	bh=YS9Wuoe8Wm2rc8A3nDn9l3rm5N6rDsadFWoGorzwt9I=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=U5UZ/jjhHsArkpjKUOk5gE5ORsFg416xLxBqsfCyLDnVLACViVX63amAdXz4oVD5LkBu2ALX0uE4OJQIBmkqulTJNBJqCSbiASjW1l3ghakOCTMEFx/sCvidbnkt68FbhzJZJ96PG7lcbAK1w+zKucDJOJbhEJUbiIBJo3uf/lE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=kerlink.fr; spf=pass smtp.mailfrom=kerlink.fr; dkim=pass (2048-bit key) header.d=kerlink.fr header.i=@kerlink.fr header.b=UAhz+rwn; arc=fail smtp.client-ip=40.107.6.133
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=kerlink.fr
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kerlink.fr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kerlink.fr header.i=@kerlink.fr header.b="WJ/D3T8H"
+	dkim=pass (2048-bit key) header.d=kerlink.fr header.i=@kerlink.fr header.b="UAhz+rwn"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Dnrmy3bFrF7aCgCJyL04Y9VPbpK828osHvcHxQ3Csp8YWyewuJwplByP7DzSOroh0Ec1pTediOo7dGJDrQvXD5hukwNZ9EKP8ksBOA496SzsG0hOBx1VILRMYU45KTnv1SGW5VQVv+RCaXHsLQjNDKmTy0kgB8bOKwfej5KdL29TEHHCy8PEAjvLhl0GgOQIcjJtafG+FvuJ7BvAv+83Xg/nSt83BOLeAnRPQFURGinGbNfQbYGvUIAwnAtsOSUALXN90efjgCnSXV8AsteoZg2ae8tAX1sNLh1sUi5vUB2aObYNjFym4yg0mCea8sM/4zvS5xpapTnuMRlkq1e8mQ==
+ b=YhseT/6ZAj2JMJHxGqc9Xq61SyzmxW0F1e2jZeMIzKxdHoNFzVPxBH/+m0caZzXCrnS0yvLZ0lpdgmsvhZ4afmj6NpHx9BcPiN9PJelUEWpxhahP+hvq2F572JS2qF3FL+EznI91QoztOoXv4AJLKIyMKg6kTHqChkxLr1DjXlmF8h2vFtN4Wywm71HL/Zcfk23+DfJUayABjYxPYkMktsR3VxMdG9O9nV9oalEkNWwCwZq+DY/KBFKF9raiX8RKh8MXRuGip3oYHgGANn4ju7cShEc3BPEjP1d8GJVy4upnDfxsx8eEGMPqvEAZ6g+rK1WFLdtF4TCfhbHwjkoAmw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=x6HI89/ZP8W8jDrjSyGBnO9CXTZGRp9t4vK/16pDudk=;
- b=j6pKg/RQhTOQgic53bW8n3CMOo0e4USnlnGjSYSnuLKQBoyd7rYvaAMT5SYSJyBqOuPmLYIvQpcMBWDRgWbz7idlY3Xe7sb55sW1sMqNWk6YAPAwJ2WSKh7GOtx0qA3hbtQwO02FCzCtK3AUvcXvxNSncaY90jUNYQ3cKfJRMVlvm2vseduXCTZOWftti9wvjN426rHh/Fwu3fIRJCgYTg7Hxel49HhEHmqbvYI21Ji31dpwzOSGmvL4xMR7ghmOZYhuuBq6Vim2XQ84i1O/Ynu2Ub5ocFU3Y7VUueh9j+V9Tp4I+GYZEnpyMiHueLvgiHJ8tsI/hTXA8eGYICU8dQ==
+ bh=F/NLF26l2AZ76MZ26oEmeuqK1EiOaZv33qQtRyTWjtU=;
+ b=ejC/FfwzDUezS3HhkvveMeM8xt6pz5GcX1LjPcP/CgskF0cbX4JTL/n3RY4Yk3F7S4njdt3y1T5wUJw36Fr9Q1ejm6DIhX1HT9SfsOgaqdsOp0tcbhArIcHRmNq14UaWiMqKMO+GQ+ITG7ZKo9+ZMOZjgUPJmdASfXgatW/gvg7erSs4flK1N9hiuUr0kU4lSQkNlNMsUQ7DPDC7ZycNnMocwWhCPjPYZLtKshU6thXgVKGxMUYuHze/TN/xzsq3Xc+bz0kpI73P6nv9VmUEr1P+GOqNo7gEbZh+gTb/m8dhwgGdyqxHYnYCC1cqrBCI0CGJVFJg8UxtSt8rXTGGyw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=kerlink.fr; dmarc=pass action=none header.from=kerlink.fr;
  dkim=pass header.d=kerlink.fr; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kerlink.fr;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=x6HI89/ZP8W8jDrjSyGBnO9CXTZGRp9t4vK/16pDudk=;
- b=WJ/D3T8H3KYQvd9blkyxaTfEb/d+FNZHMMAf53JoKE6hOS86ty96LQVipC3T4GyCSfwWSyH7mHw08Ez1np8x8opNvi4M6SH+nbODeWYGtkkGzry9duphaXE5vWXErRqDW5sSPvdYXPDVVZEls1sFsAUsWRuVpJRJUi1lAvrX5hhrsYhw2dd5VtZeXjcHSXhe5uN06pJrMKt/fkJ15VDU1sece8u6AgsgbokHBP0XfHOJb7ETLV/VYQu5ygW4jesq62xMLjZ29KPiAC57o+mPnzJvutplDM/gGYseLKmwkIw8NwpSuCUw2JnJQnx4cOf3Y20l+K7FfwEwGRbi0oUTOg==
+ bh=F/NLF26l2AZ76MZ26oEmeuqK1EiOaZv33qQtRyTWjtU=;
+ b=UAhz+rwn6LarW+jYl2FPfPFTpzoUyhgj3rURpeLXFGMCgQXBkDolEW9sTgiIURAibOx+J6KvsHpnKJ8pYekBN47AQ7ap3vBMToiZfN+M7YW1aNaUGHBFJWbSc7ptmi0diA+jEWT3wkOjXNa1Hm4yhRAqWT6N3MqulAben0n524m1F5jNNaH1jxutxgG3CEnaMnyIoqF+ykn6168Q2dI7KIHrzRvnHfgnQzXT8j6YnVDaQgXEZ4xvuDtbJWPn3NvyyOBNagPpaujfD74MfWqdjzS+VUqonTwODvLwgHI3xvoS4xDndqeK5ZDlUgLsXIpJToAWcW3sZwsrTtzhVfZyeg==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=kerlink.fr;
 Received: from VI1PR10MB7810.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:800:1cd::17)
  by DB9PR10MB8262.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:4c9::19) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7292.39; Tue, 20 Feb
- 2024 10:12:41 +0000
+ 2024 10:12:42 +0000
 Received: from VI1PR10MB7810.EURPRD10.PROD.OUTLOOK.COM
  ([fe80::35ed:39d6:ac6a:cd09]) by VI1PR10MB7810.EURPRD10.PROD.OUTLOOK.COM
  ([fe80::35ed:39d6:ac6a:cd09%3]) with mapi id 15.20.7292.033; Tue, 20 Feb 2024
- 10:12:41 +0000
+ 10:12:42 +0000
 From: Christophe Ronco <c.ronco@kerlink.fr>
 To: connman@lists.linux.dev
 Cc: Christophe Ronco <c.ronco@kerlink.fr>
-Subject: [PATCH 0/1] End connection if connection failure and no agent
-Date: Tue, 20 Feb 2024 11:11:38 +0100
-Message-Id: <20240220101139.36171-1-c.ronco@kerlink.fr>
+Subject: [PATCH 1/1] service: End connection if connection failure and no agent
+Date: Tue, 20 Feb 2024 11:11:39 +0100
+Message-Id: <20240220101139.36171-2-c.ronco@kerlink.fr>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20240220101139.36171-1-c.ronco@kerlink.fr>
+References: <20240220101139.36171-1-c.ronco@kerlink.fr>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-ClientProxiedBy: FR4P281CA0218.DEUP281.PROD.OUTLOOK.COM
@@ -61,88 +64,82 @@ List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: VI1PR10MB7810:EE_|DB9PR10MB8262:EE_
-X-MS-Office365-Filtering-Correlation-Id: 74703485-466b-43ac-fee1-08dc31fc78cd
+X-MS-Office365-Filtering-Correlation-Id: bf418458-a0e4-4b56-d30b-08dc31fc790f
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info:
-	KpayJk7/7GJcAZmEOLKvDugU6TRbVCRkKdvCpCFsJKcTAgPGhwNvMFc9LXqXSDaB3IUe4gxsXW+EbZ53oHbJow73BsP79OYFQQT+xTu1tqeQvdQ2iLzDR1sUKNQC338RfiNaLtmW4adRiukyKXH1QrWlGoaGDbG+RMcw/QE3G3UPKS6Pu4cg5DUR9b1tP9yHlgiwY3eF7BP3Hvux/MfW4uzoBsQSFVPyHXAvyFuEED0R27P7jg1DuNT0DVGTypY+w8sWX8y3s4Lfk17iYWiQf/LCg4UhJBWYxZxZLE5yusx3tvqgx0GCIx/DfW4hXz5zi1JiqgBn14hFKr+8nYUOpG0UvvJhEVHMh5PQgMlNDzTRDVAL1cBCNqfBtrAsGkAsF4nAuX2LCcW1zIDH00ZOTtgw97t1T+asW73tD9S9X2Md7VU+nDqA8aC+cJyc0Z/cLUlDQCkQkhIh4cawXZsmJsXeJ/S1v6dNq69bKqkQhmSpS23oQXcOL2I8tw7Nt2NtBsaR+yfJpCan+ngH6RdqH3+gAj1lnnmQKyreKZSjVKcBdSwh1/jjngBMYH6NkJrZJIsg5ygA5IFS2+RU/QjgdJOa4CeqXFheTEJjRKJrIjgiEqBqpzgSpzsNSqx3gWUr
+	wBNdYcmqcs3HFkP/gpk9LDM2iZ4/c4Lxpe7U3dAnqaUeP3oIZ2d/IBCc8LpG2dyDrz3Y9JYUgfj0tAvtZJSZBTzdTFaQx209UddzDkl/aa/4QG+Os70xfuAylwTqlYFkEwpFVvbavX43vdzFHRzc1NaRH+K9iuZtynZ7XPsWPBDHK00BFm1ikHdELZ9v4Ds8TxpUo6tpHnd6rvTy1AbcREjgRWLZcjmWNJjjD/RvXyvMTJNoh+1HBSBrAnlWxEQRE2DRvT9yvrfMv70u8RKUwMga1fOPr56jFsF4RXAnkT2f3UbdZXfDgUtDBozlShZ/UZPEFFUofwdq/yTsj3K82F2yUpQipP73dsRpSnH66SI9xfH2mif0mfnkez8XyvjQm1FktNonBIU9GyofvMomIy/Un2MpKxzhFQT1kjASN5DtWt1jyaO6waaKobo5yko+4Ela9XySTeSCMUIGcfcvZOBR96Si/XkKiTgQibAhQbbpZRX123rV4P1Sum1tgCZ/iCh9g3vwkhw429FtgWSW4780HGmDR6w7540AEMe8QfhuBWank26dt2kjhBnYSGH8TIeMmFNqYonKOpHrac2EF6KRWTjgIvO4o4HkGmC6CL6T2/MKTmS1YlCSIxyBaCD+
 X-Forefront-Antispam-Report:
 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VI1PR10MB7810.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230031)(38350700005);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?X+D6LFT7Adkz+8XDq6W35JwJ3AZUJXX9jtju4N0trrh1peqejjxdUpkfjYR9?=
- =?us-ascii?Q?19pNdtq9XHUC5FzpCXkVcueK+uHU/Z4VHkF0i4jkk40P6cS1qBQOUY/iFRD4?=
- =?us-ascii?Q?nwiD7evtKbO8eVNkGACdGr4ClQKzWmHUpzOel2sSEcZPN6QH39RkoEkinojm?=
- =?us-ascii?Q?bZ5jOYls2VP3JfuLIbVVQfsIpUfyhmCRXw8vFW7Mi4b942HmNVGNiVXnC36d?=
- =?us-ascii?Q?7rtpBtI+CEoKEe74h9VnnPkTPoVhYqgO3iymi+ksRv8HNW3XlUWz/npwA+1I?=
- =?us-ascii?Q?jJH3W+w5FlDsi5DaHNppw8qyfWCY/PFMl7c3L3Ukw56mjP3giNTZLC7p/09R?=
- =?us-ascii?Q?yig3pO1tXpW+nEJBcCKAWl4sTvsQwrzjO+u6QJL0OYDpdZ/mJULIPumXbb7z?=
- =?us-ascii?Q?wKJzB6laB9p+ChIvYo3j9xc2vQQJQWmO09bQEfLriCvLMLdLS365juTi382g?=
- =?us-ascii?Q?zqV/DF3SNeYrXXxFOUtvdS/I1A2f2fNi1T4cZhmzdC242JLQamq26HCQTaQE?=
- =?us-ascii?Q?1n8mp7keENjcIvBTz1zWki7QII++Z4+lat6MoARRPjfHl0WuTa6+geS04rtk?=
- =?us-ascii?Q?/fKIzzXvbuf4ypM2h/UbAhp9tRyIOjCufERBnY1XQUs9XzkhjdO/U0c894rc?=
- =?us-ascii?Q?UexPUdMKm+jYsiRf3Mn0djkbmC2GGgWyqQLUtv90dt0gS+okcHEmYuZ0r2+l?=
- =?us-ascii?Q?UOj7HMB87GB8hGCu9VWON1QWH6PdKUN3TexPTQA3Emmktde+D/xuwQTN6FU1?=
- =?us-ascii?Q?4IKNB3eF7QmrGx5o2AyoMv/hyu541D+Rf7DGeNoVGgNpbKGxgZ1FV/61NsQK?=
- =?us-ascii?Q?8Q/yxeyukRukSSI4RfopvM/mZjQpaxfJdBS1ZBECB9SnpfyRxz24BSjT8dSz?=
- =?us-ascii?Q?E+ouNOL5/bsQXpSg810VJhDkHT9WlNWpPsa8LF7Lt0FHvrehV4aQA+aYpA95?=
- =?us-ascii?Q?TM0FQ3GA9qZMlSxfUJxNOGa2FibePRigr6cI83TDkehWAIA6HWJmyJ5lwhxa?=
- =?us-ascii?Q?57rHPX6lWZqrZ9dk519y5TAdl+ne+BX7MEr1r6Is44zovfEfSeId46XT53Gj?=
- =?us-ascii?Q?O2aHfmz9h+KI7ivVnlyfREqICfe64W4urpPjXa68D7E2qMRy+6UunqYYpJHO?=
- =?us-ascii?Q?Hs11zKe4Ep30pN0RYD3LAFz6xNEhEmJDXWZOqj55qVHuLApHecGhIuSGePwg?=
- =?us-ascii?Q?3P28ZEcpky+l5vVKBRaHfuWr9U6gvE5kK4zo7GO3wqOn4RpeGfaleNVAdtbP?=
- =?us-ascii?Q?cw5+TUOI4NQTgZA/POHxcx2C8OkcFqKcZ2VotedzXvZT7nHCqvAu5rkozWY0?=
- =?us-ascii?Q?QgQhYCwUT4XDgbLYF/tZsHrinGTla/ThTHDUP9GbumacwDSeZpVjaoJBn/qt?=
- =?us-ascii?Q?FDjmY+P+Un+28HWyOO2Q6C7EUSKExWNpKkwN0ToffZgk1lyI2V3XhoBvKQwe?=
- =?us-ascii?Q?NO+qmJ4Ntuc9g+ZI3ZfPh0G0uAtDDdV+xlzHAGaAzhLdVRzccGwdfi5F77UO?=
- =?us-ascii?Q?ahj3qBCuSk1nZw55JSe6am0ZE5Hm92wAAl6qd59yLm8lZUEqUlrCzRdGZL8L?=
- =?us-ascii?Q?vaKe+KRNIb43lHw2q89CAJLa1glMCZ28eicK0y9D?=
+	=?us-ascii?Q?QI/Z+e48VVvWYRhaqcjGqBOWO0CsNs0AYasyYvrVeHm22m3sbzCu3wFXujuS?=
+ =?us-ascii?Q?fBtf8w5/O3InnIlg9g5iaR8L6ZrTJzS7yY1+cCNF9JLqj4hNlLIjJlU3MYtY?=
+ =?us-ascii?Q?VmIecKrPOHMsYfDygmgLU9ziMMsXCC54gPMlsFo3eQ2Z6OZH4MGvCQ+tWP75?=
+ =?us-ascii?Q?Zc7poc6A5uaJgntIXUv+9B/buGDimVgyRE7eecBGLk6hAkkmV/NxSgnDjDiZ?=
+ =?us-ascii?Q?CuYMPqVpfjW1L0MaF8OS6CL4c1jg8K2/udSxmasraa6XTCM0TSqYG8ViiCLM?=
+ =?us-ascii?Q?L2fC87Uuc7ijy4BRpZ9a7RHiZO1qUuhqTwMsyICsGsHWldSnHsBF+nO3gGgw?=
+ =?us-ascii?Q?vNd7sAVV+UxOen9DfH5Poz33b1iz57NZHhcEb8RCHcG9BOvF6stKrP9bWfjX?=
+ =?us-ascii?Q?0rhHYZSq9xSt4loVJToddMxLyjiMCFEA1XiZk+XzZ+6O5lZv5XttO3GHc6Vo?=
+ =?us-ascii?Q?+MME11+6XwFgAv8MBeOQ+RafM6HQJ9vJxOTu8L3X5s9ndPx6qS9mKc5Odc/k?=
+ =?us-ascii?Q?OQcqwjZi8K4Y4/rEhWBQVf/5K2nQa/1i9TU3MLwyFzWY92vzjV98pAysMpLs?=
+ =?us-ascii?Q?R1xtcGUZQiCcn9MK8yBekp3UPnRiXl4I8msQ6D2tgwwQ5eRp3mZ7VFWRGD1/?=
+ =?us-ascii?Q?fwDF4gadskXF6Sb+85DMkrhMTNtcAHQdCsC+8bwfUFbFLyZVyWLDELGEJ1yt?=
+ =?us-ascii?Q?3LLnSFEfOT0rSOlb/pEhao9QH3inpjk8qbLrla/36I2LFhItXMKTEGCvykaw?=
+ =?us-ascii?Q?LUp5v5x+un/Q8+mGVgRcLFoDwa3onrpoRgFPnG+t3KfB44RtlHJZ9P6V66JA?=
+ =?us-ascii?Q?ikVUdLm7lRfqZ+Jf2KGGLz+56qpFzGceKxT/fGZ6SXurxirf0GS6E++o0odr?=
+ =?us-ascii?Q?jllpCk9vd5tWAy8+olc1mqJcdoQSUE5LJsGdnZlKXYdtyZtWIu9FzhuPGYLv?=
+ =?us-ascii?Q?9wlT0TDCeFwqVAFZx/vAAqbR8ZTeALKW7VSmXwWhl7EPP4BsuPrEmD16KkQz?=
+ =?us-ascii?Q?AfqMyohK3jyzTIwJJ8xIijF8IzAnC3HUp50920CswIfPYRRIuG1KVsA+PIE4?=
+ =?us-ascii?Q?3cP0Iz4Se5Sq/tY1vSvk8XRUoYVpq0nPN/pqp+Lu1uky4WDJItUL16vXYaZL?=
+ =?us-ascii?Q?ZLpvOYU5nTo933EgPwzHpRRbRcWhGfhda2iYeKUc8J5/69I1glKaFS/7WKkq?=
+ =?us-ascii?Q?FY6az5hIM+W/BgFPVnlr6MEx3gDNAelJAtfit73hueaEJlw4w1Fl/y31rlK5?=
+ =?us-ascii?Q?bNPt4ZzGvXDYFAMGDCyGjcvkb1KZxajoX1kUdGn4JyI0mQ3a/uv7TJ6iL6T2?=
+ =?us-ascii?Q?EOEtVASqLb8mHWfL8C35zik8wpy12es+p/BI3gHV2RQLGt71YAWNI2vqTxmX?=
+ =?us-ascii?Q?x0jE5mdRBNYcPs7qMf9KmJL4OEu2SKsA/zeQr8cYWmXhmM2ef2lFmqWu+Zec?=
+ =?us-ascii?Q?OePNkw5dYhJeVhXzNybasvcl0Ak/qVTXg7mesmoH/wIAjHDtDjCdeo1/VLMe?=
+ =?us-ascii?Q?JeifNDzrKmviHBWdfbvqfFGNTB4svEmwk9L4jtzWVZJNvjF9wM8rrJ5RVo9A?=
+ =?us-ascii?Q?H6aqlgWspaKq/0h8c/N8yDDaMRlUL9a7azX5I3Lg?=
 X-OriginatorOrg: kerlink.fr
-X-MS-Exchange-CrossTenant-Network-Message-Id: 74703485-466b-43ac-fee1-08dc31fc78cd
+X-MS-Exchange-CrossTenant-Network-Message-Id: bf418458-a0e4-4b56-d30b-08dc31fc790f
 X-MS-Exchange-CrossTenant-AuthSource: VI1PR10MB7810.EURPRD10.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Feb 2024 10:12:40.9852
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Feb 2024 10:12:41.3840
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: e53a72e6-936b-4019-8ac1-596e63242dec
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ch6gVzDl1bBbjJZSX7vNRIThSgK9nER4XomH2uXkGUVisAY70WlLBK5XGzXBFcUgTXSwfZmrMsEK+nYe1/QGMA==
+X-MS-Exchange-CrossTenant-UserPrincipalName: nknmx9Vr5G7cyuLuMTDjm9w1FpHrtzzxiQAXn/p7W3rPjS9/ef/7t1V6BuNoKOmZOdMQ11uiMW82mx8zBOJn4g==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR10MB8262
 
-I have a modem that is not able to reactivate a context just after a disconnection (I have an error in AT+CGDCONT in this case). Some seconds later, connection is possible.
-
-With connman 1.39, here is what happens when I disconnect and reconnect corresponding connman service:
-
-root@klk-zcel-030030:~ # date; connmanctl disconnect cellular_206018060790006_context1; date; connmanctl connect cellular_206018060790006_context1; date
-Tue Feb 20 10:00:19 UTC 2024
-Disconnected cellular_206018060790006_context1
-Tue Feb 20 10:00:19 UTC 2024
-Error /net/connman/service/cellular_206018060790006_context1: Input/output error
-Tue Feb 20 10:00:20 UTC 2024
-
-With connman 1.41, behavior changes:
-
-root@klk-zcel-030030:/# date; connmanctl disconnect cellular_206018060790006_context1; date; connmanctl connect cellular_206018060790006_context1; date
-Tue Jan  2 15:41:31 UTC 2024
-Disconnected cellular_206018060790006_context1
-Tue Jan  2 15:41:31 UTC 2024
-Error /net/connman/service/cellular_206018060790006_context1: Did not receive a reply. Possible causes include: the remote application did not send a reply, the message bus security policy blocked the reply, the reply timeout expired, or the network connection was broken.
-Tue Jan  2 15:43:31 UTC 2024
-
-"connmanctl connect" lasts 2 minutes (it ends with connection timeout).
-After the first unsuccessful connection attempt, nothing happens. No new context activation is asked to Ofono. During these 2 minutes, if I try to connect the service, I receive an "in progress" error. This looks like a bug to me.
-
-Change comes from commit 8ea2d67a6e8935d06f71b1ec77a2f89d72be49eb (service: Complete only after user connection retries). service_complete is not called anymore when error is received from ofono plugin. We wait for agent to call report_error_cb. There is no agent in this case so report_error_cb is never called.
-
-I think that service_complete should be called if there is no agent.
-
-Christophe Ronco (1):
-  service: End connection if connection failure and no agent
-
+Immediately call service_complete in case of connection failure and no
+connman agent.
+---
  src/service.c | 6 ++++--
  1 file changed, 4 insertions(+), 2 deletions(-)
 
+diff --git a/src/service.c b/src/service.c
+index f3e022c9..805cfca7 100644
+--- a/src/service.c
++++ b/src/service.c
+@@ -9189,12 +9189,14 @@ static int service_indicate_state(struct connman_service *service)
+ 	case CONNMAN_SERVICE_STATE_FAILURE:
+ 		if (service->connect_reason == CONNMAN_SERVICE_CONNECT_REASON_USER ||
+ 			service->connect_reason == CONNMAN_SERVICE_CONNECT_REASON_NATIVE) {
+-			connman_agent_report_error(service, service->path,
++			result = connman_agent_report_error(service,
++						service->path,
+ 						error2string(service->error),
+ 						report_error_cb,
+ 						get_dbus_sender(service),
+ 						NULL);
+-			goto notifier;
++			if (result == -EINPROGRESS)
++				goto notifier;
+ 		}
+ 		service_complete(service);
+ 		break;
 -- 
 2.25.1
 
