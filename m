@@ -1,143 +1,132 @@
-Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com [210.118.77.11])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65CAE173
-	for <connman@lists.linux.dev>; Fri,  8 Mar 2024 14:36:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.118.77.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65B6518C01
+	for <connman@lists.linux.dev>; Mon, 11 Mar 2024 11:09:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709908611; cv=none; b=V3gD48kvRZKNo9UVLFgi8fZSTPIJPY45sxnDI3wa0ZkzzM0wbxzr1kG1pA1u/VinIik7OQ51hEtPQJnrLlT1HZDpz5EX7p8MhnXVtXAnh7YtyeH4gaWjcFw6oPS1+213jRfimoGvzxDJTSplrebMoBFNSxN9qigfjWiuIqFX7kA=
+	t=1710155369; cv=none; b=ETjF1h1nrR7uayw2eE0oIl26KcXotqqpLVfA0BaVTFZj/q8WiI6vrbLZEpG4hIeHmLRpZHesY0lg9c5LQdUeWNZS6GMUqTZjfVe2nxad6sjk8iVEafAJ8gXDoygaGIJEr5H3FXBMhQfnERnAQ6E0CzpdPMojqIt9aFONhCthz5w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709908611; c=relaxed/simple;
-	bh=o+pI6goGlNb5Q63p1HbeuLhPKFSrla/73vdFpBsAlPk=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type:
-	 References; b=ajBxn6chgfiiRAfrg0HpYKbjai5hfXj8kAbZXmYuPAyNeZf7uSiJDdVhm7ze1+57BxRHRoIlCuHwqUn7ISMuQOBQcApGIChwn2E49pER5Xd7ZdAyMpHK91LxH1+H1UU8s5WjYuiODOzVq54zbvwvFGMphvaTT3KWWvCX9tzmPyw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=twzyH8Ec; arc=none smtp.client-ip=210.118.77.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
+	s=arc-20240116; t=1710155369; c=relaxed/simple;
+	bh=DR4mZ4vLiMy8MaLfzcWeSViyPI3WTceHYvJcuRKHYVA=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=noECci9SukQaBc7a0NNZM5tznhYYSULYs5CSuKr6oPZpsFQzQs9pWaxfPOHNPJjFurwJy9svUNXiECO2EdakC/QhuBb8t+JWtu+PRJJDnVXFfgx2plb37Pjvje2RYf+ZQhM7tEO4uAQnQYHTCWc+gDalqDdd8gtMP8Ip925Wuls=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=ycEsuCqp; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=OV7mO5kN; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="twzyH8Ec"
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
-	by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id 20240308143646euoutp012cbbf287e2529cab480af85ad1ee29f7~60NF66Nk60570505705euoutp01b
-	for <connman@lists.linux.dev>; Fri,  8 Mar 2024 14:36:46 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com 20240308143646euoutp012cbbf287e2529cab480af85ad1ee29f7~60NF66Nk60570505705euoutp01b
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1709908606;
-	bh=KOBwWSSdKwWI+mb/p4Rm7Hs1C/Jr8vgCrh+4+9MISDo=;
-	h=From:To:Cc:Subject:Date:References:From;
-	b=twzyH8EcvslEHvenqHTVJxUQKdbRKEBz8q7JUb/1Ri/eHSSFiQT+1C2RS8fF40S26
-	 1NxX1q095KuLpr51W416wF97CH9Le5vK4whSe1PVtcX/5TqMFFHkGxMaLoju7l+xVe
-	 p+9kRL1YDM6xHAMdDVBIcmk3xP2R7KcyPQAf3jSo=
-Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
-	eucas1p1.samsung.com (KnoxPortal) with ESMTP id
-	20240308143646eucas1p1b32914cfa43985a3fc54d8854781074d~60NFpaFAy1625716257eucas1p1Z;
-	Fri,  8 Mar 2024 14:36:46 +0000 (GMT)
-Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
-	eusmges3new.samsung.com (EUCPMTA) with SMTP id 0C.C1.09552.E722BE56; Fri,  8
-	Mar 2024 14:36:46 +0000 (GMT)
-Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
-	eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
-	20240308143646eucas1p27188a613c06f17d0cca6e239622d5ee7~60NFTS1Od2099020990eucas1p2B;
-	Fri,  8 Mar 2024 14:36:45 +0000 (GMT)
-Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
-	eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
-	20240308143645eusmtrp2b1f7742c7d42154235f63942ac4e01fd~60NFSCAU-2310823108eusmtrp2r;
-	Fri,  8 Mar 2024 14:36:45 +0000 (GMT)
-X-AuditID: cbfec7f5-853ff70000002550-20-65eb227e0cf4
-Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
-	eusmgms2.samsung.com (EUCPMTA) with SMTP id DE.06.10702.D722BE56; Fri,  8
-	Mar 2024 14:36:45 +0000 (GMT)
-Received: from localhost (unknown [106.120.51.111]) by eusmtip2.samsung.com
-	(KnoxPortal) with ESMTPA id
-	20240308143645eusmtip2341958d5d92028620f5752cbed7005c7~60NFHwhRz1705217052eusmtip2V;
-	Fri,  8 Mar 2024 14:36:45 +0000 (GMT)
-From: =?UTF-8?q?=C5=81ukasz=20Stelmach?= <l.stelmach@samsung.com>
-To: connman@lists.linux.dev
-Cc: m.szyprowski@samsung.com, k.lewandowsk@samsung.com,
-	=?UTF-8?q?=C5=81ukasz=20Stelmach?= <l.stelmach@samsung.com>
-Subject: [PATCH] Ignore network devices used by NBD
-Date: Fri,  8 Mar 2024 15:36:30 +0100
-Message-Id: <20240308143630.2195695-1-l.stelmach@samsung.com>
-X-Mailer: git-send-email 2.39.2
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="ycEsuCqp";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="OV7mO5kN"
+From: Alexander Kanavin <alex@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1710155364;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=igXyuK7ashuYPgQ7EgdEhtLhxd5zMw1tQO6yJUAKI9M=;
+	b=ycEsuCqpAAdqZvLlHyW3FgiTHtxPBlbjMLx0WniWNnmomwW7AsuOblPtvDlzmrR7Fs7pqN
+	1uBVhk1uiaV29EZ7DRDLdtVW35pqPNn78xkEJYK1zTs6hc7o9eKo+kxqD7n1AFVIo5j13V
+	3OCtsS1H1kM7RF8h3LvxqxPmTWK5/D8mNJekZUpt8wowJGWyGAOtQ1aH7Rb/ejZOxzbez2
+	Qy+gNCBcb2j0esz6Qag2Oyo/rZtBOhLGhrCmyKR6EeJylqB51/QYLJaLpGLmxN3bohYasQ
+	l/RCZr8PDkw1pkdbq3CaskHHr5h1PwLD9TepM9JzTUVb7mnrFIwdpQSNuuEnsg==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1710155364;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=igXyuK7ashuYPgQ7EgdEhtLhxd5zMw1tQO6yJUAKI9M=;
+	b=OV7mO5kNBCShY5K1kB2+mgbCjox9g3ALrXNOHOMsfFX8o7kEj8SvtFgnE8RtOwukOcov4Q
+	JbHRCcD6DNGpJACA==
+To: connman@lists.linux.dev,
+	marcel@holtmann.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] gweb/gresolv.c: make use of res_ninit optional and subject to __RES
+Date: Mon, 11 Mar 2024 12:09:18 +0100
+Message-Id: <20240311110918.1399173-1-alex@linutronix.de>
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Organization: Samsung R&D Institute Poland
 Content-Transfer-Encoding: 8bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrIIsWRmVeSWpSXmKPExsWy7djPc7p1Sq9TDbb3C1h82BJn0fhpLrPF
-	zUMrGC3WHrnL7sDi8WLzTEaPvi2rGAOYorhsUlJzMstSi/TtErgy+lY3sRfM5Kz4e38xUwPj
-	evYuRk4OCQETiXdblzCC2EICKxglFrT6dDFyAdlfGCX+7p7ABOF8ZpR419rGCtMxa9szVojE
-	ckaJVe23mCGcF4wS5//vBpvFJuAo0b/0BFiHiIC0xJ8fN4D2cXAwC5RKvP9lChIWFjCWuNMz
-	B+wMFgFVieN/ZjCD2LwCthIXF59lASmXEJCXWPxAAiIsKHFy5hMWEJtfQEtiTdN1MJsZqKR5
-	62ywEyQEJnJI/Ni7lRHiUBeJG9tnQ9nCEq+Ob4F6WUbi/875TBAN7YwSTVcWskI4ExglPnc0
-	MUFUWUvcOfeLDeJoTYn1u/QhDnKUWN3MC2HySdx4KwhxA5/EpG3TmSHCvBIdbUIQM1Qk1vXv
-	YYGwpSR6X62AusZD4sP1jywTGBVnIflsFpJvZiGsXcDIvIpRPLW0ODc9tdg4L7Vcrzgxt7g0
-	L10vOT93EyMwVZz+d/zrDsYVrz7qHWJk4mA8xCjBwawkwsti8TJViDclsbIqtSg/vqg0J7X4
-	EKM0B4uSOK9qinyqkEB6YklqdmpqQWoRTJaJg1OqgSnyh+mctSwrwz1i9TmifJ8k+lUuPCt5
-	RjBygURM3K50qYUr1/GWPVVoePXvas7nBDl3pWeFQo9yMkVl1mWoTXOPF18aHS52+5DUzN0q
-	Pts/VnUcZNV3vWlrtmb9NaklepsMzuyRTov4Z+PT9y2QUUyT5R6v6oarDVP6H8kf22oScVZ3
-	c76Nb0TL5c4iM+PotmuX3QXius4/E/17agVnjv5GoyvrP6tZ5oWuV5RP/aaVtewRSwiPwqaC
-	bEuuiP2+VvEnjk+7nXXwmN2K5VkOKg6+k5pTr0z4YPFg/pb6lxeWS5k4RWjU6bB48Wqtcq+c
-	5Cfd8uTShQcLE3ur9Ez6/Fys2BbKxCc8n5Cu9kpBiaU4I9FQi7moOBEAwueMxIQDAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrFLMWRmVeSWpSXmKPExsVy+t/xe7q1Sq9TDf6ss7D4sCXOovHTXGaL
-	m4dWMFqsPXKX3YHF48XmmYwefVtWMQYwRenZFOWXlqQqZOQXl9gqRRtaGOkZWlroGZlY6hka
-	m8daGZkq6dvZpKTmZJalFunbJehl9K1uYi+YyVnx9/5ipgbG9exdjJwcEgImErO2PWPtYuTi
-	EBJYyigx688Nxi5GDqCElMTKuekQNcISf651sUHUPGOU2LfsCjNIgk3AUaJ/6QlWEFtEQFri
-	z48bYEOZBcolPjXfZwGxhQWMJe70zAGLswioShz/MwOsl1fAVuLi4rMsELvkJRY/kIAIC0qc
-	nPkELMwsoC6xfp4QSJhfQEtiTdN1Fojp8hLNW2czT2AUmIWkYxZCxywkVQsYmVcxiqSWFuem
-	5xYb6RUn5haX5qXrJefnbmIEBvq2Yz+37GBc+eqj3iFGJg7GQ4wSHMxKIrwsFi9ThXhTEiur
-	Uovy44tKc1KLDzGaAj0wkVlKNDkfGGt5JfGGZgamhiZmlgamlmbGSuK8ngUdiUIC6Yklqdmp
-	qQWpRTB9TBycUg1MMbvVakMjudWVLzD8sT+Tr1Lre+VefZtNo+V/xTf9Tx25z0t7f91lJH8m
-	4sX8f7/ObTAqfpDgYHfsQ8wlA02BA0pCf7P2bH2ywXfXkhWHS5fonrovEa1/b/rMOd2y87h8
-	rpu+nxd8S79WeP8KPkPB2ZdCDM2fx/mm+JRmL46e8yXOmMGvN8ukRCeiN+Me98ev/5ZcqA7+
-	GmDad0B4QonZ2euiTMpsb99Ftdy2CJxjZpx6iKs0141fsWbazh2ue7TkJ3bqypi0P7lZa8XI
-	XBm7t/DPLav72dLvWbavWzFTZVH+g3OJ4stDrsh6HpKv6U/69/+QjnS2VGyK/zkmZS6uaeHs
-	W/pljaLyHvx46a7EUpyRaKjFXFScCAB3OzHK/QIAAA==
-X-CMS-MailID: 20240308143646eucas1p27188a613c06f17d0cca6e239622d5ee7
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20240308143646eucas1p27188a613c06f17d0cca6e239622d5ee7
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20240308143646eucas1p27188a613c06f17d0cca6e239622d5ee7
-References: <CGME20240308143646eucas1p27188a613c06f17d0cca6e239622d5ee7@eucas1p2.samsung.com>
 
-Add support for ignoring devices used by NBD to mount root the same way
-ConnMan ignores devices used for NFS roots. nbdroot= nbddev= parameters
-are used by Debian and Tizen initramfs scripts to configure NBD for
-mounting as root device.
+From: Khem Raj <raj.khem@gmail.com>
 
-Signed-off-by: Łukasz Stelmach <l.stelmach@samsung.com>
+Not all libc implementation have those functions, and the way to determine
+if they do is to check __RES which is explained in resolv.h thusly:
+
+/*
+ * Revision information.  This is the release date in YYYYMMDD format.
+ * It can change every day so the right thing to do with it is use it
+ * in preprocessor commands such as "#if (__RES > 19931104)".  Do not
+ * compare for equality; rather, use it to determine whether your resolver
+ * is new enough to contain a certain feature.
+ */
+
+Indeed, it needs to be at least 19991006.
+
+The portion of the patch that implements a fallback is ported from
+Alpine Linux:
+http://git.alpinelinux.org/cgit/aports/plain/testing/connman/libresolv.patch
 ---
- src/inet.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ gweb/gresolv.c | 21 +++++++++++++++++++++
+ 1 file changed, 21 insertions(+)
 
-diff --git a/src/inet.c b/src/inet.c
-index 8a1e3423..5032cf25 100644
---- a/src/inet.c
-+++ b/src/inet.c
-@@ -5086,6 +5086,10 @@ static int get_nfs_server_ip(const char *cmdline_file, const char *pnp_file,
- 	for (pp = args; *pp; pp++) {
- 		if (!strcmp(*pp, "root=/dev/nfs"))
- 			break;
-+		if (!strncmp(*pp, "root=/dev/nbd", strlen("root=/dev/nbd")))
-+			break;
-+		if (!strncmp(*pp, "nbddev=", strlen("nbddev=")))
-+			break;
- 	}
- 	/* no rootnfs found */
- 	if (!*pp)
-@@ -5095,6 +5099,8 @@ static int get_nfs_server_ip(const char *cmdline_file, const char *pnp_file,
- 	for (pp = args; *pp; pp++) {
- 		if (!strncmp(*pp, "nfsroot=", strlen("nfsroot=")))
- 			break;
-+		if (!strncmp(*pp, "nbdroot=", strlen("nbdroot=")))
-+			break;
- 	}
- 	/* no nfsroot argument found */
- 	if (!*pp)
+diff --git a/gweb/gresolv.c b/gweb/gresolv.c
+index 8101d718..9f1477c3 100644
+--- a/gweb/gresolv.c
++++ b/gweb/gresolv.c
+@@ -879,7 +879,9 @@ GResolv *g_resolv_new(int index)
+ 	resolv->index = index;
+ 	resolv->nameserver_list = NULL;
+ 
++#if (__RES >= 19991006)
+ 	res_ninit(&resolv->res);
++#endif
+ 
+ 	return resolv;
+ }
+@@ -920,7 +922,9 @@ void g_resolv_unref(GResolv *resolv)
+ 
+ 	flush_nameservers(resolv);
+ 
++#if (__RES >= 19991006)
+ 	res_nclose(&resolv->res);
++#endif
+ 
+ 	g_free(resolv);
+ }
+@@ -1024,6 +1028,7 @@ guint g_resolv_lookup_hostname(GResolv *resolv, const char *hostname,
+ 	debug(resolv, "hostname %s", hostname);
+ 
+ 	if (!resolv->nameserver_list) {
++#if (__RES >= 19991006)
+ 		int i;
+ 
+ 		for (i = 0; i < resolv->res.nscount; i++) {
+@@ -1043,6 +1048,22 @@ guint g_resolv_lookup_hostname(GResolv *resolv, const char *hostname,
+ 			if (inet_ntop(family, sa_addr, buf, sizeof(buf)))
+ 				g_resolv_add_nameserver(resolv, buf, 53, 0);
+ 		}
++#else
++                FILE *f = fopen("/etc/resolv.conf", "r");
++                if (f) {
++                        char line[256], *s;
++                        int i;
++                        while (fgets(line, sizeof(line), f)) {
++                                if (strncmp(line, "nameserver", 10) || !isspace(line[10]))
++                                        continue;
++                                for (s = &line[11]; isspace(s[0]); s++);
++                                for (i = 0; s[i] && !isspace(s[i]); i++);
++                                s[i] = 0;
++                                g_resolv_add_nameserver(resolv, s, 53, 0);
++                        }
++                        fclose(f);
++                }
++#endif
+ 
+ 		if (!resolv->nameserver_list)
+ 			g_resolv_add_nameserver(resolv, "127.0.0.1", 53, 0);
 -- 
 2.39.2
 
