@@ -1,132 +1,97 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from mx2.freebsd.org (mx2.freebsd.org [96.47.72.81])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65B6518C01
-	for <connman@lists.linux.dev>; Mon, 11 Mar 2024 11:09:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710155369; cv=none; b=ETjF1h1nrR7uayw2eE0oIl26KcXotqqpLVfA0BaVTFZj/q8WiI6vrbLZEpG4hIeHmLRpZHesY0lg9c5LQdUeWNZS6GMUqTZjfVe2nxad6sjk8iVEafAJ8gXDoygaGIJEr5H3FXBMhQfnERnAQ6E0CzpdPMojqIt9aFONhCthz5w=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710155369; c=relaxed/simple;
-	bh=DR4mZ4vLiMy8MaLfzcWeSViyPI3WTceHYvJcuRKHYVA=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=noECci9SukQaBc7a0NNZM5tznhYYSULYs5CSuKr6oPZpsFQzQs9pWaxfPOHNPJjFurwJy9svUNXiECO2EdakC/QhuBb8t+JWtu+PRJJDnVXFfgx2plb37Pjvje2RYf+ZQhM7tEO4uAQnQYHTCWc+gDalqDdd8gtMP8Ip925Wuls=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=ycEsuCqp; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=OV7mO5kN; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D137557301
+	for <connman@lists.linux.dev>; Thu, 21 Mar 2024 10:52:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=96.47.72.81
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1711018346; cv=pass; b=MrJPjzEnSpgfCFR6b2OjwYkI6hv1OpxHgLk0zxt2Qg5sSfJTqATg2vlc36qoX25Up/nALxF5SAmsx3M4yHLrS3kZVB05N40ILaNHUsr7IA+fVqErg366tRIkr38x4iUZ1kVcJtIflOgaTIaVnI9DPuuGpm/3npvmbMQ8I+gyHZE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1711018346; c=relaxed/simple;
+	bh=T7Y1Es+HCs0qZ3x3uFRSDPCx0TSvfE5un6zznhJIC3w=;
+	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=DG4WeTwxM2DRI2I7jZMzMmGTVM4rsNkrkw1KIJWfVli1jjiYLzy3ISEJKCsdeNGvVewtyNYAMVVUwFsG8u2gw+A12qL3vokg2GaJ8MjO7WN3Ga0WgRP8ouMisyxkA4IR+4RzSGaNEt2KvOfnBdLNqU1hLYF/jRnagsA3UCrDZWk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=freebsd.org; spf=pass smtp.mailfrom=freebsd.org; dkim=pass (2048-bit key) header.d=freebsd.org header.i=@freebsd.org header.b=NSZVgz/Y; arc=pass smtp.client-ip=96.47.72.81
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=freebsd.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=freebsd.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="ycEsuCqp";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="OV7mO5kN"
-From: Alexander Kanavin <alex@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1710155364;
+	dkim=pass (2048-bit key) header.d=freebsd.org header.i=@freebsd.org header.b="NSZVgz/Y"
+Received: from mx1.freebsd.org (mx1.freebsd.org [96.47.72.80])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits)
+	 client-signature RSA-PSS (4096 bits))
+	(Client CN "mx1.freebsd.org", Issuer "R3" (verified OK))
+	by mx2.freebsd.org (Postfix) with ESMTPS id 4V0j2v38MBz4fsj
+	for <connman@lists.linux.dev>; Thu, 21 Mar 2024 10:52:23 +0000 (UTC)
+	(envelope-from misha@freebsd.org)
+Received: from freefall.freebsd.org (freefall.freebsd.org [IPv6:2610:1c1:1:6074::16:84])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256
+	 client-signature RSA-PSS (4096 bits) client-digest SHA256)
+	(Client CN "freefall.freebsd.org", Issuer "R3" (verified OK))
+	by mx1.freebsd.org (Postfix) with ESMTPS id 4V0j2v2Gyzz4CXN
+	for <connman@lists.linux.dev>; Thu, 21 Mar 2024 10:52:23 +0000 (UTC)
+	(envelope-from misha@freebsd.org)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=freebsd.org; s=dkim;
+	t=1711018343;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=igXyuK7ashuYPgQ7EgdEhtLhxd5zMw1tQO6yJUAKI9M=;
-	b=ycEsuCqpAAdqZvLlHyW3FgiTHtxPBlbjMLx0WniWNnmomwW7AsuOblPtvDlzmrR7Fs7pqN
-	1uBVhk1uiaV29EZ7DRDLdtVW35pqPNn78xkEJYK1zTs6hc7o9eKo+kxqD7n1AFVIo5j13V
-	3OCtsS1H1kM7RF8h3LvxqxPmTWK5/D8mNJekZUpt8wowJGWyGAOtQ1aH7Rb/ejZOxzbez2
-	Qy+gNCBcb2j0esz6Qag2Oyo/rZtBOhLGhrCmyKR6EeJylqB51/QYLJaLpGLmxN3bohYasQ
-	l/RCZr8PDkw1pkdbq3CaskHHr5h1PwLD9TepM9JzTUVb7mnrFIwdpQSNuuEnsg==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1710155364;
+	 to:to:cc:mime-version:mime-version:content-type:content-type;
+	bh=T7Y1Es+HCs0qZ3x3uFRSDPCx0TSvfE5un6zznhJIC3w=;
+	b=NSZVgz/YNlVrCzBgL6OLMGBouL8XiZgQs8b1cdnji63EhXUX+pT0FVQgojCaq0YixRUz7P
+	fUK8OczT5SB5n8ZteZLOCibaduUsHFKrhzS134VAHr55d2fqy0/KUsZYys1pKURqc17Cg4
+	DgG2GIW0DiUKLKQFzQEeOvewiYs1MQuxsWVa6qJ3xcuU+HopsaE9rUiTkI9/muyemPZg8a
+	fP7wgKvX4Syq3aniXWQV58U9jfGfBV1/c2qIqzYI0O47+oI9MKRq3pZ8zJjPTFomyi2JEH
+	xx4xNcWVQ9ssKE3t0uPxYfdUcJKE+BJgyyEIejZ4LbG1d4/TRvL4LxeWRyJfvw==
+ARC-Seal: i=1; s=dkim; d=freebsd.org; t=1711018343; a=rsa-sha256; cv=none;
+	b=ijdQvEHxXyCVOkb88dZI97Jk1vWsC36e79A/iIQQzsJS/vG4s4vjAJW3TL37IMjgTZAVhJ
+	2YB0fh/SnCDKX5JMo6fsbrpxWN/mI0EYmNipMq1bTHoqwTpgho8h2FcWWAw3OaBfo8fUFh
+	7o9grLGcyByD/rMUZajmux9PuitnpYM3YPBD+leiNTVqei3sJx1pUNmLvXEH5m2bm1c6zN
+	00UpuM079EVQc5x2gowwXFk+Ztq931rG0f6OLk1uAgSptelGXTWvsDzHA7nNYVqLWqhN+j
+	8CX3u6RD+x3uP3YwmchqWUtaSsUVnWWi//5u4ICfvo42GJGCS0awIaWcX+bXMg==
+ARC-Authentication-Results: i=1;
+	mx1.freebsd.org;
+	none
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=freebsd.org;
+	s=dkim; t=1711018343;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=igXyuK7ashuYPgQ7EgdEhtLhxd5zMw1tQO6yJUAKI9M=;
-	b=OV7mO5kNBCShY5K1kB2+mgbCjox9g3ALrXNOHOMsfFX8o7kEj8SvtFgnE8RtOwukOcov4Q
-	JbHRCcD6DNGpJACA==
-To: connman@lists.linux.dev,
-	marcel@holtmann.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] gweb/gresolv.c: make use of res_ninit optional and subject to __RES
-Date: Mon, 11 Mar 2024 12:09:18 +0100
-Message-Id: <20240311110918.1399173-1-alex@linutronix.de>
+	 to:to:cc:mime-version:mime-version:content-type:content-type;
+	bh=T7Y1Es+HCs0qZ3x3uFRSDPCx0TSvfE5un6zznhJIC3w=;
+	b=DEb7BfzlQ1MzjvdaI2s/wzyAo8zH6ALVDEZ6zn65RoIHTUM7OjkEQu3orXfw03Ffvt8nnR
+	LlzmdwShV1plcZQOU9dr9W0KXdbxMCUNN5jPAcEXdErJdu+j0NZwzvJOpe/J5XYlUaJPol
+	JwmiGuCPXuGZZQO8xmuocQYsJ8NdYnsbxveThSkPoBMtYDLPzZQidTK75fnDAB8USFptFV
+	lQBru5caHiZ1NLs7RMsip4oKVZoNqbjMm/WhqnR4chg9DvdDrDdIQ+Y+15KzzjWmT0U9lJ
+	pK5/gbO4Jb62aLnN4yNb71PxQGD4QOfcgPs96o+Vi5oMLcs3Xg4rJUkr7WXUwg==
+Received: by freefall.freebsd.org (Postfix, from userid 1401)
+	id 44970B564; Thu, 21 Mar 2024 10:52:23 +0000 (UTC)
+Date: Thu, 21 Mar 2024 13:52:23 +0300
+From: Mikhail Pchelin <misha@freebsd.org>
+To: connman@lists.linux.dev
+Subject: restart required after adding EAP config file
+Message-ID: <ZfwRZwIj0vC6e5aq@freefall.freebsd.org>
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-From: Khem Raj <raj.khem@gmail.com>
+[ I'm not subscribed, please keep me CC'ed ]
 
-Not all libc implementation have those functions, and the way to determine
-if they do is to check __RES which is explained in resolv.h thusly:
+I'm running 1.42, when I create eap.config file in STORAGEDIR it's not
+being applied right away for wireless services - I see no '*' sign near
+my SSID in 'services' output. 'connect'ing to it gives EINVAL and debug
+logs say:
 
-/*
- * Revision information.  This is the release date in YYYYMMDD format.
- * It can change every day so the right thing to do with it is use it
- * in preprocessor commands such as "#if (__RES > 19931104)".  Do not
- * compare for equality; rather, use it to determine whether your resolver
- * is new enough to contain a certain feature.
- */
+EAP type has not been found. Most likely ConnMan is not able to find a
+configuration for given 8021X network. Check SSID or Name match with the
+network name.
 
-Indeed, it needs to be at least 19991006.
+If I restart connmand, the SSID becomes configured as intended and I can
+connect.
 
-The portion of the patch that implements a fallback is ported from
-Alpine Linux:
-http://git.alpinelinux.org/cgit/aports/plain/testing/connman/libresolv.patch
----
- gweb/gresolv.c | 21 +++++++++++++++++++++
- 1 file changed, 21 insertions(+)
+Is this behaviour intentional?
 
-diff --git a/gweb/gresolv.c b/gweb/gresolv.c
-index 8101d718..9f1477c3 100644
---- a/gweb/gresolv.c
-+++ b/gweb/gresolv.c
-@@ -879,7 +879,9 @@ GResolv *g_resolv_new(int index)
- 	resolv->index = index;
- 	resolv->nameserver_list = NULL;
- 
-+#if (__RES >= 19991006)
- 	res_ninit(&resolv->res);
-+#endif
- 
- 	return resolv;
- }
-@@ -920,7 +922,9 @@ void g_resolv_unref(GResolv *resolv)
- 
- 	flush_nameservers(resolv);
- 
-+#if (__RES >= 19991006)
- 	res_nclose(&resolv->res);
-+#endif
- 
- 	g_free(resolv);
- }
-@@ -1024,6 +1028,7 @@ guint g_resolv_lookup_hostname(GResolv *resolv, const char *hostname,
- 	debug(resolv, "hostname %s", hostname);
- 
- 	if (!resolv->nameserver_list) {
-+#if (__RES >= 19991006)
- 		int i;
- 
- 		for (i = 0; i < resolv->res.nscount; i++) {
-@@ -1043,6 +1048,22 @@ guint g_resolv_lookup_hostname(GResolv *resolv, const char *hostname,
- 			if (inet_ntop(family, sa_addr, buf, sizeof(buf)))
- 				g_resolv_add_nameserver(resolv, buf, 53, 0);
- 		}
-+#else
-+                FILE *f = fopen("/etc/resolv.conf", "r");
-+                if (f) {
-+                        char line[256], *s;
-+                        int i;
-+                        while (fgets(line, sizeof(line), f)) {
-+                                if (strncmp(line, "nameserver", 10) || !isspace(line[10]))
-+                                        continue;
-+                                for (s = &line[11]; isspace(s[0]); s++);
-+                                for (i = 0; s[i] && !isspace(s[i]); i++);
-+                                s[i] = 0;
-+                                g_resolv_add_nameserver(resolv, s, 53, 0);
-+                        }
-+                        fclose(f);
-+                }
-+#endif
- 
- 		if (!resolv->nameserver_list)
- 			g_resolv_add_nameserver(resolv, "127.0.0.1", 53, 0);
--- 
-2.39.2
-
+What pieces should I look at to make connmand apply *.config files to
+currently known SSIDs without restart?
