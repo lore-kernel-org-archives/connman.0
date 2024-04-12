@@ -1,90 +1,104 @@
-Received: from mail-oo1-f41.google.com (mail-oo1-f41.google.com [209.85.161.41])
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96CF514884C
-	for <connman@lists.linux.dev>; Mon,  8 Apr 2024 22:24:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6711F205E38
+	for <connman@lists.linux.dev>; Fri, 12 Apr 2024 21:25:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712615077; cv=none; b=fmKseKaLX6tTxWW3x8VUKA6gn00T0ThxqfnDtG6Ak4uf/yYbbHQSx4RAWSAgpbHPXhwkCG+Oidl9s90/FlML5p+ZuYsSSsTzI1WPgUWkMgiFdtbGPK/xtTejPJWDC7H9CHjbzj/jpZzs6E46k/D3uE+NE4HETkCy2do30F2cqpg=
+	t=1712957128; cv=none; b=jMfcLkLcnGtf8Kbr3dTFooEc8WmZ3WtpD31Ro5MIWSXO8Sa65bVai9VrWKmZI8UWa52YfYPI8zS5EVpnVDkNenKiCqNe5/jY+HlhqXcbh4RrOkuaUNZWX1oZP7gOBQmxCk/3DKtS5Pq4x9M3yfB7KQ5gN3elQQ3P1eK5zCA9ypM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712615077; c=relaxed/simple;
-	bh=FrR1ba+N+sXg2wsx82xial3pm6DjjkU15v/uwEfW2c0=;
-	h=From:To:Subject:Date:Message-Id:MIME-Version; b=OlIJfuJEds4r7CRbhHi+jc959ihaBPSrPgRs3algA5vvRSiHkSWJ6MtnM0CzhZ5f7a7hgKVMGUoE7SPlBPYHUq3NPVz0x/1RufxFnuCLi5IiWZBx6s4Ya8x5L3eps1H0K/XKfmgYqauoPCH5nC3REA1L6D88Bq1u6HxDbadpSkE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=J17xNnir; arc=none smtp.client-ip=209.85.161.41
+	s=arc-20240116; t=1712957128; c=relaxed/simple;
+	bh=FvrkK4kpw995XmHYW2obRO5lJ+l8n49TprBm2Wiru6M=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Content-Type; b=VlgX/i/CibqqdPiq619iGxzw2eCjAeqQHFMCz2Yl3lNNRjq/2fNQVnfuNQKPLZNvAhwN3QaMAYAaF56ebHGpblElV8hwvpm1mYDVme7g+HGEikovizNrwoHcB+ia0rrAwkQRrUOYrTz+nDwC2rlpJR1QOfJZR5PYI5TEficmIUk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=htvsYJBX; arc=none smtp.client-ip=209.85.210.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="J17xNnir"
-Received: by mail-oo1-f41.google.com with SMTP id 006d021491bc7-5aa4204bacdso802047eaf.2
-        for <connman@lists.linux.dev>; Mon, 08 Apr 2024 15:24:35 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="htvsYJBX"
+Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-6e782e955adso1301804b3a.3
+        for <connman@lists.linux.dev>; Fri, 12 Apr 2024 14:25:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1712615074; x=1713219874; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=FN9uKDQK7wEwcoggZMXUrUh81YT/xpHW5MHm+1ba/hA=;
-        b=J17xNnirqG0NJj+X4WPaM/usRQRUc+E2NQ8RzyMZoRcWOD4P7oF+BLfwa+fRz7YHnO
-         lWLTkoTEImTZZ54mCie4gDkWRcRdC/9IvwS22ZvUeTWry1s4m2KmP0OYbQgPTJjtGZ8K
-         c/jeYZWamcGkb8aQlDJGUy6jDtVrwAw5HSo1uFykfFYvUpK365ZXbLd+SleDd9Qaafot
-         hrBY9UjhQrV7UBaVUS7/aCeEEKYb8ILur9iva2HwpLa6s6naU7Hk/EbpnrH2s7Jsn8vZ
-         6TNJjFk2sHt8inkXG0rpJ6b9dgj3shsx+L6R1zpieyq6FhmuEN0XaloBTtll23ClVB5Z
-         s25w==
+        d=gmail.com; s=20230601; t=1712957126; x=1713561926; darn=lists.linux.dev;
+        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=FvrkK4kpw995XmHYW2obRO5lJ+l8n49TprBm2Wiru6M=;
+        b=htvsYJBXS3vR78mpEAA+lL4k8v/FWMzYPSIZeYElj2E60f6H9JZwCDedLBRyU4A5on
+         1xxlCDH+AZSDBy7GgggQu7VnspcIluQFmdp7793ZZIvvG2Ysncwl5IURkg9eAjEgugHL
+         tMahPGF9mPuBEn5yV+VuqsaUf91S5BppsZ9j9U+H3uwxpfX4Um6mqCjeZUjzUSFAiJpb
+         qQqsgY1Qpc3XDJzyh+imswiw8IR800/Az7pSjKkx6kZ4ufFBKm9ItkpLKA/hGNIWvOaH
+         w1BINAgmteV36WN7Wdxk8VwmPfGMZ/xtvynIvm8vVb4JaliXQ2aKrdEB79dc4Bp/Ufch
+         DCug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712615074; x=1713219874;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=FN9uKDQK7wEwcoggZMXUrUh81YT/xpHW5MHm+1ba/hA=;
-        b=OOmuE5cK9DOfZnzO4HLAIizKV5AUbEXYn+tw5/r7doalAV2LiGBJyMaTh3sp8urriS
-         lClj5VOei3aJ6lkHWFEPXvLXlIGb0so7kRtggEo1QdMhmrn/sgMqZj5VguwtleydHZvR
-         zUvNpAvk0M/5JqxhebMuQDrfkFVkes4u3YY1dmlyB4K+PblxVVVpBWI6D8gce11D9Hox
-         It/X3634+HCvj26uqxXIQAfYl6yiZaMeITfXULPwMN/ywg+UGn+LvHBoQCOHlSozvt5D
-         y59NwKdvuUPugTcnQefwix66JmI9UswRDpYxmGOTOcEjxT0dTrBPPRDfycxtUZrr5MVJ
-         y6nQ==
-X-Forwarded-Encrypted: i=1; AJvYcCV0b4LNSZZEXdiG4ZiRRrtCKBNP0I4JWDi4ZfcAuDj3Ot0AH3JABBHCjcYhOboGI2c9RynFlE48VD6teTNK96+A4A0MpvLesw==
-X-Gm-Message-State: AOJu0YwuZAaRDW7bH7uLeYE1KKjaEqP3O5DSa53/mlFTeX622/Qb9DFR
-	+u3DAQROMclvuDI6o8v138rNobJ3pFSzemL8rQacpoS9dR+/MXRt
-X-Google-Smtp-Source: AGHT+IGabqlOkJALkWf3iIttna6cZhQMgkhBhWSJFApeWSXzWws+rMOt+MJvWnly+SKiZfNe1pBHlg==
-X-Received: by 2002:a05:6358:7d90:b0:17e:bbaf:406c with SMTP id z16-20020a0563587d9000b0017ebbaf406cmr10797560rwf.28.1712615074501;
-        Mon, 08 Apr 2024 15:24:34 -0700 (PDT)
-Received: from brian-linux-22-04.localdomain (c-24-5-211-102.hsd1.ca.comcast.net. [24.5.211.102])
-        by smtp.gmail.com with ESMTPSA id y7-20020a63de47000000b005e838b99c96sm6213485pgi.80.2024.04.08.15.24.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 Apr 2024 15:24:34 -0700 (PDT)
-From: Brian Fukano <bfukano@gmail.com>
-To: bfukano@gmail.com,
-	connman@lists.linux.dev
-Subject: [PATCH] dnsproxy: Fix cached ttl update
-Date: Mon,  8 Apr 2024 15:24:31 -0700
-Message-Id: <20240408222431.94411-1-bfukano@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        d=1e100.net; s=20230601; t=1712957126; x=1713561926;
+        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=FvrkK4kpw995XmHYW2obRO5lJ+l8n49TprBm2Wiru6M=;
+        b=DbD2o4eEzOVaYJz7id+xXAt3FLFbNTNbPKwkqesxSPGvOqNlNhwVKzdNhjHejqJvTe
+         LTIZYpBNOhayWlktleCkZWWv0Id6eIegJ7X3RlueApRdFnEYLUci0REWELWC/R45j1Ic
+         qSK7IhiTA1gSbBMtVGAS1aiT5Ij0IN5OHF3u1bTr1xzshTbkVHkDX6ZxWNolHWuIu5f5
+         TAXMKlyGId0obTfZrEPzw2ivcv/cEsRhbnbjnt+ZpNj75j+VuRsVLT00N3Kj4L9D+SV6
+         OpE4HTaQszCmD5W+JbEEA2n65Evq5jk2EbguLuhqTVCXRJCmZekhNBvCcjJmuyl0nPON
+         TJMA==
+X-Gm-Message-State: AOJu0Yz2dr0CxROfrqxDmbqu6SQGI2TrWnhqsEvw29JisV3nugiyFRhr
+	M/hdJQU7/m/26vqd8r4h+ceanRtxZfZMv9JWCyIMcAgZIeNbCdmarQYklgXwtlUEJBZo+erxBGC
+	VicToH4kbKBMhJoLQLxzET6iss3XkjUbi
+X-Google-Smtp-Source: AGHT+IG/wLAHV8lzWqMOY6K4Far2ydaHMybMScv40uHShEP0gNSRsqTyTnHMdl1CFUlMrB89jnWROz/+lb/O9uf31Cw=
+X-Received: by 2002:a17:90a:5d83:b0:2a2:7a00:f101 with SMTP id
+ t3-20020a17090a5d8300b002a27a00f101mr3315882pji.47.1712957126130; Fri, 12 Apr
+ 2024 14:25:26 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+From: KeithG <ys3al35l@gmail.com>
+Date: Fri, 12 Apr 2024 16:25:14 -0500
+Message-ID: <CAG17S_MphDzOwu5xwqGfD7GeJd+ww9JZ1w77ia-cwyaAYpuqBw@mail.gmail.com>
+Subject: Pi5 does not always connect eth0 at boot
+To: connman@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-This bug was exposed after fixing the signedness comparison warnings
-found in dnsproxy.c update_cached_ttl() consistently comes up two
-bytes short when processing the last record.
----
- src/dnsproxy.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+I have been using connman for a number of years on my Pis without
+problems. The Pi5, though, I notice that it fairly regularly reboots
+and does not get a valid IP address even though the cable is connected
+and there seems to be no problem on the network. None of the other Pis
+(3b+.Zero2W, 2b) fail to grab ab IP at boot. Is there some sort of
+race condition that is causing it to not grab an address. If I restart
+connman or force the interface down then up, it grabs an IP and all is
+well. I have noticed this with the latest connman:
+connman-git/now 1.42.r383.g49b16df3-1
 
-diff --git a/src/dnsproxy.c b/src/dnsproxy.c
-index d4242560..506e1b9d 100644
---- a/src/dnsproxy.c
-+++ b/src/dnsproxy.c
-@@ -508,8 +508,7 @@ static void send_cached_response(int sk, const unsigned char *ptr, size_t len,
- 	if (answers == 0)
- 		hdr->aa = 1;
- 	else {
--		const int adj_len = len - 2;
--		update_cached_ttl((unsigned char *)hdr, adj_len, ttl);
-+		update_cached_ttl((unsigned char *)hdr, len, ttl);
- 	}
- 
- 	debug("sk %d id 0x%04x answers %d ptr %p length %zd dns %zd",
--- 
-2.34.1
+Apr 12 12:20:02 pi5 connmand[54339]: Interface eth0 [ ethernet ] state is ready
+Apr 12 12:20:02 pi5 connmand[54339]: Interface eth0 [ ethernet ] is the default
+Apr 12 12:20:02 pi5 connmand[54339]: Interface eth0 [ ethernet ] IPv4
+online check to http://ipv4.connman.net/online/status.html failed:
+-22: Invalid argument
+Apr 12 12:20:02 pi5 connmand[54339]: eth0 {add} address
+169.254.184.199/16 label eth0 family 2
+Apr 12 12:20:02 pi5 connmand[54339]: Interface eth0 [ ethernet ] IPv4
+online check to http://ipv4.connman.net/online/status.html failed:
+-22: Invalid argument
 
+down then up:
+
+Apr 12 12:23:00 pi5 connmand[54339]: eth0 {update} flags 102467
+<UP,RUNNING,LOWER_UP>
+Apr 12 12:23:00 pi5 connmand[54339]: eth0 {newlink} index 2 address
+D8:3A:DD:D2:AE:3A mtu 1500
+Apr 12 12:23:00 pi5 connmand[54339]: eth0 {newlink} index 2 operstate 6 <UP>
+Apr 12 12:23:00 pi5 connmand[54339]: Interface eth0 [ ethernet ] state
+is configuration
+Apr 12 12:23:00 pi5 connmand[54339]: ipconfig state 3 ipconfig method 1
+Apr 12 12:23:09 pi5 connmand[54339]: Interface eth0 [ ethernet ] state is ready
+Apr 12 12:23:09 pi5 connmand[54339]: Interface eth0 [ ethernet ] is the default
+Apr 12 12:23:09 pi5 connmand[54339]: Setting domainname to local
+Apr 12 12:23:09 pi5 connmand[54339]: eth0 {add} address
+192.168.1.128/24 label eth0 family 2
+Apr 12 12:23:09 pi5 connmand[54339]: Interface eth0 [ ethernet ] IPv4
+online check to http://ipv4.connman.net/online/status.html succeeded
+Apr 12 12:23:09 pi5 connmand[54339]: Interface eth0 [ ethernet ] state is online
+
+Is this a problem with connman or the Pi?
+
+Keith
