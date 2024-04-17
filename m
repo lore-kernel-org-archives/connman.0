@@ -1,108 +1,97 @@
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+Received: from mail-oi1-f182.google.com (mail-oi1-f182.google.com [209.85.167.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E1A3156F5C
-	for <connman@lists.linux.dev>; Mon, 15 Apr 2024 21:30:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19480147C7D
+	for <connman@lists.linux.dev>; Wed, 17 Apr 2024 16:22:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713216644; cv=none; b=ZZaq09ff7j4GF3HMbhp+wrtXuEGN/3z727rBM0DJUbtXbng8pCwHSICentpWhtgJGfcmrvrJ8iYiHM5xV5TZwBGNNKDhvMhE+MxZFmmA3BcoqX3C7+fwgZ6snrcIznyHmlxm69KnhWtcXaJIVXuylkxzRoKPGLEW2brqAliwDbw=
+	t=1713370968; cv=none; b=BfaD+rfm8jXjS7U4G3Pks6DqmutVc7EuzIPvXTJVhIHWon6jrmXetGYpzY8OXDh5awfqjJ5m0LyvwJaZYwzijpFa/2IUAz5mqce5WKYwg8TIw3nUcEmD5X9Sq6hIGgzy4ohbiyHsb10UpyhUQA8UQbpmxbJHPA5PRr9xHDLbX/M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713216644; c=relaxed/simple;
-	bh=xkO1tWrRGpG+mhf5OMUxqVsB7FS8SAMYjgGhHSdNooQ=;
-	h=Message-ID:Date:MIME-Version:To:From:Subject:Content-Type; b=PKS1Zw/DKJnFdsYCUo5DjGLj5bctVZetQF6PRY5VlVaSUWQzTB38z9V4N5nhi3jxPmsEJ+8C/AFePrH5EF5aEMfX1J3TrbnFwfvTirceDOa/WdwqT5buwYWjpWFXUheQmJsdiq/C9k2k1E5j8BzC9n4wvmHlSCrFILL2EauzJKk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EPyv7baS; arc=none smtp.client-ip=209.85.218.44
+	s=arc-20240116; t=1713370968; c=relaxed/simple;
+	bh=YSjMPw8R13xfbf8wDjkvWCpb6OiKHeSeghvWH3zM3Zo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=U/O/UOWx7jpK8chzwQpReql+naudC3lpQYAHTYQhMp0NSokABLsFyKuLd46jIfs1sJ43zgWI3sjpgTNLGVdvVGfF4pu1Ac0KTMYoDZf17oZGpxZqB8gkp3ZAb273/F+IakSNn+gEWCqP0kSWEA8zvuuXUn2+AtJtvfnP6BD99oo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OYmIyCtI; arc=none smtp.client-ip=209.85.167.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EPyv7baS"
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-a5224dfa9adso591822366b.0
-        for <connman@lists.linux.dev>; Mon, 15 Apr 2024 14:30:42 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OYmIyCtI"
+Received: by mail-oi1-f182.google.com with SMTP id 5614622812f47-3c730fc5749so184897b6e.3
+        for <connman@lists.linux.dev>; Wed, 17 Apr 2024 09:22:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1713216641; x=1713821441; darn=lists.linux.dev;
-        h=content-transfer-encoding:subject:from:to:content-language
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Lj0X85oy5HzBelqj8dYJ4Hl1NfKGHCQniuLCls6uGpM=;
-        b=EPyv7baS25JHqz+SvrXrak68SguYBkvUDasl1Zt/9fdi98wPSTtFyAe3xVxR1i1eeO
-         Aj1nveAXmvZ6+vt6OkRGpXr2mJczRPmmIsd6KHh5sRqr0msTHkVeW5ilTgXLNO7SaN0D
-         uxDta9b/uLlJKjSd9IORfeQw+Gtje3wCfbiqXO3wKVpsStGikpsCCozHJwtDbEVDOriy
-         HmVnNs+8p/t9R+lII4oEpITfpHjTRpUIbKPjc3aEtRuS5VkIBGRyBYcazrIO8jfDGarK
-         ZWCYx6G0oRFno0tKuiT7LLTAsvCS3qH7oSSoO4RdWaH9l4KNiODm+BsUoyM9jg8lDgh3
-         2sLg==
+        d=gmail.com; s=20230601; t=1713370966; x=1713975766; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=UsJBCibRkcgELE9H1NVhk9XdXDyl138gSltvr4cK6rw=;
+        b=OYmIyCtISygl9n3XdmhUYAqT5Cg3YgSbkSu/EahfH5UFm2xDHG3bj/6r00YtvyTs8K
+         JLESupud/8bIhhzBD41VxnCJgk9DSREtSh4VjEkjC/Uii2QP5+Fy42iJ/QVS/VcNre7o
+         +ezvCk/1H/hBqMvCFr0QmaCExR+ifA3x5vP+EiPEAyFfrKcYOJ22aZ6xC8/bIOYXI56i
+         CTxr3qQEizG4X9ndioMUALRFlU9NpdZxemhSWokCQUIUO+CEBfgapYIJz/49TwwzP7mU
+         sYl/4TQprurFFkbR0/nvPO0y7zVyLnfHwmGvlNcKEEnlCBFbZL4hfhp454VTUAvS+JM4
+         vktQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713216641; x=1713821441;
-        h=content-transfer-encoding:subject:from:to:content-language
-         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=Lj0X85oy5HzBelqj8dYJ4Hl1NfKGHCQniuLCls6uGpM=;
-        b=n2fRNNkhUE8/8dIlXVXU0SkrxcaMm1kTiWeENuzFhiPqfPdYBpJSzOF2dVSempyp4N
-         Hltw4MrJm7hjDMojeaGbKx3wAUZwlMIcVpPZj+dUYGRY2N1rI6RaHd17wkyOvlRpKe59
-         b4mq3RISfIORTcNOcLcQfeO7ANB3UeerTLkoC7QtQFNwLI5WVSgnaBQzCc+MNF/7KdyM
-         bQwXPw574p4OALtVS+rbxLi13W8mEscIIso26pjEq9h/86wRI/QIe8yBNrwSFtG6ANR0
-         ZLlzU6TgkXRIiN+xZu7ClD5PDmO75afFHOwcoEg8d0CO9Hkpxw706QYDsS4NsBBVdZSP
-         64UQ==
-X-Gm-Message-State: AOJu0YzkZaA/PRslOF7UVTaCErzfWN8C8CCif0+G+z6ereQIT6Tfd4Hp
-	ABMz4xN7SvLMT0gJp6jH/9QXRTEsz8rovTqNPTBMKirT4a7phcPPdg2hqw==
-X-Google-Smtp-Source: AGHT+IFlxtcnRDgIGrOJXKlIbTELCx8KHTzCSX/llsS/z2vDcvbyjo9+CSBHnLrPh4KxGbMuH6Bd8Q==
-X-Received: by 2002:a17:906:3bd8:b0:a51:c311:8199 with SMTP id v24-20020a1709063bd800b00a51c3118199mr677901ejf.31.1713216640924;
-        Mon, 15 Apr 2024 14:30:40 -0700 (PDT)
-Received: from ?IPV6:2a02:a466:68ed:1:69d0:6c15:85da:6652? (2a02-a466-68ed-1-69d0-6c15-85da-6652.fixed6.kpn.net. [2a02:a466:68ed:1:69d0:6c15:85da:6652])
-        by smtp.gmail.com with ESMTPSA id nb17-20020a1709071c9100b00a4e6582edf8sm5853345ejc.102.2024.04.15.14.30.40
-        for <connman@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 15 Apr 2024 14:30:40 -0700 (PDT)
-Message-ID: <6b98f4fd-c3f7-4ea3-88cc-3f8fc4f08be2@gmail.com>
-Date: Mon, 15 Apr 2024 23:30:39 +0200
+        d=1e100.net; s=20230601; t=1713370966; x=1713975766;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=UsJBCibRkcgELE9H1NVhk9XdXDyl138gSltvr4cK6rw=;
+        b=kO5p4xxiMSvB2dsXEDgGS7ROFLGEQYTgb4R5U5oO/TJ2AdwRUSAnCj2KNZK2GpetuU
+         BCA2mDxT8fCnSbZx86T350yAWMGTGmXszVkxQ4VNtWBy89+CkKsssp8sCmN4M/6Ql3MA
+         55T/0de02xGzrrd5qfLg35f3chmC+VWEKfUm+7r7PGUQ0SqkzaL1DU6Rl1CUBEi78Jl4
+         f8E1tGDKBIxwgzGIbzkMHj8rhmjxDcSlmKiRdg2FEZk3bkO4TvDAA7Gmonfg1aqBqxuu
+         j1R9UDAxyp+bQQOsYxaxt/SOMBnQJ7PNEC93PqNE+7VgXr7Std4hpsiru/o8nDPTnNHz
+         rj6A==
+X-Gm-Message-State: AOJu0YwFYidRj2YgmAZsdRyaTFTpaLcJ2Qbx6yK0z2hg3aOJlt0+y/jQ
+	qj/XPKJJ0hr1CeD44bd5fbITttIGhA92MyhTZlK0uyiLqXKZcZhAy1uf7g==
+X-Google-Smtp-Source: AGHT+IEcvNHsWX/QRHxU7+nvdneVJ5AS9Fnb0tobCMESL20vTT5CV46UelpN6lRB04N6xU1C0WPMqA==
+X-Received: by 2002:a05:6808:1b22:b0:3c7:2a70:f0c2 with SMTP id bx34-20020a0568081b2200b003c72a70f0c2mr28030oib.17.1713370966044;
+        Wed, 17 Apr 2024 09:22:46 -0700 (PDT)
+Received: from localhost.localdomain ([70.114.247.242])
+        by smtp.gmail.com with ESMTPSA id y10-20020a056808130a00b003c6ef2d7539sm2226380oiv.24.2024.04.17.09.22.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 17 Apr 2024 09:22:45 -0700 (PDT)
+From: Denis Kenzior <denkenz@gmail.com>
+To: connman@lists.linux.dev
+Cc: Denis Kenzior <denkenz@gmail.com>
+Subject: [PATCH] gdhcp: Allow client to work on veth devices
+Date: Wed, 17 Apr 2024 11:22:24 -0500
+Message-ID: <20240417162243.3373629-1-denkenz@gmail.com>
+X-Mailer: git-send-email 2.44.0
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-X-Mozilla-News-Host: news://nntp.lore.kernel.org:119
-Content-Language: en-US
-To: connman@lists.linux.dev
-From: Ferry Toth <fntoth@gmail.com>
-Subject: Create tiny ethernet router
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-I have a device with 2 ethernet ports. Can I get connman to setup the 
-network to route traffic from the one port to the other?
+veth devices do not compute a checksum over the entire message.  They
+simply pre-compute the pseudo-header portion and include this in the
+checksum field.  Support such devices by computing the partial checksum.
+If the partial checksum matches, accept the packet.
+---
+ gdhcp/client.c | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
-I guess I would need to tether one of them? Then how would I do that?
+diff --git a/gdhcp/client.c b/gdhcp/client.c
+index c58c7be91143..2afa19e6e2ea 100644
+--- a/gdhcp/client.c
++++ b/gdhcp/client.c
+@@ -1355,8 +1355,13 @@ static int dhcp_recv_l2_packet(struct dhcp_packet *dhcp_pkt, int fd,
+ 	packet.ip.tot_len = packet.udp.len; /* yes, this is needed */
+ 	check = packet.udp.check;
+ 	packet.udp.check = 0;
+-	if (check && check != dhcp_checksum(&packet, bytes))
+-		return -1;
++
++	if (check) {
++		uint16_t partial = ~dhcp_checksum(&packet, sizeof(struct iphdr));
++
++		if (check != partial && check != dhcp_checksum(&packet, bytes))
++			return -1;
++	}
+ 
+ 	memcpy(dhcp_pkt, &packet.data, bytes - (sizeof(packet.ip) +
+ 							sizeof(packet.udp)));
+-- 
+2.44.0
 
-TLDR;
-
-Actually I have 2 devices, both are Intel Edison-Arduino. These can 
-setup the usb port in either host or device mode. The one in device mode 
-has a eem gadget (ethernet over usb).
-The other in host mode has a smsc95xx usb to eth+4p usb hub.
-
-As it is the one in host mode has 2 eth devices:
-root@edison:~# ifconfig
-enp0s17u1u1: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
-         inet 192.168.178.70  netmask 255.255.255.0  broadcast 
-192.168.178.255
-         inet6 fe80::280:fff:fe95:1d4d  prefixlen 64  scopeid 0x20<link>
-         inet6 2a02:a466:68ed:1:280:fff:fe95:1d4d  prefixlen 64  scopeid 
-0x0<global>
-         ether 00:80:0f:95:1d:4d  txqueuelen 1000  (Ethernet)
-         RX packets 781536  bytes 224464657 (214.0 MiB)
-         RX errors 0  dropped 184984  overruns 0  frame 0
-         TX packets 17923  bytes 2037451 (1.9 MiB)
-         TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
-
-enp0s17u1u5i1: flags=-28605<UP,BROADCAST,RUNNING,MULTICAST,DYNAMIC>  mtu 
-1500
-         inet 169.254.45.35  netmask 255.255.0.0  broadcast 169.254.255.255
-         inet6 fe80::f4dc:3cff:fe83:4503  prefixlen 64  scopeid 0x20<link>
-         ether f6:dc:3c:83:45:03  txqueuelen 1000  (Ethernet)
-         RX packets 6660  bytes 3459572 (3.2 MiB)
-         RX errors 0  dropped 0  overruns 0  frame 0
-         TX packets 7365  bytes 3973982 (3.7 MiB)
-         TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
-
-The one device can ping/ssh into the other. But I'd like the device in 
-host mode to setup a dhcp server and route the traffic.
