@@ -1,108 +1,132 @@
-Received: from mail-oi1-f178.google.com (mail-oi1-f178.google.com [209.85.167.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-003ede02.pphosted.com (mx0b-003ede02.pphosted.com [205.220.181.153])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A6BA4F1FC
-	for <connman@lists.linux.dev>; Thu, 18 Apr 2024 16:31:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69119176FB1
+	for <connman@lists.linux.dev>; Thu, 18 Apr 2024 20:12:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.181.153
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713457905; cv=none; b=tkAPC0BAbQ+bB855xrwVs1PH/t0PzlP+HVmeEEzz+zd5AcSj1uDyfnUN8qql9C7bL4lBTTJ3n/TN66K/uj/y7V82G+gtr6PPPe484AiYhsjEequeV7YF6cvAti6fFcudjmAVJ3g3CHIxqcB/97tH/S6kFXizoL5IfukHsh96EkQ=
+	t=1713471138; cv=none; b=VnRYxLwCNKI6e3S3xeEj3oEZCuSB3mLvntN9V9SF2FydqDbVTWux6QcvN+FIMjtaEaYjQryA6gYCbyCtZRBCRvmBlWExxQZZVoI/PcgtOvgRWXKaAJFquFXhjKH89KQfIOVjkAzxzdtUygeADc1kFgFcZu9P028eCEBxEd/uZgA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713457905; c=relaxed/simple;
-	bh=h23pfmGf8CIMkMxA+VKPrLpOuU8o4yCHrF5HLE/miiE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=VUDESuv6z4ZDCbrJ5W2D56yBK/i5A0Ppv7TOUhB5xxOAc06p3xA/I315Gnd+9Xr7McmfvMgy7E+qGlCPYnG0iAq51KAb160iuIz6VsisH4xsuPNZrYZoOu55GUCpB6Dxcz9cToKzehKbdwA0hZhO+1epYHLzo3l45ZBCuzWH8MU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NQm3Ih7X; arc=none smtp.client-ip=209.85.167.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1713471138; c=relaxed/simple;
+	bh=uqz6HMTgPMFH04aqj29NxwFCBX1snovxxLdbVI1Es5M=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=dyPy2KiJfoWcoWS731s0HNftL5BeU3wqQoxUcpFPAP7c1+caH7ymfNJF5NEkVxl28pFE67r66ZyqYHQmstt/0OerA/sqCgdGYspTOT8VnYq7nT4LEfnrUS868WX3LodP9+kUoxjBhoTuFZK9nREN2nUtzBer3WbQxPYkxLSpqgU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=getcruise.com; spf=pass smtp.mailfrom=getcruise.com; dkim=pass (2048-bit key) header.d=getcruise.com header.i=@getcruise.com header.b=XjDapK47; dkim=pass (2048-bit key) header.d=getcruise.com header.i=@getcruise.com header.b=ODkfvceR; arc=none smtp.client-ip=205.220.181.153
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=getcruise.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=getcruise.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NQm3Ih7X"
-Received: by mail-oi1-f178.google.com with SMTP id 5614622812f47-3c6f785208dso392017b6e.1
-        for <connman@lists.linux.dev>; Thu, 18 Apr 2024 09:31:43 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=getcruise.com header.i=@getcruise.com header.b="XjDapK47";
+	dkim=pass (2048-bit key) header.d=getcruise.com header.i=@getcruise.com header.b="ODkfvceR"
+Received: from pps.filterd (m0286621.ppops.net [127.0.0.1])
+	by mx0b-003ede02.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 43IDHC1d008225
+	for <connman@lists.linux.dev>; Thu, 18 Apr 2024 13:12:09 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=getcruise.com;
+	 h=from:to:cc:subject:date:message-id:mime-version:content-type;
+	 s=ppemail; bh=fMU9Yd/Ll+X90PjPAhIAvgAzWfxHYAfCtLBvAfE7AqA=; b=X
+	jDapK47zsP+5qEy4hDHgOzcsU1zGszJ+tXexuRBLwavWP4Q+UKvVSVxHvi+t5ofK
+	W6/GJwnwqXEVgQdKNymXrM320cI1ZfIIBy5HBMCSzCP+yYAOQx/QliAgfJk6mkHG
+	V2mk+RtiQvETCDSMAxJ1mWG7fDhz99FFxrVndyL3/AogFbR1o9NuNWtcxPJeq/m+
+	n30klWANVKgLqtKI76csxrq0d3izR7oZhqDbyqmdOvuWjT3MbkPEoCK/pJMHzR1r
+	BX1z6wmyzuKA+MWtO5K/SSpeWojGSlbFFp78XSua7K1tclPJZe8lm84N3frRUmXS
+	I+cN93yisBjv6JZ/r2A6A==
+Received: from mail-pf1-f197.google.com (mail-pf1-f197.google.com [209.85.210.197])
+	by mx0b-003ede02.pphosted.com (PPS) with ESMTPS id 3xjnny10ut-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <connman@lists.linux.dev>; Thu, 18 Apr 2024 13:12:08 -0700 (PDT)
+Received: by mail-pf1-f197.google.com with SMTP id d2e1a72fcca58-6ed4203cafdso1285180b3a.0
+        for <connman@lists.linux.dev>; Thu, 18 Apr 2024 13:12:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1713457903; x=1714062703; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=WI0sw0XtFmFPeFTADzWASFwp/olkWSG4xEEmjPDT3lY=;
-        b=NQm3Ih7X9wMfXJaHHKmHfW0hJHwq7pPr0+mhj1AD1vCqgTy2jFEnifcp8CFt8GLKAB
-         8aMI46jGmJveYuOOZew+35smPk7VHMWjXB3beKqSlMYGgd/ICsEyX69Ht4jtjUEvdQPa
-         9Io31ARD662lrPh6sjWLItSLLk8GwQYiCQChG0Dml0zadlo5ypS3KQr6+tCC9D8RPKSQ
-         FSJAai3fhm3JnP77ANmhN+HkHzUBiRB8tLK7T9vUP09fqdHL1YnfnKSYdMSAimDtSZZC
-         I/Lj+RV9dE83OKorjRVOsfFIZZuC3sPSLAAIxJDd0j1SO4vFgUWZtIp9izrY+7nwECF9
-         u7Ig==
+        d=getcruise.com; s=google; t=1713471127; x=1714075927; darn=lists.linux.dev;
+        h=mime-version:message-id:date:subject:cc:to:from:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=fMU9Yd/Ll+X90PjPAhIAvgAzWfxHYAfCtLBvAfE7AqA=;
+        b=ODkfvceRem7V/uunxxSrTdICo8md+5CFpjFGRRIMCmZFT42HSKMsHVQukBkiCmA2JQ
+         +mrvHiz0F04loz8+kWp4C/Jm2tR8rAs/ZxWFo/4NdyiBVebaL8WL20lYYC0iq9z4B8U+
+         5H5lei3MAJKZrbjXzNbLB2B6QZ+5G/LvaeP5vEod1yrPm0Lj1OZ48Vrh/vEg6Fm5uOnv
+         br565mprIKYA9ZfDOD8eZfvzDuorrmvLPvVnBjO3kNN59VQaTmUrC+tCs5TzFI32QA/D
+         XCsiGRGPOhj2tON9dCFyNyfso1PO066wRbcWeLNftFD0nRiPyrXLC+Mhbl9+bQed6H9E
+         grJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713457903; x=1714062703;
-        h=content-transfer-encoding:in-reply-to:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=WI0sw0XtFmFPeFTADzWASFwp/olkWSG4xEEmjPDT3lY=;
-        b=QRprzCVFL5XQQigSLDsnH+ovq2SfENLu67ofHeOkJ5QD7Cf/GvpSTCAV7ZvOtGqILe
-         t0Yvl8l5ngvLcYRpgaGPE0NS7pglpXb927ZOjXKJF2dRy6AVKrR9uM0aR9sDIxHRsegQ
-         pz7gG/21eUOHqr7TtWsmJPZRpxvH0Ssz1Dj99dHAnDAO5HRv3rv/44OtVpBoKjUuMtfd
-         N9Y+Hm0Q1AV4WBfPso/qYe4ULHe3K5JU1VtlmuoLwMqrfpxxTiftX+oQ6j/NPF0jxtSb
-         ZLttSCZGoV05eeqA9H2LzaOEmpAzgp3fB0VyOAl1m87x4XwPLtjpnF2rUzD3Rw8gHMAo
-         F/PQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXYNxh2CHlpkS6s3f2fJaDS+NQ4jA+5wsOB9YNfE2d3+Mt9IatTXNQqT6OAW3vcoXjzwK0NsayPWhZkauIGMo33PkS3/biZ7Q==
-X-Gm-Message-State: AOJu0YwSUw2HCrT2uWG+XAwMOTlqCs557y/cajy1QKmINa8RbnqPbRF9
-	JGKu9WkX0sVBVvnkjmLml95JMamRGxAEBEEkU5b6WUlJgZqf+0z4JUZbOA==
-X-Google-Smtp-Source: AGHT+IHnGwMiPDkbQTqEKXQPhNvN9xzOb6+CHF8H2V79rrWIl7Iwe/mIDtsO9eTbIuYLBjUBNXbHxA==
-X-Received: by 2002:a05:6808:2381:b0:3c5:fcfa:c268 with SMTP id bp1-20020a056808238100b003c5fcfac268mr4308651oib.29.1713457901603;
-        Thu, 18 Apr 2024 09:31:41 -0700 (PDT)
-Received: from [192.168.1.22] ([70.114.247.242])
-        by smtp.googlemail.com with ESMTPSA id o17-20020a544791000000b003c5f54d014dsm310832oic.51.2024.04.18.09.31.40
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 18 Apr 2024 09:31:41 -0700 (PDT)
-Message-ID: <0caf957f-e046-4453-a8ae-fd6c994ac95d@gmail.com>
-Date: Thu, 18 Apr 2024 11:31:40 -0500
+        d=1e100.net; s=20230601; t=1713471127; x=1714075927;
+        h=mime-version:message-id:date:subject:cc:to:from:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=fMU9Yd/Ll+X90PjPAhIAvgAzWfxHYAfCtLBvAfE7AqA=;
+        b=kSeu4grECp8jSf0igHgwc46krsM0kK+LjqofO8hz2NovSaSolVtp5V8tfAJ9UomjfP
+         UMb9O76lVhu/yvhH/PIrjiUMahZYzDawuYKZgJ0NX18lF9meGGttjntAEW59B7WMlvJa
+         Dz7wsLWZtsHjSy5eioJOfzLWg1N1XH2wsdiXlz/PapyGDu5X8bbvL5uwabfXD5lW6Pcs
+         AnX5f4+HQOvfMMqpBU5N7eCLVuytXrxSDhNSG9Fp57J/mfUl17yMckhMVi9TmXkB9c3e
+         ebhZ3inWK6nh7GXNi/rBcs1WDsvPv+ZIvC0n8hDOndyG+GkKSKlT26gwf7dXLEdYe7my
+         tAeQ==
+X-Gm-Message-State: AOJu0YzQ1e6Lj19SwZWTlFTBBOZTdmSYe2kDrpIV4QCOB6XlGozssgVa
+	wDosdDsGD4xCcfPjFAbxKiBtKk2FXqbYN9PmlvV56jashXb9NBKV6S47+C8ZWi9Gt8yHeV9K9a1
+	OEgpSziX5oCqedPA4iisSf6Jw8JuALt64im1ZOesOKL7YxjsY1Tw08j9QqFa+sT5FlATmAAqn6T
+	/w8ZKHkh1N6gry7spBDswr896fRgXaxgmYtY7gkTJQMK1Qzm3eetkW
+X-Received: by 2002:a05:6a00:2181:b0:6e8:f66f:6b33 with SMTP id h1-20020a056a00218100b006e8f66f6b33mr217436pfi.4.1713471127522;
+        Thu, 18 Apr 2024 13:12:07 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFMUzNbGnB8GgBWZxyzUxlirn3g8CEFJmGarJO1PIC3s05dV1wqU9qywLgBjq0q7f9N/6xMVw==
+X-Received: by 2002:a05:6a00:2181:b0:6e8:f66f:6b33 with SMTP id h1-20020a056a00218100b006e8f66f6b33mr217419pfi.4.1713471127045;
+        Thu, 18 Apr 2024 13:12:07 -0700 (PDT)
+Received: from BPHKDV2-DT.corp.robot.car ([199.73.127.2])
+        by smtp.gmail.com with ESMTPSA id fk12-20020a056a003a8c00b006e6a684a6ddsm1875789pfb.220.2024.04.18.13.12.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 18 Apr 2024 13:12:06 -0700 (PDT)
+From: Ram Subramanian <ram.subramanian@getcruise.com>
+To: connman@lists.linux.dev
+Cc: Ram Subramanian <ram.subramanian@getcruise.com>
+Subject: [PATCH] iwd: set network to connected if it is already
+Date: Thu, 18 Apr 2024 13:11:51 -0700
+Message-ID: <20240418201151.624654-1-ram.subramanian@getcruise.com>
+X-Mailer: git-send-email 2.43.2
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/1] Use a log identity always valid while logging
-Content-Language: en-US
-To: Christian Meusel <christian.meusel@posteo.de>, connman@lists.linux.dev
-References: <20240222232326.1677146-1-christian.meusel@posteo.de>
-From: Denis Kenzior <denkenz@gmail.com>
-In-Reply-To: <20240222232326.1677146-1-christian.meusel@posteo.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="US-ASCII"
+X-Proofpoint-GUID: coC5s9m-HrYMsGzA7xNNqySHAIX1wcQO
+X-Proofpoint-ORIG-GUID: coC5s9m-HrYMsGzA7xNNqySHAIX1wcQO
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-04-18_18,2024-04-17_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ clxscore=1011 spamscore=0 malwarescore=0 impostorscore=0 mlxlogscore=872
+ phishscore=0 mlxscore=0 lowpriorityscore=0 bulkscore=0 adultscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2404010003 definitions=main-2404180146
 
-Hi Christian,
+Without this, connman will wait for a "Connected" signal from iwd, which
+is only emitted when iwd connects to a network. If it is already
+connected by the time create_network() is run, that network will be
+stuck in limbo.
+---
+ plugins/iwd.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-On 2/22/24 17:23, Christian Meusel wrote:
-> I encountered garbled and changing log identifiers from connmand 1.42
-> running on Yocto Kirkstone.
-> 
->      Feb 09 02:40:18 foo time[590]: Connection Manager version 1.42
->      Feb 09 02:40:18 foo time[590]: ../connman-1.42/src/dbus.c:__connman_dbus_init()
->      Feb 09 02:40:18 foo time[590]: ../connman-1.42/src/main.c:parse_config() parsing main.conf
->      Feb 09 02:40:18 foo time[590]: Online check disabled by main config.
->      Feb 09 02:40:19 foo U[590]: ../connman-1.42/src/inotify.c:__connman_inotify_init()
->      Feb 09 02:40:19 foo U[590]: ../connman-1.42/src/technology.c:__connman_technology_init()
-> 
-> This variant is slightly patched (see
-> https://git.yoctoproject.org/poky/tree/meta/recipes-connectivity/connman/connman/0001-src-log.c-Include-libgen.h-for-basename-API.patch)
+diff --git a/plugins/iwd.c b/plugins/iwd.c
+index 1955140d..19229c10 100644
+--- a/plugins/iwd.c
++++ b/plugins/iwd.c
+@@ -1830,6 +1830,9 @@ static void create_network(GDBusProxy *proxy)
+ 			network_property_change, NULL);
+ 
+ 	add_network(path, iwdn);
++
++	if (iwdn->connected)
++		update_network_connected(iwdn);
+ }
+ 
+ static void known_network_property_change(GDBusProxy *proxy, const char *name,
+-- 
+2.43.2
 
-Ugh.  I think the Yocto folks didn't read the basename manpage carefully enough 
-:)  See [1] for an explanation.
 
-> which creates a use-after-free situation. But nevertheless there is no
-> lifetime requirement communicated for the 'program' argument passed to
-> '__connman_log_init' and on the other hand 'basename' might as well
-> return a pointer to an internal buffer.
-> 
-> In either case, a locally allocated log identity string will prevent
-> potential issues.
+-- 
 
-argv[0] is being passed in as 'program'.  So getting rid of basename use and 
-running strrchr should be sufficient.
 
-Regards,
--Denis
-
-[1] 
-https://git.kernel.org/pub/scm/network/wireless/iwd.git/commit/?id=ba5a6df2d170fce96354f0c9ba281fe049d2f0a3
-
+*Confidentiality Note:* We care about protecting our proprietary 
+information, confidential material, and trade secrets. This message may 
+contain some or all of those things. Cruise will suffer material harm if 
+anyone other than the intended recipient disseminates or takes any action 
+based on this message. If you have received this message (including any 
+attachments) in error, please delete it immediately and notify the sender 
+promptly.
