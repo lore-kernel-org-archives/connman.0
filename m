@@ -1,105 +1,112 @@
-Received: from mail-vk1-f175.google.com (mail-vk1-f175.google.com [209.85.221.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail5.g24.pair.com (mail5.g24.pair.com [66.39.139.36])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07DD915696D
-	for <connman@lists.linux.dev>; Wed, 24 Apr 2024 06:06:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C59615E213
+	for <connman@lists.linux.dev>; Wed, 24 Apr 2024 14:15:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=66.39.139.36
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713938769; cv=none; b=hnrMbQcEB0JJDQdmzWS7g/+8TY0MHjAC5q7DB9Z0HM34JwLJSOzZeXmE2Q/YNlhWr1BiOOuFkn1DMQgcHzfFvvrrQt31YMi9ifmKHOpLs4/IK8KdAUpW4LsuCZtA8NWOdkhyPEl6YBkr/i8d5k8ZloSgjAfF7hZbskldSQuT+/c=
+	t=1713968121; cv=none; b=M/ohpkjfkeii8zMb7Bke/4b1aXh2lqOU5kCsWwHVklGELs+8f0bp61h2Xk4ByHNQwSxHCUxc7ctIoRIMw6O+v1g0MCHQnHBVmRufLEllBC1rlqNGQHdmwZoLvt/FwLUgp1ZxZXQ7jDYUwyu+HNmkKr9RwhOH2aOUp80xYaW+fFU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713938769; c=relaxed/simple;
-	bh=DyP8oWeLpVZoPcrWjtQkXyO9jLqoXMRp1z4IGycZjhM=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Content-Type; b=oEGNHzKqw5jwCJvs+8EtkL53P06YD1w4h3f2YzoexT9th1p3WQi5cx41WnC1Id/6qNqOKXU2SRp2ypsY5pjsIE/b9BuynJS/uGhmfuYfkk46YbsfM9wDHAR8tsxNmj+wpmgPQvJvwFQWXNp2YvRro4E8LzWqa+BsICuDlzzMPZg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VW4lizH2; arc=none smtp.client-ip=209.85.221.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1713968121; c=relaxed/simple;
+	bh=gi4AbOZYpHPRHv4YMoaDx6ICvf4DvFE2VNMxD/KT1G0=;
+	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
+	 Message-Id:References:To; b=mnnr1KMxZeGXoiz5to2a2lwwTYBVKsLIT+MJ+586DGDBU3Wg8HLADLjlSB8PVaUb/kye+owRaxYvz1+OPHTIbUBNDezylvY0L1D8rTfGABRZ+ohydOeajZUjPaPqv0dXFuHNu06FueAkzAdvpeQZWk1q0v4NHEeJwEXInB8X1lU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nuovations.com; spf=pass smtp.mailfrom=nuovations.com; dkim=pass (2048-bit key) header.d=nuovations.com header.i=@nuovations.com header.b=agk/wfQi; arc=none smtp.client-ip=66.39.139.36
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nuovations.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nuovations.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VW4lizH2"
-Received: by mail-vk1-f175.google.com with SMTP id 71dfb90a1353d-4daa1be011dso1627425e0c.0
-        for <connman@lists.linux.dev>; Tue, 23 Apr 2024 23:06:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1713938767; x=1714543567; darn=lists.linux.dev;
-        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=Kj8rvAl+mKNH/3xBh1Q8yfghj/HggCVzLGA1YM6fA9k=;
-        b=VW4lizH2UnDYwzFLntCHGmiGQJClmdMWZnv+ZrkLvXIhsfINa3JTacvn0kmw8vromQ
-         1gRj+AuQG/vJHeNqHN95G3W+C+wa0kIFIXfE2y5pC6j+cXtp0mP5qO/Jx6YkQ6SJqakh
-         MJ98SuSg+36Bv/5Ruywq1Zf1yyz4DfqhldO3cw0GY/wcDlSXdtWpWe+YTfrH7pfUKE5Y
-         5ztFK5V5AB8AIbOHSmEtj3SJEwelNTmAwM1xJMVYDoKxo2Ti3vnTUL3k1jYPrgV8UptW
-         DNyJEFq56a20VhYFKryx9wfOi755R0inVKCCHJnUWcXLvLTv0LjTzzIXHXZCzwCFWuDp
-         zvmg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713938767; x=1714543567;
-        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Kj8rvAl+mKNH/3xBh1Q8yfghj/HggCVzLGA1YM6fA9k=;
-        b=I+SJgmlqYkj/DQrjChii4CF1/7s/9OWZwXmng2aH4cTezktK4FR82ttrTo6EHkuGNa
-         VkZAs+Lh2RyetsM+zMsjcTyrYrZ/l5XaBodlJI9Xt8nu8HP1Xuk8XHvan+Pq+PteN3Dt
-         cuCGe5pkI14wTkkGCRntZEFRQZ3CEbO0LYRbb1I0J4+rAHs9Yqx6PpcxFn2ZvqJr5xco
-         V3SOOCu7/cxfPFOPXvh6ZkS/5mA+NXC+zHIVgAQdReqpKvUw1mHxoE8vOGVq9/GCdHkS
-         75PR1qRMAukIs62bacT5B579QinbOPkb5yjX2s/EjduV6JfEiwbPp7GKdpeurujHuF7/
-         Z+hg==
-X-Gm-Message-State: AOJu0Yxs1Dwk8zQq1qXrT8ydNwaHRwqFKlvksOC/nVYB3TwVTr0y7oiI
-	Vso43wOZWTrKSMVgWieKEs9oBHNHWwQPBDwfZaVKkciIYnPWkWfSghpBlNQ6wjh6gWMKv5ULeZu
-	GlBOQWFGjb5RF+7yTbp90EMfAfmNGe7XI
-X-Google-Smtp-Source: AGHT+IHt84nr2PypdVeIODrX5nvEaH65q15zCZR0IRoYyz394nTr4c8HPVdKduOWlMFXj4N+nbpI+K7rBdm4dAlwSDU=
-X-Received: by 2002:a05:6122:c9a:b0:4d4:872:c68a with SMTP id
- ba26-20020a0561220c9a00b004d40872c68amr1495574vkb.1.1713938766827; Tue, 23
- Apr 2024 23:06:06 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=nuovations.com header.i=@nuovations.com header.b="agk/wfQi"
+Received: from mail5.g24.pair.com (localhost [127.0.0.1])
+	by mail5.g24.pair.com (Postfix) with ESMTP id 0A9CC1649CF;
+	Wed, 24 Apr 2024 10:06:55 -0400 (EDT)
+Received: from smtpclient.apple (c-24-6-12-99.hsd1.ca.comcast.net [24.6.12.99])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mail5.g24.pair.com (Postfix) with ESMTPSA id 90C98124F8C;
+	Wed, 24 Apr 2024 10:06:54 -0400 (EDT)
+Content-Type: text/plain;
+	charset=utf-8
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-From: daniel antoine <univac55@gmail.com>
-Date: Wed, 24 Apr 2024 08:05:56 +0200
-Message-ID: <CA+iibzA2M1fDosrij=nUWCAuL4mS+FsO-jt1xxH_qsadBe7ZTA@mail.gmail.com>
-Subject: connman-vpn does'nt work with wireguard
-To: connman@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3774.500.171.1.1\))
+Subject: Re: connman-vpn does'nt work with wireguard
+From: Grant Erickson <gerickson@nuovations.com>
+In-Reply-To: <CA+iibzA2M1fDosrij=nUWCAuL4mS+FsO-jt1xxH_qsadBe7ZTA@mail.gmail.com>
+Date: Wed, 24 Apr 2024 07:06:43 -0700
+Cc: connman@lists.linux.dev,
+ Christian Hewitt <christianshewitt@gmail.com>
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <A3823C56-1321-4B82-B839-9D4A288AA87E@nuovations.com>
+References: <CA+iibzA2M1fDosrij=nUWCAuL4mS+FsO-jt1xxH_qsadBe7ZTA@mail.gmail.com>
+To: daniel antoine <univac55@gmail.com>
+X-Mailer: Apple Mail (2.3774.500.171.1.1)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nuovations.com; h=content-type:mime-version:subject:from:in-reply-to:date:cc:content-transfer-encoding:message-id:references:to; s=pair-202401062137; bh=pSSW8a6rKpSJ5+FOPPGB51KMBg5hvb6wmu5Cbxhfp+8=; b=agk/wfQinUTOM4zZdL82ffbO1HRReUdAk1MAq0Bg+tUYc+m146tAHrNhCkBSnIiMWrgD88Dow3VH25uEnQ8t04sIRpmQFBDwis/ThViy2mcazWOAUXbaLsgwAiIpYoauwB2OpWxksNkrFbeLgF+isegsJ8DPrkTafnUXqzCJ0/FQH+ltJjZ7D1jTDS7hlB4q5mWrJc1yYR+DjrZTGhp5f/3m/WofJrBYuJBi3PN2/YQXWT1HMI5COP4kwYx3Ar0cnk2X5bswFSFDhv55bLHJadgs0pAz+IKwuXU1Vd8TCYKuYba6oT9xU6y1O6jQ7J8OZHEaw/tXa0bb/XXQHsyZQA==
+X-Scanned-By: mailmunge 3.10 on 66.39.139.36
 
-Hi
+On Apr 23, 2024, at 11:05=E2=80=AFPM, daniel antoine =
+<univac55@gmail.com> wrote:
+> I have installed wireguards-tools on my system and I am able to
+> connect to a VPN server friend with the command wg-quick up 'name of
+> the interface' . The configuration file in /etc/wiregard has a host
+> with a FQDN as blabla.com  . It also works if I replace the host by an
+> IP address (IPv4 or IPv6).
+>=20
+> I have adapted the configuration file in /var/lib/connman-plugin like =
+vpn.config
+>=20
+> [provider_wireguard]
+> Type =3D WireGuard
+> Name =3D vpn
+> Host =3D balabla.com
+> WireGuard.Address =3D 10.0.6.5 /24
+> WireGuard.PrivateKey =3D xxxx
+> WireGuard.PublicKey =3D zzzz
+> WireGuard.AllowedIPs =3D 10.0.6.0/24
+> WireGuard.EndpointPort =3D 51822
+> WireGuard.PersistentKeepalive =3D 25
+>=20
+> My display environment is enlightenment. I see the connection "vpn" in
+> the connection window. When I click on it , wg show vpn displays the
+> connection to the server, a ip a command shows an interface wg0  but
+> it drops after some seconds. I can ping the server 10.0.6.1 until it
+> drops.
+>=20
+> If I replace the FQDN by an IP address in this file , for an IPv4
+> address it makes the wifi connection shutdown and returns. My laptop
+> is connected by wifi to my livebox. If I put an IPv6 address it does
+> nothing, no interface wg0 is created.
+>=20
+> connmanctl shows the vpn service with the command services and the vpn
+> connection is present in vpnconnection
+>=20
+> My first question is why connman does not accept an IP address IPv4 or
+> IPv6 . I have compiled wiregard-tools with WITH_BASHCOMPLETION=3Dyes
+> and WITH_WGQUICK=3Dyes
+>=20
+> After why the connection drops
 
-I have installed wireguards-tools on my system and I am able to
-connect to a VPN server friend with the command wg-quick up 'name of
-the interface' . The configuration file in /etc/wiregard has a host
-with a FQDN as blabla.com  . It also works if I replace the host by an
-IP address (IPv4 or IPv6).
+Daniel:
 
-I have adapted the configuration file in /var/lib/connman-plugin like vpn.config
+I wonder if you are running into the same issue as Christian Hewitt =
+<christianshewitt@gmail.com> in the thread "RFC: There Are No Routes for =
+Non-default Services
+":
 
-[provider_wireguard]
-Type = WireGuard
-Name = vpn
-Host = balabla.com
-WireGuard.Address = 10.0.6.5 /24
-WireGuard.PrivateKey = xxxx
-WireGuard.PublicKey = zzzz
-WireGuard.AllowedIPs = 10.0.6.0/24
-WireGuard.EndpointPort = 51822
-WireGuard.PersistentKeepalive = 25
+    =
+https://lore.kernel.org/connman/FAB1AC37-E077-4067-B245-5CE862CB22B7@gmail=
+.com/
 
-My display environment is enlightenment. I see the connection "vpn" in
-the connection window. When I click on it , wg show vpn displays the
-connection to the server, a ip a command shows an interface wg0  but
-it drops after some seconds. I can ping the server 10.0.6.1 until it
-drops.
+Best,
 
-If I replace the FQDN by an IP address in this file , for an IPv4
-address it makes the wifi connection shutdown and returns. My laptop
-is connected by wifi to my livebox. If I put an IPv6 address it does
-nothing, no interface wg0 is created.
+Grant
 
-connmanctl shows the vpn service with the command services and the vpn
-connection is present in vpnconnection
+--=20
+Principal
+Nuovations
 
-My first question is why connman does not accept an IP address IPv4 or
-IPv6 . I have compiled wiregard-tools with WITH_BASHCOMPLETION=yes
-and WITH_WGQUICK=yes
+gerickson@nuovations.com
+https://www.nuovations.com/
 
-After why the connection drops
-
-Best regards
-
-Daniel
