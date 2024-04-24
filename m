@@ -1,57 +1,29 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail5.g24.pair.com (mail5.g24.pair.com [66.39.139.36])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F383F15B99E
-	for <connman@lists.linux.dev>; Wed, 24 Apr 2024 14:50:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C085C1607BA
+	for <connman@lists.linux.dev>; Wed, 24 Apr 2024 15:20:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=66.39.139.36
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713970236; cv=none; b=CzNq5+LpGar7M0IA/wXhpFMqmx2RGI1uPSbEBpnyABDXNIIcUnBOk4HqDsTpxAzvA/XVWNmjLowbYu1IdUh++YGcBWYn5NFPct9329a5ang79CS9si8pt7AoYpZSoLgHUjnrjggzLzzolUrx/yzNJ+YA0QHDMVEKMxAoRmc0S8g=
+	t=1713972026; cv=none; b=tZb2zGqtig+244DtdlGxQL4jm0EtqkL9vurolP99G8P7aMfG7R+ZI7pLklU9Zn8VlN5qAOEx7MTTqT16bXzGaZucl7V4ZL7WjTFjWco42SmERGxbG/4I+gqPZXrQjjVJPsKdecZc7Lqn0mSNPUuLJg6uYXbc1OBTIsO4ccnHwqI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713970236; c=relaxed/simple;
-	bh=g5viy80ekHoTlK8lum4/+X6rHrPLpddro8eaZaNG3Ec=;
+	s=arc-20240116; t=1713972026; c=relaxed/simple;
+	bh=0aI0GunFVEXmMVPu9iE8y5YllWQCVaoh46qz3TgoSfs=;
 	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
-	 Message-Id:References:To; b=rQpdbKRAvZo51gYTkC9QfRxemWa/CU6v9Vfj0xPdhfS1l/xC/KJad4ntTNtYsbu1PBvEB3gD53ssnU53lc4LjAE9kIvaKqkrf7tsg1mX6t2DHZQ5IAtw4FFUZz0jYXcnCQI8VO+bg4s6BYr133JND9Iv0Y4PKELgXDcw5g5Vchg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YeZFVJQw; arc=none smtp.client-ip=209.85.128.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Message-Id:References:To; b=VBOTaB4B400dS15bD9eS6mrZkIqSE88v1oV48Kk8bD7jzUbWIX3x4uhYyheF6MQ6KPbzG6g2llwEF125hU4qwOSKmzZ+Syhb245wUufnPb2cldCMb6/iuNXaPCyVHHiuIXLof52laod3fJHBBduFxspqye+S80Z50jC6tU6GXV8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nuovations.com; spf=pass smtp.mailfrom=nuovations.com; dkim=pass (2048-bit key) header.d=nuovations.com header.i=@nuovations.com header.b=riZbDRoD; arc=none smtp.client-ip=66.39.139.36
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nuovations.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nuovations.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YeZFVJQw"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-41b243c20a2so2026435e9.2
-        for <connman@lists.linux.dev>; Wed, 24 Apr 2024 07:50:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1713970233; x=1714575033; darn=lists.linux.dev;
-        h=to:references:message-id:content-transfer-encoding:cc:date
-         :in-reply-to:from:subject:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=boJHf7KwWcS35X8G6MY5ksc84vdPUlOwmy75jVmqYTg=;
-        b=YeZFVJQwEWpJzqOWEVGTp5qm+7Nx0ITNuR0DwvWnvv0c2s7OKFRwQmY0g0YakgIPbd
-         WAolkibICa9Qfif1z4CSwxn0DpFGh7p/3KKiUgAdmDiLe5d1xSI3JE5EOWYqpXyCp+5p
-         4jqOS4zwkt7Zm4sS8TQBZeWxf2OjRhgt6PUXLUnuibHBfdLvNP21kv6rJUdjwQoDUv6e
-         yjxGs5h0RSt1OkBxyscweOjt8tO3yF/8vqnVI2WvDTG8kp6fw1APyLIAkLS02YclWPp3
-         0+z/ZiVx0X5i5lZ1PBYBXc1NWmmpKClICeRc2nOxUGlg40xyER0ECiI367ysk87Y5uPj
-         nvLQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713970233; x=1714575033;
-        h=to:references:message-id:content-transfer-encoding:cc:date
-         :in-reply-to:from:subject:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=boJHf7KwWcS35X8G6MY5ksc84vdPUlOwmy75jVmqYTg=;
-        b=JWbNakgFtJvzDpNGdQ7PIeWZHQvytwUoRsbFkpVF/mXXkw3oCPaqnGQVkLNZb4kIWd
-         iOX3QEAH6LRe1Fm512i93ykm+szL+Mse3bP+xRzVKMlNYEweN8d4jw458j28V+nHR5xn
-         LQ7jIf9fU+BZBA+RiCY0vB4vnxnyeWBqBGdAjImk8r1Z6iyScjB81eXQABpCuuZQS/mq
-         9nEQjYWxY2odsLkVvGNGn8oGE3JDtQTD70p/r36j+jE7Mf7W4uigFxlXaH3wZlfoAOK/
-         Zy/9LiRBrkAPX20jFW2aOx621oab2rflZSwCKEKN1ftFWv8DvYBLzZ3J1cgbjkFBI7SB
-         vR6w==
-X-Forwarded-Encrypted: i=1; AJvYcCWAXCTOWymykHQ75Endl9RB7l/NW6U/q6tZtV9Hfb2j0Cf12IvdH+vgNHkCpGJL5NLP1m8sJE+AAE723KkEZ9RdspMoglsFWQ==
-X-Gm-Message-State: AOJu0YyQSN4Fh7WJCVuEE3dLMmQGydMC6JtzVymVckRjX2bWHR0YY4p9
-	gT+6noMKfB+iTwoCywQDSQLYl6aSChKDVf1flL0WUUyr3Sj1cRYE
-X-Google-Smtp-Source: AGHT+IFZfMK0TbiMlSgvh4Z1MxbLl4Z+8/Ats+Pt/VMxa5ersYymnk9384HmKXWUakL2HFsw8Xt6dQ==
-X-Received: by 2002:a05:600c:35d1:b0:418:e88b:92c3 with SMTP id r17-20020a05600c35d100b00418e88b92c3mr1911835wmq.2.1713970233113;
-        Wed, 24 Apr 2024 07:50:33 -0700 (PDT)
-Received: from smtpclient.apple ([167.99.200.149])
-        by smtp.gmail.com with ESMTPSA id p17-20020a5d4591000000b0034658db39d7sm17521962wrq.8.2024.04.24.07.50.31
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 24 Apr 2024 07:50:32 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=nuovations.com header.i=@nuovations.com header.b="riZbDRoD"
+Received: from mail5.g24.pair.com (localhost [127.0.0.1])
+	by mail5.g24.pair.com (Postfix) with ESMTP id B895B1649C5;
+	Wed, 24 Apr 2024 11:20:23 -0400 (EDT)
+Received: from smtpclient.apple (c-24-6-12-99.hsd1.ca.comcast.net [24.6.12.99])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mail5.g24.pair.com (Postfix) with ESMTPSA id 469C5124E36;
+	Wed, 24 Apr 2024 11:20:23 -0400 (EDT)
 Content-Type: text/plain;
 	charset=utf-8
 Precedence: bulk
@@ -61,88 +33,108 @@ List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3774.500.171.1.1\))
 Subject: Re: connman-vpn does'nt work with wireguard
-From: Christian Hewitt <christianshewitt@gmail.com>
-In-Reply-To: <A3823C56-1321-4B82-B839-9D4A288AA87E@nuovations.com>
-Date: Wed, 24 Apr 2024 18:50:19 +0400
+From: Grant Erickson <gerickson@nuovations.com>
+In-Reply-To: <5D35F841-0063-422D-B6E6-F2FFBAFFF332@gmail.com>
+Date: Wed, 24 Apr 2024 08:20:12 -0700
 Cc: daniel antoine <univac55@gmail.com>,
  connman@lists.linux.dev
 Content-Transfer-Encoding: quoted-printable
-Message-Id: <5D35F841-0063-422D-B6E6-F2FFBAFFF332@gmail.com>
+Message-Id: <BD0C33D1-C11B-4879-A1D6-BFEAAC36F65A@nuovations.com>
 References: <CA+iibzA2M1fDosrij=nUWCAuL4mS+FsO-jt1xxH_qsadBe7ZTA@mail.gmail.com>
  <A3823C56-1321-4B82-B839-9D4A288AA87E@nuovations.com>
-To: Grant Erickson <gerickson@nuovations.com>
+ <5D35F841-0063-422D-B6E6-F2FFBAFFF332@gmail.com>
+To: Christian Hewitt <christianshewitt@gmail.com>
 X-Mailer: Apple Mail (2.3774.500.171.1.1)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nuovations.com; h=content-type:mime-version:subject:from:in-reply-to:date:cc:content-transfer-encoding:message-id:references:to; s=pair-202401062137; bh=3G5feVa/pNbERoxJgjIRyQgSNtQhFueoIK0O5aFsxzw=; b=riZbDRoDB6Jv5rGN2ZGpqU+sLNftNa98TuZrSAPogb4tWmZhHSNIjcfWno/cJ777k+ROmsT8EoePW8iLxEB6nOKa4VgV8FKcXo3eccK3EUf1rdxFaDkKr/PI2Y4g4EIrJ6/terHRh5qRztILJZJir5TFacSPoRJL0gI9Ye68ziYtVKnb16iyIsNIeNgG3z04xLDwqDGZjx9WvCiNwR3FuptnI23ohNhIjTBPFN8XJwTkCdmzuHSQ8bAogvobKJnYLMET8CRkFYYOEgn8Dux5b/fApWWHRCxSnnHBQy6IkOKdiquKitvIsJMPzQEnp41Z2Hqd/Gbwphh6iGn4uv22dw==
+X-Scanned-By: mailmunge 3.10 on 66.39.139.36
 
-> On 24 Apr 2024, at 6:06=E2=80=AFPM, Grant Erickson =
+On Apr 24, 2024, at 7:50=E2=80=AFAM, Christian Hewitt =
+<christianshewitt@gmail.com> wrote:
+>=20
+>>=20
+>> On 24 Apr 2024, at 6:06=E2=80=AFPM, Grant Erickson =
 <gerickson@nuovations.com> wrote:
->=20
-> On Apr 23, 2024, at 11:05=E2=80=AFPM, daniel antoine =
+>> On Apr 23, 2024, at 11:05=E2=80=AFPM, daniel antoine =
 <univac55@gmail.com> wrote:
->> I have installed wireguards-tools on my system and I am able to
->> connect to a VPN server friend with the command wg-quick up 'name of
->> the interface' . The configuration file in /etc/wiregard has a host
->> with a FQDN as blabla.com  . It also works if I replace the host by =
+>>> I have installed wireguards-tools on my system and I am able to
+>>> connect to a VPN server friend with the command wg-quick up 'name of
+>>> the interface' . The configuration file in /etc/wiregard has a host
+>>> with a FQDN as blabla.com  . It also works if I replace the host by =
 an
->> IP address (IPv4 or IPv6).
->>=20
->> I have adapted the configuration file in /var/lib/connman-plugin like =
-vpn.config
->>=20
->> [provider_wireguard]
->> Type =3D WireGuard
->> Name =3D vpn
->> Host =3D balabla.com
->> WireGuard.Address =3D 10.0.6.5 /24
->> WireGuard.PrivateKey =3D xxxx
->> WireGuard.PublicKey =3D zzzz
->> WireGuard.AllowedIPs =3D 10.0.6.0/24
->> WireGuard.EndpointPort =3D 51822
->> WireGuard.PersistentKeepalive =3D 25
->>=20
->> My display environment is enlightenment. I see the connection "vpn" =
+>>> IP address (IPv4 or IPv6).
+>>>=20
+>>> I have adapted the configuration file in /var/lib/connman-plugin =
+like vpn.config
+>>>=20
+>>> [provider_wireguard]
+>>> Type =3D WireGuard
+>>> Name =3D vpn
+>>> Host =3D balabla.com
+>>> WireGuard.Address =3D 10.0.6.5 /24
+>>> WireGuard.PrivateKey =3D xxxx
+>>> WireGuard.PublicKey =3D zzzz
+>>> WireGuard.AllowedIPs =3D 10.0.6.0/24
+>>> WireGuard.EndpointPort =3D 51822
+>>> WireGuard.PersistentKeepalive =3D 25
+>>>=20
+>>> My display environment is enlightenment. I see the connection "vpn" =
 in
->> the connection window. When I click on it , wg show vpn displays the
->> connection to the server, a ip a command shows an interface wg0  but
->> it drops after some seconds. I can ping the server 10.0.6.1 until it
->> drops.
->>=20
->> If I replace the FQDN by an IP address in this file , for an IPv4
->> address it makes the wifi connection shutdown and returns. My laptop
->> is connected by wifi to my livebox. If I put an IPv6 address it does
->> nothing, no interface wg0 is created.
->>=20
->> connmanctl shows the vpn service with the command services and the =
+>>> the connection window. When I click on it , wg show vpn displays the
+>>> connection to the server, a ip a command shows an interface wg0  but
+>>> it drops after some seconds. I can ping the server 10.0.6.1 until it
+>>> drops.
+>>>=20
+>>> If I replace the FQDN by an IP address in this file , for an IPv4
+>>> address it makes the wifi connection shutdown and returns. My laptop
+>>> is connected by wifi to my livebox. If I put an IPv6 address it does
+>>> nothing, no interface wg0 is created.
+>>>=20
+>>> connmanctl shows the vpn service with the command services and the =
 vpn
->> connection is present in vpnconnection
->>=20
->> My first question is why connman does not accept an IP address IPv4 =
+>>> connection is present in vpnconnection
+>>>=20
+>>> My first question is why connman does not accept an IP address IPv4 =
 or
->> IPv6 . I have compiled wiregard-tools with WITH_BASHCOMPLETION=3Dyes
->> and WITH_WGQUICK=3Dyes
+>>> IPv6 . I have compiled wiregard-tools with WITH_BASHCOMPLETION=3Dyes
+>>> and WITH_WGQUICK=3Dyes
+>>>=20
+>>> After why the connection drops
 >>=20
->> After why the connection drops
->=20
-> Daniel:
->=20
-> I wonder if you are running into the same issue as Christian Hewitt =
+>> Daniel:
+>>=20
+>> I wonder if you are running into the same issue as Christian Hewitt =
 <christianshewitt@gmail.com> in the thread "RFC: There Are No Routes for =
 Non-default Services
-> =E2=80=9C: =
+>> =E2=80=9C: =
 https://lore.kernel.org/connman/FAB1AC37-E077-4067-B245-5CE862CB22B7@gmail=
 .com/
-
-The distro I work on (LibreELEC) is bundling this patch to revert the =
+>=20
+> The distro I work on (LibreELEC) is bundling this patch to revert the =
 change:=20
-
-=
+>=20
+> =
 https://github.com/LibreELEC/LibreELEC.tv/commit/998f2bcfd5849e3eecda6f753=
 ff5bab68a847aea
-
-This unfortunately means we=E2=80=99re unable to bump ConnMan until =
+>=20
+> This unfortunately means we=E2=80=99re unable to bump ConnMan until =
 things are resolved/adapted upstream.
-
-Grant, did you ever get access to the WireGuard server that I shared =
+>=20
+> Grant, did you ever get access to the WireGuard server that I shared =
 working?
 
-Christian
+Christian,
+
+I=E2=80=99d sent a note toward that end on 2023-12-19 and just now =
+refreshed that thread to you privately.
+
+Best,
+
+Grant
+
+--=20
+Principal
+Nuovations
+
+gerickson@nuovations.com
+https://www.nuovations.com/
 
