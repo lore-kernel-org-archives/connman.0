@@ -1,29 +1,29 @@
 Received: from mail5.g24.pair.com (mail5.g24.pair.com [66.39.139.36])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C085C1607BA
-	for <connman@lists.linux.dev>; Wed, 24 Apr 2024 15:20:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9262116C854
+	for <connman@lists.linux.dev>; Wed, 24 Apr 2024 16:14:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=66.39.139.36
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713972026; cv=none; b=tZb2zGqtig+244DtdlGxQL4jm0EtqkL9vurolP99G8P7aMfG7R+ZI7pLklU9Zn8VlN5qAOEx7MTTqT16bXzGaZucl7V4ZL7WjTFjWco42SmERGxbG/4I+gqPZXrQjjVJPsKdecZc7Lqn0mSNPUuLJg6uYXbc1OBTIsO4ccnHwqI=
+	t=1713975294; cv=none; b=juq2crVlzwwu/mk6YE/NiyydXC6R2F1qWhHNwXMoN0bHE73kTEcc2uEutKOFNDnrIkDpDUtXKP+zWZknuwJwh7J+MZtGCSDIArJI8bi1QJXoX+6T37bcSA18TWCJqlAzZbFLRHFzqirUx+2Hiu/TfuNF3cVM34ZYrMTw9U7zRZo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713972026; c=relaxed/simple;
-	bh=0aI0GunFVEXmMVPu9iE8y5YllWQCVaoh46qz3TgoSfs=;
+	s=arc-20240116; t=1713975294; c=relaxed/simple;
+	bh=hOCzQAx4TMttUkot5b1x82j04moI2oe6Hqwr36opqG0=;
 	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
-	 Message-Id:References:To; b=VBOTaB4B400dS15bD9eS6mrZkIqSE88v1oV48Kk8bD7jzUbWIX3x4uhYyheF6MQ6KPbzG6g2llwEF125hU4qwOSKmzZ+Syhb245wUufnPb2cldCMb6/iuNXaPCyVHHiuIXLof52laod3fJHBBduFxspqye+S80Z50jC6tU6GXV8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nuovations.com; spf=pass smtp.mailfrom=nuovations.com; dkim=pass (2048-bit key) header.d=nuovations.com header.i=@nuovations.com header.b=riZbDRoD; arc=none smtp.client-ip=66.39.139.36
+	 Message-Id:References:To; b=PWcfUqK4cbbJVoMt5hyrsG3CrqpUuA0xjXwQymk1yD0b7Otq1gA/uKBuwF+0+hEEPq+4O66Kff1wTyUef1i9+U8fgFVwX8GEojXJasfWPHybiVPnEKyGHBPh4mFtCcBjRv1RSdpWp8TrwLWt+lXNXy7PxpA+PLWrVbLPfeKzh9Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nuovations.com; spf=pass smtp.mailfrom=nuovations.com; dkim=pass (2048-bit key) header.d=nuovations.com header.i=@nuovations.com header.b=H4q6xZEF; arc=none smtp.client-ip=66.39.139.36
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nuovations.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nuovations.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nuovations.com header.i=@nuovations.com header.b="riZbDRoD"
+	dkim=pass (2048-bit key) header.d=nuovations.com header.i=@nuovations.com header.b="H4q6xZEF"
 Received: from mail5.g24.pair.com (localhost [127.0.0.1])
-	by mail5.g24.pair.com (Postfix) with ESMTP id B895B1649C5;
-	Wed, 24 Apr 2024 11:20:23 -0400 (EDT)
+	by mail5.g24.pair.com (Postfix) with ESMTP id 78DC21649C5;
+	Wed, 24 Apr 2024 12:14:50 -0400 (EDT)
 Received: from smtpclient.apple (c-24-6-12-99.hsd1.ca.comcast.net [24.6.12.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail5.g24.pair.com (Postfix) with ESMTPSA id 469C5124E36;
-	Wed, 24 Apr 2024 11:20:23 -0400 (EDT)
+	by mail5.g24.pair.com (Postfix) with ESMTPSA id E9E39124C10;
+	Wed, 24 Apr 2024 12:14:49 -0400 (EDT)
 Content-Type: text/plain;
 	charset=utf-8
 Precedence: bulk
@@ -35,23 +35,24 @@ Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3774.500.171.1.1\))
 Subject: Re: connman-vpn does'nt work with wireguard
 From: Grant Erickson <gerickson@nuovations.com>
 In-Reply-To: <5D35F841-0063-422D-B6E6-F2FFBAFFF332@gmail.com>
-Date: Wed, 24 Apr 2024 08:20:12 -0700
+Date: Wed, 24 Apr 2024 09:14:38 -0700
 Cc: daniel antoine <univac55@gmail.com>,
- connman@lists.linux.dev
+ connman@lists.linux.dev,
+ =?utf-8?B?Wm9sdMOhbiBCw7ZzesO2cm3DqW55aQ==?= <zboszor@gmail.com>
 Content-Transfer-Encoding: quoted-printable
-Message-Id: <BD0C33D1-C11B-4879-A1D6-BFEAAC36F65A@nuovations.com>
+Message-Id: <9E0CE3E4-BE47-4C6E-B102-570F8DB593E2@nuovations.com>
 References: <CA+iibzA2M1fDosrij=nUWCAuL4mS+FsO-jt1xxH_qsadBe7ZTA@mail.gmail.com>
  <A3823C56-1321-4B82-B839-9D4A288AA87E@nuovations.com>
  <5D35F841-0063-422D-B6E6-F2FFBAFFF332@gmail.com>
 To: Christian Hewitt <christianshewitt@gmail.com>
 X-Mailer: Apple Mail (2.3774.500.171.1.1)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nuovations.com; h=content-type:mime-version:subject:from:in-reply-to:date:cc:content-transfer-encoding:message-id:references:to; s=pair-202401062137; bh=3G5feVa/pNbERoxJgjIRyQgSNtQhFueoIK0O5aFsxzw=; b=riZbDRoDB6Jv5rGN2ZGpqU+sLNftNa98TuZrSAPogb4tWmZhHSNIjcfWno/cJ777k+ROmsT8EoePW8iLxEB6nOKa4VgV8FKcXo3eccK3EUf1rdxFaDkKr/PI2Y4g4EIrJ6/terHRh5qRztILJZJir5TFacSPoRJL0gI9Ye68ziYtVKnb16iyIsNIeNgG3z04xLDwqDGZjx9WvCiNwR3FuptnI23ohNhIjTBPFN8XJwTkCdmzuHSQ8bAogvobKJnYLMET8CRkFYYOEgn8Dux5b/fApWWHRCxSnnHBQy6IkOKdiquKitvIsJMPzQEnp41Z2Hqd/Gbwphh6iGn4uv22dw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nuovations.com; h=content-type:mime-version:subject:from:in-reply-to:date:cc:content-transfer-encoding:message-id:references:to; s=pair-202401062137; bh=8GRIA6E19ZS1C5z3SC4dnxE2YL9bl7J4vjtsYhb8pIk=; b=H4q6xZEFYYHK2DqFUk8lfyDkuq2a4vj/8tiCJ7rIfQWpkmVQ0LTcxI3amF26/hUGoDObwUYPVO1/A6/hyPCS/SvAJtejLNIUDYMevF71WPkLozzBjA9UXa9tclsZnrHYf7LhxSD7O91JgDU7UYkqhDLbfIQ/A7CuaF/JfaHeogq7iXo/6HFTzL+S8wtXggJpqrVgIJVUYzEuyNPWj9paHoySTLF6OOVbKTNhDsBFIwKccY9B4ce3IR+WoHwqVtdi5d+/dylI/2tzFZT+1Xl9IW4n7WY88GX4p45SGINXkqBOXWvYQrQx9XjlwtwKaeFywWJf6gdc33KVipZz8X1hOQ==
 X-Scanned-By: mailmunge 3.10 on 66.39.139.36
+
++Zolt=C3=A1n B=C3=B6sz=C3=B6rm=C3=A9nyi
 
 On Apr 24, 2024, at 7:50=E2=80=AFAM, Christian Hewitt =
 <christianshewitt@gmail.com> wrote:
->=20
->>=20
 >> On 24 Apr 2024, at 6:06=E2=80=AFPM, Grant Erickson =
 <gerickson@nuovations.com> wrote:
 >> On Apr 23, 2024, at 11:05=E2=80=AFPM, daniel antoine =
@@ -118,23 +119,10 @@ ff5bab68a847aea
 >=20
 > This unfortunately means we=E2=80=99re unable to bump ConnMan until =
 things are resolved/adapted upstream.
->=20
-> Grant, did you ever get access to the WireGuard server that I shared =
-working?
 
-Christian,
-
-I=E2=80=99d sent a note toward that end on 2023-12-19 and just now =
-refreshed that thread to you privately.
+Adding Zolt=C3=A1n B=C3=B6sz=C3=B6rm=C3=A9nyi <zboszor@gmail.com>, the =
+original patch submitter of 9eb1772d31b6 for visibility.
 
 Best,
 
-Grant
-
---=20
-Principal
-Nuovations
-
-gerickson@nuovations.com
-https://www.nuovations.com/
-
+Grant=
