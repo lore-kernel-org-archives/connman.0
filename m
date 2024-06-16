@@ -1,71 +1,98 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-108-mta2.mxroute.com (mail-108-mta2.mxroute.com [136.175.108.2])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 034A0171E53
-	for <connman@lists.linux.dev>; Tue, 28 May 2024 16:08:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 363C2ECF
+	for <connman@lists.linux.dev>; Sun, 16 Jun 2024 15:52:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=136.175.108.2
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716912481; cv=none; b=EciEaODPzHc4j95xyGxHPrkkKMpYMGwYmMH/UTDWjhQa+GKSxO3iX50tvBNYQa0gwHHjGUXPpjtHgLdVOVtsOf3ZqCg2liPsFP698iMmcj5UrTOJ+7zNuhOhiS8M0Kz0qtZAyG8kD6lFjZmv/HX+nUibsB8+hE+NSdcC8c04qwU=
+	t=1718553181; cv=none; b=Y9fOJXLjRl0ZRGnzSYthezjBVLihoCrceLIJmZca29oDTP/32+LJ8LDTwytzUY3kt5Eixa71+kisTYCg1tnRPQXjYCbYMeg9NCeRs0DmRUjQXqNrSLBNlnhGAwi9sVtWa4KhSeZajWUXd09BW/XEosAqD8sU07WbRXwrWUULc4o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716912481; c=relaxed/simple;
-	bh=ansmg4iYOHZj4AfwtLlyRxNkSHGxaVEvcprWTUkZvpM=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=lobdNo9fKZm9uWMJHUHEU8gVRTcOdarYN4YzCG3hcShVEtJ0ia7Su7xiV2Qq3CaxJkeQnO1q64DezLLFvzacjX+z77s46Jr+ARWT6Pa2QByOuYfRe1XELtWPrKny8AZDzERnz4qlkf1bMHwCHjvbiEjj6EtoMAbQw1RRNuRvw3o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kHIYTJSV; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1718553181; c=relaxed/simple;
+	bh=j1MO2Rmg39w5tkmSLIPGoPRxQMz5AQnL6MhOjCMTOcQ=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type; b=gOL3zcBCX8YRlzllXwhUjg0gDCdVTSk3r4oRO4nifBFTBcSVQgwWh43gTPpZw5Hf2/0Vmf7pmKd8YEbTmQ/mGkVzaWPRCycjUm8dST72aL57KPS7ONOLzuHHEulxZ3v4Vw2vdTkaLJos4XCdY0xiQrQMhiMo0QdEDJ9mNNFtNuU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=freakingpenguin.com; spf=pass smtp.mailfrom=freakingpenguin.com; dkim=temperror (0-bit key) header.d=freakingpenguin.com header.i=@freakingpenguin.com header.b=hFW9RHh8; arc=none smtp.client-ip=136.175.108.2
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=freakingpenguin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=freakingpenguin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kHIYTJSV"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 7961DC32786;
-	Tue, 28 May 2024 16:08:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1716912480;
-	bh=ansmg4iYOHZj4AfwtLlyRxNkSHGxaVEvcprWTUkZvpM=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=kHIYTJSV7hqvGV6uzV+lZ6+PfDwZQlxc/CMZDxZSw/Wh2tVrl/il6hqkRwmk274ZA
-	 Eu7nNCkkFzBZo4ZruI2vJQlNbeyLBzwNQLLD4bT98VEMlOusrfXUyxlDbEcJLQqW+2
-	 8qt+n996Dre8thLe6LMtSF5FLqV3XWVp6fcGynKXLTLL0uXqzAzUc4IE4pZlW+i+Yg
-	 hO/K4WuLXNV71ejxtFoZyRxDDXFxgZRzoIuXNGNlTLMdIxzJuHcSXtfNhxbyXwQe3x
-	 0ab1n9yMLokvEDWbrs+edxHXjV0LINF3MzCz3VjJ2hekSYHTDEpBeYa7gfjbNIzH/U
-	 BmT+r+LlsC8CQ==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 6AC14C4361C;
-	Tue, 28 May 2024 16:08:00 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	dkim=temperror (0-bit key) header.d=freakingpenguin.com header.i=@freakingpenguin.com header.b="hFW9RHh8"
+Received: from filter006.mxroute.com ([136.175.111.3] filter006.mxroute.com)
+ (Authenticated sender: mN4UYu2MZsgR)
+ by mail-108-mta2.mxroute.com (ZoneMTA) with ESMTPSA id 19021bba4d200017a3.001
+ for <connman@lists.linux.dev>
+ (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
+ Sun, 16 Jun 2024 15:47:43 +0000
+X-Zone-Loop: 490e2730a78cc5b7cff1bc35c0cde7d58f35f52bd82c
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=freakingpenguin.com; s=x; h=Content-Type:MIME-Version:Message-ID:Date:
+	Subject:To:From:Sender:Reply-To:Cc:Content-Transfer-Encoding:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=dfmU/cMKYJ9qRF1zpzcNVawmMg8yfrta6yyAd3OM8pc=; b=hFW9RHh8XzgusagSy1yN3jeMvm
+	XZDwCZN332FiPVPvgEdeBRccO8kl6bgWTnsG8qVkCvt4snUloH9pwyX4Rxii1Tw1jtQ+onsFRKnoo
+	5YZZxC8i8In5tYLsPUVWYdTqTR5O9nGujL4Njc+5wgzbxwL050QuPQOKoBJXLqRsqqFl00KsQy1FN
+	0oVABeZEVO80XbN68d2yFRv1b/TgSiEnNmPnP90CAwjjKHtno52snS3hHeATDqFAIYA0wsUrpOeqU
+	CZcOobN97x4R1+dANUEEVm12qJvBMiy3/hmAoNfXFSBlm5KGECTYPL1oQrc2jVLJRsqo809bQ3TPW
+	tUDLYxZQ==;
+From: Richard Sent <richard@freakingpenguin.com>
+To: connman@lists.linux.dev
+Subject: Global nameservers or alternative to / change in FallbackNameservers
+Date: Sun, 16 Jun 2024 11:47:32 -0400
+Message-ID: <87o780anzf.fsf@freakingpenguin.com>
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH] Prevent a short allocation by checking upper_length
-From: patchwork-bot+connman@kernel.org
-Message-Id: 
- <171691248042.21901.1557767893499663439.git-patchwork-notify@kernel.org>
-Date: Tue, 28 May 2024 16:08:00 +0000
-References: <20240510235325.3625167-2-cwee@tesla.com>
-In-Reply-To: <20240510235325.3625167-2-cwee@tesla.com>
-To: Colin Wee <cwee@tesla.com>
-Cc: marcel@holtmann.org, connman@lists.linux.dev
+Content-Type: text/plain
+X-Authenticated-Id: richard@freakingpenguin.com
 
-Hello:
+Hi all,
 
-This patch was applied to connman.git (master)
-by Denis Kenzior <denkenz@gmail.com>:
+I'm using Connman with --nodnsproxy on a virtual private server where
+the DNS servers discovered via DHCP have inconsistent availability. I
+thought I could resolve this by setting FallbackNameservers. However,
+this setting is only used when DHCP does not provide DNS at all, as
+opposed to my initial thinking of using it as a fallback in case the
+DHCP discovered DNS servers fail.
 
-On Fri, 10 May 2024 23:53:30 +0000 you wrote:
-> From: Craig Young <cryoung@tesla.com>
-> 
-> ---
->  gdhcp/client.c | 2 ++
->  1 file changed, 2 insertions(+)
+> # List of fallback nameservers separated by "," used if no
+> # nameservers are otherwise provided by the service. The
+> # nameserver entries must be in numeric format, host
+> # names are ignored.
+> # FallbackNameservers =
 
-Here is the summary with links:
-  - Prevent a short allocation by checking upper_length
-    https://git.kernel.org/pub/scm/network/connman/connman.git/?id=281e352c4c43
+This results in a resolv.conf containing only the nonfunctional DHCP
+discovered DNS servers and not my fallback DNS. I could configure
+nameservers on a per-connection basis, but this is frustrating to have
+to do on a system that could be deployed to different hosters that may
+enumerate the network interfaces differently.
 
-You are awesome, thank you!
+There does seem to be some demand for a way to set global nameservers,
+as opposed to per-connection [1]. This case is even worse to do manually
+because it discusses a laptop which roams between connections
+constantly.
+
+If breaking backwards compatibility with the old FallbackNameservers
+behavior is considered unacceptable, I propose a GlobalNameservers
+setting in connman.conf.
+
+I do see a line in service-api.txt that implies global nameservers are
+in fact already a thing, but can't find any other references to them.
+This comment was added back in 2010, before FallbackNameservers was
+added.
+
+> Global nameservers are automatically added to this
+> list. The array represents a sorted list of the
+> current nameservers. The first one has the highest
+> priority and is used by default.
+
+Thanks
+
+[1]: https://www.antixforum.com/forums/topic/set-default-dns-for-all-users-ethernet-wifi-connections/
+
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+Take it easy,
+Richard Sent
+Making my computer weirder one commit at a time.
