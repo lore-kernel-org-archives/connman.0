@@ -1,270 +1,225 @@
-Received: from mail-oa1-f43.google.com (mail-oa1-f43.google.com [209.85.160.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from EUR05-AM6-obe.outbound.protection.outlook.com (mail-am6eur05on2132.outbound.protection.outlook.com [40.107.22.132])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2184512B171
-	for <connman@lists.linux.dev>; Thu, 11 Jul 2024 20:22:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.43
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720729331; cv=none; b=BrX1qCkxRmeLRv/1zhJdekoU1c+9fI5rwaeWI12jp8rsZ/26d+oL4xITsORkSkmrbgodsZCLel5Jo3Tj4hTcyRyXKmqNBkDhv8ctRzLgj6ktChprn+SCXzVufijBn4i/T2XsoYw4o0yskdtKU1pOQvOwffb6CXAO30QrjLQz4c4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720729331; c=relaxed/simple;
-	bh=K0qKMB8MObIY6dlYGba7muBGYwODNn/VripdM3JZSrg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=JzPyl2E+lO5aUoHlBKl/dOjVjlMhviBu5923wFzu8c93yCbHgapZt/5qx8r+xOSiwYwBTxrNSriUbKukTkHRqFhezVJEvhr/e3n0ynOhsLw0zBioA+/PKDTSc9zGHlUIbjUU8GUZPx+HSAkldWbF6FcZDIdRJ3IiP5IQPJjxJ6s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DzZDsSed; arc=none smtp.client-ip=209.85.160.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF3756FC1
+	for <connman@lists.linux.dev>; Tue, 16 Jul 2024 05:00:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.22.132
+ARC-Seal:i=3; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1721106039; cv=fail; b=hTkkiQqMB6OcMv0FRH4EedOHL6Xu1WN2f3eIXfiECA8vieUsyLjLgtIHtmCClYhCq3SdUBToFx4dvtYgBOPW+aKETR5UR5HK2F6dRjS25CeGsFvJGX0GyzwGgWGSpc5NvIrGA9LDdb97nV4dL1sXEI8mdwg+zKTnwILKSWPK+qg=
+ARC-Message-Signature:i=3; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1721106039; c=relaxed/simple;
+	bh=UhH5zvQOQQGcsg72if292wD6j9Lg6O4Cu22kB3xEzlU=;
+	h=From:To:Subject:Date:Content-Type:MIME-Version:Message-ID; b=iromZd58NYCbw2+OaIp3AxQYo73eP/JXjZafYDXH1G10utq08uWRs3NTYN9ox3ssB9hzjLX9086NuKfJc1mmegz7UYvYS+F/I+glfOYb17HwNDKjftxinuQq3P9KzEqAQLHYqzNNR32b1vWhDiyS2Fz+yhYkqQj1iyO/jA90UMQ=
+ARC-Authentication-Results:i=3; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goeg.at; spf=pass smtp.mailfrom=goeg.at; dkim=pass (1024-bit key) header.d=goegat.onmicrosoft.com header.i=@goegat.onmicrosoft.com header.b=qKUXq3dT; dkim=fail (1024-bit key) header.d=goegat.onmicrosoft.com header.i=@goegat.onmicrosoft.com header.b=ChtVo1qW reason="signature verification failed"; arc=fail smtp.client-ip=40.107.22.132
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goeg.at
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goeg.at
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DzZDsSed"
-Received: by mail-oa1-f43.google.com with SMTP id 586e51a60fabf-25e31d0a753so693726fac.1
-        for <connman@lists.linux.dev>; Thu, 11 Jul 2024 13:22:09 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=goegat.onmicrosoft.com header.i=@goegat.onmicrosoft.com header.b="qKUXq3dT";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=goegat.onmicrosoft.com header.i=@goegat.onmicrosoft.com header.b="ChtVo1qW"
+ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=fail;
+ b=VL5RKqvJHpJp4dZvGeBZy5ImNTe72Qi1cjndwcjnccxy0s/PR3khQMQRxNlDuyWB0KTOnJAZTxESMeHEBUCuyKgUrR/UFGXbUajXFFYwVEkYGIUN8kN8rxh4cvPZl20XpRg95vkxebd4Vy2dGrEBQkuHM1/lGsG3Nge7U3G7qxtvvZ+AowIOa8xSUP6fizuH3MPy6nC9JAh8WbPMmjYp56NL3NAdFjudO3vWVz9z1lk1GztAik9aaiVwy6XNK6nS7dlqQH+bdD2xyJhceg2rUUUtAANYu20tgYhA/WR7AuvleiRMbuxg263XUxigTNuhczhlLr3QQey3WQUOAhS/MA==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=UhH5zvQOQQGcsg72if292wD6j9Lg6O4Cu22kB3xEzlU=;
+ b=GWdd7d7p4DGAdKQr/FA/ch50P6R71b97pPl7Un8yN7NviU9Z+TX1FctePwna6G36gM51Ci3ABGQWjZIUr7gy6atkLDonANVMMzqqSOc+Yz5/MFsci2GnGBSzO4XVxGSXgPiuk6vHCcJ0xMlJUgW9IVn0wywCeUFQktPPmMhOvH82D46dL6OeWNzBxwa6skXOrRFl7msHk9y1dlTG8JTOmxaq+YEfyh/x3mKumM4wJ4O3pOY8Rz+gzOq23SKELdFFYmITaL5U+YTQTTEbPCdzebrRdMvd3HTvBS5SiQu19/G5gtG6uA5uqpsGjB9na2txr9o+FYFgi8ViP06JOnuoWw==
+ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
+ 20.52.142.9) smtp.rcpttodomain=lists.linux.dev smtp.mailfrom=goeg.at;
+ dmarc=pass (p=none sp=none pct=100) action=none header.from=goeg.at;
+ dkim=fail (signature did not verify) header.d=goegat.onmicrosoft.com;
+ arc=fail (48)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1720729329; x=1721334129; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=MujnM3DrG0NNba6uPD5123kdaZtAHHWTT91HZCMBVVU=;
-        b=DzZDsSedxZvS/7EXD9dno+LCpp+dxTWpFZZfYOXqUGDWlWzgJ+XkBSrnhyxM4tSESm
-         UM6qo8uXJlomXJPFit2FAFLc5B8G4eBy2uVdyl5xSVT/bpjI+qCK/3pbsYvune3lzVKF
-         GCns89WUyaPWDeOZmDgXPTlx6Hcdwrp4s/jKkDGGgWd95vXqg/KMSothRR7kLWwW3OIO
-         kycSwHL4MyIuo2MXqufCmjAekb2qCSbmn1Dkb9uSLbleUZzGxbEbY9LNSwJeNzxK10V1
-         4VREgnaTwuU/gAq159kIvxwKiNYUavqzlMV03/QhbyCD0uL5WmScH9AredPZ9qcPCSac
-         JIrw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720729329; x=1721334129;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=MujnM3DrG0NNba6uPD5123kdaZtAHHWTT91HZCMBVVU=;
-        b=FOO0NAiJkwAEbEMD0iibWt9vsfzcpf/CNLHyom/5lx5kJ4IdMbHbvAwjYuYRmuUZaW
-         rooFdKjVdeQ/10hXYRJyGNV8sC8NF63xXhVtc+YnHWclJH1tBWTuP1ywuIxgL5Ja5OVM
-         OeuFi7bLSLbB1F1LF7TwebB9/F+IXey5tq0ebPmRzXrpaNVfSCjOia3ROcDWRF0ysbs2
-         /t2mOPYH5901JWicZt4XFHJP9SZfzV+98fhRRyIL5muK3/RP5xygfi5+FhutJohDFz9B
-         tjWryQGWgXqn5xMKfL9DfrcT02E3UvcSwlKEt+XaP2rE/BGj8QQlQfev39B8Ct84o1xw
-         qHAA==
-X-Forwarded-Encrypted: i=1; AJvYcCVt+vGmBBLFGm6TeVb3ei3pQs9YgwM/bbFKYkyZmjMs1Nx7KFUkE2hhEKaZaVJDAt/1RUq9+ML4xuBmtyEtG+KMzz6p2J3Snw==
-X-Gm-Message-State: AOJu0YxOQSzDSYoD0f7vRtmWDUJtldBU12RUsxFl5EDcmh12mNBUAmr9
-	Aj8j4eMDgdd3Mu8lUpHjOjsltuwrY3IczWgp41c1TNytETap3mYqeeIm+g==
-X-Google-Smtp-Source: AGHT+IFlb7qR8/0TIY+ELXb1+LCckm5oxaRfOm4ujWmuKjKS5X2onvUAzprCSRxfTNZYgvKqurENIg==
-X-Received: by 2002:a05:6870:8194:b0:259:ae64:9234 with SMTP id 586e51a60fabf-25eae7c7203mr8229640fac.13.1720729328889;
-        Thu, 11 Jul 2024 13:22:08 -0700 (PDT)
-Received: from ?IPV6:2605:a601:ad99:2e00:e9ed:d1b6:6b3c:b7f3? ([2605:a601:ad99:2e00:e9ed:d1b6:6b3c:b7f3])
-        by smtp.googlemail.com with ESMTPSA id 586e51a60fabf-25eaa082ca9sm1817589fac.34.2024.07.11.13.22.08
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 11 Jul 2024 13:22:08 -0700 (PDT)
-Message-ID: <58c3866d-60f1-47ec-b4c0-89be1c4fd9be@gmail.com>
-Date: Thu, 11 Jul 2024 15:22:07 -0500
+ d=goegat.onmicrosoft.com; s=selector1-goegat-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=UhH5zvQOQQGcsg72if292wD6j9Lg6O4Cu22kB3xEzlU=;
+ b=qKUXq3dTPTUtj0ebQda5ZNDFQ4D4bg/CxzepzdRXQ4U6++bK3Zqm4n5s8FdoA4mX8xYYQp+FPB2/E5OtyOVrATSSyCMXXIRLHm/7DIVl/c4Ki44Jd6dwWQ8YuzJxR6tvOkw2mO5aT7v1hKZEpGABLNTihPkKwcjh1dmyUXl69s4=
+Received: from DB9PR06CA0027.eurprd06.prod.outlook.com (2603:10a6:10:1db::32)
+ by AS4PR09MB5705.eurprd09.prod.outlook.com (2603:10a6:20b:4ff::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7762.29; Tue, 16 Jul
+ 2024 05:00:28 +0000
+Received: from DB1PEPF000509FB.eurprd03.prod.outlook.com
+ (2603:10a6:10:1db:cafe::ba) by DB9PR06CA0027.outlook.office365.com
+ (2603:10a6:10:1db::32) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7762.29 via Frontend
+ Transport; Tue, 16 Jul 2024 05:00:28 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 20.52.142.9)
+ smtp.mailfrom=goeg.at; dkim=fail (signature did not verify)
+ header.d=goegat.onmicrosoft.com;dmarc=pass action=none header.from=goeg.at;
+Received-SPF: Pass (protection.outlook.com: domain of goeg.at designates
+ 20.52.142.9 as permitted sender) receiver=protection.outlook.com;
+ client-ip=20.52.142.9; helo=goegsIQSUITE01; pr=C
+Received: from goegsIQSUITE01 (20.52.142.9) by
+ DB1PEPF000509FB.mail.protection.outlook.com (10.167.242.37) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.7784.11 via Frontend Transport; Tue, 16 Jul 2024 05:00:28 +0000
+Received: from mail pickup service by goegsIQSUITE01 with Microsoft SMTPSVC;
+	 Tue, 16 Jul 2024 07:00:27 +0200
+Received: from EUR05-AM6-obe.outbound.protection.outlook.com ([104.47.18.112]) by goegsIQSUITE01 over TLS secured channel with Microsoft SMTPSVC(10.0.17763.1697);
+	 Mon, 15 Jul 2024 20:09:12 +0200
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=bn9Xqbaus/+HYnleJMvUN30o3wd6bOBqlQSD7skeOHRVwGkD7M5+M5jP8U5kl6ZJ1NY9Iy++7qC5QpSkjuLCT6NrmroTpuH3epwYbOuP/AEgIXRiiZRZeISZt17iI3eXSBdGw9HFM1YmpVHjeos7rfX4pewfZSjf0PYtNOP1jwImdwBxF/WTOyl/qNHGJ0g1t5DJ6x63HeNSTplgVxlgcP3Qg4W/jYeKRs6YJ61+ivi/gcV/0DyqmGzv68RyuWROK3cLYYQU/8J956LpTH+8gmSmLbjp8n1wESEIj0rNQyFPFmeMTMJSO39D2z/m/RJ2KtqsTlF6sgPLGgyOHZ/1vQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=UhH5zvQOQQGcsg72if292wD6j9Lg6O4Cu22kB3xEzlU=;
+ b=XTiiRoJCyLpx3hXlNWdAxbyNX4ivkba3rDukmQpCDaxNcxNNbh58y61tlf1kRz6SQFvIRHtp3Qg0ca9zH/hDRSCXyYT+5UvJiwhGLgaiYBsCym1Ov26RyGJEfDIG6YmTEmgbA7CC6OI6Y9PmCwsHHYcTQDg1gORldvQQN6BnNxQO4K4+2YZMrIzj9PcKiVZPKWcgWwSrq1i7N6dJq8KML0Occq/paXWDZJRm5niYIGe+uOUxBhsxhbq9IAnWvc+dmaQ6OJzVjTW0RVASXlfzg1jLfFh/g0OG239+VJs8gph/qW0M8e09zxtCx8WP83X/gdKk9hgE4X+jNEbztDVNOw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=goeg.at; dmarc=pass action=none header.from=goeg.at; dkim=pass
+ header.d=goeg.at; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=goegat.onmicrosoft.com; s=selector1-goegat-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=UhH5zvQOQQGcsg72if292wD6j9Lg6O4Cu22kB3xEzlU=;
+ b=ChtVo1qWX1fqBxu9Mm/N7adUR10Ln7Nqyh5/1sTaqiHzqLCPVbZoertfiV2bjktSumSMOz0E5l2Po3f2e1mQPQrEoQfZfA1DjIUmsPYYCLDNqe1T5ssYS8Hc5RWi+3tzJ3G4S6xngPAG20hk/b89xFtAJ8oowycq4LYI7VdFlko=
+Received: from AM0PR09MB3633.eurprd09.prod.outlook.com (2603:10a6:208:17d::15)
+ by AS5PR09MB6748.eurprd09.prod.outlook.com (2603:10a6:20b:67d::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7762.28; Mon, 15 Jul
+ 2024 18:09:10 +0000
+Received: from AM0PR09MB3633.eurprd09.prod.outlook.com
+ ([fe80::dbc6:2b00:a35f:6eb4]) by AM0PR09MB3633.eurprd09.prod.outlook.com
+ ([fe80::dbc6:2b00:a35f:6eb4%3]) with mapi id 15.20.7762.027; Mon, 15 Jul 2024
+ 18:09:10 +0000
+From: Thomas Bartosik <Thomas.Bartosik@goeg.at>
+To: "connman@lists.linux.dev" <connman@lists.linux.dev>
+Subject: DNS vs. Route preference
+Thread-Topic: DNS vs. Route preference
+Thread-Index: AQHa1uIX6OYrhHv0vEa7H25i+QChnA==
+Date: Mon, 15 Jul 2024 18:09:09 +0000
+Accept-Language: de-AT, en-US
+Content-Language: de-AT
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+user-agent: Mozilla Thunderbird
+Authentication-Results-Original: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=goeg.at;
+x-ms-traffictypediagnostic:
+	AM0PR09MB3633:EE_|AS5PR09MB6748:EE_|DB1PEPF000509FB:EE_|AS4PR09MB5705:EE_
+X-MS-Office365-Filtering-Correlation-Id: a0d39c13-d8d0-4302-cffc-08dca5543632
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted:
+ BCL:0;ARA:13230040|376014|1800799024|366016|38070700018;
+X-Microsoft-Antispam-Message-Info-Original:
+ =?utf-8?B?aFdueFNRazkyN1dDaHY5RU41bmJja0hySXQvV2QwellIRS9SdERaNVlXNGpr?=
+ =?utf-8?B?VXZ2QUhCS0VadkJCeEF0RzRLc09YMkxTWTBiWUJkUUp0VmJ0YnZuTGFkMGhB?=
+ =?utf-8?B?KzV5MWRvb2ZrTjBlc0FMR3huWnk4S0dIUG9WdDRHRXl2cEZBUURTT2ZTUTJV?=
+ =?utf-8?B?WUhLQ3BObXlWNHMwNmZyRE5PbWJsZUYvbG0rV1ZYRXdkRUNkdzE2bm1nLzdL?=
+ =?utf-8?B?aU5PcExXYXVGemRwWkRTbVRFRHBsSUkvMXlPb1B4NmRVL01LZ0Vua3U0MHZn?=
+ =?utf-8?B?amlMSitTSnJDMWhQVys1N2lybEhNbXgvb1lIMzdlWVZXQnJ5bW03QWtlTFM4?=
+ =?utf-8?B?V0VteG9jTVhPZkFMMEJnQVFyMVE3UnpESkhMMTF4ek02VDZkVEJMeXIwQ0ZK?=
+ =?utf-8?B?dDU0dTBwa2xwZkZHQVZpMWl0QTdWTGw4RFFMeHQrN3hCbEV6eW1VSDFMS0xv?=
+ =?utf-8?B?VkZZZjF0eFhnNitZWjF2WHpnL1F3alZDaVJMMjZqdGtVdnRTWmhKT2dlbk9P?=
+ =?utf-8?B?MXgxamU2Qll1cXVUcmFrRlFYK3FDWmdCQ3JFRmlzOGZ4b3dOZERldUJtdkdB?=
+ =?utf-8?B?bjAyay9FdmZ1QlJmRUc2ckdMTzA2NkZRK2FtV212S2RyODFBZUwrNU9oZExL?=
+ =?utf-8?B?R2RMRTdxZVdpbDdnY2NCQmdPUzF2RG9xWG55N3pwRGErZVU3WWpDeFNkRHI1?=
+ =?utf-8?B?QzFhOHBUSFVBRlQzYVdsMWJoR0tjRTJaZHpwK2V4eU41QjRQcjFZZnl4dzda?=
+ =?utf-8?B?RHFDUnZobnE2YUtGTU01NGJGYUIwRjM0dklNa3ZFNzlwWDBUV3VnaTBOQkdP?=
+ =?utf-8?B?Nkpod1MzRnlneFN0Zm1xWklYOUxwUFZUVnFENUxWV05JMEYxWlIwakUxR3Y3?=
+ =?utf-8?B?cXl3dmk3TE1WZTVYcFdTQmlOSmlJZUV6S0JPMEFCNTlCV3lQNmJjR1ZnUDZz?=
+ =?utf-8?B?N0VGbzNxUW5qYndBalpZQlNWZ1hILzFJRHV2cWVwbUtEdVZwbzk4UW9nckZk?=
+ =?utf-8?B?VWhsM0tZNlZLUmhYMVo3Wm9PSG1BN3ovUjVYa2ZMdWx0d3FNckpONWxOMzZD?=
+ =?utf-8?B?NTdvY05FTWxPV2NmWTdndlF3QmxTWU5QWWM1dmhobU9TR2s4RVQ2cVpBSDYy?=
+ =?utf-8?B?MFRuZ0NsQVc1L0ZOZEdWaURveWVQZXA5NDd5MmlOQWhnd1d0Q2dWME5pays5?=
+ =?utf-8?B?dnkzSk9GeWNxeEZ6cm1uSFJ1QlRyL0JldHhWZytDb3pYcUJoVEFTdU9KcC9Z?=
+ =?utf-8?B?V3YwT1Z0Skt4UTY3MlFXblFGcGlOQ2RqWHJYZWlROTI3RWJKNXljMVc4Wmsr?=
+ =?utf-8?B?Sks2NkxjM2U3SlZtd0ZEeFV5RXpXWkxFUUJ3bVF0dDgxa0tPK1lFT0NzUml5?=
+ =?utf-8?B?NG16cVVKMzJ2ZXlWVFZubCtvNk81MG9sYTZkRHZpMFBwVDVPV3dweWxQQUx2?=
+ =?utf-8?B?RHoralZjcE5laVVhbWtZQnZ2RmsxVmpXdytodFdTL0puVnAvbThJM2dma0E4?=
+ =?utf-8?B?YnMwK2c0THRqYnJUWG9WREdHMmJja2EwMUNTQ0wvUHZJZkViSDdha2NyQm56?=
+ =?utf-8?B?ZklaVTFSV2VxMEk1bnJXNnErK3VYQndRQndQNHl1VDZZUE1MVFZITjcrT0dC?=
+ =?utf-8?B?OXFtRWhnelNQUm1pMncvbklXUHFGRkVucWM4NGZLdkU4STJPNkQ3bS9IZ2xM?=
+ =?utf-8?B?Rkp3VUVKa2REa2F0aVZrbHQxTFduZzRoUVd6cUc3SnVuL1JaRHNudGNnT2Z4?=
+ =?utf-8?B?Z3VkRjdPbDZBenZubFh0ZTQ1Y0xSRWZSWDZuOXRmY21vL0k4blRYeTJzZWYr?=
+ =?utf-8?B?THBmanRUdmpIaTIya1JNcytsL2pxbVFqQ3dvb2MzUzdvZ0U5MjBXcjFabEVr?=
+ =?utf-8?B?OWpwUGxNaXJwWHZkQlJwWlQ5RHJMdXRGTlBSQ0M1UWVYalE9PQ==?=
+X-Forefront-Antispam-Report-Untrusted:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM0PR09MB3633.eurprd09.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(38070700018);DIR:OUT;SFP:1102;
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <4D67161D12A3634283BC480638286ED7@eurprd09.prod.outlook.com>
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] manager: add support for changing
- 'PreferredTechnologies' over DBus
-To: Alexandru Ardelean <alex@shruggie.ro>, connman@lists.linux.dev
-References: <20240705040204.58337-1-alex@shruggie.ro>
-Content-Language: en-US
-From: Denis Kenzior <denkenz@gmail.com>
-In-Reply-To: <20240705040204.58337-1-alex@shruggie.ro>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS5PR09MB6748
+X-OriginalArrivalTime: 15 Jul 2024 18:09:12.0034 (UTC) FILETIME=[1859C420:01DAD6E2]
+X-GBS-PROC: 8nEwQmeqoarrBYExp6GMHAPw+uZ08dwygp6X3cXg+bBL/oDgDdyMxLM9x6IBLMBb
+X-GBS-PROCJOB: gkxpUYhvItEIlXul1hEle6l7rIP5PdRlnsHL9JwmfPZUEydFsx/516i/6QNS29fp
+X-GRP-TAN: goegsIQSUITE01@7D11BDA58E064882808310ED5B0DEC95
+X-iqsuite-process: e13a3393-6c38-45eb-8279-3913da145940
+Message-ID: <goegsIQSUITE01C8wSA00000006@goegsIQSUITE01>
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped:
+ DB1PEPF000509FB.eurprd03.prod.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs:
+	e8bb917b-f5b6-4a32-d64c-08dca4f9399d
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|376014|82310400026|35042699022|36860700013;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?WGVDQThOeWgySlhSNVA1STBvakVqUFc1R0xPMUNtallPeHlqUkpWRXBqQkdL?=
+ =?utf-8?B?cjNnU0JjVno5Q1AxeFEvbWFlbVNRL1hHNDc3THF5SlRWWWNteHBPakxJVlkr?=
+ =?utf-8?B?dTNLNCtSNzV1dkFTdGd4clp0bU14eWVKREJPTERMZDhId1pKaSt2YmZJQWwr?=
+ =?utf-8?B?Rk1yaGhHbWpFTlFLZTJ0Z3VnNjUraGVaQkNaaUFFSjdYWkFOZTFKNDVCTUpq?=
+ =?utf-8?B?MjJKR0k1amlOaVg5d29zWDdnNnRTSVRBamV2NVRGWGN1VGpvMGsybnAwMEtF?=
+ =?utf-8?B?UkUwVHlwRHdUcXMrbkVjbDFRWG1kTDlXbzJad3Jad2ZPcGJ1c0dpbk5CYnVa?=
+ =?utf-8?B?K29NWWtYcHUvenNZVUFVcXArZUlYSHJCRVJib3dlMjgzSmJ0dUp1dGhjeDRE?=
+ =?utf-8?B?ckc3dTF6RmFvMCs1UG5DZFBlcndCS3hHZGMzd1BuYVowUmowMGFFczE4QldT?=
+ =?utf-8?B?YXhQTy9ONS9KTk5HdFpkWkJqTEhCWXNIRFQ4aVpLNjBJazdQS0YzMVRSSW5r?=
+ =?utf-8?B?bWJTYXBtRGN5WFpra0RuektNbzljNlE0OHQrT203RDBiVUtuanY3OHJlUi9r?=
+ =?utf-8?B?SXZObXJvMlUvMHV4L3RGMlBnZHg2R2FOc1JVV0hLOVVieE1DVXo5ZHZ1M0hs?=
+ =?utf-8?B?bmJKUldQbm4wdWJQUWpXZXp1cDM0Vi95dGJkLzFHTHU0MTZMZU9ma09wdFQ3?=
+ =?utf-8?B?V0NGSy9UYUFVSXZwRmtRWkF1ejY5N0Evc3d5aDhOQ3dOS3pUK3QxRnFhcEdV?=
+ =?utf-8?B?NGxsVnFJbnNuemgzb0dtcUhYK3NHSjVBOG5ORHZlYjBWc3V6S0ZxeXFVTFZP?=
+ =?utf-8?B?dFhpVmdJSTlkaHJZRG9odWZpcXI2WTZpS1Y3YkpjS0M5V3RPa0phQnNsRmhr?=
+ =?utf-8?B?dFk1dmxrYW93cjF3ZlBkUm5PbFU4YlY4RFVwbnQ4dTBYK1VxdlVMdHZtYTR5?=
+ =?utf-8?B?V21aNXV4M2Q5b3NFSEpZK1hJbEFVdzFBUTBjd292eHkrNlpZNEE4a0ViNTk1?=
+ =?utf-8?B?bjh6WHd0UnpkUHRHY1J5ZHFIZkFneUtGbHFCd3dLRU1Kbm9DemFQbWs3cDRo?=
+ =?utf-8?B?OTFhNTg3cTl6REd3OFR5OUlLTzdZbTgwNGhOSjNFUTdUQUs2bkxkMmdqSFpO?=
+ =?utf-8?B?a0VXYmMwUHhBTnp5U09RUzdnMW1VOFo3SHZrNWlvVDVXd3BDWVpwUmF4VmdS?=
+ =?utf-8?B?WHJvTm5nL1IyV21JcElkNEZrSkk0WTZ3aCtNWk1vckhrUldyZ3dZajB1ZWd4?=
+ =?utf-8?B?MDU4S3NMTkcvS2tIcU9pSTd6YjMrRmtTQzBkazdxRkFGcVNtR2tNSFJRVEhy?=
+ =?utf-8?B?Ky9wWUQxSjNPcE5NRWxsbEE2Q0pKeGkzUXJQWTNqR2lROVdoamNOZEhoMld1?=
+ =?utf-8?B?TmNDZ3YxUURHUmFBb0tDZTQ2U1Q5RE5iYXlEYlNMSTROZWZ6am5OVEtoMXpq?=
+ =?utf-8?B?UkJkVnVMN21sdmVnZW9VUHd5U05zVmIyZUNJWmNIeVc1N3hTUjRZcEY4bEJp?=
+ =?utf-8?B?Z21yelRibVllVDc5dXM3ZjRmVytUZ0pYWjYwUWIyRWtnbjVGT2RNQnJjdjBY?=
+ =?utf-8?B?YllTL0J1YXNUdUM3UHIzM0VQMlZicU5YczJ6ZnR4cjNYYmZMbjE0SnJvL29E?=
+ =?utf-8?B?Y1hDMDhxZUtCR3BLdXN4RFVRUkU0MG1QL09HZEhTcmFXZVRNcGN3N3VBazhW?=
+ =?utf-8?B?d0NtdXFYbSsrblo2VUticlFVcEtmOXRrVUlMUkptaUtWK2c2REI3V09tL28v?=
+ =?utf-8?B?bUtKOWlmSjZFQ1hFN0c3ai8rRS9abmRPeERybWFDRWtQVUNRWERaajZCOERL?=
+ =?utf-8?B?cFJSemZudHVTd3ZwWTBRMDBsNjI0UmEyVWluLzcxMi9HaCtuNW5lc1BacXFS?=
+ =?utf-8?B?VlUvbjlza1FTaE8wbDg5UytnMS9JQlFKd3FwQ3hiM2t0aWdoUU5VcmpNT0Zk?=
+ =?utf-8?Q?H9XqBOaWwjoFzpTpib0VuEac2Ebqcaiy?=
+X-Forefront-Antispam-Report:
+	CIP:20.52.142.9;CTRY:DE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:goegsIQSUITE01;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(376014)(82310400026)(35042699022)(36860700013);DIR:OUT;SFP:1102;
+X-OriginatorOrg: goeg.at
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jul 2024 05:00:28.4434
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: a0d39c13-d8d0-4302-cffc-08dca5543632
+X-MS-Exchange-CrossTenant-Id: 05d2efe8-0c45-4d9d-9a5a-b2d00b1b42ff
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=05d2efe8-0c45-4d9d-9a5a-b2d00b1b42ff;Ip=[20.52.142.9];Helo=[goegsIQSUITE01]
+X-MS-Exchange-CrossTenant-AuthSource:
+	DB1PEPF000509FB.eurprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS4PR09MB5705
 
-Hi Alexandru,
-
-On 7/4/24 11:02 PM, Alexandru Ardelean wrote:
-> This change adds support for reading/modifying the 'PreferredTechnologies'
-> over DBus.
-> This can be extended to 'DefaultAutoConnectTechnologies',
-> 'DefaultFavoriteTechnologies' & 'AlwaysConnectedTechnologies' as well.
-> However the interest (so far) was in changing the 'PreferredTechnologies'
-> order (at runtime) between cellular and wifi.
-> Also, 'PreferredTechnologies' was the only that was tested.
-> 
-> Changing 'PreferredTechnologies' seems to yield the desired result, as the
-> switch between cellular/wifi does not need to be super-fast.
-> And it changes the routing table (as desired) when cellular is preferred
-> over WiFi (and vice-versa).
-> 
-
-Can you elaborate?  If setting the property doesn't trigger service re-ordering 
-immediately, how does it happen?
-
-> On some boxes that have both cellular & WiFi, it's often desired to prefer
-> cellular (over WiFi) in case WiFi is not able to connect to the internet.
-> The logic (for this switching) can be determined outside of connman.
-> Setting 'PreferredTechnologies' helps in this case.
-> ---
-> 
-> Changelog v1 -> v2:
-> * v1: https://lore.kernel.org/connman/20240704204732.56553-1-alex@shruggie.ro/
-> * removed 'tools/ip6tables-test'
->    * added to .gitignore via https://lore.kernel.org/connman/20240705035028.57697-1-alex@shruggie.ro/T/#u
-> * added a bit of documentation in 'src/main.conf' for the 'PreferredTechnologies'
->    property now also being accessible over DBus
-> 
->   doc/connman.conf.5.in |  2 ++
->   doc/manager-api.txt   | 13 +++++++++
->   include/setting.h     |  2 ++
->   src/main.c            | 22 ++++++++++++++
->   src/main.conf         |  4 +++
->   src/manager.c         | 67 +++++++++++++++++++++++++++++++++++++++++++
->   6 files changed, 110 insertions(+)
-> 
-
-<snip>
-
-> diff --git a/doc/manager-api.txt b/doc/manager-api.txt
-> index 6eaa0a38..3be9cffc 100644
-> --- a/doc/manager-api.txt
-> +++ b/doc/manager-api.txt
-> @@ -319,3 +319,16 @@ Properties	string State [readonly]
->   			and does not affect ConnMan in any way.
->   
->   			The default value is false.
-> +
-> +		array{string} PreferredTechnologies [readwrite] [experminental]
-
-Typo 'experminental'
-
-> +
-> +			This property is the same one that is defined in
-> +			/etc/connman/main.conf. It controls the order of
-> +			preferred technologies (e.g. wifi, cellular) at
-> +			runtime.
-> +			Changing it here will not have an immediate effect.
-> +			It's only when connman gets triggered via service changes
-> +			that this gets taken into consideration. Or, when it's
-> +			triggered via manual connect/disconnect of services.
-> +
-> +			The default value is defined in /etc/connman/main.conf.
-
-Have you considered looking into how the Online check is implemented?  Perhaps 
-if the interface is not Online, it should not be prioritized ahead of one that is?
-
-> diff --git a/src/main.c b/src/main.c
-> index f5da979b..7858b967 100644
-> --- a/src/main.c
-> +++ b/src/main.c
-> @@ -1122,6 +1122,28 @@ unsigned int *connman_setting_get_uint_list(const char *key)
->   	return NULL;
->   }
->   
-> +int connman_setting_set_uint_list(const char *key, const unsigned int *lst,
-> +				  int len)
-> +{
-> +	unsigned int *new_list;
-> +
-> +	new_list = g_try_new0(unsigned int, len + 1);
-
-General advice is that for small allocations g_try_new0 is not necessary.
-
-> +	if (!new_list)
-> +		return -1;
-> +
-> +	memcpy(new_list, lst, sizeof(unsigned int) * len);
-> +
-> +	if (g_str_equal(key, CONF_PREFERRED_TECHS)) {
-> +		g_free(connman_settings.preferred_techs);
-> +		connman_settings.preferred_techs = new_list;
-> +		return 0;
-> +	}
-> +
-> +	g_free(new_list);
-> +
-> +	return -1;
-> +}
-> +
->   unsigned int connman_timeout_input_request(void)
->   {
->   	return connman_settings.timeout_inputreq;
-
-<snip>
-
-> diff --git a/src/manager.c b/src/manager.c
-> index 892d3a42..62f34c50 100644
-> --- a/src/manager.c
-> +++ b/src/manager.c
-> @@ -34,6 +34,27 @@
->   static bool connman_state_idle;
->   static dbus_bool_t sessionmode;
->   
-> +static const char *tech_property_names[] = {
-> +	"PreferredTechnologies",
-> +	NULL,
-> +};
-
-How would this be extended in the future?
-
-
-<snip>
-
-> @@ -64,6 +86,13 @@ static DBusMessage *get_properties(DBusConnection *conn,
->   					DBUS_TYPE_BOOLEAN,
->   					&sessionmode);
->   
-> +	for (i = 0; tech_property_names[i]; i++) {
-> +		const char *name = tech_property_names[i];
-> +		unsigned int *lst = connman_setting_get_uint_list(name);
-> +		connman_dbus_dict_append_array(&dict, name, DBUS_TYPE_STRING,
-> +						append_tech_list, lst);
-
-This logic seems pretty specific to PreferredTechnologies?
-
-> +	}
-> +
->   	connman_dbus_dict_close(&array, &dict);
->   
->   	return reply;
-> @@ -110,6 +139,44 @@ static DBusMessage *set_property(DBusConnection *conn,
->   
->   		dbus_message_iter_get_basic(&value, &sessionmode);
->   
-> +	} else if (g_str_equal(name, "PreferredTechnologies")) {
-> +		unsigned int techs[MAX_CONNMAN_SERVICE_TYPES] = {};
-> +		DBusMessageIter entry;
-> +		int cnt;
-> +
-> +		if (type != DBUS_TYPE_ARRAY)
-> +			return __connman_error_invalid_arguments(msg);
-> +
-> +		dbus_message_iter_recurse(&value, &entry);
-> +
-> +		cnt = 0;
-> +		while (dbus_message_iter_get_arg_type(&entry) == DBUS_TYPE_STRING) {
-> +			enum connman_service_type type;
-> +			const char *val;
-> +			dbus_message_iter_get_basic(&entry, &val);
-> +			dbus_message_iter_next(&entry);
-> +			int i;
-> +
-> +			if (!val[0])
-> +				continue;
-> +
-> +			type = __connman_service_string2type(val);
-> +			if (type == CONNMAN_SERVICE_TYPE_UNKNOWN)
-> +				return __connman_error_invalid_arguments(msg);
-> +
-> +			if (cnt >= MAX_CONNMAN_SERVICE_TYPES)
-> +				return __connman_error_invalid_arguments(msg);
-> +
-> +			/* check for duplicates */
-> +			for (i = 0; i < cnt; i++) {
-> +				if (type == techs[i])
-> +					return __connman_error_invalid_arguments(msg);
-> +			}
-
-There's a few lines > 80 chars.  Have you run this through checkpatch?
-
-> +
-> +			techs[cnt++] = type;
-> +		}
-> +
-> +		connman_setting_set_uint_list(name, techs, cnt);
->   	} else
->   		return __connman_error_invalid_property(msg);
->   
-
-Regards,
--Denis
+SGVsbG8gbGlzdCENCg0KSSBhbSB1c2luZyBEZWJpYW4ncyBjb25ubWFuIDEuNDEgYW5kIG9wZW5W
+UE4uDQoNCkkgaGF2ZSB0byBzZXQgYSByb3V0ZSBwcmVmZXJlbmNlICgibW92ZS1iZWZvcmUiKSBm
+b3IgbXkgbG9jYWwgY29ubmVjdGlvbiBiZWZvcmUgdGhlIFZQTiwgYXMgb3RoZXJ3aXNlIHBhY2tl
+dHMgZG9uJ3QgZ2V0IHJvdXRlZCB2aWEgdGhlIGRlZmF1bHQgZ2F0ZXdheS4NCg0KSG93ZXZlciwg
+dGhhdCBhbHNvIG1ha2VzIG15IGxvY2FsIGNvbm5lY3Rpb24ncyBETlMgc2VydmVyIHRoZSBwcmVm
+ZXJyZWQgb25lIG92ZXIgdGhlIG9uZSB0aGF0IGdldHMgcHVzaGVkIHZpYSBWUE4uDQoNCkkgZG8g
+Z2V0IGNvcnJlY3QgRE5TIHJlc3BvbnNlcyBmb3IgaW50ZXJuYWwgZG9tYWlucyB0aGF0IG9ubHkg
+ZXhpc3QgaW50ZXJuYWxseS4NCg0KQnV0IHRoZXJlIGFyZSBzZXJ2aWNlcyB3aGljaCBoYXZlIGFu
+IGludGVybmFsIGFuZCBhbiBleHRlcm5hbCBJUCAoZm9yIHRoZWlyIHB1YmxpY2x5IHZpc2libGUg
+QSByZWNvcmQpLCBhbmQgd2hlbiBjb25uZWN0ZWQgdmlhIFZQTiwgSSB3YW50IHRvIGdldCBhIHJl
+c3BvbnNlIGZvciAoYW5kIGNvbm5lY3QgdG8pIHRoZSBpbnRlcm5hbCBJUC4NCg0KSXMgdGhpcyBh
+Y2hpZXZhYmxlL3doaWNoIGNvbmZpZ3VyYXRpb24gb3B0aW9ucyBkbyBJIGhhdmUgdG8gc2V0Pw0K
+DQpPciBpcyB0aGlzIGFscmVhZHkgaW1wcm92ZWQgaW4gMS40MiBhbmQvb3IgY3VycmVudCBnaXQg
+dmVyc2lvbnMgYW5kIHNob3VsZCBJIHRlc3QgdGhlIGN1cnJlbnQgbWFzdGVyPw0KDQpUaGFua3Mg
+aW4gYWR2YW5jZSBmb3IgYW55IHBvaW50ZXJzIQ0KdGgNCg0K
