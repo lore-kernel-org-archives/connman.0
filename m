@@ -1,63 +1,77 @@
-Received: from mail.holtmann.org (coyote.holtmann.net [212.227.132.17])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D5D9D186E51
-	for <connman@lists.linux.dev>; Mon,  2 Sep 2024 08:35:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.132.17
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7B19176AC3
+	for <connman@lists.linux.dev>; Mon,  2 Sep 2024 08:40:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725266144; cv=none; b=VwnkpqNui6yQrJp8V+YJ7Ywh5GeGOiNIkgGBUT6zxCYW3OJ3h64poHa9TLiANXhDYHrzH5qyfNodvXzbSHK5S+56aTcWXmLPz6TaEYZzEYcLBr2aegdEZAkjqkhdiAnxdHJ3SvEQ7v8i89uivfLFuK5CKbj5HPRIsZiwYNjoAp8=
+	t=1725266430; cv=none; b=CulnwKcjC6sDfMlAJLsL6MT9GKkRkkIJMdEj19715ChcJAk83ND2GsnkDHNPvkzlRnBocv5G1QNDsOXZ9IJLo2t1oN0TL0EUx668IXUIP/qNq/qV+t7uSDX0dOrDcHADzGimSQ77wUJhIOgVFXbV6YYDODIS9hWN2s+/OhfhrAg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725266144; c=relaxed/simple;
-	bh=WHwpTvykIe82obSttARvmwPJ1xX+ZIcfZIJoLwfpIYM=;
-	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
-	 Message-Id:References:To; b=csfC9aQB8C1qmx5LtqXJHgzRaEg+pwYw6h8ANpLg4rUoUhETfRiaol/mC/ae2OeJmppD+k0bSXq0Ckgc6DGCDGqqV3uE3YUC3T3WczA16b07gxTBsvkOzDougOpw7/qogDoE6uqJL2/lINp0KDxIPIjyg483mpFNBEo/sw7GbSA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=holtmann.org; spf=pass smtp.mailfrom=holtmann.org; arc=none smtp.client-ip=212.227.132.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=holtmann.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=holtmann.org
-Received: from smtpclient.apple (p4ff9f372.dip0.t-ipconnect.de [79.249.243.114])
-	by mail.holtmann.org (Postfix) with ESMTPSA id AA720CECDC;
-	Mon,  2 Sep 2024 10:35:41 +0200 (CEST)
-Content-Type: text/plain;
-	charset=utf-8
+	s=arc-20240116; t=1725266430; c=relaxed/simple;
+	bh=2nVvTUStWe1uBpaiswUn667XrSMyN//F9klbFu3aqRU=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=Aue4k/eI2r+AutYKp5oeWKUm4REh82s1b3XjQpZYJ+Vxkm9okGQRmNgoPLmEyydH+Ai8aDEhsPwtIp6GXuju2VgSsVKt6PEDWBbCErCNmpG8ZubaWwa3MZYHdyR4yMG1h2zxEf1cm77iEPlWXrZc1uSG+UofiHuet++Aafluy18=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=S+aFNBWT; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="S+aFNBWT"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17DD8C4CEC2;
+	Mon,  2 Sep 2024 08:40:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1725266430;
+	bh=2nVvTUStWe1uBpaiswUn667XrSMyN//F9klbFu3aqRU=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=S+aFNBWT9bzOv+RS7yEHgU/Yg17MWPVYbCixVi9pz/iI1zsVLJdHnPV9qFTETW3Ag
+	 7jB+vChZQVlkzmJcEF3Pblp22J+NQ0PCLR35CxybdK2CDOQmLy4Ig/mp06Al3paOff
+	 p6RZ/VOzPF1BQ1+I6u90RMlHdW+H8ST0J1iabSMCqxKFYP2aaCXAOMa/3V6wq+vghM
+	 88TgTTtjQPIDIE/SrbRKB3c2HqnisFyFnFlE2M9I3dK++AWwb3yvESY27eQBmWuUfl
+	 n3+D3DZHXw3okM8nH/XIxf7yi0YnEDNhvKev5dJAirsmF53wNWzEvnfw63pIA7i5VH
+	 /TIYTYZdxW8ZA==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id EB2D13822D69;
+	Mon,  2 Sep 2024 08:40:31 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3776.700.51\))
-Subject: Re: [PATCH 0/4] Fixes for memory leaks and corruptions
-From: Marcel Holtmann <marcel@holtmann.org>
-In-Reply-To: <ef1f6257-b613-4685-bd4c-e60f35003b8f@gmx.de>
-Date: Mon, 2 Sep 2024 10:35:31 +0200
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH 0/1] Use a log identity always valid while logging
+From: patchwork-bot+connman@kernel.org
+Message-Id: 
+ <172526643049.3808725.13551694848126049024.git-patchwork-notify@kernel.org>
+Date: Mon, 02 Sep 2024 08:40:30 +0000
+References: <20240222232326.1677146-1-christian.meusel@posteo.de>
+In-Reply-To: <20240222232326.1677146-1-christian.meusel@posteo.de>
+To: Christian Meusel <christian.meusel@posteo.de>
 Cc: connman@lists.linux.dev
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <CB7562C0-CF73-48B2-ADB5-47EAA3F020EF@holtmann.org>
-References: <ef1f6257-b613-4685-bd4c-e60f35003b8f@gmx.de>
-To: Robert Tiemann <rtie@gmx.de>
-X-Mailer: Apple Mail (2.3776.700.51)
 
-Hi Robert,
+Hello:
 
-> I've noticed that the settings file gets corrupted when disabling wifi
-> tethering. Wrong strings and/or binary junk are written to the file,
-> preventing Connman from starting up the next time it is run.
->=20
-> I have tracked down the breaking commit (481d08f108) and was able to
-> patch the problem. While at it, I found and patched two more memory
-> leaks.
->=20
-> Robert Tiemann (4):
->  wifi: Fix use-after-free when tethering is disabled.
->  wifi: Fix memory leak.
->  wifi: Fix indentation.
->  technology: Fix memory leak.
->=20
-> plugins/wifi.c   | 66 +++++++++++++++++++++++-------------------------
-> src/technology.c |  4 ++-
-> 2 files changed, 34 insertions(+), 36 deletions(-)
+This patch was applied to connman.git (master)
+by Marcel Holtmann <marcel@holtmann.org>:
 
-can you respin the series against HEAD since it doesn=E2=80=99t apply =
-cleanly.
+On Thu, 22 Feb 2024 23:23:25 +0000 you wrote:
+> I encountered garbled and changing log identifiers from connmand 1.42
+> running on Yocto Kirkstone.
+> 
+>     Feb 09 02:40:18 foo time[590]: Connection Manager version 1.42
+>     Feb 09 02:40:18 foo time[590]: ../connman-1.42/src/dbus.c:__connman_dbus_init()
+>     Feb 09 02:40:18 foo time[590]: ../connman-1.42/src/main.c:parse_config() parsing main.conf
+>     Feb 09 02:40:18 foo time[590]: Online check disabled by main config.
+>     Feb 09 02:40:19 foo U[590]: ../connman-1.42/src/inotify.c:__connman_inotify_init()
+>     Feb 09 02:40:19 foo U[590]: ../connman-1.42/src/technology.c:__connman_technology_init()
+> 
+> [...]
 
-Regards
+Here is the summary with links:
+  - [1/1] log: Use a log identity always valid while logging
+    https://git.kernel.org/pub/scm/network/connman/connman.git/?id=8bd6504f449f
 
-Marcel
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
 
