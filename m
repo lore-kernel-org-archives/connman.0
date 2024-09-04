@@ -1,35 +1,47 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FAAE16EB76
-	for <connman@lists.linux.dev>; Mon,  2 Sep 2024 08:40:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC1521CF28F
+	for <connman@lists.linux.dev>; Wed,  4 Sep 2024 12:23:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725266433; cv=none; b=cxGv57BqiBSBqrneu5TRqvC5FkkhZqwLyREjJL+pmNK0qnjpPMFyZBtxGqA/BQm4Ln5Z4rl/d1d+OVENb7fvg0Sambt/cBsse3ZUk+sDftzf92aih8TkYv2on5Nq2pd4VJ8w0lg8M8ZL3BFAmYmm75IKk2gQnV6qoWNa9KVQ8w8=
+	t=1725452631; cv=none; b=m99vUvW5pEoIoD8r77sjbhC6dT2bYLQbMrtOGcQ//yI6Mz/VWrrsuy+hr9OXfOosR52aEhyfOB8brD8+xnKZ697lp7ogkLSD2kJdUnb6bh/+pYpzoaRHRGh581iF28P77lFlqjY+Pcd2vhgkc+kdSX/uE9Tt1kopvpIgz+dM9VA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725266433; c=relaxed/simple;
-	bh=VXKCh5f+2q2V9nSq7EdBfd/JLr/Mw4jQId8LoDTPbwM=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=IDvRa8kZ6f/+FUJie5T95wsbg2lrD/UqGetgK7vFr03fZMDXZAbLigAC44Nc0jwa5LKxRe8IJhbJxYcl3UrjfZvfiVU3NfqhurN3m+11IjdmZHwzV70ZEo2PCj60ZaZ21CG+iv5oobjxWEurUrSRFeT7O2fu6MxB0zJ32iGKl+o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=de7hnj1y; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1725452631; c=relaxed/simple;
+	bh=Pu5qqAcQsjy2QbgcupcKs/9uToiTAROnkjVTLipGmQg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=i+ItxLPKS8UkA95aUJshZq0SCiimanf4nYasRaHQ2Nt98BBR2EuBhMe7Ad2MfJYl/KmpH2NLKcHN6FEIoFcDSegn4dAe8kTO8cVK8mraaZWWWwuBZbKF8KWBAidE8GpfYDRkBLutWK9Vs0EGUdyUGvTCKr86hb1kset5qv/MQio=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=XYbT6FHl; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=JwtTCX7a; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="de7hnj1y"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 98424C4CEC2;
-	Mon,  2 Sep 2024 08:40:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1725266432;
-	bh=VXKCh5f+2q2V9nSq7EdBfd/JLr/Mw4jQId8LoDTPbwM=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=de7hnj1yl7bv+GgQGV5itazSwqXwvE5T58IC70C+NuCowQhh9gzbEGrl4IY6rqR9P
-	 Xa1AJYC884lz4lXolFNo1R+JhPsrrDRVzzSFLxkBOGIB8UzE9O0Mqv/4zDoQWoD9Hd
-	 DLKL4eSRjYo2+ilruRQT2agbTycBtbD8EbXE+p0RreAjSNX0RJG3d/2vOcgMhdpdWl
-	 hlJeAzKsoKPUCdmbshqeCzzXyEsGjlup2vC7CnXVoeE6hHi976IU1As8rC8nGQq1tb
-	 s3ewe/MOYcrVXSlS/NhXsxay/EU3p2X/vg03bXroU8BFJtJezaxuu0Ntxgb6R+/cv7
-	 XEp6sHdwQk8Bw==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 70EE03822D69;
-	Mon,  2 Sep 2024 08:40:34 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="XYbT6FHl";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="JwtTCX7a"
+From: Alexander Kanavin <alex@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1725452628;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=xrZQu12oe4rjOmy1Lih2sOQsbTLkXG4gcI77ElooeXw=;
+	b=XYbT6FHlJvFvEtvJth+oxNAuE8E/w1Qo9rTFvBCuYV+cuDqbuJzoenHsjGL9JIwKng6GF+
+	2gWbwhOO4pZhS6c674UP9mctYxcrOaBuefLunvIeI24qnQNP8mOj8r+O9HN9R1sv101/ss
+	KOkyv5xxHo1wMTZCMz6uJKfPAx5aTNMvPrTZJwlBZLiIYdKum7ukgcuuaiN9TiNw4Iptrz
+	TqmOKnE1KbODrQZiW+ixfpXLE/++zgjvAZYFl0RrGePcutNMs8Jogvw5L91Sv65e+LYsax
+	c7F/V/rTsXSwjJm0XqLjzbFZ0Gr+VcADDrLTGQwkrTwiDpM9Ndw86Vl7qAB+Fw==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1725452628;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=xrZQu12oe4rjOmy1Lih2sOQsbTLkXG4gcI77ElooeXw=;
+	b=JwtTCX7aagAA0GjaiGY/ux4qbig5l+GwYQ+69oJ0tzGPL4PYffVTimrlmCGxcxinWLyXEh
+	r2qnCnSp+OkfsmAQ==
+To: marcel@holtmann.org,
+	connman@lists.linux.dev
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH v2] gweb/gresolv.c: make use of res_ninit optional and subject to __RES
+Date: Wed,  4 Sep 2024 14:23:13 +0200
+Message-ID: <20240904122336.963194-1-alex@linutronix.de>
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
@@ -37,39 +49,98 @@ List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH] dhcp: clear c_gateway and c_prefixlen before remove
-From: patchwork-bot+connman@kernel.org
-Message-Id: 
- <172526643324.3808725.3638743104633950099.git-patchwork-notify@kernel.org>
-Date: Mon, 02 Sep 2024 08:40:33 +0000
-References: <20240826113357.1794-1-sw0312.kim@samsung.com>
-In-Reply-To: <20240826113357.1794-1-sw0312.kim@samsung.com>
-To: Seung-Woo Kim <sw0312.kim@samsung.com>
-Cc: connman@lists.linux.dev, denkenz@gmail.com, wangfe@nestlabs.com,
- dh79.pyun@samsung.com
 
-Hello:
+From: Khem Raj <raj.khem@gmail.com>
 
-This patch was applied to connman.git (master)
-by Marcel Holtmann <marcel@holtmann.org>:
+Not all libc implementation have those functions, and the way to determine
+if they do is to check __RES which is explained in resolv.h thusly:
 
-On Mon, 26 Aug 2024 20:33:57 +0900 you wrote:
-> Before calling __connman_ipconfig_address_remove(), for specific
-> ipconfig->method cases, clear c_gateway and c_prefixlen to
-> prevent use-after-free.
-> 
-> Fixes: d593e995c7c7 ("dhcp: Remove old IP and gateway address")
-> ---
->  src/dhcp.c | 9 ++++++++-
->  1 file changed, 8 insertions(+), 1 deletion(-)
+/*
+ * Revision information.  This is the release date in YYYYMMDD format.
+ * It can change every day so the right thing to do with it is use it
+ * in preprocessor commands such as "#if (__RES > 19931104)".  Do not
+ * compare for equality; rather, use it to determine whether your resolver
+ * is new enough to contain a certain feature.
+ */
 
-Here is the summary with links:
-  - dhcp: clear c_gateway and c_prefixlen before remove
-    https://git.kernel.org/pub/scm/network/connman/connman.git/?id=7a3ca6783ed2
+Indeed, it needs to be at least 19991006.
 
-You are awesome, thank you!
+The portion of the patch that implements a fallback is ported from
+Alpine Linux:
+http://git.alpinelinux.org/cgit/aports/plain/testing/connman/libresolv.patch
+---
+ gweb/gresolv.c | 28 ++++++++++++++++++++++++++++
+ 1 file changed, 28 insertions(+)
+
+diff --git a/gweb/gresolv.c b/gweb/gresolv.c
+index 8101d718..136b31f6 100644
+--- a/gweb/gresolv.c
++++ b/gweb/gresolv.c
+@@ -879,7 +879,9 @@ GResolv *g_resolv_new(int index)
+ 	resolv->index = index;
+ 	resolv->nameserver_list = NULL;
+ 
++#if (__RES >= 19991006)
+ 	res_ninit(&resolv->res);
++#endif
+ 
+ 	return resolv;
+ }
+@@ -920,7 +922,9 @@ void g_resolv_unref(GResolv *resolv)
+ 
+ 	flush_nameservers(resolv);
+ 
++#if (__RES >= 19991006)
+ 	res_nclose(&resolv->res);
++#endif
+ 
+ 	g_free(resolv);
+ }
+@@ -1013,6 +1017,26 @@ static gint add_query(struct resolv_lookup *lookup, const char *hostname, int ty
+ 	return 0;
+ }
+ 
++#if (__RES < 19991006)
++static void read_nameservers_directly(GResolv *resolv)
++{
++	FILE *f = fopen("/etc/resolv.conf", "r");
++	if (f) {
++		char line[256], *s;
++		int i;
++		while (fgets(line, sizeof(line), f)) {
++			if (strncmp(line, "nameserver", 10) || !isspace(line[10]))
++				continue;
++			for (s = &line[11]; isspace(s[0]); s++);
++			for (i = 0; s[i] && !isspace(s[i]); i++);
++			s[i] = 0;
++			g_resolv_add_nameserver(resolv, s, 53, 0);
++		}
++		fclose(f);
++	}
++}
++#endif
++
+ guint g_resolv_lookup_hostname(GResolv *resolv, const char *hostname,
+ 				GResolvResultFunc func, gpointer user_data)
+ {
+@@ -1024,6 +1048,7 @@ guint g_resolv_lookup_hostname(GResolv *resolv, const char *hostname,
+ 	debug(resolv, "hostname %s", hostname);
+ 
+ 	if (!resolv->nameserver_list) {
++#if (__RES >= 19991006)
+ 		int i;
+ 
+ 		for (i = 0; i < resolv->res.nscount; i++) {
+@@ -1043,6 +1068,9 @@ guint g_resolv_lookup_hostname(GResolv *resolv, const char *hostname,
+ 			if (inet_ntop(family, sa_addr, buf, sizeof(buf)))
+ 				g_resolv_add_nameserver(resolv, buf, 53, 0);
+ 		}
++#else
++		read_nameservers_directly(resolv);
++#endif
+ 
+ 		if (!resolv->nameserver_list)
+ 			g_resolv_add_nameserver(resolv, "127.0.0.1", 53, 0);
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
+2.43.0
 
