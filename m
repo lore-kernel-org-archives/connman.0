@@ -1,146 +1,117 @@
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC1521CF28F
-	for <connman@lists.linux.dev>; Wed,  4 Sep 2024 12:23:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E222B1D9352
+	for <connman@lists.linux.dev>; Wed,  4 Sep 2024 12:27:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725452631; cv=none; b=m99vUvW5pEoIoD8r77sjbhC6dT2bYLQbMrtOGcQ//yI6Mz/VWrrsuy+hr9OXfOosR52aEhyfOB8brD8+xnKZ697lp7ogkLSD2kJdUnb6bh/+pYpzoaRHRGh581iF28P77lFlqjY+Pcd2vhgkc+kdSX/uE9Tt1kopvpIgz+dM9VA=
+	t=1725452862; cv=none; b=GjVKlEeCWKJPwDdj9A3uGE56HMIPcwdNa5p9WPGP/dqFxSAg7SIX4dSg9wiB2wg8GK1EfIHVv6UwWGP6ZxyTI9XnraQHMh88Uu7qECYaAWupHX8wmFGVVxUchKE6bWvuty+3YBcWy07tnz4sU88lC0EDqjsLtGiEReV5BVo3Fr8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725452631; c=relaxed/simple;
-	bh=Pu5qqAcQsjy2QbgcupcKs/9uToiTAROnkjVTLipGmQg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=i+ItxLPKS8UkA95aUJshZq0SCiimanf4nYasRaHQ2Nt98BBR2EuBhMe7Ad2MfJYl/KmpH2NLKcHN6FEIoFcDSegn4dAe8kTO8cVK8mraaZWWWwuBZbKF8KWBAidE8GpfYDRkBLutWK9Vs0EGUdyUGvTCKr86hb1kset5qv/MQio=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=XYbT6FHl; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=JwtTCX7a; arc=none smtp.client-ip=193.142.43.55
+	s=arc-20240116; t=1725452862; c=relaxed/simple;
+	bh=qVingwpfeGuXO+gXz8qKcmO4iVhlsktIowHFWeeLKIM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=YWAYLs96aK2qDIEhxlo8FBvmsoqutgvQDZ2Tf9iNHnFZzdbLnsCrfH5K3MkB1mZQEJU0f255D8SJlH4J6SfzmMUQXoLdn5WHNmaw0dP+Sm6O275fE9Tum1VXbGuFI7MAfkrwpeviHXLgDMUwqV3UWGhWjE2FxkFSxOM+qck8czA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=xFn/3Yq/; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=CoTSCh9F; arc=none smtp.client-ip=193.142.43.55
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="XYbT6FHl";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="JwtTCX7a"
-From: Alexander Kanavin <alex@linutronix.de>
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="xFn/3Yq/";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="CoTSCh9F"
+Message-ID: <95298b05-4c02-4821-97de-9fd1696ec13c@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1725452628;
+	s=2020; t=1725452859;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=xrZQu12oe4rjOmy1Lih2sOQsbTLkXG4gcI77ElooeXw=;
-	b=XYbT6FHlJvFvEtvJth+oxNAuE8E/w1Qo9rTFvBCuYV+cuDqbuJzoenHsjGL9JIwKng6GF+
-	2gWbwhOO4pZhS6c674UP9mctYxcrOaBuefLunvIeI24qnQNP8mOj8r+O9HN9R1sv101/ss
-	KOkyv5xxHo1wMTZCMz6uJKfPAx5aTNMvPrTZJwlBZLiIYdKum7ukgcuuaiN9TiNw4Iptrz
-	TqmOKnE1KbODrQZiW+ixfpXLE/++zgjvAZYFl0RrGePcutNMs8Jogvw5L91Sv65e+LYsax
-	c7F/V/rTsXSwjJm0XqLjzbFZ0Gr+VcADDrLTGQwkrTwiDpM9Ndw86Vl7qAB+Fw==
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=VyXPveFncbKvJWur3d21buDp5ibt7G7HqSUeYOalIRA=;
+	b=xFn/3Yq/EXl46RR9xm3nrIz1n5WqtM8QgM5pGXB1Ce2ICpO1tN/TzBPYmQetX3jFu5+/bQ
+	XogMrvV0Q41e+stddOwleXIQvXIvrZ6HiCeoiqI7JP4X6BqvJLgycqTUshchrsw3KSyJGJ
+	xU2aUZPVSf8Ut04ovP2ltoeh/LAXxbSw+jv7ZGpWfesRB8CZHJBeyMmAV54OgAZB0/ZPKU
+	OozlyLTIaE1KEqoC/SrK4CZO+srH22qN7x3i2wXtI8IqFF7SUtLDXFHUOYQ68yd4tK5PS2
+	Me6gG3yufZ8eL3JDFgiOLlakn11AvX0WDHjiuApH5QwSJRWNBMtbma5XZ7+13g==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1725452628;
+	s=2020e; t=1725452859;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=xrZQu12oe4rjOmy1Lih2sOQsbTLkXG4gcI77ElooeXw=;
-	b=JwtTCX7aagAA0GjaiGY/ux4qbig5l+GwYQ+69oJ0tzGPL4PYffVTimrlmCGxcxinWLyXEh
-	r2qnCnSp+OkfsmAQ==
-To: marcel@holtmann.org,
-	connman@lists.linux.dev
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH v2] gweb/gresolv.c: make use of res_ninit optional and subject to __RES
-Date: Wed,  4 Sep 2024 14:23:13 +0200
-Message-ID: <20240904122336.963194-1-alex@linutronix.de>
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=VyXPveFncbKvJWur3d21buDp5ibt7G7HqSUeYOalIRA=;
+	b=CoTSCh9FNa3QBuSA29ItYTMKSbobvfdwt3AEKeQ5WsxqWq2cmnDZVBOtUW+kXFWD4bpeg/
+	nq8CVk0khVYVbCDA==
+Date: Wed, 4 Sep 2024 14:27:38 +0200
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Subject: Re: [PATCH] gweb/gresolv.c: make use of res_ninit optional and
+ subject to __RES
+To: Marcel Holtmann <marcel@holtmann.org>
+Cc: connman@lists.linux.dev, Khem Raj <raj.khem@gmail.com>
+References: <20240311110918.1399173-1-alex@linutronix.de>
+ <C110D6BC-3B9E-4973-A1CD-5075AC52903E@holtmann.org>
+Content-Language: en-US
+From: Alexander Kanavin <alex@linutronix.de>
+Autocrypt: addr=alex@linutronix.de; keydata=
+ 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
+In-Reply-To: <C110D6BC-3B9E-4973-A1CD-5075AC52903E@holtmann.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-From: Khem Raj <raj.khem@gmail.com>
+On 9/2/24 10:30, Marcel Holtmann wrote:
+> we have a bit of coding style issues here. And this should really be a helper function.
 
-Not all libc implementation have those functions, and the way to determine
-if they do is to check __RES which is explained in resolv.h thusly:
+Hello Marcel,
 
-/*
- * Revision information.  This is the release date in YYYYMMDD format.
- * It can change every day so the right thing to do with it is use it
- * in preprocessor commands such as "#if (__RES > 19931104)".  Do not
- * compare for equality; rather, use it to determine whether your resolver
- * is new enough to contain a certain feature.
- */
+I sent a v2 where things are moved to their own function and spaces -> 
+tabs. Let me know if something else is needed.
 
-Indeed, it needs to be at least 19991006.
+Alex
 
-The portion of the patch that implements a fallback is ported from
-Alpine Linux:
-http://git.alpinelinux.org/cgit/aports/plain/testing/connman/libresolv.patch
----
- gweb/gresolv.c | 28 ++++++++++++++++++++++++++++
- 1 file changed, 28 insertions(+)
-
-diff --git a/gweb/gresolv.c b/gweb/gresolv.c
-index 8101d718..136b31f6 100644
---- a/gweb/gresolv.c
-+++ b/gweb/gresolv.c
-@@ -879,7 +879,9 @@ GResolv *g_resolv_new(int index)
- 	resolv->index = index;
- 	resolv->nameserver_list = NULL;
- 
-+#if (__RES >= 19991006)
- 	res_ninit(&resolv->res);
-+#endif
- 
- 	return resolv;
- }
-@@ -920,7 +922,9 @@ void g_resolv_unref(GResolv *resolv)
- 
- 	flush_nameservers(resolv);
- 
-+#if (__RES >= 19991006)
- 	res_nclose(&resolv->res);
-+#endif
- 
- 	g_free(resolv);
- }
-@@ -1013,6 +1017,26 @@ static gint add_query(struct resolv_lookup *lookup, const char *hostname, int ty
- 	return 0;
- }
- 
-+#if (__RES < 19991006)
-+static void read_nameservers_directly(GResolv *resolv)
-+{
-+	FILE *f = fopen("/etc/resolv.conf", "r");
-+	if (f) {
-+		char line[256], *s;
-+		int i;
-+		while (fgets(line, sizeof(line), f)) {
-+			if (strncmp(line, "nameserver", 10) || !isspace(line[10]))
-+				continue;
-+			for (s = &line[11]; isspace(s[0]); s++);
-+			for (i = 0; s[i] && !isspace(s[i]); i++);
-+			s[i] = 0;
-+			g_resolv_add_nameserver(resolv, s, 53, 0);
-+		}
-+		fclose(f);
-+	}
-+}
-+#endif
-+
- guint g_resolv_lookup_hostname(GResolv *resolv, const char *hostname,
- 				GResolvResultFunc func, gpointer user_data)
- {
-@@ -1024,6 +1048,7 @@ guint g_resolv_lookup_hostname(GResolv *resolv, const char *hostname,
- 	debug(resolv, "hostname %s", hostname);
- 
- 	if (!resolv->nameserver_list) {
-+#if (__RES >= 19991006)
- 		int i;
- 
- 		for (i = 0; i < resolv->res.nscount; i++) {
-@@ -1043,6 +1068,9 @@ guint g_resolv_lookup_hostname(GResolv *resolv, const char *hostname,
- 			if (inet_ntop(family, sa_addr, buf, sizeof(buf)))
- 				g_resolv_add_nameserver(resolv, buf, 53, 0);
- 		}
-+#else
-+		read_nameservers_directly(resolv);
-+#endif
- 
- 		if (!resolv->nameserver_list)
- 			g_resolv_add_nameserver(resolv, "127.0.0.1", 53, 0);
 -- 
-2.43.0
+Alexander Kanavin
+Linutronix GmbH | Bahnhofstrasse 3 | D-88690 Uhldingen-Mühlhofen
+Phone: +49 7556 25 999 39; Fax.: +49 7556 25 999 99
+
+Hinweise zum Datenschutz finden Sie hier (Informations on data privacy
+can be found here): https://linutronix.de/legal/data-protection.php
+
+Linutronix GmbH | Firmensitz (Registered Office): Uhldingen-Mühlhofen |
+Registergericht (Registration Court): Amtsgericht Freiburg i.Br., HRB700
+806 | Geschäftsführer (Managing Directors): Heinz Egger, Thomas Gleixner
+Tiffany Silva, Sean Fennelly, Jeffrey Schneiderman
 
