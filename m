@@ -1,35 +1,35 @@
 Received: from mail5.g24.pair.com (mail5.g24.pair.com [66.39.139.36])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A291917D366
-	for <connman@lists.linux.dev>; Thu, 12 Dec 2024 05:28:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66BA017E918
+	for <connman@lists.linux.dev>; Thu, 12 Dec 2024 05:28:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=66.39.139.36
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733981310; cv=none; b=X22tHbQ7n/Bw9n2H40PsJZ/0BjylR9DdQYpvkUurVS/0ANCp4a+1gav4s/pHFTmOv5Y8aXSOtVZxBOjBYMaiNvQZHzJYgzhDztUuX6Owa7EvyrC9a/Phas0qHkyFEbSfT20vBQRIuKF6JUkQHr5bswwEYPch//ZszPcIAm0jV28=
+	t=1733981311; cv=none; b=PXKCOvG8wOqKKJQnsdjxVYgJyZLiAYe5oShdzTjYtp6SW0Cte1UMDcbEZlaZdDwpKoascsC0MVlJiTuerhXHw/zPHUVP2pahbJeEgYrm2ty9NEtc9pUefzrT3bwL2ltwr8xZkj0EWcetCyIRXcPt1l/Eq91tqXUM8YRQ9nArTRk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733981310; c=relaxed/simple;
-	bh=MhA8GxcFawyataBCTq7owPmn6ubX8NIDsFCGXaYSbrM=;
+	s=arc-20240116; t=1733981311; c=relaxed/simple;
+	bh=06WLl114GJZPfnjKsGAazCqiq6NhLEV4/oIPjyb+t+A=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=JKf+rcSgLPjw7aupTwgr3bIcWDH7X/pf/0C6HjaLN9dv1H1NP88xxe50PXjfGHv+XRRHQ+pNqs0MDbV60/N8rlriHSxWhcJnXcr+MPDNIq49/BI5KcMT7iPDflyiOMI8Sh7Hyh7QRwRAvMbCvdvC/qDodLR/dyxv6Cf5BEQlR7c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nuovations.com; spf=pass smtp.mailfrom=nuovations.com; dkim=pass (2048-bit key) header.d=nuovations.com header.i=@nuovations.com header.b=GvTPL2If; arc=none smtp.client-ip=66.39.139.36
+	 MIME-Version; b=UZT7XyB+ehriAo05vbWIPq61fbMkw+uC3wp2WqQ+gdoZ99OlEb+0NxOA6wiq+MFGLr9LjWo3UfGWuY305Z2UsXjpieK7qlERu099cQSpPl24RZLgsG/eiMfjrOkKiE0Dw6L0jRUKLWJA1hkF0IHswinnEyFuoKAgu/1Ou2whZlc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nuovations.com; spf=pass smtp.mailfrom=nuovations.com; dkim=pass (2048-bit key) header.d=nuovations.com header.i=@nuovations.com header.b=tl51hRrw; arc=none smtp.client-ip=66.39.139.36
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nuovations.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nuovations.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nuovations.com header.i=@nuovations.com header.b="GvTPL2If"
+	dkim=pass (2048-bit key) header.d=nuovations.com header.i=@nuovations.com header.b="tl51hRrw"
 Received: from mail5.g24.pair.com (localhost [127.0.0.1])
-	by mail5.g24.pair.com (Postfix) with ESMTP id 6FD76164A52
-	for <connman@lists.linux.dev>; Thu, 12 Dec 2024 00:28:23 -0500 (EST)
+	by mail5.g24.pair.com (Postfix) with ESMTP id B40CB164A6F
+	for <connman@lists.linux.dev>; Thu, 12 Dec 2024 00:28:25 -0500 (EST)
 Received: from localhost.localdomain (c-24-6-12-99.hsd1.ca.comcast.net [24.6.12.99])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mail5.g24.pair.com (Postfix) with ESMTPSA id 24819125164
-	for <connman@lists.linux.dev>; Thu, 12 Dec 2024 00:28:23 -0500 (EST)
+	by mail5.g24.pair.com (Postfix) with ESMTPSA id 688FD124EDB
+	for <connman@lists.linux.dev>; Thu, 12 Dec 2024 00:28:25 -0500 (EST)
 From: Grant Erickson <gerickson@nuovations.com>
 To: connman@lists.linux.dev
-Subject: [PATCH 10/15] service: Document 'service_set_proxy_method'.
-Date: Wed, 11 Dec 2024 21:28:12 -0800
-Message-ID: <20241212052817.2021264-11-gerickson@nuovations.com>
+Subject: [PATCH 15/15] wispr: Document 'wispr_log_proxy_failure'.
+Date: Wed, 11 Dec 2024 21:28:17 -0800
+Message-ID: <20241212052817.2021264-16-gerickson@nuovations.com>
 X-Mailer: git-send-email 2.45.0
 In-Reply-To: <20241212052817.2021264-1-gerickson@nuovations.com>
 References: <20241212052817.2021264-1-gerickson@nuovations.com>
@@ -40,60 +40,45 @@ List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nuovations.com; h=from:to:subject:date:message-id:in-reply-to:references:mime-version:content-transfer-encoding; s=pair-202401062137; bh=DMEVtJxEypbJbdo46QA/JuNoLWGPwQUfFlkxSoG2fnI=; b=GvTPL2IfFPISrghIDp00tTVLo9Ivl01Qy9p3aMN9/bvlisEVRIqm9ycn52tgpIrngUGSwZTqzGGucVXT7xel2g18P9tilLM23AIXojrY0rCIuj4emQMou8qgUif4U6oRwo/C+/NvGoimqhsAAl1Jj3bVeQeTDVqysohZmO1Jv9EwfXlLgWuZFiuBNoKj9zw4s+t1EklADB91UJunkWGOlo3Dr7pflzBfo9bsbx9ipDahW2xx1Klm4iaA2DAP/irLk9X+GsNdT4DeN7BlPmDBBBUHKasfj6y9E6emVX6t/PcPozpBqUM2EzsMjgAlO5ePot6D3diEcV7sEYyHQNmaug==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nuovations.com; h=from:to:subject:date:message-id:in-reply-to:references:mime-version:content-transfer-encoding; s=pair-202401062137; bh=D9gcQT5GxL9r3r50j8b9Y/P/CZlksDC0JO7cUogF18w=; b=tl51hRrwrznh29goUO3pp1kefK4kYu2oHGyUue46eAFDkYI2Q03gP8IePJ8C2P3TpmH7LZ9J+HU6ZFqAu//SvIrf6MXj1Hgr6sygoBa11vRaikmwRPypy1wM6KQyW12WzTbD1hb21vT4bUGd6yXYyYQ5XdejdHgkfAh7diTyPMq0GqZgv8+bSNsLzD1B+BI/UVuRyuK0MXqY6Z6W7XkvVg2nA9uBzlZsHKfzWK6cIjGh5JuRC4apgEowreO/TsGqq6dHw9hGqlruFoKnRcAI0E9FmRSc96oAEBApMdBp/g89UgNnGb2F5cdB6ehXLzOQUsOGhRljgb9qUKGJ/xqdUg==
 X-Scanned-By: mailmunge 3.10 on 66.39.139.36
 
-Add documentation to the 'service_set_proxy_method' function.
+Add documentation to the 'wispr_log_proxy_failure' function.
 ---
- src/service.c | 35 +++++++++++++++++++++++++++++++++++
- 1 file changed, 35 insertions(+)
+ src/wispr.c | 20 ++++++++++++++++++++
+ 1 file changed, 20 insertions(+)
 
-diff --git a/src/service.c b/src/service.c
-index d2d8e7cea065..3fd56188093d 100644
---- a/src/service.c
-+++ b/src/service.c
-@@ -5568,6 +5568,41 @@ const char * const *connman_service_get_timeservers(const struct connman_service
- 	return (const char * const *)service->timeservers;
+diff --git a/src/wispr.c b/src/wispr.c
+index 10990c725986..9b0e4b24a3db 100644
+--- a/src/wispr.c
++++ b/src/wispr.c
+@@ -1118,6 +1118,26 @@ static char *parse_proxy(const char *proxy)
+ 	return proxy_server;
  }
  
 +/**
 + *  @brief
-+ *    Set the proxy method for the specified service.
++ *    Log a Wireless Internet Service Provider roaming (WISPr) proxy
++ *    auto-configuration (PAC)-related online reachability check
++ *    failure.
 + *
-+ *  This attempts to set the proxy method for the specified
-+ *  service. If the service is null or if the service is hidden, no
-+ *  action is taken. If specified, a handler will be invoked, with the
-+ *  specified context, after setting the proxy method.
-+ *
-+ *  If the handler is specified and it returns true, following, a
-+ *  D-Bus change notification should be sent for the service "Proxy"
-+ *  property and, if requested by @a donotifier, the proxy changed
-+ *  notifier chain will be run.
-+ *
-+ *  @param[in,out]  service     A pointer to the mutable network
-+ *                              service for which to set the proxy
-+ *                              method.
-+ *  @param[in]      method      The network service proxy method to set
-+ *                              on @a service.
-+ *  @param[in]      donotifier  A Boolean indicating whether the proxy
-+ *                              changed notifier chain should be run
-+ *                              after @a method is set on @a service.
-+ *  @param[in]      handler     An optional pointer to a handler that,
-+ *                              if specified, will be invoked after @a
-+ *                              method is set on @a service.
-+ *  @param[in]      context     An optional pointer to immutable context
-+ *                              that will be passed to @a handler,
-+ *                              along with @a service and @a method.
-+ *
-+ *  @sa __connman_notifier_proxy_changed
-+ *  @sa proxy_changed
++ *  @param[in]  wp_context  A pointer to the immutable WISPr/portal
++ *                          context for which to log the proxy
++ *                          auto-configuration (PAC)-related online
++ *                          reachability check failure.
++ *  @param[in]  reason      A pointer to an immutable, null-terminated
++ *                          C string containing the reason for the
++ *                          proxy auto-configuration (PAC)-related
++ *                          online reachability check failure which
++ *                          will be included at the start of the log
++ *                          message.
 + *
 + *  @private
 + *
 + */
- static void service_set_proxy_method(struct connman_service *service,
- 			enum connman_service_proxy_method method,
- 			bool donotifier,
+ static void wispr_log_proxy_failure(
+ 		struct connman_wispr_portal_context const *wp_context,
+ 		const char *reason)
 -- 
 2.45.0
 
