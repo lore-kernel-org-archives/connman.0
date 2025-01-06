@@ -1,128 +1,135 @@
-Received: from mail5.g24.pair.com (mail5.g24.pair.com [66.39.139.36])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BA79BA34
-	for <connman@lists.linux.dev>; Mon,  6 Jan 2025 15:58:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=66.39.139.36
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E6A81D5AA0;
+	Mon,  6 Jan 2025 17:13:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736179098; cv=none; b=syGoI3UpHcGQq48ClJFigv2akggGDonELs5cgsne0TAFfm95VLXp8uw3ux5aR1zaj2uzx2a9lnfGfW3TtM+x9/vYoh3xek5pj9XOtmOkUJvdsOJlBGm1nHkangp5N1P+REDaX12QTiuIgaBH+hTdUvjKg3VjYWYUc8FTp50R6WU=
+	t=1736183632; cv=none; b=kmEniCvc9CPEGtg0Ir5Wkxyw7Ve6UM2Lpah3mBSqfPdIIGMZGJoe/eq3XEkfaSBAQGuuqJ9QNHcr0YY08/eucT8e04Ym8+CTfwSm/iW3duBCQ53mzd49Q6cNQb0giS83OvrDwJzFqOkDZTTbBiN3Hvt27DXWtX5ZO+Z3oksaPJw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736179098; c=relaxed/simple;
-	bh=wyjKPXqo3RM4QlOWVbZrBy4m1szyuYk6255lF+khbWA=;
-	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
-	 Message-Id:References:To; b=gYvYmus+7kg2avUsuBDMFAYfvFmG9FTb+779XqMXCRvrNUKEFTl6ZIzbykFv2uDD3NpBv59trNG2tp4rTaQFOQgt+cHaPlTSVaRPgxTjMcNPrTSX7Vy1COg5jjuAXYEVqHzJ2GLIvr9CGekqPCp+pI+uiKuDFsi1q7Mz+E4/cdo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nuovations.com; spf=pass smtp.mailfrom=nuovations.com; dkim=pass (2048-bit key) header.d=nuovations.com header.i=@nuovations.com header.b=n5iniq8y; arc=none smtp.client-ip=66.39.139.36
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nuovations.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nuovations.com
+	s=arc-20240116; t=1736183632; c=relaxed/simple;
+	bh=4X6zyYxK1QCiG9SsBLkpMIskQ4/0BPLxlhV1jv2pTrM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ptg2gYax1k7xmIRgMYmQ1WKyEMKwozUBAXsQILbqg10Onco4dBXxOIfVupWB/HhHsswKqwwr0IK0ZClLT9/rSwYqQ8Gb9y07VothAACSCjVN+R09uzdtp3JUHuk27TzmH4e8lyjiQQAnstfb51yDlILDZ8E4VLyjFkSxOaYg0zE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EUnuWz6p; arc=none smtp.client-ip=209.85.214.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nuovations.com header.i=@nuovations.com header.b="n5iniq8y"
-Received: from mail5.g24.pair.com (localhost [127.0.0.1])
-	by mail5.g24.pair.com (Postfix) with ESMTP id 607C116495D;
-	Mon,  6 Jan 2025 10:51:19 -0500 (EST)
-Received: from smtpclient.apple (c-24-6-12-99.hsd1.ca.comcast.net [24.6.12.99])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mail5.g24.pair.com (Postfix) with ESMTPSA id E9793124F8E;
-	Mon,  6 Jan 2025 10:51:18 -0500 (EST)
-Content-Type: text/plain;
-	charset=utf-8
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EUnuWz6p"
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-21675fd60feso11630885ad.2;
+        Mon, 06 Jan 2025 09:13:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1736183630; x=1736788430; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=1E4VBveUTiXAQY0x0OPSL/+vTNEOjG/u16OolfG/dLM=;
+        b=EUnuWz6pjS7vvamW/9Q8pMF/9ybB+RcwsY7UtscUStub3JHnwt085vk6Enym5axi6G
+         Yp9YNltffECh+5QNI98MoXVEihZYGwwu1/89P4R7fE8t7JxIon9DoMsDSUEXxiWYB9rg
+         6ZY/uLSdVuk2AdS83YT6YDygnXniXpvbDbjV4Kfnfyl/C2nyvc7lGtax8yclQGfiWuN+
+         g2Bs8H8DANDfY5fz1ESq4OrHUfJ7I4IPkPvLegnKRYZ1Z+5lUkc9ZJNYJvx/pHC9rYAA
+         KlYO9KNIkKsOi1dAw75VqrkqxwfTryzBH9JO7sIL5ChEfKzE1SIWtXEs/RKvGzHZm/De
+         ISwQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1736183630; x=1736788430;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=1E4VBveUTiXAQY0x0OPSL/+vTNEOjG/u16OolfG/dLM=;
+        b=jRPb6MeAdV37n454IPyzS/8Xm5PHCatfVZhgpqgSIna9SA+CnFhbQ0j1c0Tj2P47LT
+         2TSfsHJEzzA2BWgyfT8Nq6BmmJ9DU4LdF4Qov2IQpzs9OZik7D08VLki0c+qg2d0ZdQF
+         dMr/6M5vo248FIjPlJpj68qCGz2NMQ5D56BuIf6KSUaBM7Fbm8ZQ18SZQUjUyyLlvsDd
+         C1S+GTqJkrr8QsRMQ7XYUFyf0zlFlVzA5W9CJ7/bYdKz55c+on2RhchRdqCUUShHoYEQ
+         uS1oeVhC4rjSgoG7wV4tC5iD5iU6LfqaPrVWih9I7eyTmPFVQdaNmDYXLvt/e+In147c
+         1TLA==
+X-Forwarded-Encrypted: i=1; AJvYcCUdupgatycQGftCYdOi/zhvuZk9xL1PQQTHWAaoWyJVCqFx7vXg3eK4WM5GCJpkgbCmtriz59CF+8o=@lists.linux.dev, AJvYcCVwlayCW9O7KpTMk52cuTEirjr9ifLgp07ZoGFoEw0TjzAfn8pQWwIeTx9nLX/L+xH74PMLMRPjJw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxklaZ15bdRA/wt8EKf8Q3cnoX/F9na02hK8sF4+RGy1wP8Q+yY
+	HQwfs/IslroQ5qiONV2cJoT7wG3kiDrQatXonjipkyKko+1ZqTCg4ppQVdUrwgIEO+shLwRr3fc
+	ES8YwFdaFkyMX4QcuhAlufA5NoySPxn1N
+X-Gm-Gg: ASbGncsGjp0rAxGdafBa9yRZF6INkuCr308bJyVIQGqDUzCcT7KY1Uc3rD7kKcaGxhW
+	iOUKulAYQITnIoAEVmxjWfsv/A037aPVJHkOuXAYx
+X-Google-Smtp-Source: AGHT+IGFEmKlsE7w4ki0FRERAZd7MgyKM/i6eTRH2L7lzZ9eaCyLEYA1hsVHBLYEJEXYfzPLxFzRrjHg8V+00MjhZ6c=
+X-Received: by 2002:a17:90b:2543:b0:2f4:432d:250d with SMTP id
+ 98e67ed59e1d1-2f452e372edmr79317340a91.21.1736183630396; Mon, 06 Jan 2025
+ 09:13:50 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3776.700.51.11.1\))
-Subject: Re: Send again due to delivery etiquette [Query about ipv4 connman
- web page]
-From: Grant Erickson <gerickson@nuovations.com>
-X-Priority: 3
-In-Reply-To: <20250106021204epcms1p8d2c0f0211503bc768cf2703096f67a3e@epcms1p8>
-Date: Mon, 6 Jan 2025 07:51:08 -0800
-Cc: "connman@lists.linux.dev" <connman@lists.linux.dev>,
- Grzegorz Zakiewicz <g.zakiewicz@samsung.com>
+MIME-Version: 1.0
+References: <CAG17S_OwtNxetb7XzsxkZcygH_CWkZx15evQZkThb3WjqpiKTQ@mail.gmail.com>
+ <CAG17S_NVmXZsAShc1VFh6iTgtT30CdHSBNxhmT=xs4q41--tcw@mail.gmail.com>
+ <fc4c196b-1f55-43a0-90ac-ca282aa6eb7d@gmail.com> <CAG17S_O7rJLXiLv8OcRaoxQWu4jk=L_ut3HpY7BbwkSbRfMWjA@mail.gmail.com>
+ <c586f9fe-e1f8-44dd-a867-ec21c78c7de9@gmail.com> <CAG17S_N6Gw1G8e5dh_1cm3P2DNt_gSbQSAKWd27hvpMZui4yxg@mail.gmail.com>
+ <CAG17S_NgkTQ5wT5nb=6FZZ9gnVMTqOWfWJve47JmfOoVAHZy8A@mail.gmail.com>
+ <CAG17S_Oq+RGOZpE+xa-CV8=VtmJu7G8GWxfVYqg1edEG9wC+yA@mail.gmail.com>
+ <CAG17S_NdA9LdwmA_XfvPOVrhCdqp+BOtAssH0=RE-VSjg=WFnA@mail.gmail.com>
+ <CAG17S_O6Bpc+JhhUuDvE70a+ef9wt9D7jG1gMJDNo1qZCUOg8w@mail.gmail.com>
+ <194115affe0.279b.9b12b7fc0a3841636cfb5e919b41b954@broadcom.com>
+ <CAG17S_O7HbPFB0gubWWP9P-Oecps8K_LG0Y7YDo5DbNGKSLjpA@mail.gmail.com>
+ <CAG17S_MwJC+h7O-htyUxEgB4zHKeGf+9B4QaQ6ZLiVStU_Egkw@mail.gmail.com>
+ <CAG17S_NfqFjjaWj6vGS1HXux6JDy0QKcg8aQAR=aOzNGhO0a3w@mail.gmail.com> <eace9233-1b65-4793-8abe-abd3c640dba8@gmail.com>
+In-Reply-To: <eace9233-1b65-4793-8abe-abd3c640dba8@gmail.com>
+From: KeithG <ys3al35l@gmail.com>
+Date: Mon, 6 Jan 2025 11:13:39 -0600
+Message-ID: <CAG17S_MfQ+FjWQJoiNs30rt4u1O9Z_FXFB7BiS6RAQsG9ReNkA@mail.gmail.com>
+Subject: Re: brcmfmac SAE/WPA3 negotiation - Part 2
+To: Denis Kenzior <denkenz@gmail.com>
+Cc: Arend Van Spriel <arend.vanspriel@broadcom.com>, James Prestwood <prestwoj@gmail.com>, 
+	connman@lists.linux.dev, brcm80211@lists.linux.dev, 
+	linux-wireless@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Message-Id: <B8AAF6A6-98AE-43D3-A6B9-C240511E43FD@nuovations.com>
-References: <CGME20250106020958epcms1p500dca823c653c5a4fdd99b6c1ce7e1b9@epcms1p8>
- <20250106021204epcms1p8d2c0f0211503bc768cf2703096f67a3e@epcms1p8>
-To: wy1115.lee@samsung.com
-X-Mailer: Apple Mail (2.3776.700.51.11.1)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nuovations.com; h=content-type:mime-version:subject:from:in-reply-to:date:cc:content-transfer-encoding:message-id:references:to; s=pair-202401062137; bh=C9+icHDaL04XNWKWBgYQPYt7ZpOBQNEkWucG9ki/K7g=; b=n5iniq8yBedkmKSnGc7cL9fuA/QbNJaq6bo/KlFc6YHvGnSELqDnLUbs1+1ropMWtpHh/3lS3fjm1OgEfPY1zuYDcxiIJ/fqPoIBOeq+kj+LUIow/3PfvYhMReud71aNnnB0hgBM3gtSB9kN6/YGk/UVINsIFSUA/9YlPr6bYNMYoN47tCbRjzd0f5ubO/3X7zflmLU7ScWoXsUyWB57yRVRAPbvaLE5OMT19GZ+/hnZK63oYMvsKk+h8BWE3HM0Lx0NLQCmPk6JDbLwTbjSqXHZvoynVLu/DoJmQEC0+iNrtLkLG+6gYciBPCpeWdH++aHuziOUgBa6pbLvjbEc+A==
-X-Scanned-By: mailmunge 3.10 on 66.39.139.36
 
-On Jan 5, 2025, at 6:12=E2=80=AFPM, =EC=9D=B4=EC=9B=90=EC=98=81 =
-<wy1115.lee@samsung.com> wrote:
->=20
-> I am testing connman on Tizen platform with the following URLs =
-"http://ipv4.connman.net/online/status.html"
->=20
-> Result Status: 200 OK with empty body
-> As far as I remember, the response has body text in the response =
-before.
->=20
-> Could you check it?
+On Mon, Jan 6, 2025 at 9:26=E2=80=AFAM Denis Kenzior <denkenz@gmail.com> wr=
+ote:
+>
+> Hi Keith,
+>
+> On 1/5/25 6:41 PM, KeithG wrote:
+> > I am looking at the iwmon logs for a successful wpa_supplicant
+> > connection versus one from IWD. Both connect and both pass data and
+> > both grab a DHCP address. I do note one difference in the connection,
+> > though.
+> >
+> > Request : Connect
+> > through the responses RTNL
+> > wpa_supplicant knows it is dynamic
+>
+> wpa_supplicant doesn't manage network interfaces.  I assume you're using =
+ConnMan
+> for this? If so, ConnMan sets the IFF_DYNAMIC flag.  See
+> https://git.kernel.org/pub/scm/network/connman/connman.git/tree/src/inet.=
+c#n372
+>
+> >
+> > Whereas the iwd log does not:
+>
+> iwd doesn't use IFF_DYNAMIC in its DHCP implementation at the moment.
+>
+> According to 'man netdevice':
+>
+>                IFF_DYNAMIC       The addresses are lost when the interfac=
+e
+>                                  goes down.
+>
+> I doubt this is the cause of your DHCP / connection problems.
+>
+> Regards,
+> -Denis
 
-The 200 status with an empty body is correct, as follows:
+Denis,
 
-% curl -4 --verbose http://ipv4.connman.net/online/status.html
-* Host ipv4.connman.net:80 was resolved.
-* IPv6: (none)
-* IPv4: 212.227.81.55, 82.165.8.211
-*   Trying 212.227.81.55:80...
-* Connected to ipv4.connman.net (212.227.81.55) port 80
-> GET /online/status.html HTTP/1.1
-> Host: ipv4.connman.net
-> User-Agent: curl/8.7.1
-> Accept: */*
->=20
-* Request completely sent off
-< HTTP/1.1 200 OK
-< Server: nginx
-< Date: Mon, 06 Jan 2025 15:43:48 GMT
-< Content-Type: text/html
-< Content-Length: 45
-< Connection: close
-< X-ConnMan-Status: online
-<=20
-<html>
-<head>
-</head>
-<body>
-</body>
-</html>
+I am using connman to manage the connections. The connman config is
+the same. The one iwmon snippet was with iwd masked and stopped but
+wpa_supplicant installed and the connect performed in connmanctl. The
+other is with wpa_supplicant removed and purged and iwd started,
+running then restarted connman then initiated a connect form
+connmanctl.
 
-The key field that ConnMan indexes off of beyond the HTTP 200 response =
-status to determine success is the custom header field =
-"X-ConnMan-Status" with the value "online".
+I pored over these logs yesterday and saw a few differences, but this
+was one that stood out. I can look closer again tonight and see if I
+notice anything else that I can summarize.
 
-If you'd like to perform your own tests with a custom URL using nginx, =
-the following =E2=80=9Cserver" block for =
-/etc/nginx/sites-available/default on Ubuntu 20.04 has worked well for =
-me:
-
-server {
-    etag off;
-    listen 80 default_server;
-    listen [::]:80 default_server;
-    root /var/www/html;
-    index index.html index.htm index.nginx-debian.html;
-    server_name _;
-    location / {
-        try_files $uri $uri/ =3D404;
-    }
-    location /online/status.html {
-        max_ranges 0;
-        add_header "X-ConnMan-Status" "online";
-    }
-}
-
-Best,
-
-Grant
-
---=20
-Principal
-Nuovations
-
-gerickson@nuovations.com
-https://www.nuovations.com/
-
+Keith
