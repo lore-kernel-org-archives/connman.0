@@ -1,91 +1,92 @@
-Received: from mail5.g24.pair.com (mail5.g24.pair.com [66.39.139.36])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3AB780604
-	for <connman@lists.linux.dev>; Wed,  8 Jan 2025 17:08:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=66.39.139.36
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6683115853B
+	for <connman@lists.linux.dev>; Wed,  8 Jan 2025 18:25:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736356142; cv=none; b=hmt7CO+sVMDDFXQLwIubZ9XBU4ovZEYyz7UMChYl2seKaPyFPp6mdQsGeM++BQhPAnvuk6nejQ5VLYVNjIbAFNu49CLfmMCYMk/sCcdobRKkC/HVxM7cV0PWUYsA94tsH4glEv5gOLI/pTUKpVAo4X0a4j4XDsblkI9bUbPR+xo=
+	t=1736360706; cv=none; b=Z9/grpReL4p/4G/0ip3kkaChO9IFDdBomT/xgzSEoYcAKGEFvKKOOzuqftN8MCpGJAuyOE2DVoENv/qvtP5imbZR0XKp592IC9XPvzkfQQkxsP3UOcVxUPb1rXOcqFBLMjU+dh3t6szRccQZXkG96RXpO6uoNBbAM+mwb7222/A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736356142; c=relaxed/simple;
-	bh=Sh6v1jJMdGQ7nNgAuelChLqAS2D2QFBrIMGwn+397x0=;
-	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
-	 Message-Id:References:To; b=WyGIXWDVtP/TffOCtHDPeDq5PeMdLn8/pQDwjrOhzW+mGxcyMFevLRtosofeyiTN4X5++9avWdfMckkhG2jJf1WCbBqn/89nfiHZO46PTEkrBUHl4I3faf5p3ukZpJI8hjZZ5wIzrcXPYfdtGMzqjZGJkQ8OJqmRwXHKLxBzPHg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nuovations.com; spf=pass smtp.mailfrom=nuovations.com; dkim=pass (2048-bit key) header.d=nuovations.com header.i=@nuovations.com header.b=Zf74u4nU; arc=none smtp.client-ip=66.39.139.36
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nuovations.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nuovations.com
+	s=arc-20240116; t=1736360706; c=relaxed/simple;
+	bh=sBECWxLDKXyV5vsr2gNeB0T8cQMT5ZuXwX7qBLyFDkc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Content-Type; b=nrS/nczVSmnZyElXKFTEy7nccxUJhiXYX5qOeQlfPUIxPWPG3pm8fUb1rKk2hscs5e8lUfUmo00HYTQjUX9WGPLmGrWt3tOBhrzzftSsLHYcGdfnceYYq2Z3FeHJ2Sy9DWPvYnX9XYZ4Jop8jbmmnAJ7vIRDOEDgFAKp1h9q7e4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=amarulasolutions.com; spf=pass smtp.mailfrom=amarulasolutions.com; dkim=pass (1024-bit key) header.d=amarulasolutions.com header.i=@amarulasolutions.com header.b=WUOfplzr; arc=none smtp.client-ip=209.85.216.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=amarulasolutions.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amarulasolutions.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nuovations.com header.i=@nuovations.com header.b="Zf74u4nU"
-Received: from mail5.g24.pair.com (localhost [127.0.0.1])
-	by mail5.g24.pair.com (Postfix) with ESMTP id EEAFD164AD4;
-	Wed,  8 Jan 2025 12:08:52 -0500 (EST)
-Received: from smtpclient.apple (c-24-6-12-99.hsd1.ca.comcast.net [24.6.12.99])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mail5.g24.pair.com (Postfix) with ESMTPSA id 769AA126099;
-	Wed,  8 Jan 2025 12:08:52 -0500 (EST)
-Content-Type: text/plain;
-	charset=utf-8
+	dkim=pass (1024-bit key) header.d=amarulasolutions.com header.i=@amarulasolutions.com header.b="WUOfplzr"
+Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-2ef760a1001so180589a91.0
+        for <connman@lists.linux.dev>; Wed, 08 Jan 2025 10:25:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=amarulasolutions.com; s=google; t=1736360703; x=1736965503; darn=lists.linux.dev;
+        h=content-transfer-encoding:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Yt0F2bFRKDyFtQVX3YnFkweb2PQm+QRWVMPjM/hiGb0=;
+        b=WUOfplzr2J0rhKiIpUciymxlnr9XTb9Mezl6PrdwJIzE2U+A9/GEwHp6gGGfguMscY
+         tvYjsXmSKnukEncGK1/Tx2GtiGsSewYQacTITNOcU3prsmxBn9SAVk5fK5lxbT4jnb5k
+         yH/b9b9cquLRuOJtNDnjnHTqNHSzDaWB7Uj7I=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1736360703; x=1736965503;
+        h=content-transfer-encoding:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Yt0F2bFRKDyFtQVX3YnFkweb2PQm+QRWVMPjM/hiGb0=;
+        b=iR0J6qA6d0TnGl78tHIudxMXn95O6v87NnyHGf78XT8QVkJirU3mpVfYeAaEimwe8/
+         sNBl0SDbRMH/dnf9QJPi5UIDdG6zir0uYUDAihNT6hX/kfcwle6DBgjgHXZglo93C/ny
+         /eL3V4qOCcfoSM1MOqIkf3oSkGMYvZiumJk6DqeIc2Hr+7z5PYVsvt1ULQzjkquzTi6T
+         zpxq0ictEkYQJ8lmlJV5QRGh2wm6c5qokcOxAlZHKQTWK7AGbUX9xfpDp1iPsRlC2xP6
+         /z0228/e6IAAIzuGlTXghsm8uNnt9eXSXqpQW8enEE48dkSet8jxybBXxOS8fM8RVWhg
+         K3bA==
+X-Gm-Message-State: AOJu0YySNbi12IdZtNuI8bMx9+mo9xowTE8micBt0UGbMuqi6cZ21v2D
+	3gs30fY4NgUUqfWr6SttYxrVCxaXjtRmpSqmOw+5mvvW0sggcHpyvvl5C4u3UWqPp39P3UFChzq
+	J3Po802j/L6V8P8T/hBu/2K+qI/2F2Q88027IbwrfCaEaebHQ+bc=
+X-Gm-Gg: ASbGncsnPPLF2/o9jFL/alXm5r6g1MgC+h2Cmv1Fz6dDuw+RJkxhOSs6T5GY+r80hVw
+	5rc1GsalrROHWsj0W0sOzViEjPAPb8YM7ewLu
+X-Google-Smtp-Source: AGHT+IFbdTOekptfhakXKakKGdvj3WjLwj6+Ts+uPeEI6Sq2VJNySEes0NQwGGaDXX+b2/3/YFeTAM/0iVXvrcGsBes=
+X-Received: by 2002:a17:90b:2e8b:b0:2ee:ee77:2263 with SMTP id
+ 98e67ed59e1d1-2f548f0894dmr5847479a91.7.1736360703053; Wed, 08 Jan 2025
+ 10:25:03 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3776.700.51.11.1\))
-Subject: Re: Query about ipv4 connman url
-From: Grant Erickson <gerickson@nuovations.com>
-X-Priority: 3
-In-Reply-To: <20250108082148epcms1p3c2f9e51604f13c4658d34d7419f81ae5@epcms1p3>
-Date: Wed, 8 Jan 2025 09:08:41 -0800
-Cc: "connman@lists.linux.dev" <connman@lists.linux.dev>,
- "marcel@holtmann.org" <marcel@holtmann.org>,
- =?utf-8?B?6rmA7ZiE7KSR?= <hj0430.kim@samsung.com>
+MIME-Version: 1.0
+References: <Z30kiZZrfMQw8yI0@smrz>
+In-Reply-To: <Z30kiZZrfMQw8yI0@smrz>
+From: Michael Nazzareno Trimarchi <michael@amarulasolutions.com>
+Date: Wed, 8 Jan 2025 19:24:51 +0100
+X-Gm-Features: AbW1kvYN7rMaX3vgHxU2Qnjg22E4ebFHoIV2keXi5ri2v1a_t6mNShhHeKfgspc
+Message-ID: <CAOf5uwnN7R-3znm80TzhAPF=GgokUuBg2Zy+C0sqCETRNJy_RQ@mail.gmail.com>
+Subject: Re: Manual configuration of tethering IP address
+To: connman@lists.linux.dev, =?UTF-8?Q?Roman_Smr=C5=BE?= <roman@amarulasolutions.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Message-Id: <7E46B341-DE6F-4EA8-8ABE-BB224D40EC83@nuovations.com>
-References: <CGME20250106015409epcms1p57aaac1d7705a9ebac4a0f93a6b0d3b10@epcms1p3>
- <20250108082148epcms1p3c2f9e51604f13c4658d34d7419f81ae5@epcms1p3>
-To: =?utf-8?B?7J207JuQ7JiB?= <wy1115.lee@samsung.com>
-X-Mailer: Apple Mail (2.3776.700.51.11.1)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nuovations.com; h=content-type:mime-version:subject:from:in-reply-to:date:cc:content-transfer-encoding:message-id:references:to; s=pair-202401062137; bh=ee5kSi6zhfiuj2UPby6ZE+BYR4gykEA2W9NyuQKf49U=; b=Zf74u4nU4ikvOIb/r6XlmJbNdg6wMZqS3ifcEfuSBc7AcU0waM2wo+PQw2B0AM7IHs3UbQ5T6xBPMtRWKRRRmzc4VYkfysCzbJXEiKdHmNQQloiNDhFFO6eUuum+7Oy4hPP5aKsJiv80viqIatZ7an6VqHqtwnPrD+DV323LKHF+X15XAaEXHZn+WBVpfBq5EOgKOLVblnEqnNBeejmBAwPNkOUtEi2u8UuuxYinHlnGpg9+OBAPYbFP9wD5QWrCGxLTzmAalz4eMj3AsxHL4qb3uMpBmHGapwWAxsnylvk97FNwte1rzCK9fLy5aDVVeHy06T27kzR7zuoy7u7CrQ==
-X-Scanned-By: mailmunge 3.10 on 66.39.139.36
 
-On Jan 8, 2025, at 12:21=E2=80=AFAM, =EC=9D=B4=EC=9B=90=EC=98=81 =
-<wy1115.lee@samsung.com> wrote:
-> I am testing connman on Tizen platform with the following URLs =
-"http://ipv4.connman.net/online/status.html"
-> However, I often get the curl error when calling above URL like below.
->=20
-> 01-08 14:17:39.029+0900 curlRequest(1299) > =1B[0;33mcURL RESULT [7] =
-with URL [http://ipv4.connman.net/online/status.html]
->=20
-> 01-08 14:20:07.949+0900 curlRequest(1299) > =1B[0;33mcURL RESULT [7] =
-with URL [http://ipv4.connman.net/online/status.html]
->=20
-> 01-08 14:20:34.189+0900 curlRequest(1299) > =1B[0;33mcURL RESULT [7] =
-with URL [http://ipv4.connman.net/online/status.html]
->=20
-> 01-08 14:20:59.639+0900 curlRequest(1299) > =1B[0;33mcURL RESULT [7] =
-with URL [http://ipv4.connman.net/online/status.html]
+Hi Roman
 
-=46rom the 'curl' man page, shell status code =E2=80=987' seems to be:
+On Tue, Jan 7, 2025 at 1:58=E2=80=AFPM Roman Smr=C5=BE <roman@amarulasoluti=
+ons.com> wrote:
+>
+> Hello,
+>
+> we have a use case where we need to manually configure the IP address
+> and network used by connman for the tethering interface. For that, I've
+> added TetheringAddress property to the Technology interface.
+>
+> I am attaching the patch as we have it now. If this functionality and
+> approach makes sense to you and you have some comments, I'll update the
+> patch as necessary so it could be merged upstream.
+>
 
-       7      Failed to connect to host.
+It's easier to review if the patch comes inline with the email itself.
+People review it using
+their email client
 
-and would indicate that the v4.connman.net host may be unreachable. Can =
-you confirm that is the case when you see status code '7'?
+Michael
 
-Historically, Marcel has need to provision more capacity or make other =
-tweaks to the servers to accomodate shifts in load or usage. That may or =
-may not be the issue here.
 
-Best,
-
-Grant
-
---=20
-Principal
-Nuovations
-
-gerickson@nuovations.com
-https://www.nuovations.com/
-
+> Best Regards
+>         Roman
