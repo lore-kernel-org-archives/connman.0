@@ -1,48 +1,45 @@
 Received: from mail.kapsi.fi (mail-auth.kapsi.fi [91.232.154.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9227027726
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 925122248B2
 	for <connman@lists.linux.dev>; Fri, 24 Jan 2025 18:59:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.232.154.24
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737745172; cv=none; b=iZ5TkiEbazSVxwgwR/B+cw9BvEpMZJMiQnQQj2NrJOcYEAMmuRySYFsPh6dc9R2ilZoD4g/9nEEPJYvVZtNx2fF7EEhxaSqf+OAsyXcBxZg0K1c7w8sJcYdKmPcrDcG8VfY92GuRKQL7JIBfSzIo0s45EP1GeT25xtR338lgXQU=
+	t=1737745172; cv=none; b=Acgh+8ic70L9QhnWrc07F7rTXtW/jHDKBBCDa6cVzMfeVRtCuin3kRza+7IlLV27fyu1AeXrKzLqTqEC7WgZlXHhEuBJfeWPeRhaUt5agLPhSfitkRp8xSYENjCeWRONQR+BeUAkcNqgTKTmyh7G9f2GY4zQedYnr8R3blFflWs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1737745172; c=relaxed/simple;
-	bh=O86GMZZs4I/T71fJgzvpFcTa7Q/8PC0zDSDOAO+BkDQ=;
-	h=From:To:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=PIfUVO5Kml2RVINOTARUykjqD4yMuRvQPF8Y9CWYkfUKIb4rloXwDF8/cvFGNbQ9hBtFjeFFHxEgqfABvR91nTOKkHl8EvW/xkC1ol4tDiEEHCWt5wYeTRW0Zftmh9l7DUULv1wg36EWVWElLv8PSVUpEAzJQ1BZDlCJoMgDkL0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=jolla.com; spf=pass smtp.mailfrom=kapsi.fi; dkim=pass (2048-bit key) header.d=kapsi.fi header.i=@kapsi.fi header.b=VI/PadPS; arc=none smtp.client-ip=91.232.154.24
+	bh=cnWOA+U4uZGHQeR8zBVepF7z1KHUapV1eRFvEhGcjvo=;
+	h=From:To:Subject:Date:Message-Id:MIME-Version; b=spv5PXiwfS4Gx6UoMskCi0rKIsD7jdteSHuhZRP7h/LU3hbv01+K2czuxY5Y0Ei1DN0/OGbcg7cvszLSpUFGZdDpyeS5tFCWP29Dub0hJohgy+jdqJ1pqtLqCGlTczIFH5/kSPD1UULOA+4s/NBT/WFSbepVRpqz7h5kLunrhdY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=jolla.com; spf=pass smtp.mailfrom=kapsi.fi; dkim=pass (2048-bit key) header.d=kapsi.fi header.i=@kapsi.fi header.b=Gcwm/mJB; arc=none smtp.client-ip=91.232.154.24
 Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=jolla.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kapsi.fi
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kapsi.fi header.i=@kapsi.fi header.b="VI/PadPS"
+	dkim=pass (2048-bit key) header.d=kapsi.fi header.i=@kapsi.fi header.b="Gcwm/mJB"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
-	s=20161220; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
-	Message-Id:Date:Subject:To:From:Sender:Reply-To:Cc:Content-Type:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	s=20161220; h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:
+	To:From:Sender:Reply-To:Cc:Content-Type:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
 	List-Post:List-Owner:List-Archive;
-	bh=zN+F6HNz3oxAc5t5CI6kUULAfxSD05D6d/BAmbOGbgk=; b=VI/PadPSI9uyi9CtDnqpv7F+Gz
-	S6zEKzb4R9msLXzdT7RxvBVcnt9G2ekwGByJ7wFjghoSqsdfbAg3KRfuxAsxjbOLamOMlJvFLqHdJ
-	ehnoR6LHfy8arIUmZJTZ0WXT08bwbDBrGvOvnstu3+62FdGhTT8X+Wyp5DsFumrhhFo7E29QU4Atm
-	TjcuddYRqlhwXeLyp0u7bVJQ7G1fdhVh8x9dmct0PIeF2mEWJ+YGYY9pqSvXUeSftVVKDqAd8RQmH
-	wL1eYN8a19s0vrF+hoZf4g/3SAgfaucebAV+ya8RWCUjBZBp+dwmvskBDxAWDQa3euei45YhecAl0
-	/KOo98Rw==;
+	bh=BriK0TrSecEhPZNiuC1ssx/OFqF3qxqBI6Zj+rzJ1ps=; b=Gcwm/mJBoZdiRQ0VoK4+4FPYja
+	mcMTjbVvJ7fzonITGdJYWHoDPvdRPl7KxFlivZxOHeOUufa3YQ5lKDSimS1vKcwvaxMkwimX2J+cd
+	zzNKW6b1XnMFKhAwI/iFL6UqHHqY2sLDM/xyJ2gXGi7GMbNLTDyD5QSUpomb9CWXDeovGYDXiVMU9
+	4T26rZ1W9roudjUmPHmdEXY3n/v8ZRKBAzZUhgg1vfKEBdxEr+MTWKFAoVIZAHFzQ8Zw4ZedLDPPZ
+	MOndEIpyDzw+5QzC8wYP2JDJVjWFJFw3dInsPznpL2ux7myHY0TfeMjCAvzvrf0tlAd2lB/6MbJOF
+	NdJDSkgA==;
 Received: from [2a10:a5c0:2c1:9f00:b95c:6569:8d10:e7e9] (helo=jl-x230.local)
 	by mail.kapsi.fi with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.96)
 	(envelope-from <jussi.laakkonen@jolla.com>)
-	id 1tbOtq-006LTc-36
+	id 1tbOtq-006LTc-1t
 	for connman@lists.linux.dev;
 	Fri, 24 Jan 2025 20:59:26 +0200
 From: Jussi Laakkonen <jussi.laakkonen@jolla.com>
 To: connman@lists.linux.dev
-Subject: [PATCH 08/12] vpn: Drop state changes from update_provider_state()
-Date: Fri, 24 Jan 2025 20:59:12 +0200
-Message-Id: <20250124185916.1546471-9-jussi.laakkonen@jolla.com>
+Subject: [PATCH 00/12] Improve WireGuard disconnect, error and hostname lookup
+Date: Fri, 24 Jan 2025 20:59:04 +0200
+Message-Id: <20250124185916.1546471-1-jussi.laakkonen@jolla.com>
 X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250124185916.1546471-1-jussi.laakkonen@jolla.com>
-References: <20250124185916.1546471-1-jussi.laakkonen@jolla.com>
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
@@ -54,29 +51,59 @@ X-SA-Exim-Connect-IP: 2a10:a5c0:2c1:9f00:b95c:6569:8d10:e7e9
 X-SA-Exim-Mail-From: jussi.laakkonen@jolla.com
 X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
 
-It is not necessary to change the state in vpn.c for non-daemon VPNs
-because the vpn-provider.c:__vpn_provider_connect() changes the state
-according to the state machine. ASSOCIATION state will be assigned for
-every VPN after connect, then depending on VPN agent use the state
-changes either directly, or after the agent has finished, to CONNECT
-state.
----
- vpn/plugins/vpn.c | 2 --
- 1 file changed, 2 deletions(-)
+This set of patches improves the WireGuard plugin and adds better error case
+support for the vpn/plugins/vpn.c. This allows also to propagate the errors
+upward and with other changes, allows the shutdown to follow the same process
+as the other VPNs. Alsom fix the PrefixLength use in connmand and in the
+WireGuard plugin by tokenizing the host before getaddrinfo() check.
 
-diff --git a/vpn/plugins/vpn.c b/vpn/plugins/vpn.c
-index d963b985..18ec7ed3 100644
---- a/vpn/plugins/vpn.c
-+++ b/vpn/plugins/vpn.c
-@@ -534,8 +534,6 @@ static gboolean update_provider_state(gpointer data)
- 	vpn_data->watch = vpn_rtnl_add_newlink_watch(index,
- 						vpn_newlink, provider);
- 	connman_inet_ifup(index);
--	vpn_data->state = VPN_STATE_CONNECT;
--	vpn_provider_set_state(provider, VPN_PROVIDER_STATE_CONNECT);
- 
- 	return FALSE;
- }
+First, the basic saving of the WireGuard configuration is done similarly to
+other plugins, as well as to what wg-quick is utilizing.
+
+Second, the handling of errors is improved within the plugin and vpn.c as well.
+This will make it possible to pass the errors upwards from the plugin  In
+addition to this there is a limit for reresolve errors (5 by default) after
+which WireGuard plugin dies in case the configuration is wrong, or network is
+broken.
+
+Third, the use of getaddrinfo() will block with invalid configuration when
+doing the reresolve for the endpoint. This is now replaced with GResolv by
+adding a wrapper for it in vpn-util.c so it can be used within VPN plugins as
+well. This avoids the blocking of the non-existent address resolve that made
+vpnd unresponsive for the time being, for example, disconnects did not work.
+
+Fourth, the shutdown is now simulated in a same way other daemon utilizing VPNs
+do, by calling the vpn_died() with a slight delay. This makes daemonless VPNs
+work in the same way as the rest of the plugins to do the same cleanup steps.
+
+Fifth, the host given in the configuration as an IP-address should contain 
+CIDR notation but as getaddrinfo() uses inet_pton(), which is relying on the
+address to not to have the notation, the host is tokenized first for this use.
+
+
+Jussi Laakkonen (12):
+  wireguard: Add saving of provider properties
+  wireguard: Use positive errors for VPN provider connect_cb
+  vpn: Fix VPN_FLAG_NO_DAEMON use in error cases
+  wireguard: Handle disconnect, error and network errors better
+  gresolv: Add generic error for GResolv struct with getter
+  vpn-util: Add wrappers for GResolv hostname lookup use
+  wireguard: Use GResolv for DNS reresolve to avoid blocking
+  vpn: Drop state changes from update_provider_state()
+  wireguard: Fix shutdown, ensure one exit and set no agent is used
+  vpn: Check if disconnect is implemented before calling in stop_vpn()
+  vpn: Fix extracting of PrefixLength D-Bus value
+  wireguard: Tokenize host for getaddrinfo()
+
+ gweb/gresolv.c          |  15 +-
+ gweb/gresolv.h          |   2 +
+ plugins/vpn.c           |   5 +-
+ vpn/plugins/vpn.c       |  63 +++---
+ vpn/plugins/wireguard.c | 430 +++++++++++++++++++++++++++++++++++-----
+ vpn/vpn-util.c          |  30 +++
+ vpn/vpn.h               |  10 +
+ 7 files changed, 476 insertions(+), 79 deletions(-)
+
 -- 
 2.39.5
 
