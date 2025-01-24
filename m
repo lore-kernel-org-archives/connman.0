@@ -1,45 +1,45 @@
 Received: from mail.kapsi.fi (mail-auth.kapsi.fi [91.232.154.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 927262248B8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 925D82248B6
 	for <connman@lists.linux.dev>; Fri, 24 Jan 2025 18:59:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.232.154.24
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737745171; cv=none; b=Ncs2ZFEJPCEzfmEvWpK7kF47q2nOMKdfb3VeOKesAjC9VedzwpB10R10CxqHEf462t8pO2krSTaNf8WibitrEzzSJJ/GOOF0FnfNhD2QU5c95flyUK1t/ryGahRPpU+dTT9EvjP4nLUhDFoTi4ltXVn1y0JqjQjaWg8eLHKQRQY=
+	t=1737745171; cv=none; b=bypkPIFLggOCguGwI2oYPYdRU2hgO2Nla3VPWvou51De3PIkn2Tme4ooZ/h+9ZuX298sdZ8gnhTh8kzl+UqU4v5ZWy3GGmjzjkXueURtPXE1RiyzAAvThv32NXwI//hY1r9cw7GhoF4OtndDb9C5PKRpHeVBruWaQ9AMbIhQhi0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1737745171; c=relaxed/simple;
-	bh=oVetn3rdat80WPQ1XEQP8j2qBZZJqWCKnamalRp6Ngg=;
+	bh=BxwNBFGTWTpNMd/CS6Jxve7b6oLs7Sa/n4bQ+8GddKw=;
 	h=From:To:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=nSNFUO53PXwC9opCRN0OjSReARjifN+Djj7ethW7RBvBZ6EXehQ6Lbq4Ds24Vs3fLaw4gyv+C6WLel7eq1fTWsG1R19ESy7pNpzNq8Kzk2UYBRvJMWj2GxOr91vCtzAwQkLDi9MP58sKc3M4uKoR35ENRiG5Y6ak/ShVnFYO6a8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=jolla.com; spf=pass smtp.mailfrom=kapsi.fi; dkim=pass (2048-bit key) header.d=kapsi.fi header.i=@kapsi.fi header.b=GFOijc0d; arc=none smtp.client-ip=91.232.154.24
+	 MIME-Version; b=JGEqq0o8iIOc1QrlhpuER99GnrwRWozJAs7ralYpJb/lqrkd4xR9iVlNu7rk6tOoSwvKy1l+m57W7Z0bXpWsPrcHtbsVyDBRyM5IYCo0xr2rbDlV6S2Gb0eWcEBTbdmAtNNBSOKGe8wXcgKZCYz/35wUz52JsfdaBR5PkTzVPyI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=jolla.com; spf=pass smtp.mailfrom=kapsi.fi; dkim=pass (2048-bit key) header.d=kapsi.fi header.i=@kapsi.fi header.b=wSeHWuBb; arc=none smtp.client-ip=91.232.154.24
 Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=jolla.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kapsi.fi
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kapsi.fi header.i=@kapsi.fi header.b="GFOijc0d"
+	dkim=pass (2048-bit key) header.d=kapsi.fi header.i=@kapsi.fi header.b="wSeHWuBb"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
 	s=20161220; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:To:From:Sender:Reply-To:Cc:Content-Type:Content-ID:
 	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
 	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
 	List-Post:List-Owner:List-Archive;
-	bh=26idGT3rnLkga4oFKXzAQcA3UGfFIXE1bcmmrG6zgdA=; b=GFOijc0dRo9TdqYL0eryfa/Fxq
-	S3y/wlgFzWJDP3/go81o6buevgc7kWnrrSkWk3ofFVZaStdWl/2nmA3wTbVtWa9R8pyBmPyCWeaek
-	zWoZJxVQ0H/OV2ZAO9nwE4Y/sa3Zvyh/yBn5YPYW9NIDtquMZEvuXolf60ejSrR2pc8ut1gh/6A1A
-	LewnN4vbBT4gZPVxJpMVvKUNmWu5GG0OXMBujSCmDNAYm2kxp506OROPGWeiWa2enqWd0bPdF5Y4U
-	L/dSAFIiDgtt6a5RJV0ZLql/jFZiPxrXwV9foDhJMBje7XXyR5DgW4UhiP6skbjKANJNmYt3pzB27
-	ugX/hX0w==;
+	bh=zDxwBKl6ghQ/kZ/P8Gf8eyWdWpUO4WGvNgS2Wttr5Qc=; b=wSeHWuBbnj1IB8kRjywWr3O9GA
+	Et2O+HTbqMEciI17TDUsntcXxc05EIFofLEhJj/G7DwW2SweFAZBJfL+e20TgUkVAtmjB7l5sUpZ7
+	fNEJixuYqcrjcwAaBJn5xoJfG2lFTSLpByPcN7F8z7m2KSj8+hEMLbS9r1Opj7U5cdkZN+dYH3wRh
+	7q2VWBiw9DVblAPeZFkNknnU1ihPH8q+qBoVWI98LRhiY8IGllC43/MOZH8SgPvkaa8d7CQMARlB/
+	ZFdKpRMjdjjAJ4ty7db/Oizbz+P5Oxx2ivZLiqk4BIZgg22z2wAV4Lc6jfWCMPFk2aADoXrp2Sore
+	21bJCoqg==;
 Received: from [2a10:a5c0:2c1:9f00:b95c:6569:8d10:e7e9] (helo=jl-x230.local)
 	by mail.kapsi.fi with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.96)
 	(envelope-from <jussi.laakkonen@jolla.com>)
-	id 1tbOtq-006LTc-2o
+	id 1tbOtq-006LTc-2C
 	for connman@lists.linux.dev;
 	Fri, 24 Jan 2025 20:59:26 +0200
 From: Jussi Laakkonen <jussi.laakkonen@jolla.com>
 To: connman@lists.linux.dev
-Subject: [PATCH 06/12] vpn-util: Add wrappers for GResolv hostname lookup use
-Date: Fri, 24 Jan 2025 20:59:10 +0200
-Message-Id: <20250124185916.1546471-7-jussi.laakkonen@jolla.com>
+Subject: [PATCH 02/12] wireguard: Use positive errors for VPN provider connect_cb
+Date: Fri, 24 Jan 2025 20:59:06 +0200
+Message-Id: <20250124185916.1546471-3-jussi.laakkonen@jolla.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250124185916.1546471-1-jussi.laakkonen@jolla.com>
 References: <20250124185916.1546471-1-jussi.laakkonen@jolla.com>
@@ -54,69 +54,110 @@ X-SA-Exim-Connect-IP: 2a10:a5c0:2c1:9f00:b95c:6569:8d10:e7e9
 X-SA-Exim-Mail-From: jussi.laakkonen@jolla.com
 X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
 
-To avoid linking GResolv with every VPN plugin that uses it, add wrappers
-for the required calls in VPN utils.
----
- vpn/vpn-util.c | 30 ++++++++++++++++++++++++++++++
- vpn/vpn.h      | 10 ++++++++++
- 2 files changed, 40 insertions(+)
+The vpn-provider.c:connect_cb() expects the errors to be positive ints.
+Remove the sign when calling the cb.
 
-diff --git a/vpn/vpn-util.c b/vpn/vpn-util.c
-index bc3b01dd..2e526701 100644
---- a/vpn/vpn-util.c
-+++ b/vpn/vpn-util.c
-@@ -222,3 +222,33 @@ out:
- 	return err;
- }
+And add debug to see what is really causing the error. For example, when
+parsing fails.
+---
+ vpn/plugins/wireguard.c | 30 ++++++++++++++++++++++--------
+ 1 file changed, 22 insertions(+), 8 deletions(-)
+
+diff --git a/vpn/plugins/wireguard.c b/vpn/plugins/wireguard.c
+index 735bac58..de57b15f 100644
+--- a/vpn/plugins/wireguard.c
++++ b/vpn/plugins/wireguard.c
+@@ -349,8 +349,10 @@ static int wg_connect(struct vpn_provider *provider,
+ 	option = vpn_provider_get_string(provider, "WireGuard.DNS");
+ 	if (option) {
+ 		err = vpn_provider_set_nameservers(provider, option);
+-		if (err)
++		if (err) {
++			DBG("Cannot set nameservers %s", option);
+ 			goto done;
++		}
+ 	}
  
-+unsigned int vpn_util_resolve_hostname(GResolv *resolv,
-+				const char *hostname, GResolvResultFunc func,
-+				gpointer user_data)
-+{
-+	DBG("resolve %s", hostname);
-+
-+	return g_resolv_lookup_hostname(resolv, hostname, func, user_data);
-+}
-+
-+bool vpn_util_cancel_resolve(GResolv *resolv, unsigned int id)
-+{
-+	DBG("");
-+
-+	return g_resolv_cancel_lookup(resolv, id);
-+}
-+
-+GResolv *vpn_util_resolve_new(int index)
-+{
-+	return g_resolv_new(index);
-+}
-+
-+void vpn_util_resolve_unref(GResolv *resolv)
-+{
-+	g_resolv_unref(resolv);
-+}
-+
-+int vpn_util_get_resolve_error(GResolv *resolv)
-+{
-+	return g_resolv_get_error(resolv);
-+}
-diff --git a/vpn/vpn.h b/vpn/vpn.h
-index 1f8c8fcd..88afce45 100644
---- a/vpn/vpn.h
-+++ b/vpn/vpn.h
-@@ -134,3 +134,13 @@ bool vpn_settings_is_system_user(const char *user);
- struct passwd *vpn_util_get_passwd(const char *username);
- struct group *vpn_util_get_group(const char *groupname);
- int vpn_util_create_path(const char *path, uid_t uid, gid_t grp, int mode);
-+
-+#include <gweb/gresolv.h>
-+
-+unsigned int vpn_util_resolve_hostname(GResolv *resolv,
-+				const char *hostname, GResolvResultFunc func,
-+				gpointer user_data);
-+bool vpn_util_cancel_resolve(GResolv *resolv, unsigned int id);
-+GResolv *vpn_util_resolve_new(int index);
-+void vpn_util_resolve_unref(GResolv *resolv);
-+int vpn_util_get_resolve_error(GResolv *resolv);
+ 	option = vpn_provider_get_string(provider, "WireGuard.PrivateKey");
+@@ -359,8 +361,10 @@ static int wg_connect(struct vpn_provider *provider,
+ 		goto done;
+ 	}
+ 	err = parse_key(option, info->device.private_key);
+-	if (err)
++	if (err) {
++		DBG("Failed to parse private key");
+ 		goto done;
++	}
+ 
+ 	option = vpn_provider_get_string(provider, "WireGuard.PublicKey");
+ 	if (!option) {
+@@ -368,15 +372,19 @@ static int wg_connect(struct vpn_provider *provider,
+ 		goto done;
+ 	}
+ 	err = parse_key(option, info->peer.public_key);
+-	if (err)
++	if (err) {
++		DBG("Failed to parse public key");
+ 		goto done;
++	}
+ 
+ 	option = vpn_provider_get_string(provider, "WireGuard.PresharedKey");
+ 	if (option) {
+ 		info->peer.flags |= WGPEER_HAS_PRESHARED_KEY;
+ 		err = parse_key(option, info->peer.preshared_key);
+-		if (err)
++		if (err) {
++			DBG("Failed to parse pre-shared key");
+ 			goto done;
++		}
+ 	}
+ 
+ 	option = vpn_provider_get_string(provider, "WireGuard.AllowedIPs");
+@@ -385,8 +393,10 @@ static int wg_connect(struct vpn_provider *provider,
+ 		goto done;
+ 	}
+ 	err = parse_allowed_ips(option, &info->peer);
+-	if (err)
++	if (err) {
++		DBG("Failed to parse allowed IPs %s", option);
+ 		goto done;
++	}
+ 
+ 	option = vpn_provider_get_string(provider,
+ 					"WireGuard.PersistentKeepalive");
+@@ -404,8 +414,10 @@ static int wg_connect(struct vpn_provider *provider,
+ 	gateway = vpn_provider_get_string(provider, "Host");
+ 	err = parse_endpoint(gateway, option,
+ 			(struct sockaddr_u *)&info->peer.endpoint.addr);
+-	if (err)
++	if (err) {
++		DBG("Failed to parse endpoint %s gateway %s", option, gateway);
+ 		goto done;
++	}
+ 
+ 	info->endpoint_fqdn = g_strdup(gateway);
+ 	info->port = g_strdup(option);
+@@ -416,8 +428,10 @@ static int wg_connect(struct vpn_provider *provider,
+ 		goto done;
+ 	}
+ 	err = parse_address(option, gateway, &ipaddress);
+-	if (err)
++	if (err) {
++		DBG("Failed to parse address %s gateway %s", option, gateway);
+ 		goto done;
++	}
+ 
+ 	ifname = get_ifname();
+ 	if (!ifname) {
+@@ -446,7 +460,7 @@ static int wg_connect(struct vpn_provider *provider,
+ 
+ done:
+ 	if (cb)
+-		cb(provider, user_data, err);
++		cb(provider, user_data, -err);
+ 
+ 	connman_ipaddress_free(ipaddress);
+ 
 -- 
 2.39.5
 
