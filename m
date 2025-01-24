@@ -1,139 +1,122 @@
-Received: from mail-vk1-f170.google.com (mail-vk1-f170.google.com [209.85.221.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.kapsi.fi (mail-auth.kapsi.fi [91.232.154.24])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13E8735942
-	for <connman@lists.linux.dev>; Fri, 24 Jan 2025 13:21:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 927262248B8
+	for <connman@lists.linux.dev>; Fri, 24 Jan 2025 18:59:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.232.154.24
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737724864; cv=none; b=spwrYhu0AgFOWNyxRzkS3k7ziQcpKsFwmPqtOg/qzzOOtHSiAW7pyZ96E1Ufy2qCXARkG/DuGamxQtWFhol5nj7Nd8Yt/Z5+wtVBpvK2H48t+wb8LR/9Raw9TEXEpzZd6ybLSB1BxZLmAGN5llUN2ZwDMT31BAHg5Rin4+nYQ6k=
+	t=1737745171; cv=none; b=Ncs2ZFEJPCEzfmEvWpK7kF47q2nOMKdfb3VeOKesAjC9VedzwpB10R10CxqHEf462t8pO2krSTaNf8WibitrEzzSJJ/GOOF0FnfNhD2QU5c95flyUK1t/ryGahRPpU+dTT9EvjP4nLUhDFoTi4ltXVn1y0JqjQjaWg8eLHKQRQY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737724864; c=relaxed/simple;
-	bh=Jj8iDUMRaoIXbBewJwwce1CTBgh3zygtGhUsKZzrW3o=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=i8t/eC+wjweF9kDihHYT4ofd+1guYcRrto9507w4CFKXrg7cwD+vrfXjXP/C31bS4GyxRl4KNgXM5HbSl2ojdh8T2D18BqidRzYH5vuCz5YEb/S+dKfeqPLdaI56zrwOnumzigh0O7t8V9FKZ6FUYJ5jj3548ZEbSaXJWGO0Kxs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EK5WBpEd; arc=none smtp.client-ip=209.85.221.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1737745171; c=relaxed/simple;
+	bh=oVetn3rdat80WPQ1XEQP8j2qBZZJqWCKnamalRp6Ngg=;
+	h=From:To:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=nSNFUO53PXwC9opCRN0OjSReARjifN+Djj7ethW7RBvBZ6EXehQ6Lbq4Ds24Vs3fLaw4gyv+C6WLel7eq1fTWsG1R19ESy7pNpzNq8Kzk2UYBRvJMWj2GxOr91vCtzAwQkLDi9MP58sKc3M4uKoR35ENRiG5Y6ak/ShVnFYO6a8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=jolla.com; spf=pass smtp.mailfrom=kapsi.fi; dkim=pass (2048-bit key) header.d=kapsi.fi header.i=@kapsi.fi header.b=GFOijc0d; arc=none smtp.client-ip=91.232.154.24
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=jolla.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kapsi.fi
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EK5WBpEd"
-Received: by mail-vk1-f170.google.com with SMTP id 71dfb90a1353d-5187aa2c97dso670372e0c.2
-        for <connman@lists.linux.dev>; Fri, 24 Jan 2025 05:21:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1737724862; x=1738329662; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=/7TWjYrXH5LVSsUZlgqOD45o5CeRAqMd3XiZlotq2DE=;
-        b=EK5WBpEdNf84tIsqya3mT6rNku3J+FMCAyF3amznRm9pfbklH4ULc4gyLG1yCQPpwn
-         g6jIpPhyK3chulHOvbtKLxAyN3V7na/7LEuVCVqe9sYTcGxAW4ePxC5/VJT80oH1hhqx
-         qe4/xhIMIh/2cO87xMr5Lt0MEHvu0pxSwDghr1PUs/+BVfzHEAdYv+IS8yItVxWK6luh
-         /ax+UzMUsYqaolAyWF6gMI3W6isSscH8f9SHaDt1p4XXkvLnNVO78kgpyhev+LbvsACk
-         blg9XqF4H/hwApe8ex69HtJwMdyec5jBFNmnDNhZZYuEAAgExw43KYlnRks2rme71ktm
-         plKA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737724862; x=1738329662;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=/7TWjYrXH5LVSsUZlgqOD45o5CeRAqMd3XiZlotq2DE=;
-        b=bEgTyQiMl1zrdZA4eBe62dW6LvHUOtlPGNGL631Ru2qf9vBJIUfxI9N3GND+9fqIaa
-         9mQpirlaNW+y3PODVQPM+LBQxClFexguy3hDwcFEO9Hxb7wAOlPSl4kv74dc5XAlwx58
-         9xBpXiSutt27xI1sgmr0Aso0/HguOiiq18Gb8gZ+Q+WU+qOPZzupwDZSfYqMQaHUuwom
-         n1Al8UBBlLFdQW3eof80ZoWIBUYTPfPBR6gN1B+0MrS7rEB0td211+zdK9vL/Wel+VwN
-         kYipwPrV521/2Rqz5Dzeo+UpFU3V5Q7DMHwOD1egEiTXqMhIFeWoyU5j6l5yullcMAvG
-         jYlQ==
-X-Gm-Message-State: AOJu0YxIsmBlgJLDT/RFQ8u80EG2Q2cfV0wFJPO+fqp0uQNUsj8riLO2
-	MOGqSP/K9t6iHttlJWF3qJ+alO7x3Ja0ucsh+zDaYBLP4vAZ1IsJWwWTvsShdrIUOJNhAGrhEBW
-	Je/Pf/+rTccBSGsAPrV5dCALDvhXS8vQSeSU=
-X-Gm-Gg: ASbGncs/X+cnV3roXqLKcTYP8XscP2CKpLBdEYMbjWu+m/Hq9yPCsi4gDNFrjIf0YcI
-	jZaQ6NBjTx5ct/jO6n6HTwFRkb0pmeFmI2vZdRxOCWwo3cSQs9Qa4R0EPdDrMYYWJnLU/BeLLrX
-	UA+hVYxK0mW0dlbWUOAaY=
-X-Google-Smtp-Source: AGHT+IEgrAommakCl/clNmqUGEv82vxrveLlGMgG94Fon7cyOvQhQz4CZD1YYoj67tF0FnCowvHxzCCIFcxKZc2qg28=
-X-Received: by 2002:a05:6122:2501:b0:515:daa7:ed07 with SMTP id
- 71dfb90a1353d-51d4c6586f4mr22836095e0c.0.1737724861722; Fri, 24 Jan 2025
- 05:21:01 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kapsi.fi header.i=@kapsi.fi header.b="GFOijc0d"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
+	s=20161220; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
+	Message-Id:Date:Subject:To:From:Sender:Reply-To:Cc:Content-Type:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	List-Post:List-Owner:List-Archive;
+	bh=26idGT3rnLkga4oFKXzAQcA3UGfFIXE1bcmmrG6zgdA=; b=GFOijc0dRo9TdqYL0eryfa/Fxq
+	S3y/wlgFzWJDP3/go81o6buevgc7kWnrrSkWk3ofFVZaStdWl/2nmA3wTbVtWa9R8pyBmPyCWeaek
+	zWoZJxVQ0H/OV2ZAO9nwE4Y/sa3Zvyh/yBn5YPYW9NIDtquMZEvuXolf60ejSrR2pc8ut1gh/6A1A
+	LewnN4vbBT4gZPVxJpMVvKUNmWu5GG0OXMBujSCmDNAYm2kxp506OROPGWeiWa2enqWd0bPdF5Y4U
+	L/dSAFIiDgtt6a5RJV0ZLql/jFZiPxrXwV9foDhJMBje7XXyR5DgW4UhiP6skbjKANJNmYt3pzB27
+	ugX/hX0w==;
+Received: from [2a10:a5c0:2c1:9f00:b95c:6569:8d10:e7e9] (helo=jl-x230.local)
+	by mail.kapsi.fi with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <jussi.laakkonen@jolla.com>)
+	id 1tbOtq-006LTc-2o
+	for connman@lists.linux.dev;
+	Fri, 24 Jan 2025 20:59:26 +0200
+From: Jussi Laakkonen <jussi.laakkonen@jolla.com>
+To: connman@lists.linux.dev
+Subject: [PATCH 06/12] vpn-util: Add wrappers for GResolv hostname lookup use
+Date: Fri, 24 Jan 2025 20:59:10 +0200
+Message-Id: <20250124185916.1546471-7-jussi.laakkonen@jolla.com>
+X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20250124185916.1546471-1-jussi.laakkonen@jolla.com>
+References: <20250124185916.1546471-1-jussi.laakkonen@jolla.com>
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <DB6PR10MB1845EBB07DB785B580B3F6ECE1E02@DB6PR10MB1845.EURPRD10.PROD.OUTLOOK.COM>
-In-Reply-To: <DB6PR10MB1845EBB07DB785B580B3F6ECE1E02@DB6PR10MB1845.EURPRD10.PROD.OUTLOOK.COM>
-From: daniel antoine <univac55@gmail.com>
-Date: Fri, 24 Jan 2025 14:20:51 +0100
-X-Gm-Features: AWEUYZlHdRuezk0apxvtnkm1B5wbSp0B1dON8G2dlIUs0nk1240uPWHqUUXMRdk
-Message-ID: <CA+iibzCNbo26XnW4_2fR3WvnPpe1g4sV_Qrr6GH--2xwgQ180g@mail.gmail.com>
-Subject: Re: [PATCH] gateway: fix calculation of is_vpn6
-To: Gabriel Sanches <gabriel.sanches@prevas.dk>
-Cc: "connman@lists.linux.dev" <connman@lists.linux.dev>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a10:a5c0:2c1:9f00:b95c:6569:8d10:e7e9
+X-SA-Exim-Mail-From: jussi.laakkonen@jolla.com
+X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
 
-Hi
+To avoid linking GResolv with every VPN plugin that uses it, add wrappers
+for the required calls in VPN utils.
+---
+ vpn/vpn-util.c | 30 ++++++++++++++++++++++++++++++
+ vpn/vpn.h      | 10 ++++++++++
+ 2 files changed, 40 insertions(+)
 
-I have installed the patch but I am not sure about the config file in
-/usr/lib/connman-vpn
+diff --git a/vpn/vpn-util.c b/vpn/vpn-util.c
+index bc3b01dd..2e526701 100644
+--- a/vpn/vpn-util.c
++++ b/vpn/vpn-util.c
+@@ -222,3 +222,33 @@ out:
+ 	return err;
+ }
+ 
++unsigned int vpn_util_resolve_hostname(GResolv *resolv,
++				const char *hostname, GResolvResultFunc func,
++				gpointer user_data)
++{
++	DBG("resolve %s", hostname);
++
++	return g_resolv_lookup_hostname(resolv, hostname, func, user_data);
++}
++
++bool vpn_util_cancel_resolve(GResolv *resolv, unsigned int id)
++{
++	DBG("");
++
++	return g_resolv_cancel_lookup(resolv, id);
++}
++
++GResolv *vpn_util_resolve_new(int index)
++{
++	return g_resolv_new(index);
++}
++
++void vpn_util_resolve_unref(GResolv *resolv)
++{
++	g_resolv_unref(resolv);
++}
++
++int vpn_util_get_resolve_error(GResolv *resolv)
++{
++	return g_resolv_get_error(resolv);
++}
+diff --git a/vpn/vpn.h b/vpn/vpn.h
+index 1f8c8fcd..88afce45 100644
+--- a/vpn/vpn.h
++++ b/vpn/vpn.h
+@@ -134,3 +134,13 @@ bool vpn_settings_is_system_user(const char *user);
+ struct passwd *vpn_util_get_passwd(const char *username);
+ struct group *vpn_util_get_group(const char *groupname);
+ int vpn_util_create_path(const char *path, uid_t uid, gid_t grp, int mode);
++
++#include <gweb/gresolv.h>
++
++unsigned int vpn_util_resolve_hostname(GResolv *resolv,
++				const char *hostname, GResolvResultFunc func,
++				gpointer user_data);
++bool vpn_util_cancel_resolve(GResolv *resolv, unsigned int id);
++GResolv *vpn_util_resolve_new(int index);
++void vpn_util_resolve_unref(GResolv *resolv);
++int vpn_util_get_resolve_error(GResolv *resolv);
+-- 
+2.39.5
 
-does it look like this
-[provider_wireguard]
-Type =3D WireGuard
-Name =3D Wireguard VPN Tunnel
-Host =3D 3.2.5.6
-Domain =3D my.home.network
-WireGuard.Address =3D 10.2.0.2/24
-WireGuard.ListenPort =3D 47824
-WireGuard.DNS =3D 10.2.0.1
-WireGuard.PrivateKey =3D qKIj010hDdWSjQQyVCnEgthLXusBgm3I6HWrJUaJymc=3D
-WireGuard.PublicKey =3D zzqUfWGIil6QxrAGz77HE5BGUEdD2PgHYnCg3CDKagE=3D
-WireGuard.AllowedIPs =3D 0.0.0.0/0, ::/0
-WireGuard.EndpointPort =3D 51820
-
-I am not sure if the options Domain WireGuard.DNS and
-WireGuard.ListenPort are mandatory. The host must be an Ip address or
-a name like mysite.fr ?
-
-Best regards
-
-Daniel
-
-Le jeu. 23 janv. 2025 =C3=A0 12:38, Gabriel Sanches
-<gabriel.sanches@prevas.dk> a =C3=A9crit :
->
-> Fix is_vpn6 to use ipv6 variables not ipv4 variables. This stops
-> the WireGuard plugin from faulting on startup.
->
-> Fixes: commit 823d5a2a8cc4 ("connection: Refactor =E2=80=98__connman_conn=
-ection_gateway_add=E2=80=99=E2=80=9D)=E2=80=9D
->
-> Signed-of-by: Gabriel Sanches <gabriel.sanches@prevas.dk>
-> Tested-by: Christian Hewitt <christianshewitt@gmail.com>
->
-> ---
->  src/gateway.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
->
-> diff --git a/src/gateway.c b/src/gateway.c
-> index 16c87f83..b2c211e2 100644
-> --- a/src/gateway.c
-> +++ b/src/gateway.c
-> @@ -3704,10 +3704,10 @@ int __connman_gateway_add(struct connman_service =
-*service,
->                                          is_gateway_config_vpn(
->                                                  new_gateway->ipv4_config=
-);
->
-> -               is_vpn6 =3D do_ipv4 &&
-> -                                       new_gateway->ipv4_config &&
-> +               is_vpn6 =3D do_ipv6 &&
-> +                                       new_gateway->ipv6_config &&
->                                          is_gateway_config_vpn(
-> -                                               new_gateway->ipv4_config)=
-;
-> +                                               new_gateway->ipv6_config)=
-;
->
->          } else {
->                  if (do_ipv4 && new_gateway->ipv4_config)
-> --
-> 2.43.0
