@@ -1,110 +1,134 @@
-Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com [209.85.222.174])
+Received: from mail-vk1-f180.google.com (mail-vk1-f180.google.com [209.85.221.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9123B25A658;
-	Mon, 27 Jan 2025 15:21:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B6E31DB55D
+	for <connman@lists.linux.dev>; Mon, 27 Jan 2025 23:41:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737991263; cv=none; b=Ha5pYdH/BroqMOv6aPlmeA/SMmaRqLo32lbXZ6hDtA8FMqfje0/tH5UAfhAqyRFRCjIM2QIiHBYQyKd5uc383q0yBbhssp5BdS6Zz1J3p4sQPoJsoVyM6a/3lib62bNe0OxODnldE4pkJokq06fnU8MgZcfqb6NndXSBOEUGwgQ=
+	t=1738021299; cv=none; b=EatVVW8RSmgKDGX8mSW6wnFmZFMiMkis4xrWpN+TCCrpGr6P4GTRZrmAQVaAroqGgqjchkQh+964i/EJ9OCY7wS4UpRylT1uby5s6BjYLrT0J4RHWoAehoOGeJ3jgiQEoa3uZm+GT/bOZEn4QTAeFUxlxVLB9hcrdQKqmEWrT6c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737991263; c=relaxed/simple;
-	bh=P4YLS630pj+sIKngIzZXNX0CJaDfpIWSuim3VbvJgFA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Y+dRbQVZqmtLkAeG35FqXHBPa/eK18RnR86ixsaHXYw8DqhxRWyC/FLy4GosWxjjVQt+61iPiTNsXfMZCfN0K4nmwV9Zp+6q++rmQ2Dhr/4dtaCENXRqscGNDsmfp8kn1ZfdGRoL0fukYNr5/Ze0r2wgFNZHTslUulxfdxfgLDg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iaWNrZfm; arc=none smtp.client-ip=209.85.222.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1738021299; c=relaxed/simple;
+	bh=zH9HNKviU8Kmgx2c11w5FhKq2Gtf4paV1NchdxSkmls=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=Q+PEzvuoPCBghf8bf3P8Na9tBhPTskv7P6Lj7ePvltonKpufZu1yU6CgjIJsHkbrAeCqOPv6AuKM4pmAKco+Inz4wgJHjZtiaG6ZdnBgw55X77JnBQ0JTCvI60WtGQ1b1SXAebZR0iUl4KkI3jvYyXaY4qXC+akqkydskbNpNSE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hawaiienergyconnection.com; spf=pass smtp.mailfrom=hawaiienergyconnection.com; dkim=pass (2048-bit key) header.d=hawaiienergyconnection.com header.i=@hawaiienergyconnection.com header.b=Q4P9TTop; arc=none smtp.client-ip=209.85.221.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hawaiienergyconnection.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hawaiienergyconnection.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iaWNrZfm"
-Received: by mail-qk1-f174.google.com with SMTP id af79cd13be357-7b6e5c74cb7so403401085a.2;
-        Mon, 27 Jan 2025 07:21:01 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=hawaiienergyconnection.com header.i=@hawaiienergyconnection.com header.b="Q4P9TTop"
+Received: by mail-vk1-f180.google.com with SMTP id 71dfb90a1353d-51873bc7377so1547321e0c.1
+        for <connman@lists.linux.dev>; Mon, 27 Jan 2025 15:41:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1737991260; x=1738596060; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=iT8ApVhyv4PImzhWoKA6aW6GniXAQEVDWB5FBbwyYQc=;
-        b=iaWNrZfmAXqiFjNBkV1kIvtDJFQ8plnLTHa0chOAQXCTmtRo3s7GUlOKPCiyZYFOxz
-         mFcMg0XqL7wYzsgpUZKi64qNeo2TGbAHiexaNr7eFVJmV2ZKb02t7wTE1qh51sIUnItw
-         6U85+insjz7cx6SrVm/QOe93bVhkMGEOLA5papqJ+/6amRP3OQ6xEar0GtM639qeGO2Q
-         E72ZVlxvEpkcfUuj7EdmdEy9nAecdX3Cj+SjlTQeyRPDiYB4n6ZwARYBH8YyTzGyRfNN
-         rK0/HMOeJI0e571Z6rQifloCWS0yr4lqjOD50RZAW5FXXAgElPz6eU3L84Fppv7ra4we
-         YsoA==
+        d=hawaiienergyconnection.com; s=google; t=1738021296; x=1738626096; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=+AZgLIBoBqy/5G/qq+IgGzeYum4vTltnaj+K9ns5Z+s=;
+        b=Q4P9TTopHP7vKTe4olPlkXrh1WAahR7Fn4ghtzOp+S0H+3z71ob900/+5zYJfc7LQg
+         9nT8/D7HzZj/ydBlCOCAITkk6bgeJJyGLZM/u92KMCWGBf1SxKzMBqqSZXi/YfKAOuQo
+         yG+CGMAGFANWfyXO7hstuuz/Rg3RC5DToWd0wOqidH0w2XFlB8mD8Ub6g8ywTeuve9No
+         bW4noHZjJXEuXepl3ZYcj2z53nVuQSqNP/jKHYOk4/QNs67UzsncSRQfMPa41YDqfhF2
+         BB1p7AdxS30YM7+TxGMsXYaWvWxf/6c0l4VKtfYAcPVgZLIGB/rM+BztnpSDMltmI2FD
+         CshQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737991260; x=1738596060;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=iT8ApVhyv4PImzhWoKA6aW6GniXAQEVDWB5FBbwyYQc=;
-        b=c93Ibl+WWmBSed0HIM9YBpK7ygYbELpsfHLEYqRp6B9a4kl+t2BPyOeaN0Tir2DjXN
-         krFS8YR+zRpt5vt9TwrQy+qSVSm+Retr6uXdobAxMaEOEwT59ZUJNtQzIYVIgDoNBePU
-         OODFKj4d03EG4Raj0/FY2H/krqnUHkGCwyyUIfOG1+HbLBLDhNJrHkqBrvqKQE5yOffS
-         Blyi4olnAEYBv8JNdQXSMmTPUTI0paicg1sEqRZCAvxRjxOUHvZqrqWcQyADu2qbqK/Z
-         IQfMOID+vC292D6VvBDcaGkinimVyONyPw9YmO4pV1tZfDzBv0ewBezsa9gPXaFWPQEU
-         JmQQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUYVWRcviN5Lc94koDgc0zW3ipSlQAm6Y/TxCpEDiz8vBvYTfGHcHFXJJClAz7TuNhni33TnV2Z5g==@lists.linux.dev, AJvYcCX0rxjEIue0OaAirFiL9AmcKx64TSoEZIy2whEApWjQBExTN5KbLhkDZxjVv0VXjxBZqiV5@lists.linux.dev, AJvYcCXNOUmejQeuszJpazzG31bBnUjdKgZ9mELXrDM6m5jDVWiZGYz3HUIRpej/Xl1pW7VQbU2jomZO9cU=@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy27tFlbHkC6o3l31VllO/phgMAEHvP7dq7ZZtOWGPNnyuW6uZ4
-	U/JY8BKJ/w7ISi0ahHx1OMxyic7TFQ6GcLGXIgwMymDn3GyZkhlE
-X-Gm-Gg: ASbGncu5lK6Po7WI2kNkRGNXWx5jaNTmBHfOsNBc5SCiJos2JPGPPbkDyw9XIezAnz0
-	pvLsw1FeiMjO8vyG8Dhz/oQKGAgiljC0obJOVefVb8F7YozCNwn4gi+tQeqDILZQJF/xoKD0khT
-	7PswHf0IigQmILfYKliiElstX85yz88JOSXUVqk7iJWxq8jP7pQ42zi88VHFyPK2HSsJJuq9yvU
-	jlZSB11rwyTktdNLFq6R9Gfo3CZCS12yI0iobUP15GHkPih0A5+hXFJoGM++P/zCqbUBef2SUOo
-	45caI4Af
-X-Google-Smtp-Source: AGHT+IEnJnp2cYoqDLWX58VIryul0pkwYiNqA2q/DFh580edzsdHDFRBVnOr5g0yz59lplOB/9utZw==
-X-Received: by 2002:a05:620a:25cd:b0:7b6:d65a:d6ea with SMTP id af79cd13be357-7be63279052mr6779176285a.46.1737991260487;
-        Mon, 27 Jan 2025 07:21:00 -0800 (PST)
-Received: from [10.100.121.195] ([152.193.78.90])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7be9ae7ec43sm398710085a.24.2025.01.27.07.20.58
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 27 Jan 2025 07:20:59 -0800 (PST)
-Message-ID: <375f302d-7597-4880-96c7-e301e8c7cb4d@gmail.com>
-Date: Mon, 27 Jan 2025 07:20:57 -0800
+        d=1e100.net; s=20230601; t=1738021296; x=1738626096;
+        h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=+AZgLIBoBqy/5G/qq+IgGzeYum4vTltnaj+K9ns5Z+s=;
+        b=Nx2JVimPLudmRCozKTFHD+qpWf9rfSOn6ISXtRpb7HMuBIbz5Mp8Yi+PZk00RFnf/p
+         niMcSXJxr/FN7OQOV92SouP1GrbvxF257a5H/9DkRQw8NKdKpWVCGcRbFv+2OKxjnoo5
+         gCMje30O6R+jhjhspvnSDSr4VHK+OkLG6oXVr1qqFv5dCrz7KU9TMeFn30RCY4xV73r2
+         rO4uOZCRS5rui31ICG8Ru8xTU40ToUxYioFzKJkRJ00WTgxK+rcm1E6hnEidIlHSu7f3
+         Sw8IRFwl11ZqbM0+AaOZtV2+Y6Jy3NcTz6zbrhBzjbDuoPcQYWL4SSvl5KrOobwc6mq9
+         5nxw==
+X-Gm-Message-State: AOJu0YwQq3IxX0zfFdazj+CmbcnHPFBBewEqLh7PpD8pWI+LaSg9hTGJ
+	oWHYDmgt9S0bL2jYKQqH3hWo3p3M+FIJtVozEy38LQ1KHQWKR9KWNQwewp1PCFlwxUphdjjpjav
+	Ci5TXmFOtfbKpjbMRoqJXnwc2bEFwESrNPygSyZmSO2efnTzQb9k=
+X-Gm-Gg: ASbGncue/MAiqibPw6QIdpHFy/gYArUyK4U4zVPnWIArMS5VQlqout4mp1phvMDxia0
+	zDRy/iWZ0Y+98SF384D/66P5l7GuTRXQlV7lod0K0AYQP+5NE12FA0TvCAu5tqg==
+X-Google-Smtp-Source: AGHT+IEIABB7uw84G+HSpWyVFMsqaanzfD11znsq+eF3A9KeKvLvWiaSCUmlB8jOa9gQzkHgk6BA2wYg0Ve1ndATwTY=
+X-Received: by 2002:a05:6122:8c3:b0:51c:baa4:122a with SMTP id
+ 71dfb90a1353d-51d5b26cb5cmr36992673e0c.5.1738021295926; Mon, 27 Jan 2025
+ 15:41:35 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: brcmfmac SAE/WPA3 negotiation - Part 2
-To: KeithG <ys3al35l@gmail.com>
-Cc: Denis Kenzior <denkenz@gmail.com>,
- Arend Van Spriel <arend.vanspriel@broadcom.com>, connman@lists.linux.dev,
- brcm80211@lists.linux.dev, linux-wireless@vger.kernel.org,
- iwd@lists.linux.dev
-References: <CAG17S_OwtNxetb7XzsxkZcygH_CWkZx15evQZkThb3WjqpiKTQ@mail.gmail.com>
- <CAG17S_Oq+RGOZpE+xa-CV8=VtmJu7G8GWxfVYqg1edEG9wC+yA@mail.gmail.com>
- <CAG17S_NdA9LdwmA_XfvPOVrhCdqp+BOtAssH0=RE-VSjg=WFnA@mail.gmail.com>
- <CAG17S_O6Bpc+JhhUuDvE70a+ef9wt9D7jG1gMJDNo1qZCUOg8w@mail.gmail.com>
- <194115affe0.279b.9b12b7fc0a3841636cfb5e919b41b954@broadcom.com>
- <CAG17S_O7HbPFB0gubWWP9P-Oecps8K_LG0Y7YDo5DbNGKSLjpA@mail.gmail.com>
- <CAG17S_MwJC+h7O-htyUxEgB4zHKeGf+9B4QaQ6ZLiVStU_Egkw@mail.gmail.com>
- <CAG17S_NfqFjjaWj6vGS1HXux6JDy0QKcg8aQAR=aOzNGhO0a3w@mail.gmail.com>
- <eace9233-1b65-4793-8abe-abd3c640dba8@gmail.com>
- <CAG17S_MfQ+FjWQJoiNs30rt4u1O9Z_FXFB7BiS6RAQsG9ReNkA@mail.gmail.com>
- <CAG17S_OigLj3j=tS2BKYpoKOWKVs=XOBS-YFn26SzF9r+ZpLzA@mail.gmail.com>
- <CAG17S_Pj6UaA-yaGDUCwr8+M+L760PU0NvB1sAzGGNCp4xKatg@mail.gmail.com>
- <8c36a8c0-0246-4009-b79b-890e1f0a7aaa@gmail.com>
- <CAG17S_NNtyU0eXzsWgrjJEjcqDHPLrbSkvnEboSg-fZebdV3dg@mail.gmail.com>
-Content-Language: en-US
-From: James Prestwood <prestwoj@gmail.com>
-In-Reply-To: <CAG17S_NNtyU0eXzsWgrjJEjcqDHPLrbSkvnEboSg-fZebdV3dg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+From: Scott Valentine <scottv@hawaiienergyconnection.com>
+Date: Mon, 27 Jan 2025 13:41:25 -1000
+X-Gm-Features: AWEUYZlxmuHwQyIbjH8Pq0R_pUupFsEpq8gDU6iXCioIL2wWMKNzreF1CZMzdNE
+Message-ID: <CAMieACadCW0Fw60Hpf9mOT17iAgSVkZRYa_6QjGyAy62y0USPA@mail.gmail.com>
+Subject: 
+To: connman@lists.linux.dev
+Cc: gerickson@nuovations.com
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Keith,
+While testing an upgrade from v1.33 to v1.43, we experienced an issue
+where some of our devices were failing to establish internet
+connectivity, while the older version of connman had no problems.
 
-On 1/27/25 7:09 AM, KeithG wrote:
-> I just tried this and it connected 2x once from a saved key and a
-> second time from a new key.
-> Will continue testing and let you know, but this may be it!
-> Thanks so much for all the support.
+We have identified the source of the issue as a buggy proxy
+configuration from the ISP provided router. Specifically, these are
+Hawaiian Telecom provided Zyxel wireless routers. The router DHCP
+server supplies a PAC URL option with essentially an empty value of
+[0x0a, 0x0d, 0x00], as well as a domain name option of "home".
 
-Thanks for the feedback. If you continue to see issues with this 
-configuration let us know. I'm probably going to just disable PMKSA on 
-brcmfmac for the time being.
+This ultimately results in a call to __connman_wpad_start() with an
+invalid configuration that should not succeed (I think?), but does
+(due to the hostname also being set by the DHCP server), even though
+the PAC URL is null.
 
-Thanks,
+WPAD then calls __connman_service_set_proxy_autoconfig() which results
+in the following broken configuration for the service proxy:
+            dict entry(
+               string "Proxy"
+               variant                   array [
+                     dict entry(
+                        string "URL"
+                        variant                            string
+"http://wpad.home/wpad.dat"
+                     )
+                     dict entry(
+                        string "Method"
+                        variant                            string "auto"
+                     )
+                  ]
+            )
 
-James
+I believe the correct fix for this could be to check the PAC URL
+either before starting WPAD, or within __connman_wpad_start(), the
+latter requiring a getter for the service->pac property. N.B. I don't
+really know much of anything about WPAD or PAC.
 
+For now, I can work around the issue with a small patch to force the
+proxy method to "direct" in service.c: check_proxy_setup, but I'm not
+super confident that this is the best approach:
+
+diff -uNrp old/src/service.c new/src/service.c
+--- old/src/service.c   2024-09-01 23:34:15.000000000 -1000
++++ new/src/service.c   2025-01-27 13:11:52.713053125 -1000
+@@ -1731,8 +1731,18 @@ static bool check_proxy_setup(struct con
+         * to AUTO with an empty URL.
+         */
+
+-       if (service->proxy != CONNMAN_SERVICE_PROXY_METHOD_UNKNOWN)
++       DBG("proxy %d, config %d, pac %s", service->proxy,
+service->proxy_config,
++                       service->pac);
++
++       if (service->proxy != CONNMAN_SERVICE_PROXY_METHOD_UNKNOWN) {
++               if ((service->proxy == CONNMAN_SERVICE_PROXY_METHOD_AUTO) &&
++                               (service->pac == NULL)) {
++                       DBG("OVERRIDING PROXY METHOD");
++                       connman_service_set_proxy_method(service,
++                               CONNMAN_SERVICE_PROXY_METHOD_DIRECT);
++                }
+                return true;
++       }
+
+        if (service->proxy_config != CONNMAN_SERVICE_PROXY_METHOD_UNKNOWN &&
+                (service->proxy_config != CONNMAN_SERVICE_PROXY_METHOD_AUTO ||
+
+
+Mahalo!
+-Scott V.
