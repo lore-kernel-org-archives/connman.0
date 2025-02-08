@@ -1,109 +1,99 @@
 Received: from mail5.g24.pair.com (mail5.g24.pair.com [66.39.139.36])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E938B6FBF;
-	Sat,  8 Feb 2025 00:39:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47314372
+	for <connman@lists.linux.dev>; Sat,  8 Feb 2025 01:02:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=66.39.139.36
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738975170; cv=none; b=HJi2BpbsxWhOgkpFcdyWMK6DVPhVeU68qiDv6YI2voQXyyYB5MN171tkXMYHBwX8CD0AGXHFWZa6/VpnKumUtiVf7ye5083dtYm+HzDJ/9rQEj8rk1lca6ZBKK3zlY03B3wLqmfnMKXpsFEU7FUHW2huAb2V/d9tBOgKTy0w1k4=
+	t=1738976523; cv=none; b=GTutC5HoW03XdJSRBCN3rJgb7cw4NP3HPDfJvTiKXh2T62OyqQUsylgMtOwdPus2bexyPKFaaOwrjP620EiEtlWUX+Ba5e6AFUp9p/XUz2TmKIgYlSeJkZgeaN9mZbZ2XM4xLW6CUV9xaSXt0pBzeW0ZSSRtaSzqKJcOjAMQ2M4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738975170; c=relaxed/simple;
-	bh=+TK/FJbX/67kGIlX7CCTMBXq4kYh7c5FhhWBYdO9NaI=;
-	h=From:Content-Type:Mime-Version:Subject:Message-Id:Date:Cc:To; b=HEgWgCPvxLuO3vdnYYRGd6QTQjNmth/oDNwNjiqcbZzQYhSAwiZXR7q0u0UkazjkWlkPsIScJk6ibiRevL53x8Hqbe6aE5uYKY71MO1VPgDkzmZJDd/kQi0kv4K8jGTR/LNBM3ML81/ixASLPZxaEtrViy2HZqUm99MKWzI2BDQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nuovations.com; spf=pass smtp.mailfrom=nuovations.com; dkim=pass (2048-bit key) header.d=nuovations.com header.i=@nuovations.com header.b=l62kYfmh; arc=none smtp.client-ip=66.39.139.36
+	s=arc-20240116; t=1738976523; c=relaxed/simple;
+	bh=wP5iusj4F0EW+9fXwSJrHkunCRrHqxXx5e8kGsL+uQ0=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version; b=YjLO1AO1PD4k21rp3yAzwBLzxdVpuoT47sHNJkJJFlRGRe4v79hXE5YEQJ0UBCIHqgBs5jVHpad6PJIcaMOnjwrPCmU8Vetq05rxsxUNvz0OE1UYtGUz2kJJqRc2rsjxAj6QbpxvceXCm8984LaCRg0U9ln5AbgCjUbDhYOM8Fs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nuovations.com; spf=pass smtp.mailfrom=nuovations.com; dkim=pass (2048-bit key) header.d=nuovations.com header.i=@nuovations.com header.b=lXinYvsk; arc=none smtp.client-ip=66.39.139.36
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nuovations.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nuovations.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nuovations.com header.i=@nuovations.com header.b="l62kYfmh"
+	dkim=pass (2048-bit key) header.d=nuovations.com header.i=@nuovations.com header.b="lXinYvsk"
 Received: from mail5.g24.pair.com (localhost [127.0.0.1])
-	by mail5.g24.pair.com (Postfix) with ESMTP id 14734164A79;
-	Fri,  7 Feb 2025 19:39:21 -0500 (EST)
-Received: from smtpclient.apple (c-24-6-12-99.hsd1.ca.comcast.net [24.6.12.99])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	by mail5.g24.pair.com (Postfix) with ESMTP id 249D3164A79
+	for <connman@lists.linux.dev>; Fri,  7 Feb 2025 20:02:00 -0500 (EST)
+Received: from localhost.localdomain (c-24-6-12-99.hsd1.ca.comcast.net [24.6.12.99])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mail5.g24.pair.com (Postfix) with ESMTPSA id BB6DB124FD3;
-	Fri,  7 Feb 2025 19:39:20 -0500 (EST)
+	by mail5.g24.pair.com (Postfix) with ESMTPSA id C4908124FB3
+	for <connman@lists.linux.dev>; Fri,  7 Feb 2025 20:01:59 -0500 (EST)
 From: Grant Erickson <gerickson@nuovations.com>
-Content-Type: text/plain;
-	charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+To: connman@lists.linux.dev
+Subject: [PATCH 0/2] ofono: Correct conditional in 'cm_get_contexts_reply'.
+Date: Fri,  7 Feb 2025 17:01:56 -0800
+Message-ID: <cover.1738976381.git.gerickson@nuovations.com>
+X-Mailer: git-send-email 2.45.0
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3776.700.51.11.1\))
-Subject: oFono: Plugin Has the Incorrect Conditional for Evaluating When a
- Context Was Successfully Added
-Message-Id: <C1FDD6E3-31EB-42B6-9D67-BDABD453F0F4@nuovations.com>
-Date: Fri, 7 Feb 2025 16:39:09 -0800
-Cc: ofono@lists.linux.dev
-To: connman@lists.linux.dev
-X-Mailer: Apple Mail (2.3776.700.51.11.1)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nuovations.com; h=from:content-type:content-transfer-encoding:mime-version:subject:message-id:date:cc:to; s=pair-202401062137; bh=v4dt+/XRGV3cDOVefg0NxgLc40zUsuQfyB4Vq8RfJ0Q=; b=l62kYfmh/+i9er7ibD886jB/f3HKjUq+dWlJkuv0Jy962F/5mm0OikrftjHc8wQtEmYwnnPHDgAt2WjwDdOUv8MDge1fweh5z/uS4SRyvQ8U+ryuJalpsrqkg+sRSZsuVv0C/f2Mf0gWiO8xDXOqpa7IJw49b39wDDBd+Yqf49rrU4xQl/xA5dWen6LAa0jOFNuVV5FaTzBBoXd/XXbbz1o8I9TfVJ1oDsM3Zlbb69Bprr4vz/6aW9tU4nLf6XOjw6hrtNohO9Gf6zcVq/30J9BiKGTdcYzPpOLZZIvjzHk5dnuMSeszHsJUeJsRLpQ6DlDDdUdIJ4P3xcjXRSjcZQ==
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nuovations.com; h=from:to:subject:date:message-id:mime-version:content-transfer-encoding; s=pair-202401062137; bh=ljUVBfzR3ka8wsi/EZr3Fh023AhlWZvB2ozbkwLxA3c=; b=lXinYvskxZdJzLH3CAX6j1FBpvNNEM4BVoPeXv0S8I9dGZlHmEKIgAVgOJYCo4pm87kB0T6X1dQx/XmlHUifZHpFXQsW0B1N4WSlzq3FOgJvpxsJ2ujQrDSYFaM/lYNN6HQBLs5lhDIxHHlJAMp/0+PpyDeZUC/+Wbt7QVtDG/817Jgu2XqnH8fxs6VZYYbhiFpJVh53XCpriy3GZ/9Cjv2q2DFPTykl/ssobM9RWDelNz4e8dw/BOgDVuCVB3KO6ECtjuKEahFG0VcIjWIk8Dza30GgwTNVqG9Sw0Yj9RWbJsTDCSQ/Ff6Q9kW6/hNoB7Rfy+tPREQREEDMAXYUNg==
 X-Scanned-By: mailmunge 3.10 on 66.39.139.36
 
-Team Connection Manager and Ofono:
-
-At the appropriate moment in the oFono plugin lifecycle, it gets and =
-evaluates contexts from a given Cellular modem. Depending on the =
-HNI/MCC+MNC and the network operator, there may be one or more such =
+At the appropriate moment in the oFono plugin lifecycle, it gets and
+evaluates contexts from a given Cellular modem. Depending on the
+HNI/MCC+MNC and the network operator, there may be one or more such
 contexts, each with a different type.
 
-Within =E2=80=98cm_get_contexts_reply', each received context is =
-iterated on, evaluating each for the type =E2=80=98internet' by calling =
-=E2=80=98add_cm_context'. If the context is not of type =E2=80=98internet=E2=
-=80=99, =E2=80=98cm_get_contexts_reply' should continue to iterate until =
-all contexts are exhausted or a matching context is found.
+Within 'cm_get_contexts_reply', each received context is iterated on,
+evaluating each for the type 'internet' by calling
+'add_cm_context'. If the context is not of type 'internet',
+'cm_get_contexts_reply' should continue to iterate until all contexts
+are exhausted or a matching context is found.
 
-The return semantics of =E2=80=98add_cm_context=E2=80=99 are =E2=80=98-EIN=
-VAL' if a context *not* of the type =E2=80=98internet' is evaluated; =
-otherwise zero ('0') if a context of type =E2=80=98internet' was found.
+The return semantics of 'add_cm_context' are '-ENOMEM' if memory could
+not be allocated, '-EINVAL' if a context is *not* of the type
+'internet'; otherwise zero ('0') if a context of type 'internet' was
+found.
 
-However, the current conditional logic of =E2=80=98cm_get_contexts_reply' =
-is:
+However, the conditional logic of 'cm_get_contexts_reply' prior to
+this change was:
 
-    while (dbus_message_iter_get_arg_type(&dict) =3D=3D =
-DBUS_TYPE_STRUCT) {
-        const char *context_path;
+   while (dbus_message_iter_get_arg_type(&dict) == DBUS_TYPE_STRUCT) {
+       const char *context_path;
 
-        dbus_message_iter_recurse(&dict, &entry);
-        dbus_message_iter_get_basic(&entry, &context_path);
+       dbus_message_iter_recurse(&dict, &entry);
+       dbus_message_iter_get_basic(&entry, &context_path);
 
-        dbus_message_iter_next(&entry);
-        dbus_message_iter_recurse(&entry, &value);
+       dbus_message_iter_next(&entry);
+       dbus_message_iter_recurse(&entry, &value);
 
-        if (add_cm_context(modem, context_path, &value))
-            break;
+       if (add_cm_context(modem, context_path, &value))
+           break;
 
-        dbus_message_iter_next(&dict);
-    }
+       dbus_message_iter_next(&dict);
+   }
 
-So, assuming a set of contexts from, for example Verizon, such as '[ { =
-vzwims, ims }, { vzwinternet, internet }, { vzwapp, wap } ]', then the =
-above logic will encounter '{ vzwims, ims }', evaluate that it is not of =
-type =E2=80=98internet', return =E2=80=98-EINVAL' from =
-=E2=80=98add_cm_context', that will satisfy the conditional and trigger =
-the =E2=80=98break' from the =E2=80=98while' loop and context iteration =
-will terminate. This then misses the second '{ vzwinternet, internet }' =
-context that was sought and the Cellular interface will never come up on =
-connman.
+So, assuming a set of contexts from, for example Verizon, such as '[ {
+vzwims, ims }, { vzwinternet, internet }, { vzwapp, wap } ]', then the
+above logic will encounter '{ vzwims, ims }' on the first iteration,
+evaluate that it is not of type 'internet', return '-EINVAL' from
+'add_cm_context', that will satisfy the conditional and trigger the
+'break' from the 'while' loop and context iteration will
+terminate. This then misses the second, desired '{ vzwinternet,
+internet }' context and the Cellular interface will never come up.
 
-See https://github.com/Nuovations/connman/issues/133.
+By changing the conditional logic to match the return semantics of
+'add_cm_context' the code now works correctly, regardless of the number
+of contexts iterated on or their order.
 
-Patch forthcoming which amounts to:
+Grant Erickson (2):
+  ofono: Correct conditional in 'cm_get_contexts_reply'.
+  ofono: Document 'add_cm_context'.
 
-        if (add_cm_context(modem, context_path, &value) =3D=3D 0)
-            break;
+ plugins/ofono.c | 35 ++++++++++++++++++++++++++++++++++-
+ 1 file changed, 34 insertions(+), 1 deletion(-)
 
-Best,
-
-Grant
-
---=20
-Principal
-Nuovations
-
-gerickson@nuovations.com
-https://www.nuovations.com/
+-- 
+2.45.0
 
