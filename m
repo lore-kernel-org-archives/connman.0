@@ -1,35 +1,35 @@
 Received: from mail5.g24.pair.com (mail5.g24.pair.com [66.39.139.36])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02C7820A5D2
-	for <connman@lists.linux.dev>; Wed, 12 Feb 2025 23:39:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E9A920ADEF
+	for <connman@lists.linux.dev>; Wed, 12 Feb 2025 23:39:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=66.39.139.36
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739403579; cv=none; b=TIZ2aVSTODD8lRPK4vOb5y0o4TYkd7vlLT2VQZPfA0H5n6Gsob/J1BXOKv35h9vWWEG/VGsx5pVChoA9HhpW8lYrigW9lIJlqWwiKDwNNT2nMtsDx/AH82vjJE0nhqOWXb3/mfKDviG8mTop5p6oOVMkI1fK1itRX3eilibeH2E=
+	t=1739403579; cv=none; b=f+9VmPYRcBI8BI/USW6uqQeUmT+TGhltlnZPoaw1AhrCdGIymJl8KJ+HvXGr8aj694MFyl6gR2Ydl4UDPz+3zKAMyT3ekYr0Jdijdk4Ne4pH/8iHzH5OqRFQU5HH81CQLjftCFyxFfcfPkDjH+iB30g6dYChgxzcdqp4ZswuS4A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1739403579; c=relaxed/simple;
-	bh=KYNPp/4UOv+B3ah5/c++m/4AWlw/N4SQD2/O40c9Wb4=;
+	bh=O/6pdNPvUZenmfKvGhOjTx3XTk3dA7+zdf7WEsU/8uE=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=UHiQipwKYdjb3AdSZknGQaaQxoBJlJliDmn7CFZhWWPGiPQcKM0OFyaZFA+B2z7B+A1Uq8mMZKLccUmrGgyqx5jAsEON+FV0kv21S1zxdgAJiwF+6ukbUctp9x5ienaHb8/sdtNu3WdkQ4Q2+B50Wz9P9qU3S5bCQ2wepIHaCkQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nuovations.com; spf=pass smtp.mailfrom=nuovations.com; dkim=pass (2048-bit key) header.d=nuovations.com header.i=@nuovations.com header.b=CGxjqHqZ; arc=none smtp.client-ip=66.39.139.36
+	 MIME-Version; b=B6UpFk86iIQkRMYwB+jwUSWWurD4uxA1xXdSgSnoNY6D8nYcYz9ohZU+1/HtwkAXJFW2mGCoe+jJ1BmtpDyki5mLG8UcvEN2wB8dX50qL3glyqETZ+8stnroMx+UsxBuMk64dD6hII6am9T/SatjUv9m1n79lj8bHvu72IoiZ1Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nuovations.com; spf=pass smtp.mailfrom=nuovations.com; dkim=pass (2048-bit key) header.d=nuovations.com header.i=@nuovations.com header.b=cdrNpgzQ; arc=none smtp.client-ip=66.39.139.36
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nuovations.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nuovations.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nuovations.com header.i=@nuovations.com header.b="CGxjqHqZ"
+	dkim=pass (2048-bit key) header.d=nuovations.com header.i=@nuovations.com header.b="cdrNpgzQ"
 Received: from mail5.g24.pair.com (localhost [127.0.0.1])
-	by mail5.g24.pair.com (Postfix) with ESMTP id 155F41649C6
+	by mail5.g24.pair.com (Postfix) with ESMTP id 87C031649D5
 	for <connman@lists.linux.dev>; Wed, 12 Feb 2025 18:39:36 -0500 (EST)
 Received: from localhost.localdomain (c-24-6-12-99.hsd1.ca.comcast.net [24.6.12.99])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mail5.g24.pair.com (Postfix) with ESMTPSA id BEC12124E85
-	for <connman@lists.linux.dev>; Wed, 12 Feb 2025 18:39:35 -0500 (EST)
+	by mail5.g24.pair.com (Postfix) with ESMTPSA id 38FF4124F28
+	for <connman@lists.linux.dev>; Wed, 12 Feb 2025 18:39:36 -0500 (EST)
 From: Grant Erickson <gerickson@nuovations.com>
 To: connman@lists.linux.dev
-Subject: [PATCH 1/4] ofono: Add additional 'DBG' statements.
-Date: Wed, 12 Feb 2025 15:39:30 -0800
-Message-ID: <266252ccc068271920248994a394928d000777f5.1739403363.git.gerickson@nuovations.com>
+Subject: [PATCH 2/4] ofono: Use goto error-handling semantics in 'add_cm_context'.
+Date: Wed, 12 Feb 2025 15:39:31 -0800
+Message-ID: <176e12723e92e75ea8b62cad6b622306002cfcf1.1739403363.git.gerickson@nuovations.com>
 X-Mailer: git-send-email 2.45.0
 In-Reply-To: <cover.1739403363.git.gerickson@nuovations.com>
 References: <cover.1739403363.git.gerickson@nuovations.com>
@@ -40,144 +40,61 @@ List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nuovations.com; h=from:to:subject:date:message-id:in-reply-to:references:mime-version:content-transfer-encoding; s=pair-202401062137; bh=R5L5m50rEloIvVQYGUn49ngbGe691ns1yTt+UIadAmA=; b=CGxjqHqZ0wckAhB9AHZhuJNC9icI9dUPUQPRPRIwJIP4mk5jdnaoyUMVYhM6iBa2ZRSMtaft5Oj2r6KVmI/qOMdjhjWFkbZwFIg1EwpiwVUYxaP975fmnZlaCo12BDDauoJNm+gMszWQdepQHREb5m8bPtlS410TUi7bdyZDPQCm7pY5dWi836GfdPwosNbxSHF3Z9ZsUq0BTAiQDOeRqIQQZwayuUgIZmCt54qkUwo1xURT9IxEA1YmFLlhdo66uMUfbQNzK2Z3eWFEmnw37xzfvJbl5QkdithOoS6ed6v2PQr8z060YmJN2bQ/bnT0EURDx0KxzVgQbACpnruhFQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nuovations.com; h=from:to:subject:date:message-id:in-reply-to:references:mime-version:content-transfer-encoding; s=pair-202401062137; bh=nvO5Uac9Gi1Q4FQaKD/iVS2MEUmnjbDXDDnQbSRbrzU=; b=cdrNpgzQxmqBgFb8dZtja271quHZFRtk+AVBGhQlCsLbhUNM9vrV/seilJtX3QBTx3v/eEi/zd2o8w22UA8ZpCckAu4oIV2GVjs14JrSxTrWm4Xyv/JmjyZaRNIgu17uZi5WbVptDFw7EF8Zbt3RNjUpLGN9S2Mq3T4bTaJ9CsJzAX+TITHHMp6ZojqWofOZa5emVkUeD57R7YPgXnXR+2pMuYwfl0rJSoJg8UUj+/F4k1TFaYvcwjpPOlvVbWJnRNFrJ3SmajOErs8uMInx58t9FnJZUGdHiYnU7TMwdcoCl1WKVXgVempyz8G3dnaoHpalaCa3j9v4M/Djx0ARVQ==
 X-Scanned-By: mailmunge 3.10 on 66.39.139.36
 
-Adds additional 'DBG' statements to make debugging current and future
-ofono integration and interactions easier.
+Eases current and future debugging of ofono cellular context additions
+by allowing for a single point of DBG instrumentation for the
+'add_cm_context' return value, indicating whether or not the proposed
+context was added successfully.
 ---
- plugins/ofono.c | 33 ++++++++++++++++++++++++++++++---
- 1 file changed, 30 insertions(+), 3 deletions(-)
+ plugins/ofono.c | 15 +++++++++++----
+ 1 file changed, 11 insertions(+), 4 deletions(-)
 
 diff --git a/plugins/ofono.c b/plugins/ofono.c
-index 062905c8a3a6..47f289f605e0 100644
+index 47f289f605e0..b7a5f80bda5c 100644
 --- a/plugins/ofono.c
 +++ b/plugins/ofono.c
-@@ -289,7 +289,7 @@ static void set_connected(struct modem_data *modem,
- 	char *nameservers;
- 	int index;
+@@ -1160,12 +1160,15 @@ static int add_cm_context(struct modem_data *modem, const char *context_path,
+ 	struct network_context *context = NULL;
+ 	dbus_bool_t active = FALSE;
+ 	const char *ip_protocol = NULL;
++	int err = 0;
  
--	DBG("%s", modem->path);
-+	DBG("modem %p path %s context %p path %s", modem, modem->path, context, context->path);
+ 	DBG("%s context path %s", modem->path, context_path);
  
- 	index = context->index;
+ 	context = network_context_alloc(context_path);
+-	if (!context)
+-		return -ENOMEM;
++	if (!context) {
++		err = -ENOMEM;
++		goto done;
++	}
  
-@@ -300,10 +300,14 @@ static void set_connected(struct modem_data *modem,
- 		return;
+ 	while (dbus_message_iter_get_arg_type(dict) == DBUS_TYPE_DICT_ENTRY) {
+ 		DBusMessageIter entry, value;
+@@ -1217,7 +1220,8 @@ static int add_cm_context(struct modem_data *modem, const char *context_path,
+ 
+ 	if (g_strcmp0(context_type, "internet") != 0) {
+ 		network_context_unref(context);
+-		return -EINVAL;
++		err = -EINVAL;
++		goto done;
  	}
  
-+	DBG("context->network %p", context->network);
+ 	if (ip_protocol)
+@@ -1232,7 +1236,10 @@ static int add_cm_context(struct modem_data *modem, const char *context_path,
+ 	    has_interface(modem->interfaces, OFONO_API_NETREG))
+ 		add_network(modem, context);
+ 
+-	return 0;
++done:
++	DBG("err %d", err);
 +
- 	service = connman_service_lookup_from_network(context->network);
- 	if (!service)
- 		return;
++	return err;
+ }
  
-+	DBG("service %p", service);
-+
- 	connman_service_create_ip4config(service, index);
- 	connman_network_set_ipv4_method(context->network, method);
- 
-@@ -1054,7 +1058,9 @@ static void add_network(struct modem_data *modem,
- {
- 	const char *group;
- 
--	DBG("%s", modem->path);
-+	DBG("modem %p path %s context %p path %s network %p",
-+		modem, modem->path,
-+		context, context->path, context->network);
- 
- 	if (context->network)
- 		return;
-@@ -1295,10 +1301,14 @@ static gboolean context_changed(DBusConnection *conn,
- 	if (!modem)
- 		return TRUE;
- 
-+	DBG("modem %p", modem);
-+
- 	context = get_context_with_path(modem->context_list, context_path);
- 	if (!context)
- 		return TRUE;
- 
-+	DBG("context %p", context);
-+
- 	if (!dbus_message_iter_init(message, &iter))
- 		return TRUE;
- 
-@@ -1371,6 +1381,8 @@ static gboolean context_changed(DBusConnection *conn,
- 
- 		dbus_message_iter_get_basic(&value, &ip_protocol);
- 
-+		DBG("%s Protocol %s", modem->path, ip_protocol);
-+
- 		set_context_ipconfig(context, ip_protocol);
- 	}
- 
-@@ -1520,7 +1532,12 @@ static gboolean cm_context_removed(DBusConnection *conn,
- 	if (!modem)
- 		return TRUE;
- 
-+	DBG("modem %p", modem);
-+
- 	context = get_context_with_path(modem->context_list, context_path);
-+
-+	DBG("context %p", context);
-+
- 	remove_cm_context(modem, context);
- 
- 	return TRUE;
-@@ -1772,10 +1789,14 @@ static gboolean cm_changed(DBusConnection *conn, DBusMessage *message,
- 	DBusMessageIter iter, value;
- 	const char *key;
- 
-+	DBG("");
-+
- 	modem = g_hash_table_lookup(modem_hash, path);
- 	if (!modem)
- 		return TRUE;
- 
-+	DBG("modem %p modem->ignore %u", modem, modem->ignore);
-+
- 	if (modem->ignore)
- 		return TRUE;
- 
-@@ -1849,6 +1870,8 @@ static gboolean sim_changed(DBusConnection *conn, DBusMessage *message,
- 	if (!modem)
- 		return TRUE;
- 
-+	DBG("modem %p modem->ignore %u", modem, modem->ignore);
-+
- 	if (modem->ignore)
- 		return TRUE;
- 
-@@ -1860,6 +1883,8 @@ static gboolean sim_changed(DBusConnection *conn, DBusMessage *message,
- 	dbus_message_iter_next(&iter);
- 	dbus_message_iter_recurse(&iter, &value);
- 
-+	DBG("key %s", key);
-+
- 	if (g_str_equal(key, "SubscriberIdentity")) {
- 		sim_update_imsi(modem, &value);
- 		try_create_device(modem);
-@@ -1943,9 +1968,10 @@ static void modem_update_interfaces(struct modem_data *modem,
- 				uint8_t old_ifaces,
- 				uint8_t new_ifaces)
- {
--	DBG("%s", modem->path);
-+	DBG("modem %p path %s", modem, modem->path);
- 
- 	if (api_added(old_ifaces, new_ifaces, OFONO_API_SIM)) {
-+		DBG("modem->imsi %p modem->set_powered %u", modem->imsi, modem->set_powered);
- 		if (!modem->imsi &&
- 				!modem->set_powered) {
- 			/*
-@@ -1957,6 +1983,7 @@ static void modem_update_interfaces(struct modem_data *modem,
- 	}
- 
- 	if (api_added(old_ifaces, new_ifaces, OFONO_API_CM)) {
-+		DBG("modem->device %p", modem->device);
- 		if (modem->device) {
- 			cm_get_properties(modem);
- 			cm_get_contexts(modem);
+ static void remove_cm_context(struct modem_data *modem,
 -- 
 2.45.0
 
