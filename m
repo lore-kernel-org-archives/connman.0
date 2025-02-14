@@ -1,121 +1,178 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2ECA17E
-	for <connman@lists.linux.dev>; Fri, 14 Feb 2025 06:33:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08BBB1519A9
+	for <connman@lists.linux.dev>; Fri, 14 Feb 2025 06:54:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739514836; cv=none; b=atie12iaS3JENaEfx/BwupEYt3BaFSDkSNTC4S377t9CJNivlYchuHdu5CcHgKx6t4AHPjztc11UceL2q9hamJQ1SyrLpsaVDDo9JKVGDy+27YJys3ldJE0mvUXUQQzH0rkZJShqcW8sbExWS33irvz76LS1SK4KJTpzaMbbx9c=
+	t=1739516074; cv=none; b=fWAdl0YKYD/DtvJPBNkuO5vbZ3u06wp6BC7BZuLhM/Z9nmhIPLGFxAB+wGHw+3xloLDPpNR/l7FcTIMKweKzMC9ZxZ/VM8T4Kyb9cGBuGafMYxjYYt1SV3QVizx+t0PBomwlGTwwaGqadDUnfrNaj0eG6NcLlBSZOOo7VxPQFjo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739514836; c=relaxed/simple;
-	bh=ztBktUJdGIKhl7zsMSextd1HDWpun2vPMUCbv9CpiZ0=;
-	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
-	 Message-Id:References:To; b=CI09d9s8KVK2Ol5S3ItzsE+zGdJonFJogzJIVUlIPkTGg6e0SRS1A60sWnoOTBtVE3GPzF6gkbxCXd4lpb+jPTUHH5rI1g8kPdSr43weEzaAl+RqR3vsuZxBMFvRxkMiySpEEc/RE7hMdQG7TmEo0H9hMJPCsyz6k5zBLkts1R4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hetlIMdm; arc=none smtp.client-ip=209.85.128.46
+	s=arc-20240116; t=1739516074; c=relaxed/simple;
+	bh=CWmVgILzWM57NoUIDEUXtSYOrklJnniQVwwdpmbhmS8=;
+	h=From:To:Subject:Date:Message-Id:MIME-Version:Content-Type; b=FkFo1TGtqgl4IW9587r59aYw18tW2P+vXmXfoaKdY+4mDiU4wTVyurIMD/7DLwBZ5bJ/0RkDWJwHe+Tufq7EPiwvqEHHmGjoZeGfgqHO9sfDgqcJubyYa30ls9QmfUyrhM0M3Js2moNTps/9PircPM4RUB0XtPRZmRCgzrx35nM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Hhp/eEIf; arc=none smtp.client-ip=209.85.221.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hetlIMdm"
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-43948021a45so17498765e9.1
-        for <connman@lists.linux.dev>; Thu, 13 Feb 2025 22:33:54 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Hhp/eEIf"
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-38f1e8efe82so1930548f8f.0
+        for <connman@lists.linux.dev>; Thu, 13 Feb 2025 22:54:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739514833; x=1740119633; darn=lists.linux.dev;
-        h=to:references:message-id:content-transfer-encoding:cc:date
-         :in-reply-to:from:subject:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1ierDPYWNz0TY2VF4LHCPJFmSDRUnogd7cUsbJp2QI8=;
-        b=hetlIMdmToAuKHaXmDtmLBT1xp7TTkSpeN/BMNG+ajM6N1u60k0RNjq7uvIEupz3+F
-         07IQ0TdKVIj63EdQLnKwzI1txfjf5NvKcwzLMi/Yq1YK2RFdWi97yMUQaDlc6f0vlQTa
-         uk6nL4TP7bpHyupbbVqaGrv5DY1RfDrjDhd5njPTv3QvWGTEgNzGBuqRk2ZuRnFI4TCV
-         hygLNEuufSD+bmSyPOnpvvFbxhJuXNT6T+FZKwpsuzuOGGFBYD6c3h8pLlfZb0hpUh/V
-         J9S1TxOX7PrDqSkhNwLeZCVBIFcuKMOp+ivh8Gb0vFtXwoOJQ07iccdk4jUzEU16eVN4
-         id4A==
+        d=gmail.com; s=20230601; t=1739516070; x=1740120870; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=R9ryri6xztb9sjJylHmXH8aIU3jM1d4IJygal2rXJV0=;
+        b=Hhp/eEIfAcpPD6XoyHut+eLzwT0d35rML8EOP5SnRuRM66wurA775Im4WGbV+dodRQ
+         tlG+sUw9QIUvorjZGwLK9DYmxUc3txJBAaUcxfm/PIyn5LhyiKYR472TeRl5uwcI7Wl/
+         MNOdiAVWZGyTeCdMCoh9h6X3Fk9s3ToJZ5vajMZE9FUc+mX9MIubbssPwgobo3iHbJ9N
+         lfak7ndZWAm8H/p9FdmTQKkAOXHq7udOIfdkYALqjJNRI1APjX7ZHXn+nxUGWQq89eSi
+         DAOpJfAJoVmAt6L9tRtz2u5fS/v45QHOgDEWkBQ3ylb3K1zVGwqP0Pa8SlwXKyd4WNBE
+         ujow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739514833; x=1740119633;
-        h=to:references:message-id:content-transfer-encoding:cc:date
-         :in-reply-to:from:subject:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=1ierDPYWNz0TY2VF4LHCPJFmSDRUnogd7cUsbJp2QI8=;
-        b=VXex1KvOBRQjVOH7lzxrLj0VrG9Je/T4DaoJtHQTQBIKDlMB3WqncBSFGu+dNc3aEU
-         4s8zaCctW0p1AlfJKAu2z2DOM3a9mnyS+Pq9zi5KqMCrtuVmdkYhYhIUasHUogqBf8Pa
-         k6OrB2RAKJYAECcCIQDtF/Jkj4uqO1NaynXpRfIAuwJQgGpBaDpDJro2liJq1T4BUcgr
-         VA4WFyHAw7kGo8fq43QCu/QSE74TyltReT27mqElCIfhmUeEad1marr4KPr3xc6BtKSc
-         UbsQ87hgyz2BvDOr2WSFOtt1udN9s4FAbzcUttLTpvoRXtsBgB3IzGfnoMHgOPy57sYO
-         naOQ==
-X-Gm-Message-State: AOJu0YyeK4zxrXzOHeSO4dKGx/Tu48UEBwk8W4QPLb226PALcWNc5GeA
-	Yz0n3G+2kBOubBZ5LGQqEhHnDQbsqLhA19G6weNIBVcPWCDV87HE
-X-Gm-Gg: ASbGncuZg7rKftGBHdWdjzCOOkTUh2gMz+eeC80/MNb1phWLj08q7ZFOcghFUlKM6Il
-	QKNmZg4B9xEdCJQZJI2IaUw3L+Xf29MUydX0mMkGna0jwQt8nrWgNsTIaXhdWJSkDEYBcIB40JV
-	IgblrZ6eetxRDkSTyuewSLZIGuJQnwBoiseutSxkCOV1b1Dpd6CbyKe+67i05o7qnfs7ZLT7wYc
-	piupe9qcftayMPtaaHbHUIdQZBUvO4VaZ4VlFMLZOu5QLQrmzQ0OMHV8SmwVU0o9FGcStFStQS1
-	zfQRysNfq8D17EpOrYXlIEz5Ojv+jFQorJ7zWg==
-X-Google-Smtp-Source: AGHT+IFAnB9I/f+Lw3K6jdP5+XqBM804yl1UnOcLTtbW3Zq1SlJQe7SszwyDRDoK73k+9W+aqwxD8Q==
-X-Received: by 2002:a05:600c:34c1:b0:439:44eb:2d81 with SMTP id 5b1f17b1804b1-439581768c7mr118423775e9.15.1739514832527;
-        Thu, 13 Feb 2025 22:33:52 -0800 (PST)
-Received: from smtpclient.apple ([87.200.95.144])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4396713feccsm11942205e9.39.2025.02.13.22.33.51
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 13 Feb 2025 22:33:52 -0800 (PST)
-Content-Type: text/plain;
-	charset=utf-8
+        d=1e100.net; s=20230601; t=1739516070; x=1740120870;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=R9ryri6xztb9sjJylHmXH8aIU3jM1d4IJygal2rXJV0=;
+        b=XxONLvBbP+Wj0mXukq8Tnq4NM5lBP56fYAiAzClbAzSMnmGBakAueQoiAla0GAAOzq
+         RSxdT0UA77odMSvzQAiCDYoffVTESo5lrNR8tijxtYAuuePBxSzNKLwfiKK207BYn33G
+         OsAHZMKcKgI7sNKDzjQ9mCmf+GUTGr0cBmc9mvBdLGY1CSfeKZOLPao9cz2FuMZfgII1
+         UV4lb/m1R4Aeu37Z4tNt0hf9RlpBd8s+uJadyU8Uoz3Urtm82MEfUxpG9jIDSiCnAgqw
+         M4Dv9YP158P2eEIFQLuCrGsfw3rZI/hUaqtnsaXKApjcBmT5rcfpfiBxUz7vr/zRcTB0
+         eDjw==
+X-Forwarded-Encrypted: i=1; AJvYcCVEfGAM7nq/1C0MOIxQE+7KNKgmMP/DQG0s9PFON6QcnkLElotS7iCdppSW1oqJS8yZHwLQcLWM@lists.linux.dev
+X-Gm-Message-State: AOJu0Yxq8qEAjIxW8IOKIq7uTpI7gmmoal2vSaHsUwIP3kPQ1FEjLRGV
+	MEgMm0GYZRdPw8leD4mivXem9+fqtNh4vTsoJlzz7M0jMTMAz2zPfoblVA36hzs=
+X-Gm-Gg: ASbGnct/87b4VeyrA8sPob2ZbAQJZz7n/HTfdqyMXZTzLxjdi4ZMIrEfETbgLPyM6P+
+	7fJ5WgcJU7e0Dz5VBGw9TdOiQiJzHEhaz/TlpoXyaXeivEqKtINleshK+EtTocMD2ioI3lWkHAj
+	YQ+p8x1AN8bw4RpjCDyLYxezKKFaCBttPwDZwI3nGUsmVq8gFWAmp3gyd5l+/32OxOgG7jqO5Rh
+	z9ktaFKTJ/7Qi4uC1vAtsvZnofzs/gzlYceVd2qRWQDLM7+zmucEg2HZHixi+s7eNbRl/uEZYKL
+	tT2zebICosUhOqIqW9kd
+X-Google-Smtp-Source: AGHT+IEB6UU62okve+KJe1Q7vD4MiKMmzXaPjgKw6L0kFUH7Yn0S+T7ovzEfExveOskrUdSJrBqIPA==
+X-Received: by 2002:adf:e44b:0:b0:38e:48a6:280b with SMTP id ffacd0b85a97d-38f24518186mr6693536f8f.34.1739516070091;
+        Thu, 13 Feb 2025 22:54:30 -0800 (PST)
+Received: from toolbox.. ([87.200.95.144])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38f259d8dd6sm3830650f8f.62.2025.02.13.22.54.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 13 Feb 2025 22:54:29 -0800 (PST)
+From: Christian Hewitt <christianshewitt@gmail.com>
+To: Marcel Holtmann <marcel@holtmann.org>,
+	Denis Kenzior <denkenz@gmail.com>,
+	connman@lists.linux.dev
+Subject: [PATCH] Revert "Don't add route for invalid dst and gateway address combinations"
+Date: Fri, 14 Feb 2025 06:54:26 +0000
+Message-Id: <20250214065426.2697329-1-christianshewitt@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.400.131.1.6\))
-Subject: Re: [PATCH] gateway: fix calculation of is_vpn6
-From: Christian Hewitt <christianshewitt@gmail.com>
-In-Reply-To: <DB6PR10MB1845EBB07DB785B580B3F6ECE1E02@DB6PR10MB1845.EURPRD10.PROD.OUTLOOK.COM>
-Date: Fri, 14 Feb 2025 10:33:39 +0400
-Cc: "connman@lists.linux.dev" <connman@lists.linux.dev>
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <BFB720D7-E13D-44B8-A683-1467F9FCC187@gmail.com>
-References: <DB6PR10MB1845EBB07DB785B580B3F6ECE1E02@DB6PR10MB1845.EURPRD10.PROD.OUTLOOK.COM>
-To: Gabriel Sanches <gabriel.sanches@prevas.dk>
-X-Mailer: Apple Mail (2.3826.400.131.1.6)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-> On 23 Jan 2025, at 3:38=E2=80=AFpm, Gabriel Sanches =
-<gabriel.sanches@prevas.dk> wrote:
->=20
-> Fix is_vpn6 to use ipv6 variables not ipv4 variables. This stops
-> the WireGuard plugin from faulting on startup.
->=20
-> Fixes: commit 823d5a2a8cc4 ("connection: Refactor =
-=E2=80=98__connman_connection_gateway_add=E2=80=99=E2=80=9D)=E2=80=9D
->=20
-> Signed-of-by: Gabriel Sanches <gabriel.sanches@prevas.dk>
-> Tested-by: Christian Hewitt <christianshewitt@gmail.com>
->=20
-> ---
-> src/gateway.c | 6 +++---
-> 1 file changed, 3 insertions(+), 3 deletions(-)
->=20
-> diff --git a/src/gateway.c b/src/gateway.c
-> index 16c87f83..b2c211e2 100644
-> --- a/src/gateway.c
-> +++ b/src/gateway.c
-> @@ -3704,10 +3704,10 @@ int __connman_gateway_add(struct =
-connman_service *service,
->                                         is_gateway_config_vpn(
->                                                 =
-new_gateway->ipv4_config);
->=20
-> -               is_vpn6 =3D do_ipv4 &&
-> -                                       new_gateway->ipv4_config &&
-> +               is_vpn6 =3D do_ipv6 &&
-> +                                       new_gateway->ipv6_config &&
->                                         is_gateway_config_vpn(
-> -                                               =
-new_gateway->ipv4_config);
-> +                                               =
-new_gateway->ipv6_config);
->=20
->         } else {
->                 if (do_ipv4 && new_gateway->ipv4_config)
-> --=20
-> 2.43.0
+Commit 9eb1772d31b6 ("Don't add route for invalid dst and gateway address
+combinations”) causes a problem regression in WireGuard support through
+the connman-vpn agent. I asssume because the wg0 interface matches the
+definition of "unspecified destination address coupled with unspecified
+gateway” added.
 
-This fixes a complete breakage of the ConnMan plugin:
+Routing table with commit 9eb1772d31b6 and WireGuard (wg0) active:
 
-Tested-by: Christian Hewitt <christianshewitt@gmail.com>=
+RPi5:~ # route
+Kernel IP routing table
+Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
+default         172.16.50.1     0.0.0.0         UG    0      0        0 eth0
+1.1.1.1         *               255.255.255.255 UH    0      0        0 wg0
+8.8.8.8         *               255.255.255.255 UH    0      0        0 wg0
+10.127.0.0      *               255.255.255.0   U     0      0        0 wg0
+65.109.130.17   172.16.50.1     255.255.255.255 UGH   0      0        0 eth0
+167.299.200.14  172.16.50.1     255.255.255.255 UGH   0      0        0 eth0
+172.16.50.0     *               255.255.255.0   U     0      0        0 eth0
+172.16.50.1     *               255.255.255.255 UH    0      0        0 eth0
+
+As wg0 does not have the default route “all-traffic" is not routed down
+the tunnel as defined in "WireGuard.AllowedIPs = 0.0.0.0/0" config.
+
+Routing table with commit 9eb1772d31b6 reverted:
+
+RPi5:~ # route
+Kernel IP routing table
+Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
+default         *               0.0.0.0         U     0      0        0 wg0
+1.1.1.1         *               255.255.255.255 UH    0      0        0 wg0
+8.8.8.8         *               255.255.255.255 UH    0      0        0 wg0
+10.127.0.0      *               255.255.255.0   U     0      0        0 wg0
+65.109.130.17   172.16.50.1     255.255.255.255 UGH   0      0        0 eth0
+167.299.200.14  172.16.50.1     255.255.255.255 UGH   0      0        0 eth0
+172.16.50.0     *               255.255.255.0   U     0      0        0 eth0
+172.16.50.1     *               255.255.255.255 UH    0      0        0 eth0
+
+WireGuard now correctly reoutes “all-traffic” through the tunnel again.
+
+Signed-off-by: Christian Hewitt <christianshewitt@gmail.com>
+---
+This regression was pointed out in [0] shortly after it was merged
+but it's now 18-months later and distros are still carrying revert
+patches to make ConnMan + WireGuard usable. I'd prefer to see a
+fix for the problem, but there's been no sign of anyone taking up
+that challenge and I lack the skills to do it myself. Let's force
+the issue by reverting the regression.
+
+[0] https://lore.kernel.org/all/73D64378-2195-4669-8B60-39F808190977@nuovations.com/T/
+
+ src/inet.c | 24 ------------------------
+ 1 file changed, 24 deletions(-)
+
+diff --git a/src/inet.c b/src/inet.c
+index 542e5a85..54c283ff 100644
+--- a/src/inet.c
++++ b/src/inet.c
+@@ -1697,16 +1697,6 @@ int connman_inet_add_network_route(int index, const char *host,
+ 	addr.sin_addr.s_addr = inet_addr(host);
+ 	memcpy(&rt.rt_dst, &addr, sizeof(rt.rt_dst));
+ 
+-	/*
+-	 * Don't add a routes for link-local or unspecified
+-	 * destination address coupled with unspecified gateway.
+-	 */
+-	if ((!host || is_addr_ll(AF_INET, (struct sockaddr *)&addr) || __connman_inet_is_any_addr(host, AF_INET))
+-			&& (!gateway || __connman_inet_is_any_addr(gateway, AF_INET))) {
+-		close(sk);
+-		return -EINVAL;
+-	}
+-
+ 	memset(&addr, 0, sizeof(addr));
+ 	addr.sin_family = AF_INET;
+ 	if (gateway)
+@@ -2128,7 +2118,6 @@ int connman_inet_add_ipv6_network_route(int index, const char *host,
+ 					const char *gateway,
+ 					unsigned char prefix_len)
+ {
+-	struct sockaddr_in6 addr;
+ 	struct in6_rtmsg rt;
+ 	int sk, err = 0;
+ 
+@@ -2137,19 +2126,6 @@ int connman_inet_add_ipv6_network_route(int index, const char *host,
+ 	if (!host)
+ 		return -EINVAL;
+ 
+-	if (inet_pton(AF_INET6, host, &addr.sin6_addr) != 1) {
+-		err = -errno;
+-		goto out;
+-	}
+-
+-	/*
+-	 * Don't add a route for link-local or unspecified
+-	 * destination address coupled with unspecified gateway.
+-	 */
+-	if ((!host || is_addr_ll(AF_INET6, (struct sockaddr *)&addr) || __connman_inet_is_any_addr(host, AF_INET6))
+-			&& (!gateway || __connman_inet_is_any_addr(gateway, AF_INET6)))
+-		return -EINVAL;
+-
+ 	memset(&rt, 0, sizeof(rt));
+ 
+ 	rt.rtmsg_dst_len = prefix_len;
+-- 
+2.34.1
+
