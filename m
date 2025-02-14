@@ -1,61 +1,61 @@
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D67DC201032
-	for <connman@lists.linux.dev>; Fri, 14 Feb 2025 06:30:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F41F1487DC
+	for <connman@lists.linux.dev>; Fri, 14 Feb 2025 06:31:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739514640; cv=none; b=ByevzXYl7rUoPQjxjAIAql6O4n6ZLyjUPNU0QmuodDCEyjEMf8KzyPGMIhfA7ao82MuG/sKIghNBxNSqwNR9f6PtYtqI5gvCPlKJagvQuZemM6BQyMhCfK7m1I9AGNG6Fr3t2T++CoPz5glLJJc/eIk7hwewVmy4YiTRBdNknjE=
+	t=1739514699; cv=none; b=HAiY2tkTS4xPm++D1hSPxPKefVc4oG2XxKdBP+/PL1ahgsTdhMGwn5Bmj7DM948knOx6vHHB2gWcqTR8YmXUrV6BsUBWK9dS3xf9Eb4OxUHnoyneteRAgmHdk8oUGr6y+PcVwGuxV5HSjf0FWBrHsXqeVEHzrgyR77di/SEPX+w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739514640; c=relaxed/simple;
-	bh=9m4RpQVjPBnG+p+UzJI1Brk48oZQoTtIkhbarQU6RqQ=;
+	s=arc-20240116; t=1739514699; c=relaxed/simple;
+	bh=87ZloqGAp+N+wuhhCuWJB5vZ2GSUIr9m4dIEiSAZp2k=;
 	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
-	 Message-Id:References:To; b=L7DaN/iwTScSlcKJWDwsBXkpE6U4D+uVNUZe3KN6mBwxDRnS84w716eHuILGM5oJT7uOElIqtfKmeitnq28HQYxLWqq/uasBXRMLTjvurRags4+GkQ2++sxje10r2JLS9mOEPdo67SwcyfBRZLimZ3L0Jx/qzy5xdpDd0Mga+D4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EU2MAdU9; arc=none smtp.client-ip=209.85.221.43
+	 Message-Id:References:To; b=mPQ3d4wGBf0aLxRIWQieI8tDPoxCa2vcAdsriXZgrrYnNfK4YWtVWAl1oWkPExpQxJnmmeZw699CLTTZXX8Rcq9qYE2Uqc/SD1aXBWoKEMKiNzyuHz0hm3JWYQSae1q/QqV2llmWi/cbGPJ3c1RStgL1wjFV2Twf93swcOvA2Jw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=COCdS94+; arc=none smtp.client-ip=209.85.128.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EU2MAdU9"
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-38f1e8efe82so1915254f8f.0
-        for <connman@lists.linux.dev>; Thu, 13 Feb 2025 22:30:38 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="COCdS94+"
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-43961c966a8so10068365e9.1
+        for <connman@lists.linux.dev>; Thu, 13 Feb 2025 22:31:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739514637; x=1740119437; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1739514695; x=1740119495; darn=lists.linux.dev;
         h=to:references:message-id:content-transfer-encoding:cc:date
          :in-reply-to:from:subject:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=6dEY43/5SGLzQGgd+ealzf1uAx6oS0BZS7TVQ5Bd5O8=;
-        b=EU2MAdU9VWSIRqX9gY5O4tv5AycoqzoLlKGH/QMog7O+KkV69ZGWWmxt10LBRUtHsh
-         HargfMwXIgKlw9gM1THO9kGvrC1SjuTCIXRf8liaEeYS5y/br5eCcJG8+mggyMknNgWn
-         67aRSEeZfulZ7yYW2RxGJKqzIIzXN1DkGgPg4ytT6JmOOgygR4q38+dLBLdSEgmPWmN9
-         zu4Iz453X5ECC9sAf4GIGcBOUEMz4Rm+/BzJCTvvg2sJ9AHzY+ag048OtpBLK3rWB6BE
-         VOF0OU66jg0hs3tnZ2lkzKOjPq0Dx1K53UDDhUeJMLFCJ02xQgUTFyk+AOk1IVq7+c/i
-         l+KA==
+        bh=iWTV+tPpIKHuFGBKywD5PnjE5UceXl5H7RT8d36SzYA=;
+        b=COCdS94+NdY/R209VNQ3GrvNC1W51JWO0aUbuwa3Oz4rCZ2AaG9OFLerSL3xkQ07dK
+         7qJCrTPY9EskY+aMRh0WvonqLHwKOG7mOQq2QNS7LhJGEVnSVb0o8ErepKZt1AM6NPC1
+         v62nPJZQlhwQlFy8g3X19NHCAw/ga77zA6Tg6sTCAsgAVCiKGmyUCV8kFZV6mDTXDjK7
+         MhnWqHwhQ9KXQzNeJmYDeheXPQUC/9CWv4QJKHUtg3z4xBCeOH1AunZymGpqhgzxmrOG
+         CCGTHj741DXtHDrwyzVWDvYFlhvNLQqSUdrGsSLyuvyuSV5V2BqNbpx0MjaFkqNS+4q0
+         jOCQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739514637; x=1740119437;
+        d=1e100.net; s=20230601; t=1739514695; x=1740119495;
         h=to:references:message-id:content-transfer-encoding:cc:date
          :in-reply-to:from:subject:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=6dEY43/5SGLzQGgd+ealzf1uAx6oS0BZS7TVQ5Bd5O8=;
-        b=QUMjE4ra+fSBn1Bs0lVf/IEBMeOS+fkDOSGpZvKzy6F4cWdy7phMvHlqoZZWpOaS36
-         pcwZbEwyT0kOHIzW+fDYFeLHfSjVzmprbFNdmzqxCGTrUKSrXHTTq2M1oEKmYSK4iLT/
-         3JwG8vRUr+JhADCMIPEQPnmI9+WJfP/EknuxIQCdCNBYVmWu7FUzwZo4PLmnpsO7XR32
-         YmufIrwt+ldblbpS5nawLAimYRyr7PFZEf1QU/1daasqaHtXjajlC9BSXQjHE/m7KDCQ
-         HoVGlOPBkdEZnmavF19RtogI1FYb/xMdgUOpK1Gh+OFfXu8LKQ26uNaGihIAf2D+WocG
-         tYnQ==
-X-Gm-Message-State: AOJu0YzUUDo9vEHk5YZgOAbveIFX1VkXAISNQKzBPVr8FCBZ+pJ7h1li
-	WvyK8C5y8lCEvsJtrT+5fzqHSg31xYG2QatrdxpIMpniQkpMapHcwtyjJnbATcE=
-X-Gm-Gg: ASbGnctFMv0K7iURAwDm+NPiZpgT1zVesfObZkWOT32CXzr6HkD4ZtYTaEyHIJmEiO3
-	0K1PJYA+jaQQoARItJ3HKRRhAu0H9v67zXaMIwR13+0Bh+XHFYjzcwJwd09wP8ZiFJ9sHEKBNqb
-	Ahh4V5jLrr8rM0pzokiQox1I/TrYFRhYRSTAgnb3f1XY7WT/kjCP7t/L08tm8fqhfmaHr7cvYLV
-	yZ+woUWZe7He3OlCccdVvd+sLhuS+r9+bl0qgoC9D9wLzeNHvsQJYZJYHpaHrwIors1PLnNM/50
-	dgdwDIM0Au1koK50pzCdLCzeigI7vGWYsJT8fQ==
-X-Google-Smtp-Source: AGHT+IFPZ8QeES+T/84TfVIslsU7t6WpSQ4RYYeMU1+w5f0RfpI/IeFzmcI730WMklqBA6Q798SUEA==
-X-Received: by 2002:a5d:64a1:0:b0:38f:2856:7dc4 with SMTP id ffacd0b85a97d-38f28568124mr5344007f8f.55.1739514636812;
-        Thu, 13 Feb 2025 22:30:36 -0800 (PST)
+        bh=iWTV+tPpIKHuFGBKywD5PnjE5UceXl5H7RT8d36SzYA=;
+        b=Ge6RnZAUI4WQbKZanZhEYBaj8NTfEDG7s92w35EfU4n5eYO/6wKf4tfp5A3Ctweh3j
+         9iHWr6Cwi8D4etfTKSoOAPUHY4yrMaVjxvqT8WzfVRhsXABHYsDNe74TPnhVD/pwat17
+         1IQiSokUDrvUDypvauJp28EONYFGZuiARND13/ELa3qU4AAChknrTipzd7ALTW9zfgZ1
+         8PjMmxYWzTKOI7matNwvmxpuoAln2s418GrYAXGTJxBw/3kIUMwPMNWRS+8Gc0wohvGC
+         nlW8wSPHc0J9hOMW8+4HvbGDGQfN6BkmuPx+dJV4L9C4dTF/z5vPlYrwH0y46i3rsdyL
+         q0iA==
+X-Gm-Message-State: AOJu0YzkfLK5rTxSjKc4jOqqcQU/AnfptVh9Uum0Krmvf2MdwRuQGd34
+	R3CgAgFip5Ky9UuQ+mraHSk9z1Dxo41vc0LUGOxr69RRUvfUHPHbA68rfvf6bJQ=
+X-Gm-Gg: ASbGncu0dfT1S6VQRI4ilBM+huizFBFvgdNhel3SBcz53m8U1sCXFSV5YsjaiwxTXID
+	y9DTM9ebCsY6t+wKb+6W9NzKF551UU4bLm25j02ARf/ew9Fg0cSobqKsJa7JUA8K9hO1FUAJgzN
+	JkiZu768JqZ7N7H4WWxXk/uOTFVivlAfhQSnibJReC56ttgIz3xg3NMXoFOwg5RibkfZb3Wc0tU
+	+m/BVt5eMqR6RPkarS5fcMnxnDCDYkCUsa2vMvrrrHZOjU5+oYtoXPWsi7XzzWh+Cu7+0Ml3raa
+	4TFbUCiFPk2yncCOx7uQIlCQ2w9V0AKPvtgHsQ==
+X-Google-Smtp-Source: AGHT+IFP/Pr5hMOS060D422JE/DB2A0u6fUgCiypDXANPMiNU0CQAjbN7Pf3QS5kabnIB+jZtLcszw==
+X-Received: by 2002:a05:6000:381:b0:38f:2e26:331f with SMTP id ffacd0b85a97d-38f2e2633fbmr857020f8f.44.1739514695123;
+        Thu, 13 Feb 2025 22:31:35 -0800 (PST)
 Received: from smtpclient.apple ([87.200.95.144])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38f258f5fb6sm3677530f8f.44.2025.02.13.22.30.35
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38f258f5fb6sm3677530f8f.44.2025.02.13.22.31.34
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 13 Feb 2025 22:30:36 -0800 (PST)
+        Thu, 13 Feb 2025 22:31:34 -0800 (PST)
 Content-Type: text/plain;
 	charset=utf-8
 Precedence: bulk
@@ -64,102 +64,100 @@ List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.400.131.1.6\))
-Subject: Re: [PATCH 00/11] Add association state for VPNs
+Subject: Re: [PATCH 00/12] Improve WireGuard disconnect, error and hostname
+ lookup
 From: Christian Hewitt <christianshewitt@gmail.com>
-In-Reply-To: <20250124185845.1546384-1-jussi.laakkonen@jolla.com>
-Date: Fri, 14 Feb 2025 10:30:23 +0400
+In-Reply-To: <20250124185916.1546471-1-jussi.laakkonen@jolla.com>
+Date: Fri, 14 Feb 2025 10:31:23 +0400
 Cc: connman@lists.linux.dev
 Content-Transfer-Encoding: quoted-printable
-Message-Id: <00708344-6372-45AF-BA3E-AA45DC298373@gmail.com>
-References: <20250124185845.1546384-1-jussi.laakkonen@jolla.com>
+Message-Id: <A173154A-88D0-4CB2-AFED-B94FBC9D8ED0@gmail.com>
+References: <20250124185916.1546471-1-jussi.laakkonen@jolla.com>
 To: Jussi Laakkonen <jussi.laakkonen@jolla.com>
 X-Mailer: Apple Mail (2.3826.400.131.1.6)
 
-> On 24 Jan 2025, at 10:58=E2=80=AFpm, Jussi Laakkonen =
+> On 24 Jan 2025, at 10:59=E2=80=AFpm, Jussi Laakkonen =
 <jussi.laakkonen@jolla.com> wrote:
 >=20
-> This patch set adds the association state also for the VPNs. This =
-state is to
-> indicate that the VPN is waiting for VPN agent to provide input given =
-by user.
-> In this state service.c must not do connect timeout checks as the =
-timers for
-> both differ in length, default being 120s for connect timeout and 300s =
-for VPN
-> agent dialog timeout.
->=20
-> In order to facilitate this change the association state had to be =
-implemented
-> also for VPNs. It is common state for services and like with services =
+> This set of patches improves the WireGuard plugin and adds better =
+error case
+> support for the vpn/plugins/vpn.c. This allows also to propagate the =
+errors
+> upward and with other changes, allows the shutdown to follow the same =
+process
+> as the other VPNs. Alsom fix the PrefixLength use in connmand and in =
 the
-> association state for VPNs preceeds the configuration state (on VPN =
-side
-> connect state). Both vpn.c plugins on connmand and vpnd side require =
-changes
-> to accommodate this state. When the VPN agent succeeds in getting the =
-input
-> from the user the state transitions from association to connect =
-(configuration)
-> state and, thus, requires no specific changes to VPN plugins.
+> WireGuard plugin by tokenizing the host before getaddrinfo() check.
 >=20
-> On connmand side the association state is the initial state when VPN =
-is getting
-> connected and the state needs to be accounted as a connecting state in
-> plugins/vpn.c to not to lose transport ident for it and in provider.c =
-as a
-> pre-configuration state to not to start the connect timeout for the =
-VPN before
-> the VPN is in configuration state. The reason for the latter is that =
-the
-> connect timeout should be exact and start from the point when
-> connect/configuration state is entered.
+> First, the basic saving of the WireGuard configuration is done =
+similarly to
+> other plugins, as well as to what wg-quick is utilizing.
 >=20
-> On vpnd side association state is, like on connmand side, the initial =
-state for
-> the VPN getting connected. After the VPN agent succeeds getting the =
-information
-> from the user (credentials) the state transitions to connect =
-(configuratioin).
-> There may be a possibility for a VPN plugin to run without VPN agent =
-and thus
-> in these cases it is ensured that the vpn/plugins/vpn.c:vpn_notify() =
-does
-> the state transition in such cases. It is allowed go back to =
-association state
-> from connect state but not from other states.
+> Second, the handling of errors is improved within the plugin and vpn.c =
+as well.
+> This will make it possible to pass the errors upwards from the plugin  =
+In
+> addition to this there is a limit for reresolve errors (5 by default) =
+after
+> which WireGuard plugin dies in case the configuration is wrong, or =
+network is
+> broken.
 >=20
-> Jussi Laakkonen (11):
->  agent: Cancel agent request on NoReply D-Bus error
->  vpn-provider: Use association state for VPN agent input wait
->  vpn: Add association state before connect state
->  vpn-agent: Do connect state transition after input dialog check
->  service: Explicit VPN connect timeout, ignore in VPN agent wait
->  provider: Handle VPN configuration and association states
->  vpn: Add support for association state, add state getter
->  vpn: Check if connecting when setting state or disconnecting
->  vpn: Add VPN agent use callback for plugins
->  vpn-provider: Transition to CONNECT state with agentless VPNs
->  doc: Update VPN documentation for association state
+> Third, the use of getaddrinfo() will block with invalid configuration =
+when
+> doing the reresolve for the endpoint. This is now replaced with =
+GResolv by
+> adding a wrapper for it in vpn-util.c so it can be used within VPN =
+plugins as
+> well. This avoids the blocking of the non-existent address resolve =
+that made
+> vpnd unresponsive for the time being, for example, disconnects did not =
+work.
 >=20
-> doc/vpn-connection-api.txt |  4 +--
-> doc/vpn-overview.txt       |  7 ++++-
-> include/provider.h         |  9 +++---
-> plugins/vpn.c              | 23 ++++++++++++---
-> src/agent.c                |  4 ++-
-> src/connman.h              |  2 ++
-> src/provider.c             | 22 ++++++++++++++-
-> src/service.c              | 52 ++++++++++++++++++++++++++++++----
-> vpn/plugins/vpn.c          | 44 ++++++++++++++++++++++++++++-
-> vpn/plugins/vpn.h          | 12 ++++----
-> vpn/vpn-agent.c            |  6 +++-
-> vpn/vpn-provider.c         | 58 ++++++++++++++++++++++++++++++++++----
-> vpn/vpn-provider.h         |  7 +++++
-> 13 files changed, 220 insertions(+), 30 deletions(-)
+> Fourth, the shutdown is now simulated in a same way other daemon =
+utilizing VPNs
+> do, by calling the vpn_died() with a slight delay. This makes =
+daemonless VPNs
+> work in the same way as the rest of the plugins to do the same cleanup =
+steps.
+>=20
+> Fifth, the host given in the configuration as an IP-address should =
+contain=20
+> CIDR notation but as getaddrinfo() uses inet_pton(), which is relying =
+on the
+> address to not to have the notation, the host is tokenized first for =
+this use.
+>=20
+>=20
+> Jussi Laakkonen (12):
+>  wireguard: Add saving of provider properties
+>  wireguard: Use positive errors for VPN provider connect_cb
+>  vpn: Fix VPN_FLAG_NO_DAEMON use in error cases
+>  wireguard: Handle disconnect, error and network errors better
+>  gresolv: Add generic error for GResolv struct with getter
+>  vpn-util: Add wrappers for GResolv hostname lookup use
+>  wireguard: Use GResolv for DNS reresolve to avoid blocking
+>  vpn: Drop state changes from update_provider_state()
+>  wireguard: Fix shutdown, ensure one exit and set no agent is used
+>  vpn: Check if disconnect is implemented before calling in stop_vpn()
+>  vpn: Fix extracting of PrefixLength D-Bus value
+>  wireguard: Tokenize host for getaddrinfo()
+>=20
+> gweb/gresolv.c          |  15 +-
+> gweb/gresolv.h          |   2 +
+> plugins/vpn.c           |   5 +-
+> vpn/plugins/vpn.c       |  63 +++---
+> vpn/plugins/wireguard.c | 430 +++++++++++++++++++++++++++++++++++-----
+> vpn/vpn-util.c          |  30 +++
+> vpn/vpn.h               |  10 +
+> 7 files changed, 476 insertions(+), 79 deletions(-)
 
 I=E2=80=99ve been using this series combined with the following series =
 and patch for several weeks:
 
-https://patchwork.kernel.org/project/connman/list/?series=3D928220
+=
+https://patchwork.kernel.org/project/connman/cover/20250124185845.1546384-=
+1-jussi.laakkonen@jolla.com/
 =
 https://patchwork.kernel.org/project/connman/patch/DB6PR10MB1845EBB07DB785=
 B580B3F6ECE1E02@DB6PR10MB1845.EURPRD10.PROD.OUTLOOK.COM/
