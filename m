@@ -1,98 +1,80 @@
-Received: from mail-oa1-f50.google.com (mail-oa1-f50.google.com [209.85.160.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF7E02676FB
-	for <connman@lists.linux.dev>; Fri, 14 Feb 2025 16:03:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53A6370831
+	for <connman@lists.linux.dev>; Fri, 14 Feb 2025 16:10:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739548982; cv=none; b=At8N0HyUCVE3pwM2Jhb2Dw2tkwSWEDJfKi8vck+qNsSxWQy43J0uy8NdgQbUsgNxdSuiXZ4qazXu3oYRIz2MzAxkXfx4j5ptKmCkl15FqG2XrT+qB67rePLPHnSEynPqV9oSP8Ht7e3zWUYSPOC1tAPj86HQPw2guH6cwrrN0bU=
+	t=1739549404; cv=none; b=j2+6GUtu66wFCYKtr42eGVmb6nMptWospdvht/0/vAJVWSH6tKu38oRdCyGZGVcvAOS78S2G0IdAMbcRBl5XgoHekY4hx+a45yhMEqoZSg65FxkJLaBoDyo6wFmOVIQMSxEpwAwLCGqvTCHLcIOR+I2i4D4xobctJnDQWG6tIAU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739548982; c=relaxed/simple;
-	bh=M3eyVPgxVcrWFhnQoZV6rvXFRkCvI8GjYim9/6LsMP4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=Cv8ggxuWaS/dRtIj/wjzUIGeALGA1D8yXWdcQaOn5nH5Bh95lOk0Htb31YTpJQRjIjw3AHKIkgYIo/8MSVbWMpcUd6Bnf9GwJnHbNyu2+Vps8itHmG2QnjuadJsVG2FyUqGc824PWNF1vgeXkkkx5oUwQh8UjpJese+VfbQfCtM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LeFKROV+; arc=none smtp.client-ip=209.85.160.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1739549404; c=relaxed/simple;
+	bh=fxZArunRK81xr/x77FjgIWtSl3Wtdcaaqrl7RLv0VcE=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=nh/tsvQHgGtZ6DdcGbzwT/rK3d1I6/A514J7lyyy+2Uj+ogx1FtXL3qXXDAmqvthSQd21y6aoWc0KladgHQHGYpBfUAeM4ApGV9407hX53y54eGmhen7bbBKOY3LVOHlUxUlDSZbCewwT++/6OkfNmAjd4tI/fSDe7VaNTB//W4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=md9kSo7i; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LeFKROV+"
-Received: by mail-oa1-f50.google.com with SMTP id 586e51a60fabf-2a9ef75a20dso2477799fac.2
-        for <connman@lists.linux.dev>; Fri, 14 Feb 2025 08:03:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739548980; x=1740153780; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=P35/ctZpqy/DvBEfj1h1V5PWeAgw45oL8qTsxrqqs/Y=;
-        b=LeFKROV+MxNwWEdVxJXSoC3dAmfvd559iygNA10rsokqSrdOV5A4Om/AklR5PchUKs
-         +Ww3XPr64AVmLFUcqUrxLq+SHPLUo/3K/uE69MSi3VnctXZfsNjV4jdSA7kWIChNbDZX
-         wp+RW4ZgJjWK7Wek7Gh36S6B2loBP4sO0f2woMu0Y5SiHTCxBi7gkxQQgc4M3cZ3TyII
-         L60B5jDPXxe5itYsLVc2HNX5+o0oI9WGiN4BEu2cju0n6wD2bHUulIWlzIfmVahjeRTB
-         4RWo+JkWNZ2Hfu0Z7jnctXw4+pCmtg1Y+k+JxXkRrb5UGxneU3hLFH69Zfa9alSvL0xv
-         pmxw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739548980; x=1740153780;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=P35/ctZpqy/DvBEfj1h1V5PWeAgw45oL8qTsxrqqs/Y=;
-        b=Aia8XwCaOXs3rlnfkGn8TofKjn6hN/A3r3x9l3NWY3NLk9igReuhRy6+8/tk73Y7KJ
-         QC8ZbOHXWSDgkIDEeXl/NIsi8yEUIZTe8U+l7NP0LDdWHUbAqHBmjQwFCzgjfonL2mNY
-         CeuH/vSw3XbLY8+fxWc+uhBD72E39cJ599Izb+2gEQJrEq8tX0WSqoQcaEdYi5QBBlJQ
-         cDi7f+EzB6cyTE5dNL7/xVLghaq1vSabtDgvumcxmwPOXJN5HfHDWTy1wXxotnlgUkB/
-         5VoqTZNHgzDW89cxVK+0mpCPpJJWvLonUWVPPC3ocn3d/rgN9hm9Vq0cHGuKvBLV618j
-         /6Pw==
-X-Forwarded-Encrypted: i=1; AJvYcCWPuVjg1R6ctnKF6ZuJx4sEkSCp4lXqeCKKPi9ZOFVgDrdwKxbX7tbWjT/MWCqATcfA/JwSQP2a@lists.linux.dev
-X-Gm-Message-State: AOJu0YxR1rcyBGIvorqPWN59dc0ZO6vkiZ0L6KU1EVz5l5FL+2Zb+6mA
-	lXcVXmT8fyaR2vZGyQODg37FrLGv0wtJxzug/+Q/+aNqmG4ShI/T1g9tHg==
-X-Gm-Gg: ASbGncvYRxPU4Tcq1APtTXCjj8deTkj/vMcaaOZDPfPe4iZu0sZJ/+0dxmiHTN6CYsq
-	JfhOT8yguaKgoZWsevfhdydSnvVsoRENj3NvuWJRJpKJhoDfguR06W5JVT3vWkScJVkE4M3IlD9
-	qK/p1ibh0ca2KcCIEPcUNYyxm8/uXId1R5uyA1TSDKgcq3FCf3avway4v6x75LBo86u2CPWpchA
-	wnGyoEditaLe0lJo22d8dI5gycUgnF68trx5bgKQ5Xo2BmsXIWwi0S4JmIK32pKEpEhu4oJbtA3
-	DXL9yP5z/infS9zoQRX7m0gEqMLBVPFUwfJmURg08aNMeUn4CAGwi02Q
-X-Google-Smtp-Source: AGHT+IHfUugtug9tENiGnvwvAxH8yMmsRJT/7A1VCKUHqU0YsP2yhvHBQ95EE/4rkqz7zwJxRbRR2w==
-X-Received: by 2002:a05:6870:bb1b:b0:29f:df6d:999b with SMTP id 586e51a60fabf-2b8f9061062mr4547754fac.39.1739548979914;
-        Fri, 14 Feb 2025 08:02:59 -0800 (PST)
-Received: from [192.168.1.25] (syn-070-114-247-242.res.spectrum.com. [70.114.247.242])
-        by smtp.googlemail.com with ESMTPSA id 46e09a7af769-727001dd0e3sm1372914a34.27.2025.02.14.08.02.59
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 14 Feb 2025 08:02:59 -0800 (PST)
-Message-ID: <37feab56-a21b-4c51-b826-6f3690b9ea81@gmail.com>
-Date: Fri, 14 Feb 2025 10:02:58 -0600
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="md9kSo7i"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C43B7C4CED1;
+	Fri, 14 Feb 2025 16:10:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1739549403;
+	bh=fxZArunRK81xr/x77FjgIWtSl3Wtdcaaqrl7RLv0VcE=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=md9kSo7idYCUjk9agHa9Dzjb3LQlQTyueu9HTquz+7pfhsLe4ukZ2RJctNK+U643E
+	 wGzmX3o7kJkMc4iFRyimzJGy/aZ4QrikMcuGbYWJDn1Kx0ajzAk9VbmNn9sParN3p+
+	 tc7WEjHofO5/lXdmObo1qDt04Z3oZmxgmlQ+MzvMANoaNjYQrHDZDCA/R9CgBPuagm
+	 HBk8uPWEH2pkycuFrI7SU4yL8jkUiIPLmDKcxF+oy+VEkoOfgtiX04HBLY4nELHWGb
+	 VVp/47Jfij3v1cBy66daQAATaS0nRuYnr6AMelIgEWQoDRm/0eFirIRvQ2VEu5MnEq
+	 ZjNSEHSeM95PQ==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 71483380CEE8;
+	Fri, 14 Feb 2025 16:10:34 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] gateway: fix calculation of is_vpn6
-To: Gabriel Sanches <gabriel.sanches@prevas.dk>,
- "connman@lists.linux.dev" <connman@lists.linux.dev>
-References: <DB6PR10MB1845EBB07DB785B580B3F6ECE1E02@DB6PR10MB1845.EURPRD10.PROD.OUTLOOK.COM>
-Content-Language: en-US
-From: Denis Kenzior <denkenz@gmail.com>
-In-Reply-To: <DB6PR10MB1845EBB07DB785B580B3F6ECE1E02@DB6PR10MB1845.EURPRD10.PROD.OUTLOOK.COM>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH v2 0/2] ofono: Correct conditional in 'cm_get_contexts_reply'.
+From: patchwork-bot+connman@kernel.org
+Message-Id: 
+ <173954943327.2026081.8395656267051370196.git-patchwork-notify@kernel.org>
+Date: Fri, 14 Feb 2025 16:10:33 +0000
+References: <cover.1739203086.git.gerickson@nuovations.com>
+In-Reply-To: <cover.1739203086.git.gerickson@nuovations.com>
+To: Grant Erickson <gerickson@nuovations.com>
+Cc: connman@lists.linux.dev
 
-Hi,
+Hello:
 
-On 1/23/25 5:38 AM, Gabriel Sanches wrote:
-> Fix is_vpn6 to use ipv6 variables not ipv4 variables. This stops
-> the WireGuard plugin from faulting on startup.
-> 
-> Fixes: commit 823d5a2a8cc4 ("connection: Refactor ‘__connman_connection_gateway_add’”)”
-> 
-> Signed-of-by: Gabriel Sanches <gabriel.sanches@prevas.dk>
-> Tested-by: Christian Hewitt <christianshewitt@gmail.com>
-> 
-> ---
->   src/gateway.c | 6 +++---
->   1 file changed, 3 insertions(+), 3 deletions(-)
-> 
+This series was applied to connman.git (master)
+by Denis Kenzior <denkenz@gmail.com>:
 
-This patch does not apply cleanly to upstream.  Anyone care to re-send?
+On Mon, 10 Feb 2025 07:59:47 -0800 you wrote:
+> At the appropriate moment in the oFono plugin lifecycle, it gets and
+> evaluates contexts from a given Cellular modem. Depending on the
+> HNI/MCC+MNC and the network operator, there may be one or more such
+> contexts, each with a different type.
+> 
+> Within 'cm_get_contexts_reply', each received context is iterated on,
+> evaluating each for the type 'internet' by calling
+> 'add_cm_context'. If the context is not of type 'internet',
+> 'cm_get_contexts_reply' should continue to iterate until all contexts
+> are exhausted or a matching context is found.
+> 
+> [...]
 
-Regards,
--Denis
+Here is the summary with links:
+  - [v2,1/2] ofono: Correct conditional in 'cm_get_contexts_reply'.
+    https://git.kernel.org/pub/scm/network/connman/connman.git/?id=28a7ce1595a1
+  - [v2,2/2] ofono: Document 'add_cm_context'.
+    https://git.kernel.org/pub/scm/network/connman/connman.git/?id=d543e126896f
+
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+
