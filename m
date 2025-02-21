@@ -1,35 +1,35 @@
 Received: from mail5.g24.pair.com (mail5.g24.pair.com [66.39.139.36])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF4851E491B
-	for <connman@lists.linux.dev>; Fri, 21 Feb 2025 15:56:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AFE1217655
+	for <connman@lists.linux.dev>; Fri, 21 Feb 2025 15:56:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=66.39.139.36
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740153419; cv=none; b=WAHQi2956q0rzPdYUF836+ajz3y45iBvOPbgZC0Cdad5nnq9LZDXNMpv5/0ruyXrH2G7kRSgqrLinGrrAWCergFp6h+Fkyl2cq0V0/wxUeijvcGSFUAMEZAtPJWmz9bCTGdbrIUFaRE7trDjl1fmmdglhnHTpZGPyXEBrfh0VJA=
+	t=1740153419; cv=none; b=A/ywmjN5MrvAHMyYn+vtxMPV8gnJX8UfnF1dokQOVmFjC049j5n7LiF1vNPbSMa8ZKp22hVghYp90JeYIyFPuwTerFIa0GG8dGzwo1ViSWfmmGIeMTsTc8Ztue/LvCGoibVp7M/K1SHNnaQGfYKn5HWnJi2qQGRt2pzG3XqKOSg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1740153419; c=relaxed/simple;
-	bh=cHPl4D49YzgjiTPpg6VKrOtLuziez6x9dstG2MRoNaM=;
+	bh=gcQDwiNlApbr8vuxA1f8McIOwK/VHDf09k5bLSWTn2A=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=D3AKfvSTOUjraQ3/82jCovOksRaeKxZwdaxuYX4qSCaKqFNPxvRexnjGG73w+ZOWBFrpRudB7c9vezgCe7Xsdr5AoAlTFkyJCWfp1AE8twa1Da6xLkX0MWSLJ/6l0QePjcoqZIKk/LlZ9d71V1aFcsorrIGN2yJ6xApseqsFRO8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nuovations.com; spf=pass smtp.mailfrom=nuovations.com; dkim=pass (2048-bit key) header.d=nuovations.com header.i=@nuovations.com header.b=dW3t7pgx; arc=none smtp.client-ip=66.39.139.36
+	 MIME-Version; b=Nl5/fvQ4kyh3RnuhD6vbRvgmrzton6WDLds4RIbcbU8Evk3HNenOwv5lkp8AqUwqSr03qcbIm6OeEhWd1ZeSrXHeX0i3i76mswoa4k91TPQZqMv3Fkmt1GF83W5yEjR5VZajuWNAeCDMaR97kfBCQKNTmRbibbVRY+2jHASJkaU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nuovations.com; spf=pass smtp.mailfrom=nuovations.com; dkim=pass (2048-bit key) header.d=nuovations.com header.i=@nuovations.com header.b=PgZaCbUw; arc=none smtp.client-ip=66.39.139.36
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nuovations.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nuovations.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nuovations.com header.i=@nuovations.com header.b="dW3t7pgx"
+	dkim=pass (2048-bit key) header.d=nuovations.com header.i=@nuovations.com header.b="PgZaCbUw"
 Received: from mail5.g24.pair.com (localhost [127.0.0.1])
-	by mail5.g24.pair.com (Postfix) with ESMTP id CCB6C164A23
-	for <connman@lists.linux.dev>; Fri, 21 Feb 2025 10:56:55 -0500 (EST)
+	by mail5.g24.pair.com (Postfix) with ESMTP id 4AADD164A44
+	for <connman@lists.linux.dev>; Fri, 21 Feb 2025 10:56:56 -0500 (EST)
 Received: from localhost.localdomain (c-24-6-12-99.hsd1.ca.comcast.net [24.6.12.99])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mail5.g24.pair.com (Postfix) with ESMTPSA id 8087712516C
+	by mail5.g24.pair.com (Postfix) with ESMTPSA id F0AA912635C
 	for <connman@lists.linux.dev>; Fri, 21 Feb 2025 10:56:55 -0500 (EST)
 From: Grant Erickson <gerickson@nuovations.com>
 To: connman@lists.linux.dev
-Subject: [PATCH 01/15] service: Add 'service_log_pac' function.
-Date: Fri, 21 Feb 2025 07:56:39 -0800
-Message-ID: <20250221155653.760046-2-gerickson@nuovations.com>
+Subject: [PATCH 02/15] service: Add 'service_set_pac' function.
+Date: Fri, 21 Feb 2025 07:56:40 -0800
+Message-ID: <20250221155653.760046-3-gerickson@nuovations.com>
 X-Mailer: git-send-email 2.45.0
 In-Reply-To: <20250221155653.760046-1-gerickson@nuovations.com>
 References: <20250221155653.760046-1-gerickson@nuovations.com>
@@ -40,38 +40,55 @@ List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nuovations.com; h=from:to:subject:date:message-id:in-reply-to:references:mime-version:content-transfer-encoding; s=pair-202401062137; bh=9fe+bQ1COG98YkRJbgrD9E5NKklRxJhPfW8htohn3jE=; b=dW3t7pgxmqsbDutnADJPVbStzR4RlkAHDRB4WNaHI0x6e5WdlfxyFmTGU6qytUWAOZ1U4YTa6JEPvTC32KH1ZrGYHmvVtes9gJGPye/eeqhULNBT0R+ysVYfKJMWh7CCvu0uP7tYvAoi5f/dd51eKuWAJj6J5jao1SVBEoRhZt1Sy2r4xTQ6GWht+tGJ59K+usiGHFT1Jei3meWKKALrMmbX8o9ZpidlwK7IfqKDlAYIHfsaX+3jq5JxENfxqE0peYWMKwG1CFKwgaPJuqB/pNFPafPwT3iemHFey3t3JG92yRn/aqKEwKZc0VdAtS+wqZPB7aZBnLj4CANGj1Rshw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nuovations.com; h=from:to:subject:date:message-id:in-reply-to:references:mime-version:content-transfer-encoding; s=pair-202401062137; bh=swBuVsbs5tHoForVMqgAD0nWLf1VIoj6qXtKjx3EY2w=; b=PgZaCbUwwpV+npUitSJKZeo2iu/Aecs/OCEJK4VvIfyTkosjWwRmntj3uVQqqiSg5wFITSwL6bUp4stb8d8ZgFrlZue+9ETZ2wtPs7KW0TxifiPVHs2ZowAGoyqsZxlKaTvTbNmKSqlAfkfid8773OBahESj6859fnGOZGpkAA9I8RJ0fV+Fzib8tfwUiu3aEm2ONClCjyLdRUBsx8g2flMzPNdn5rlKkWj0P7RlG0BUMIVMCGa5Yi7rvhn0TIOWZAa4G2v/KFCP0SPLIPYdEvr1YmwEQ0stHWCO0sTGBrUFxWo07IzGc5+0zNXWOrh/uPJIh/0dAR+Ah9zzRdGc4w==
 X-Scanned-By: mailmunge 3.10 on 66.39.139.36
 
-Logs the network service interface name and type at the info level
-when the proxy auto-configuration (PAC) URL is set or cleared.
-
-Frequently, a spurious, misconfigured, or otherwise incorrect PAC URL
-is the source of connectivity problems, particularly for online
-reachability checks.
+Allows for logging, setting, and dispatching property changed
+notifications from a single place.
 ---
- src/service.c | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+ src/service.c | 27 +++++++++++++++++++++++++++
+ 1 file changed, 27 insertions(+)
 
 diff --git a/src/service.c b/src/service.c
-index 805cfca7ad12..0ab299e8ecbf 100644
+index 0ab299e8ecbf..c48959a7940f 100644
 --- a/src/service.c
 +++ b/src/service.c
-@@ -555,6 +555,19 @@ int __connman_service_load_modifiable(struct connman_service *service)
- 	return 0;
+@@ -233,6 +233,7 @@ static struct connman_ipconfig *create_ip4config(struct connman_service *service
+ static struct connman_ipconfig *create_ip6config(struct connman_service *service,
+ 		int index);
+ static void dns_changed(struct connman_service *service);
++static void proxy_changed(struct connman_service *service);
+ static void vpn_auto_connect(void);
+ static void trigger_autoconnect(struct connman_service *service);
+ static void service_list_sort(const char *function);
+@@ -568,6 +569,32 @@ static void service_log_pac(const struct connman_service *service,
+ 				 url ? url : "is not set");
  }
  
-+static void service_log_pac(const struct connman_service *service,
-+				const char *url)
++static void service_set_pac(struct connman_service *service,
++				const char *pac,
++				bool dochanged)
 +{
-+	g_autofree char *interface = NULL;
++	DBG("service %p (%s) pac %p (%s) dochanged %u",
++		service, connman_service_get_identifier(service),
++		pac,
++		pac ? pac : "<null>",
++		dochanged);
 +
-+	interface = connman_service_get_interface(service);
++	if (service->hidden)
++		return;
 +
-+	connman_info("Interface %s [ %s ] proxy auto-configuration (PAC) URL %s.",
-+				 interface,
-+				 __connman_service_type2string(service->type),
-+				 url ? url : "is not set");
++	service_log_pac(service, pac);
++
++	g_free(service->pac);
++
++	if (pac && strlen(pac) > 0)
++		service->pac = g_strstrip(g_strdup(pac));
++	else
++		service->pac = NULL;
++
++	if (dochanged)
++		proxy_changed(service);
 +}
 +
  static int service_load(struct connman_service *service)
