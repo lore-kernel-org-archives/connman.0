@@ -1,81 +1,79 @@
 Received: from mail5.g24.pair.com (mail5.g24.pair.com [66.39.139.36])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB2341EF0B4
-	for <connman@lists.linux.dev>; Fri, 21 Feb 2025 16:15:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 029C324CEC5
+	for <connman@lists.linux.dev>; Fri, 21 Feb 2025 17:11:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=66.39.139.36
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740154550; cv=none; b=hUkMyA/cK3wXZVzN6HcsbBsLpxhD16BoaSuGQ7DLPJY1N503J/YGYOQ21+Kfbq9wQeTKVD7GgoOYMBXRA+MNJdQMuXRq08jLxsIq7GXrzlSeqyuN3kXu3CJ2qC4T8EuqobSNepUaKCzxHmGB/AWEePo7twMxq287t5Y3dXIo3V0=
+	t=1740157875; cv=none; b=dhWwrAxlL8HqnPFu/UdJukMygZ7uIy7wdJ9S4xaz4NVOb51n+/dyGV1oMs2pF3I4IpOO8gBZnVYHkUlG9gxJcquD1OJzu9tM2o1XKVYFe8gvtPWwfTnotayEH2f3YgYhBtSFlBdUTo10JCewK4F25kF85+iy4cVvRNHSdUL9QgA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740154550; c=relaxed/simple;
-	bh=AQI1AMpDk5p49fF2qfUOrXRywiVeOPFEEYp4nPhhCMU=;
-	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
-	 Message-Id:References:To; b=csxkdkjHPuAPjG1zL0BEfZKpyJoNr1LLdXewYKqPCVbegf1QW2GZQLw+jZE2n9sqonDS+Ve8RDwlgkLnCgVB6S4+NG0x+FD9IkxJQP4FB2ds48cYXXfu75FEhKKkzRyOWJMaF/jt6qR/muxGCIKchotX9aKvcLCAX6bwphh+FqI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nuovations.com; spf=pass smtp.mailfrom=nuovations.com; dkim=pass (2048-bit key) header.d=nuovations.com header.i=@nuovations.com header.b=CmncCKc1; arc=none smtp.client-ip=66.39.139.36
+	s=arc-20240116; t=1740157875; c=relaxed/simple;
+	bh=OBN2I6mYnS/yM6Ayzpl9E/qGGiCbE3L60jAlo8rcp0c=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version; b=j2Hys/rR/xsDFYkJ1NtuV3lCn+DxXMWcgFQfCHrRC1WszF8iW+oOdb8FDMbP0M9L6+FgJEywH9B3eqZxdZ/K19uxAM4/cbvZ3200Gp9n+ukz1Hb9tWua5Wt3+Qhhw4xMSwAuvxeEChhOu4gkL/P+O8ra1lyEkSEE2oWCiz+Z0/Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nuovations.com; spf=pass smtp.mailfrom=nuovations.com; dkim=pass (2048-bit key) header.d=nuovations.com header.i=@nuovations.com header.b=VayOujKH; arc=none smtp.client-ip=66.39.139.36
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nuovations.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nuovations.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nuovations.com header.i=@nuovations.com header.b="CmncCKc1"
+	dkim=pass (2048-bit key) header.d=nuovations.com header.i=@nuovations.com header.b="VayOujKH"
 Received: from mail5.g24.pair.com (localhost [127.0.0.1])
-	by mail5.g24.pair.com (Postfix) with ESMTP id 0BACA1649B8;
-	Fri, 21 Feb 2025 11:15:48 -0500 (EST)
-Received: from smtpclient.apple (c-24-6-12-99.hsd1.ca.comcast.net [24.6.12.99])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	by mail5.g24.pair.com (Postfix) with ESMTP id CE812164A44
+	for <connman@lists.linux.dev>; Fri, 21 Feb 2025 12:11:11 -0500 (EST)
+Received: from localhost.localdomain (c-24-6-12-99.hsd1.ca.comcast.net [24.6.12.99])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mail5.g24.pair.com (Postfix) with ESMTPSA id 88F1B124FD3;
-	Fri, 21 Feb 2025 11:15:47 -0500 (EST)
-Content-Type: text/plain;
-	charset=utf-8
+	by mail5.g24.pair.com (Postfix) with ESMTPSA id 7F9CD124EDF
+	for <connman@lists.linux.dev>; Fri, 21 Feb 2025 12:11:11 -0500 (EST)
+From: Grant Erickson <gerickson@nuovations.com>
+To: connman@lists.linux.dev
+Subject: [PATCH] gateway: Fix __connman_connection_gateway_add is_vpn6 calculation.
+Date: Fri, 21 Feb 2025 09:11:10 -0800
+Message-ID: <5e1a105eda4ae36e7a9132140949c569cd02fe02.1740157858.git.gerickson@nuovations.com>
+X-Mailer: git-send-email 2.45.0
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3776.700.51.11.1\))
-Subject: Re: [PATCH] gateway: fix calculation of is_vpn6
-From: Grant Erickson <gerickson@nuovations.com>
-In-Reply-To: <37feab56-a21b-4c51-b826-6f3690b9ea81@gmail.com>
-Date: Fri, 21 Feb 2025 08:15:36 -0800
-Cc: Gabriel Sanches <gabriel.sanches@prevas.dk>,
- "connman@lists.linux.dev" <connman@lists.linux.dev>,
- Christian Hewitt <christianshewitt@gmail.com>
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <866CEADA-8CBE-46E0-A5EE-7D6EFCCD58FA@nuovations.com>
-References: <DB6PR10MB1845EBB07DB785B580B3F6ECE1E02@DB6PR10MB1845.EURPRD10.PROD.OUTLOOK.COM>
- <37feab56-a21b-4c51-b826-6f3690b9ea81@gmail.com>
-To: Denis Kenzior <denkenz@gmail.com>
-X-Mailer: Apple Mail (2.3776.700.51.11.1)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nuovations.com; h=content-type:mime-version:subject:from:in-reply-to:date:cc:content-transfer-encoding:message-id:references:to; s=pair-202401062137; bh=P+LnOs042fkHH58YoiPi7CXKMriASpyWymTp+bGgKcE=; b=CmncCKc1mkNBPdR0S3RwCgzhCL7fC+pSmsk/cXlsDvyHqicfbi9PL+jYNAd/8nvEpBOg+8gOaDZ3xzC2nm2yTLry5NNyi965DLSOCvnzuCOSf/+dYu21q3M6hqsAKEVlTXBkRuAvj8hb4pUr4TO6oWHouULkXMemmwx5DCFUcCnijZFUWSenC+wYkUkVLhxLqaM2YfAaTOxmeWNVPytsfRe4pwKOAjuKLCgz+rZGgBWRxIIaSbhu/DoVOPpaw2GxOkE2D7b51V0G+ezWsp9G9R7//mLNjVCKYlfZXou0DjDRXHvcHgOI9M7OYNXTfD/islQ0nCxUqrXMUm7kislSIQ==
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nuovations.com; h=from:to:subject:date:message-id:mime-version:content-transfer-encoding; s=pair-202401062137; bh=pEGw7FT2HRFMcCZrCgrZfkZDBLzBb/DC0aGxZRNNGYo=; b=VayOujKHjdJS5rhDI7hzCVt7TKKyUJE9OyfczxIZUhQqJv0PilmFcBZ6LAiK7+BPt2AvlpiCjLb43KAL+B2/ZCXm2PfM2RZnE3BeJ67l7vefGwecubayiKhO8jubK+EYkvMY30c13UYPjn1Ad4t1RNFmUWGrbbtoBLaEv3qo1zzFWXGUAhtoidNhtGGnfR8LkMTKRP9YG1mVtt8Jg2DAOU0unVxhYOBWptImBlUBvO+kFkXegpQ1FFX3xBbELEx4F3CGOnIE+wHLqhA4lNQsYeYcx7XYTh0JcT8Y/Pqrw0hhAEGRyNTZ0li8i/eYGVzGsC6g7GG9ABLxnKJLoQlkYg==
 X-Scanned-By: mailmunge 3.10 on 66.39.139.36
 
-On Feb 14, 2025, at 8:02=E2=80=AFAM, Denis Kenzior <denkenz@gmail.com> =
-wrote:
-> On 1/23/25 5:38 AM, Gabriel Sanches wrote:
->> Fix is_vpn6 to use ipv6 variables not ipv4 variables. This stops
->> the WireGuard plugin from faulting on startup.
->> Fixes: commit 823d5a2a8cc4 ("connection: Refactor =
-=E2=80=98__connman_connection_gateway_add=E2=80=99=E2=80=9D)=E2=80=9D
->> Signed-of-by: Gabriel Sanches <gabriel.sanches@prevas.dk>
->> Tested-by: Christian Hewitt <christianshewitt@gmail.com>
->> ---
->>  src/gateway.c | 6 +++---
->>  1 file changed, 3 insertions(+), 3 deletions(-)
->=20
-> This patch does not apply cleanly to upstream.  Anyone care to =
-re-send?
+Address a regression introduced in commit 823d5a2a8cc4 ("connection:
+Refactor '__connman_connection_gateway_add'.") in which the 'is_vpn6'
+calculation was inadvertently copied-and-pasted from the 'is_vpn4'
+calculation by correctly using the associated IPv6-related
+'new_gateway' data members.
 
-Denis,
+This stops WireGuard and other VPN-related plugins from faulting on
+start-up.
 
-On it; stand by.
+Suggested-by: Gabriel Sanches <gabriel.sanches@prevas.dk>
+Signed-off-by: Gabriel Sanches <gabriel.sanches@prevas.dk>
+Tested-by: Christian Hewitt <christianshewitt@gmail.com>
+---
+ src/gateway.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-Best,
-
-Grant
-
---=20
-Principal
-Nuovations
-
-gerickson@nuovations.com
-https://www.nuovations.com/
+diff --git a/src/gateway.c b/src/gateway.c
+index 16c87f83b4d6..b2c211e2dc8d 100644
+--- a/src/gateway.c
++++ b/src/gateway.c
+@@ -3704,10 +3704,10 @@ int __connman_gateway_add(struct connman_service *service,
+ 					is_gateway_config_vpn(
+ 						new_gateway->ipv4_config);
+ 
+-		is_vpn6 = do_ipv4 &&
+-					new_gateway->ipv4_config &&
++		is_vpn6 = do_ipv6 &&
++					new_gateway->ipv6_config &&
+ 					is_gateway_config_vpn(
+-						new_gateway->ipv4_config);
++						new_gateway->ipv6_config);
+ 
+ 	} else {
+ 		if (do_ipv4 && new_gateway->ipv4_config)
+-- 
+2.45.0
 
