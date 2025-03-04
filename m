@@ -1,35 +1,35 @@
 Received: from mail5.g24.pair.com (mail5.g24.pair.com [66.39.139.36])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22CE63BBC9
-	for <connman@lists.linux.dev>; Tue,  4 Mar 2025 01:11:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07A61433BE
+	for <connman@lists.linux.dev>; Tue,  4 Mar 2025 01:11:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=66.39.139.36
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741050687; cv=none; b=WggILpIRLP3ptPREjZwfX4aqTpcgrmICrQM9r0a8Bxabk5jCat8vZgZCYa1HvI9dPlempVzTdUst6EIKQMxg52VVyCZDKSc9sJZJN2pbvQHJvhp0Bhw1VSkyxQw63Al2JLk9xZ5ltXqWrlOUzlsuQJgdCIcombY2hLMSQJFY07M=
+	t=1741050687; cv=none; b=YSov9adOGVk3t9ZJemZlL3q09Ir4qVIO/DgDDuwDrwOv48rhmHrc1GlPPukfIo1uUNBoJJUpBFL88GKGpUJ66FZe2CP9k6u37jtFISnH0dec5wtFhYIpogxqHn21kgu/Z+N1ugDYcpEsSgteYLIGjFy7vAlTeMR7+e1nTj4nsGw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1741050687; c=relaxed/simple;
-	bh=44HUdhk7dssEJ9PRfq7Z/GkqK4eShLJD9Y8TkVr78Xs=;
+	bh=4nj74Xta146bwIYyM6e+pXmc3KZa6CdkUjRcifYYYWg=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Q6phmAfywukUCnfqSRrfthpCVvmSaMkNpuFLUFm4Y6M+FJYJBvoPnfEIBTmr2C5dF9QHdKkuXIiOmDafiCCRfH2KreDmJoEp0OYs/LB5Wy3Ut7Rjfhr+5UVOvLq12CAmIOAOfMf3zbSPsBw2P6pndgzWKWK3haJ5VnNtXVqD2f0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nuovations.com; spf=pass smtp.mailfrom=nuovations.com; dkim=pass (2048-bit key) header.d=nuovations.com header.i=@nuovations.com header.b=aR5OUbkr; arc=none smtp.client-ip=66.39.139.36
+	 MIME-Version; b=DRQ/YhUylAyClMscb4uhdJY3XQiprolEAttcHFdDgLZHQe2+MMI7I/JzqtRYE9m7DkHDMe/DVBsLgMeYUuIA4+Lkmk5GQ1y8GOby9telckMtksip9UONWqPm3lK5LijJpejSb1gJo005+SYv8Jn6uViAVDXmsgqdriSIlvOfFlg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nuovations.com; spf=pass smtp.mailfrom=nuovations.com; dkim=pass (2048-bit key) header.d=nuovations.com header.i=@nuovations.com header.b=GcmstVpG; arc=none smtp.client-ip=66.39.139.36
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nuovations.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nuovations.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nuovations.com header.i=@nuovations.com header.b="aR5OUbkr"
+	dkim=pass (2048-bit key) header.d=nuovations.com header.i=@nuovations.com header.b="GcmstVpG"
 Received: from mail5.g24.pair.com (localhost [127.0.0.1])
-	by mail5.g24.pair.com (Postfix) with ESMTP id 889DC164B54
-	for <connman@lists.linux.dev>; Mon,  3 Mar 2025 20:11:19 -0500 (EST)
+	by mail5.g24.pair.com (Postfix) with ESMTP id A5B5C164B51
+	for <connman@lists.linux.dev>; Mon,  3 Mar 2025 20:11:18 -0500 (EST)
 Received: from localhost.localdomain (c-73-202-63-31.hsd1.ca.comcast.net [73.202.63.31])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mail5.g24.pair.com (Postfix) with ESMTPSA id 3F9D21260D5
-	for <connman@lists.linux.dev>; Mon,  3 Mar 2025 20:11:19 -0500 (EST)
+	by mail5.g24.pair.com (Postfix) with ESMTPSA id 5C253124FD2
+	for <connman@lists.linux.dev>; Mon,  3 Mar 2025 20:11:18 -0500 (EST)
 From: Grant Erickson <gerickson@nuovations.com>
 To: connman@lists.linux.dev
-Subject: [PATCH 09/22] gweb: Add documentation to 'g_web_result_get_status'.
-Date: Mon,  3 Mar 2025 17:11:00 -0800
-Message-ID: <008c8a22cd569df0fb8c8f815d946b0bf730b419.1741050622.git.gerickson@nuovations.com>
+Subject: [PATCH 07/22] gweb: Add an OS err parameter to 'call_result_func'.
+Date: Mon,  3 Mar 2025 17:10:58 -0800
+Message-ID: <4358a366915e876dc60ac5ea5dc2e3846601b438.1741050622.git.gerickson@nuovations.com>
 X-Mailer: git-send-email 2.45.0
 In-Reply-To: <099f9cd55983495c71a47a68f402720c6b3c4cab.1741050622.git.gerickson@nuovations.com>
 References: <099f9cd55983495c71a47a68f402720c6b3c4cab.1741050622.git.gerickson@nuovations.com>
@@ -40,40 +40,141 @@ List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nuovations.com; h=from:to:subject:date:message-id:in-reply-to:references:mime-version:content-transfer-encoding; s=pair-202401062137; bh=aP//wlS8ILBKjvXLMQ+tpDDPz4EdrX5YOmp9j5T5if4=; b=aR5OUbkrYyTKcAOsHGfYbjm4tfd44EHHRZL/a9XZMHQIhWgnIys9CW4078v738kfnTvpPdN0f9NNEw6vKCFtP2zB7//a6Z3Xm9vsSRnc8THGKnQRJHVelLOKERfNgHu3yC6AcfaRRNOdAE7aVmuYfKu68bn7eRGhLpIRa2j4dHW6j6atsDS1wNUXuj3Z+5B7YyCqd/4Esu+Ynx17HEoJh5kl/HIDy7/F/A++tHvujzm24TMxRBzWa8WssiSpCaO3NF9nEcctnRphaWtG7AJ5do1jyu4fUk/T5jZRypNy157BkuFpZxxVVFIGxsth1Pp4imz8ic9N1Mr0V/IaR6WWEw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nuovations.com; h=from:to:subject:date:message-id:in-reply-to:references:mime-version:content-transfer-encoding; s=pair-202401062137; bh=NK7Zt5YCiFxbYL1MjlRCqeVaXwqWgGmwUCiu6Pncj1g=; b=GcmstVpG+t+fWK8U6pFjsoQdGkB+jQ/yvLeAIjvcJjY4DngW2ya2uoeCvLNj6sbv2Ztm3UzM+1l4ZeHvRc5KK193KNOuSiaRV2G+3sUoRN7h6PVEhzUva12FKRdAYSIypW4jO57j4BD7JayaR1o+xSdTLxH1W7QbDQ3E78oqL64gveqRkqAtGEmLMnWmiW8jV16gU1ftxo1eLSM1JE1lkVAQ8O4Bmwa/vdwl/gSHcAUj2YcFahPf2c26KHMBTpihYwUiP1vi5YnIytLHx31MuF5pebEfVVVQPrkcOxxqZAr2Te80T8nMEG/qs6sDeCwNgkgU6207GYk86qwozW93Ew==
 X-Scanned-By: mailmunge 3.10 on 66.39.139.36
 
-Add documentation to the 'g_web_result_get_status' function.
+This allows populating the 'struct _GWebResult' 'err' data member for
+operating system-related web request session failures and the use of
+'g_web_result_get_err' for interested clients, such as WISPr.
 ---
- gweb/gweb.c | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
+ gweb/gweb.c | 29 +++++++++++++++++------------
+ 1 file changed, 17 insertions(+), 12 deletions(-)
 
 diff --git a/gweb/gweb.c b/gweb/gweb.c
-index 0256d622e00a..ec72cd417a9c 100644
+index 72f83d8f27e4..f5accf80cbeb 100644
 --- a/gweb/gweb.c
 +++ b/gweb/gweb.c
-@@ -2526,6 +2526,21 @@ int g_web_result_get_err(const GWebResult *result)
- 	return result->err;
+@@ -164,17 +164,21 @@ static void _debug(GWeb *web, const char *file, const char *caller,
+ 	va_end(ap);
  }
  
-+/**
-+ *  @brief
-+ *    Returns the HTTP status code, if any, associated with the
-+ *    web session request result.
-+ *
-+ *  @param[in]  result  A pointer to the immutable web session
-+ *                      request result for which to return the
-+ *                      HTTP status code.
-+ *
-+ *  @returns
-+ *    The HTTP status code.
-+ *
-+ *  @sa g_web_result_get_err
-+ *
-+ */
- guint16 g_web_result_get_status(GWebResult *result)
+-static inline void call_result_func(struct web_session *session, guint16 status)
++static inline void call_result_func(struct web_session *session,
++					int err, guint16 status)
  {
- 	if (!result)
++	debug(session->web, "session %p err %d status %d result_func %p",
++		session, err, status, session->result_func);
+ 
+ 	if (!session->result_func)
+ 		return;
+ 
++	session->result.err = err;
++
+ 	if (status != GWEB_HTTP_STATUS_CODE_UNKNOWN)
+ 		session->result.status = status;
+ 
+ 	session->result_func(&session->result, session->user_data);
+-
+ }
+ 
+ static inline void call_route_func(struct web_session *session)
+@@ -219,7 +223,7 @@ static gboolean connect_timeout_cb(gpointer user_data)
+ 	session->result.buffer = NULL;
+ 	session->result.length = 0;
+ 
+-	call_result_func(session, GWEB_HTTP_STATUS_CODE_REQUEST_TIMEOUT);
++	call_result_func(session, -ETIMEDOUT, GWEB_HTTP_STATUS_CODE_REQUEST_TIMEOUT);
+ 
+ 	return G_SOURCE_REMOVE;
+ }
+@@ -960,7 +964,7 @@ static int decode_chunked(struct web_session *session,
+ 			if (session->chunk_left <= len) {
+ 				session->result.buffer = ptr;
+ 				session->result.length = session->chunk_left;
+-				call_result_func(session,
++				call_result_func(session, 0,
+ 					GWEB_HTTP_STATUS_CODE_UNKNOWN);
+ 
+ 				len -= session->chunk_left;
+@@ -976,7 +980,7 @@ static int decode_chunked(struct web_session *session,
+ 			/* more data */
+ 			session->result.buffer = ptr;
+ 			session->result.length = len;
+-			call_result_func(session,
++			call_result_func(session, 0,
+ 				GWEB_HTTP_STATUS_CODE_UNKNOWN);
+ 
+ 			session->chunk_left -= len;
+@@ -1002,7 +1006,7 @@ static int handle_body(struct web_session *session,
+ 		if (len > 0) {
+ 			session->result.buffer = buf;
+ 			session->result.length = len;
+-			call_result_func(session,
++			call_result_func(session, 0,
+ 				GWEB_HTTP_STATUS_CODE_UNKNOWN);
+ 		}
+ 		return 0;
+@@ -1014,7 +1018,7 @@ static int handle_body(struct web_session *session,
+ 
+ 		session->result.buffer = NULL;
+ 		session->result.length = 0;
+-		call_result_func(session, GWEB_HTTP_STATUS_CODE_BAD_REQUEST);
++		call_result_func(session, 0, GWEB_HTTP_STATUS_CODE_BAD_REQUEST);
+ 	}
+ 
+ 	return err;
+@@ -1107,7 +1111,7 @@ static void received_data_finalize(struct web_session *session)
+ 	session->result.buffer = NULL;
+ 	session->result.length = 0;
+ 
+-	call_result_func(session, code);
++	call_result_func(session, 0, code);
+ }
+ 
+ static bool received_data_continue(struct web_session *session,
+@@ -1223,7 +1227,7 @@ static gboolean received_data(GIOChannel *channel, GIOCondition cond,
+ 		session->result.buffer = NULL;
+ 		session->result.length = 0;
+ 
+-		call_result_func(session, GWEB_HTTP_STATUS_CODE_BAD_REQUEST);
++		call_result_func(session, -EIO, GWEB_HTTP_STATUS_CODE_BAD_REQUEST);
+ 
+ 		return FALSE;
+ 	}
+@@ -2257,14 +2261,14 @@ static void handle_resolved_address(struct web_session *session)
+ 	ret = getaddrinfo(session->address, port, &hints, &session->addr);
+ 	g_free(port);
+ 	if (ret != 0 || !session->addr) {
+-		call_result_func(session, GWEB_HTTP_STATUS_CODE_BAD_REQUEST);
++		call_result_func(session, 0, GWEB_HTTP_STATUS_CODE_BAD_REQUEST);
+ 		return;
+ 	}
+ 
+ 	call_route_func(session);
+ 
+ 	if (create_transport(session) < 0) {
+-		call_result_func(session, GWEB_HTTP_STATUS_CODE_CONFLICT);
++		call_result_func(session, 0, GWEB_HTTP_STATUS_CODE_CONFLICT);
+ 		return;
+ 	}
+ }
+@@ -2285,7 +2289,7 @@ static void resolv_result(GResolvResultStatus status,
+ 	struct web_session *session = user_data;
+ 
+ 	if (!results || !results[0]) {
+-		call_result_func(session, GWEB_HTTP_STATUS_CODE_NOT_FOUND);
++		call_result_func(session, 0, GWEB_HTTP_STATUS_CODE_NOT_FOUND);
+ 		return;
+ 	}
+ 
+@@ -2347,6 +2351,7 @@ static guint do_request(GWeb *web, const char *url,
+ 	debug(web, "host %s", session->host);
+ 	debug(web, "flags %lu", session->flags);
+ 	debug(web, "request %s", session->request);
++	debug(web, "result_func %p", func);
+ 
+ 	if (type) {
+ 		session->content_type = g_strdup(type);
 -- 
 2.45.0
 
