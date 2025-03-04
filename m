@@ -1,35 +1,35 @@
 Received: from mail5.g24.pair.com (mail5.g24.pair.com [66.39.139.36])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52A6678F4A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6402278F59
 	for <connman@lists.linux.dev>; Tue,  4 Mar 2025 01:11:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=66.39.139.36
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741050690; cv=none; b=hRekr6+inV8E0VlLqemmsMf7Y6NkJdpGe10Qi9o2vQR0YzI1fT7DrrfsDsw9fd53ueRYbh/KRE2FCRiKWnGCJ4xij/rn/Gaz9zAZZggHSuDConvtUf8m438yWiZaB7aexox2VoxFtSVrIGGU/nS1qgGOL06ssJuSrcgUHr6mVNE=
+	t=1741050690; cv=none; b=bj6hUEcRMKmPAyK6tglIQwzsWrHtQbBH7+75lPi5fn25oqL3bYn+OFQV/xaBZDpBtEnAwKYWaVtdfjJ40eAXSWe9CtKSyNjB8qhAf2Uyh7J2hTJTyYatjddTtkb87KZXoqnNTyCy3RkIhzzYtsSW2/T82gEKI7jl/5DFJxt2zP0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1741050690; c=relaxed/simple;
-	bh=XX1T95mwvWuXbs10OZ2tWgGrnXoyIQOpfNIkkuz1iCY=;
+	bh=odnLORuzSz53Yv+gVZyQWhDL1a0anUDWkbDoNqjAbIA=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=f4l21/ejkHBf8qCmc07ppY6QNb7l3g/mxthkLtbwnuNfp8WpmP1RtXLQd7Y5PQPXHSCeGo4GYYRpG7NQl7JlNYOq45SpnQI+J4/G+C+XpvNpEswvYLIx/xUq5p7qiOluz7puKNKePKctxm+qVKnxRt3QnzoxXMeLxD1n2f8z/A4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nuovations.com; spf=pass smtp.mailfrom=nuovations.com; dkim=pass (2048-bit key) header.d=nuovations.com header.i=@nuovations.com header.b=J1ii+pl/; arc=none smtp.client-ip=66.39.139.36
+	 MIME-Version; b=k0fZTUcVhXvZWeXbi0674iNSXItAZ5CJwMoL4nHZmXhp/HP69Ng9BW60Hh6c9AcnVwiwMdNMgI0hyeUTPWi8MrA+AuER6a7Q/41EZsb6n2RSBeGfKnA6Iur+MtTAWCRF4y9Z8gRAboi4f/SOfORK8KvTyLIHFUoTP3L896y7Jig=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nuovations.com; spf=pass smtp.mailfrom=nuovations.com; dkim=pass (2048-bit key) header.d=nuovations.com header.i=@nuovations.com header.b=mjge1j7+; arc=none smtp.client-ip=66.39.139.36
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nuovations.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nuovations.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nuovations.com header.i=@nuovations.com header.b="J1ii+pl/"
+	dkim=pass (2048-bit key) header.d=nuovations.com header.i=@nuovations.com header.b="mjge1j7+"
 Received: from mail5.g24.pair.com (localhost [127.0.0.1])
-	by mail5.g24.pair.com (Postfix) with ESMTP id 89791164B5C
-	for <connman@lists.linux.dev>; Mon,  3 Mar 2025 20:11:23 -0500 (EST)
+	by mail5.g24.pair.com (Postfix) with ESMTP id 017DF164B5D
+	for <connman@lists.linux.dev>; Mon,  3 Mar 2025 20:11:24 -0500 (EST)
 Received: from localhost.localdomain (c-73-202-63-31.hsd1.ca.comcast.net [73.202.63.31])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mail5.g24.pair.com (Postfix) with ESMTPSA id 416F0124FD3
+	by mail5.g24.pair.com (Postfix) with ESMTPSA id ACFC2124FD3
 	for <connman@lists.linux.dev>; Mon,  3 Mar 2025 20:11:23 -0500 (EST)
 From: Grant Erickson <gerickson@nuovations.com>
 To: connman@lists.linux.dev
-Subject: [PATCH 18/22] wispr: Document 'wispr_portal_web_result_err'.
-Date: Mon,  3 Mar 2025 17:11:09 -0800
-Message-ID: <aa20d594fea53deb897e24f2da6c3ce2a41a1644.1741050622.git.gerickson@nuovations.com>
+Subject: [PATCH 19/22] wispr: Document 'wispr_portal_web_result_no_err'.
+Date: Mon,  3 Mar 2025 17:11:10 -0800
+Message-ID: <440d5f9ab1612ac850e5a6d9a4b485e3c49d097d.1741050622.git.gerickson@nuovations.com>
 X-Mailer: git-send-email 2.45.0
 In-Reply-To: <099f9cd55983495c71a47a68f402720c6b3c4cab.1741050622.git.gerickson@nuovations.com>
 References: <099f9cd55983495c71a47a68f402720c6b3c4cab.1741050622.git.gerickson@nuovations.com>
@@ -40,38 +40,34 @@ List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nuovations.com; h=from:to:subject:date:message-id:in-reply-to:references:mime-version:content-transfer-encoding; s=pair-202401062137; bh=aHZZKGleacv82JkKdvz7Ahq3dLEI8hESkEDRHkwaExc=; b=J1ii+pl/wy8htKrJoY1TT+oIcE/SQKESIcmNjI48qKKoUs/PKkw3ru7itSLtNvy5Z794xntXzF6WTXQrNMleoCMoZktyelqfE9W00cRS2ni78UUFfslEgi8L9//QMslJvLBJfKIrMcH0gnArJuZ1PjOk8th8gxGZGRR3Oe36eMwqi23LhBfJY734ycBESSJ5ZUcJtxHBg/1Fl+qRvpld20RIwqnIDCVAj67uvGsT5nBQmXjeg1XCR4eLnKYlKnHYKvUmSPdLL/QegjKQge8kb2UbgdwqzpQbZztjUzDZBuZahyFJHwYkIG1OuHLNpCuNd3tkYB9rASQLlc+OQQw/fg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nuovations.com; h=from:to:subject:date:message-id:in-reply-to:references:mime-version:content-transfer-encoding; s=pair-202401062137; bh=6rM4L/QiLHjyyjDPcx84RyKuB0OvHA7ofQO/OSzRbSE=; b=mjge1j7+PVSUWJRgZt6Yb6WPpmJaJIzvIUjI0dR7fL8INevVPtg4dAa0vStLRU2uSBV7+SWB7eT9AWiiwN20d/5OoPBvGByV3yhzqoXzqvzrGnWJ0MRwZguyewTFM3UBlVe62M0uqiwtyFC2hwLA516SrSxYv8sWqVNossDqzexXPGgG6IlzwiKH4K6YHfOfKsm3QBy8oXSgbXveqcQVWTPD5RvtyZdNLzDqAwj7T/6qzB3JvkcWwGaJVBsuEB2bcOQ91Y3zqnkLPPgWCfCHQTod9cG/MO1CgN6ismRXr+v/0Zjs+i4LAcYsbktr2pHPsVIXuGDNFKRCr/JFLlLe6A==
 X-Scanned-By: mailmunge 3.10 on 66.39.139.36
 
-Add documentation to the 'wispr_portal_web_result_err' function.
+Add documentation to the 'wispr_portal_web_result_no_err' function.
 ---
- src/wispr.c | 23 +++++++++++++++++++++++
- 1 file changed, 23 insertions(+)
+ src/wispr.c | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
 
 diff --git a/src/wispr.c b/src/wispr.c
-index 83422c96b50d..0a29303116eb 100644
+index 0a29303116eb..004227d5f1c7 100644
 --- a/src/wispr.c
 +++ b/src/wispr.c
-@@ -1003,6 +1003,29 @@ static bool wispr_manage_message(GWebResult *result,
- 	return false;
+@@ -1036,6 +1036,25 @@ static void wispr_portal_web_result_err(GWebResult *result,
+ 	wp_context->request_id = 0;
  }
  
 +/**
 + *  @brief
 + *    Handle closure and finalization of a web request associated with
-+ *    an unsuccessful "online" HTTP-based Internet reachability check.
++ *    a successful "online" HTTP-based Internet reachability check.
 + *
 + *  @param[in]      result      A pointer to the mutable web request
 + *                              result being finalized.
 + *  @param[in,out]  wp_context  A pointer to the mutable WISPr portal
 + *                              detection context associated with the
-+ *                              unsuccessful "online" HTTP-based
++ *                              successful "online" HTTP-based
 + *                              Internet reachability check this is
 + *                              finalizing.
-+ *  @param[in]      err         The negated POSIX domain error
-+ *                              associated with the unsuccessful
-+ *                              "online" HTTP-based Internet
-+ *                              reachability check.
 + *
 + *  @sa wispr_portal_web_result
 + *  @sa wispr_portal_web_result_no_err
@@ -79,9 +75,9 @@ index 83422c96b50d..0a29303116eb 100644
 + *  @private
 + *
 + */
- static void wispr_portal_web_result_err(GWebResult *result,
- 		struct connman_wispr_portal_context *wp_context,
- 		int err)
+ static void wispr_portal_web_result_no_err(GWebResult *result,
+ 		struct connman_wispr_portal_context *wp_context)
+ {
 -- 
 2.45.0
 
