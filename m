@@ -1,35 +1,35 @@
 Received: from mail5.g24.pair.com (mail5.g24.pair.com [66.39.139.36])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B15FA86337
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B352386338
 	for <connman@lists.linux.dev>; Tue,  4 Mar 2025 01:11:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=66.39.139.36
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741050690; cv=none; b=QidC7es86zgU+8zJcB/VumiDcHGt/525WsjV08qePPMwJkcrjLS4xjMXIx0Qjq4mU6ggrKGz4T7XUKM/30rbDQrSnO/79ekPPjA6e4T3bg90iMw/xkBZNvAQnkQrZLT3jLXuJYmdkGAy3TnoIJ+NmXbRTH0KUeKwAIS/ysAp6Bo=
+	t=1741050690; cv=none; b=POWsFFkLshWVmxggpyfFO+Bdt72sPiN+bi3K4DmUDgVdnmr+U3LEWU0tU2CmymHxlQLbtJfVZTwxahSQ0W41RtnXBv44wtQfVHvMpXV5GqKux9aIxFJNO/msjkr0i26CbF92fbIdXDjYAX+iJ+Zm9juc6OstVeM/l7Yi3rtiVzU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1741050690; c=relaxed/simple;
-	bh=DdMIxGVqO/dUphThZE8HzMbcWm40PUUlhhVyN/krUd0=;
+	bh=S0IoI8cW8osAWztK89NCeIuGZOYZXpRC44vzGmqg3hw=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=SOrHAuCqv9MMMmAiQueHdwvw7ZczPHtzVnYwuYLNKWHP581UT2BO84bXN6C8pJWlhCb/vviug5RV/udqeAHyST6cBj2R5ZNWEAvC24uAWM2Rhfubkk1qauvfrq3FipOHTRM5z7sBMM29CZdi5kJ2iCsSXBLpi5M4dfd36d7sD4o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nuovations.com; spf=pass smtp.mailfrom=nuovations.com; dkim=pass (2048-bit key) header.d=nuovations.com header.i=@nuovations.com header.b=tZvlY9a9; arc=none smtp.client-ip=66.39.139.36
+	 MIME-Version; b=W/6rdhjoDozzGwWFHf+THu8ztDSVGyGkyutlU1vv+aNu65LC8wdVi44G+QsZWIAJocJrHJC/X+1emhgf6Ueg7+8zxN6CyaXCWj1RakiJN20H4qkv1CC5N7/xjUIPaPBjROO9QMb3DOZpyOUkPYA6V/4xwcFOty1etZ709RBj9hc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nuovations.com; spf=pass smtp.mailfrom=nuovations.com; dkim=pass (2048-bit key) header.d=nuovations.com header.i=@nuovations.com header.b=IDuaZyb7; arc=none smtp.client-ip=66.39.139.36
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nuovations.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nuovations.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nuovations.com header.i=@nuovations.com header.b="tZvlY9a9"
+	dkim=pass (2048-bit key) header.d=nuovations.com header.i=@nuovations.com header.b="IDuaZyb7"
 Received: from mail5.g24.pair.com (localhost [127.0.0.1])
-	by mail5.g24.pair.com (Postfix) with ESMTP id E3529164B5F
-	for <connman@lists.linux.dev>; Mon,  3 Mar 2025 20:11:24 -0500 (EST)
+	by mail5.g24.pair.com (Postfix) with ESMTP id 5B7F8164B23
+	for <connman@lists.linux.dev>; Mon,  3 Mar 2025 20:11:25 -0500 (EST)
 Received: from localhost.localdomain (c-73-202-63-31.hsd1.ca.comcast.net [73.202.63.31])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mail5.g24.pair.com (Postfix) with ESMTPSA id 91CE0124FD3
-	for <connman@lists.linux.dev>; Mon,  3 Mar 2025 20:11:24 -0500 (EST)
+	by mail5.g24.pair.com (Postfix) with ESMTPSA id 12E90124FD3
+	for <connman@lists.linux.dev>; Mon,  3 Mar 2025 20:11:25 -0500 (EST)
 From: Grant Erickson <gerickson@nuovations.com>
 To: connman@lists.linux.dev
-Subject: [PATCH 21/22] wispr: Fix documentation typo in 'portal_manage_success_status'.
-Date: Mon,  3 Mar 2025 17:11:12 -0800
-Message-ID: <9bec40acf7e63c782fd8d7159eb0d9297a8bfb1b.1741050622.git.gerickson@nuovations.com>
+Subject: [PATCH 22/22] service: Capture and propagate '__connman_wispr_start' return status.
+Date: Mon,  3 Mar 2025 17:11:13 -0800
+Message-ID: <c9ba9fe4ee145481b360a3ab8c35992552766063.1741050622.git.gerickson@nuovations.com>
 X-Mailer: git-send-email 2.45.0
 In-Reply-To: <099f9cd55983495c71a47a68f402720c6b3c4cab.1741050622.git.gerickson@nuovations.com>
 References: <099f9cd55983495c71a47a68f402720c6b3c4cab.1741050622.git.gerickson@nuovations.com>
@@ -40,28 +40,51 @@ List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nuovations.com; h=from:to:subject:date:message-id:in-reply-to:references:mime-version:content-transfer-encoding; s=pair-202401062137; bh=fu/ivN0hPQqSvO2dvECmWf4vSoj9SvDa9g/bGMwu00w=; b=tZvlY9a9wSbvmSYpZIu6qxHB5c/ABSBPkOGLTdDIIP+wpaQIF/SS+M7FdsG1JbYRsnNqCd/i5dV5xYGSiPUyfvWAZXvabF48PWLxP2BhdlbEf2IsYnuw08CyGKj/3cGyQUUE4xFLvsYwcET2RTSXPOQi7Yeik3or6123YliRfHVSzcWHWBoArprBCoffwH7Y4XfiI26i3kj2orMDF3e32OSLjGOSnGr4Vx9wV6XtU+huFpLPy0ZGztHIu8QYjmsEmQ157+BtDNFfMNXi3/p46Xbyf8pamE6IlcR2BS6GNGrhwWVu5EAjXwN0Uh1IZwTpWY2JGdt0zHz4DSyPNboM2A==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nuovations.com; h=from:to:subject:date:message-id:in-reply-to:references:mime-version:content-transfer-encoding; s=pair-202401062137; bh=JzuyPr/g95tGKoZQCm7eAGXm0UDoCaMEAA5YfTq7iZI=; b=IDuaZyb7uhcj2IZvNu55E0cYApKVN8oHsMJWeoJxJKsan/S59aTGK3RuMA0Xm8MM2Enko1bqa+nan+y4YDQ+2RCsnywz5J5Uoe5N1DvYBDRctZK5H/nFbZ3e0EcEvCb3n6tI6EuODN9aQmgasNS0wVqs6mOmlLSDllfxH+q4QEQJRGzxOoL4HWD8of9+AOXThMy/w0QI9IM6t5A9OtdR8WwMG0CdJIfAMrGzmAd4EyIqG8ltdIYNWi1PHUl81toeXgpI+cKdd3AjS9VWqYPUgtuOOjwaEzVEPvQn3iWobxnf+gB3WlhrLjQgAbYaRsYCmYOotBU6kp3AVZuYE1CAiw==
 X-Scanned-By: mailmunge 3.10 on 66.39.139.36
 
-Fix a documentation typo in the 'wp_context' parameter for
-'portal_manage_success_status'.
+'__connman_wispr_start' has a number of early failure conditions
+before the call closure becomes asynchronous. Capture the return
+status from '__connman_wispr_start' in '__connman_service_wispr_start'
+and propagate it forward, ensuring that 'online_check_active_set' is
+NOT called in the failure case.
 ---
- src/wispr.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ src/service.c | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
-diff --git a/src/wispr.c b/src/wispr.c
-index 4abb8f071352..49801b015e30 100644
---- a/src/wispr.c
-+++ b/src/wispr.c
-@@ -685,7 +685,7 @@ static void portal_manage_failure_status(
-  *                              Internet reachability check this is
-  *                              handling.
-  *  @param[in,out]  wp_context  A pointer to the mutable WISPr portal
-- *                              detection context associated the
-+ *                              detection context associated with the
-  *                              successful "online" HTTP-based
-  *                              Internet reachability check this is
-  *                              handling.
+diff --git a/src/service.c b/src/service.c
+index 0cfb516016b5..48a7d1f72367 100644
+--- a/src/service.c
++++ b/src/service.c
+@@ -4003,6 +4003,8 @@ static int start_online_check_if_connected(struct connman_service *service)
+ int __connman_service_wispr_start(struct connman_service *service,
+ 					enum connman_ipconfig_type type)
+ {
++	int err;
++
+ 	DBG("service %p (%s) type %d (%s)",
+ 		service,
+ 		connman_service_get_identifier(service),
+@@ -4034,14 +4036,17 @@ int __connman_service_wispr_start(struct connman_service *service,
+ 		service->online_check_state_ipv6.interval =
+ 					online_check_initial_interval;
+ 
+-	__connman_wispr_start(service, type,
++	err = __connman_wispr_start(service, type,
+ 			online_check_connect_timeout_ms, complete_online_check);
++	if (err < 0)
++		goto done;
+ 
+ 	/* Mark the online check state as active. */
+ 
+ 	online_check_active_set(service, type);
+ 
+-	return 0;
++done:
++	return err;
+ }
+ 
+ /**
 -- 
 2.45.0
 
