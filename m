@@ -1,35 +1,35 @@
 Received: from mail5.g24.pair.com (mail5.g24.pair.com [66.39.139.36])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 368A31DBB13
-	for <connman@lists.linux.dev>; Tue,  4 Mar 2025 03:39:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88CB61DC046
+	for <connman@lists.linux.dev>; Tue,  4 Mar 2025 03:39:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=66.39.139.36
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741059590; cv=none; b=OY/p6AmhEsTYpQWRumL1HklvcpsdYiCuDApThiJFeWvcu1L1relvh7IfW7sbW/dTk+4KTcVMpny4VF+/fPcjHipIOwLZbnTSwC6hFCX2aUPDa+XBNPwizGTNaLtM20+bcV2/VT0Be12qrH2UyZgIbvQ8dV1r7vnBBidmBWp77lk=
+	t=1741059590; cv=none; b=h989UQaNbdsU2lp4Ve8BLsk471SVFHMpEQoKvORM/5ufzud0mXU+Szqc+YYU3mgL4lYnzfZukFqXUBdeRbJJUooizZYRTZxWn1VClkJbqWhCZ2GNtaS9oRjWs7KDrDzJ11m/j+IK/+vs/2jXRzMfo86tVrX3WwrrcThHUiPFamU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1741059590; c=relaxed/simple;
-	bh=LL2u+EZlVVABNibQgbxpMTLT/lTwI18Y1qx7Bl68zr8=;
+	bh=47fuW5Tuk/YBmLZBmPu+sGctbNk3+gYm9LTpx6g5i+s=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=lMpDB4ewegR2zZg1vKnIfVBkAdIynZB3+oEIoC5mXKz04STtMrCGTPAg5Xau/U12ER4y6lv9dTVxcZicwN0mkxSoZjCHail+RsZjIHeABDuzRgrK/M9k5tjyOKWh5XGTDAkgka5gx1XPzl4iFoZAVm8ddbic7XUD3F3vKhlEyIg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nuovations.com; spf=pass smtp.mailfrom=nuovations.com; dkim=pass (2048-bit key) header.d=nuovations.com header.i=@nuovations.com header.b=GMx64n4k; arc=none smtp.client-ip=66.39.139.36
+	 MIME-Version; b=RE6MwoSw/MXup8NpJcBnJv8oRN4+f+VNNPj92zIvQQXBa3g+vyfjUK3ybN/AHoj5z+glhPsrJSDYCUWcCvp93hA6GijXM9/shk8QUXl+RBZTHexXPf6ySVAGycd/awasg/TJ0rwTq6Mjd0ZJurhk9ID20oYDFsCa86hQX/kCwGA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nuovations.com; spf=pass smtp.mailfrom=nuovations.com; dkim=pass (2048-bit key) header.d=nuovations.com header.i=@nuovations.com header.b=MGcTBawj; arc=none smtp.client-ip=66.39.139.36
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nuovations.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nuovations.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nuovations.com header.i=@nuovations.com header.b="GMx64n4k"
+	dkim=pass (2048-bit key) header.d=nuovations.com header.i=@nuovations.com header.b="MGcTBawj"
 Received: from mail5.g24.pair.com (localhost [127.0.0.1])
-	by mail5.g24.pair.com (Postfix) with ESMTP id 445AC164B4D
+	by mail5.g24.pair.com (Postfix) with ESMTP id B5514164B4E
 	for <connman@lists.linux.dev>; Mon,  3 Mar 2025 22:39:47 -0500 (EST)
 Received: from localhost.localdomain (c-73-202-63-31.hsd1.ca.comcast.net [73.202.63.31])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mail5.g24.pair.com (Postfix) with ESMTPSA id EFF22124FC9
-	for <connman@lists.linux.dev>; Mon,  3 Mar 2025 22:39:46 -0500 (EST)
+	by mail5.g24.pair.com (Postfix) with ESMTPSA id 680CB124FC9
+	for <connman@lists.linux.dev>; Mon,  3 Mar 2025 22:39:47 -0500 (EST)
 From: Grant Erickson <gerickson@nuovations.com>
 To: connman@lists.linux.dev
-Subject: [PATCH v2 02/22] gweb: Refactor 'received_data' into 'received_data_{finalize,continue}'.
-Date: Mon,  3 Mar 2025 19:39:24 -0800
-Message-ID: <8f55c77f87703048d35509d4aaf014a9bc37d23d.1741059516.git.gerickson@nuovations.com>
+Subject: [PATCH v2 03/22] gweb: Added 'g_web_result_has_headers'.
+Date: Mon,  3 Mar 2025 19:39:25 -0800
+Message-ID: <33b4c08a164f2a8030dd86e254d79f25ac7762de.1741059516.git.gerickson@nuovations.com>
 X-Mailer: git-send-email 2.45.0
 In-Reply-To: <cover.1741059516.git.gerickson@nuovations.com>
 References: <cover.1741059516.git.gerickson@nuovations.com>
@@ -40,133 +40,56 @@ List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nuovations.com; h=from:to:subject:date:message-id:in-reply-to:references:mime-version:content-transfer-encoding; s=pair-202401062137; bh=MuyU4ipqjbcl+iZQJhZ8QLaI0UsZlmhTZ3nBit5XtSE=; b=GMx64n4kwujivavW8CkcFjGsiSM2QcnbdOHQLOvLJE1bBjNvAd81FhhftrHMszpxh6O1fRkQMO45ITcVAVZXH5TZAcBsaOG67Ed0daPV7uJ0y+61dEQjDWtv4g0GETnYBIN/+CLJvsbawKvAMQCP7j+WdEPNshWkhwgomVHmIqpxJtjIqPRNo5C5brQDGhBbLzebMcofPJZIMy6lKlXGTSCG1ahHFfhyZOHWECMzmJWV9vE3UBWTY+Tp8K9Y1J+vz/EA3Z0Nr0O+o03v/qv/yf4EQynZbTZ8VVURTefjjp7P4aYl4exs84nTa+ZtpfoEGpmtFoKljah0kY1YWjDcMw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nuovations.com; h=from:to:subject:date:message-id:in-reply-to:references:mime-version:content-transfer-encoding; s=pair-202401062137; bh=Ra9UY3AraOCIXWWAyyZPT2eKq3kmnD1hDB2+GcQ6DPE=; b=MGcTBawjVKQ6JtQYLfaTiyCRgAeqSa+Pge297v3CRs3WkKDxKCpxari05pDXM+g9BuQ9EgvunJNJGiDwEfWkSfMt1j5di8eOK1mwLvaNeD1dkzL5AHFhVJkU9SYWW7xrAsDD6/G1Mq7aWlm2eeq6iwx9SYifT0mwxfgvUs9XmvnRViiqeeIRXhF5k5CUcza5gAqFTa3qNqidYp7eRLas0sElqzGILbaGz15SS5XsSBXugkpo7efD92wcy06GF7ZFf3actObtMYbMe5Ol52GmDvOiI3AJOWSOKaT7O1zQkHotB+l8RzigzVm4+kTMBmDIUUXcsRbSEYmnIb2NPhVNMg==
 X-Scanned-By: mailmunge 3.10 on 66.39.139.36
 
-The receive-data-and-process-it path for the glib I/O add watch
-received data handler was already sufficiently long to warrant its own
-function. That now exists and 'received_data_continue'.
-
-While short enough at present, as further error-handling cases are
-developed, the finalization logic for an outstanding web request
-session warranted its own peer function to
-'received_data_continue'. That now exists as 'received_data_finalize'
-where error or EOF cases are now handled.
+Return whether the web session request result has any HTTP headers
+and, if requested, the header count.
 ---
- gweb/gweb.c | 88 +++++++++++++++++++++++++++++++++++++----------------
- 1 file changed, 62 insertions(+), 26 deletions(-)
+ gweb/gweb.c | 16 ++++++++++++++++
+ gweb/gweb.h |  2 ++
+ 2 files changed, 18 insertions(+)
 
 diff --git a/gweb/gweb.c b/gweb/gweb.c
-index 8e0b79c52254..d4bdbdd641f5 100644
+index d4bdbdd641f5..76f01c44b88f 100644
 --- a/gweb/gweb.c
 +++ b/gweb/gweb.c
-@@ -1091,37 +1091,22 @@ static void add_header_field(struct web_session *session)
- 	}
+@@ -2504,6 +2504,22 @@ bool g_web_result_get_header(GWebResult *result,
+ 	return true;
  }
  
--static gboolean received_data(GIOChannel *channel, GIOCondition cond,
--							gpointer user_data)
-+static void received_data_finalize(struct web_session *session)
- {
--	struct web_session *session = user_data;
--	guint8 *ptr = session->receive_buffer;
--	gsize bytes_read;
--	GIOStatus status;
-+	const guint16 code = GWEB_HTTP_STATUS_CODE_UNKNOWN;
- 
--	cancel_connect_timeout(session);
-+	session->transport_watch = 0;
- 
--	if (cond & (G_IO_NVAL | G_IO_ERR | G_IO_HUP)) {
--		session->transport_watch = 0;
--		session->result.buffer = NULL;
--		session->result.length = 0;
--		call_result_func(session, GWEB_HTTP_STATUS_CODE_BAD_REQUEST);
--		return FALSE;
--	}
--
--	status = g_io_channel_read_chars(channel,
--				(gchar *) session->receive_buffer,
--				session->receive_space - 1, &bytes_read, NULL);
-+	session->result.buffer = NULL;
-+	session->result.length = 0;
- 
--	debug(session->web, "bytes read %zu", bytes_read);
-+	call_result_func(session, code);
-+}
- 
--	if (status != G_IO_STATUS_NORMAL && status != G_IO_STATUS_AGAIN) {
--		session->transport_watch = 0;
--		session->result.buffer = NULL;
--		session->result.length = 0;
--		call_result_func(session, GWEB_HTTP_STATUS_CODE_UNKNOWN);
--		return FALSE;
--	}
-+static bool received_data_continue(struct web_session *session,
-+				gsize bytes_read)
++bool g_web_result_has_headers(const GWebResult *result,
++				guint *count)
 +{
-+	guint8 *ptr = session->receive_buffer;
- 
- 	session->receive_buffer[bytes_read] = '\0';
- 
-@@ -1210,6 +1195,57 @@ static gboolean received_data(GIOChannel *channel, GIOCondition cond,
- 	return TRUE;
- }
- 
-+static gboolean received_data(GIOChannel *channel, GIOCondition cond,
-+							gpointer user_data)
-+{
-+	struct web_session *session = user_data;
-+	gsize bytes_read;
-+	GIOStatus status;
++	guint size;
 +
-+	/* We received some data or condition, cancel the connect timeout. */
++	if (!result)
++		return false;
 +
-+	cancel_connect_timeout(session);
++	size = g_hash_table_size(result->headers);
 +
-+	/* If there was a low-level I/O condition or error, there is
-+	 * nothing more to do; simply fail the request.
-+	 */
++	if (count)
++		*count = size;
 +
-+	if (cond & (G_IO_NVAL | G_IO_ERR | G_IO_HUP)) {
-+		session->transport_watch = 0;
-+
-+		session->result.buffer = NULL;
-+		session->result.length = 0;
-+
-+		call_result_func(session, GWEB_HTTP_STATUS_CODE_BAD_REQUEST);
-+
-+		return FALSE;
-+	}
-+
-+	/* Attempt to read received data from the channel. */
-+
-+	status = g_io_channel_read_chars(channel,
-+				(gchar *) session->receive_buffer,
-+				session->receive_space - 1, &bytes_read, NULL);
-+
-+	debug(session->web, "bytes read %zu status %d", bytes_read,
-+		status);
-+
-+	/* Handle post-channel read errors, which could be either
-+	 * G_IO_STATUS_ERROR or G_IO_STATUS_EOF.
-+	 */
-+	if (status != G_IO_STATUS_NORMAL && status != G_IO_STATUS_AGAIN) {
-+		received_data_finalize(session);
-+
-+		return FALSE;
-+	}
-+
-+	/* Otherwise, continue the session request and process the
-+	 * received data.
-+	 */
-+
-+	return received_data_continue(session, bytes_read);
++	return size > 0;
 +}
 +
- static int bind_to_address(int sk, const char *interface, int family)
- {
- 	struct ifaddrs *ifaddr_list, *ifaddr;
+ struct _GWebParser {
+ 	gint ref_count;
+ 	char *begin_token;
+diff --git a/gweb/gweb.h b/gweb/gweb.h
+index 7c65aebf4698..90cccadbe883 100644
+--- a/gweb/gweb.h
++++ b/gweb/gweb.h
+@@ -166,6 +166,8 @@ guint16 g_web_result_get_status(GWebResult *result);
+ 
+ bool g_web_result_get_header(GWebResult *result,
+ 				const char *header, const char **value);
++bool g_web_result_has_headers(const GWebResult *result,
++				guint *count);
+ bool g_web_result_get_chunk(GWebResult *result,
+ 				const guint8 **chunk, gsize *length);
+ 
 -- 
 2.45.0
 
