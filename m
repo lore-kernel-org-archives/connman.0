@@ -1,35 +1,35 @@
 Received: from mail5.g24.pair.com (mail5.g24.pair.com [66.39.139.36])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D56F1FC7FF
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1A75255232
 	for <connman@lists.linux.dev>; Tue,  4 Mar 2025 21:03:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=66.39.139.36
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741122190; cv=none; b=VuZzKjRbWq+gybxPZgbIYUWvQrxMq/W3OZydh/dacGWB7rzvVfPRihEKoz3kD5f3pbI7Y5LXqQca9+lanFIuRFph4A6JDRKvwonBOCf1pw/BkVdNi2vS73OjHIGTxX8iuN+QUxRk83qHW9zgfVwSqfZOmZSNE/wsx3YPpQ6NzJI=
+	t=1741122191; cv=none; b=WcjjWjrhqDiPll423E6WIJA5SK79qRrE078LxfbcSjrOQEV4JTheNRkC5B/oJ7mqzzeN9sttM1mGg2nqvWd8X2IXieOzsXiOx58mDYbFRpIErWap2ab+HJLtF6b0cXLRvCU6qSyB1Aa9tBMcCkz4xAhCjDgvlSRjztoF1l3UCBw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741122190; c=relaxed/simple;
-	bh=MC96KuaG4IGUON5XCPXx1JOK6bymsAlL349CBKuoK58=;
+	s=arc-20240116; t=1741122191; c=relaxed/simple;
+	bh=Lre3kmfOa4Ij0oghy9g9vKtGotpZgfYR18P4a9kaR2I=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Uf+/31ooMuBeymcb71RFWw8yWMKbJxOPQK5yJUN84CZDaD5OIJExt/nCgxHA6StlnaSbNRwIcDZBcYBwOGuWnSdemY7XLOp4PyY9z+sWcyDqsHg3rqtRltC3Lnhig+dYGvjR/siknb9VXcha07rn46BytYWbB7+lOxKNk0ihNNI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nuovations.com; spf=pass smtp.mailfrom=nuovations.com; dkim=pass (2048-bit key) header.d=nuovations.com header.i=@nuovations.com header.b=kb/s/dP3; arc=none smtp.client-ip=66.39.139.36
+	 MIME-Version; b=on7x7aKCobPkNlj3BaZ0nWEduEHQ/dCQuCmnPx51F7P6uGqr6FyUwn0env2IdLsoiTqWd3KWct72r8Eaj9khMXfIx+T8v7q3XCSkORUC5s3j0agBcY39oNQF2WJ2VKx9cD1+LMczw7prvxot7+mN3hW7NJlr+PZF9xsQIfFHhcg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nuovations.com; spf=pass smtp.mailfrom=nuovations.com; dkim=pass (2048-bit key) header.d=nuovations.com header.i=@nuovations.com header.b=bSVknXxa; arc=none smtp.client-ip=66.39.139.36
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nuovations.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nuovations.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nuovations.com header.i=@nuovations.com header.b="kb/s/dP3"
+	dkim=pass (2048-bit key) header.d=nuovations.com header.i=@nuovations.com header.b="bSVknXxa"
 Received: from mail5.g24.pair.com (localhost [127.0.0.1])
-	by mail5.g24.pair.com (Postfix) with ESMTP id 4DBF0164B59
+	by mail5.g24.pair.com (Postfix) with ESMTP id C1EFE164B5C
 	for <connman@lists.linux.dev>; Tue,  4 Mar 2025 16:03:07 -0500 (EST)
 Received: from localhost.localdomain (c-73-202-63-31.hsd1.ca.comcast.net [73.202.63.31])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mail5.g24.pair.com (Postfix) with ESMTPSA id EE6CE1262B4
-	for <connman@lists.linux.dev>; Tue,  4 Mar 2025 16:03:06 -0500 (EST)
+	by mail5.g24.pair.com (Postfix) with ESMTPSA id 724AB1262B4
+	for <connman@lists.linux.dev>; Tue,  4 Mar 2025 16:03:07 -0500 (EST)
 From: Grant Erickson <gerickson@nuovations.com>
 To: connman@lists.linux.dev
-Subject: [PATCH 1/7] service: Leverage 'service_set_pac' function.
-Date: Tue,  4 Mar 2025 13:02:59 -0800
-Message-ID: <ba0ce360b3c803e6107d870514bf801a783229d0.1741121901.git.gerickson@nuovations.com>
+Subject: [PATCH 2/7] service: Add 'service_set_proxy_method' function.
+Date: Tue,  4 Mar 2025 13:03:00 -0800
+Message-ID: <7441cb904a35bd70b37b79a93c609e1f45cfc66e.1741121901.git.gerickson@nuovations.com>
 X-Mailer: git-send-email 2.45.0
 In-Reply-To: <cover.1741121901.git.gerickson@nuovations.com>
 References: <cover.1741121901.git.gerickson@nuovations.com>
@@ -40,69 +40,58 @@ List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nuovations.com; h=from:to:subject:date:message-id:in-reply-to:references:mime-version:content-transfer-encoding; s=pair-202401062137; bh=E9rfrUsqm4lUOQWsthmDBzuvW5CHL+l15Ncp6hv/T6Y=; b=kb/s/dP3RGrRy4irwqnnZ5rqFvkD7Kiz1cKnws6n5m7ON6J7x/QCV6/DVYQ6KlmuSU1oP4WC7BwjnFIFueLeJB2rqy7RPcEGEk2NZIDt5rnb9sDxs0cPIy6rV7h6lX5XVvg12riv61ZlvFcqVE5Kp5nLa4q4mI/w4KCc+GaZalwzJ7pyT99sophlBGiHwGBrGQGUSgs0FRUPUr10ex7MmMoxStcrh7X4rNiHyWIavu2egU9Mv6KLX2j0C0hzZxk+CAPHcBLkQCMpXfLkNA1q9GmXT2GMrfeMph2pp8q6ORETWBw+wU26lveLKScdC+7GM+yxhCkZ9rdTC2R6lvyuhg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nuovations.com; h=from:to:subject:date:message-id:in-reply-to:references:mime-version:content-transfer-encoding; s=pair-202401062137; bh=Bgw5WNU5okFcWA0MjXHDYdMLbiC/N5nkcSuAy+IOdLg=; b=bSVknXxaEFy+JHhpxq5tmLdWHAq+BnmAWzm0u/+QCRUzfUmeMYsuuysSfaD4t9XU4NdkhZPrZZsOoEgLlhSVt6x72EYODM9sX6bRGI9jMcSjkKUVD/I1T8vEuZTzZyjfMblP9qT2YvyjWuOx1HBevlBNqzkgN1vZPc/GY7A3y5QirpH01aalxHMm8e/5uGFHLSk3sA1bH+yBUm5b62jLnLqG/jqMsZRngkQUi0KSaVOcbhNXvfyEDApvdREWicXA6nC7QR/VjOoiIPCKnpVDuxGMMgRhSraP9NkGK7g9LuEJEQNDacKFafjU1rIXJVWwdUsaEoYE2DAou13RNnZ/Dg==
 X-Scanned-By: mailmunge 3.10 on 66.39.139.36
 
-Leverage 'service_set_pac' at the three call sites the proxy
-auto-configuration (PAC) URL is currently set or cleared for a network
-service.
-
-Frequently, a spurious, misconfigured, or otherwise incorrect PAC URL
-is the source of connectivity problems, particularly for online
-reachability checks. Consequently, being able to log all such
-mutations can be helpful in triaging such problems.
+Allows for logging, setting, and dispatching property changed
+notifications for the network service proxy method and associated URL,
+if any, from a single place.
 ---
- src/service.c | 22 +++++++---------------
- 1 file changed, 7 insertions(+), 15 deletions(-)
+ src/service.c | 31 +++++++++++++++++++++++++++++++
+ 1 file changed, 31 insertions(+)
 
 diff --git a/src/service.c b/src/service.c
-index b8943c03f459..b261f4ce0681 100644
+index b261f4ce0681..db6ec26240fd 100644
 --- a/src/service.c
 +++ b/src/service.c
-@@ -808,10 +808,10 @@ static int service_load(struct connman_service *service)
- 
- 	str = g_key_file_get_string(keyfile,
- 				service->identifier, "Proxy.URL", NULL);
--	if (str) {
--		g_free(service->pac);
--		service->pac = str;
--	}
-+	if (str)
-+		service_set_pac(service, str, false);
-+
-+	g_free(str);
- 
- 	service->mdns_config = g_key_file_get_boolean(keyfile,
- 				service->identifier, "mDNS", NULL);
-@@ -5800,12 +5800,9 @@ void __connman_service_timeserver_changed(struct connman_service *service,
- void __connman_service_set_pac(struct connman_service *service,
- 					const char *pac)
- {
--	if (service->hidden)
--		return;
--	g_free(service->pac);
--	service->pac = g_strdup(pac);
-+	const bool dochanged = true;
- 
--	proxy_changed(service);
-+	service_set_pac(service, pac, dochanged);
+@@ -5569,6 +5569,37 @@ const char * const *connman_service_get_timeservers(const struct connman_service
+ 	return (const char * const *)service->timeservers;
  }
  
- void __connman_service_set_agent_identity(struct connman_service *service,
-@@ -6092,12 +6089,7 @@ static int update_proxy_configuration(struct connman_service *service,
- 
- 		break;
- 	case CONNMAN_SERVICE_PROXY_METHOD_AUTO:
--		g_free(service->pac);
--
--		if (url && strlen(url) > 0)
--			service->pac = g_strstrip(g_strdup(url));
--		else
--			service->pac = NULL;
-+		service_set_pac(service, url, false);
- 
- 		/* if we are connected:
- 		   - if service->pac == NULL
++static void service_set_proxy_method(struct connman_service *service,
++			enum connman_service_proxy_method method,
++			bool donotifier,
++			bool (*handler)(struct connman_service *service,
++				enum connman_service_proxy_method method,
++				const void *context),
++			const void *context)
++{
++	DBG("service %p (%s) method %d (%s) donotifier %u "
++		"handler %p, context %p",
++		service, connman_service_get_identifier(service),
++		method, proxymethod2string(method),
++		donotifier,
++		handler,
++		context);
++
++	if (!service || service->hidden)
++		return;
++
++	service->proxy = method;
++
++	if (handler != NULL)
++		if (handler(service, method, context) != true)
++			return;
++
++	proxy_changed(service);
++
++	if (donotifier)
++		__connman_notifier_proxy_changed(service);
++}
++
+ /**
+  *  @brief
+  *    Set the web proxy method of the specified service.
 -- 
 2.45.0
 
