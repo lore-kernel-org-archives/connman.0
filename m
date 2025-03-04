@@ -1,113 +1,114 @@
-Received: from mail5.g24.pair.com (mail5.g24.pair.com [66.39.139.36])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f45.google.com (mail-ot1-f45.google.com [209.85.210.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1281255244
-	for <connman@lists.linux.dev>; Tue,  4 Mar 2025 19:24:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=66.39.139.36
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 239701F5826
+	for <connman@lists.linux.dev>; Tue,  4 Mar 2025 19:51:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741116290; cv=none; b=Q/mSlKJwchHq4MkwCYeSThW2cEev51PfuhxBE8z5Xi9SzzH6PwRo/sNKj0wEDqNL2JIIMmeju8ymXLnR/kNXApl860Dhy8tHEN1CabeOln0QhlBjPcrZSE+X+HId5bZGSJiK7BoTpiqb+VgBqEbNidBv8ZMOrJBnAG1E3azoKzk=
+	t=1741117919; cv=none; b=Hv5DjUWyeMyub2PyjhFQIJ7LtYhZZyMa2Cq562EAgGBkSuyxjBTZTZ2GXrMqok6nl0MtE/boUFU8pFkLMwO1tS2ZEAsdkHdWWW3m8FQlA5ALsS2PWQ1z2ajZ4sXGjXspqgVHUvJFpIKsFOy97spUQ28cPzhUL5x6T6lWa1CuHzY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741116290; c=relaxed/simple;
-	bh=vOdmb/TCnLcqKM1VEL+uB9UGLw4GHPdhN2wcZUdb/vw=;
-	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
-	 Message-Id:References:To; b=Ai0gLaCEKF/6xdQLRqVUj1Y4fvsVMeCc/LU0ng6GROrMMU+YtYBxmEirgsDpID10i2dS/T2QQu35GuggkTwalZyjtY6Y23/P+k6jt05Eenv96UPwGJJgKKL1i3/suO1E8wKk0EA9FF0G+//ou15OUkYGn6+/HYOzMdHoWu8HcqU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nuovations.com; spf=pass smtp.mailfrom=nuovations.com; dkim=pass (2048-bit key) header.d=nuovations.com header.i=@nuovations.com header.b=h/e/53Jv; arc=none smtp.client-ip=66.39.139.36
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nuovations.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nuovations.com
+	s=arc-20240116; t=1741117919; c=relaxed/simple;
+	bh=QnQoRtBMGRCks59mi4UbfyOQpSHzFKfIpVjgT9e0Vjs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=mqny5GSmJF3RW8DhRQrUqq0Ue0++yY684MVME41KyfyRqVR/EokMT8hU/j2jBH2VxGhGN5Vg1XBaDFjTTQhfKegGvp5CXrOpz2MOT1fNfEMSx+G8cEDZPy79fF/535VAZNFeSzRzYjc5xYTOKpXnM7M4dwJtAapvm9oSsLU6Wj4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PeTKzz+R; arc=none smtp.client-ip=209.85.210.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nuovations.com header.i=@nuovations.com header.b="h/e/53Jv"
-Received: from mail5.g24.pair.com (localhost [127.0.0.1])
-	by mail5.g24.pair.com (Postfix) with ESMTP id 17F99164B5C;
-	Tue,  4 Mar 2025 14:24:47 -0500 (EST)
-Received: from smtpclient.apple (c-73-202-63-31.hsd1.ca.comcast.net [73.202.63.31])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mail5.g24.pair.com (Postfix) with ESMTPSA id BD7C1124FE6;
-	Tue,  4 Mar 2025 14:24:46 -0500 (EST)
-Content-Type: text/plain;
-	charset=utf-8
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PeTKzz+R"
+Received: by mail-ot1-f45.google.com with SMTP id 46e09a7af769-7272cc739f7so69729a34.1
+        for <connman@lists.linux.dev>; Tue, 04 Mar 2025 11:51:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1741117917; x=1741722717; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=GYr+YBm73xQ8R1ST1sJMFnRufpoxaNGxlnC10uDrBwA=;
+        b=PeTKzz+RB+Mxbhks4I0dCNkgEN9zTQePc1dfXLtmq3J8zkZFjNxvRE5veZZEuZLTqM
+         UXcd9s8dWu4E8Y1GxUzfYi/zOFWHAsCn1VY2DJQB8qk1a4a+6BQA9DDIJH4m0qVfc92j
+         041zl70/w3oRETpJS8c+oNJe7g9T6AYENvcpMZN00glC0E2x1tEJDZgwfoN7tjItJSxJ
+         VM97jO6V30KXeEmzVsqbRY6uqIjXJ5EA3amPywWaPcTna230qjGJadi/zxuvtQN7r/kp
+         kdihT5KeiTmk2qx6zWC0G+xPsMuG8YdCRanzD8fZxAtXcdh5IsFydFoPp1dUmTchZODT
+         3GRg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1741117917; x=1741722717;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=GYr+YBm73xQ8R1ST1sJMFnRufpoxaNGxlnC10uDrBwA=;
+        b=BVBoiWXsU3q0WIUyo4twGSv0n2yl2nraP/QFQzyF/zF2NgKVz9TTOg9rbEPn2CiUBl
+         Ln1DelfZ/Zu9m8lv/hSIDb8n3Og1QsU0N/lqPB90bSykp8PgzfoWxaIPZj0y9l0qTS8R
+         kLnMpyD6WRCkCErzG4F0O7octsgm+ziZFcCBagBYYhYl6dEY6BjxytOyxy1nBvaIJa30
+         WOLl5C1Z+VDVmDluddX+qzM9ew7ULRGH0Bxi9C/zolHwV7GWg/iT67Fv9uy+qouhMoC4
+         0VpEIOsaiM6zvZXj+WpEy4KtQa+2WXWlBSQhXxMH7ZNoNTA6zq+uWXXo+VsFOg3aa0Q7
+         xYPg==
+X-Gm-Message-State: AOJu0YyDNn41S96t6FOfCCnpf52rZSQE/TBAr18//s6VrJnGMfXcRGos
+	SkY3yGmmQlEEeJ8aP2s6Wls7F/FGi5++KqE23uxTrVDLb0k0idEI5M5Kdg==
+X-Gm-Gg: ASbGncvDTJYpxlSrUtJhofiDJIIZpkZK2kmsjdQmiTV/oDjddHIf/jrczg3FWZ0xZh3
+	yvMWfuwJgLkxyMZ6pXh/GKj5AMBMP0d5enPgpKLvq+J9patRN3u2lzJob82dOpJBoLl5qZm3WjM
+	a1eXW1nGzHWRimYEMwhSR19ODQdXQwoblTGalt49dEUtKfgn6bb7G69opR5UbE9lJip1dOG3bWB
+	3/SuqnU8ptEDn/+QPryAGRtdtwJ21P5l3uPqXsctDVikX+mpKoeNkpnu5gxVfu14AHMYAzumEuk
+	mvvBVgLsjbNs8gQw6lQFJx2utCOJGkFe9aMLCQNnosu1wJqcKyNGuRUV8Sxq/CbuV/nwdNECJnR
+	6kyTOHpMorg==
+X-Google-Smtp-Source: AGHT+IH2ATpcsCqHV1NCgRTGM3oKRINhP11y+HpYiyBRsWt61deOrXleGNwcr0UdKbS+lQD2qd/nag==
+X-Received: by 2002:a54:4e81:0:b0:3f4:11b3:206b with SMTP id 5614622812f47-3f678f93043mr2244986b6e.17.1741117916914;
+        Tue, 04 Mar 2025 11:51:56 -0800 (PST)
+Received: from [192.168.1.25] (syn-070-114-247-242.res.spectrum.com. [70.114.247.242])
+        by smtp.googlemail.com with ESMTPSA id 5614622812f47-3f5506a0b92sm2319720b6e.6.2025.03.04.11.51.56
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 04 Mar 2025 11:51:56 -0800 (PST)
+Message-ID: <1cc9904d-74a1-410e-a184-48eea13c0ccc@gmail.com>
+Date: Tue, 4 Mar 2025 13:51:55 -0600
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3776.700.51.11.1\))
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH 03/15] service: Leverage 'service_set_pac' function.
-From: Grant Erickson <gerickson@nuovations.com>
-In-Reply-To: <f11d323b-a1f6-41c2-af92-bc08ee08ec49@gmail.com>
-Date: Tue, 4 Mar 2025 11:24:35 -0800
+To: Grant Erickson <gerickson@nuovations.com>
 Cc: connman@lists.linux.dev
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <683EB080-8A98-4446-875C-1EE92845AA30@nuovations.com>
 References: <20250221155653.760046-1-gerickson@nuovations.com>
  <20250221155653.760046-4-gerickson@nuovations.com>
  <f11d323b-a1f6-41c2-af92-bc08ee08ec49@gmail.com>
-To: Denis Kenzior <denkenz@gmail.com>
-X-Mailer: Apple Mail (2.3776.700.51.11.1)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nuovations.com; h=content-type:mime-version:subject:from:in-reply-to:date:cc:content-transfer-encoding:message-id:references:to; s=pair-202401062137; bh=8KHfp+LLxSlgsnx/Ug9OJ7CNdkQsj86I2hjfCORaZN0=; b=h/e/53Jve7VA3nmY2seEZGURM03QcMJWpRHUMy5IosBjXTxq3WTLdHkz8RScmUDTl9fikEGs4a3y0bEde4IBBt0PmZG9jQJr0ls/d78tKDBrFvNyITLH7O2SK+AQBrqcgA6Xcr23/MPhF2zO2t9yWZh+G3OoMyk4hIuPo2R47JZE9cJCi77PpMY2W0mMpTM5JZ2NRGplJVU1rQcrY2cIy/NqZeeyUxx8PWuYOojlY7AfM7clfC2tFJg3YaWAcVrRNBgp4Sa668acfJeIzL/Eg9gIbAdgOIUnAyX2GRdiVtfd48oHEbuY41tF1z44JyTQ1ObSGMZXeMG1Z2DILNFIIQ==
-X-Scanned-By: mailmunge 3.10 on 66.39.139.36
+ <683EB080-8A98-4446-875C-1EE92845AA30@nuovations.com>
+Content-Language: en-US
+From: Denis Kenzior <denkenz@gmail.com>
+In-Reply-To: <683EB080-8A98-4446-875C-1EE92845AA30@nuovations.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mar 4, 2025, at 9:06=E2=80=AFAM, Denis Kenzior <denkenz@gmail.com> =
-wrote:
-> On 2/21/25 9:56 AM, Grant Erickson wrote:
->> Leverage 'service_set_pac' at the three call sites the proxy
->> auto-configuration (PAC) URL is currently set or cleared for a =
-network
->> service.
->> Frequently, a spurious, misconfigured, or otherwise incorrect PAC URL
->> is the source of connectivity problems, particularly for online
->> reachability checks. Consequently, being able to log all such
->> mutations can be helpful in triaging such problems.
->> ---
->>  src/service.c | 17 ++++-------------
->>  1 file changed, 4 insertions(+), 13 deletions(-)
->> diff --git a/src/service.c b/src/service.c
->> index c48959a7940f..da851d681bc7 100644
->> --- a/src/service.c
->> +++ b/src/service.c
->> @@ -770,8 +770,7 @@ static int service_load(struct connman_service =
-*service)
->>   str =3D g_key_file_get_string(keyfile,
->>   service->identifier, "Proxy.URL", NULL);
->>   if (str) {
->> - g_free(service->pac);
->> - service->pac =3D str;
->> + service_set_pac(service, str, false);
->=20
-> Does this leak str?
+Hi Grant,
 
-I do not believe so, no. service_set_pac now handles the same:
+<snip>
 
-    g_free(service->pac);
+ >>> @@ -770,8 +770,7 @@ static int service_load(struct connman_service *service)
+>>>    str = g_key_file_get_string(keyfile,
+>>>    service->identifier, "Proxy.URL", NULL);
+>>>    if (str) {
+>>> - g_free(service->pac);
+>>> - service->pac = str;
+>>> + service_set_pac(service, str, false);
+>>
+>> Does this leak str?
+> 
+> I do not believe so, no. service_set_pac now handles the same:
+> 
+>      g_free(service->pac);
+> 
+>      if (pac && strlen(pac) > 0)
+>          service->pac = g_strstrip(g_strdup(pac));
+>      else
+>          service->pac = NULL;
+> 
+> except now instead of being individually duplicated and scattered around to several call sites, it is all handled in one with service_set_pac.
 
-    if (pac && strlen(pac) > 0)
-        service->pac =3D g_strstrip(g_strdup(pac));
-    else
-        service->pac =3D NULL;
+service_set_pac receives a const char *.  But g_key_file_get_string() returns a 
+newly allocated char *, which is assigned to 'str'.  What frees it?
 
-except now instead of being individually duplicated and scattered around =
-to several call sites, it is all handled in one with service_set_pac.
+[1] 
+https://www.manpagez.com/html/glib/glib-2.42.0/glib-Key-value-file-parser.php#g-key-file-get-string
 
-> Also, Kernel Coding Style prefers that braces are not used for single =
-statement blocks.  Quoting:
-> "Do not unnecessarily use braces where a single statement will do.
->=20
-> if (condition)
->        action();
-> "
->=20
-> See https://www.kernel.org/doc/html/latest/process/coding-style.html
-
-I will address this.
-
-Thanks,
-
-Grant
-
---=20
-Principal
-Nuovations
-
-gerickson@nuovations.com
-https://www.nuovations.com/
-
+Regards,
+-Denis
