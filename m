@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C623E16DC12
-	for <connman@lists.linux.dev>; Wed,  5 Mar 2025 18:40:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5656225A358
+	for <connman@lists.linux.dev>; Thu,  6 Mar 2025 17:30:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741200005; cv=none; b=W6DVLlXMYXjV73rksyNTUiZf5Pn1rJwU8IC6mKgpR9ZpCyQvEJ2sO5BxhwQVG5TMFTxOFwrnanZhlhxyPAGJOn0fW7Suhgy3WJXgcQ/2WVbnbyFLFe7vR5JUQ1SotG5ornmQI9kXwd2g4Fx2q9iV23PwFwIPvOw8z+pQ74RRGLY=
+	t=1741282201; cv=none; b=u+wFWF84HuOdDQ7DKTpcHAQL0ijIGmJ2k2X59JkCigVuQf0k+LI321G+D8umnuOrj8ri/s17Yl4KmfEDclxl4d9o4n5jU/UBN7HsWJBYna0ydHNqOafJ8XLkW4+8CDJCOK09Hhi49xlkB4JWCbR1/YDkfVrIxKboJTzFg54jHXI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741200005; c=relaxed/simple;
-	bh=D6f8YE7C3b0nU/A6Zyh7miAUE1Vu15DLFebpODgDKjk=;
+	s=arc-20240116; t=1741282201; c=relaxed/simple;
+	bh=eduaIziawSfeBuAZevA7NIEkLNu71LeDz5Ks7GEK0C4=;
 	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=kA3sRQW3Y17uoTXiReAI7EgxX06FlFasLjTOHBJiIqBb0pXVl06WQsCh12h5eE47O2OFiGpvsB73i6TY4zXGGni4V0CaAFpYQElCAHcY3NR7TQZMourzvkoFAkfsARAXhcB+8/TFHYfZa9AXH1vKvdCxO4Q6ZYe250ec1GOSDXk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=o01BIw6e; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=Ev71qlE2h0rzzOD/iyjM87pqnYkwLEDIAC1ppPjFWzWAZTmI4rHchT2LdKkxEeIknWgCQL/SyZHCr7Yzuobaa8YVuSQfBdcOsSzjI0yQnkk9xLkCS6Q46lH1yYQyebftAr3tYpT37prYiatBPNC5JUPPjmVLmu8b84JXCJOJ0uM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DzXvTdVR; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="o01BIw6e"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 07850C4CED1;
-	Wed,  5 Mar 2025 18:40:05 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DzXvTdVR"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2B12EC4CEE0;
+	Thu,  6 Mar 2025 17:30:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741200005;
-	bh=D6f8YE7C3b0nU/A6Zyh7miAUE1Vu15DLFebpODgDKjk=;
+	s=k20201202; t=1741282201;
+	bh=eduaIziawSfeBuAZevA7NIEkLNu71LeDz5Ks7GEK0C4=;
 	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=o01BIw6e0eU6hG8HtcG6f/J6AkAcUITGouPILZH/FYImUiB2WvGoFKxsq2TtugsPX
-	 H8nM4mKbvWqzlAiLkHc6dlg/S9ovY0iyt786DeDVUEgnEiVSjf0LT2STPGH4TlSl2v
-	 1HJQ4jLRmiuSJzAC+5ju6u6BTS2LHWHy9WP3/3fbJ6BONkGWFu7j6ryh2hJ9pDQVf3
-	 El4xXH+1zRsRFxXI74AbL92pvc/VF/TDH5FdMmXh9sFJR+R/K+fnrphe1/6df2uQPb
-	 UO8yzsN+WyITkwPQrMyp1/SAjzOd6AVz54ZsSeTcUjRV0OBEAK60PTvIJ4zZSqjApa
-	 3bFdRm07EnoKw==
+	b=DzXvTdVRUd5s4ZFJjA2JqfCgkVlA5A7Bj/1IxNyV+yxUkEd4DSBY/E9VdJfvvgKoh
+	 T9D+q1v572nPWl2/hTan5Fna8W2mGzEReDG+hlGgmyLH1MrXxTvmnSsI9TVS9om2Mr
+	 lXT1OIL/mMvq0QIHsm08O72sXdx5R23yI8O5MxkAZIb/xUX2xIC6NEMcH+IMYIEErg
+	 VguTv7USmRZk0Dtmg5zgcb/Chsf95rGDdOEGUah8eMptX47jnhWGPtGALHSTGCWTTs
+	 cBT9mAanDlhBdxiQMuX5cFEPboU2x+bpEFwyACPDwHfYh5HOhsiJ5YfxcpzdKFJlLO
+	 +P8TlS/sMS5pw==
 Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 70D61380CEDD;
-	Wed,  5 Mar 2025 18:40:38 +0000 (UTC)
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id ADE18380CEE6;
+	Thu,  6 Mar 2025 17:30:35 +0000 (UTC)
 Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
@@ -37,14 +37,13 @@ List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH 00/15 RESEND] Improve PAC URL Mutation and PAC URL and WISPr
- Proxy Failure Logging
+Subject: Re: [PATCH v2 00/22] Close Two GWeb Request "Bookend" Failure "Holes"
 From: patchwork-bot+connman@kernel.org
 Message-Id: 
- <174120003725.981412.10651872915700343541.git-patchwork-notify@kernel.org>
-Date: Wed, 05 Mar 2025 18:40:37 +0000
-References: <20250221155653.760046-1-gerickson@nuovations.com>
-In-Reply-To: <20250221155653.760046-1-gerickson@nuovations.com>
+ <174128223450.1681242.11293580893014602782.git-patchwork-notify@kernel.org>
+Date: Thu, 06 Mar 2025 17:30:34 +0000
+References: <cover.1741059516.git.gerickson@nuovations.com>
+In-Reply-To: <cover.1741059516.git.gerickson@nuovations.com>
 To: Grant Erickson <gerickson@nuovations.com>
 Cc: connman@lists.linux.dev
 
@@ -53,48 +52,61 @@ Hello:
 This series was applied to connman.git (master)
 by Denis Kenzior <denkenz@gmail.com>:
 
-On Fri, 21 Feb 2025 07:56:38 -0800 you wrote:
-> There appear to be a population of premises ISP equipment (some
-> possibly correlated with Spectrum Communications in Southern
-> California, United States) in which the ISP equipment sporadically and
-> incorrectly emits DHCP Option 252 ("Web Proxy Auto-Discovery (WPAD)")
-> with an invalid proxy auto-configuration (PAC) URL (such as
-> 'http://wpad.lan/wpad.dat'), even when neither the customer nor the
-> ISP has such an option actively configured on the equipment.
+On Mon,  3 Mar 2025 19:39:22 -0800 you wrote:
+> There existed, prior to this set of changes, two "holes" in the
+> finalization of web request sessions that can, for example in a client
+> such as WISPr leave one or both of IPv4 and IPv6 "online" HTTP-based
+> Internet reachability checks "dangling" and non-renewing such that an
+> expected active, default network service failover does not occur when
+> it should.
 > 
 > [...]
 
 Here is the summary with links:
-  - [01/15] service: Add 'service_log_pac' function.
+  - [v2,01/22] gweb: Leverage 'GWEB_HTTP_STATUS_CODE_UNKNOWN' mnemonic.
+    https://git.kernel.org/pub/scm/network/connman/connman.git/?id=f4ac0112dd7c
+  - [v2,02/22] gweb: Refactor 'received_data' into 'received_data_{finalize,continue}'.
+    https://git.kernel.org/pub/scm/network/connman/connman.git/?id=3820ccb51238
+  - [v2,03/22] gweb: Added 'g_web_result_has_headers'.
+    https://git.kernel.org/pub/scm/network/connman/connman.git/?id=f9cd89636deb
+  - [v2,04/22] gweb: Add documentation to 'g_web_result_has_headers'.
+    https://git.kernel.org/pub/scm/network/connman/connman.git/?id=8883288a058a
+  - [v2,05/22] gweb: Added 'g_web_result_get_err'.
     (no matching commit)
-  - [02/15] service: Add 'service_set_pac' function.
+  - [v2,06/22] gweb: Add documentation to 'g_web_result_get_err'.
     (no matching commit)
-  - [03/15] service: Leverage 'service_set_pac' function.
+  - [v2,07/22] gweb: Add an OS err parameter to 'call_result_func'.
     (no matching commit)
-  - [04/15] service: Ensure the PAC URL is set in '__connman_service_set_proxy_autoconfig'.
+  - [v2,08/22] gweb: Add documentation to 'call_result_func'.
     (no matching commit)
-  - [05/15] service: Document 'service_log_pac'.
+  - [v2,09/22] gweb: Add documentation to 'g_web_result_get_status'.
     (no matching commit)
-  - [06/15] service: Document 'service_set_pac'.
+  - [v2,10/22] gweb: Add documentation to 'received_data'.
     (no matching commit)
-  - [07/15] service: Add 'service_set_proxy_method' function.
-    https://git.kernel.org/pub/scm/network/connman/connman.git/?id=d8fcf6cc0c54
-  - [08/15] service: Leverage 'service_set_proxy_method'.
+  - [v2,11/22] gweb: Close web request session finalization 'hole'.
     (no matching commit)
-  - [09/15] service: Leverage 'service_set_proxy_method'.
+  - [v2,12/22] gweb: Add documentation to 'map_gerror'.
     (no matching commit)
-  - [10/15] service: Document 'service_set_proxy_method'.
-    https://git.kernel.org/pub/scm/network/connman/connman.git/?id=25e6914c6e46
-  - [11/15] service: Document 'service_set_proxy_method_auto_handler'.
-    https://git.kernel.org/pub/scm/network/connman/connman.git/?id=1123f398de9f
-  - [12/15] service: Document '__connman_service_set_proxy_autoconfig'.
-    https://git.kernel.org/pub/scm/network/connman/connman.git/?id=288b28bd2c57
-  - [13/15] wispr: Add 'wispr_log_proxy_failure' function.
+  - [v2,13/22] gweb: Add documentation to 'received_data_{finalize,continue}'.
     (no matching commit)
-  - [14/15] wispr: Leverage 'wispr_log_proxy_failure'.
+  - [v2,14/22] gweb: Document 'struct _GWebResult'.
     (no matching commit)
-  - [15/15] wispr: Document 'wispr_log_proxy_failure'.
+  - [v2,15/22] wispr: Add and leverage 'portal_manage_failure_status'.
+    https://git.kernel.org/pub/scm/network/connman/connman.git/?id=c312e2abc318
+  - [v2,16/22] wispr: Refactor 'wispr_portal_web_result' to leverage 'g_web_result_get_err'.
     (no matching commit)
+  - [v2,17/22] wispr: Document 'portal_manage_failure_status'.
+    https://git.kernel.org/pub/scm/network/connman/connman.git/?id=d4da8dfd2382
+  - [v2,18/22] wispr: Document 'wispr_portal_web_result_err'.
+    (no matching commit)
+  - [v2,19/22] wispr: Document 'wispr_portal_web_result_no_err'.
+    (no matching commit)
+  - [v2,20/22] wispr: Document 'wispr_portal_web_result'.
+    (no matching commit)
+  - [v2,21/22] wispr: Fix documentation typo in 'portal_manage_success_status'.
+    https://git.kernel.org/pub/scm/network/connman/connman.git/?id=0dc3b6a81f67
+  - [v2,22/22] service: Capture and propagate '__connman_wispr_start' return status.
+    https://git.kernel.org/pub/scm/network/connman/connman.git/?id=31f4ef8cdf98
 
 You are awesome, thank you!
 -- 
