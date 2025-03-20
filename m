@@ -1,35 +1,35 @@
 Received: from mail5.g24.pair.com (mail5.g24.pair.com [66.39.139.36])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD32F22ACF3
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF69522A81D
 	for <connman@lists.linux.dev>; Thu, 20 Mar 2025 23:39:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=66.39.139.36
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742513966; cv=none; b=VqfB7azh93JVlnpErIfo0CTtVc7H7oDjer4yeX6ynlOcIxA1s8EYZWYYvg3R6FMsSkKS1u/TB+ae+SQn4YSkAp3Ni3+S//4LuY+rcqSPnEkcg9ylzYbvg5GZ/cLFZz2R2xjZISvU7SpcRSR4sd6Y+P2XPvgWwDPekyotdJLb8JE=
+	t=1742513966; cv=none; b=GVz+3mJa6oIFcMuKKdcRxfo6RuENQx8DKyFF+lf5Q0cUFzgkm2934RHlvFsUhT2x/z0o9WJyrwET7IQFy6LddfYGFECYyvWL0kHdmXnSghCouSBpCMC32n1k7PkLygsvj3nWTx5VGQ7f1MfakXfqhrf3UWmaOCqASJYuFBpSOEY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1742513966; c=relaxed/simple;
-	bh=qK9zOCqO/TbeQ0YHRUlbeK+1agpXP/VPqTZCcklMlss=;
+	bh=9WR/j9MKaHfkEu4J77VvbVhnueLvRqOLuJ3AHOaoYIM=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Wv5ONyxRPx1jaKZVSzjI4Xk/0CMkIE10UoY77Qh+vFvSl7J7IJN4oZZE4vMxtPbFgky1RIv+Q5tzFX41Sq9eIXr+ORplTqxpqRzLiIyZ0/vb4L3eLydQAbhalgCPhJKKN9cfokqf9B3AYdsFm0M4z9BhVovicIF4179UlpKgo0g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nuovations.com; spf=pass smtp.mailfrom=nuovations.com; dkim=pass (2048-bit key) header.d=nuovations.com header.i=@nuovations.com header.b=q/NEs0Uq; arc=none smtp.client-ip=66.39.139.36
+	 MIME-Version; b=o1dYRsAGmnu5nGPX84A4Us2Kj97IUvAUehJeHoLOQd15xa0g5lMvphkCJk1S5MN8GZTp1nFwT7B22YJbpdzlmtgun/1O1R0uBmGaaFIU7/lSc690UXaIo5I/KgxqVeNvtu+AJ9/4q45RC7EoUH3jQ6th0UGeVkSyjXaI1OPDGXs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nuovations.com; spf=pass smtp.mailfrom=nuovations.com; dkim=pass (2048-bit key) header.d=nuovations.com header.i=@nuovations.com header.b=dzTjx0oj; arc=none smtp.client-ip=66.39.139.36
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nuovations.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nuovations.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nuovations.com header.i=@nuovations.com header.b="q/NEs0Uq"
+	dkim=pass (2048-bit key) header.d=nuovations.com header.i=@nuovations.com header.b="dzTjx0oj"
 Received: from mail5.g24.pair.com (localhost [127.0.0.1])
-	by mail5.g24.pair.com (Postfix) with ESMTP id 3D50A164AEF
-	for <connman@lists.linux.dev>; Thu, 20 Mar 2025 19:39:18 -0400 (EDT)
+	by mail5.g24.pair.com (Postfix) with ESMTP id 92013164B00
+	for <connman@lists.linux.dev>; Thu, 20 Mar 2025 19:39:19 -0400 (EDT)
 Received: from localhost.localdomain (c-73-202-173-252.hsd1.ca.comcast.net [73.202.173.252])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mail5.g24.pair.com (Postfix) with ESMTPSA id E648C12635A
-	for <connman@lists.linux.dev>; Thu, 20 Mar 2025 19:39:17 -0400 (EDT)
+	by mail5.g24.pair.com (Postfix) with ESMTPSA id 46CA0125184
+	for <connman@lists.linux.dev>; Thu, 20 Mar 2025 19:39:19 -0400 (EDT)
 From: Grant Erickson <gerickson@nuovations.com>
 To: connman@lists.linux.dev
-Subject: [PATCH v3 15/18] wispr: Document 'wispr_portal_web_result_failure'.
-Date: Thu, 20 Mar 2025 16:39:06 -0700
-Message-ID: <515ee111d4ece4434b46d50492720b7925b74b50.1742513884.git.gerickson@nuovations.com>
+Subject: [PATCH v3 18/18] wispr: Add an optional 'message' parameter to '__connman_wispr_cb_t'.
+Date: Thu, 20 Mar 2025 16:39:09 -0700
+Message-ID: <cc527f038a1514450ca03f457692b8f9d33ef837.1742513884.git.gerickson@nuovations.com>
 X-Mailer: git-send-email 2.45.0
 In-Reply-To: <cover.1742513884.git.gerickson@nuovations.com>
 References: <cover.1742513884.git.gerickson@nuovations.com>
@@ -40,56 +40,281 @@ List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nuovations.com; h=from:to:subject:date:message-id:in-reply-to:references:mime-version:content-transfer-encoding; s=pair-202401062137; bh=ofBDPpC2ccO3ZRa0ibUw4dEvH04pokg0BoUt6PMWtMk=; b=q/NEs0Uq3kInojMVt1icVssk17JxR5afHLmkS8/Fb3UhNOo87hyNSXmV33np6dy/A8r4sR6NPpyrqqx4uO+kVbQJkpnEIQf3ygx7u0oRjBVJmzTIJTjOuRKsJ09kwgbcdNZ+mXKUeKw4prgsH5n+ViAqf/GmsEOmAO1jpSuGfGYp4Hj3rxrUM9X+CNfdpZJ6DAJFIeDG/07eHP4R7JiLVNv6HLD+CaGQQeu/3Bwzc3VJKEKPntg29rucblCr7eOTd4NjjoFADQ/V6ayHJWeB9Mgd4dMWFmZl/6NyMIKAvctQOX454dUbfbPFLuN9DOA0J3QZfk/NvKetMrgIc2bEvA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nuovations.com; h=from:to:subject:date:message-id:in-reply-to:references:mime-version:content-transfer-encoding; s=pair-202401062137; bh=dLqCmHOZonvQi17UuTF3etCgRIzHPvuHek7Br1+VIWk=; b=dzTjx0ojxjY7yrA6y+FzNoq5vAh3/9fJeMvt+Mk9MT74Ww+fUOvZgstOEuSKYx8QMqa49uxRV1CZPJFyp2EyTCNELIuOZPM9UCVgO/jp+RWohuUdey6TQcyqioDKKvttbUDB76jfvXy066EsI/p1Vo5sO5SlP4Xh4yvKNNXjl2RkCC33sUWT+tVjLZlw/a1b3/rznm/tOuVNinJDZhY/4HFyEVYWf18dhTBFLqhidUWzVY157rBxvqR5ghj5JeRNe3ugVrYz25VQ/XMT4u5dBjNpLi/r2DXpTMEyM9I2Vun7DV2Eke+EmfTslb+3nuHuJowK1jN5rGtWb8epoiU9Gg==
 X-Scanned-By: mailmunge 3.10 on 66.39.139.36
 
-Add documentation to the 'wispr_portal_web_result_failure' function.
----
- src/wispr.c | 24 +++++++++++++++++++++++-
- 1 file changed, 23 insertions(+), 1 deletion(-)
+'message' is an optional pointer to an immutable null- terminated C
+string describing the reason for the online check failure.
 
-diff --git a/src/wispr.c b/src/wispr.c
-index 3f42e131608f..76a7ba219921 100644
---- a/src/wispr.c
-+++ b/src/wispr.c
-@@ -657,7 +657,7 @@ static void wispr_portal_error(struct connman_wispr_portal_context *wp_context)
-  *                              reason for the online check failure.
+In the following instances, GWeb (which WISPr utilizes to make an
+online reachability check request) can fail before initiating or while
+processing a web request:
+
+  1. TCP connection timeout to the remote server peer.
+  2. Decoding a chunked response.
+  3. Non-successful events (that is, G_IO_NVAL, G_IO_ERR, or G_IO_HUP)
+     from 'g_io_add_watch'.
+  4. GResolve "host not found" DNS forward resolution failure.
+  5. Transport creation failure from 'create_transport'.
+  6. Unexpected remote peer disconnect after connect but before data
+     transfer.
+
+When an online check request fails, 'online_check_log_failure' in
+src/service.c logs the failure in the form:
+
+  "Interface <interface> [ <technology> ] IPv[46] online check to
+   <online check URL> failed: <message>"
+
+where <message> is the contents of this newly-added callback
+parameter. This avoids 'online_check_log_failure' having to invoke
+'strerror' as the message has already been pre-created and -formatted
+by the error source. So, for the failures above, the messages would
+be:
+
+  1. "connect timeout to <IP address> after <timeout in
+     milliseconds>ms".
+  2. "Error in chunk decode <error>".
+  3. "I/O error".
+  4. "could not resolve <host name>".
+  5. Output from 'strerror'.
+  6. "Connection reset by peer".
+---
+ src/connman.h |  3 ++-
+ src/service.c | 61 +++++++++++++++++++++++++++++++++++----------------
+ src/wispr.c   |  4 ++--
+ 3 files changed, 46 insertions(+), 22 deletions(-)
+
+diff --git a/src/connman.h b/src/connman.h
+index 32ba55912ad6..7ebda7af3a55 100644
+--- a/src/connman.h
++++ b/src/connman.h
+@@ -550,7 +550,8 @@ void __connman_wpad_stop(struct connman_service *service);
+ typedef void (*__connman_wispr_cb_t) (struct connman_service *service,
+ 				enum connman_ipconfig_type type,
+ 				bool success,
+-				int err);
++				int err,
++				const char *message);
+ 
+ int __connman_wispr_init(void);
+ void __connman_wispr_cleanup(void);
+diff --git a/src/service.c b/src/service.c
+index c44335d9c962..f73f42eba9b0 100644
+--- a/src/service.c
++++ b/src/service.c
+@@ -240,7 +240,8 @@ static void service_list_sort(const char *function);
+ static void complete_online_check(struct connman_service *service,
+ 					enum connman_ipconfig_type type,
+ 					bool success,
+-					int err);
++					int err,
++					const char *message);
+ static bool service_downgrade_online_state(struct connman_service *service);
+ static bool connman_service_is_default(const struct connman_service *service);
+ static int start_online_check_if_connected(struct connman_service *service);
+@@ -3451,27 +3452,27 @@ static bool handle_online_check_success(struct connman_service *service,
+  *                       check failure.
+  *  @param[in]  type     The IP configuration type for which
+  *                       the online check failed.
+- *  @param[in]  err      The error status, in the POSIX domain,
+- *                       associated with the online check failure.
++ *  @param[in]  message  A pointer to an immutable null-terminated
++ *                       C string describing the reason for the online
++ *                       check failure.
   *
-  *  @sa portal_manage_success_status
-- *  @sa wispr_portal_web_result_no_err
-+ *  @sa wispr_portal_web_result_failure
-  *  @sa wispr_portal_web_result_err
-  *  @sa wispr_portal_web_result
-  *
-@@ -1007,6 +1007,28 @@ static bool wispr_manage_message(GWebResult *result,
- 	return false;
+  */
+ static void online_check_log_failure(const struct connman_service *service,
+ 			enum connman_ipconfig_type type,
+-			int err)
++			const char *message)
+ {
+ 	g_autofree char *interface = NULL;
+ 
+ 	interface = connman_service_get_interface(service);
+ 
+-	connman_warn("Interface %s [ %s ] %s online check to %s failed: %d: %s",
++	connman_warn("Interface %s [ %s ] %s online check to %s failed: %s",
+ 		interface,
+ 		__connman_service_type2string(service->type),
+ 		__connman_ipconfig_type2string(type),
+ 		type == CONNMAN_IPCONFIG_TYPE_IPV4 ?
+ 			connman_setting_get_string("OnlineCheckIPv4URL") :
+ 			connman_setting_get_string("OnlineCheckIPv6URL"),
+-		err,
+-		strerror(-err));
++			message);
  }
  
-+/**
-+ *  @brief
-+ *    Handle closure and finalization of a web request associated with
-+ *    an unsuccessful "online" HTTP-based Internet reachability check.
-+ *
-+ *  @param[in]      error       A pointer to the immutable GLib GError
-+ *                              instance associated the web request
-+ *                              failure.
-+ *  @param[in]      result      A pointer to the mutable web request
-+ *                              result being finalized.
-+ *  @param[in,out]  wp_context  A pointer to the mutable WISPr portal
-+ *                              detection context associated with the
-+ *                              unsuccessful "online" HTTP-based
-+ *                              Internet reachability check this is
-+ *                              finalizing.
-+ *
-+ *  @sa wispr_portal_web_result
-+ *  @sa wispr_portal_web_result_no_err
-+ *
-+ *  @private
-+ *
-+ */
- static void wispr_portal_web_result_failure(const GError *error,
- 		GWebResult *result,
- 		struct connman_wispr_portal_context *wp_context)
+ /**
+@@ -3507,6 +3508,10 @@ static void online_check_log_failure(const struct connman_service *service,
+  *                                      the failed previously-requested
+  *                                      online check. This is expected
+  *                                      to be less than zero ('< 0').
++ *  @param[in]      message             A pointer to an immutable null-
++ *                                      terminated C string describing
++ *                                      the reason for the online
++ *                                      check failure.
+  *
+  *  @returns
+  *    True, unconditionally.
+@@ -3520,7 +3525,8 @@ static bool handle_oneshot_online_check_failure(
+ 			enum connman_ipconfig_type type,
+ 			enum connman_service_state ipconfig_state,
+ 			struct online_check_state *online_check_state,
+-			int err)
++			int err,
++			const char *message)
+ {
+ 	const bool reschedule = true;
+ 
+@@ -3562,6 +3568,10 @@ static bool handle_oneshot_online_check_failure(
+  *                                      the failed previously-requested
+  *                                      online check. This is expected
+  *                                      to be less than zero ('< 0').
++ *  @param[in]      message             A pointer to an immutable null-
++ *                                      terminated C string describing
++ *                                      the reason for the online
++ *                                      check failure.
+  *
+  *  @returns
+  *    True if another online check should be scheduled; otherwise,
+@@ -3576,7 +3586,8 @@ static bool handle_continuous_online_check_failure(
+ 			enum connman_ipconfig_type type,
+ 			enum connman_service_state ipconfig_state,
+ 			struct online_check_state *online_check_state,
+-			int err)
++			int err,
++			const char *message)
+ {
+ 	bool reschedule = false;
+ 
+@@ -3699,6 +3710,10 @@ static bool handle_continuous_online_check_failure(
+  *                                      the failed previously-requested
+  *                                      online check. This is expected
+  *                                      to be less than zero ('< 0').
++ *  @param[in]      message             A pointer to an immutable null-
++ *                                      terminated C string describing
++ *                                      the reason for the online
++ *                                      check failure.
+  *
+  *  @returns
+  *    True if another online check should be scheduled; otherwise,
+@@ -3714,17 +3729,18 @@ static bool handle_online_check_failure(struct connman_service *service,
+ 				enum connman_service_state ipconfig_state,
+ 				struct online_check_state *online_check_state,
+ 				bool oneshot,
+-				int err)
++				int err,
++				const char *message)
+ {
+ 	bool reschedule = false;
+ 
+ 	DBG("service %p (%s) type %d (%s) state %d (%s) "
+-		"one-shot %u err %d (%s)\n",
++		"one-shot %u err %d message %s\n",
+ 		service,
+ 		connman_service_get_identifier(service),
+ 		type, __connman_ipconfig_type2string(type),
+ 		ipconfig_state, state2string(ipconfig_state),
+-		oneshot, err, strerror(-err));
++		oneshot, err, message ? message : "<null>");
+ 
+ 	/*
+ 	 * Regardless of online check mode, if this completion closure
+@@ -3740,7 +3756,7 @@ static bool handle_online_check_failure(struct connman_service *service,
+ 
+ 	/* Unconditionally log the failure, regardless of online check mode. */
+ 
+-	online_check_log_failure(service, type, err);
++	online_check_log_failure(service, type, message);
+ 
+ 	/* Handle the failure according to the online check mode. */
+ 
+@@ -3750,14 +3766,16 @@ static bool handle_online_check_failure(struct connman_service *service,
+ 						type,
+ 						ipconfig_state,
+ 						online_check_state,
+-						err);
++						err,
++						message);
+ 	else
+ 		reschedule = handle_continuous_online_check_failure(
+ 						service,
+ 						type,
+ 						ipconfig_state,
+ 						online_check_state,
+-						err);
++						err,
++						message);
+ 
+ done:
+ 	return reschedule;
+@@ -3803,6 +3821,9 @@ done:
+  *                           to be zero ('0') if @a success is @a true
+  *                           and less than zero ('< 0') if @a success
+  *                           is @a false.
++ *  @param[in]      message  An optional pointer to an immutable null-
++ *                           terminated C string describing the reason
++ *                           for the online check failure.
+  *
+  *  @sa cancel_online_check
+  *  @sa start_online_check
+@@ -3816,7 +3837,8 @@ done:
+ static void complete_online_check(struct connman_service *service,
+ 					enum connman_ipconfig_type type,
+ 					bool success,
+-					int err)
++					int err,
++					const char *message)
+ {
+ 	const bool oneshot = __connman_service_is_online_check_mode(
+ 		CONNMAN_SERVICE_ONLINE_CHECK_MODE_ONE_SHOT);
+@@ -3825,11 +3847,11 @@ static void complete_online_check(struct connman_service *service,
+ 	bool reschedule = false;
+ 
+ 	DBG("service %p (%s) type %d (%s) "
+-		"success %u err %d (%s)\n",
++		"success %u err %d message %s\n",
+ 		service,
+ 		connman_service_get_identifier(service),
+ 		type, __connman_ipconfig_type2string(type),
+-		success, err, strerror(-err));
++		success, err, message ? message : "<null>");
+ 
+ 	if (type == CONNMAN_IPCONFIG_TYPE_IPV4) {
+ 		online_check_state = &service->online_check_state_ipv4;
+@@ -3851,7 +3873,8 @@ static void complete_online_check(struct connman_service *service,
+ 					 ipconfig_state,
+ 					 online_check_state,
+ 					 oneshot,
+-					 err);
++					 err,
++					 message);
+ 
+ 	DBG("reschedule online check %u", reschedule);
+ 
+diff --git a/src/wispr.c b/src/wispr.c
+index 913c3135fffb..189961936d3b 100644
+--- a/src/wispr.c
++++ b/src/wispr.c
+@@ -672,7 +672,7 @@ static void portal_manage_failure_status(
+ 	struct connman_service *service = wp_context->service;
+ 	enum connman_ipconfig_type type = wp_context->type;
+ 
+-	wp_context->cb(service, type, false, err);
++	wp_context->cb(service, type, false, err, message);
+ }
+ 
+ /**
+@@ -724,7 +724,7 @@ static void portal_manage_success_status(GWebResult *result,
+ 				&str))
+ 		connman_info("Client-Timezone: %s", str);
+ 
+-	wp_context->cb(service, type, true, 0);
++	wp_context->cb(service, type, true, 0, NULL);
+ }
+ 
+ static bool wispr_route_request(const char *address, int ai_family,
 -- 
 2.45.0
 
