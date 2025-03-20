@@ -1,35 +1,35 @@
 Received: from mail5.g24.pair.com (mail5.g24.pair.com [66.39.139.36])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0DFE215770
-	for <connman@lists.linux.dev>; Thu, 20 Mar 2025 23:39:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1CC521C19E
+	for <connman@lists.linux.dev>; Thu, 20 Mar 2025 23:39:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=66.39.139.36
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742513965; cv=none; b=i8I2hLQCdFTem7Ii0HpF+/YN9xkaI7NgDPrygadylX4PVHaqqKFXSB+RUc99A2lkGQJ9iXyOQ7v8ostjQEryt7Q+bqvczAhRh67hFju6AQCdkfj1C/er2ZV/wVQVeI1v27h8Sxoc5M/UioMV4TpzIw2qx0LNe6txiiWt4lK7BZQ=
+	t=1742513965; cv=none; b=E471PokTifwkohrie67i8aslMXhcsB9oN3Grky5MJl3G2CL0ceI1X3virZutO3x+2AggJMscCT+gfRbxrNtfGMTb15glvUMv5HBZNtax3J63eoNjOQFVm2xFdwlkTMlgOYeSXplyXIz0EKZ3V0ZIzqeXnIMy4Ljvt/EmyV7fsqA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1742513965; c=relaxed/simple;
-	bh=NpoCG42s2XK19IxPJj6S14OQ3iutoqYpTCdtV7gb4rc=;
+	bh=SYQMtG2riBuMgra4oMSpaSZFEfLU+3l8+3F7cmdi4js=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=JPt4+eQmqb09XSf2kS48skm5jJj6IYKzhQ1wey/GU/8JYTv+vLEdZul+iknCLMiu+/hMYCDEhrvkGg0e9LbBwwJX1gnqhZh0Z0j6+VfUQglwBVjrc/7zUNnTX/4R+SPnKr/DnB6bnlqBKgGLB4zkM0FlxtzvJQ9rQbxIKwJRQyQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nuovations.com; spf=pass smtp.mailfrom=nuovations.com; dkim=pass (2048-bit key) header.d=nuovations.com header.i=@nuovations.com header.b=M8m534FL; arc=none smtp.client-ip=66.39.139.36
+	 MIME-Version; b=QrGAT9rWhUq+zeWn8WAe6vNUasgO8zvtge2A6BtiG6RRLejKpizFPER6c1X88OpMj2oIAx7BIhfrgikhO8SnJJzIbFkXc3SAxsFMrIq4piIoh5LfooHT+TissbIaA4JoHCzE0Z5B8iuPlV6Zub0kGwDouhTd5LnynRgMUewjVwA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nuovations.com; spf=pass smtp.mailfrom=nuovations.com; dkim=pass (2048-bit key) header.d=nuovations.com header.i=@nuovations.com header.b=NivJEPcD; arc=none smtp.client-ip=66.39.139.36
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nuovations.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nuovations.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nuovations.com header.i=@nuovations.com header.b="M8m534FL"
+	dkim=pass (2048-bit key) header.d=nuovations.com header.i=@nuovations.com header.b="NivJEPcD"
 Received: from mail5.g24.pair.com (localhost [127.0.0.1])
-	by mail5.g24.pair.com (Postfix) with ESMTP id 55918164AE4
-	for <connman@lists.linux.dev>; Thu, 20 Mar 2025 19:39:17 -0400 (EDT)
+	by mail5.g24.pair.com (Postfix) with ESMTP id 1835D164ACE
+	for <connman@lists.linux.dev>; Thu, 20 Mar 2025 19:39:15 -0400 (EDT)
 Received: from localhost.localdomain (c-73-202-173-252.hsd1.ca.comcast.net [73.202.173.252])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mail5.g24.pair.com (Postfix) with ESMTPSA id 0C2C812635A
-	for <connman@lists.linux.dev>; Thu, 20 Mar 2025 19:39:16 -0400 (EDT)
+	by mail5.g24.pair.com (Postfix) with ESMTPSA id C000F125183
+	for <connman@lists.linux.dev>; Thu, 20 Mar 2025 19:39:14 -0400 (EDT)
 From: Grant Erickson <gerickson@nuovations.com>
 To: connman@lists.linux.dev
-Subject: [PATCH v3 13/18] gweb: Document 'struct _GWebResult'.
-Date: Thu, 20 Mar 2025 16:39:04 -0700
-Message-ID: <725a07ae93fe427cab9068c69ce7a6e8bfccb53e.1742513884.git.gerickson@nuovations.com>
+Subject: [PATCH v3 08/18] gweb: Add documentation to 'received_data'.
+Date: Thu, 20 Mar 2025 16:38:59 -0700
+Message-ID: <3a0aa0f1a0b48643f66a11c5b3e7fd3753b603d5.1742513884.git.gerickson@nuovations.com>
 X-Mailer: git-send-email 2.45.0
 In-Reply-To: <cover.1742513884.git.gerickson@nuovations.com>
 References: <cover.1742513884.git.gerickson@nuovations.com>
@@ -40,64 +40,47 @@ List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nuovations.com; h=from:to:subject:date:message-id:in-reply-to:references:mime-version:content-transfer-encoding; s=pair-202401062137; bh=fWKqDWuso3HpcsWp4K8otMoDUZVqc1DtiX7o5Dp8uAM=; b=M8m534FL8vqTcAY4b68YC+bdOURw3HTpoBBJO4SJX13BuVg0e2rnlsWBdYFwakWNUxP7jaOo4w0OnO1lGWTmQm/sYlfej358G01ElfUlk15pu64wyV6ih1DPiN2006qhysyBg0psAvlBiK/Y4zn9u593LlcEhWnPJ7AxIw7rWGWCqlRJmqjEItv0fXNHHf1XHwPpcenpfUo6ovuvQ872Kinlyi2upGi9BtJVQqF4DTsV10A4JkeU8AYnws/aiLgqgLw79MvavTt9hunbgaEoMJ39AzsaCEpdoOWM0w++cSUMJ/J+rUYN5QJzOn8FqmMJO92WdODb1FjtqMNj1mfaMQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nuovations.com; h=from:to:subject:date:message-id:in-reply-to:references:mime-version:content-transfer-encoding; s=pair-202401062137; bh=gAQZO1U0eymqnlX34mIbwGiPSY0rk92CUhNVlZX8LDU=; b=NivJEPcD7B40X2lAg/+U9RBk09TfjMD2RT7/iTe8SPGr0gycDrbskRjyeWWZTZL77DLzXdK47L9z7qKByrmKNPvecJx1T5RyA+FZrQcVKJJ03Gi/TqJAFnX4jEF3jG4hYr7emMYs4wjPf3QbqdcJHEVFyj1NXKvtexj3WFelPqVzzzkxMCKZ6/HzIvI/uHqbBDhCS/TWenZe7mH0/bV6lkxT8Nesd+G5bq4wdaRFU0+qywB/bYGJWFXGcYet5zCfcxHPeIsacB1q4VfEzA0+qAuuq1b8JjTP4msKOA7XGlHi1PdoVkVBLCb66gT1cLJP+WzUY0SJSYsqEpLHvBFSFg==
 X-Scanned-By: mailmunge 3.10 on 66.39.139.36
 
-Add documentation to the remainder of the 'struct _GWebResult' data
-members and to the overall structure.
+Add documentation to the 'received_data' function.
 ---
- gweb/gweb.c | 32 ++++++++++++++++++++++++++++++++
- 1 file changed, 32 insertions(+)
+ gweb/gweb.c | 22 ++++++++++++++++++++++
+ 1 file changed, 22 insertions(+)
 
 diff --git a/gweb/gweb.c b/gweb/gweb.c
-index b0f2077a176a..ace3ac4dcb69 100644
+index c22ca8ef0aff..ad91d782e6e4 100644
 --- a/gweb/gweb.c
 +++ b/gweb/gweb.c
-@@ -56,12 +56,44 @@ enum chunk_state {
- 	CHUNK_DATA,
- };
+@@ -1227,6 +1227,28 @@ static bool received_data_continue(struct web_session *session,
+ 	return TRUE;
+ }
  
 +/**
-+ *	The opaque structure presented to GWeb clients on received data or
-+ *	request closures.
++ *  @brief
++ *    Handle a glib I/O channel watch received data delegation for a
++ *    web session request.
++ *
++ *  This handles a glib I/O channel received data delegate for the web
++ *  session request associated with @a channel.
++ *
++ *  @param[in,out]  channel    A pointer to the glib channel that
++ *                             received data or a condition(s)/
++ *                             event(s).
++ *  @param[in]      cond       The conditions or events that
++ *                             generated this delegation.
++ *  @param[in,out]  user_data  A pointer to the mutable web session
++ *                             request associated with @a channel.
++ *
++ *  @sa received_data_finalize
++ *  @sa received_data_continue
 + *
 + *  @private
++ *
 + */
- struct _GWebResult {
-+	/**
-+	 *	HTTP status code on success.
-+	 */
- 	guint16 status;
-+
-+	/**
-+	 *	HTTP body content on success; otherwise, NULL.
-+	 */
- 	const guint8 *buffer;
-+
-+	/**
-+	 *	HTTP body length on success; otherwise, 0.
-+	 */
- 	gsize length;
-+
-+	/**
-+	 *	Boolean indicating whether the HTTP response uses HTTP/1.1
-+	 *	chunked transfer encoding.
-+	 */
- 	bool use_chunk;
-+
-+	/**
-+	 *	An optional pointer to a null-terminated C string containing
-+	 *	the last HTTP header name added as part of a header key/value
-+	 *	pair.
-+	 */
- 	gchar *last_key;
-+
-+	/**
-+	 *	HTTP headers, on success, keyed by the header name.
-+	 */
- 	GHashTable *headers;
- };
- 
+ static gboolean received_data(GIOChannel *channel, GIOCondition cond,
+ 							gpointer user_data)
+ {
 -- 
 2.45.0
 
