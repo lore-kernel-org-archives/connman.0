@@ -1,151 +1,268 @@
-Received: from mail5.g24.pair.com (mail5.g24.pair.com [66.39.139.36])
+Received: from EUR02-AM0-obe.outbound.protection.outlook.com (mail-am0eur02on2135.outbound.protection.outlook.com [40.107.247.135])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E1C42CA6
-	for <connman@lists.linux.dev>; Tue, 25 Mar 2025 05:04:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=66.39.139.36
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742879097; cv=none; b=jIpEih+pVlV8/4/XmAlareYr+imXlctlND1+sxwbusdMVBLL7v1oOZJ5wJonl5wcVrRmzX5pvIppp9V0VZAsd9cLvbUjcdfJzCiCGt9/UkAmyzQr9ykQ1vror5FLr72JDb7UKSozcfEwjVX4Iyb+7dPyVZLhhWSlKBL3XXrkEQ4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742879097; c=relaxed/simple;
-	bh=xDrr3arJywL4eP/gbAv8YNUf62M2x7iQBPy7k3DTAfo=;
-	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
-	 Message-Id:References:To; b=gB1DtlM8/vFCrlgtGI+g0fbhJPvTV4RjJT7QEPxCOgCWP/YJSexR0EGCuF3I0s9Bp9VSIVIqKSFrwBivKU2pbieZwfQutmvXN5kCztZ0A/m0uCvHB1044ISLEHcysOQj8Mp80yMygbFr4BfDoHdIX8TO5vAXB9HmgKDdCaJ5rq4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nuovations.com; spf=pass smtp.mailfrom=nuovations.com; dkim=pass (2048-bit key) header.d=nuovations.com header.i=@nuovations.com header.b=ScefKrge; arc=none smtp.client-ip=66.39.139.36
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nuovations.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nuovations.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99585194094
+	for <connman@lists.linux.dev>; Tue, 25 Mar 2025 09:58:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.247.135
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1742896719; cv=fail; b=VeeKPOIBHp6WuyOqGAUFX/X3SKuEUjvvJfaGurMNKApnDQjswHjziIwLQwISr85I48hb3G4S+c3JUJPipWhS1xGjx1+YupzrlMbgc06d0d/29ODOUjDrQ54qkkK+pWzSdj/qDRuWlj2uGPgchOvrW21OhukTug6M38/7diqKEDs=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1742896719; c=relaxed/simple;
+	bh=7C6mtU3tzab+xhUxHy5niIthsAsSXfp1Jgoe+1dXauA=;
+	h=Message-ID:Date:Subject:From:To:Cc:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=Xyx7izN92DclkICxJ53CqaL1nz/kxns2dUzlKR+cOvOkPrWOp6FQN8WFJ4pSYpbTFHJDpYrKv9AlMl7hSetuHbtZp82DeMEqeGLWoRGhDlaKtgRv8qisF/35LpqvDWh1e3WgTexQF321HOpGX0I7kfYj7ocYhHq7YaQrVBdMpUE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=jolla.com; spf=pass smtp.mailfrom=jolla.com; dkim=pass (2048-bit key) header.d=jolla.com header.i=@jolla.com header.b=uowErF3b; arc=fail smtp.client-ip=40.107.247.135
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=jolla.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jolla.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nuovations.com header.i=@nuovations.com header.b="ScefKrge"
-Received: from mail5.g24.pair.com (localhost [127.0.0.1])
-	by mail5.g24.pair.com (Postfix) with ESMTP id 2F72E164A18;
-	Tue, 25 Mar 2025 01:04:54 -0400 (EDT)
-Received: from smtpclient.apple (c-73-202-173-252.hsd1.ca.comcast.net [73.202.173.252])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mail5.g24.pair.com (Postfix) with ESMTPSA id C9E6F125166;
-	Tue, 25 Mar 2025 01:04:53 -0400 (EDT)
-Content-Type: text/plain;
-	charset=utf-8
+	dkim=pass (2048-bit key) header.d=jolla.com header.i=@jolla.com header.b="uowErF3b"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=mpWwMlFNclistJ/9m9fb76TjEdP6i3b5mBFlgn0cn62HkaU7/EvAATYaE0wcrOHr4cHKusgnT/SNhtKlLyOttrSYnmNawzNJLi8iCyd6SiIUEJyZo9dgpV/lYsA9jexDl6oTBpm67eMpVZLt6k+Y1tJK+8hoXRER1+nwbAHb7+kx2yORSp12mFZ9n1qlSyJrP2TY9+h5xCqC0GheLQmEhbtcPjjilhygxAy4WNLa6o5F4GzG54TAAVYcWGrzARfeFCGGx7+tIA2D7SIDkxhWqpYZ6Oro8TDG8vNovhoPjGZy6109CDgTRDgVz8+B1bJEi9o5DrU7wgB967OAs8yALQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=LDQS4nxND82FD9u6H3+/F7CW1N1XjGUesw9W/z/SG6Y=;
+ b=p0NAAptX8UI1XBmijALRTvx3qxEuUEaN7J84IC1LtvwZBEFFaj/raPcTKovBIUbBMxDh2Lhr5R4cdq6VykSUQ+jJISoV/fOjJWdEuTRKG61AR/m3s468Sfb7tKpznnngj8FfHGfP+pXSpOqkJ/ChttE6ggKM3QEvq62iAqsMopyK6jk9IUtYU3MFExLx5eg2OMykxZ+AWIVoTesx1bSOJx+zkxpyosUaexJ16v9OmbRpdSdEvKqri1+NfQ88J99xH8pgKptvnxIUFG3Wv3R4d2afzY3O0FmXnu0bBZTkgV2YVl+oEgn6+bRoSx4dxslr0FbtfPcUscVPcCs8yjKjaw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=jolla.com; dmarc=pass action=none header.from=jolla.com;
+ dkim=pass header.d=jolla.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jolla.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=LDQS4nxND82FD9u6H3+/F7CW1N1XjGUesw9W/z/SG6Y=;
+ b=uowErF3brM89IANU5NWUbRrhXeMNh4PS7/u47e3diUtIwOkh4W98lBRrILSpP8kBuBy+u9B6oPh61pM9InhPad6GP/csIEgc9tjjP5OYIsXhwMzgrYfNSiVegOFqqeQiI4dB2lYYI1v0A9WsllNKI4pB9GkUTMZDFePiqCVuh5yzHGCCrv+diPxLEKY8adTir6ZOiQu1cTnlMFmNGCdkxuZyXAlcgnfyHnvPO4y4qJO8ggbn30CaZ7pukojWUKu/UDtxUUR6/wJ2kQdveUywCbik9lq4J8hXCA5UqQh5hNiiT09v4gk6c3rdY9H5rH5UL/TVzzlB5x9Qf3hRZP5mcw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=jolla.com;
+Received: from GV1PR06MB8370.eurprd06.prod.outlook.com (2603:10a6:150:21::11)
+ by VE1PR06MB6861.eurprd06.prod.outlook.com (2603:10a6:800:1a4::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8534.42; Tue, 25 Mar
+ 2025 09:58:32 +0000
+Received: from GV1PR06MB8370.eurprd06.prod.outlook.com
+ ([fe80::f1a2:b7c7:380e:8caa]) by GV1PR06MB8370.eurprd06.prod.outlook.com
+ ([fe80::f1a2:b7c7:380e:8caa%4]) with mapi id 15.20.8534.040; Tue, 25 Mar 2025
+ 09:58:31 +0000
+Message-ID: <07d1c218-be94-4b63-bb98-f57679844148@jolla.com>
+Date: Tue, 25 Mar 2025 11:58:29 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 00/12] Improve WireGuard disconnect, error and hostname
+ lookup
+From: Jussi Laakkonen <jussi.laakkonen@jolla.com>
+To: Christian Hewitt <christianshewitt@gmail.com>
+Cc: connman@lists.linux.dev
+References: <20250124185916.1546471-1-jussi.laakkonen@jolla.com>
+ <A173154A-88D0-4CB2-AFED-B94FBC9D8ED0@gmail.com>
+ <3438fe24-9c02-4c45-aaaf-cfbe260902b1@jolla.com>
+ <E23C544B-4E82-49A6-B72E-2279D1BAFC67@gmail.com>
+ <c6ae8a9c-df3f-4170-951b-a8a049bf9676@jolla.com>
+Content-Language: en-US
+In-Reply-To: <c6ae8a9c-df3f-4170-951b-a8a049bf9676@jolla.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: GV2PEPF0000452C.SWEP280.PROD.OUTLOOK.COM
+ (2603:10a6:158:401::352) To GV1PR06MB8370.eurprd06.prod.outlook.com
+ (2603:10a6:150:21::11)
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3776.700.51.11.1\))
-Subject: Re: [PATCH v3 11/18] gweb: Close web request session finalization
- 'hole'.
-From: Grant Erickson <gerickson@nuovations.com>
-In-Reply-To: <432e0077-44d3-4eea-894f-7cbfc5adafe0@gmail.com>
-Date: Mon, 24 Mar 2025 22:04:50 -0700
-Cc: connman@lists.linux.dev
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <D2746494-6ECF-4F8E-A4B1-5AE15F1BAC5C@nuovations.com>
-References: <cover.1742513884.git.gerickson@nuovations.com>
- <0748654fa16bbc7f9c4afafddc8149faae3bb005.1742513884.git.gerickson@nuovations.com>
- <432e0077-44d3-4eea-894f-7cbfc5adafe0@gmail.com>
-To: Denis Kenzior <denkenz@gmail.com>
-X-Mailer: Apple Mail (2.3776.700.51.11.1)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nuovations.com; h=content-type:mime-version:subject:from:in-reply-to:date:cc:content-transfer-encoding:message-id:references:to; s=pair-202401062137; bh=vdyfSQ3Ifr90zfm8QMS+qUCcxfONX3hnUw2LqpT7obc=; b=ScefKrge0hXEaLmKHOr55adPCxXXifE6fVx98RKxvYMEGt1ztRlcb+3FW/UKdl1tR/Ff1lr7twU19ytPFndKj3NxZf6QEE3XAWq++K5CuvCIMl5op8Erzbu4jVagMY6s7J9YZvsdhajaRxmi8j7nKc3J5OIhXRSUTAAab0dIosoDOptKEGPLYHAC2I+Le1EBONMwcXqQ2K4YYNfnYlV+fSPxCSl67YUwLfx1EIIP4FhCEby10pXdNFnlKfTaqCaS9vnT3e2hyj9bm7+n9Gpqz3IolUlhreCo3IqxvkoQGa2SUmbqv15QQL6y0CODdM3V9CB+o2bNItVtqFhYGRVUYQ==
-X-Scanned-By: mailmunge 3.10 on 66.39.139.36
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: GV1PR06MB8370:EE_|VE1PR06MB6861:EE_
+X-MS-Office365-Filtering-Correlation-Id: c8fdc1de-79e9-4218-581f-08dd6b839924
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|366016|10070799003|1800799024|7053199007;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?cXhqenFiV3pwdTdDcVRnc0tmVE15WTBVSHlJaGlKc3VZb3lkWkV2N0EwUE1p?=
+ =?utf-8?B?eXg2V0NvZWZPUGp1RG01bzM3OW9ra1JFK0M1U2puUWxFM0NpOFpVNXlJVi9F?=
+ =?utf-8?B?K1pVMlBwS2lQM1J0T2V1YWY1aHBURXdyQXZaMEFvcWRUQVUwZzR3aHRiNWk1?=
+ =?utf-8?B?ZGRwaXEvMTExdCtFWWlKWnRpY3dYUFE2WFpmdVFYV3duZnhvZmxzZ0lvRm1w?=
+ =?utf-8?B?TkoycXRpVTlZMy81bk5oWkRUcjRxQXkzenJsSWUzZHZGU0pOOVp3b25RLzJv?=
+ =?utf-8?B?cXJTcWxZUzNoSHkreWFlK2RIckt0ck5aRG45Z0FaaEpiTkRPZDBUaFdUL3cz?=
+ =?utf-8?B?K2o2aVFEZC9NR0JQRnA3MlRvQ1RCRjZSbXl3U3ZPMzBKYzR1c0xFc1BvQjU1?=
+ =?utf-8?B?UFBVYjVCSWlpLzJkYkNqbzlkMVBDN0F6T0YrNVRsSUU4cnR5RDZhS2lGOWFH?=
+ =?utf-8?B?UHluSnRkUFljRTg2WDVXNXl1UWthQmt3ZGdmQUJYQVZNVlZtdDF0anZuZzIw?=
+ =?utf-8?B?Yi96Z29LbUxMTll1UjlXd0V0Zi94djJsSXlFcUFwWmtLYTJFUEtQRW1nSXoz?=
+ =?utf-8?B?Sk9TVFVRVWN1VzJReFpSMmV6Z3FqRGEwTkI0MWtUZ1NuU2lHZmtvTHB5aFJ0?=
+ =?utf-8?B?blQwUWJLSjB0bzNhbXlONDE5TnFnTy9QWVVPTEhoWkZyak9ZbUY5Qk1BT0py?=
+ =?utf-8?B?MFpML1ZrQk9DaFgyKzBkOEpzbW54Vy9HNmhsOEZITE4vQWdOVGRJME84dHg2?=
+ =?utf-8?B?cHNYZ2UxdmJub2xZcCtleEU3TDhDRHhaN1lBRk5xNTNkZW5oRWdrcDNoUEQz?=
+ =?utf-8?B?OUlLYitVS0NjMEZtQ2NUbnZCSDJnOFBNVmg0bWIyQXY4Nzk4Zm5xNUJUQTZR?=
+ =?utf-8?B?eExoM01OeDNiRVV1Y25NRFFYcnpUdGZOTW1hdXFzQ1VOLzd4d0dyWEx2c2pJ?=
+ =?utf-8?B?NmFqc3JmaVBzbHJLMVY3aldUQzRSRUlZUHMwT2NyZFUwZDd5YXN5Y0ZVR0pC?=
+ =?utf-8?B?bEZEcVFmZGQwZkdSYVpuY1EySzRPZWVTMG54SnZXWXprMGtDdGI1VUlZZ1Vt?=
+ =?utf-8?B?VFhMcDVucVR6empydXlqZktreGxxT0VuT3I5ZWJUUldlZ1RVMGtxbVVla3Q5?=
+ =?utf-8?B?MkVIVjBtV0VZYjlWRXdobjB0bzFDR0IwZmp0akVPMlh4TDlKMjVBRjJ6VWE2?=
+ =?utf-8?B?QWRpaWs2V2FOY2pUT3M1bTlFbU93STU4aHZ3bll0N2pjT0JFUTNSS0pRRzFT?=
+ =?utf-8?B?bjVLb0Z1MEdrcjhqUi9CeDRKWHVYTkN1bmV5bGlMeC9XcWRyTW02bmJOSVc3?=
+ =?utf-8?B?RG93a2EzMVZDZHJHZmVTVmpDbk1PUXBYK3psMTdCOXZuSkJKL00xWkpCb2xO?=
+ =?utf-8?B?Yy81TXFTWnU1cTJLU3RDRVNPZnBsNlE5RTJIQUdaTC9SWXNhek5ZVHhTdVJj?=
+ =?utf-8?B?Ujl1Q2o5aGNtdDY0UWFKU2dWQWcreG0wSGFZNFBlemVuanhGRzFocDNZVWtC?=
+ =?utf-8?B?dmdiZlIvMWJEYTJtVDF1L2FOZEhJOHdFOUNSWmxaRmFVVmFhZ2djU0haNWM5?=
+ =?utf-8?B?V2U1d1Z1OXcxWUN6amlCZjJrendnWVRiNmFGVjJBbDM4SWFGbndXc3ZKUHdC?=
+ =?utf-8?B?cFI5SFNlM1dobWpjenh4Z1NjNXFCRk5rTmtEZ1BMUkp4TXA3VEc3dWlQeU5i?=
+ =?utf-8?B?UHl5NUxDejN2YXhocFoxSWY1b0lSTmZLTnprNFN6SXJIekxrdkJSYVRYVEs3?=
+ =?utf-8?B?V1haLzZnYnR4UlRGT2xXNCtzZitkMG0zQzhCWXdkb1k0clJVTklIQW0zb0hP?=
+ =?utf-8?B?SlhXdzQ0eTc1QkdQeXNOdz09?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV1PR06MB8370.eurprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(10070799003)(1800799024)(7053199007);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?b2x1RCtueUtsay9JLzNSRnA2cGduTjRJQTVsdVBwUUZRbG5TWkVoZklZdmZl?=
+ =?utf-8?B?YUhOMUdmbG1CbzVDUWpCeUs5V2hBYmJFY0NhUW16UkhrNmw5eUQ4QzdnQjNF?=
+ =?utf-8?B?SUVXNXhnOUl5N0Q1amNralQ4NjJXS1ZwYW1PVWJ2UnhwRnBnSXkxVGRQL2ZM?=
+ =?utf-8?B?UkpIVmJneDFYSndXVXQ5MkRlY0ZqRWJPeXh3UW9RL3JTMzY3dXhWelFDWDdR?=
+ =?utf-8?B?OGpUbDB2OGhmUFNQMHNFeE5EbFpXckR1ZW8vU3JDakdXRitjQ3FvbmFLMEtD?=
+ =?utf-8?B?Q2pIbGE4ODBKcXIzYUdMRkFNYzU3eThKTXI0ZGlNMkd6SWtKQVJJdGx1Q0ps?=
+ =?utf-8?B?Zm03cGk1dHFLdXZDV3dqclNLSERNUHBHUVlCUms4TXFmUlloOUNLVUxkZ1R5?=
+ =?utf-8?B?a0NkSGphN2E3TzZSaEY3RlpaUEQ2V09YMDJCUU9SV3A4bXhIQVVJRk1BSmVx?=
+ =?utf-8?B?UFdBSGdNK2hwazlucHpZUE1rYXdrZWE2ZnNHU2k5bjh3OWVtNXJ0WWtlK0JC?=
+ =?utf-8?B?YnhUVm9MMllkeC9ycWU0a3RTbDl2NXUwNVdIY3JOVlRDKzZCSytiZkI1b0Yr?=
+ =?utf-8?B?YnU3V1g3aUI2T2duTmhMdWxNK2kwY1ppcVh6WUZ2YmlFWUVFY3BVK0NOME9S?=
+ =?utf-8?B?bEQzM3VGejFpMHl5SCtWUW5ZeStVdndtblJyczFPWXNyTVRxYk9zYzgxYk1H?=
+ =?utf-8?B?ekVPdGlMTVVUZXl6bkNhUURkZlowcS9oWTdNY2NGdkQ2YzVEUU5zUDY1RTls?=
+ =?utf-8?B?WHpIdFA1ZGticTZGUkdadkttKzZhRDlDQ2ZBa1FQTTVmSlhYYlBET09GNitR?=
+ =?utf-8?B?NTZyRTJpMjJwZnFWT01OL252SnkyZHFGM09pM041ajkrMTJZMVd2aUtHQ2Rm?=
+ =?utf-8?B?WDBWcnNIUjJGVnFweGZoMk1MeFRiL1h3V2VadnU2VmRXYVg1UHVCYnpoN3py?=
+ =?utf-8?B?cDBOZTJRdklXUDc3S2hlNXVyc1BGaVdHYVQ0SStEdkdJYzYzZHd1bGNabW85?=
+ =?utf-8?B?OEo0eU50NXpaNVNwWHY2NkEwMjNjSFArNDRjWTJ0M3RJYTc0cFRUSDVneVlS?=
+ =?utf-8?B?SlFTcEYwejcvQXN4aGI0MkU1YndCb2k4bmM0cnlicW94MENLNDM3Ry9veDJV?=
+ =?utf-8?B?VGRjY2tmTXdTdXk3RnJieVdtcGQweUNtbUg3MHM1MkdyY0xVTkFTWUJDVlVx?=
+ =?utf-8?B?UXlpeU1aaWFvWmlrdkxMcjdKV2JvbWdLaVZ6aTg4SWZnYWZuSUxYT05lU0pa?=
+ =?utf-8?B?S1k5Z3ZjM2Raa0xFSVdjRFlRMVEwanRTa2o5anBIY3lpTEkwcHozaGt6RlJQ?=
+ =?utf-8?B?NUJHQ0dKYkllcUt3Yjh5SEFubG1Ta1VpZW5pU1kxNk1zcFRGUHlBVGlYYXRo?=
+ =?utf-8?B?ZHI3cnF1TTJTb1Q4eFdYb2MzeCttRG5HclU3U01sanZidHFPNTZGL2FXelg4?=
+ =?utf-8?B?b01SYitHMXNwa0NITVlzZjluK3FsMHdUVGFJOEx1TU5KMzlZdW1hYUplbVRI?=
+ =?utf-8?B?TmU2QzlBUTJJWDJHcDhmRG4wSWV0QkFxTGcxVEwxVHQ5UmhoSFptY1NaN0NX?=
+ =?utf-8?B?SHFqZFVwZnI4bnlXdzJzdmZRS1lCZU1CSytHS1FkV2dDSEpxS2JraEt3STJ4?=
+ =?utf-8?B?UHJ6Qm8wazZZYm9nZWc0R1owSEZmam5XKzFHMWFuREdUdmJ2TldrV05JQjRo?=
+ =?utf-8?B?RDN5ZUdQcXlFa29FUzk5OEJPSHlOQTlHQVdGcUxBaHNSUklVNUcrZXg3SEFj?=
+ =?utf-8?B?aVNJNFZqeXoxa1V4a1ZiU0NGQVdReEhsOFNlU0pqOE9kQmdBbzVRR3lRVklR?=
+ =?utf-8?B?dHg2Vk15SjJsQ05uR1pKZ2tFWnVOQXdFL1B4S21zNHVWZWZZbi9TSFY1c1lk?=
+ =?utf-8?B?cmI5dGNwMWRwbXZ1cTZEdmRhVGtucms5VWFQSlY0b3hCZWQ2RDgvcC8yMVJr?=
+ =?utf-8?B?a1dZZHpLcnhrU0lZZ3pHV2V4NmwzcnNnRGxqVVpzTHMweVVSWERqYXZmVTdx?=
+ =?utf-8?B?UXI0WjVOalU0aDZJR2JvcjVtUFZiamxzNzl1eU1JaFFLYThaSFl3d2JRRUx3?=
+ =?utf-8?B?ZVZCNEZmblBEYlpOSU51T3lod1B3d0Z1L3VLaGJaYmhqeDNvT1F1L0h6M3d0?=
+ =?utf-8?B?VlZVTXc2SFpuL2NLVWl6Wjg3QnF6Z1JXR09Sc21JTS9zNlJ5cURnVVhQVEhB?=
+ =?utf-8?B?NUhzWTlLR0wyYjlsekY5dmhsbCtwNUZYNm9ENkJoKzI5YnlYbWdDeUVwMG1l?=
+ =?utf-8?B?K1lxT3N2UVRlSXZpdms1YVBreEJ3PT0=?=
+X-OriginatorOrg: jolla.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c8fdc1de-79e9-4218-581f-08dd6b839924
+X-MS-Exchange-CrossTenant-AuthSource: GV1PR06MB8370.eurprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Mar 2025 09:58:31.3034
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: b6cd1562-9512-488f-a364-34d46554c96a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 4O6oUpo78yn7JOsIo6XmbfRfGBK7PHLMlEMTkH52r0gmj7O6ZJytSZfmns4NoltWybKaeQD0OdgsrUn5Pk3G2Lbfr06v/DXXqbdZzAP/AEI=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VE1PR06MB6861
 
-On Mar 24, 2025, at 3:45=E2=80=AFPM, Denis Kenzior <denkenz@gmail.com> =
-wrote:
-> On 3/20/25 6:39 PM, Grant Erickson wrote:
->> There exist two "holes" in the finalization of web request sessions
->> that can, for example in a client such as WISPr, leave one or both of
->> IPv4 and IPv6 "online" HTTP-based Internet reachability checks
->> "dangling" and non-renewing such that an expected active, default
->> network service failover does not occur when it should.
->> The first of those two failure "holes" involves an end-of-file (EOF)
->> condition. In the normal case, there are a series of one or more data
->> receipts for the web request as headers and, if present, the body of
->> the request response are fulfilled. When there is no further data to
->> send, the final receive completes with 'g_io_channel_read_chars'
->> returning 'G_IO_STATUS_EOF' status and zero (0) bytes read. This =
-should
->> and does lead to a successful EOF closure of the web request.
->> However, there is a second EOF case that appears to happen with a
->> random distribution in the nginx server backing the default "online"
->> HTTP-based Internet reachability check URLs,
->> 'ipv[46].connman.net/online/status.html'. In that case, the nginx
->> server appears to periodically do an unexpected and spontaneous =
-remote
->> connection close after the initial connection but before any data has
->> been received. Presently, all such failures hit the same
->> error-handling block which effectively maps such a failure to the
->> effective "null" 'GWEB_HTTP_STATUS_CODE_UNKNOWN' status
->> value. Unfortunately, clients such as WISPr have no way to =
-distinguish
->> this as an actual failure or success and so it lands on the case:
->> case GWEB_HTTP_STATUS_CODE_UNKNOWN:
->> wispr_portal_context_ref(wp_context);
->> __connman_agent_request_browser(wp_context->service,
->> wispr_portal_browser_reply_cb,
->> wp_context->status_url, wp_context);
->> which does not "bookend" the original, initiating WISPr web request
->> and leaves the original request "dangling" and non-renewed, =
-eventually
->> leading to the aforementioned "hole".
->> To handle this failure EOF case, if GWeb asked for a non-zero amount
->> of data from 'g_io_channel_read_chars' but received none and has
->> accumulated no headers thus far upon receiving the status
->> 'G_IO_STATUS_EOF', then GWeb assumes that the remote peer server
->> unexpectedly closed the connection, and synthesizes a new GError with
->> the error 'ECONNRESET'. With the addition of the optional, immutable
->> GError parameter to the GWebResult callback function, clients such as
->> WISPr can now distinguish between a HTTP non-response in which no =
-HTTP
->> data was received and one in which HTTP data was received and the
->> status can be disguished by the HTTP status code.
->> The second of the two failure "holes" involves the case where
->> 'g_io_channel_read_chars' returns 'G_IO_STATUS_ERROR' status. Prior =
-to
->> this change, this funneled to the same "hole" as the =
-'G_IO_STATUS_ERROR'
->> failure with the same consequence to clients such as WISPr.
->> To handle this error case, GWeb now passes a glib GError pointer to
->> 'g_io_channel_read_chars'. If it is set, GWeb passes the GError
->> through to the GWebResult callback function. Otherwise, it =
-synthesizes
->> a GError anew from 'EIO'. As with the failure EOF case, this allows
->> clients to distinguish and handle such failures and to successfully
->> "bookend" their initial web request.
->> ---
->>  gweb/gweb.c | 70 =
-++++++++++++++++++++++++++++++++++++++++++++++++-----
->>  1 file changed, 64 insertions(+), 6 deletions(-)
->=20
-> <snip>
->=20
->> + if (status =3D=3D G_IO_STATUS_ERROR) {
->> +     if (error !=3D NULL)
->> +         passed_error =3D error;
->> +     else {
->> +         local_error =3D g_error_new_literal(G_IO_ERROR,
->> +                g_io_error_from_errno(EIO),
->> +                g_strerror(EIO));
->> +         passed_error =3D local_error;
->> +     }
->=20
-> Why is this needed?  Isn't g_io_read_chars always creating a GError =
-object for you in case of G_IO_STATUS_ERROR return?
+Hi Christian and all,
 
-Without having looked at the actual implementation of =
-=E2=80=98g_io_read_chars' in any particular version of glib, from the =
-documentation alone, it is not clear that =E2=80=98error' is always set =
-when the status is G_IO_STATUS_ERROR.
+On 3/24/25 21:30, Jussi Laakkonen wrote:
+> Hi Christian,
+> 
+> On 3/22/25 06:45, Christian Hewitt wrote:
+>>> On 21 Mar 2025, at 11:31 pm, Jussi Laakkonen 
+>>> <jussi.laakkonen@jolla.com> wrote:
+>>>
+>>> Hi Christian and all,
+>>>
+>>>> I’ve been using this series combined with the following series and 
+>>>> patch for several weeks:
+>>>> https://patchwork.kernel.org/project/connman/ 
+>>>> cover/20250124185845.1546384-1-jussi.laakkonen@jolla.com/
+>>>> https://patchwork.kernel.org/project/connman/patch/ 
+>>>> DB6PR10MB1845EBB07DB785B580B3F6ECE1E02@DB6PR10MB1845.EURPRD10.PROD.OUTLOOK.COM/
+>>>> Plus a revert of this commit which I’ve previously flagged as 
+>>>> breaking the default “route all traffic down tunnel” with WireGuard 
+>>>> (the main use-case for LibreELEC users):
+>>>> https://git.kernel.org/pub/scm/network/connman/connman.git/commit/? 
+>>>> id=9eb1772d31b6fcf78e8711976696491aec9ff5df
+>>>> For easier testing all patches are in this branch: https:// 
+>>>> github.com/chewitt/connman/commits/wireguard
+>>>> No issues observed, so:
+>>>> Tested-by: Christian Hewitt <christianshewitt@gmail.com>
+>>>
+>>> I'm happy to hear. I have been fixing other issues related to WG in 
+>>> the past weeks a lot and considering to push all of the changes into 
+>>> one big WG patch set, as this has been left dangling.
+>>>
+>>> I haven't fully tested this on top of upstream ConnMan, but if you or 
+>>> someone else is interested to see if the issues that were previously 
+>>> encountering are fixed or not.
+>>>
+>>> All changes are available here, on top of latest upstream ConnMan: 
+>>> https://github.com/LaakkonenJussi/connman_upstream/pull/9
+>>>
+>>> It is a PR to the internal repository so anyone can comment there 
+>>> too. Decided to put this into public as Mullvad seems to give only IP 
+>>> addresses and cannot really rely on demo.wireguard.com alone on this. 
+>>> So, feel free to test, if it works I'll setup a patch set, maybe 
+>>> combine some of the changes to make fewer patches.
+>>>
+>>> Have a nice weekend you all!
+>>
+>> Thanks for sharing Jussi. Minor compile error fixed with:
+>>
+>> diff --git a/src/shared/util.h b/src/shared/util.h
+>> index 44e07b84..9af0303d 100644
+>> --- a/src/shared/util.h
+>> +++ b/src/shared/util.h
+>> @@ -25,7 +25,7 @@
+>>     #include <glib.h>
+>>   #include <stdbool.h>
+>> -#include <inet.h>
+>> +#include <connman/inet.h>
+>>     #define AF_INET_POS 0
+>>   #define AF_INET6_POS 1
+> 
+> 
+> Oops, thanks for spotting this. I wonder how my build on Debian did not 
+> warn about this. I think only <arpa/inet.h> is needed at this point, but 
+> that works too. Added a commit to that branch.
+> 
+>>
+>> An existing WireGuard configuration on the family daily-driver RPi5 
+>> running LibreELEC shows no obvious regressions with a private VPN 
+>> server (not a commercial service). Lots more testing required :)
+>>
+>> Christian
+>>
+> 
+> Glad to hear this. I keep wondering if something is still needed from 
+> our fork... as at least with Mullvad WG I got dual IP support working, 
+> and data gets routed from both IP families to the host with an IP. But 
+> this is a quite a big change, so yes, lost more testing is required and 
+> thanks for helping with this.
+> 
+> Few things I want to point out, that now sure yet if it is correct way 
+> to do this but the transport services' DNS servers are sent to vpnd from 
+> connmand when a VPN reaches ready state. It could be earlier, at 
+> configuration state too, any opinnions? This is because then the 
+> reresolving of the FQDN hostname seems to start working well.
+> 
+> But, as I now did some more digging I noticed that the FQDN was also 
+> propagated "as is" to connmand resulting it ending up in the routing 
+> table, which may be cause for this not working in the first place. And 
+> I'm talking about DNS reresolve broken in such case as well as the 
+> traffic getting blocked. I pushed a WIP change to the PR/branch which I 
+> need to continue tomorrow (as we want this to be working in Sailfish OS 
+> too) so this can be tested that how it works. The TODO part is about 
+> making DNS reresolve to work in the similar way too.
+> 
+> Have fun testing!
+> 
+> Cheers,
+>   Jussi
+> 
 
-As implemented, this seems more defensive (which is what=E2=80=99s =
-desired for this overall patch set).
 
-Best,
+Forgot to push the commits there late at night, now they're available 
+and will update today as well.
 
-Grant
-
---=20
-Principal
-Nuovations
-
-gerickson@nuovations.com
-https://www.nuovations.com/
-
+- Jussi
