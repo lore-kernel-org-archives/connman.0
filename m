@@ -1,202 +1,256 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+Received: from mail-oi1-f171.google.com (mail-oi1-f171.google.com [209.85.167.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71C4325A62C
-	for <connman@lists.linux.dev>; Tue, 25 Mar 2025 13:02:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A01E204587
+	for <connman@lists.linux.dev>; Tue, 25 Mar 2025 14:28:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742907746; cv=none; b=Fi/syzft5X8jmfLn9Mr/mquRD2THs93UxOYivsKjNEU0YZZbsxe1tzMJ6Bwz3Tco6KQ6dRnABgG3RYKiQuHH100PwbTIPd4lgWPfq2Rj57tl1o8LSqxNVLEB4bAIOf4cJT2WfUvZx92uouEAQfmYdVIu8LRjouwEo7GaQExwTmU=
+	t=1742912930; cv=none; b=HG8w+ExouZhOtXdncU9eiI40tNWJ1FJR2Wj29IwjOgL+Drm1kTHPkZ2nQlrrkR9W9pdokK2nX3tSGNNRqzF/hiAnYGqm74adW8H487mXugl8Uykann0M6reRes/4+EAwbsS4ZNs5jF7fwrx60gKWeZ/pkDNwBJwOh8hSiON+1Hc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742907746; c=relaxed/simple;
-	bh=w4EC/V11AeTSqAKfu+UegyLMXdGlN80RpJS2woR2+ac=;
-	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
-	 Message-Id:References:To; b=MRxn1YQoFDn6pYWItC+wVuWWIuTUYO8YpPRNm2pYmG7tmMu19j6hHJqAGaNBhLeKTMKvbsXCjym6UBZSgfygH2goCstuuAle7fL+/OSq1WXobVoFLvx4vVwmdEsSnfkIGiDo6BorM6GQyVQmE9z1odITkSpMGb1wkeMK7beDHKo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YQWu2vRN; arc=none smtp.client-ip=209.85.128.46
+	s=arc-20240116; t=1742912930; c=relaxed/simple;
+	bh=yQmWcIF+IlagOu1/YCnqUhNYngtyXGT1VtDkAm4dqOY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=Uy8YZk/iIERdc9X1KUIAt4/x6XOPb65ciq2YtcpO89KboQi9P1vOCwAoEBDPHFiBsdyvzZilgHw9L5cLYiGxfrbTdmqvgbmuS8iPVSNgiz4Y4sXO301YPKJp82KNY/YBTtSDPeeEkeA77Jy4TukLZvQcdw+1rfBw2MmnLgT1eGA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CNP4iRqM; arc=none smtp.client-ip=209.85.167.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YQWu2vRN"
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4394036c0efso35154775e9.2
-        for <connman@lists.linux.dev>; Tue, 25 Mar 2025 06:02:24 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CNP4iRqM"
+Received: by mail-oi1-f171.google.com with SMTP id 5614622812f47-3f9a7cbc8f1so1690524b6e.0
+        for <connman@lists.linux.dev>; Tue, 25 Mar 2025 07:28:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1742907743; x=1743512543; darn=lists.linux.dev;
-        h=to:references:message-id:content-transfer-encoding:cc:date
-         :in-reply-to:from:subject:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ZnrPpEi1AYCCXK71BNfxlv8ksFMRnr6hE0Rdo+tEB0I=;
-        b=YQWu2vRNJvAyOFrk9oYQK8+Zals0sMLrx73aRNY8SbY9spqZR0nCaHJr323hmsjWfM
-         BOTTrzlKL+vEhnO1BLAIsX6A1iCWtIJii8RiJThG8gAu0D8P5eI01zX6+TOWnQDG/mM5
-         zYWWJ52aq5llY/BonOosQTjHLv03OUFsGyZOUhk3HcMWG1TwS/Drj9+no20Lf1ifQoY+
-         sIOS4pSvfiSVHf7vWmPr8Cc9To0kMqXWDH9fTpoN1YQVDz2dq+vsRy9eMVqrHiVWSCSb
-         +L7scE0v1QHxXl+jLrVdPGkdLDOVijTAd2Zgg17GqYSFzC5+2TO698XGQcZjdP/WSOm9
-         Bi0Q==
+        d=gmail.com; s=20230601; t=1742912928; x=1743517728; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=QPENZhfzGfAUSCZESjC774rzC7ib3E5EjNto7u0H36s=;
+        b=CNP4iRqMzMaTSUNxGIcDKN9F//EfbvEMPgVUc2o5+XTnpd3zK9PLBL+RCxyEmyI138
+         hkQ9QVtfttGMihPISBSEWAKTaZQKlPrmaMrw5DGUyQY+FLFNKU/DMDXlKLNTSuXNXhDX
+         YpAHLWq7sKpBZOuWh4oye/fFWJHz43SSCHWQN64LxS6nI8K2vn+5wS/vvauHjVP0Jx6f
+         HB0NxI1AMFara9Gc8ukH4n8re4uH6QsJjRUgSdUR6W9Tgza7/KOGyBTwt5IGbr9bjNgf
+         lkRVYnf4JuHfXQPNchkMOr5bP4yWnIERyL+mn44jFgzlmNLoirPu1IABX0cQkoKJq7aQ
+         DgEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742907743; x=1743512543;
-        h=to:references:message-id:content-transfer-encoding:cc:date
-         :in-reply-to:from:subject:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ZnrPpEi1AYCCXK71BNfxlv8ksFMRnr6hE0Rdo+tEB0I=;
-        b=QZyNfZRZzPhm7CTpZ52Un4gcJ8/ZinBHBqIK1PeGHbabDYWvNeoKbuPt/pMolWvYjg
-         ZCapjm2+I/Xmw7nm7RUD7BRdCPddGeFVoi/1vts9rxmBYIaTeqWXyF62Qe1PZFqW8pAF
-         XmJgBi9mqQg+jrFeRuN0ZTyOKb7pPI+0uEVkAZVkJvI5CQnsd4EuSlzi2x+Dt5R43lTL
-         sfJArM1VcfYQPcxbR6gObprbMoRW71Gdyj4N1WWxJy2N+bqyi0fqGaeBOH3j51JMA1sX
-         KKXYAqT+se4CfO7Y/g5kKXemCju3rxPw9xJLuYD9EOK9dEbzbx8hmM+Hq/YBvhCxgRuu
-         Zj+w==
-X-Gm-Message-State: AOJu0YyRMB6qVR3ftfU3hY2hgkwYbpdF6RCT63VUd6aNcaM/Ue48nVGs
-	wgr8hD/AJ7EVf5OLWzESQHzpdOJA6YtzDpuJca38RmYjlM2Pi0E8Di70r5bWuQg=
-X-Gm-Gg: ASbGncuBoZjEPqMDb3gLXH2wGl6Kw2sYTlEYNQvSRVmybzjJMNfJvMlmCISv08+uzc1
-	eo2Asj+s/0hV5iXMQfYWHYTLONNGt0GBineG3zAo2bpnUZb26DRg7B9/F1D9sz+uuJekvpB0w9J
-	WOCkLKkaE4kVKgiNxhE8yVDqfPJN/IK0z37VSOrFl+BkjnFfk5UDJEq7zIcwJAnOi6lheCiDHqm
-	PCmy8pekv87seZSmnl19hTLdMA0UGWSrw5diOuJ3sjtk1YoSLy26zt/RtGByTcXu3sF19eWwjhP
-	YKKxgEDtEqRfnOX3AO/NQfRJclQrHRvveYi6pWHOobVfMBx0EkgEYOb/jMR99V1vinEAm9WFxBG
-	gUucP
-X-Google-Smtp-Source: AGHT+IGlvo83oE9GoAAwOp9gqudBa43rWvTOrCwEOjvwFisSG8kpR2pvPyFrPGO4Sdrq5sd0PpoMag==
-X-Received: by 2002:a05:6000:188f:b0:391:304f:34e7 with SMTP id ffacd0b85a97d-3997f932ea8mr17141618f8f.44.1742907741826;
-        Tue, 25 Mar 2025 06:02:21 -0700 (PDT)
-Received: from smtpclient.apple ([87.200.95.144])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43d4fd28a46sm150872055e9.24.2025.03.25.06.02.20
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 25 Mar 2025 06:02:21 -0700 (PDT)
-Content-Type: text/plain;
-	charset=utf-8
+        d=1e100.net; s=20230601; t=1742912928; x=1743517728;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=QPENZhfzGfAUSCZESjC774rzC7ib3E5EjNto7u0H36s=;
+        b=RQMBdeZyVTESWRn0jKjqf5foCVpQD5i3+mArLekpxMgp1bm32hX9bSakfCHM95QlnA
+         ICx/WFBSEN+1ssoc02FC1nb0YpsET24NiKtgcD/vbNpKGSUFPoqwWOpmpaRilPliUiPi
+         atraOGk/JKz/qhH25JN/I3bTQETvXrkwcSXkbIWzWAWXzBnioa4iq01zlQjdsMDV6mtF
+         xjXeHLYGEsVc4aVMGZGxAI711mn/hYsjZZhcvgrmwSlwq7qj9abCjijjtAT7NOy1UooY
+         RtXPOMiwZElTvqiGqcOWaipbEvAlBP3l26h07fUuUaYrfRSNm8F5m7f4FMT3uu6P+3+7
+         ODJw==
+X-Forwarded-Encrypted: i=1; AJvYcCV6qO6CxikdWlW4TLwDKUbQeJGnPkpXazvF0yhC3lG7Ygwfd6DIYlcItPV0bHrXlKMov4qD2Eat@lists.linux.dev
+X-Gm-Message-State: AOJu0YyyqTyFOUU5yq+ZB/lX3Bi+TvMT/2l+gjQPmhmtSZR0chhbZ/+8
+	pqMpSq86gAzYA3K2Gm87XdVMuZSgodOvLW4C10z98T6zRnvGjN1A
+X-Gm-Gg: ASbGnctvZ8iYYwRS48nhN+x/VvQ3i7J1RmGbridqbJ12iUckWukqud8HFD9BTjaSvp+
+	2buQNeeRizOhbY/PoZUMmox/5AcOTvdEQ76fuSmvsRpRgHVoiGaX9MvQXhnR8mTsvrj+HdeKb/W
+	6ZZidOSKmXVguUHEt8XSf97DeITY8k+hwSp/MuIvijBS8Dgt91kMemIFglvTTAwrfrgi0ZwOH2O
+	LNGlNA9FIn84IrNxl331A5EvIMsZLYspGmHKqSJ6sfp+tOlAgHghDRhxY/O4mZvKBmf/v8dWxu6
+	NXUC/DvAacJcplin5dDelJK/I1IkahHUjsQYsJ7KEQNgH0AwseB1nkiD5PU8nAa+xUCQBMHoaFr
+	lwOstUuH5hg==
+X-Google-Smtp-Source: AGHT+IGpJkDwYFhqMN2dfaoMBiEA+KlBL1jnyZ8HcDep5HEl2GiAfC9G1oPUBuku+KOEFttH932pyA==
+X-Received: by 2002:a05:6808:2395:b0:3fa:daa:dd8e with SMTP id 5614622812f47-3febf7ef5ddmr10081140b6e.35.1742912927655;
+        Tue, 25 Mar 2025 07:28:47 -0700 (PDT)
+Received: from [192.168.1.25] (syn-070-114-247-242.res.spectrum.com. [70.114.247.242])
+        by smtp.googlemail.com with ESMTPSA id 006d021491bc7-6023486b758sm1529495eaf.35.2025.03.25.07.28.46
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 25 Mar 2025 07:28:47 -0700 (PDT)
+Message-ID: <287e3eb1-a5bc-4976-b670-491fd7a7eafc@gmail.com>
+Date: Tue, 25 Mar 2025 09:28:45 -0500
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.400.131.1.6\))
-Subject: Re: [PATCH 00/12] Improve WireGuard disconnect, error and hostname
- lookup
-From: Christian Hewitt <christianshewitt@gmail.com>
-In-Reply-To: <07d1c218-be94-4b63-bb98-f57679844148@jolla.com>
-Date: Tue, 25 Mar 2025 17:02:08 +0400
-Cc: connman@lists.linux.dev
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <5950C2C2-37F5-440F-9E5F-25CD9D896A7A@gmail.com>
-References: <20250124185916.1546471-1-jussi.laakkonen@jolla.com>
- <A173154A-88D0-4CB2-AFED-B94FBC9D8ED0@gmail.com>
- <3438fe24-9c02-4c45-aaaf-cfbe260902b1@jolla.com>
- <E23C544B-4E82-49A6-B72E-2279D1BAFC67@gmail.com>
- <c6ae8a9c-df3f-4170-951b-a8a049bf9676@jolla.com>
- <07d1c218-be94-4b63-bb98-f57679844148@jolla.com>
-To: Jussi Laakkonen <jussi.laakkonen@jolla.com>
-X-Mailer: Apple Mail (2.3826.400.131.1.6)
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 5/9] wispr: Refactor 'wispr_portal_web_result' to
+ leverage 'GError'.
+To: Grant Erickson <gerickson@nuovations.com>, connman@lists.linux.dev
+References: <cover.1742878567.git.gerickson@nuovations.com>
+ <90cf71d0585440245fc9f788fbbb460a0c210f56.1742878567.git.gerickson@nuovations.com>
+Content-Language: en-US
+From: Denis Kenzior <denkenz@gmail.com>
+In-Reply-To: <90cf71d0585440245fc9f788fbbb460a0c210f56.1742878567.git.gerickson@nuovations.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hello Jussi,
+Hi Grant,
 
-The updated branch compiles fine now and I=E2=80=99m able to connect =
-with =E2=80=98Host=E2=80=99 configured with an FQDN instead of an IP =
-address, which is awesome to see!
+On 3/24/25 11:59 PM, Grant Erickson wrote:
+> Leverages the newly-added GError parameter to the 'GWebResultFunc' to
+> refactor 'wispr_portal_web_result' into
+> 'wispr_portal_web_result_failure' and
+> 'wispr_portal_web_result_success' with the former handling
+> non-successful cases and the latter handling successful HTTP status
+> code cases.
+> 
+> Prior to the introduction of an optional, immutable 'GError' parameter
+> to 'GWebResultFunc' and this refactor, there existed a "hole" in the
+> finalization of WISPr IPv4 and IPv6 "online" HTTP-based Internet
+> reachability checks web request sessions that both could and did leave
+> such checks "dangling" and non-renewing such that an expected active,
+> default network service failover does not occur when it should.
+> 
+> The "hole" involves an end-of-file (EOF) condition. In the normal
+> case, there are a series of one or more data receipts for the web
+> request as headers of the request response are fulfilled. When there
+> is no further data to send, the final receive completes a normal EOF
+> that leads to the successful closure of the web request, typically
+> with HTTP 200 "OK" in the nominal success case.
+> 
+> However, there is a second EOF case that appears to happen with a
+> random distribution in the nginx server backing the default "online"
+> HTTP-based Internet reachability check URLs,
+> 'ipv[46].connman.net/online/status.html'. In that case, the nginx
+> server appears to periodically do an unexpected and spontaneous remote
+> connection close after the initial connection but before any data has
+> been received. Prior to this change, all such failures hit the same
+> WISPr error-handling block which effectively maps such a failure to the
+> effective 'GWebResult' "null" GWEB_HTTP_STATUS_CODE_UNKNOWN status
+> value. Unfortunately, WISPr historically had no way to distinguish
+> this as an actual failure or success and so it lands on the case:
+> 
+>          case GWEB_HTTP_STATUS_CODE_UNKNOWN:
+>                  wispr_portal_context_ref(wp_context);
+>                  __connman_agent_request_browser(wp_context->service,
+>                                  wispr_portal_browser_reply_cb,
+>                                  wp_context->status_url, wp_context);
+> 
+> which does not "bookend" the original, initiating WISPr web request
+> and leaves the original request "dangling" and non-renewed, eventually
+> leading to the aforementioned "hole".
+> 
+> With this change, the second, failure EOF case will now return a
+> GError instance pointer synthesized from 'ECONNRESET' and will be
+> handled as a failure by 'wispr_portal_web_result_failure',
+> "bookending" the original "online" HTTP-based Internet reachability
+> check.
+> 
+> All of the prior HTTP status code cases are handled by
+> 'wispr_portal_web_result_success'.
+> ---
+>   src/wispr.c | 105 +++++++++++++++++++++++++++++++++++-----------------
+>   1 file changed, 71 insertions(+), 34 deletions(-)
+> 
 
-I=E2=80=99ve posted a thread to our user forum with an experimental =
-image to crowdsource further feedback:
+<snip>
 
-=
-https://forum.libreelec.tv/thread/29601-wireguard-experimental-support-for=
--connecting-via-fqdn-not-ip/
+> @@ -1085,15 +1078,15 @@ static bool wispr_portal_web_result(const GError *error, GWebResult *result,
+>   
+>   		goto done;
 
-Let=E2=80=99s see what issues come up :)
+This part seems fishy.  Previous version of this function had 
+wispr_portal_context_unref() call after the 'done' label...
 
-Christian
+>   	case GWEB_HTTP_STATUS_CODE_BAD_REQUEST:
+> -		portal_manage_failure_status(wp_context, -EINVAL);
+> +		portal_manage_failure_status(wp_context, 0, "bad request");
+>   		break;
+>   
+>   	case GWEB_HTTP_STATUS_CODE_NOT_FOUND:
+> -		portal_manage_failure_status(wp_context, -ENOENT);
+> +		portal_manage_failure_status(wp_context, 0, "resource not found");
+>   		break;
+>   
+>   	case GWEB_HTTP_STATUS_CODE_REQUEST_TIMEOUT:
+> -		portal_manage_failure_status(wp_context, -ETIMEDOUT);
+> +		portal_manage_failure_status(wp_context, 0, "request timeout");
+>   		break;
+>   
+>   	case GWEB_HTTP_STATUS_CODE_HTTP_VERSION_NOT_SUPPORTED:
+> @@ -1102,12 +1095,55 @@ static bool wispr_portal_web_result(const GError *error, GWebResult *result,
+>   				wispr_portal_browser_reply_cb,
+>   				wp_context->status_url, wp_context);
+>   		break;
+> +
+>   	default:
+>   		break;
+>   	}
+>   
+>   	free_wispr_routes(wp_context);
+>   	wp_context->request_id = 0;
+> +
+> +done:
+> +	return;
 
-> On 25 Mar 2025, at 1:58=E2=80=AFpm, Jussi Laakkonen =
-<jussi.laakkonen@jolla.com> wrote:
->=20
-> Hi Christian and all,
->=20
-> On 3/24/25 21:30, Jussi Laakkonen wrote:
->> Hi Christian,
->> On 3/22/25 06:45, Christian Hewitt wrote:
->>>> On 21 Mar 2025, at 11:31=E2=80=AFpm, Jussi Laakkonen =
-<jussi.laakkonen@jolla.com> wrote:
->>>>=20
->>>> Hi Christian and all,
->>>>=20
->>>>> I=E2=80=99ve been using this series combined with the following =
-series and patch for several weeks:
->>>>> https://patchwork.kernel.org/project/connman/ =
-cover/20250124185845.1546384-1-jussi.laakkonen@jolla.com/
->>>>> https://patchwork.kernel.org/project/connman/patch/ =
-DB6PR10MB1845EBB07DB785B580B3F6ECE1E02@DB6PR10MB1845.EURPRD10.PROD.OUTLOOK=
-.COM/
->>>>> Plus a revert of this commit which I=E2=80=99ve previously flagged =
-as breaking the default =E2=80=9Croute all traffic down tunnel=E2=80=9D =
-with WireGuard (the main use-case for LibreELEC users):
->>>>> =
-https://git.kernel.org/pub/scm/network/connman/connman.git/commit/? =
-id=3D9eb1772d31b6fcf78e8711976696491aec9ff5df
->>>>> For easier testing all patches are in this branch: https:// =
-github.com/chewitt/connman/commits/wireguard
->>>>> No issues observed, so:
->>>>> Tested-by: Christian Hewitt <christianshewitt@gmail.com>
->>>>=20
->>>> I'm happy to hear. I have been fixing other issues related to WG in =
-the past weeks a lot and considering to push all of the changes into one =
-big WG patch set, as this has been left dangling.
->>>>=20
->>>> I haven't fully tested this on top of upstream ConnMan, but if you =
-or someone else is interested to see if the issues that were previously =
-encountering are fixed or not.
->>>>=20
->>>> All changes are available here, on top of latest upstream ConnMan: =
-https://github.com/LaakkonenJussi/connman_upstream/pull/9
->>>>=20
->>>> It is a PR to the internal repository so anyone can comment there =
-too. Decided to put this into public as Mullvad seems to give only IP =
-addresses and cannot really rely on demo.wireguard.com alone on this. =
-So, feel free to test, if it works I'll setup a patch set, maybe combine =
-some of the changes to make fewer patches.
->>>>=20
->>>> Have a nice weekend you all!
->>>=20
->>> Thanks for sharing Jussi. Minor compile error fixed with:
->>>=20
->>> diff --git a/src/shared/util.h b/src/shared/util.h
->>> index 44e07b84..9af0303d 100644
->>> --- a/src/shared/util.h
->>> +++ b/src/shared/util.h
->>> @@ -25,7 +25,7 @@
->>>     #include <glib.h>
->>>   #include <stdbool.h>
->>> -#include <inet.h>
->>> +#include <connman/inet.h>
->>>     #define AF_INET_POS 0
->>>   #define AF_INET6_POS 1
->> Oops, thanks for spotting this. I wonder how my build on Debian did =
-not warn about this. I think only <arpa/inet.h> is needed at this point, =
-but that works too. Added a commit to that branch.
->>>=20
->>> An existing WireGuard configuration on the family daily-driver RPi5 =
-running LibreELEC shows no obvious regressions with a private VPN server =
-(not a commercial service). Lots more testing required :)
->>>=20
->>> Christian
->>>=20
->> Glad to hear this. I keep wondering if something is still needed from =
-our fork... as at least with Mullvad WG I got dual IP support working, =
-and data gets routed from both IP families to the host with an IP. But =
-this is a quite a big change, so yes, lost more testing is required and =
-thanks for helping with this.
->> Few things I want to point out, that now sure yet if it is correct =
-way to do this but the transport services' DNS servers are sent to vpnd =
-from connmand when a VPN reaches ready state. It could be earlier, at =
-configuration state too, any opinnions? This is because then the =
-reresolving of the FQDN hostname seems to start working well.
->> But, as I now did some more digging I noticed that the FQDN was also =
-propagated "as is" to connmand resulting it ending up in the routing =
-table, which may be cause for this not working in the first place. And =
-I'm talking about DNS reresolve broken in such case as well as the =
-traffic getting blocked. I pushed a WIP change to the PR/branch which I =
-need to continue tomorrow (as we want this to be working in Sailfish OS =
-too) so this can be tested that how it works. The TODO part is about =
-making DNS reresolve to work in the similar way too.
->> Have fun testing!
->> Cheers,
->>  Jussi
->=20
->=20
-> Forgot to push the commits there late at night, now they're available =
-and will update today as well.
->=20
-> - Jussi
+But now you have a simple return at the end of the function.  Which by the way 
+is discouraged and should have been picked up by the compiler or static analysis.
 
+> +}
+> +
+> +static bool wispr_portal_web_result(const GError *error, GWebResult *result,
+> +		gpointer user_data)
+> +{
+> +	struct connman_wispr_portal_context *wp_context = user_data;
+> +	const guint8 *chunk = NULL;
+> +	gsize length;
+> +
+> +	DBG("error %p result %p user_data %p wispr_result %d",
+> +		error, result, user_data, wp_context->wispr_result);
+> +
+> +	if (wp_context->wispr_result != CONNMAN_WISPR_RESULT_ONLINE) {
+> +		g_web_result_get_chunk(result, &chunk, &length);
+> +
+> +		DBG("length %zu", length);
+> +
+> +		if (length > 0) {
+> +			g_web_parser_feed_data(wp_context->wispr_parser,
+> +								chunk, length);
+> +			/* read more data */
+> +			return true;
+> +		}
+> +
+> +		g_web_parser_end_data(wp_context->wispr_parser);
+> +
+> +		DBG("wp_context->wispr_msg.message_type %d", wp_context->wispr_msg.message_type);
+
+We still use 80 character lines, so please break up accordingly.
+
+> +
+> +		if (wp_context->wispr_msg.message_type >= 0) {
+> +			if (wispr_manage_message(result, wp_context))
+> +				goto done;
+> +		}
+> +	}
+> +
+> +	if (error)
+> +		wispr_portal_web_result_failure(error, result, wp_context);
+> +	else
+> +		wispr_portal_web_result_success(result, wp_context);
+> +
+>   done:
+>   	wp_context->wispr_msg.message_type = -1;
+>   
+> @@ -1117,6 +1153,7 @@ done:
+>   	 * maintaining a weak reference to it.
+>   	 */
+>   	wispr_portal_context_unref(wp_context);
+> +
+
+Please don't introduce spurious whitespace changes and keep the patches minimal.
+
+>   	return false;
+>   }
+>   
+
+<snip>
+
+> @@ -1629,7 +1666,7 @@ int __connman_wispr_cancel(struct connman_service *service,
+>   
+>   	cancel_connman_wispr_portal_context(wp_context);
+>   
+> -	portal_manage_failure_status(wp_context, -ECANCELED);
+> +	portal_manage_failure_status(wp_context, -ECANCELED, strerror(-ECANCELED));
+
+ > 80 chars again
+
+>   
+>   	wispr_portal_context_unref(wp_context);
+>   
+
+Regards,
+-Denis
