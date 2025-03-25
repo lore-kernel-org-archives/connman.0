@@ -1,172 +1,122 @@
-Received: from mail5.g24.pair.com (mail5.g24.pair.com [66.39.139.36])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f45.google.com (mail-ot1-f45.google.com [209.85.210.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49C585383
-	for <connman@lists.linux.dev>; Tue, 25 Mar 2025 16:29:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=66.39.139.36
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19BDC20E30F
+	for <connman@lists.linux.dev>; Tue, 25 Mar 2025 16:53:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742920172; cv=none; b=EedethOpZ+FXr7n/m3s85Do/p7IOB7jH3h7YnLynr5Mo+f8Fp+/YabMQmJu00up8HCBDV4Ji9J14uF/1sZbLDQdwNzBu8TQ94VK+OROwtJBQBL0sYgjkRf59iUWi+ZBlxemPHLjV3KKdCl40r6dsekGtFdvD653Ev6nvhVE+GE8=
+	t=1742921613; cv=none; b=UISvFz0f0Yy3NjkJFKQXBArFOgv/bUrpZ5iTZtqS/vUOQQi6BjAF+xButck834vydE15DDpI6Bl03+LKkQ9mrN8JB9PbILoZ4Jcg3TYbDRCusAANmslJLgtEA7Sn0Nfw8zsnnj0eyDYMQ+YZGj5EcabCOLBm0CHwwVRXTBlmr1k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742920172; c=relaxed/simple;
-	bh=GEu5JfMBpU8PM6/5SajSl3omwnSn4fFpSglSwtz7EF8=;
-	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
-	 Message-Id:References:To; b=jM480ngcQAI9U41aUc9fsfPs77VxexnoCc9XBeL5ZHnB3FcpnVUFUvPH+HoeBbKUVdIc/rZ6+Z38WYJHddzANp7mna1eX7PQnG9yWTo/pg8JkEb1SvVs4dDVNVPedQ/vM3jPFfW/CfBzsf2xUXPinOKKsrLlmmdgEat2KlYkWho=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nuovations.com; spf=pass smtp.mailfrom=nuovations.com; dkim=pass (2048-bit key) header.d=nuovations.com header.i=@nuovations.com header.b=fAonlNJC; arc=none smtp.client-ip=66.39.139.36
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nuovations.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nuovations.com
+	s=arc-20240116; t=1742921613; c=relaxed/simple;
+	bh=eafoiSD1yr/41f9vfH10XdFWqRWK0B2bGFVZnLA7Eas=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=QLOayH1t4LlpyKqCdYQYeGsQhdUd4oG7z2QXYpeJvnIQgBP8FAnPKrM+SUOxFtrFGLX6HDkvnx0vufYEmu+FDKM8QOY3pg3GxDyOVjS4n93Pp3RMym/ouqoqtT41usKJBtZFrA3x214FVwUibSYWA4R1rzpYFaoPoFYU0tk8uis=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AiZOw098; arc=none smtp.client-ip=209.85.210.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nuovations.com header.i=@nuovations.com header.b="fAonlNJC"
-Received: from mail5.g24.pair.com (localhost [127.0.0.1])
-	by mail5.g24.pair.com (Postfix) with ESMTP id 786871649FD;
-	Tue, 25 Mar 2025 12:29:29 -0400 (EDT)
-Received: from smtpclient.apple (c-73-202-173-252.hsd1.ca.comcast.net [73.202.173.252])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mail5.g24.pair.com (Postfix) with ESMTPSA id 2A5E1125174;
-	Tue, 25 Mar 2025 12:29:29 -0400 (EDT)
-Content-Type: text/plain;
-	charset=utf-8
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AiZOw098"
+Received: by mail-ot1-f45.google.com with SMTP id 46e09a7af769-72c14235af3so2443267a34.3
+        for <connman@lists.linux.dev>; Tue, 25 Mar 2025 09:53:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1742921611; x=1743526411; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Ajktf1IUDkGrNZCIrKlL6lLBjQ1PEzgM5op70HCqom8=;
+        b=AiZOw098fuhmEYipPiKgsXZRQOiRkVWNYIJl6o6AsHdas47ufPzKLh/q0W8a7/7oVX
+         PMuiSSo29VCA91wM83rHYGy5AIlCVvcRuHcoxHw3fOREWgAckmHMkQkBcZAs5/uM1I5Y
+         pOUZ8XKOypYtWmbi61i64d+b12q803Xdh6U6tU+AKBFLhlvndcY8CdjgYU+we69XAwFT
+         AVsTa8XdX/SQlxGLL5oY5Lr44ZGunpAiGByg3d/65mrC/2rp57JzS3JExHNowASPoTmG
+         oLG+H8FBS7NFdXqedbHhfktUrW3hvtKbjI5+LhjDfmF/YxZwnOjDO/oMEuAKgD/mjDpf
+         IySA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1742921611; x=1743526411;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Ajktf1IUDkGrNZCIrKlL6lLBjQ1PEzgM5op70HCqom8=;
+        b=QKWCAPdAnit2ofLEqW3tXt7MkG0gbrWRVhg/gIGB4eIJaL1vlNZmgzqdmEkJbjNxWM
+         kY6MJEpJMZVQykdFhdEtS8LM0jR5d/YUJXd0EVpKTbvFXdXA4PN3WWcJJDqzrNmEZGFu
+         Ug5BQmGiNSWmUREQy8b5YcfxAX/JmRdkzMEzA5A9ZzINz08rh6P4M33/o212DU1HYGOH
+         IfccALaf5c4hrJZxOqquqIvQnCQXn5bLTE7516NEmqZq1VdTIEpBPQR69d33mRcMuMxe
+         UYKFaGG9EvZOrWl9ZviW4hw1E0S3htumsVkZHWce4NAHNdBoDFTuz8tOtRgpANKrc7Pq
+         PPcw==
+X-Gm-Message-State: AOJu0Yw91OB5+R6OttFCqKVBxWJpwB1Ay+Q6vSiKtwFc/wNPSgo+KlVC
+	XosR9EaoIfBjUCuApuj0u6Yrw4o9yF7IYuFz9QyK0NyNAQIji4Hi8EU8Lg==
+X-Gm-Gg: ASbGncvtD1wHYTBQuBFwYZwUO8nNiNQCuNseHOoHRstMQKl1eJbrS0544v9cDWQcHRW
+	9mtbV4g6BtGzh1xEvbs8hmbkhOvqMg7+lDNo8w/391IAD/IYl0UQKlq2A7MSBkax9y/Ta686hvK
+	UP3gBWeIUM22lacvPe20+Fv1pMJ9v021fbbIiyVnXiETozTvbSp+6T00shMrB9fuRuEdERe/oYm
+	GJY7/QT185Lf6YJJxVbk5sPb+/rQmLzBF3aAIV/1PC+4n5Iz2na/B3lGCx0yakguY6/8Vj+QoT1
+	2ObSxbfGZrBP0pVI3tce6upXHIyIN4+VaU2r05MxkXOvG7GwOnDLkfFsXptNIE1Ns3rklyLk9TB
+	2nI9DKf0A8g==
+X-Google-Smtp-Source: AGHT+IE0k7nu07gpDxZdjWIdNlBS4+7HB1aAyC4y5b6hKB6ZMkfYUZFFk4pdO7hbHVNt1Am8rvnOCA==
+X-Received: by 2002:a05:6830:3686:b0:72b:823c:8f66 with SMTP id 46e09a7af769-72c0ae6a3b3mr12675042a34.9.1742921610878;
+        Tue, 25 Mar 2025 09:53:30 -0700 (PDT)
+Received: from [192.168.1.25] (syn-070-114-247-242.res.spectrum.com. [70.114.247.242])
+        by smtp.googlemail.com with ESMTPSA id 46e09a7af769-72c0abb941esm1986182a34.16.2025.03.25.09.53.30
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 25 Mar 2025 09:53:30 -0700 (PDT)
+Message-ID: <a4619dde-3046-4ee7-b707-755a21f2fffa@gmail.com>
+Date: Tue, 25 Mar 2025 11:53:29 -0500
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3776.700.51.11.1\))
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v4 5/9] wispr: Refactor 'wispr_portal_web_result' to
  leverage 'GError'.
-From: Grant Erickson <gerickson@nuovations.com>
-In-Reply-To: <287e3eb1-a5bc-4976-b670-491fd7a7eafc@gmail.com>
-Date: Tue, 25 Mar 2025 09:29:18 -0700
+To: Grant Erickson <gerickson@nuovations.com>
 Cc: connman@lists.linux.dev
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <73E10B6A-822A-4950-A698-F545E93BB1DB@nuovations.com>
 References: <cover.1742878567.git.gerickson@nuovations.com>
  <90cf71d0585440245fc9f788fbbb460a0c210f56.1742878567.git.gerickson@nuovations.com>
  <287e3eb1-a5bc-4976-b670-491fd7a7eafc@gmail.com>
-To: Denis Kenzior <denkenz@gmail.com>
-X-Mailer: Apple Mail (2.3776.700.51.11.1)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nuovations.com; h=content-type:mime-version:subject:from:in-reply-to:date:cc:content-transfer-encoding:message-id:references:to; s=pair-202401062137; bh=Z/jtIEwjEcFtoSHdhBm6xrE2kq4/WXuCaVS0JwEgDH0=; b=fAonlNJCElvnyWqaAgX8ZXPfyg4kdVq8hx7HCMmUHk26fqcwTrdA+yAh67Su0mpyZ01GYFRyul0dDNg0pg1fAa7vunGbZyka/zmI42YX2c/7E1/VEw6goyz56zQGSuGxJjJH7IUWaSv5TkG4mt5TlBJGEWlW43DKOiHG2+M1W52A/pFCgdEq8ml3irUVFYQ10xp2G2lokbH9uVUpod2tx9x1uz6tm/gWmZJ1gZqO4hF5oitEXvANVPMg6Nden19hhlH6QmmeB4LbrQqpgYrA6y30U/rNFvOPl3Hwq9MrfaX28+8JwdfNkLHdGjdbXbNuw5z+mydVutaexXjIfaWPPA==
-X-Scanned-By: mailmunge 3.10 on 66.39.139.36
+ <73E10B6A-822A-4950-A698-F545E93BB1DB@nuovations.com>
+Content-Language: en-US
+From: Denis Kenzior <denkenz@gmail.com>
+In-Reply-To: <73E10B6A-822A-4950-A698-F545E93BB1DB@nuovations.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Mar 25, 2025, at 7:28=E2=80=AFAM, Denis Kenzior <denkenz@gmail.com> =
-wrote:
-> On 3/24/25 11:59 PM, Grant Erickson wrote:
->> Leverages the newly-added GError parameter to the 'GWebResultFunc' to
->> refactor 'wispr_portal_web_result' into
->> 'wispr_portal_web_result_failure' and
->> 'wispr_portal_web_result_success' with the former handling
->> non-successful cases and the latter handling successful HTTP status
->> code cases.
->>=20
->> <snip>
->>=20
->> ---
->>  src/wispr.c | 105 =
-+++++++++++++++++++++++++++++++++++-----------------
->>  1 file changed, 71 insertions(+), 34 deletions(-)
->=20
-> <snip>
->=20
->> @@ -1085,15 +1078,15 @@ static bool wispr_portal_web_result(const =
-GError *error, GWebResult *result,
->>     goto done;
->=20
-> This part seems fishy.  Previous version of this function had =
-wispr_portal_context_unref() call after the 'done' label...
+Hi Grant,
 
-As far as I can see, both success and failure termination paths with or =
-without =E2=80=98goto done=E2=80=99 calls, lead to the =
-wispr_portal_context_unref() block:
+ >>
+>> But now you have a simple return at the end of the function.  Which by the way is discouraged and should have been picked up by the compiler or static analysis.
+> 
+> I tried to keep the original block of logic as-is.
+> 
+> Personally, I’m a fan of single points of exit—so much easier to audit. But, happy to keep 
 
-if (error)
-	wispr_portal_web_result_failure(error, result, wp_context);
-else
-	wispr_portal_web_result_success(result, wp_context);
+Kernel often prefers the 'exit-early' approach, but this is situational.
 
-done:
-	wp_context->wispr_msg.message_type =3D -1;
+whatever style is preferred. It sounds like the preference is to replace the 
+prior ‘goto done’ with ‘return’, correct?
 
-	/*
-	 * Release a reference to the WISPr/portal context to balance =
-the
-	 * earlier reference retained to account for =
-=E2=80=98g_web_request_get'
-	 * maintaining a weak reference to it.
-	 */
-	wispr_portal_context_unref(wp_context);
+Rule of thumb is not to have return at the end of a void function.  Static 
+analysis will for sure flag that and I'll kick off a coverity run once I get the 
+rest of your patches merged.
 
-	return false;
-}
+The question really is: Is the now-empty-done label hiding a bug?
 
->>   case GWEB_HTTP_STATUS_CODE_BAD_REQUEST:
->> - portal_manage_failure_status(wp_context, -EINVAL);
->> + portal_manage_failure_status(wp_context, 0, "bad request");
->>   break;
->>     case GWEB_HTTP_STATUS_CODE_NOT_FOUND:
->> - portal_manage_failure_status(wp_context, -ENOENT);
->> + portal_manage_failure_status(wp_context, 0, "resource not found");
->>   break;
->>     case GWEB_HTTP_STATUS_CODE_REQUEST_TIMEOUT:
->> - portal_manage_failure_status(wp_context, -ETIMEDOUT);
->> + portal_manage_failure_status(wp_context, 0, "request timeout");
->>   break;
->>     case GWEB_HTTP_STATUS_CODE_HTTP_VERSION_NOT_SUPPORTED:
->> @@ -1102,12 +1095,55 @@ static bool wispr_portal_web_result(const =
-GError *error, GWebResult *result,
->>   wispr_portal_browser_reply_cb,
->>   wp_context->status_url, wp_context);
->>   break;
->> +
->>   default:
->>   break;
->>   }
->>     free_wispr_routes(wp_context);
->>   wp_context->request_id =3D 0;
->> +
->> +done:
->> + return;
->=20
-> But now you have a simple return at the end of the function.  Which by =
-the way is discouraged and should have been picked up by the compiler or =
-static analysis.
+> 
+>>> + g_web_parser_end_data(wp_context->wispr_parser);
+>>> +
+>>> + DBG("wp_context->wispr_msg.message_type %d", wp_context->wispr_msg.message_type);
+>>
+>> We still use 80 character lines, so please break up accordingly.
+> 
+> Surprisingly, checkpatch.pl did not squawk about this. Fixed, regardless.
+> 
 
-I tried to keep the original block of logic as-is.=20
+The default is now 100 for the kernel.  We're sticking to 80 for now.  Maybe:
 
-Personally, I=E2=80=99m a fan of single points of exit=E2=80=94so much =
-easier to audit. But, happy to keep whatever style is preferred. It =
-sounds like the preference is to replace the prior =E2=80=98goto done=E2=80=
-=99 with =E2=80=98return=E2=80=99, correct?
+   --max-line-length=n        set the maximum line length, (default 100)
+                              if exceeded, warn on patches
+                              requires --strict for use with --file
 
->> + g_web_parser_end_data(wp_context->wispr_parser);
->> +
->> + DBG("wp_context->wispr_msg.message_type %d", =
-wp_context->wispr_msg.message_type);
->=20
-> We still use 80 character lines, so please break up accordingly.
+works?
 
-Surprisingly, checkpatch.pl did not squawk about this. Fixed, =
-regardless.
-
->> @@ -1629,7 +1666,7 @@ int __connman_wispr_cancel(struct =
-connman_service *service,
->>     cancel_connman_wispr_portal_context(wp_context);
->>  - portal_manage_failure_status(wp_context, -ECANCELED);
->> + portal_manage_failure_status(wp_context, -ECANCELED, =
-strerror(-ECANCELED));
->=20
-> > 80 chars again
-
-Surprisingly, checkpatch.pl did not squawk about this either. Fixed, =
-regardless.
-
-Best,
-
-Grant
-
---=20
-Principal
-Nuovations
-
-gerickson@nuovations.com
-https://www.nuovations.com/
-
+Regards,
+-Denis
