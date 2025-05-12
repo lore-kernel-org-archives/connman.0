@@ -1,66 +1,66 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D9E717BB6
-	for <connman@lists.linux.dev>; Mon, 12 May 2025 08:48:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C22B51804A
+	for <connman@lists.linux.dev>; Mon, 12 May 2025 08:52:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747039706; cv=none; b=e3JOferpcu1Br01Ci9VHpCVr+h8SuCfCPXd8ojPi2LC99cCTQcxP7FpM9aZ18JFfcCAiWBlA+E2tX69FCNFSl4756xVToa+1AMaPQvTfi2heTHX4b7JSZF43Q2Nax8mwJ9aAG4IFG5lb39xPDQPMfGubfAuLtIXysXQvnj/l0Gg=
+	t=1747039954; cv=none; b=U/jfrdRbOzK+xc7Qi7qwTAhpRaDxHv1DaCbvQZgFEbZZUdRgRkN6mZtHXHXGvtollKYfX7w+NF5xVdRvl5yOhm9diR1zbcLRiun7rJghMv6VmxBiLACR7Ktvz96ikZVTaJdR1Y8sDFAKeKXafyh1OMsVnX+VPLMAiImU7U0/bOY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747039706; c=relaxed/simple;
-	bh=klXZOjLBGVsYp/b+xdSpQd2BoWc2ZMDF4iOL2izyODA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=hwO+QnlWdGONWe2169z2oIStO/yiZHgh2iMkRWK5EblHkYvmeGGvZfoqIA/W3KOm9njOYvdwfBXYmUSI2/TOZhGDcPzlVLsDPubj/i4OKTYWrdmUT1jEmaL16+OGT+a8yv7/lmaWGasue82OYFW3fcBsjygMDMS2Ek/IeKakex4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=amarulasolutions.com; spf=pass smtp.mailfrom=amarulasolutions.com; dkim=pass (1024-bit key) header.d=amarulasolutions.com header.i=@amarulasolutions.com header.b=ddZdVlki; arc=none smtp.client-ip=209.85.221.49
+	s=arc-20240116; t=1747039954; c=relaxed/simple;
+	bh=AcXZQ22yLKXgCEovwUclU9TpKyczsUirSww8be8znns=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ZKglVZE8xAn+B2klwxLg2q+48DXKZZcHKfRWsybXkjZYcS10wkA4e9/aM7ChEFLKEet2ewibF9F2oUn7ncpfv1IuoI6TPSlsGcMSBnkhEgHMPdoi1CEV53doNK+xhqQMo+l9ZVNUv1srneO8IibL7kjAR6u2WWPibK3ek1j/hXo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=amarulasolutions.com; spf=pass smtp.mailfrom=amarulasolutions.com; dkim=pass (1024-bit key) header.d=amarulasolutions.com header.i=@amarulasolutions.com header.b=UyosieGF; arc=none smtp.client-ip=209.85.221.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=amarulasolutions.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amarulasolutions.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amarulasolutions.com header.i=@amarulasolutions.com header.b="ddZdVlki"
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-3a0b291093fso3191104f8f.0
-        for <connman@lists.linux.dev>; Mon, 12 May 2025 01:48:24 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=amarulasolutions.com header.i=@amarulasolutions.com header.b="UyosieGF"
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-3a1fa0d8884so1622013f8f.3
+        for <connman@lists.linux.dev>; Mon, 12 May 2025 01:52:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amarulasolutions.com; s=google; t=1747039702; x=1747644502; darn=lists.linux.dev;
+        d=amarulasolutions.com; s=google; t=1747039950; x=1747644750; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=C7OEnkAOJ/6/TD/MfQCyymBINdrfGDywhdVSmnWsJC0=;
-        b=ddZdVlkiienmnqv25d4Y9YqVaZfvUjZyhr6BAjuPSgN+OQR79tH0ADEHIaFBVnrPn+
-         Egg+UVfQTLNpSY4ld8f9ANdlvDsEbrwj6JN8oUWEdw9ODrsxk7k+UTQ4S1Jz2LwIKjfA
-         R5ylw1jWneU/KQYynJDqW/H1twjippGe8WGdc=
+        bh=HCHuii/5P9vkIno5BOmBYrrXv2T45rLinxAOuKOdNko=;
+        b=UyosieGFNGHFBYQ7KIC2lXO4/S3bqBoDusdw6I87+RrA89Lq2QEczhiiHmjiJ8bEpR
+         +ozLoMs9IyLJqRNNS4mgppEP4SlA60r+SC2BVzjY98KU69gmV35I/hO4KDYpqZYh5spe
+         7SrnqWFJm3gOm4Lc9g1CS8lUb/nC42utJOyzY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747039702; x=1747644502;
+        d=1e100.net; s=20230601; t=1747039950; x=1747644750;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=C7OEnkAOJ/6/TD/MfQCyymBINdrfGDywhdVSmnWsJC0=;
-        b=pkbqnCL9IHOpaOsA0MhesK78zRwTvemy2xT//9z5YBFgv3QiQSrke3DUxXr4QV6Pdf
-         bV717ATQxK+8C56ywANJ2VwO+evrrADtXk2/ZaWLwaISiKKU/wgS+dugh9VE1hdOR2Rg
-         HxqTejtKmqImgLo/kjw2H091EEu6aw81XYuBA6yUP8cy0vbya4l4S9n+eTQCHaP2Vbmg
-         HZGxvjRFa5wkEQtZYJ/Z3XJ0ccX3pqCvh8BnkHp6OY9EWr+pxEO8J8Ehvm3Df2JSJWTO
-         a/+P5BJI2w1MtD6jMrHv+3rzjQkl639Y3QtqVUTOFqDmJXPJcEboKUHqB7cOcltCZyBN
-         hPBA==
-X-Gm-Message-State: AOJu0Yzk+r91XtJaH91Wz3D/1oSlGJgUlBmkfBO3oYIJuZnC4JP2A2Mk
-	hixf1mKo8iBl0ztkE26EUAQsrpfDa+99IRuJLW4K+Rpqrm0rHF5RU42y8xyEhAfZjYoqq8bkMcc
-	HSXAXMwm5
-X-Gm-Gg: ASbGncsXc/qdadkllVMKdyETCdOixRMdSe6URr4126R9uewI8V78/jvyfcJYOM7xV7k
-	IS1AN9I5tam0yaO2/tUh0rKH7s6mHUj9l+glNj7t5jCdCnIMx/I56MGb2qzK7ukveU+GQ0AAQeS
-	IY8vraBAxcIhRpQ7KlW6Xu7W2DtOpzwfcCov1b51Fzt+xA/To8v3Faspb1bG9l4hFdpbMBWGqJK
-	vYFtYR7CxegkXSUPRVg0tDqVd2e9OY/s/Fp2QTWCSdbpA88+emWWoyiX+20njYRe3P57DoowsjK
-	+OTovWb+keyHl/gk8kRIWOzhEtIxODsI7DMUv7wloNL/NoytdFEFE/1jZWXv7E2X206nvAJBI6n
-	HuEe698z2ZY+bu8RqdGhhrkXWOg==
-X-Google-Smtp-Source: AGHT+IEPFa9dkzZgNmhzo3mSZ+7BFMqw9IKO/CtY6SYMKzKVd9hMNkfHIyPqmZhZmLXxsVFgzfwlIg==
-X-Received: by 2002:a5d:55d1:0:b0:3a1:fc5b:372a with SMTP id ffacd0b85a97d-3a1fc5b37cemr7415878f8f.24.1747039702185;
-        Mon, 12 May 2025 01:48:22 -0700 (PDT)
+        bh=HCHuii/5P9vkIno5BOmBYrrXv2T45rLinxAOuKOdNko=;
+        b=Wl1GyqV6NS4iuJUfBj0J55BVbbFOPyN4zuWz8ce3UPqUzSlhds9dnB4uQnSHBunz3J
+         zBqU72De9+Rx8tlu5peQYaax9JoRO469vAzFXRW7wxwRHQEatZ7Aia5mTgNkkmYLUeGZ
+         01t8K1c6IvxyolZDuY8vzdE8LvpcUJzLTVi3S1/JYtptMix9PIz9u+W3uNFxejdGPcKz
+         EJscpwxamQxzMglSV3/zLowfhVCLOxgfW8UsfqMu4EtVO5424aYsRdvWB0uuEMxryUQf
+         q11sCNZyJzJyirWgFTcCrFpVjadZHouFeFzr7iqOPtF5RPKPxB7W1i3O+nBZkH0Q7s4M
+         bkIg==
+X-Gm-Message-State: AOJu0YzO5xsiz9YRN8JoVJT9sbROb5r/4j8G4+2uzeZqhWfIVzkD2aVA
+	KZjX+N8aagzWsDvkwaLWaGOJ50g5pTsTPnvt3aBOuR5Rh6Tb6fIsboi2fcYwunbd/Q74HPt1WTY
+	zIWgv4oxJ
+X-Gm-Gg: ASbGnctxZ7ORdXKqRgzYVw+pNlaLMHeFqHF7p+StAvFuzxv/BiEE0PAiQtbDcMkMXca
+	FtX2hbrCwkq/4Lt5HUxs1pe/28aDzA/qfdoQ0OTgLV4/cfEvy3qyfv+Q1j1567JKUHa2ueIK2V6
+	7BYRu1cdHBU+VSZOMzE2wLqYHjqLN/kWTxoAEHCL7yttEV8GfoPViX6lc/xSlMM8ADmKDurUiK/
+	FI7gQoLjfQy8zwmEMxo6guGX0FqBGAEw/TrWMAxuwCTtWLj6VdVv5+NOICVKoD53gl4Lk7gEF4A
+	JWfblX3Fs2UsKh8hEqH9fhNcJsoeC74QaHgtRi820sfgepNcconiJCFUJW9Ho1tMcso7FrQNunR
+	RiHsyhs+L6AzYM/UeXRQEaPBe+g==
+X-Google-Smtp-Source: AGHT+IFAcn6h2vlgLIOSttTENQw8LZvZuPMVE57EE9Db85TQherDTqUDDwirUNVSt3oT9/lWQ8GGBQ==
+X-Received: by 2002:a05:6000:40dc:b0:3a0:6ae3:a1a with SMTP id ffacd0b85a97d-3a1f6446d0amr8601845f8f.23.1747039950617;
+        Mon, 12 May 2025 01:52:30 -0700 (PDT)
 Received: from panicking.fritz.box (p5b26784b.dip0.t-ipconnect.de. [91.38.120.75])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a1f5a4c5e1sm11529359f8f.89.2025.05.12.01.48.21
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a1f5a2ca47sm11752878f8f.73.2025.05.12.01.52.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 May 2025 01:48:21 -0700 (PDT)
+        Mon, 12 May 2025 01:52:29 -0700 (PDT)
 From: Michael Trimarchi <michael@amarulasolutions.com>
 To: connman@lists.linux.dev
 Cc: denkenz@gmail.com,
 	linux-amarula@amarulasolutions.com,
-	=?UTF-8?q?=EC=8B=A0=EC=9C=A4=EC=A0=9C=28=ED=95=99=EB=B6=80=EC=83=9D-?= =?UTF-8?q?=EC=86=8C=ED=94=84=ED=8A=B8=EC=9B=A8=EC=96=B4=EC=A0=84=EA=B3=B5?= =?UTF-8?q?=29?= <ioerts@kookmin.ac.kr>
-Subject: [PATCH] dnsproxy: Address CVE-2025-32366 vulnerability
-Date: Mon, 12 May 2025 10:48:18 +0200
-Message-ID: <20250512084818.411262-1-michael@amarulasolutions.com>
+	"Dembianny, Sven (GDE-EDSD5)" <sven.dembianny@bshg.com>
+Subject: [PATCH] gsupplicant: MFP optional for WPA2-Personal
+Date: Mon, 12 May 2025 10:52:23 +0200
+Message-ID: <20250512085223.411606-1-michael@amarulasolutions.com>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
@@ -68,42 +68,54 @@ List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: 신윤제(학부생-소프트웨어전공) <ioerts@kookmin.ac.kr>
+From: "Dembianny, Sven (GDE-EDSD5)" <sven.dembianny@bshg.com>
 
-In Connman parse_rr in dnsproxy.c has a memcpy length
-that depends on an RR RDLENGTH value (i.e., *rdlen=ntohs(rr->rdlen)
-and memcpy(response+offset,*end,*rdlen)). Here, rdlen may be larger
-than the amount of remaining packet data in the current state of
-parsing. As a result, values of stack memory locations may be sent
-over the network in a response.
+Previous MFP support was restricted to WPA3, however it is also possible
+to set MFP to mandatory on APs with WPA2.
 
-This patch adds a check to ensure that (*end + *rdlen) does not exceed
-the valid range. If the condition is violated, the function returns
--EINVAL.
+wpa_supplicant config:
+
+* WPA2-Personal: key_mgmt="WPA-PSK-SHA256" ; iee80211w=1
+
+It is important that the default value of MFPC bit is 1 on the final-commercial
+version of the device. It is a mandatory WFA requirement.
 ---
-V1->V2:
-	- resent using proper inline patch
----
- src/dnsproxy.c | 3 +++
- 1 file changed, 3 insertions(+)
+ gsupplicant/supplicant.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/src/dnsproxy.c b/src/dnsproxy.c
-index 7ee26d9f..1dd2f7f5 100644
---- a/src/dnsproxy.c
-+++ b/src/dnsproxy.c
-@@ -998,6 +998,9 @@ static int parse_rr(const unsigned char *buf, const unsigned char *start,
- 	if ((offset + *rdlen) > *response_size)
- 		return -ENOBUFS;
- 
-+	if ((*end + *rdlen) > max)
-+		return -EINVAL;
-+
- 	memcpy(response + offset, *end, *rdlen);
- 
- 	*end += *rdlen;
+diff --git a/gsupplicant/supplicant.c b/gsupplicant/supplicant.c
+index f3be9e7b..2ebfa2c6 100644
+--- a/gsupplicant/supplicant.c
++++ b/gsupplicant/supplicant.c
+@@ -4955,6 +4955,7 @@ static void add_network_security(DBusMessageIter *dict, GSupplicantSSID *ssid)
+ 		add_network_security_ciphers(dict, ssid);
+ 		break;
+ 	case G_SUPPLICANT_SECURITY_PSK:
++		ieee80211w = G_SUPPLICANT_MFP_OPTIONAL;
+ 		if (ssid->keymgmt & G_SUPPLICANT_KEYMGMT_SAE) {
+ 			if (ssid->keymgmt & G_SUPPLICANT_KEYMGMT_WPA_PSK) {
+ 				/*
+@@ -4962,15 +4963,16 @@ static void add_network_security(DBusMessageIter *dict, GSupplicantSSID *ssid)
+ 				 * WPA2-Personal (PSK) and WPA3-Personal (SAE)
+ 				 */
+ 				key_mgmt = "SAE WPA-PSK";
+-				ieee80211w = G_SUPPLICANT_MFP_OPTIONAL;
+ 			} else {
+ 				key_mgmt = "SAE";
+ 				ieee80211w = G_SUPPLICANT_MFP_REQUIRED;
+ 			}
+-			add_network_ieee80211w(dict, ssid, ieee80211w);
++		} else if (ssid->keymgmt & G_SUPPLICANT_KEYMGMT_WPA_PSK_256) {
++			key_mgmt = "WPA-PSK-SHA256";
+ 		} else {
+ 			key_mgmt = "WPA-PSK";
+ 		}
++		add_network_ieee80211w(dict, ssid, ieee80211w);
+ 		add_network_security_psk(dict, ssid);
+ 		add_network_security_ciphers(dict, ssid);
+ 		add_network_security_proto(dict, ssid);
 -- 
 2.43.0
 
