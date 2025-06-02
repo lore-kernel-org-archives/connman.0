@@ -1,191 +1,167 @@
-Received: from lgeamrelo11.lge.com (lgeamrelo11.lge.com [156.147.23.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 363754CB5B
-	for <connman@lists.linux.dev>; Mon,  2 Jun 2025 07:17:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=156.147.23.51
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748848636; cv=fail; b=aWPKX4y7hBGMKiqyswjf1ZdNBjzs0GbdDA2w7+co4DyGFL8jLk8+9OqG8HcbGx0g/is9ykQZhBPY+O4hYk5i6ZnrfJNG+EXbunFXF3u5lzafvAqy1OhIWHcNynplbeaf06Pc0BB51B5nUok3Ii6YctF2QkbjR+lO3G1vQS46xEo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748848636; c=relaxed/simple;
-	bh=XUOm2qwcEevK/ybmhXPbZ3O8YHxZzwkFjFwY/AZ1WoM=;
-	h=From:To:CC:Subject:Date:Message-ID:Content-Type:MIME-Version; b=qY+7o91znIwdsiVlNoM0ijNP1IOL78sgSuaHJFy+eklfDRH3IM1/7CXcIRqJSOa+9jZeF+bDLa98pIdjJtNWe5vEkLQrktK1rP7F4bSkxabWcuan+eg22HZHKYxNUOKTAqMZ3aclBV5tQL8ocnPTV+CW2ip5MAduoJafDI32EXM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lge.com; spf=pass smtp.mailfrom=lge.com; arc=fail smtp.client-ip=156.147.23.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lge.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lge.com
-Received: from unknown (HELO lgemrelse6q.lge.com) (156.147.1.121)
-	by 156.147.23.51 with ESMTP; 2 Jun 2025 15:47:11 +0900
-X-Original-SENDERIP: 156.147.1.121
-X-Original-MAILFROM: shailesh.rathod@lge.com
-Received: from unknown (HELO sniperexo7.lge.com) (165.244.66.188)
-	by 156.147.1.121 with ESMTP; 2 Jun 2025 15:47:11 +0900
-X-Original-SENDERIP: 165.244.66.188
-X-Original-MAILFROM: shailesh.rathod@lge.com
-Received: from unknown (HELO SLXP216CU001.outbound.protection.outlook.com) (40.93.138.28)
-	by 165.244.66.188 with ESMTP; 2 Jun 2025 15:52:15 +0900
-X-Original-SENDERIP: 40.93.138.28
-X-Original-SENDERCOUNTRY: unknown
-X-Original-MAILFROM: shailesh.rathod@lge.com
-X-Original-RCPTTO: connman@lists.linux.dev
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=SOHptc6wNenXWs/Jf1RxVJ0YL1MzQq4VCIRuuQqmF8yf10Di9vG0zRxJV3pnfNrZm2a1yzNCXwIRurjnpTBaIZJOpj/X973lOy0vcS9ksqs+svVOIe+4CdfAeRPqyACjfAFzKhF9R7ZZ03t+cQOayZNvoy03tAkJ6Gr6XfkHEM7Np2hWfddtbSjUT8g6ogGUy9jjFp2haii/YOfNamP4K+DVoj4vDH86sHoYtYDT55tQmBcHp3kL6w6k/Et4VqcK83P5gLcbt1SXwIPfPIutPjGehTyGfqpXe6UU/HlYrbOEM/KTOIK7nmcDziX0SXzSlmN0avmtrUAL7vF9dIYGHg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=XUOm2qwcEevK/ybmhXPbZ3O8YHxZzwkFjFwY/AZ1WoM=;
- b=NCRC2y7CTGXe96Nv/hFEyQh4XEvsIIPmf13b7JQimxYeKnYmHmRu06+Ntb/blIlpG5cqfe9xoOOmM7KoF3SiahN8xpspvngPGGf/IUZoWtYhW2iJd/ZuPOmOmkHMM4a5LZqygRCrQuZJCRT8NbjgUjkogPcfo5CF/mnngh7KAD8uJwo03vLAOLkTu7vY7GRfh5Y5ppqDi6NdkuxixV2JBfV9IGsx8vJ9PyIbygLOI+dXUq/nD7GiRFHVmYNPdLR4LpHQVBYH9Aa/zfUpoEQ3aP6jtuNaOEsERKW6XOOi2mCCQX9VtUaa3WJ0Fy6nrCBVOJw/2brOSotUrWbM7gCi6Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=lge.com; dmarc=pass action=none header.from=lge.com; dkim=pass
- header.d=lge.com; arc=none
-Received: from SE1P216MB2647.KORP216.PROD.OUTLOOK.COM (2603:1096:101:1d1::7)
- by PUYP216MB3016.KORP216.PROD.OUTLOOK.COM (2603:1096:301:156::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8792.33; Mon, 2 Jun
- 2025 06:47:10 +0000
-Received: from SE1P216MB2647.KORP216.PROD.OUTLOOK.COM
- ([fe80::3435:5ac:17d8:4d39]) by SE1P216MB2647.KORP216.PROD.OUTLOOK.COM
- ([fe80::3435:5ac:17d8:4d39%5]) with mapi id 15.20.8792.033; Mon, 2 Jun 2025
- 06:47:09 +0000
-From: Shailesh Rathod/LGSI GPOS Dev <shailesh.rathod@lge.com>
-To: "connman@lists.linux.dev" <connman@lists.linux.dev>
-CC: Vasu Kantubukta/LGSI Connectivity Team <vasu.kantubukta@lge.com>
-Subject: [PATCH] connman : Handle empty passphrase setting in wifi/tethering
-Thread-Topic: [PATCH] connman : Handle empty passphrase setting in
- wifi/tethering
-Thread-Index: AQHb04ng2vaL0QyJ6UaJDaBr0VN6Qg==
-Date: Mon, 2 Jun 2025 06:47:09 +0000
-Message-ID:
- <SE1P216MB2647E4A28FE116C4D93FF7B5F062A@SE1P216MB2647.KORP216.PROD.OUTLOOK.COM>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-msip_labels:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=lge.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SE1P216MB2647:EE_|PUYP216MB3016:EE_
-x-ms-office365-filtering-correlation-id: 7e850747-b6b3-4978-6139-08dda1a14c5f
-x-ld-processed: 5069cde4-642a-45c0-8094-d0c2dec10be3,ExtFwd
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|376014|366016|1800799024|38070700018;
-x-microsoft-antispam-message-info:
- =?iso-8859-1?Q?LnxXF8ZUlO89iiNJty3MSAjgWzamSp7KlwwTDaACYGxqc7yEtIhqmFQgyB?=
- =?iso-8859-1?Q?GJLgVcgKeJrLEClz7NwQGMDaHoRqfaUuRL1XPiaEuFGCZl97qdXFWqlbfX?=
- =?iso-8859-1?Q?n3vUnYFndqbF70iI4lAUMsbubwTrvSITphcE0UzJB1say3NHbZhj9Uxufb?=
- =?iso-8859-1?Q?nrSxDk7kPPQQGTM7rN7JYfCPxjj8bgIV01SxDIoFOZykm5MEIYlOqUKgWM?=
- =?iso-8859-1?Q?uhvTFxLbhoP2+oGbIiVJXbe60cK+Aoet3494/fHXtGdtP5vH9OmatZbFYZ?=
- =?iso-8859-1?Q?10gZZAUGaiVV7FqN9JLTfXd0f88SfrqH3a580r9RgEucfePxvW2u5UpF9s?=
- =?iso-8859-1?Q?eSYF/0UY/BVYjXvIQHtghS0sATPIhUR5mfJDdr+QS/G1yWsZdnvb0Rv65T?=
- =?iso-8859-1?Q?jcmW7B1/2WALoIaNmhCWd+kK7LUy4VS7tCXguE2oEy0/SFGnMJeNjxkVUW?=
- =?iso-8859-1?Q?kdUPC1hz39x/by9B57SnATNPb/9T1YWabycvEAtQEOQsMTLCYmYxtx5QG3?=
- =?iso-8859-1?Q?BvRHginSH9GheGnE/s1NfVaHIYj0fTxMYV7bwaqkE7gHnVSrAm5DFQ9SFl?=
- =?iso-8859-1?Q?iS+FXqoDCSxKgbhI74dGNw8Guxs1ZKAlGlouvyx6xK+nNW7CtRt7BQe64L?=
- =?iso-8859-1?Q?NtHRj+404lUwc2qRYFXr2AkeMy+McxHLrM6Z8B+1llNxuUSZK5pstFsm0f?=
- =?iso-8859-1?Q?ManLNk46SulsZev2Q6KYTi81NEoRPPFc/BL6XDjx5oQjzn+s2jtXgwcSDg?=
- =?iso-8859-1?Q?im7fzN6VcQMFshvyFCY6lEyQNiw0bDdOnjPtrNE43nI651m6YVMtrYH4+v?=
- =?iso-8859-1?Q?iJkDJNs0TjjtgLHy43Xt7YAiOIBuCU4iFlj72oGCVk4ePkNI7Bz6MhAk3O?=
- =?iso-8859-1?Q?mo2y+OINq6k/hx+gGjHucpMYQzp0yfRTydtPqCqgnFeFJVRbHwzTomycGx?=
- =?iso-8859-1?Q?0ST8+fIjCzVFxTUJXsfRXaXTX9dBKoXGDNEzR+qu3b1IR619BkYaFBWBVB?=
- =?iso-8859-1?Q?gVlvUtWdpdwUvpjUUMJ+W8QAlxtNDiEnUUboqA9FRy/PsfLWQ6KpWCrL6N?=
- =?iso-8859-1?Q?6qLH+88+LKBrTKebMPgdYIlWb8GMAFvT18uhQ7UhrtrcatCQBFTngOmsdW?=
- =?iso-8859-1?Q?SRC04j2vqidrQJ7rj41zGJ//fpBXJFvAHge7ZG2ircZpStR3iVFJ0MdrJm?=
- =?iso-8859-1?Q?hIQC96/mfZOswOwxH2pWOCCmkzZFbTP05Z8bsEjisv+U/G8ggZj0T2wQB/?=
- =?iso-8859-1?Q?dDIuqJS23LcCIDZTyllIh99povALcbvSImcoRTNtrLHznjCHFkfRTaIzbu?=
- =?iso-8859-1?Q?+tstLeMPMpefS/r7dtvrON1qe4BTSY6jOEJzZu3Rjd4TIKEjPy3AYczhvg?=
- =?iso-8859-1?Q?QLi5UcNOGKCcpTr1pJ9/XbpADP09thsZyAv/LH+dSmhKlgoJIkbQFoUCv8?=
- =?iso-8859-1?Q?IkjxFCIevsBnEVbhUuGR5Tzy641Y8kXOeVcj5eo9kjcA7bSP0YF0MKjulZ?=
- =?iso-8859-1?Q?x7sPOFn3JA1V1XL1akHavLNFM89AJSYkY/JAR6k7w3B4+Zot/JxXUsbqdh?=
- =?iso-8859-1?Q?SW3NXpA=3D?=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SE1P216MB2647.KORP216.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(38070700018);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?iso-8859-1?Q?q9rwub+mvxEPA4NmTTsRnkg+SWWoaVW4KrLoBB0kwSaInBsdfxOFcZH7jK?=
- =?iso-8859-1?Q?h78y311ffV3OOr656dVuO9Kwl63bnBpxGnA8yvmp63czlouxnrMAPsLCdm?=
- =?iso-8859-1?Q?1q9vef0ZI7vm7qG0JpLsd4YL3CodJFGdwudqejMZht2MMqmnKfsrQoMKId?=
- =?iso-8859-1?Q?eg48PwTRFuPnoTyktol1+lLp/LlNAORBjuoyu7gEcJCFIkMMdx/MHw9qm/?=
- =?iso-8859-1?Q?s6AlsxiExTFlHBlDA7TPr6B1s9eVNgskjOtzbElEPvqSCKK3pW1Unqqm8q?=
- =?iso-8859-1?Q?NKYM2oLL/DVmgnnrywPH6B64mdNMOFNypLHyn85DWCAXDT44UV7P4cNPH5?=
- =?iso-8859-1?Q?LQ9xh5P429eynrKQdSpWdm+wfERzbgWQwxDniOcalm4m+9F034VyBYEEgE?=
- =?iso-8859-1?Q?Pq9jn6D9dX2/34zCRsAEpbEAO8etwzD4tAHWl24b+LGFqaaoUpQdrBzPhN?=
- =?iso-8859-1?Q?PAUIM1di9jj9oeMf7aRU8a+j70pktbx5g07vnR1Gwsg9+99ZQzZHmLCIYn?=
- =?iso-8859-1?Q?zDFOn/sks29f+nVOAj0DtBdOulxDyxLMOnwJeKUelQUIZst005ytP8z7n7?=
- =?iso-8859-1?Q?DpGzOKiovuu+BctNW+qrUU3gA4G9c49o+Um9ME24wTiJx4r3PdCRM0/1yi?=
- =?iso-8859-1?Q?u18nx3AJ2e1/3l00oFKQbb8nueUVrL2cf+nVwvUtSQoLHpt7MQkGhT+s4Q?=
- =?iso-8859-1?Q?i77qOmkzGD0vv8uoGj80Th6dU78yEIYdAs/Lx42Bo7rH/1mPgDvxLnJOhm?=
- =?iso-8859-1?Q?1zoD3ueEnFcDXp6686XPfEiK5eawmehua0BeuJuJ40VFkMTfmjK4oEFyR1?=
- =?iso-8859-1?Q?lzy2iBtbAoftzUlkgtAPRoWPnm4Y40j3GTPmPeC5uAdDc6Vy0mAMikY316?=
- =?iso-8859-1?Q?Kma20b/tmXQjGbLGndG857hTGhKWu9wokyl1+YuJplyIn6C2y2QFBe/kB7?=
- =?iso-8859-1?Q?KnWxKKcCzSlYSvKS/5I3hrrDjeBRjU0RmOjHIGeX7kbiMA/DQ9j0Yujkg5?=
- =?iso-8859-1?Q?tizcT/yKjohgENMk1DG3uvnG25w7a1yDoRTMDkkccxZwZCO+bBWYqRc0EH?=
- =?iso-8859-1?Q?IwUHXQaYvSvJpGyz59ls+OSPVGhmylgJJl3RaunG7hcZWkKsNT3k0jVof5?=
- =?iso-8859-1?Q?QV7atZtZ132t+g9xb6LIYUXrM/iCdCwbJcXBR8jJeYqKZ0H6ypYuQSllh/?=
- =?iso-8859-1?Q?DQQOnMYFtTGHHnQ5h0TRpDPAQ21RAu9uHAUPYG8rRjKQb2e1GB14ydJHBq?=
- =?iso-8859-1?Q?d7apTgM2u7Ot1eUWGqD185c6eQlhO0Qmv6MXv7mcM1nEPd4Jj0mMVa4wfI?=
- =?iso-8859-1?Q?ncy2UO7EOz9zHoMe23Ao6qeWOF///TCHfwzxTAAiN4/WhDPAQmV1LoprbY?=
- =?iso-8859-1?Q?ult/2QI1b9wKGY8IoudURNMlg2+9Q5rmVjtcCIUthzR0ql5bGHFdbfeN4M?=
- =?iso-8859-1?Q?LOJVnEpic39M3sWsOOXmrUpP/IsMlj82+NYxUEw2iG7rPHH0iXuY0iQCxC?=
- =?iso-8859-1?Q?b84L+CjUgqGFZcigj8610qT9u3MQ3cxsoTye53VDeakTbr1JfB2DOR3QIP?=
- =?iso-8859-1?Q?LYwsN0FNNZP5gCihECuTmjI9Pb7e+zB085mnI5Wl6JbP49h8yNZMXVZTYl?=
- =?iso-8859-1?Q?VHF06mvflYcoOIdkNEA4ee0zyMClIkLYU1?=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E309D2C324C
+	for <connman@lists.linux.dev>; Mon,  2 Jun 2025 07:38:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.178
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1748849922; cv=none; b=Uh3kWxVmyX98XK1V+rWVB62HGH17TuDYIKe/dR2wMJ/3wtI8ZV9/uEvCFr77F+dTGDLS72wEGS5/kvaFDUnuXBHFrPndEZP51xWWprgHMw8yKL39gfC7M4acheCfHh0BfeOGY5eV2z27dEnPyts5xP+wIhKuCFHhtHuQtBUYNpI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1748849922; c=relaxed/simple;
+	bh=n9yzZSfrzsssyFRMkViM53fEnmBgveUPonjecRLl71k=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=SVYabrsv7zqZQ8B4aSv9YqtNeKSDSsQxW4ZMOWF93+I7iU4n0suWleaHn0c61dtytGGJKJNKi6mBeNJP2G4QT69zV3CNVNSO9iqMEpLWWg9Ne9f7N6napQIfzkZObegiCBe77gXPa3MuINbztE34SI/qVrfILAqnwcXjkuqLBOg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=amarulasolutions.com; spf=pass smtp.mailfrom=amarulasolutions.com; dkim=pass (1024-bit key) header.d=amarulasolutions.com header.i=@amarulasolutions.com header.b=RL+SPcsm; arc=none smtp.client-ip=209.85.215.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=amarulasolutions.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amarulasolutions.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=amarulasolutions.com header.i=@amarulasolutions.com header.b="RL+SPcsm"
+Received: by mail-pg1-f178.google.com with SMTP id 41be03b00d2f7-b2c4e46a89fso2854120a12.2
+        for <connman@lists.linux.dev>; Mon, 02 Jun 2025 00:38:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=amarulasolutions.com; s=google; t=1748849920; x=1749454720; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=1NhWnfZmzlWqvEGMrndGKNaK2FJbCFpdatL/iXW1MpY=;
+        b=RL+SPcsmwhXkS0T03MEzlEt1uDBXcoytb14dTVjbw12QC54ZfqeM4NNLrUQ6Jb0C5L
+         L6Bb7hHL4zSzcgNxOMAZK0KyMJcDyEYvDY6QEb5pa4wps4k3PoN38FO+3rPMVOcWajKz
+         0PvxkGe390otdV7dHwC018RYAA5BCBU8iTgRc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1748849920; x=1749454720;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=1NhWnfZmzlWqvEGMrndGKNaK2FJbCFpdatL/iXW1MpY=;
+        b=iMN6gMwbhiesvlkJP44tcY7jyivNKduMiC4JemvZrn06ZlUef2rQhjvA+2YK7Nqt1p
+         bOlayY3pWXhURTtGNQiA1+Tmfs/JOZ2h8PXVXFGdKK0brvGV4Mmndv8tuP8G6d541saT
+         tM8kFpmduBii1hOYz5fO345bcIPYv6JdbhWXWEgPOKV7o9paLM8G6lzlSk2V2rEHGLOF
+         GJCEFm+VItED9hhELWoLFD9iRRyrkdW/bmQHOjmDWF6CJKDbOw2qR5MNH9cFurjs2VHf
+         hq2b+yT73+WYa5GEhEa5NTyzdVsCzzSOQ5lx1B2IECSz8O9S5o3IWjeFVVdxcDAH74C3
+         iKhQ==
+X-Gm-Message-State: AOJu0YwmuBCRIsLd6KDaH6spH1TUTjUuUdgojtYiCEdDmfUAqKBkr0jB
+	ylEixWDWfCcqoZl9T/x1eszRyc50Ld3Oy+xTQ9f1ZoGl9LwckPzqcPhffyUPsKRvRMhtDTPUhFb
+	YBUL4jUNByY8ZQJmUkqHjGMvdTOVs9PL761SqBASD1A==
+X-Gm-Gg: ASbGnct+PHXRG+6/eRBvQmDbdUClj/cENQv4ywxrWW4dEWLBb14pfG0R8r5XLZndNiM
+	x4L3fU3gpEhnVtN1VOP5GMAmxK2wX3JGcJevjFo7Tdtf6RWyuZOvdu4P01Rd4Gr/2EQ34Ee/ssW
+	IMUZiA9gaxMWyB+EUioZqGeP2+EbqNCeA=
+X-Google-Smtp-Source: AGHT+IGoTzbQWKsHEqD1uUCJNq5TjTGZKiQ5x/xoTiq3VTOGJj4h1Q8uw+R9uHbhYiYNR9C/hDU0R6DmhDWURTO2fQg=
+X-Received: by 2002:a17:90b:4f4d:b0:312:1cd7:b337 with SMTP id
+ 98e67ed59e1d1-3125034a47amr15890135a91.5.1748849919778; Mon, 02 Jun 2025
+ 00:38:39 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-OriginatorOrg: lge.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SE1P216MB2647.KORP216.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7e850747-b6b3-4978-6139-08dda1a14c5f
-X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Jun 2025 06:47:09.9251
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 5069cde4-642a-45c0-8094-d0c2dec10be3
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: yt7BWDF1mJiptBTlRlQ6OZ+6Bx3CNkqGAxyxZjOwqsBRuJoIyBccR6gX+TWXC4pMfHvCf+beqrFFfOhSLx8THw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PUYP216MB3016
+References: <SE1P216MB264701D18124CD7147BCAF1AF062A@SE1P216MB2647.KORP216.PROD.OUTLOOK.COM>
+In-Reply-To: <SE1P216MB264701D18124CD7147BCAF1AF062A@SE1P216MB2647.KORP216.PROD.OUTLOOK.COM>
+From: Michael Nazzareno Trimarchi <michael@amarulasolutions.com>
+Date: Mon, 2 Jun 2025 09:38:27 +0200
+X-Gm-Features: AX0GCFt35TUxszKikU-eaiSm1iNV9EzEl9_lloYD8Qba6DKUtbb5hg8mXQ4gTLU
+Message-ID: <CAOf5uw=4iJ3UoeR9JTRoFY16Tao9mEi2sZHO0=ZG1f_cvA=nyQ@mail.gmail.com>
+Subject: Re: [PATCH] connman : Add null check in prepare_target to avoid SIG=6
+To: "Shailesh Rathod/LGSI GPOS Dev" <shailesh.rathod@lge.com>
+Cc: "connman@lists.linux.dev" <connman@lists.linux.dev>, 
+	"Vasu Kantubukta/LGSI Connectivity Team" <vasu.kantubukta@lge.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Shailesh Rathod<shailesh.rathod@lge.com>=0A=
-Date: Mon, 21 Apr 2025 18:38:01 +0900=0A=
-=0A=
-Handle empty passphrase setting in wifi/tethering/setState=0A=
-=0A=
-While setting WiFi tethering only cases for PSK enabled=0A=
-network was handled. Add case to allow empty password for Open SSID too=0A=
-For certain application enabling softap without PSK is required.=0A=
-=0A=
-Signed-off-by: Shailesh Rathod<shailesh.rathod@lge.com>=0A=
----=0A=
-=A0src/technology.c | 12 ++++++++++--=0A=
-=A01 file changed, 10 insertions(+), 2 deletions(-)=0A=
-=0A=
-diff --git a/src/technology.c b/src/technology.c=0A=
-index 719c680..1bcd184 100644=0A=
---- a/src/technology.c=0A=
-+++ b/src/technology.c=0A=
-@@ -1045,8 +1045,16 @@ static DBusMessage *set_property(DBusConnection *con=
-n,=0A=
-=A0 =A0 =A0 =A0 if (technology->type !=3D CONNMAN_SERVICE_TYPE_WIFI)=0A=
-=A0 =A0 =A0 =A0 =A0 =A0 return __connman_error_not_supported(msg);=0A=
-=0A=
-- =A0 =A0 =A0 err =3D __connman_service_check_passphrase(CONNMAN_SERVICE_SE=
-CURITY_PSK,=0A=
-- =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 str);=0A=
-+ =A0 =A0 =A0 /* Allow empty passphrases for setting up an AP with open=0A=
-+ =A0 =A0 =A0 =A0* security type */=0A=
-+ =A0 =A0 =A0 if (strlen(str) =3D=3D 0) {=0A=
-+ =A0 =A0 =A0 =A0 =A0 g_free(technology->tethering_passphrase);=0A=
-+ =A0 =A0 =A0 =A0 =A0 technology->tethering_passphrase =3D NULL;=0A=
-+ =A0 =A0 =A0 }=0A=
-+ =A0 =A0 =A0 else=0A=
-+ =A0 =A0 =A0 =A0 =A0 err =3D __connman_service_check_passphrase(CONNMAN_SE=
-RVICE_SECURITY_PSK,=0A=
-+ =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 str);=0A=
-+=0A=
-=A0 =A0 =A0 =A0 if (err < 0)=0A=
-=A0 =A0 =A0 =A0 =A0 =A0 return __connman_error_passphrase_required(msg);=0A=
+Hi
+
+On Mon, Jun 2, 2025 at 8:49=E2=80=AFAM Shailesh Rathod/LGSI GPOS Dev
+<shailesh.rathod@lge.com> wrote:
+>
+> From: Shailesh Rathod <shailesh.rathod@lge.com>
+> Date: Wed, 23 Apr 2025 17:48:14 +0900
+>
+> Add null check in prepare_target to avoid SIG=3D6
+>
+> When Ethernet is connected and an attempt is made to enable the SoftAP,
+> a SIGSEGV (signal 6) is observed.To prevent this, add a null check to
+> avoid the segmentation fault.
+>
+> Signed-off-by: Shailesh Rathod<shailesh.rathod@lge.com>
+> ---
+>  src/iptables.c | 11 ++++++-----
+>  1 file changed, 6 insertions(+), 5 deletions(-)
+>
+> diff --git a/src/iptables.c b/src/iptables.c
+> index a81a077..54e04d3 100644
+> --- a/src/iptables.c
+> +++ b/src/iptables.c
+> @@ -2746,20 +2746,21 @@ static struct xtables_target *prepare_target(stru=
+ct connman_iptables *table,
+>
+>     switch (table->type) {
+>     case AF_INET:
+> -       if (xt_t->x6_options)
+> +       if (xt_t->x6_options && xt_t->option_offset){
+>             iptables_globals.opts =3D
+>                 xtables_options_xfrm(
+>                     iptables_globals.orig_opts,
+>                     iptables_globals.opts,
+>                     xt_t->x6_options,
+>                     &xt_t->option_offset);
+
+Option offset is only an offset to the options. It's not a pointer to anyth=
+ing
+
+I think that this need a better explanation
+
+Michael
+
+> -       else
+> +       }else if(xt_t->extra_opts && xt_t->option_offset){
+>             iptables_globals.opts =3D
+>                 xtables_merge_options(
+>                     iptables_globals.orig_opts,
+>                     iptables_globals.opts,
+>                     xt_t->extra_opts,
+>                     &xt_t->option_offset);
+> +       }
+>
+>         if (!iptables_globals.opts) {
+>             g_free(xt_t->t);
+> @@ -2768,21 +2769,21 @@ static struct xtables_target *prepare_target(stru=
+ct connman_iptables *table,
+>
+>         break;
+>     case AF_INET6:
+> -       if (xt_t->x6_options)
+> +       if (xt_t->x6_options && xt_t->option_offset){
+>             ip6tables_globals.opts =3D
+>                 xtables_options_xfrm(
+>                     ip6tables_globals.orig_opts,
+>                     ip6tables_globals.opts,
+>                     xt_t->x6_options,
+>                     &xt_t->option_offset);
+> -       else
+> +       }else if(xt_t->extra_opts && xt_t->option_offset){
+>             ip6tables_globals.opts =3D
+>                 xtables_merge_options(
+>                     ip6tables_globals.orig_opts,
+>                     ip6tables_globals.opts,
+>                     xt_t->extra_opts,
+>                     &xt_t->option_offset);
+> -
+> +       }
+>         if (!ip6tables_globals.opts) {
+>             g_free(xt_t->t);
+>             xt_t =3D NULL;
+>
+
+
+--=20
+Michael Nazzareno Trimarchi
+Co-Founder & Chief Executive Officer
+M. +39 347 913 2170
+michael@amarulasolutions.com
+__________________________________
+
+Amarula Solutions BV
+Joop Geesinkweg 125, 1114 AB, Amsterdam, NL
+T. +31 (0)85 111 9172
+info@amarulasolutions.com
+www.amarulasolutions.com
