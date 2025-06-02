@@ -1,61 +1,61 @@
 Received: from lgeamrelo11.lge.com (lgeamrelo11.lge.com [156.147.23.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9886175BF
-	for <connman@lists.linux.dev>; Mon,  2 Jun 2025 06:49:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 363754CB5B
+	for <connman@lists.linux.dev>; Mon,  2 Jun 2025 07:17:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=156.147.23.51
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748846984; cv=fail; b=FMUS/PBeW7V2JiABRKVYEs95aINYbTF+73PI9Z5KAvx2T6i8N6Scdupr7OEwDssx78JpUytI0b4uzlANomCT+jHEqtZSHbWYT8N1VwriUZKKiWMcvIuUCsb8NWuNwczrQTWEpjcZ9JF5m3gt7m4fHXh+GJ53g06fDMips1x8XaU=
+	t=1748848636; cv=fail; b=aWPKX4y7hBGMKiqyswjf1ZdNBjzs0GbdDA2w7+co4DyGFL8jLk8+9OqG8HcbGx0g/is9ykQZhBPY+O4hYk5i6ZnrfJNG+EXbunFXF3u5lzafvAqy1OhIWHcNynplbeaf06Pc0BB51B5nUok3Ii6YctF2QkbjR+lO3G1vQS46xEo=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748846984; c=relaxed/simple;
-	bh=YSnI09+CFjwNxfL7T8aGl/T4kHI3as2UN/1tqtC/KMY=;
-	h=From:To:CC:Subject:Date:Message-ID:Content-Type:MIME-Version; b=IP3TWxkg7bRjzGQALxmZg+0MuNuvHfbYGA7EICeCvukDxlixj4ht3uqOjz+BZJpD0UjGm+5/u/X5YGb2uqHaJaNdR4EZClNPpQ9SFvO6vb89JaYkh24e69cJaoK0kNi3JtIRqyXZpaAhQj2MQUywBf+5RLh4ixmye0qSibcZKBc=
+	s=arc-20240116; t=1748848636; c=relaxed/simple;
+	bh=XUOm2qwcEevK/ybmhXPbZ3O8YHxZzwkFjFwY/AZ1WoM=;
+	h=From:To:CC:Subject:Date:Message-ID:Content-Type:MIME-Version; b=qY+7o91znIwdsiVlNoM0ijNP1IOL78sgSuaHJFy+eklfDRH3IM1/7CXcIRqJSOa+9jZeF+bDLa98pIdjJtNWe5vEkLQrktK1rP7F4bSkxabWcuan+eg22HZHKYxNUOKTAqMZ3aclBV5tQL8ocnPTV+CW2ip5MAduoJafDI32EXM=
 ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lge.com; spf=pass smtp.mailfrom=lge.com; arc=fail smtp.client-ip=156.147.23.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lge.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lge.com
-Received: from unknown (HELO lgeamrelo02.lge.com) (156.147.1.126)
-	by 156.147.23.51 with ESMTP; 2 Jun 2025 15:49:38 +0900
-X-Original-SENDERIP: 156.147.1.126
+Received: from unknown (HELO lgemrelse6q.lge.com) (156.147.1.121)
+	by 156.147.23.51 with ESMTP; 2 Jun 2025 15:47:11 +0900
+X-Original-SENDERIP: 156.147.1.121
 X-Original-MAILFROM: shailesh.rathod@lge.com
-Received: from unknown (HELO sniperexo6.lge.com) (165.244.66.187)
-	by 156.147.1.126 with ESMTP; 2 Jun 2025 15:49:38 +0900
-X-Original-SENDERIP: 165.244.66.187
+Received: from unknown (HELO sniperexo7.lge.com) (165.244.66.188)
+	by 156.147.1.121 with ESMTP; 2 Jun 2025 15:47:11 +0900
+X-Original-SENDERIP: 165.244.66.188
 X-Original-MAILFROM: shailesh.rathod@lge.com
-Received: from unknown (HELO SEVP216CU002.outbound.protection.outlook.com) (40.93.138.53)
-	by 165.244.66.187 with ESMTP; 2 Jun 2025 15:51:31 +0900
-X-Original-SENDERIP: 40.93.138.53
+Received: from unknown (HELO SLXP216CU001.outbound.protection.outlook.com) (40.93.138.28)
+	by 165.244.66.188 with ESMTP; 2 Jun 2025 15:52:15 +0900
+X-Original-SENDERIP: 40.93.138.28
 X-Original-SENDERCOUNTRY: unknown
 X-Original-MAILFROM: shailesh.rathod@lge.com
 X-Original-RCPTTO: connman@lists.linux.dev
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=lVwht2PgEKYWO4pDKwnZSVPYGhJiTWASvy1yzoJ+cEXWwmqAIhQ/6aOcIvm8yrFQj1yJ6F0VHgyuFGJZZLaUPWEKHotirgGgbaErJO4hIlYY8V8MOQI8iusyGK7D+tjD3ouTu6qAWUUr/y/gStN4FgFU/DkfYr+93tzmN5HsPdkspqjqwvHrPJbxEqzrZMdzuoOVfq/Fo8swN6RT+aFkQ4U8AVy+dn0bvxR0TUvdQT3XgL6TZjgxyeJ8UdqHNlhKBnbEB8Zw1Kh7ESNmd9lXsnNLJtxql548P5WGHaiGrmA6FTuVQGDpyrTcLNNJsWliKnTI98NONkC++PFsnBwyXw==
+ b=SOHptc6wNenXWs/Jf1RxVJ0YL1MzQq4VCIRuuQqmF8yf10Di9vG0zRxJV3pnfNrZm2a1yzNCXwIRurjnpTBaIZJOpj/X973lOy0vcS9ksqs+svVOIe+4CdfAeRPqyACjfAFzKhF9R7ZZ03t+cQOayZNvoy03tAkJ6Gr6XfkHEM7Np2hWfddtbSjUT8g6ogGUy9jjFp2haii/YOfNamP4K+DVoj4vDH86sHoYtYDT55tQmBcHp3kL6w6k/Et4VqcK83P5gLcbt1SXwIPfPIutPjGehTyGfqpXe6UU/HlYrbOEM/KTOIK7nmcDziX0SXzSlmN0avmtrUAL7vF9dIYGHg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=YSnI09+CFjwNxfL7T8aGl/T4kHI3as2UN/1tqtC/KMY=;
- b=PpYqhUCYqTreHX6P9Mam6tc74dZwCFRnLqkSzw4sRA6ZuTCFS7Tg86q+3mZrPHVUid3dluD1EbXShoOOJFUhhastJn7YrR1phw/kWFGWKndil1h41lehO//bNRXNzgCGJLQgbevkFzwuZzUtEMokxmqp2T5a+MxC5FOb0UiI2HkwDfEP261N8koOG6AIfa2sywir5wyeq4H5wiHPN5neo07TXvnzg18anlOeMAH1RjHDkHnR6ZtYRdIujl7M5Y8GTad2ybya6Y3E9/wWy6nHZCwkjDl53CejzP1Q79Ij33Vs0aUBiS1/ZbXLm30FQvOGpHYhi61Qowe9+4/tcJnnSg==
+ bh=XUOm2qwcEevK/ybmhXPbZ3O8YHxZzwkFjFwY/AZ1WoM=;
+ b=NCRC2y7CTGXe96Nv/hFEyQh4XEvsIIPmf13b7JQimxYeKnYmHmRu06+Ntb/blIlpG5cqfe9xoOOmM7KoF3SiahN8xpspvngPGGf/IUZoWtYhW2iJd/ZuPOmOmkHMM4a5LZqygRCrQuZJCRT8NbjgUjkogPcfo5CF/mnngh7KAD8uJwo03vLAOLkTu7vY7GRfh5Y5ppqDi6NdkuxixV2JBfV9IGsx8vJ9PyIbygLOI+dXUq/nD7GiRFHVmYNPdLR4LpHQVBYH9Aa/zfUpoEQ3aP6jtuNaOEsERKW6XOOi2mCCQX9VtUaa3WJ0Fy6nrCBVOJw/2brOSotUrWbM7gCi6Q==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=lge.com; dmarc=pass action=none header.from=lge.com; dkim=pass
  header.d=lge.com; arc=none
 Received: from SE1P216MB2647.KORP216.PROD.OUTLOOK.COM (2603:1096:101:1d1::7)
- by SE2P216MB2279.KORP216.PROD.OUTLOOK.COM (2603:1096:101:121::6) with
+ by PUYP216MB3016.KORP216.PROD.OUTLOOK.COM (2603:1096:301:156::11) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8769.37; Mon, 2 Jun
- 2025 06:49:36 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8792.33; Mon, 2 Jun
+ 2025 06:47:10 +0000
 Received: from SE1P216MB2647.KORP216.PROD.OUTLOOK.COM
  ([fe80::3435:5ac:17d8:4d39]) by SE1P216MB2647.KORP216.PROD.OUTLOOK.COM
  ([fe80::3435:5ac:17d8:4d39%5]) with mapi id 15.20.8792.033; Mon, 2 Jun 2025
- 06:49:36 +0000
+ 06:47:09 +0000
 From: Shailesh Rathod/LGSI GPOS Dev <shailesh.rathod@lge.com>
 To: "connman@lists.linux.dev" <connman@lists.linux.dev>
 CC: Vasu Kantubukta/LGSI Connectivity Team <vasu.kantubukta@lge.com>
-Subject: [PATCH] connman : Add null check in prepare_target to avoid SIG=6
-Thread-Topic: [PATCH] connman : Add null check in prepare_target to avoid
- SIG=6
-Thread-Index: AQHb04owuqU2nEEUbkOsqTk298ZMFw==
-Date: Mon, 2 Jun 2025 06:49:36 +0000
+Subject: [PATCH] connman : Handle empty passphrase setting in wifi/tethering
+Thread-Topic: [PATCH] connman : Handle empty passphrase setting in
+ wifi/tethering
+Thread-Index: AQHb04ng2vaL0QyJ6UaJDaBr0VN6Qg==
+Date: Mon, 2 Jun 2025 06:47:09 +0000
 Message-ID:
- <SE1P216MB264701D18124CD7147BCAF1AF062A@SE1P216MB2647.KORP216.PROD.OUTLOOK.COM>
+ <SE1P216MB2647E4A28FE116C4D93FF7B5F062A@SE1P216MB2647.KORP216.PROD.OUTLOOK.COM>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach:
@@ -64,71 +64,72 @@ msip_labels:
 authentication-results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=lge.com;
 x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SE1P216MB2647:EE_|SE2P216MB2279:EE_
-x-ms-office365-filtering-correlation-id: 97f3b23c-7950-42dc-bf38-08dda1a1a3c2
+x-ms-traffictypediagnostic: SE1P216MB2647:EE_|PUYP216MB3016:EE_
+x-ms-office365-filtering-correlation-id: 7e850747-b6b3-4978-6139-08dda1a14c5f
 x-ld-processed: 5069cde4-642a-45c0-8094-d0c2dec10be3,ExtFwd
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|376014|1800799024|366016|38070700018;
+x-microsoft-antispam: BCL:0;ARA:13230040|376014|366016|1800799024|38070700018;
 x-microsoft-antispam-message-info:
- =?iso-8859-1?Q?UeMquNbqYNiChXqsd42/5f2dp6F4DfLjcUE/ZsTYF45rrgwAJh0Lhxw/eK?=
- =?iso-8859-1?Q?TKiJfV/cVr3Atu4jiNoGXzozSd4rzarU7LXJ5kfHgD10MFM4nVuf3cWzad?=
- =?iso-8859-1?Q?zIaLbElrLop4ESYU4Ei41RmnK8MJ0XpGUqiPoIIvGKeytos+9l6xRl6EJf?=
- =?iso-8859-1?Q?wFbtXFaAFkvzKddfKlWa3WcK6uLNAWIRALgqYZSoCwhs8gKg150yo2lSJB?=
- =?iso-8859-1?Q?PVK4Bv7ma80502aUD+Ba+JNEuH3y3+tbuafpAB49LPWMPmhyD828KuqHE7?=
- =?iso-8859-1?Q?qxOJYDI6rlaDv0Ittxy6XK6a0rk/LZt/96An7vSE7GER0btnxcOSxu/+NL?=
- =?iso-8859-1?Q?hZ73WLr1TLZciIQT1kkrP0FvvQShJkcJlNeCmgAE327xfsUaBt+bh53hPb?=
- =?iso-8859-1?Q?Htkr4bJIgIFi0thnP13BfIRElSHusj4/fz8yf/VRfP7z1Aw3bd0RTDfYtf?=
- =?iso-8859-1?Q?WF0CpaF/QVOALkukIRxOj5cPP7PV5NOdcvq5cTMAm1EnbgCXQE6rrSVrKK?=
- =?iso-8859-1?Q?qByKe+XI/JzNCbzFxBmM+ZPTQNuQXYL1di3vOFAGE0pok1m0FnEcAogBhT?=
- =?iso-8859-1?Q?q604KvMo+877k2WTbg/H+lH/Hgj9PKDBGhDQCh6VJLbmHl4nc0nd36uULi?=
- =?iso-8859-1?Q?mYqa9F2p4zZ2tADJTBdemizoQ0S8DKHyoT9neJf9Rh2YVrcLqc/emng06x?=
- =?iso-8859-1?Q?bDeMtet6fFaQTr5gPugc+10SVOwkaA8Kmz0yNWw7ELYWfxnl0Z/hG3zcWv?=
- =?iso-8859-1?Q?pzsu861uWgrsbDIo47Njr8cfuMwAtdU/AM+MKxSHwEF/vQaLMAkVpc7A4W?=
- =?iso-8859-1?Q?LGWy2HqJ5fz2wc2giT1Yz1nkRO1Fa7m8p1j70KBS4JwKL7sdFwambmONVo?=
- =?iso-8859-1?Q?EJ5PgorKjbcY/n9WS0aYBcZguI2IjXUppQcIZO4Zes1sT9E0yW6FoISHnr?=
- =?iso-8859-1?Q?ZbLv3n5ZpcbE7dJZwglt69bIUBIdKsCqUX+S1Bk54Xy3Cub74jjpBSp1z0?=
- =?iso-8859-1?Q?kH43pCk1YHSrXfqydqioCk2jmAQ1+oQp3lngpT2Z+nApL0db4HLN63RQ9z?=
- =?iso-8859-1?Q?DSF9PrYmPeJ9I3Wv5P89rpI2SpPHLTFqybDNvITXkLopxDwOX7NR2V9cTq?=
- =?iso-8859-1?Q?TcAwk8IyQO2/ghiV4meoJKRC9lGDMP4+FjGS6+JZSehccQ3mdYRPLL9jss?=
- =?iso-8859-1?Q?ruc8Qr50ko5ludVbKW5z95baIZc1eYDX97NMPqIEGpIYHnE/9eAPa2vxRm?=
- =?iso-8859-1?Q?RqfhWlzezjgSNnYSf/Hk/WJbB/vl2bKcIvG0aYodBlfy9VE3KNe2Y4F6aF?=
- =?iso-8859-1?Q?HT92BP2lx2seYZofEGT0U0AVnWiC58eBYqlYoSob1dt3hX7SoIlzpVv+91?=
- =?iso-8859-1?Q?uU6PgV5QoESKXWMmfVXH4sKxMMLDyUKXxmzQ1hH3Tn2nn1EY8BAQMLABzY?=
- =?iso-8859-1?Q?NYwRz/2AWNaiz0coDkDvFujtjXRN1bENGmo9PHCpSN0nSDYiXIGplZ4rcs?=
- =?iso-8859-1?Q?AOCv1yG+rWERWcPAzIGLI0E31TxQ9g1gfFCKo8VVaXsA=3D=3D?=
+ =?iso-8859-1?Q?LnxXF8ZUlO89iiNJty3MSAjgWzamSp7KlwwTDaACYGxqc7yEtIhqmFQgyB?=
+ =?iso-8859-1?Q?GJLgVcgKeJrLEClz7NwQGMDaHoRqfaUuRL1XPiaEuFGCZl97qdXFWqlbfX?=
+ =?iso-8859-1?Q?n3vUnYFndqbF70iI4lAUMsbubwTrvSITphcE0UzJB1say3NHbZhj9Uxufb?=
+ =?iso-8859-1?Q?nrSxDk7kPPQQGTM7rN7JYfCPxjj8bgIV01SxDIoFOZykm5MEIYlOqUKgWM?=
+ =?iso-8859-1?Q?uhvTFxLbhoP2+oGbIiVJXbe60cK+Aoet3494/fHXtGdtP5vH9OmatZbFYZ?=
+ =?iso-8859-1?Q?10gZZAUGaiVV7FqN9JLTfXd0f88SfrqH3a580r9RgEucfePxvW2u5UpF9s?=
+ =?iso-8859-1?Q?eSYF/0UY/BVYjXvIQHtghS0sATPIhUR5mfJDdr+QS/G1yWsZdnvb0Rv65T?=
+ =?iso-8859-1?Q?jcmW7B1/2WALoIaNmhCWd+kK7LUy4VS7tCXguE2oEy0/SFGnMJeNjxkVUW?=
+ =?iso-8859-1?Q?kdUPC1hz39x/by9B57SnATNPb/9T1YWabycvEAtQEOQsMTLCYmYxtx5QG3?=
+ =?iso-8859-1?Q?BvRHginSH9GheGnE/s1NfVaHIYj0fTxMYV7bwaqkE7gHnVSrAm5DFQ9SFl?=
+ =?iso-8859-1?Q?iS+FXqoDCSxKgbhI74dGNw8Guxs1ZKAlGlouvyx6xK+nNW7CtRt7BQe64L?=
+ =?iso-8859-1?Q?NtHRj+404lUwc2qRYFXr2AkeMy+McxHLrM6Z8B+1llNxuUSZK5pstFsm0f?=
+ =?iso-8859-1?Q?ManLNk46SulsZev2Q6KYTi81NEoRPPFc/BL6XDjx5oQjzn+s2jtXgwcSDg?=
+ =?iso-8859-1?Q?im7fzN6VcQMFshvyFCY6lEyQNiw0bDdOnjPtrNE43nI651m6YVMtrYH4+v?=
+ =?iso-8859-1?Q?iJkDJNs0TjjtgLHy43Xt7YAiOIBuCU4iFlj72oGCVk4ePkNI7Bz6MhAk3O?=
+ =?iso-8859-1?Q?mo2y+OINq6k/hx+gGjHucpMYQzp0yfRTydtPqCqgnFeFJVRbHwzTomycGx?=
+ =?iso-8859-1?Q?0ST8+fIjCzVFxTUJXsfRXaXTX9dBKoXGDNEzR+qu3b1IR619BkYaFBWBVB?=
+ =?iso-8859-1?Q?gVlvUtWdpdwUvpjUUMJ+W8QAlxtNDiEnUUboqA9FRy/PsfLWQ6KpWCrL6N?=
+ =?iso-8859-1?Q?6qLH+88+LKBrTKebMPgdYIlWb8GMAFvT18uhQ7UhrtrcatCQBFTngOmsdW?=
+ =?iso-8859-1?Q?SRC04j2vqidrQJ7rj41zGJ//fpBXJFvAHge7ZG2ircZpStR3iVFJ0MdrJm?=
+ =?iso-8859-1?Q?hIQC96/mfZOswOwxH2pWOCCmkzZFbTP05Z8bsEjisv+U/G8ggZj0T2wQB/?=
+ =?iso-8859-1?Q?dDIuqJS23LcCIDZTyllIh99povALcbvSImcoRTNtrLHznjCHFkfRTaIzbu?=
+ =?iso-8859-1?Q?+tstLeMPMpefS/r7dtvrON1qe4BTSY6jOEJzZu3Rjd4TIKEjPy3AYczhvg?=
+ =?iso-8859-1?Q?QLi5UcNOGKCcpTr1pJ9/XbpADP09thsZyAv/LH+dSmhKlgoJIkbQFoUCv8?=
+ =?iso-8859-1?Q?IkjxFCIevsBnEVbhUuGR5Tzy641Y8kXOeVcj5eo9kjcA7bSP0YF0MKjulZ?=
+ =?iso-8859-1?Q?x7sPOFn3JA1V1XL1akHavLNFM89AJSYkY/JAR6k7w3B4+Zot/JxXUsbqdh?=
+ =?iso-8859-1?Q?SW3NXpA=3D?=
 x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SE1P216MB2647.KORP216.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(38070700018);DIR:OUT;SFP:1101;
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SE1P216MB2647.KORP216.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(38070700018);DIR:OUT;SFP:1101;
 x-ms-exchange-antispam-messagedata-chunkcount: 1
 x-ms-exchange-antispam-messagedata-0:
- =?iso-8859-1?Q?hVZYaWVBAgA8VlKx6IlebCFy05IR4p/L8GYQHTFarHkh/wyeNdqsTYNhUh?=
- =?iso-8859-1?Q?2thcu36B7bjBCHbtJllMvhy9aeVGSxCzByGRh18k7FjscgTYgDxJ3WEow+?=
- =?iso-8859-1?Q?n1Rz1agmxPXpFne7xBsAjk/r8KmM0XJ0148ybdrQwydNgpWuWxQYHUwYKb?=
- =?iso-8859-1?Q?CyShOLNGiKxZwOl7XWFYIJL+7nmmzqUu630C8nRHKGf6EZHbmY73hOSfWB?=
- =?iso-8859-1?Q?LhegIMpXNjT13ofWTYkt/r0usoEHCIUfTFjytadwsaLwCrOLnQ/vLyv+Gx?=
- =?iso-8859-1?Q?aIH7xE56qlcEfRiqkVIXvt0KDLtSUxLd/t57lgRanN5tQypI2arLVMfqBh?=
- =?iso-8859-1?Q?SNdPqmWl/Y4Z2mCPVF9Zz3nC/wZgFLAHQujUnwux4QfcjdB+w14OcZGJKH?=
- =?iso-8859-1?Q?aBY1kTG6+nrlaGBTTzZ3DKteLWBH/rmufma4/+AcWgiAdHOILV2wf8ljmc?=
- =?iso-8859-1?Q?SRSCVTidHBTvKPEHri3PzQFLYR2/m2xOEM8ezQgdaDy7mSUVRC2LWYBE/l?=
- =?iso-8859-1?Q?EV83Ajj/USM/QEXfxU2gDt+MqQ35kDRZT6JLfj79lshCoGQKyMX9BLs4Mc?=
- =?iso-8859-1?Q?DhY4QSeDjAm4NOaX1oPuTRs6RWBwm3fUezIJwkzEX507kFhDRo/kJm99Gj?=
- =?iso-8859-1?Q?wtQY0fDj4FGIxZHncHmZBbqzoqzQSd/xNw2VCzr5gjdBDW7vhmh6FLb57F?=
- =?iso-8859-1?Q?HKuGjRcUPRxpEMsPKPrW0Sc75vNbrPr1o1LgpG7t/eBaeaB0j+/vn2I0us?=
- =?iso-8859-1?Q?3Ridn+x3WqN8k71P5YGlXV4DY3S1Wp2XeBvhQtfcLz9iw7V5+qk1aH0tu8?=
- =?iso-8859-1?Q?qdcD6cQExavUye1W3wfSkkkYL1ncgei9776UfHIJ94SGgcdatD4KZRvNmi?=
- =?iso-8859-1?Q?epv42f9jX91vhc+PFanI09rXq4cjOH1oj0trd5280jJcKC1UUncwBE0QUg?=
- =?iso-8859-1?Q?SRTNVQ6ZYtZ9MI9QVzZ6kToQe6gsZHKwpBiCukN9J9iMTuwz3HdRhG2xkv?=
- =?iso-8859-1?Q?mYBbWvVdLZFdeA5K/GxKvX4qpTtlw10XxUHDDltThQElE65+typk3ZKODD?=
- =?iso-8859-1?Q?NchuEaaofmM+IUsZFp6uuf0XVGu4TrOso1+K6aQqAc2qPZKsPQLrzVsZHs?=
- =?iso-8859-1?Q?xea7FrlHS2diUOUSK+qQPiOIr7NjnG4C5WmNLDIPJG7xbhBJSVOPx3IFVL?=
- =?iso-8859-1?Q?rBarYXkTqUTyOv7bO6BaoKaRfVbxxZ7SPwFIpSzr7MuZ0Qmo0qARwNrWDF?=
- =?iso-8859-1?Q?LPXuzGL0UYIHSA0/nxCN9fUVQ33pLT5X5kiUqyNuWtTJ3KUvW0siP6j6pe?=
- =?iso-8859-1?Q?r0G7Msj6Mb5uvRldMsfavTlRlLsiQ8PDDG7TbgBvvlHUPdWiEsEZvbkUh1?=
- =?iso-8859-1?Q?95RsTSH3oXcfosP/InyaBYqO00w2nNF+SziDUFBbbIlWMy+CWrYLiSDgIk?=
- =?iso-8859-1?Q?WwmkwdTAIR8Y7J4UGNz5TlX7HXrqEqxVevvauwiyn46CQmvvXEWM5+i8BT?=
- =?iso-8859-1?Q?bX+Me9hS1mYkMHo8hXj8qU37OoYwUQjlfJB1378lUDPgjemBVsSxLJ1SDh?=
- =?iso-8859-1?Q?ARqJ87+NbaL13fWzj6l3ytTtg/ycmwt3Mkqt5TrHttO0sqg3GvhHhvPb6x?=
- =?iso-8859-1?Q?G4+MK9iKwpkIU2M/D0VKUOmlE5e+bkl9Z7?=
+ =?iso-8859-1?Q?q9rwub+mvxEPA4NmTTsRnkg+SWWoaVW4KrLoBB0kwSaInBsdfxOFcZH7jK?=
+ =?iso-8859-1?Q?h78y311ffV3OOr656dVuO9Kwl63bnBpxGnA8yvmp63czlouxnrMAPsLCdm?=
+ =?iso-8859-1?Q?1q9vef0ZI7vm7qG0JpLsd4YL3CodJFGdwudqejMZht2MMqmnKfsrQoMKId?=
+ =?iso-8859-1?Q?eg48PwTRFuPnoTyktol1+lLp/LlNAORBjuoyu7gEcJCFIkMMdx/MHw9qm/?=
+ =?iso-8859-1?Q?s6AlsxiExTFlHBlDA7TPr6B1s9eVNgskjOtzbElEPvqSCKK3pW1Unqqm8q?=
+ =?iso-8859-1?Q?NKYM2oLL/DVmgnnrywPH6B64mdNMOFNypLHyn85DWCAXDT44UV7P4cNPH5?=
+ =?iso-8859-1?Q?LQ9xh5P429eynrKQdSpWdm+wfERzbgWQwxDniOcalm4m+9F034VyBYEEgE?=
+ =?iso-8859-1?Q?Pq9jn6D9dX2/34zCRsAEpbEAO8etwzD4tAHWl24b+LGFqaaoUpQdrBzPhN?=
+ =?iso-8859-1?Q?PAUIM1di9jj9oeMf7aRU8a+j70pktbx5g07vnR1Gwsg9+99ZQzZHmLCIYn?=
+ =?iso-8859-1?Q?zDFOn/sks29f+nVOAj0DtBdOulxDyxLMOnwJeKUelQUIZst005ytP8z7n7?=
+ =?iso-8859-1?Q?DpGzOKiovuu+BctNW+qrUU3gA4G9c49o+Um9ME24wTiJx4r3PdCRM0/1yi?=
+ =?iso-8859-1?Q?u18nx3AJ2e1/3l00oFKQbb8nueUVrL2cf+nVwvUtSQoLHpt7MQkGhT+s4Q?=
+ =?iso-8859-1?Q?i77qOmkzGD0vv8uoGj80Th6dU78yEIYdAs/Lx42Bo7rH/1mPgDvxLnJOhm?=
+ =?iso-8859-1?Q?1zoD3ueEnFcDXp6686XPfEiK5eawmehua0BeuJuJ40VFkMTfmjK4oEFyR1?=
+ =?iso-8859-1?Q?lzy2iBtbAoftzUlkgtAPRoWPnm4Y40j3GTPmPeC5uAdDc6Vy0mAMikY316?=
+ =?iso-8859-1?Q?Kma20b/tmXQjGbLGndG857hTGhKWu9wokyl1+YuJplyIn6C2y2QFBe/kB7?=
+ =?iso-8859-1?Q?KnWxKKcCzSlYSvKS/5I3hrrDjeBRjU0RmOjHIGeX7kbiMA/DQ9j0Yujkg5?=
+ =?iso-8859-1?Q?tizcT/yKjohgENMk1DG3uvnG25w7a1yDoRTMDkkccxZwZCO+bBWYqRc0EH?=
+ =?iso-8859-1?Q?IwUHXQaYvSvJpGyz59ls+OSPVGhmylgJJl3RaunG7hcZWkKsNT3k0jVof5?=
+ =?iso-8859-1?Q?QV7atZtZ132t+g9xb6LIYUXrM/iCdCwbJcXBR8jJeYqKZ0H6ypYuQSllh/?=
+ =?iso-8859-1?Q?DQQOnMYFtTGHHnQ5h0TRpDPAQ21RAu9uHAUPYG8rRjKQb2e1GB14ydJHBq?=
+ =?iso-8859-1?Q?d7apTgM2u7Ot1eUWGqD185c6eQlhO0Qmv6MXv7mcM1nEPd4Jj0mMVa4wfI?=
+ =?iso-8859-1?Q?ncy2UO7EOz9zHoMe23Ao6qeWOF///TCHfwzxTAAiN4/WhDPAQmV1LoprbY?=
+ =?iso-8859-1?Q?ult/2QI1b9wKGY8IoudURNMlg2+9Q5rmVjtcCIUthzR0ql5bGHFdbfeN4M?=
+ =?iso-8859-1?Q?LOJVnEpic39M3sWsOOXmrUpP/IsMlj82+NYxUEw2iG7rPHH0iXuY0iQCxC?=
+ =?iso-8859-1?Q?b84L+CjUgqGFZcigj8610qT9u3MQ3cxsoTye53VDeakTbr1JfB2DOR3QIP?=
+ =?iso-8859-1?Q?LYwsN0FNNZP5gCihECuTmjI9Pb7e+zB085mnI5Wl6JbP49h8yNZMXVZTYl?=
+ =?iso-8859-1?Q?VHF06mvflYcoOIdkNEA4ee0zyMClIkLYU1?=
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
@@ -140,81 +141,51 @@ MIME-Version: 1.0
 X-OriginatorOrg: lge.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: SE1P216MB2647.KORP216.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: 97f3b23c-7950-42dc-bf38-08dda1a1a3c2
-X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Jun 2025 06:49:36.5538
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7e850747-b6b3-4978-6139-08dda1a14c5f
+X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Jun 2025 06:47:09.9251
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 5069cde4-642a-45c0-8094-d0c2dec10be3
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 0dOiqUOH9olqBPoEq+vT5lRIUsGsTeUH6Il9DnIdNfC3kY86/cQYLxZ+Z1o/pIM3Xi6aueCBOlj7feyVu1SyCA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SE2P216MB2279
+X-MS-Exchange-CrossTenant-userprincipalname: yt7BWDF1mJiptBTlRlQ6OZ+6Bx3CNkqGAxyxZjOwqsBRuJoIyBccR6gX+TWXC4pMfHvCf+beqrFFfOhSLx8THw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PUYP216MB3016
 
-From: Shailesh Rathod <shailesh.rathod@lge.com>=0A=
-Date: Wed, 23 Apr 2025 17:48:14 +0900=0A=
+From: Shailesh Rathod<shailesh.rathod@lge.com>=0A=
+Date: Mon, 21 Apr 2025 18:38:01 +0900=0A=
 =0A=
-Add null check in prepare_target to avoid SIG=3D6=0A=
+Handle empty passphrase setting in wifi/tethering/setState=0A=
 =0A=
-When Ethernet is connected and an attempt is made to enable the SoftAP,=0A=
-a SIGSEGV (signal 6) is observed.To prevent this, add a null check to=0A=
-avoid the segmentation fault.=0A=
+While setting WiFi tethering only cases for PSK enabled=0A=
+network was handled. Add case to allow empty password for Open SSID too=0A=
+For certain application enabling softap without PSK is required.=0A=
 =0A=
 Signed-off-by: Shailesh Rathod<shailesh.rathod@lge.com>=0A=
 ---=0A=
-=A0src/iptables.c | 11 ++++++-----=0A=
-=A01 file changed, 6 insertions(+), 5 deletions(-)=0A=
+=A0src/technology.c | 12 ++++++++++--=0A=
+=A01 file changed, 10 insertions(+), 2 deletions(-)=0A=
 =0A=
-diff --git a/src/iptables.c b/src/iptables.c=0A=
-index a81a077..54e04d3 100644=0A=
---- a/src/iptables.c=0A=
-+++ b/src/iptables.c=0A=
-@@ -2746,20 +2746,21 @@ static struct xtables_target *prepare_target(struct=
- connman_iptables *table,=0A=
+diff --git a/src/technology.c b/src/technology.c=0A=
+index 719c680..1bcd184 100644=0A=
+--- a/src/technology.c=0A=
++++ b/src/technology.c=0A=
+@@ -1045,8 +1045,16 @@ static DBusMessage *set_property(DBusConnection *con=
+n,=0A=
+=A0 =A0 =A0 =A0 if (technology->type !=3D CONNMAN_SERVICE_TYPE_WIFI)=0A=
+=A0 =A0 =A0 =A0 =A0 =A0 return __connman_error_not_supported(msg);=0A=
 =0A=
-=A0 =A0 switch (table->type) {=0A=
-=A0 =A0 case AF_INET:=0A=
-- =A0 =A0 =A0 if (xt_t->x6_options)=0A=
-+ =A0 =A0 =A0 if (xt_t->x6_options && xt_t->option_offset){=0A=
-=A0 =A0 =A0 =A0 =A0 =A0 iptables_globals.opts =3D=0A=
-=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 xtables_options_xfrm(=0A=
-=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 iptables_globals.orig_opts,=0A=
-=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 iptables_globals.opts,=0A=
-=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 xt_t->x6_options,=0A=
-=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 &xt_t->option_offset);=0A=
-- =A0 =A0 =A0 else=0A=
-+ =A0 =A0 =A0 }else if(xt_t->extra_opts && xt_t->option_offset){=0A=
-=A0 =A0 =A0 =A0 =A0 =A0 iptables_globals.opts =3D=0A=
-=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 xtables_merge_options(=0A=
-=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 iptables_globals.orig_opts,=0A=
-=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 iptables_globals.opts,=0A=
-=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 xt_t->extra_opts,=0A=
-=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 &xt_t->option_offset);=0A=
+- =A0 =A0 =A0 err =3D __connman_service_check_passphrase(CONNMAN_SERVICE_SE=
+CURITY_PSK,=0A=
+- =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 str);=0A=
++ =A0 =A0 =A0 /* Allow empty passphrases for setting up an AP with open=0A=
++ =A0 =A0 =A0 =A0* security type */=0A=
++ =A0 =A0 =A0 if (strlen(str) =3D=3D 0) {=0A=
++ =A0 =A0 =A0 =A0 =A0 g_free(technology->tethering_passphrase);=0A=
++ =A0 =A0 =A0 =A0 =A0 technology->tethering_passphrase =3D NULL;=0A=
 + =A0 =A0 =A0 }=0A=
-=0A=
-=A0 =A0 =A0 =A0 if (!iptables_globals.opts) {=0A=
-=A0 =A0 =A0 =A0 =A0 =A0 g_free(xt_t->t);=0A=
-@@ -2768,21 +2769,21 @@ static struct xtables_target *prepare_target(struct=
- connman_iptables *table,=0A=
-=0A=
-=A0 =A0 =A0 =A0 break;=0A=
-=A0 =A0 case AF_INET6:=0A=
-- =A0 =A0 =A0 if (xt_t->x6_options)=0A=
-+ =A0 =A0 =A0 if (xt_t->x6_options && xt_t->option_offset){=0A=
-=A0 =A0 =A0 =A0 =A0 =A0 ip6tables_globals.opts =3D=0A=
-=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 xtables_options_xfrm(=0A=
-=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 ip6tables_globals.orig_opts,=0A=
-=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 ip6tables_globals.opts,=0A=
-=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 xt_t->x6_options,=0A=
-=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 &xt_t->option_offset);=0A=
-- =A0 =A0 =A0 else=0A=
-+ =A0 =A0 =A0 }else if(xt_t->extra_opts && xt_t->option_offset){=0A=
-=A0 =A0 =A0 =A0 =A0 =A0 ip6tables_globals.opts =3D=0A=
-=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 xtables_merge_options(=0A=
-=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 ip6tables_globals.orig_opts,=0A=
-=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 ip6tables_globals.opts,=0A=
-=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 xt_t->extra_opts,=0A=
-=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 &xt_t->option_offset);=0A=
--=0A=
-+ =A0 =A0 =A0 }=0A=
-=A0 =A0 =A0 =A0 if (!ip6tables_globals.opts) {=0A=
-=A0 =A0 =A0 =A0 =A0 =A0 g_free(xt_t->t);=0A=
-=A0 =A0 =A0 =A0 =A0 =A0 xt_t =3D NULL;=0A=
++ =A0 =A0 =A0 else=0A=
++ =A0 =A0 =A0 =A0 =A0 err =3D __connman_service_check_passphrase(CONNMAN_SE=
+RVICE_SECURITY_PSK,=0A=
++ =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 str);=0A=
++=0A=
+=A0 =A0 =A0 =A0 if (err < 0)=0A=
+=A0 =A0 =A0 =A0 =A0 =A0 return __connman_error_passphrase_required(msg);=0A=
