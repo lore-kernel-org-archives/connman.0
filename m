@@ -1,183 +1,146 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+Received: from mail-ot1-f46.google.com (mail-ot1-f46.google.com [209.85.210.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5675926290
-	for <connman@lists.linux.dev>; Tue,  3 Jun 2025 13:45:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25DC81FC7D9
+	for <connman@lists.linux.dev>; Wed,  4 Jun 2025 21:21:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748958357; cv=none; b=nJBMBnUiQzk4RWzpdsqfOyrZA68XUvq0/7T55BnJjx57VsMkIxiPlvVtXh3e8YaRsFLRk5MaLaNQ4ysmcvYXrlwrs6qSMRtihy+hSgyfW1cZpI/ydjF8JQH7p9inViYfGhsnPf16w2gkJhPdwGwkhOfVTksXGbnWSm/z7Zp3CDU=
+	t=1749072092; cv=none; b=ViAzJ/Ag6BQQqh35FPTytHJDo9pPQ6qCW/dAadolKDL1mWaG9OKpfdmEQlrJEwb2cwAOaQCCkkfJ9JZixIUOfkAucAvr8mbT6wjRkadWV8lPmyoKPdYi3Dgj5N6HMNgJ7Sx/bT8k/ky0UyW7O1crY8xUGhdmj9pHQ341lH3WEq0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748958357; c=relaxed/simple;
-	bh=OZE9J4TPhROre83vMwoqq4j0uOnWYwDXdh/baLpqNIE=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=rvtvqU03bwFaDthR8R30ExK1DZ6JqrPWiPufdmXyJZ3onHdNhsFQVxDRtx0VBUNpy95eOp+KEhaVcfast5J3hZuLtYYhztfUFQCAg8szZbQgXVEqGGq2yDFEhhOKiffLnPf1ZPWODUzPh9R+4HP9RcEkt06aHVmP9qGC6bFILxU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=amarulasolutions.com; spf=pass smtp.mailfrom=amarulasolutions.com; dkim=pass (1024-bit key) header.d=amarulasolutions.com header.i=@amarulasolutions.com header.b=l+5uqc6X; arc=none smtp.client-ip=209.85.128.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=amarulasolutions.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amarulasolutions.com
+	s=arc-20240116; t=1749072092; c=relaxed/simple;
+	bh=3bRkRRM3jDmTOdbPguOFw24jDiJKBKEGxkjOFVIBNMI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=pZkD1K5UIrBexJ6lE6n13vh7C8SSmxu9cYBjqcv+ouEumJFSOJSvXf7E+QxWgYPRmv1ldiijVCDiN+ZzO9bJaAvXtUZFMF7L6CN5Ah5iqu/kxHVAB0EWuMxa8rkLc/ybpFhTuMAwuxycjxr5J8of82DKWF48U8iWQBoAS8X3qhg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lHWI/Q2V; arc=none smtp.client-ip=209.85.210.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amarulasolutions.com header.i=@amarulasolutions.com header.b="l+5uqc6X"
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-451d3f72391so36929945e9.3
-        for <connman@lists.linux.dev>; Tue, 03 Jun 2025 06:45:53 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lHWI/Q2V"
+Received: by mail-ot1-f46.google.com with SMTP id 46e09a7af769-72c27166ab3so167014a34.1
+        for <connman@lists.linux.dev>; Wed, 04 Jun 2025 14:21:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amarulasolutions.com; s=google; t=1748958351; x=1749563151; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=xZzP51eVJYRSAvjqHR3U+vrKowTxxoMgdXUbX7xOG8g=;
-        b=l+5uqc6XU1lRWNCLkcAp84NJG3nIPZrXaqix9e/Zi3U6Q8ACwK7gAjd2Hgme6/BH72
-         GqQOscONrSo/D2xvDfsfywKDTsRy90L2h8sVKjEzJxKCtIpVExtZ1tlWh6IyNgfAiSPB
-         InSGBRbIgBvFPEb/VxtB/zdHm3RhkvUoX1eJU=
+        d=gmail.com; s=20230601; t=1749072089; x=1749676889; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=/4L8m++yPeUz6PhGeDtATIlfyZMz2ZyIeAvIRGv43XM=;
+        b=lHWI/Q2ViE0qLmuhlSm4Q5vU6+OWTmNGU8S/r/K9krjHKE3i+/lXVrkCeH1ItA96EA
+         saceSbPH9hr867hTeCQVfKY5SWglExXgToAZ7WYC2rYho0OkyqswIW1Z9BkbcyUYsbQJ
+         ku6/jL/VQSARYKajmBPsb5qDgaxPLFPzCc6AkuxtoRACa4+s4kXBlBneEuTFmsemwPV1
+         TyROa9oCyXIiMR4o/1H62jqLWkZ1BSptYWrbe1GbtoFhqx0Fv240+OoTxUz3rcX8UIuk
+         AavNZ7BQ3mLePk8f6wJRcsh0EHgbTfnGtNwBU5O5obFenEWI27yZfeSzy8Dzi7OJoQHz
+         JqEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748958351; x=1749563151;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=xZzP51eVJYRSAvjqHR3U+vrKowTxxoMgdXUbX7xOG8g=;
-        b=hNPlpUjP+o5TzR2tnwg6+lQ/nBa9qU6oQ/Q9I76duYxG1QLrrdQ7bmVai6f1o0qDc7
-         QZhJMXz+ljDp9N09mK7HOFPm/kgjtYshhn4UpeUNIFAomO2rqUEeXw30MRjqvgHG/72M
-         vJ392QDdxV0swG0WlnrV5D1/ATA/aKIwqWjYzsT55DD31xXlhYLmM3DYxcyK9uaXLM3V
-         pCiROIRULS11YJyfPGL3zIeghR4nDyKd7//EpYWrMLz5sUEmifV77pcI5odOOUDRIo9X
-         ZOYbcTSlvD8aifJ8ZJ4sjJgjANHbewgrYb0wjmstTk58YPik5aMR9m4SoaDFSY3/8mN4
-         kqyA==
-X-Gm-Message-State: AOJu0Yy24KuHJ6P6BstBck0jsB1mB9EidWHFtAjqJr7QOPJQKbhPVMgf
-	7U0g1MdkFw9JarLsIyn/F4gWoPBvHu7BkGzH5y/kvO2MBlqwWWlhjCtXBei+WaBLQA3J5GRGWfz
-	Ca3DdFfeD/g==
-X-Gm-Gg: ASbGncvQDJD+6Cu0hJko8DW3TGFkoWK0/xNtZT384PTjBDoLGG0NtEITlXvTynCobiz
-	38yhlxP+WHoKnWkx13YFHXbjdsooQMu4lq8bj6cJWE3Tu9odUn0yhIK/abGTnkX2NhTgVw8mjb+
-	y1zhNKjlvyxRZbCRMn1o6LKeSLku98X4+hv5fiELvXFYo+XqN2+lImELyf0aSPTWtkQT81VeOAE
-	gJn2powZzdW9UhVM4SjUfawE5bcrDFgSEaDE3If+y2Mn8pZIEVlDFGSlV9hNRoBhWdvm6IVnXq3
-	NGH8Sqc/ZRfiut1e9n04Mu4npDiCoqBfIFcqkgB2m9wx59Rs+muOwPzw0m81zQHBXdXWw/XO5TL
-	P7W34udCCr8rj8z/5S6XFOQ==
-X-Google-Smtp-Source: AGHT+IE9QSmWYCHCgU/Q+TGobsPM3hLBMXvvMZiCOWo7jcNBmK/U37Bdj8KcDm5HsJFbLpp5KYWFcA==
-X-Received: by 2002:a05:600c:4f87:b0:442:cd03:3e2 with SMTP id 5b1f17b1804b1-450d87fd991mr157437025e9.2.1748958351420;
-        Tue, 03 Jun 2025 06:45:51 -0700 (PDT)
-Received: from localhost.localdomain ([2001:b07:6474:ebbf:a6f7:2a98:84af:9b39])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-450d8013e0esm161438535e9.39.2025.06.03.06.45.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Jun 2025 06:45:50 -0700 (PDT)
-From: Andrea Ricchi <andrea.ricchi@amarulasolutions.com>
-To: connman@lists.linux.dev
-Cc: denkenz@gmail.com,
-	linux-amarula@amarulasolutions.com,
-	michael@amarulasolutions.com,
-	jussi.laakkonen@jolla.com,
-	Andrea Ricchi <andrea.ricchi@amarulasolutions.com>
-Subject: [PATCH v3 2/2] timezone: Replace Localtime file copy with symbolic link
-Date: Tue,  3 Jun 2025 15:45:42 +0200
-Message-Id: <20250603134542.67627-2-andrea.ricchi@amarulasolutions.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250603134542.67627-1-andrea.ricchi@amarulasolutions.com>
-References: <20250603134542.67627-1-andrea.ricchi@amarulasolutions.com>
+        d=1e100.net; s=20230601; t=1749072089; x=1749676889;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=/4L8m++yPeUz6PhGeDtATIlfyZMz2ZyIeAvIRGv43XM=;
+        b=cWd3irF5UZe8wl/PncVS1X5UjYhrIoVuIuQnRqOoJhekhEv6GZSn1ue0zKNtcm30E9
+         Hw/pxwXwIOkva+BB2zLCKd/pwAxlWBH1YO3sUG3ekF3q+TuLGuGjAQyUmokV0O9efs0x
+         Y7y/T1zOjHs+PbmpziZ+MTbB941rK/kfg24eiDSLgYJX17PbBzN4En8KdN5Zt+28uurL
+         zksI2QUi+FMRKXldC3yzA0vs/BjTOiCdU60GcXNg8uPR8OySwEnStYKpa7KryDm3UCTi
+         n/CMLmry7DWoD9dsQAbiDFT9PqyfQc3aSoDCzSBRFQ3YNnw7Jg7U95keJvvKWN9rc8ZT
+         SPvQ==
+X-Forwarded-Encrypted: i=1; AJvYcCX02YMuYaD6bSBaFRZLMRFJ1OVrGtscjjvHF2/Ion7+jBcYVZB1uoedULbqWMBZn1X8/6f7P5mF@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy/t3ERs55L+SjSynRLE+jcM72p1Qqew1Y1gYfenGcVOm+xDh4c
+	N40E6X7w+0Slri2NvPq708PjfWck5JLzRqeuksVlEXqHPMozyjJjiK3s
+X-Gm-Gg: ASbGncs+MtuxaxN3K2Jb88Eint55F7gkfAaDDoJnTtLjpHWfGIeMFV8MOGA1vi2anZF
+	Ftq6WiWsOafd2u265uVMPjMYQCkB26xovb7VwwySJRQ70tqwuZona1ArerGFcclaJVPdYzjAa3g
+	yj8YAIW+V3c+EMzA68SIi/fOHnL25BerIkZjh82mi74APzjLTBv6NXPmky4Ndu9yCHlJebZ7vZj
+	tJo3U2fnii7W84ujf7JPrSihhrRGw4cxtBhBc32NvsdW8pgAyoNRiaSz/xXw/YjMsQIltesJbEA
+	gck+4nnhgLlPqj0I4JATEXQv1nTKnhEaOLhk4wMey+ofvhz6uxUkS166vq3WrMJyaMYQa5/7Jmw
+	V0rw8rHzbmg5BtRU6x1f35nCcBVQ=
+X-Google-Smtp-Source: AGHT+IGehXE3nNHwyoaSHBaN4WuNNuwGh4QKHO6+uKbqCIKZFV0K0pHpnjNS8Z1N0qPGQwTf86EwCQ==
+X-Received: by 2002:a05:6830:498b:b0:72b:a5e0:f76 with SMTP id 46e09a7af769-73869c18e49mr3462460a34.4.1749072089036;
+        Wed, 04 Jun 2025 14:21:29 -0700 (PDT)
+Received: from [192.168.1.20] (syn-070-114-247-242.res.spectrum.com. [70.114.247.242])
+        by smtp.googlemail.com with ESMTPSA id 46e09a7af769-735af82d2d0sm2385614a34.9.2025.06.04.14.21.28
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 04 Jun 2025 14:21:28 -0700 (PDT)
+Message-ID: <8bcaedcf-a539-40db-9943-fcfa708501c3@gmail.com>
+Date: Wed, 4 Jun 2025 16:21:27 -0500
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] connman : Handle empty passphrase setting in
+ wifi/tethering
+To: Shailesh Rathod/LGSI GPOS Dev <shailesh.rathod@lge.com>,
+ "connman@lists.linux.dev" <connman@lists.linux.dev>
+Cc: Vasu Kantubukta/LGSI Connectivity Team <vasu.kantubukta@lge.com>
+References: <SE1P216MB2647E4A28FE116C4D93FF7B5F062A@SE1P216MB2647.KORP216.PROD.OUTLOOK.COM>
+Content-Language: en-US
+From: Denis Kenzior <denkenz@gmail.com>
+In-Reply-To: <SE1P216MB2647E4A28FE116C4D93FF7B5F062A@SE1P216MB2647.KORP216.PROD.OUTLOOK.COM>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-Based on the `man 5 localtime` documentation the `/etc/localtime`
-file is expected to be a symbolic link, not a standalone
-regular file.
+Hi Shailesh,
 
-This change replaces `write_file` with `write_symlink`, avoiding
-unnecessary file I/O and memory mapping. It ensures Localtime accurately
-reflects the selected timezone without duplicating data. This also
-fixes `__connman_timezone_lookup()`, which requires Localtime to be a
-symlink to function correctly.
+On 6/2/25 1:47 AM, Shailesh Rathod/LGSI GPOS Dev wrote:
+> From: Shailesh Rathod<shailesh.rathod@lge.com>
+> Date: Mon, 21 Apr 2025 18:38:01 +0900
+> 
+> Handle empty passphrase setting in wifi/tethering/setState
+> 
+> While setting WiFi tethering only cases for PSK enabled
+> network was handled. Add case to allow empty password for Open SSID too
+> For certain application enabling softap without PSK is required.
 
-Signed-off-by: Andrea Ricchi <andrea.ricchi@amarulasolutions.com>
----
+This patch (at least the whitespace) looks like it is being mangled by your mail 
+server?  I can't apply it:
 
- Changes v2 -> v3:
-  - Splitted commit
+[denkenz@archdev connman]$ git am 
+~/Downloads/connman-Handle-empty-passphrase-setting-in-wifi-tethering.patch
+Applying: connman : Handle empty passphrase setting in wifi/tethering
+error: corrupt patch at line 10
 
- Changes v1 -> v2:
-  - Change commit message
+See for yourself here: 
+https://patchwork.kernel.org/project/connman/patch/SE1P216MB2647E4A28FE116C4D93FF7B5F062A@SE1P216MB2647.KORP216.PROD.OUTLOOK.COM/
 
- src/timezone.c | 49 +++++++++++++------------------------------------
- 1 file changed, 13 insertions(+), 36 deletions(-)
+> 
+> Signed-off-by: Shailesh Rathod<shailesh.rathod@lge.com>
 
-diff --git a/src/timezone.c b/src/timezone.c
-index 89c44895..9b820477 100644
---- a/src/timezone.c
-+++ b/src/timezone.c
-@@ -507,28 +507,20 @@ done:
- 	return zone;
- }
- 
--static int write_file(void *src_map, struct stat *src_st, const char *pathname)
-+static int write_symlink(const char *target, const char *link)
- {
- 	struct stat st;
--	int fd;
--	ssize_t written;
- 
--	DBG("pathname %s", pathname);
-+	DBG("pathname %s", link);
- 
--	if (lstat(pathname, &st) == 0) {
--		if (S_ISLNK(st.st_mode))
--			unlink(pathname);
-+	// Remove existing file or symlink if it exists
-+	if (lstat(link, &st) == 0) {
-+		if (S_ISLNK(st.st_mode) || S_ISREG(st.st_mode))
-+			unlink(link);
- 	}
- 
--	fd = open(pathname, O_WRONLY | O_CREAT | O_TRUNC | O_CLOEXEC, 0644);
--	if (fd < 0)
--		return -EIO;
--
--	written = write(fd, src_map, src_st->st_size);
--
--	close(fd);
--
--	if (written < 0)
-+	// Create the symbolic link
-+	if (symlink(target, link) < 0)
- 		return -EIO;
- 
- 	return 0;
-@@ -537,33 +529,18 @@ static int write_file(void *src_map, struct stat *src_st, const char *pathname)
- int __connman_timezone_change(const char *zone)
- {
- 	struct stat st;
--	char *map, pathname[PATH_MAX];
--	int fd, err;
-+	char pathname[PATH_MAX];
-+	int err;
- 
- 	DBG("zone %s", zone);
- 
- 	snprintf(pathname, PATH_MAX, "%s/%s", USR_SHARE_ZONEINFO, zone);
- 
--	fd = open(pathname, O_RDONLY | O_CLOEXEC);
--	if (fd < 0)
-+	// Just check that the file exists and is a regular file
-+	if (stat(pathname, &st) < 0 || !S_ISREG(st.st_mode))
- 		return -EINVAL;
- 
--	if (fstat(fd, &st) < 0) {
--		close(fd);
--		return -EIO;
--	}
--
--	map = mmap(0, st.st_size, PROT_READ, MAP_SHARED, fd, 0);
--	if (!map || map == MAP_FAILED) {
--		close(fd);
--		return -EIO;
--	}
--
--	err = write_file(map, &st, connman_setting_get_string("Localtime"));
--
--	munmap(map, st.st_size);
--
--	close(fd);
-+	err = write_symlink(pathname, connman_setting_get_string("Localtime"));
- 
- 	return err;
- }
--- 
-2.34.1
+ConnMan doesn't use Signed-off-by tags, so please leave these out in the future.
 
+> ---
+>   src/technology.c | 12 ++++++++++--
+>   1 file changed, 10 insertions(+), 2 deletions(-)
+> 
+> diff --git a/src/technology.c b/src/technology.c
+> index 719c680..1bcd184 100644
+> --- a/src/technology.c
+> +++ b/src/technology.c
+> @@ -1045,8 +1045,16 @@ static DBusMessage *set_property(DBusConnection *conn,
+>          if (technology->type != CONNMAN_SERVICE_TYPE_WIFI)
+>              return __connman_error_not_supported(msg);
+> 
+> -       err = __connman_service_check_passphrase(CONNMAN_SERVICE_SECURITY_PSK,
+> -                           str);
+> +       /* Allow empty passphrases for setting up an AP with open
+> +        * security type */
+> +       if (strlen(str) == 0) {
+> +           g_free(technology->tethering_passphrase);
+> +           technology->tethering_passphrase = NULL;
+> +       }
+> +       else
+
+Please refer to the Linux Coding Style guidelines.  Should be '} else'
+
+> +           err = __connman_service_check_passphrase(CONNMAN_SERVICE_SECURITY_PSK,
+> +                           str);
+> +
+>          if (err < 0)
+
+The compiler should complain here since err might not be initialized in all 
+cases (in the strlen(str) == 0 case).
+
+>              return __connman_error_passphrase_required(msg);
+> 
+
+Regards,
+-Denis
