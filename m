@@ -1,35 +1,64 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A893C15746F
-	for <connman@lists.linux.dev>; Thu,  5 Jun 2025 14:59:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A99CC191F7E
+	for <connman@lists.linux.dev>; Thu, 26 Jun 2025 07:28:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749135598; cv=none; b=PaoN5S45m1KWAVpo0Zw4IzpOADYZuJ18I6xLgT6gqT2W7SIKLJNw67I5s3thpUML9fUdEw5mai8q2yyt+mHYAqe+KF/FbBKoFExLTsWWcvaHTwa1fnjjafqlTuPe9KLJCdjIUu8Vwkg8P/LCOFFzLpyUwgSEbDgAOjEJQwUmHAY=
+	t=1750922921; cv=none; b=FBQWNmalLedy3qFd0BcMI8unIpIL3JsGFK9YJEwdegGrwNGWmPOjPYbWDB7iV9Q6coPMFIDyGX48GJpEY9ajv5crbI2mt6fmgUmuHJ3aO11Tw03CtaSQA0u9wbRumx3hOE3+0FYkHzwQXnM47jOfh+88fhOWpRAAU31Z/CP0GZM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749135598; c=relaxed/simple;
-	bh=0d1qkmMKq2xJ4zknxe7wcpkus8CsQh1pz/43hZJYFVI=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=qLROQ+PuF7giF3mdnoI+SZpcAt2DZ4grRHtCnm5ur4ehFBplPUx65qn3aThhQge1/Hl32aiGQJRTeznAtutcJYVrivk6CiU12A5jXXeLKHUh8L6qDgd+g6fh39gyJHOqVjGfxiHPgV/vzer+gtyNKMt3fjj5Be/7bxRdcPNToB8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QxxzoA6U; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1750922921; c=relaxed/simple;
+	bh=+s0nuCq1Q3DYdxTp30NaklEpGODPqO8jSmiFll2SlVs=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version; b=JrUnq//GfiBX1mWJnlpiTEiNySCQHtHYKB0fIooN9zm35Z5CyZCIiCkoZwLXckvtuQpxg16/1kqyfhLXzXKyO/EY7doRD/1JNFKSqWTTs4cL5s7MsTVtR1iAAPvfbyxUw0jZjJvFSupam46JvnJYr8j5UbDEu+pAbA0gppOwCqA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=amarulasolutions.com; spf=pass smtp.mailfrom=amarulasolutions.com; dkim=pass (1024-bit key) header.d=amarulasolutions.com header.i=@amarulasolutions.com header.b=LND3XOFy; arc=none smtp.client-ip=209.85.128.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=amarulasolutions.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amarulasolutions.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QxxzoA6U"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1380EC4CEE7;
-	Thu,  5 Jun 2025 14:59:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1749135598;
-	bh=0d1qkmMKq2xJ4zknxe7wcpkus8CsQh1pz/43hZJYFVI=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=QxxzoA6U2y4Mog2PtYHvc/K4v24siYSRpHLXF5hu2PIWxgEcofZiF5GAGUHIoKTA1
-	 OOnxotvEPHxlXwZ/to9+t3iL+2D5657pZaohW3LrngYN1JJBKQoH5NHPx1ywEVx252
-	 7miFHGGt+cb3rxghr8z93IOgOy38J+fUCYbEthWau3ih6/ywv2iZp9jbfAS0XgP9gv
-	 rFMC2o29ARp7Xop4bHUMIeIg4kaWJneJ4H+/Zh4wCoik0R2gJY5B+9oAe04BGUewUp
-	 tvwA9MKT/qs96izzpUZS8ezIlijHhtAk4FZ7WSOMM5U+mcyXcWegbcpRHwyWanjhLw
-	 GLoAxjBupLU1Q==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 33E4F38111D8;
-	Thu,  5 Jun 2025 15:00:31 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (1024-bit key) header.d=amarulasolutions.com header.i=@amarulasolutions.com header.b="LND3XOFy"
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-451e2f0d9c2so4523235e9.1
+        for <connman@lists.linux.dev>; Thu, 26 Jun 2025 00:28:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=amarulasolutions.com; s=google; t=1750922915; x=1751527715; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Uvh9Ej5ffyLrN+pRxR3PgJtopR+gCpW3zccB2EzJW9Q=;
+        b=LND3XOFy4uIwHsG1B3PtjwShM/FX9zznvq7+VjBxmrE9f5jCC1/Pbgyb4IlhQNjPPx
+         WGFJZM+9HodlUcqmniG4/yzDbL1OX3WzWqFi6jgV6ILo+l3Sf8/uzVIvtNVDNvy/Yjlu
+         IYlvkciIDlOGwrDRcMfz2f0viDKVmyWUx+pMM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750922915; x=1751527715;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Uvh9Ej5ffyLrN+pRxR3PgJtopR+gCpW3zccB2EzJW9Q=;
+        b=UQI1T+7JftmAkOnsj1iL6rZdHEBqh3eIL9taHtQQ4J4eg94A5vQDgV1d4W2+Ou0lw9
+         Tq8Z3i52ZuOed57r5UxTarRvd+vc3NI1Sy21QoszHNbVfVL8TjzlAMFDvw+Lqm62qNr6
+         YPHFWlwHOCSAb8bUj59VS8G49/sGQaPGn5HX529jrXd5/jCEf9xGUb3+syugK7KYP4Yp
+         DvMappasSFYK0B4VkrfzSbhBTRbU6i9N3Y19skCvZ4aeOmyAhPWaHAgVGIS9NoEjJ6RJ
+         WaYu8sY7wrD2h+BSilUagykfK4pZRp0llWCWYEjZQJ8fsSfJh3hllfpDl6U2Incbb57h
+         I2Qw==
+X-Gm-Message-State: AOJu0YyaNjMOzQeB8LQj4HXJ/dGY1U1uNIIS1AJifkFM4otVW3WUJ4zK
+	z8Q42ghTv7yqQlGJfEN6S5JlvA/KgXcJYldDUkIELQvhe2kOkLVADHGNi9i/eH3zk2DJdEm8nOZ
+	PpqO8TXw=
+X-Gm-Gg: ASbGncumGzfnUVuiynuRmq2Rs6VCZdFP879SOXRfj/5DIbsJRB8tGvDvAesC2mE1ZwO
+	hsZOHNm7EI74u5te1/nNtuFcNvJ7hlHl//RDfABUiP5Jeioqpe0U6Qzhnu5Q+AP45lkeFbfqy1S
+	aSwVXpn8EuKTE1cbZs3D2CyQdFA1oK2pD6gcROMy+gNP09qJcAv9tj+ohkz9o486iLfl2pxEQVo
+	AkXBmwOXr8JkIbZhe5UjBwdcYQNPdQXM70PTkaUO6Nszw9G4EXpYCUtycjwKwvZeBxSaAXReeOf
+	UGh8XIFOh1OWg5IOTAZJeyLt7hvEsCoeGQFZ9AGEjjK866+2orBC/i4GB5SgOXdEMdPExNrKDwh
+	VUAvSmAKfxGbD6cQA1R5kBOehxdrLCwFAz1lbnAbwWgQ=
+X-Google-Smtp-Source: AGHT+IHVDTivz9xQKTKrXnw8aWN5juChsDkVy7hisitIGBCcD7TK5xt14soXC+9Ur6FrzknafcltCA==
+X-Received: by 2002:a05:600c:19c9:b0:450:d79d:3b16 with SMTP id 5b1f17b1804b1-453889e9057mr23949915e9.14.1750922914595;
+        Thu, 26 Jun 2025 00:28:34 -0700 (PDT)
+Received: from localhost (dynamic-2a00-1028-8382-0206-0000-0000-0000-05fa.ipv6.o2.cz. [2a00:1028:8382:206::5fa])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-453883d81besm19856585e9.38.2025.06.26.00.28.33
+        for <connman@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 26 Jun 2025 00:28:33 -0700 (PDT)
+From: =?UTF-8?q?Roman=20Smr=C5=BE?= <roman@amarulasolutions.com>
+To: connman@lists.linux.dev
+Subject: [PATCH v3 0/3] API to list and remove known services
+Date: Thu, 26 Jun 2025 09:27:43 +0200
+Message-ID: <20250626072822.1941-1-roman@amarulasolutions.com>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
@@ -37,43 +66,17 @@ List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH v4 1/2] Revert "timezone: Fix compare_file comparison in
- timezone checking"
-From: patchwork-bot+connman@kernel.org
-Message-Id: 
- <174913563000.3105947.1904383418942349938.git-patchwork-notify@kernel.org>
-Date: Thu, 05 Jun 2025 15:00:30 +0000
-References: <20250605080336.21824-1-andrea.ricchi@amarulasolutions.com>
-In-Reply-To: <20250605080336.21824-1-andrea.ricchi@amarulasolutions.com>
-To: Andrea Ricchi <andrea.ricchi@amarulasolutions.com>
-Cc: connman@lists.linux.dev, denkenz@gmail.com,
- linux-amarula@amarulasolutions.com, michael@amarulasolutions.com,
- jussi.laakkonen@jolla.com
-
-Hello:
-
-This series was applied to connman.git (master)
-by Denis Kenzior <denkenz@gmail.com>:
-
-On Thu,  5 Jun 2025 10:03:35 +0200 you wrote:
-> This reverts commit f20ccd19a62bd01aa117bfc8e7c388d2a16cde05.
-> 
-> `compare_file` is intended to work with symlinks, enabling
-> full and accurate matching between the requested timezone and the zoneinfo
-> database.
-> ---
->  src/timezone.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-
-Here is the summary with links:
-  - [v4,1/2] Revert "timezone: Fix compare_file comparison in timezone checking"
-    https://git.kernel.org/pub/scm/network/connman/connman.git/?id=3da91cef1c1f
-  - [v4,2/2] timezone: Replace Localtime file copy with symbolic link
-    (no matching commit)
-
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
 
 
+Based on past discussions with Daniel Wagner, I've tried to adapt the
+patches according all the comments I've found in mailing list history,
+namely, compared to v2:
+- consistent use of object path in the API calls
+- avoid usage of glib types
+- some formatting issues
+
+	Roman
+
+[1] https://lore.kernel.org/connman/20211014073337.wvlnjeognyhlw5dw@carbon.lan/
+[2] https://lore.kernel.org/connman/20211028061618.cgmgprc7fo2nlpf2@beryllium.lan/
+[3] https://lore.kernel.org/connman/20220828141921.zhtha3rxnjqoic3c@beryllium.lan/
