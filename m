@@ -1,66 +1,66 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C2C8191F7E
-	for <connman@lists.linux.dev>; Thu, 26 Jun 2025 07:28:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3A2E23ABAD
+	for <connman@lists.linux.dev>; Thu, 26 Jun 2025 07:28:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750922935; cv=none; b=hTanUootwM1gQly+P3kmaIJZSSj8I7hMHX560TpGJLg6a8xD4zLO81+H6NGKAJI9xvAzHAQDF880DBt7luUcFtH2+2yBPGW0L1G47oZYk5L1PXCFjfxhCyTEoeTp+gqnRylqqnZSSABqZeQpGh66Bhuhtdwy8AH5QFKw6Sn7SuQ=
+	t=1750922936; cv=none; b=ic3+XqWWR/CN6g+Z2/Km1pkG7IQrMOFydohkKXBwsCmVJYHnceURatXC+mW3XR+p3/DSpIKzmVc1/lQeZtovdsilUqLe8Qg4fZ/6MMUqj3+Ga1s2iwm842x8EsjIatfyOnsmA2ErMG3+IZW58eEptjoPrMTOQjxn+EjTqMvha4k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750922935; c=relaxed/simple;
-	bh=0rNEEp+Q5puWgZBZi/qyFJ84M+RQj1LzrDgw7ufykOU=;
+	s=arc-20240116; t=1750922936; c=relaxed/simple;
+	bh=wl8qVoQrZ2uXU4u8aU6z9qwKXkkf5oYED8lvprHM8o0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=QmE5+F17tC1AV+BDvW5BiVlg7pgVDb8DTZGImwKyUZ/1N0+QBMI1bjTV9XIba4Nwj43QQFPE7IdOGWscp+f/PpBOYerevxu5oam+h8MFyRGUlhed5A4IkqwMO6TJmQVMKbLrBWafpTJhn3Hgsb5P3fCKLznAgKsGFqtKl7ceVcc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=amarulasolutions.com; spf=pass smtp.mailfrom=amarulasolutions.com; dkim=pass (1024-bit key) header.d=amarulasolutions.com header.i=@amarulasolutions.com header.b=aMkoxsIR; arc=none smtp.client-ip=209.85.128.42
+	 MIME-Version; b=tuqwjOcX6qLFVVXuiOcMHI/I22dUfGmGkpmyjabfxOREmYvAWe70XW7Q2+ezdyVAyeg0sRjfjkRCzu9sRk4AP993i8IaCqxUfRnQhRJMdtHahUPMvngpI10os/4NPT+RNz1uFaKPPzjkiv0UCgmIY0xQ4mKOV8L+8ampl6gjqxQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=amarulasolutions.com; spf=pass smtp.mailfrom=amarulasolutions.com; dkim=pass (1024-bit key) header.d=amarulasolutions.com header.i=@amarulasolutions.com header.b=X2Ki/3rF; arc=none smtp.client-ip=209.85.221.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=amarulasolutions.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amarulasolutions.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amarulasolutions.com header.i=@amarulasolutions.com header.b="aMkoxsIR"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-45348bff79fso6213345e9.2
-        for <connman@lists.linux.dev>; Thu, 26 Jun 2025 00:28:52 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=amarulasolutions.com header.i=@amarulasolutions.com header.b="X2Ki/3rF"
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-3a522224582so265155f8f.3
+        for <connman@lists.linux.dev>; Thu, 26 Jun 2025 00:28:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amarulasolutions.com; s=google; t=1750922931; x=1751527731; darn=lists.linux.dev;
+        d=amarulasolutions.com; s=google; t=1750922933; x=1751527733; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=GZGmHwBHVbqvfEnmXJiKARNkaZj0DHuY0mO4Tbmv96s=;
-        b=aMkoxsIRMtAvaus2A0pIkjtiL4novRAfJ5G1ogC0JzMWBdVKNoYvfiqpF7bl5Ehl/U
-         SQi2BjiNXG6rpdizTwCpNemS4sBngIHw7YjhmXz90sYTLjWaIMN6ZaSGjMV/ZGTTbC1U
-         uS0wV28OawJCFegKGOH0jLxw043TjwNW6AmwU=
+        bh=7R2g+s52xwLwiAKGfzTjGkFy/WL+5Dpby0Utmyv0mpo=;
+        b=X2Ki/3rF3lhJ02OdZXFBDtcnRaEDNrpAh5T44hHyC+7zo+74zaicx/q/FmuCPQp8gw
+         w9ZEl9OxwjaVRXBVajNPvNX1ADkb7YCjmXvpfIZC5PvXE6x8n4cGS02m5IygiBqNO8Wd
+         pYLXcvwVsW6QQrp0SqFkQXE+kLao6du0Os+0U=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750922931; x=1751527731;
+        d=1e100.net; s=20230601; t=1750922933; x=1751527733;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=GZGmHwBHVbqvfEnmXJiKARNkaZj0DHuY0mO4Tbmv96s=;
-        b=EiCMhHOR8Jzx6g/urG0o2ufx1oywdTyODSoWcqHLsnvO2iP4EoDLiDQTc0Etv9+96E
-         TiYdeZ8XvF6trm5s3Fd2BakYqbZTHCoXgObH1/XR7Po8KiLf5+Q0mzXBGteH9hnsPDQp
-         CYTxIvC38btjeddzjh2KATS24h/A+Dy8cMXwdfxOTen9zNjtVrOcG3YniV0Hi8bnlgYt
-         lZ4zoaNn0AAkNK1Exp2lmtZ7s1rkov2ILH+csZ97m30ptQiRJ+sBj5WLGPDiWgglHY8Q
-         hS4q3ZISDhVkZ0hIL3ku/J3zHRuIZfp3E+PY7S1MveyoMG5H92upphltoCsN0sCbdbwS
-         AnjA==
-X-Gm-Message-State: AOJu0Yz2x30IQHUjpkXkYZDD9y/H3n7WxofUKv4LEAkcrep3EK4eBe88
-	zjovt43aT3Y2X/nSMPdlY/U69IUgDSJVQqG1fe02dwXSaM3jnBXZmgirlalCOidB/1BjEVbj82G
-	9NLZnpwk=
-X-Gm-Gg: ASbGnctz/dG7daw6tOTXjkqJcYT1fg0nMA+3F7LGBis/lL39FEMir6uuQFLLElfh/+c
-	A9X+ShENpvmgivozIv77MrewAsYkzTynvTuw599h8MnjmY9ZRZTV5Ply+gb38AWgn033LGrxgLE
-	fho/IgJ8Jd8Pe0GlWLRBcrPYmPogvYTpJqbYuqjaTjT6rZFsELSRvJokLMgZVIiCXluKNEoOt2W
-	7LfD3rAA3I4s5RSbyP6D+emIRu2v1xu63/pbOPf2dVXRC/9+HwlXEQj1VzqLsn7oYkHfekgWyeI
-	XSCeVemX+blUS0QooKmB2FCvtU7N7P+Igds2yxji0scggEFB9nVkvvvrEW4bs4FTaSFuAGaSnai
-	ClCipkGCmYSVI9ENgcei232rMYppu5Jcj7Nmgb5ParBY=
-X-Google-Smtp-Source: AGHT+IFMgOXx1Z1l+yNdSbOuy6HseHskqS/L4zRiHfOTkJGXLB8TBR/KFqzn4xzJPZjVKMtb2/xvFw==
-X-Received: by 2002:a05:600c:670a:b0:441:b19c:96fe with SMTP id 5b1f17b1804b1-45381aaa60amr64033665e9.10.1750922930691;
-        Thu, 26 Jun 2025 00:28:50 -0700 (PDT)
+        bh=7R2g+s52xwLwiAKGfzTjGkFy/WL+5Dpby0Utmyv0mpo=;
+        b=eLYB2meNb/Cfc2JBJ28KQSZB3bPFG5MUnjxPQ/JCt41cFfiMNt0Ht8qaoHrfzObA/R
+         4HodogCDxVKKj55bcz59R+gp9iDYLKPwo1avSH6LWMgOyU490f70iP42qNMcCVSSm42p
+         +QAVCE86XKCXlb5SMh4+FGL3KMwZrq+LY0e43W4wMMOBQa9mPgYzHYRuFQO7ZFFgD9v+
+         Yu0XYVhRduy4eW22EBCuKVfZ6lhhw8bLwQ1Izf7+Vs/YfDDERcoQ9aQpnIj+LAylPtfd
+         v5jHF29vGWFFo8iCuDGlD0gJaSvEegFaoj0yLue+Dbtb5Gi+IKwXuVbiA/PWvS71jAs8
+         V6Fw==
+X-Gm-Message-State: AOJu0YwkItW+V9puNq5aM+Q+nuAbd4yHuQwBoxahL92UV/q6Bw4Vkgx+
+	qBMwz2UOSo7vgTIz6/6177Qdfwjlyyv+78V/s/Uj2uXBxzicRhn5aE/FppuYVQnkNkKZfVXk8wl
+	KRdh/v0s=
+X-Gm-Gg: ASbGncvDCJ3mGw1ILuy+/w4iBYPtpYneaPyvLV6DeHDJaw+OkXNGnt9revSzs3EHPSl
+	nbClXXi+TJ1V2JsvQIm5tQnBgZp0yLsWWmtZveAWzkeD0G2UhkquE0VDEIMOKoLRMpr6hBynWnh
+	/grpzIqLJaYnQKSh/GT7ywQS/R6gQ5Rg1qAYxW/JtboLI0lGPc3SwVvF48hPIB/OeXt4gibdXP/
+	5uLbgV2H6tDmYmW+YpR9cq/sBLwMEaQNKWOwE/TbuxyeimafL7dXZLIOLKkjX30Tr/HjAdWx4++
+	LaIqM8Zx5O/ppyIlCiUSqwpgFeat3UTLzcX441AD9yStkkaxHBBQ0iZFEd4b2IOaBPngoOABNpK
+	GyNwOQVgcADljfdOk2NEm+lI0JptGhYcuRfrgnoHiMoU=
+X-Google-Smtp-Source: AGHT+IE1+qOgX8lL3ykjCJKt4DccmkBPJJgJf2TrvbbE8uYS3IKwG7R1xskJEhPA5fC97yeqPcnRbQ==
+X-Received: by 2002:adf:e18f:0:b0:3a3:67bb:8f3f with SMTP id ffacd0b85a97d-3a6f30ac85fmr1936467f8f.53.1750922933130;
+        Thu, 26 Jun 2025 00:28:53 -0700 (PDT)
 Received: from localhost (dynamic-2a00-1028-8382-0206-0000-0000-0000-05fa.ipv6.o2.cz. [2a00:1028:8382:206::5fa])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3a6e8063a5dsm6780573f8f.35.2025.06.26.00.28.50
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3a6e8105f93sm6613516f8f.76.2025.06.26.00.28.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Jun 2025 00:28:50 -0700 (PDT)
+        Thu, 26 Jun 2025 00:28:52 -0700 (PDT)
 From: =?UTF-8?q?Roman=20Smr=C5=BE?= <roman@amarulasolutions.com>
 To: connman@lists.linux.dev
 Cc: Michael Trimarchi <michael@amarulasolutions.com>
-Subject: [PATCH v3 2/3] Add RemoveKnownService to connman
-Date: Thu, 26 Jun 2025 09:27:45 +0200
-Message-ID: <20250626072822.1941-3-roman@amarulasolutions.com>
+Subject: [PATCH v3 3/3] client: Add RemoveKnownService client implementation
+Date: Thu, 26 Jun 2025 09:27:46 +0200
+Message-ID: <20250626072822.1941-4-roman@amarulasolutions.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250626072822.1941-1-roman@amarulasolutions.com>
 References: <20250626072822.1941-1-roman@amarulasolutions.com>
@@ -74,179 +74,72 @@ Content-Transfer-Encoding: 8bit
 
 From: Michael Trimarchi <michael@amarulasolutions.com>
 
-Add a way to remove stored network in connman storage. This
-allow to remove network even if they are not visible
+Add a way to test the remove network feature
 ---
- src/connman.h        |  3 +++
- src/manager.c        | 21 +++++++++++++++++++++
- src/service.c        | 25 +++++++++++++++++++++++++
- tools/manager-api.c  | 43 +++++++++++++++++++++++++++++++++++++++++++
- tools/session-test.h |  2 ++
- 5 files changed, 94 insertions(+)
+ client/commands.c | 43 +++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 43 insertions(+)
 
-diff --git a/src/connman.h b/src/connman.h
-index a4e7e4f1..1f90c9b1 100644
---- a/src/connman.h
-+++ b/src/connman.h
-@@ -790,6 +790,8 @@ int __connman_service_disconnect(struct connman_service *service);
- void __connman_service_set_active_session(bool enable, GSList *list);
- void __connman_service_auto_connect(enum connman_service_connect_reason reason);
- bool __connman_service_remove(struct connman_service *service);
-+bool __connman_service_remove_known_service(DBusConnection *conn,
-+					    DBusMessage *msg, const char *path);
- void __connman_service_set_hidden_data(struct connman_service *service,
- 				gpointer user_data);
- void __connman_service_return_error(struct connman_service *service,
-@@ -847,6 +849,7 @@ void __connman_service_set_split_routing(struct connman_service *service,
- void __connman_service_split_routing_changed(struct connman_service *service);
- int __connman_service_get_index(const struct connman_service *service);
- void __connman_service_set_hidden(struct connman_service *service);
-+void __connman_service_set_auto_connect(struct connman_service *service, bool autoconnect);
- void __connman_service_set_hostname(struct connman_service *service,
- 						const char *hostname);
- const char *__connman_service_get_hostname(const struct connman_service *service);
-diff --git a/src/manager.c b/src/manager.c
-index b196109a..8c66ad3d 100644
---- a/src/manager.c
-+++ b/src/manager.c
-@@ -215,6 +215,24 @@ static DBusMessage *get_known_services(DBusConnection *conn,
- 	return reply;
+diff --git a/client/commands.c b/client/commands.c
+index f4366e8c..14dc47e2 100644
+--- a/client/commands.c
++++ b/client/commands.c
+@@ -432,6 +432,47 @@ static int cmd_known_services(char *args[], int num, struct connman_option *opti
+ 			 services_list, NULL, NULL, NULL);
  }
  
-+static DBusMessage *remove_known_service(DBusConnection *conn,
-+				   DBusMessage *msg, void *data)
++static int remove_known_service_return(DBusMessageIter *iter, int errnum,
++					const char *error, void *user_data)
 +{
-+	const char *name;
++	char *name = user_data;
 +
-+	DBG("conn %p", conn);
++	if (!error)
++		fprintf(stdout, "Removed %s\n", name);
++	else
++		fprintf(stderr, "Error %s: %s\n", name, error);
 +
-+	dbus_message_get_args(msg, NULL, DBUS_TYPE_OBJECT_PATH, &name,
-+							DBUS_TYPE_INVALID);
++	g_free(user_data);
 +
-+	DBG("Service to remove [%s]", name);
-+
-+	if (!__connman_service_remove_known_service(conn, msg, name))
-+		return __connman_error_failed(msg, -ENOENT);
-+
-+	return g_dbus_create_reply(msg, DBUS_TYPE_INVALID);
++	return 0;
 +}
 +
- static void append_peer_structs(DBusMessageIter *iter, void *user_data)
- {
- 	__connman_peer_list_struct(iter);
-@@ -557,6 +575,9 @@ static const GDBusMethodTable manager_methods[] = {
- 	{ GDBUS_METHOD("GetKnownServices",
- 			NULL, GDBUS_ARGS({"knownServices", "a(oa{sv})" }),
- 			get_known_services) },
-+	{ GDBUS_METHOD("RemoveKnownService",
-+			GDBUS_ARGS({ "name", "o" }), NULL,
-+			remove_known_service) },
- 	{ GDBUS_METHOD("GetServices",
- 			NULL, GDBUS_ARGS({ "services", "a(oa{sv})" }),
- 			get_services) },
-diff --git a/src/service.c b/src/service.c
-index bcda5076..88bbea3b 100644
---- a/src/service.c
-+++ b/src/service.c
-@@ -7530,6 +7530,31 @@ bool __connman_service_remove(struct connman_service *service)
- 	return true;
- }
- 
-+bool __connman_service_remove_known_service(DBusConnection *conn,
-+					    DBusMessage *msg, const char *path)
++static void remove_known_service_append_data(DBusMessageIter *iter, void *user_data)
 +{
-+	struct connman_service *service;
-+	const char* identifier;
++	const char *data = user_data;
 +
-+	DBG("Remove known service [%s]", path);
-+
-+	identifier = strrchr(path, '/');
-+	if (!identifier)
-+		return false;
-+
-+	service = g_hash_table_lookup(service_hash, identifier);
-+
-+	if (service) {
-+		if (service->type != CONNMAN_SERVICE_TYPE_ETHERNET &&
-+				service->type != CONNMAN_SERVICE_TYPE_GADGET) {
-+			if (!__connman_service_remove(service))
-+				return false;
-+		}
-+	}
-+
-+	return __connman_storage_remove_service(identifier);
++	dbus_message_iter_append_basic(iter, DBUS_TYPE_STRING, &data);
 +}
 +
- static DBusMessage *remove_service(DBusConnection *conn,
- 					DBusMessage *msg, void *user_data)
- {
-diff --git a/tools/manager-api.c b/tools/manager-api.c
-index 8668ca9e..376ff8dc 100644
---- a/tools/manager-api.c
-+++ b/tools/manager-api.c
-@@ -94,6 +94,49 @@ DBusMessage *manager_get_known_services(DBusConnection *connection)
- 	return reply;
- }
- 
-+DBusMessage *manager_remove_known_service(DBusConnection *connection,
-+					  const char *service_path)
++static int cmd_remove_known_service(char *args[], int num, struct connman_option *options)
 +{
-+	DBusMessage *message, *reply;
-+	DBusError error;
-+	DBusMessageIter array;
++	char *data;
 +
-+	DBG("Service path to remove [%s]", service_path);
++	if (num > 2)
++		return -E2BIG;
 +
-+	message = dbus_message_new_method_call(CONNMAN_SERVICE,
-+				   CONNMAN_MANAGER_PATH,
-+				   CONNMAN_MANAGER_INTERFACE,
-+				   "RemoveKnownService");
++	if (num < 2)
++		return -EINVAL;
 +
-+	if (!message)
-+		return NULL;
++	data = g_strdup_printf("%s", args[1]);
 +
-+	dbus_error_init(&error);
-+
-+	dbus_message_iter_init_append(message, &array);
-+
-+	dbus_message_iter_append_basic(&array, DBUS_TYPE_OBJECT_PATH,
-+				&service_path);
-+
-+	reply = dbus_connection_send_with_reply_and_block(connection,
-+				  message, -1, &error);
-+
-+	if (!reply) {
-+		if (dbus_error_is_set(&error)) {
-+			LOG("%s", error.message);
-+			dbus_error_free(&error);
-+		} else {
-+			LOG("Failed to get known services");
-+		}
-+		dbus_message_unref(message);
-+		return NULL;
-+	}
-+
-+	dbus_message_unref(message);
-+
-+	return reply;
++	return __connmanctl_dbus_method_call(connection,
++			 CONNMAN_SERVICE, CONNMAN_PATH,
++			 "net.connman.Manager",
++			 "RemoveKnownService",
++			 remove_known_service_return, data, remove_known_service_append_data, data);
 +}
 +
- DBusMessage *manager_get_services(DBusConnection *connection)
+ static int cmd_peers(char *args[], int num, struct connman_option *options)
  {
- 	DBusMessage *message, *reply;
-diff --git a/tools/session-test.h b/tools/session-test.h
-index ab89f8c5..c19acb56 100644
---- a/tools/session-test.h
-+++ b/tools/session-test.h
-@@ -115,6 +115,8 @@ DBusMessage *session_disconnect(DBusConnection *connection,
- 
- /* manager-api.c */
- DBusMessage *manager_get_known_services(DBusConnection *connection);
-+DBusMessage *manager_remove_known_service(DBusConnection *connection,
-+					  const char *service_path);
- DBusMessage *manager_get_services(DBusConnection *connection);
- DBusMessage *manager_get_properties(DBusConnection *connection);
- DBusMessage *manager_create_session(DBusConnection *connection,
+ 	char *peer_name = NULL;
+@@ -2822,6 +2863,8 @@ static const struct {
+ 	  "Display services", lookup_service_arg },
+ 	{ "known-services", NULL,  NULL, cmd_known_services,
+ 	  "Display known services", NULL },
++	{ "remove-known-service", "[<service>]",  NULL,
++	  cmd_remove_known_service, "Remove known service", NULL },
+ 	{ "peers",        "[peer]",       NULL,            cmd_peers,
+ 	  "Display peers", lookup_peer_arg },
+ 	{ "scan",         "<technology>", NULL,            cmd_scan,
 -- 
 2.49.0
 
