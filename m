@@ -1,32 +1,32 @@
-Received: from lgeamrelo11.lge.com (lgeamrelo12.lge.com [156.147.23.52])
+Received: from lgeamrelo11.lge.com (lgeamrelo13.lge.com [156.147.23.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 863081D5CE5
-	for <connman@lists.linux.dev>; Thu,  3 Jul 2025 19:14:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.147.23.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77787BE5E
+	for <connman@lists.linux.dev>; Thu,  3 Jul 2025 19:18:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.147.23.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751570055; cv=none; b=gpnY/wOFJDfi3dcoZMPrh2GsFb4lPht1OiHIE3DNg7cFuCl1bj+rBol9Y4e3/OSi9GGvCST5y0dY4figvrZge+u/IdcbaRVogr3OKHqpr/W4MHCNf1DVzQN4bXUf0ZKrhVjjsoeKbMH9CyktQzLZrkI2DtlkAgsV2hMw1xERP4A=
+	t=1751570343; cv=none; b=QCURyolzedUJlGVkkmjcwnyS34Z372p8kfkPqnd4NQxDqzulHK5/F1gTUXbEpyMnTADxydtdPExS5NxCXsMpnJVI0OWUE4Eh31zroQxy38LkAtbPkWvdg3myjP4qxxDU55fm0wfB7ep7XkvSxeoaXAkggR3tQ/RobTblAL+HvYU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751570055; c=relaxed/simple;
+	s=arc-20240116; t=1751570343; c=relaxed/simple;
 	bh=hQp8j6VPy2FbCOOc0MZjxHNgFhyahwundTYjizPXhvk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=mvLC/KUlQHj1b+hxCySHXBa8nBc7qAJ9dbPN6EcLqgaVPhUQGX/VNx8KAIuCiJ+kX6MFVxtCmGZ22rLT8OQ07zcsWTxAe7SMXtK/rQuq85LvI1dTk17ui0cYSx0kXXGkd9LQql4dEQdxgXP4z3JfRwSPpv5afwsFVLHKkMJcGSk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lge.com; spf=pass smtp.mailfrom=lge.com; arc=none smtp.client-ip=156.147.23.52
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=hKXpENtMcaBQNUyibuwjHey3KlVRQ6fHPTMUFm3gbi+K/chCA5CKNo5nc8EGlAoMkomJobQMWdX2j9bgbBZM0XfgOlHUL5GFzbumpP58LUR+qjq5dxqtTottqKghazwaF2AhaKgt9q2Q8RJpWka1g/ByWTHZ5Dethh2QqEtEnm8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lge.com; spf=pass smtp.mailfrom=lge.com; arc=none smtp.client-ip=156.147.23.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lge.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lge.com
-Received: from unknown (HELO lgemrelse7q.lge.com) (156.147.1.151)
-	by 156.147.23.52 with ESMTP; 4 Jul 2025 04:14:09 +0900
-X-Original-SENDERIP: 156.147.1.151
+Received: from unknown (HELO lgeamrelo04.lge.com) (156.147.1.127)
+	by 156.147.23.53 with ESMTP; 4 Jul 2025 03:48:58 +0900
+X-Original-SENDERIP: 156.147.1.127
 X-Original-MAILFROM: jaeyoon.jung@lge.com
 Received: from unknown (HELO magneto.lge.net) (10.177.121.44)
-	by 156.147.1.151 with ESMTP; 4 Jul 2025 04:14:09 +0900
+	by 156.147.1.127 with ESMTP; 4 Jul 2025 03:48:58 +0900
 X-Original-SENDERIP: 10.177.121.44
 X-Original-MAILFROM: jaeyoon.jung@lge.com
 From: jaeyoon.jung@lge.com
 To: connman@lists.linux.dev
 Cc: Jaeyoon Jung <jaeyoon.jung@lge.com>
 Subject: [PATCH] client: Add missing newlines on error messages
-Date: Fri,  4 Jul 2025 04:13:44 +0900
-Message-ID: <20250703191344.990213-1-jaeyoon.jung@lge.com>
+Date: Fri,  4 Jul 2025 03:48:11 +0900
+Message-ID: <20250703184812.988694-1-jaeyoon.jung@lge.com>
 X-Mailer: git-send-email 2.47.2
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
