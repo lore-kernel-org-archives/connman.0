@@ -1,61 +1,60 @@
 Received: from lgeamrelo11.lge.com (lgeamrelo11.lge.com [156.147.23.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20A68DDA9
-	for <connman@lists.linux.dev>; Mon,  7 Jul 2025 07:00:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F296E1C3F36
+	for <connman@lists.linux.dev>; Mon,  7 Jul 2025 07:04:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=156.147.23.51
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751871650; cv=fail; b=RcjE/t7wvXXqH3prB4BCfQcz6S6wjHU0Tkgv9e3WjPAqdKiVrvyw+zQwqr4lPtWHG/eV51J1mu6Qq4pjPYdj1xGWbogrSAohGfX1xU2uovl6Uj2xZk+5rrp34OowPYJjeZ0sB81LkZxA/nydX9By2a2VHdD2XtutcbxLepjdImI=
+	t=1751871902; cv=fail; b=g/HYUzTXfO9E8oH8t5SLEhIeNqEGpKsVgOgqrUVtXBSBKph/Zkg5JlWccLcsRPiK8XIPYBVRxsHAs0gtnCaeZ75bABWaUv+buQgJhyqdIePwbJtYw9wwoFsRDexIfg3v2XikPIj8UMrFrDRQyw9B6/YM4FF3956HsarDxTF9Yos=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751871650; c=relaxed/simple;
-	bh=fPT2Emc6BtAC22ZvntN4hbthkIPkH/XTSXIPU+UMhRI=;
-	h=From:To:CC:Subject:Date:Message-ID:Content-Type:MIME-Version; b=oDJHLmZy79vFCr2vPoytsLyS+j28+70oQUnkNgeksRUv8vMtYcjILei3nYjpDuMe7Cs3hvwt6RAONONj20qFzR3cYLgxqgXgLfaqvZeFVEmkMCH/+NRZMRBesvnnvtXE6NbBhNg2VPE1zULz5RU0KovFOZxjh1FAxciD8WXUijY=
+	s=arc-20240116; t=1751871902; c=relaxed/simple;
+	bh=83ZtcfOjuAukYctbKCtYp5uaFW7DngaDXP60asYPDv4=;
+	h=From:To:CC:Subject:Date:Message-ID:Content-Type:MIME-Version; b=VM0DNyq7ENNLCPOyaGY8KsEVfJ7J0FV5P3L+0IrM567sLefcoCRahjxlToCQH5QuIlfujzzgr2AxjZaKVBCfBA6gvrDGtiOYDdrsSUd1IpPHoQHUEz1ITDtVx80PhsTWHfixWxnAffN8DiQU33DIpSjZP+nLZr3gn2LHVXU6D1U=
 ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lge.com; spf=pass smtp.mailfrom=lge.com; arc=fail smtp.client-ip=156.147.23.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lge.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lge.com
-Received: from unknown (HELO lgeamrelo04.lge.com) (156.147.1.127)
-	by 156.147.23.51 with ESMTP; 7 Jul 2025 16:00:38 +0900
-X-Original-SENDERIP: 156.147.1.127
+Received: from unknown (HELO lgeamrelo02.lge.com) (156.147.1.126)
+	by 156.147.23.51 with ESMTP; 7 Jul 2025 16:04:56 +0900
+X-Original-SENDERIP: 156.147.1.126
 X-Original-MAILFROM: shailesh.rathod@lge.com
-Received: from unknown (HELO sniperexo5.lge.com) (165.244.66.186)
-	by 156.147.1.127 with ESMTP; 7 Jul 2025 16:00:38 +0900
-X-Original-SENDERIP: 165.244.66.186
+Received: from unknown (HELO sniperexo3.lge.com) (165.244.66.183)
+	by 156.147.1.126 with ESMTP; 7 Jul 2025 16:04:56 +0900
+X-Original-SENDERIP: 165.244.66.183
 X-Original-MAILFROM: shailesh.rathod@lge.com
 Received: from unknown (HELO PUWP216CU001.outbound.protection.outlook.com) (40.93.139.7)
-	by 165.244.66.186 with ESMTP; 7 Jul 2025 16:06:15 +0900
+	by 165.244.66.183 with ESMTP; 7 Jul 2025 16:08:25 +0900
 X-Original-SENDERIP: 40.93.139.7
 X-Original-SENDERCOUNTRY: unknown
 X-Original-MAILFROM: shailesh.rathod@lge.com
 X-Original-RCPTTO: connman@lists.linux.dev
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=V++gxNExCbpYoXoZhytKMlvBH2Uw1UwzK9Lel40nj6TRYRRtcjHoESlm7ZJ+PncHtrAu6WYTRAvrqO2Mi88tze2j4VFfh4u/lRot/KxfwK22fHx0g2fDyn1lY7pKjbZgqZi9hO6qQq3faeWWp3yFlfpvgmOXlM26hzA0OO0BNXeNENRYvP4d/r8iXPmV9rCa8cNZVJVNr80KI4xrV7c/CvpMQAsLIHSCmS18a+WZdL8Pr3OEJlU98mFN62TQ5K/Mt77TSChHm+YeuNCyEYUX4QjvozRnbLl5w2iYFiG6ufNiPQ9x2+ZJju0h5d3upU1/0a6Po/RJaDAfvRdgBPBKCA==
+ b=kBq71NZSxhG6kxSKc63NiPK9oy++AaySVs0S8vpV9FMhVcHY7DJaDEOPZya6YokVOUji5ZZhffwgNCvE0bcs1gpsPIH5kRtBzHtWIIspjgUutbj/e7ntb/Xja5N+21M8tUTOh/zv2mTITLdqxtGdR3R+KmyTV3TSOYo3mtkfQxTH2J2G2gOjGE6L4PtABtKkpUt2VK8x56yOWE0m2xPGNZ6RNhGHanOpvWSyEeMsAyea6YJBKSA/q4TETQMJPdW75DByvzgATIDrGZQs7TJN1PYapfgMfAgQjqYmsZgGs3/6vmVznxsJsVZdotZgAkCfE5KcyeP71Db2845RS04igw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=fPT2Emc6BtAC22ZvntN4hbthkIPkH/XTSXIPU+UMhRI=;
- b=nOeodiq8zSlLLbdSAcpY7k+TJLZ/nWPpabNHPkl8wR1hILrhY1nBGL7UjQLQB05MtvnQZY5EIcPURzb258F+WIsD+7EEBC/lRxn97So8RfKcTVQHl7VBuLeiSU0LSl/ssGQzHjKq4t2HYasiGk+JaAjSDRp4yo3ejs9xpAj6EGMVNUGN+Zj2mqutH5TeP5kVrDssUTWOgLPVFkGJo4ifvxJU/8j+jYtQQmxugNgZpltfTmfxaYPip9HbUlq6fDHbXsJ0PFpN76duBUJX8I8UeGCo5iy/90BhJolV8XPTLr1i0ZhOHDQqBz1sK4yh7V4P1zZUg5p7gsO4k1Q25nOOow==
+ bh=83ZtcfOjuAukYctbKCtYp5uaFW7DngaDXP60asYPDv4=;
+ b=KfLM9Buhx8w61AtJ+DJlauuJ+L2qDWrYZOW19ergIplab0U359WJDHUiOopC5AA7mMbBqw8HwTURD+86ZQf5PTBjdgauQVTl5ukZHI7Mi302sUn9xuz59X+2ttlOxt+HAguczEAQXMFXXdC++14z7nX3FdvDgkq5A6qunyVMIbKXQgPQtkIndqNg+VRx1pC69jhpCmeYbS0+RYnR0Oe0hxswmuRRawWLgUHjspCk8qrbokQqTnEfQn9M6YIvJj0grXpvvGhtHk80EXL0fnARCWKyXhfNIIJr864NEKBS3n0DS5R4aSEDr5dvsNoATo/ZjPgP3hdejG2xO7bFpTz+Iw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=lge.com; dmarc=pass action=none header.from=lge.com; dkim=pass
  header.d=lge.com; arc=none
 Received: from SE1P216MB2647.KORP216.PROD.OUTLOOK.COM (2603:1096:101:1d1::7)
- by SE2P216MB2914.KORP216.PROD.OUTLOOK.COM (2603:1096:101:28e::10) with
+ by SE1P216MB2148.KORP216.PROD.OUTLOOK.COM (2603:1096:101:15b::10) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8901.26; Mon, 7 Jul
- 2025 07:00:37 +0000
+ 2025 07:04:55 +0000
 Received: from SE1P216MB2647.KORP216.PROD.OUTLOOK.COM
  ([fe80::3435:5ac:17d8:4d39]) by SE1P216MB2647.KORP216.PROD.OUTLOOK.COM
  ([fe80::3435:5ac:17d8:4d39%5]) with mapi id 15.20.8901.024; Mon, 7 Jul 2025
- 07:00:37 +0000
+ 07:04:54 +0000
 From: Shailesh Rathod/LGSI Connectivity Team <shailesh.rathod@lge.com>
 To: "connman@lists.linux.dev" <connman@lists.linux.dev>
 CC: Vasu Kantubukta/LGSI Connectivity Team <vasu.kantubukta@lge.com>
-Subject: [PATCH]  Connman : Add initial support for P2P listen mode in ConnMan
-Thread-Topic: [PATCH]  Connman : Add initial support for P2P listen mode in
- ConnMan
-Thread-Index: AQHb7wo13Wo4Sf2Uq0WxoaYY8K3UCg==
-Date: Mon, 7 Jul 2025 07:00:37 +0000
+Subject: [PATCH] Connman : Add support for P2P WPS (PIN/PBC) in ConnMan
+Thread-Topic: [PATCH] Connman : Add support for P2P WPS (PIN/PBC) in ConnMan
+Thread-Index: AQHb7w0Nygn3MV6jdEWVBV6+UhcmwA==
+Date: Mon, 7 Jul 2025 07:04:54 +0000
 Message-ID:
- <SE1P216MB264723B08F4D99FF50554FB3F04FA@SE1P216MB2647.KORP216.PROD.OUTLOOK.COM>
+ <SE1P216MB264701522C92F2327FD04590F04FA@SE1P216MB2647.KORP216.PROD.OUTLOOK.COM>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach:
@@ -64,71 +63,71 @@ msip_labels:
 authentication-results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=lge.com;
 x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SE1P216MB2647:EE_|SE2P216MB2914:EE_
-x-ms-office365-filtering-correlation-id: fa7d9f3f-ba92-473e-9591-08ddbd23fa31
+x-ms-traffictypediagnostic: SE1P216MB2647:EE_|SE1P216MB2148:EE_
+x-ms-office365-filtering-correlation-id: 756dc5d6-24d0-4e74-e64a-08ddbd249374
 x-ld-processed: 5069cde4-642a-45c0-8094-d0c2dec10be3,ExtFwd
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam: BCL:0;ARA:13230040|1800799024|366016|376014|38070700018;
 x-microsoft-antispam-message-info:
- =?iso-8859-1?Q?BpmL6qZQPhthr9USFJk8CVkpFJifQ3ONImF86zvxYReUmrOj1iJPiM3ZZR?=
- =?iso-8859-1?Q?ZVQllzUVw4yZBC0aO/Lzsbdz13CRZhiXMPTuNSRbiqjiuvVnAcYFY2p/B9?=
- =?iso-8859-1?Q?k8t19t6P9BfQ/77l5+otP5ZniM547KcMSNi5Z48IfaosVanLCT9/R5Bmx4?=
- =?iso-8859-1?Q?1wUEY79TakmAsA83IAOoQPB+2/PxIxsTjnaZVbPEJzxU2S4iILY3tysb92?=
- =?iso-8859-1?Q?rE7f7JXEdyl8UmDPDLt5g8F7xT13+2nRcqWc7BP0JK5omc/4p/dWPtUdro?=
- =?iso-8859-1?Q?82dzkapL874L3nkdsaqH2bsZgbABMzwMT5NfFm9ByeLcc2WLRcP/Y099An?=
- =?iso-8859-1?Q?WPF2YgrX1jlVa4/u+bDgAyD5TAJQlTzc9eYLYj6GKrGxO4HBzjoaxLAT7q?=
- =?iso-8859-1?Q?iVvVoB5uz+q+ItqvQu3Sve5WBXyHB67batV+QwyNyS1HTov84VTpnq/5pN?=
- =?iso-8859-1?Q?BffaIvOSlIIdhO9QH6/hMafUoEoOkI2lo5lZ1PYwItXjp5ZoWrR+pMcSHk?=
- =?iso-8859-1?Q?RmyEpIAH9dKC5xho4qZvEsO62p5roZx8kHXhSubj25lxnOlNO/kPsxGkAY?=
- =?iso-8859-1?Q?VnjojIxcv3Hc/za6D3UCZKasanmnnbQMosxFwBVTLtAzqdCGBevUDq55uC?=
- =?iso-8859-1?Q?MzCaP4agfqfkffu/ih8cAnBuAp7mnsczz1Dh2LTEuWYJCH0FKxf9CV8RqG?=
- =?iso-8859-1?Q?W26Sn+ubTMuD8gLCRfcmhMffwXiLLElNdDgZmkkbl93PZcrPeg3nltWsOF?=
- =?iso-8859-1?Q?6hc9hES66gpBayj7Gp41wqe0UiXOzdE9shdfwkhn/kJYg68AHjzx+W/35B?=
- =?iso-8859-1?Q?nrjARrBjvdfYkd9YHO/6Y43TdT+btsTyxjxT0BYj+bELVanc2w+tgKkPVR?=
- =?iso-8859-1?Q?3MuP5t3kQHU3Hk60zqONReiAF9Pe3XGxK4+2mIN0BbvWebnJoCE7JW3hR7?=
- =?iso-8859-1?Q?PfOoR30vXRY9O5EYZqjt1WE/jgl04iYYFNyXCFm82GRaaI2HP+YM2RLLsH?=
- =?iso-8859-1?Q?QhkkRzkEKS3xT+Fl2JP9CZk5OQOBJ8uO3Fwty2XKOVIW00xr00FMI2v95s?=
- =?iso-8859-1?Q?UxL0HQihqepFxw51U4tjJEHCcrEYRp5p9JTxfg6cWrhOFt5SHNYeafy2gz?=
- =?iso-8859-1?Q?HWCIu824jae4lxEzR7Rj5xdbfzHWCpa+jApv4kjqmkpcISwn0u9e8i2kLM?=
- =?iso-8859-1?Q?GuQzu+uk65NQr7mcE77pFM/dEs72Ts3LCKR7ODFTmI+I8YufRqCcC6qmpL?=
- =?iso-8859-1?Q?Ijz7qBCVyeTHIkKCiRQHOzJjxrQs8gO68BnXmzIdjb+CtVqjsrV3i3YEmP?=
- =?iso-8859-1?Q?G1ktMLG/rPlA4KJb6hr3sgnwp6L5ifayuu4mhI+XfIxHCPpxdUySbZEOWQ?=
- =?iso-8859-1?Q?kAt6rpLxXd6M8+kwDdxaSwnQBpxCro5k8eFBTtJLui8Bpq50xNc0fC3DJC?=
- =?iso-8859-1?Q?pB4UIX0MLNC2DYqncy4qQnnztF/viw8IkjtXCJsYzq7SOdebBFEej/iHEc?=
- =?iso-8859-1?Q?uCkOQsLMHRXPH9G6rTcQnJxWSKrN1uMSy5ZE8W0/FFGw=3D=3D?=
+ =?iso-8859-1?Q?UnYAr9WMJxxcee9w8hJ/HvTyMp4FkRdymWtYNLo1UErQe6tmCwBzI8cXhW?=
+ =?iso-8859-1?Q?CBSQner/zQx8sSFi0f5e4D6hFxpG7/ZvcHdVP1Aui/KbiDJ6/e2duLvFnJ?=
+ =?iso-8859-1?Q?+n2pD6fIPLoVSHJ/B3ZUKQK+Sn7Y/yaBFg3O9t04LuCiUC0Ny9NERTZF/1?=
+ =?iso-8859-1?Q?x6Vt8+JVFaKZ0xVM5TgtlIr/LmT2d9OHWz1DqhXAcVU8EVVbkFtfQhWZ4h?=
+ =?iso-8859-1?Q?n3BmXXcmBp1RRzyoxMHcCKdaRmsJfm9PxJouCuAUxUfVNr+rK3IsfE0tc3?=
+ =?iso-8859-1?Q?t0d03rJxsCXUB4UKFmTtkaETm/eZsEGDVhlkmSu4KC3l/vwTac1c76M4un?=
+ =?iso-8859-1?Q?oFMYg++aNgObEECAFjABxGql25cHNwIrLO9AIgwZkSZJdx45L6/oQDhwNw?=
+ =?iso-8859-1?Q?vFhSwcnY3ZxZUlpKTd5sSpMLQRfPRRcP8lW/fDIbpIpIi7POhfAYVrbzNj?=
+ =?iso-8859-1?Q?ZsjQd6lfVWPz6TbC8Rk61rQebcEuRkcqfDuJYIzak1DE9fsE7HO/CYAAh3?=
+ =?iso-8859-1?Q?skvWRKhTP9ranWABpklraNRqW1fNEgFW2zJpD9gtJJ83asnojMaUgXpNsY?=
+ =?iso-8859-1?Q?ULJDk1dgNU269Rt0u5JPfgCuegsXfEKaGC2u0v4wxW/IDfDLHs0MtVnFRg?=
+ =?iso-8859-1?Q?ZMBbNazgYu6CFJU8o/lzuccE+GaOo8i5efsFG4R0VOfefEBalaltuepA9H?=
+ =?iso-8859-1?Q?FOpxyaIZdCFajNv7N8ahZqo31d4Vqr8UosHQPXuCyHQIX5h1g5GO9t0WH1?=
+ =?iso-8859-1?Q?r9TC3TZ78BlUT1AbthGialEbTePQPtyK43On6k5bwyoE+4Xkm1BKZs02dJ?=
+ =?iso-8859-1?Q?8dbF702LJ1z1j5VUpr9wU4dRfU7/Y620ztZ2Z0NDH9C/AlW2Vr2UpAyjBI?=
+ =?iso-8859-1?Q?tSlI6tLtyyl76r0IE3Jkd1khyY9cFNsWYLwXhEP5EHvY5xNLcVU1aBfXne?=
+ =?iso-8859-1?Q?V6As7Enj0hO7eTdh+cCAY0DvuE6rXPqkbo8G4PqD0KCzW6w67KJcUg+7UN?=
+ =?iso-8859-1?Q?UCoSj8P3Pdo9HKQI1TJHDcMaUFFY1q+FVA5DX7yS0M/Xf7icSGDGBx/D0P?=
+ =?iso-8859-1?Q?72DlwocGpIJ03eStMScxIZd4gigypn268PPX0VEm6Bdinu/0RTJq262EbN?=
+ =?iso-8859-1?Q?PcmYzxlEUXAbNTUdxwc51hA9F8YbVfUi3udAZ5hG0AB+K7X2wr8UFX3fX3?=
+ =?iso-8859-1?Q?EpgSdkNz0qdIdXh7uJl5em3tI0/b/WOAjThoM0noQRljgJHDypkFCHb58y?=
+ =?iso-8859-1?Q?unYvUznIHI2or3KrSe7Jdcp8qJSZ3GVC7/j8fHo4M8+G/hu2DE/zhFhS6/?=
+ =?iso-8859-1?Q?JG2q/9KOlUXjrXM3Bf6w4dDrjWp7mfSOqEvrppvFNVHjTCHzuNCWl+wRsB?=
+ =?iso-8859-1?Q?PKoD5myBkHotQya/UB+gmrUAhTJfdmFbyCqmsw9fy4Ov+x7dtFUKsU1S5u?=
+ =?iso-8859-1?Q?1QxNMVPujlYbERNOzdi79EBaLlEzBjuWh6cNIfwdMrc3d/JXJuq1/dktlA?=
+ =?iso-8859-1?Q?+yQmQl2V061XJ5eURh0IpUsoooKeN4NVxutsFtLMCc0w=3D=3D?=
 x-forefront-antispam-report:
  CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SE1P216MB2647.KORP216.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(38070700018);DIR:OUT;SFP:1101;
 x-ms-exchange-antispam-messagedata-chunkcount: 1
 x-ms-exchange-antispam-messagedata-0:
- =?iso-8859-1?Q?4TA11qoSoiNI5mU3aCODTu5NANvQq7zpaFE7ocZpiOQ320XN/4nPS33TpP?=
- =?iso-8859-1?Q?0qb/leHK4bQfwJF7rw+FCYVG9qcXRHFclTBnTMOnGGu/8zmGvKlXWvHfVz?=
- =?iso-8859-1?Q?qSVw3PtbgQGBebJ8ZjqfKUXTUpNzTpexa48FLGNI2Jcu+OSW7b9UsFeCNb?=
- =?iso-8859-1?Q?uK2Qhaq9pYdBdGZa8xDqb+CYzLcHxDvkS3ZOUZbA75FBwHe5prRPuuKbSt?=
- =?iso-8859-1?Q?j3+VJ8TGRoQfCYsAHcdp+pTyNoZYa2MP363md2Z8dboP5+PPy7DD4AUj0z?=
- =?iso-8859-1?Q?TWhtzi6QRduXSQ8vl9RiSFmqWfpDrcaz0HqlFSX+d2kf1N4X2QFczTUxbx?=
- =?iso-8859-1?Q?exjEBjXfP56wqybhMduSMRJ+EeN43GZamAx2xfhgXiWQTHEKTRnWDacFpE?=
- =?iso-8859-1?Q?cuW40nKsQObMoWgsZ0iMD+r+Z052rNGxhnJsmBuJOI4dDZXMf9K5zKHeuE?=
- =?iso-8859-1?Q?Wu8/iYxd4jtrj9NBXvQwq8EeleCWN4bhgDWWSMkN1U2h41PZRX9Cn2oPKl?=
- =?iso-8859-1?Q?ghf650HIg8eXann6kmKLhCh91Jb4gFCzItLh33NOrzK1Me3b3DyE6E1Zb3?=
- =?iso-8859-1?Q?zDfbDgw+Sel2MHtoSvHE8NRA1b60hT7zJmwXPxqd6hLB7Z2vkTKS9ymm2q?=
- =?iso-8859-1?Q?2t8SpVlrAhHHzaLsyks2RltC8H9/xVFUJi6nqyMvi2lM0euRft8eZseZnY?=
- =?iso-8859-1?Q?VYkPOiQG0lWqLwotOXVd8XfCK+TZ2F86qEaFhoc7XK3QLGUnNuu4JIC5sI?=
- =?iso-8859-1?Q?bNQbA4tCbmKXRuEfXMJWvPKGFhAywkDPdEt9VtUPtgJQ7vgEXFe4w0NpI/?=
- =?iso-8859-1?Q?7IrdqbsiGNp67muJpq+CcfRg/aYRrpkAvaw4O2+KmY2KFtq58c1y7HA9hH?=
- =?iso-8859-1?Q?C7ZU9TzCMtfMQ02aUt6RvKsmYMO/18iljYGsjtf9P8J+BWTDnDFRs6BP1L?=
- =?iso-8859-1?Q?R68+wPDbc9VEmHVenKxeN9xYhs64i0I/M0cRQHRzPuNJl7V8oR10GdRdT8?=
- =?iso-8859-1?Q?PfxTh5yxnqy+I+u5IlBWAYQ8C7zyWMJ5jTlIlLWDLtCC7w2NGzKkWcjMZ6?=
- =?iso-8859-1?Q?PfkuVFVU+kw5qDXmtE6jyMf6b18POQeiJZYLpT8GhYttCklNH7lZRg1UiW?=
- =?iso-8859-1?Q?e9Ah/0DCVui9RrFRSa+2wJC6Ym99nDr8Qb8CKXScMB3xAtIctXWLpeNek7?=
- =?iso-8859-1?Q?Qy3bNUHOtJJ5Qe7HmHZ5QZLRc3fZ2+RBOjTsXhguYS0+V/im6p/CKHBZQk?=
- =?iso-8859-1?Q?6/Or5LyOIaNHZb6ptzU6qReoAw4vxPWbXRQKKwvmqL+sxjgZ52xB3zuA3T?=
- =?iso-8859-1?Q?u33PZJ4RgxNcJSt5V8l38Y5jt5YeVvm5PI1nqVyokE30PyF5suPdXrWIoa?=
- =?iso-8859-1?Q?OC+Tc0JXuw2dgRkVp9TAXbwlTLTuEzr1onGAcc7jx+d2rTvo9/MML90bwT?=
- =?iso-8859-1?Q?7r3nyv1GP5L8nv+0RkS9cWzx1kM2SHNutBG3ZdKBoAgrSyjXLdC2inhSyk?=
- =?iso-8859-1?Q?5K0r6x7Tp7d71bPnPv/t1cASc59EnT3sbjptUOxIlDNUjFSt33e/oRjZ0p?=
- =?iso-8859-1?Q?sEKkyWs+qa9gacpOJlj9okEdMfPMeyQULxjfvg+Vl4sngZmg3GB/BDOLHD?=
- =?iso-8859-1?Q?xtJ+lhpkLMe8ik8ywXvrMEx9yx4q6oyw8W?=
+ =?iso-8859-1?Q?ercfXbhhczssr4DRGRXgC0n7MpotGM5JGWAL7gL6USe0dAeP5W8QH66NLg?=
+ =?iso-8859-1?Q?qHlQbl0YGjgMSE7ghFyK5eAnpBiufhEN2Noap99hwFUG4TnXh8h/MofhUM?=
+ =?iso-8859-1?Q?WyJ56kpDgMVjhv3VTKSCqWHq3y5bZEIfR0w+e7p5QrmjWMn6MVGRT6OC6P?=
+ =?iso-8859-1?Q?UvOugZYp5ulxhHLoXfFrFc62nNc3bOrLSXchJboT61kryb0p4/K/BdOoiC?=
+ =?iso-8859-1?Q?//gpn0Q7kowNdqrJg+NJ+FZGz0pEL9wjzeHAm2yt0z4+UrRPRAiAqs7k+o?=
+ =?iso-8859-1?Q?VggsJsBzNEA8aDMF6H2J3COz06voyxVrLOBy3XQoqG+BHgMO49s9pRjg7z?=
+ =?iso-8859-1?Q?4xakqZpGSjwCk65GX4dKRMXaM5QLPNs5lp04VdnU1nCZul4wo4oxl1hh8k?=
+ =?iso-8859-1?Q?W7yeGVcjV+UDG3ho7Id9+vUOLQK0PPd1DyQlLwjVh65Ib/WfDhnsCxmapH?=
+ =?iso-8859-1?Q?Zdm5iCF8I++U/4aG8cWiM6D/NnqSivqmu0dlGwTk/gx1My8yxW5QN3PuDu?=
+ =?iso-8859-1?Q?6mfFhMgoTNLFF+ZBwLzSaJTiCArN4Gc7HnpO9oqNNQ/4Vx+vESYR7UNBTg?=
+ =?iso-8859-1?Q?56E+Qf5PCqHXz2VryTYrw7ANmw0Mh6itc6JO6JmaUmuZd8LZDdJ2VhWWUj?=
+ =?iso-8859-1?Q?F/KPdIiAogbcQbiIrIQBYfHG4qy12IeX5pIPuU3RXTPUzvPeDpqr0IT9J/?=
+ =?iso-8859-1?Q?QHNg1NtRZFngHbBHS7aRty8ihtQPrys1+EQoXiQKgKmvLqvNseU2XS694e?=
+ =?iso-8859-1?Q?pEDTEgunz9CoDfx9sR0Go44UU23qeG+No1Zj2kRatwFYgZBb6zP5zC6Dr/?=
+ =?iso-8859-1?Q?fd58RyW9ceONumTb/ABDQLWu/5LxFf2uaHz+NCQRV/mil9pUx2GemKvzF4?=
+ =?iso-8859-1?Q?EQ/dcwbIiRr0tx+Ubw1nyYWWtwVGQNB7mr/WngbFiRgCV/XeJ6K3mX1Qq1?=
+ =?iso-8859-1?Q?WMc03M5WHUCGYtbiHHFrq4o5/awEyKdg1H9OD3pH4LnG3aOn/y3KRZsJbJ?=
+ =?iso-8859-1?Q?rrt0Rybedj7i2D27bdD84Hn8V7eX1FODbJ/SiNzwJVrVAU83/NVxKDqo94?=
+ =?iso-8859-1?Q?p63voro1sG3l1DkyiE4ouZnG0gOXWRY5uX4v/XFogjIvel7VMonWZHSrt4?=
+ =?iso-8859-1?Q?g0bagG73drMHOywtYdA5mswJRdxo51hFKjvpyaYX5Gol/jbQRxMEade1o6?=
+ =?iso-8859-1?Q?R3S8S16KWg78uPWcBAg2r6SAGFDNsm/9P/SSoMzhHjD31Y79rgCXfthgzz?=
+ =?iso-8859-1?Q?b0gBM8vK4Mrso1gG712BwduQ5kda0N2ipHTQhWoRBsLR4vqrTrUFOzS3u5?=
+ =?iso-8859-1?Q?VAld1Wneo9DgOEE+ri10EZEcg+i0k8NJPwWHBZZkjdF6xq2iESIfDnq/En?=
+ =?iso-8859-1?Q?BNNGmFP+wqdLVBuY+UzznBXGff/Fy4ETXZQxBTo1xmyy8sdhjth7Mj01yf?=
+ =?iso-8859-1?Q?uDIOruLbrZqMUkQ5YmVmZc4vQG4AkV3QgX/k43LAEtbyKiagLw4Ij5qke1?=
+ =?iso-8859-1?Q?NNPf53Jq3RI+QSj9hVPmxlUyaMVitmIad3ttGzKE3xLQKRDmHZtCudjC5U?=
+ =?iso-8859-1?Q?mfbP9x1MH3qaralJKGJ0Z1ur+pr6b4XVBB/K8hNDLFiVB3FsKs+xfvSGIF?=
+ =?iso-8859-1?Q?Clrpr/qox1urQale67aJ3/ujJBzmDYg21i?=
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
@@ -140,308 +139,115 @@ MIME-Version: 1.0
 X-OriginatorOrg: lge.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: SE1P216MB2647.KORP216.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: fa7d9f3f-ba92-473e-9591-08ddbd23fa31
-X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Jul 2025 07:00:37.5133
+X-MS-Exchange-CrossTenant-Network-Message-Id: 756dc5d6-24d0-4e74-e64a-08ddbd249374
+X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Jul 2025 07:04:54.6680
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 5069cde4-642a-45c0-8094-d0c2dec10be3
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: VbO2kCKxbTNGkeQesnChPXQhRASHCpW9FVVak4+qhrJmW7VM6cTLErfvo/UbEGbqkZ3Z4bR6tPmuJPKp8B0fBQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SE2P216MB2914
+X-MS-Exchange-CrossTenant-userprincipalname: hysO6E/M3VqUNQr0sORkeS+AFtivKz0FnrlpJ6YXxxpOrJUsev9jwNvpkZS/+DHwyZhjyK7ci2poh14H4oCuyw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SE1P216MB2148
 
-From c8dafb2ffcd7f68b0e68725838095b755e5139d3 Mon Sep 17 00:00:00 2001=0A=
+From 3ec1fad48a93a88d900e88c01e33a62309dce428 Mon Sep 17 00:00:00 2001=0A=
 From: shailesh rathod <shailesh.rathod@lge.com>=0A=
-Date: Fri, 30 May 2025 14:19:57 +0900=0A=
-Subject: [PATCH] Add initial support for P2P listen mode in ConnMan=0A=
+Date: Mon, 9 Jun 2025 19:52:30 +0900=0A=
+Subject: [PATCH] Add support for P2P WPS (PIN/PBC) in ConnMan=0A=
 =0A=
-- Introduce P2P listen functionality for Wi-Fi Direct (P2P) via new D-Bus=
-=0A=
-=A0 property "P2PListen" on the technology interface.=0A=
-- Add technology driver callback set_p2p_listen and implement it in the WiF=
-i plugin.=0A=
-- Implement GSupplicantP2PExtendedListenParams and related API to trigger t=
-he=0A=
-=A0 ExtendedListen method in wpa_supplicant.=0A=
-- Update technology and wifi plugin logic to handle enabling/disabling P2P =
-listen state.=0A=
-- Expose the P2PListen property in D-Bus technology properties and allow it=
- to be set via D-Bus.=0A=
-- Ensure proper error handling and state management for repeated or unsuppo=
-rted requests.=0A=
+- Enable P2P WPS connection using either PIN or Push Button Configuration (=
+PBC) methods.=0A=
+- Store and retrieve the WPS PIN via ConnMan's configuration storage.=0A=
+- Add "WiFi.PinWPS" property to the technology D-Bus interface for setting =
+and saving the WPS PIN.=0A=
+- Update peer connection logic to use the appropriate WPS method based on t=
+he presence of a PIN.=0A=
+- Ensure proper memory management for the WPS PIN in the technology structu=
+re.=0A=
 ---=0A=
-=A0gsupplicant/gsupplicant.h | 12 +++++++=0A=
-=A0gsupplicant/supplicant.c =A0| 29 +++++++++++++++=0A=
-=A0include/technology.h =A0 =A0 =A0| =A01 +=0A=
-=A0plugins/wifi.c =A0 =A0 =A0 =A0 =A0 =A0| 35 ++++++++++++++++++=0A=
-=A0src/technology.c =A0 =A0 =A0 =A0 =A0| 74 +++++++++++++++++++++++++++++++=
-+++++++-=0A=
-=A05 files changed, 150 insertions(+), 1 deletion(-)=0A=
+=A0src/peer.c =A0 =A0 =A0 | 14 ++++++++++++--=0A=
+=A0src/technology.c | 26 +++++++++++++++++++++++++-=0A=
+=A02 files changed, 37 insertions(+), 3 deletions(-)=0A=
 =0A=
-diff --git a/gsupplicant/gsupplicant.h b/gsupplicant/gsupplicant.h=0A=
-index eab6293..77c2d46 100644=0A=
---- a/gsupplicant/gsupplicant.h=0A=
-+++ b/gsupplicant/gsupplicant.h=0A=
-@@ -312,6 +312,18 @@ GSupplicantPeer *g_supplicant_interface_peer_lookup(GS=
-upplicantInterface *interf=0A=
-=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 const char *identifier);=0A=
-=A0bool g_supplicant_interface_is_p2p_finding(GSupplicantInterface *interfa=
-ce);=0A=
+diff --git a/src/peer.c b/src/peer.c=0A=
+index bad5c84..2b2c636 100644=0A=
+--- a/src/peer.c=0A=
++++ b/src/peer.c=0A=
+@@ -609,9 +609,19 @@ static int peer_connect(struct connman_peer *peer)=0A=
+=A0 =A0 if (is_connected(peer))=0A=
+=A0 =A0 =A0 =A0 return -EISCONN;=0A=
 =A0=0A=
-+struct _GSupplicantP2PExtendedListenParams {=0A=
-+ =A0 int period;=0A=
-+ =A0 int interval;=0A=
-+};=0A=
+- =A0 if (peer_driver->connect)=0A=
++ =A0 GKeyFile *keyfile =3D __connman_storage_load_global();=0A=
 +=0A=
-+typedef struct _GSupplicantP2PExtendedListenParams GSupplicantP2PExtendedL=
-istenParams;=0A=
++ =A0 char *pin =3D g_key_file_get_string(keyfile, "WiFi", "WiFi.PinWPS", N=
+ULL);=0A=
 +=0A=
-+int g_supplicant_interface_p2p_extended_listen(GSupplicantInterface *inter=
-face,=0A=
-+ =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
-=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 GSupplicantP2PExtendedListenParams *ext=
-ended_listen_data,=0A=
-+ =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
-=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 GSupplicantInterfaceCallback callback,=
-=0A=
-+ =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
-=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 void *user_data);=0A=
-+=0A=
-=A0/* Network and Peer API */=0A=
-=A0struct _GSupplicantNetwork;=0A=
-=A0struct _GSupplicantGroup;=0A=
-diff --git a/gsupplicant/supplicant.c b/gsupplicant/supplicant.c=0A=
-index f3be9e7..7facfe8 100644=0A=
---- a/gsupplicant/supplicant.c=0A=
-+++ b/gsupplicant/supplicant.c=0A=
-@@ -4009,6 +4009,35 @@ done:=0A=
-=A0 =A0 interface_create_data_free(data);=0A=
-=A0}=0A=
-=A0=0A=
-+static void extended_listen_append_args(DBusMessageIter *iter, GSupplicant=
-P2PExtendedListenParams *params)=0A=
-+{=0A=
-+ =A0 //struct GSupplicantP2PExtendedListenParams *params =3D user_data;=0A=
-+ =A0 DBusMessageIter dict;=0A=
-+=0A=
-+ =A0 supplicant_dbus_dict_open(iter, &dict);=0A=
-+ =A0 if (params) {=0A=
-+ =A0 =A0 =A0 supplicant_dbus_dict_append_basic(&dict, "period", DBUS_TYPE_=
-INT32, &params->period);=0A=
-+ =A0 =A0 =A0 supplicant_dbus_dict_append_basic(&dict, "interval", DBUS_TYP=
-E_INT32, &params->interval);=0A=
-+ =A0 }=0A=
-+ =A0 supplicant_dbus_dict_close(iter, &dict);=0A=
-+}=0A=
-+int g_supplicant_interface_p2p_extended_listen(GSupplicantInterface *inter=
-face,=0A=
-+ =A0 GSupplicantP2PExtendedListenParams *params,=0A=
-+ =A0 GSupplicantInterfaceCallback callback,=0A=
-+ =A0 void *user_data)=0A=
-+{=0A=
-+ =A0 if (!interface)=0A=
-+ =A0 =A0 =A0 return -EINVAL;=0A=
-+=0A=
-+=0A=
-+return supplicant_dbus_method_call(interface->path,=0A=
-+ =A0 =A0 =A0 SUPPLICANT_INTERFACE ".Interface.P2PDevice",=0A=
-+ =A0 =A0 =A0 "ExtendedListen",=0A=
-+ =A0 =A0 =A0 extended_listen_append_args,=0A=
-+ =A0 =A0 =A0 NULL, =A0// or NULL if no reply handler needed=0A=
-+ =A0 =A0 =A0 params,=0A=
-+ =A0 =A0 =A0 NULL);=0A=
-+}=0A=
-=A0static void interface_create_params(DBusMessageIter *iter, void *user_da=
-ta)=0A=
-=A0{=0A=
-=A0 =A0 struct interface_create_data *data =3D user_data;=0A=
-diff --git a/include/technology.h b/include/technology.h=0A=
-index fcd658e..fd7b87a 100644=0A=
---- a/include/technology.h=0A=
-+++ b/include/technology.h=0A=
-@@ -65,6 +65,7 @@ struct connman_technology_driver {=0A=
-=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 const char *bridge, bool enabled);=0A=
-=A0 =A0 int (*set_regdom) (struct connman_technology *technology,=0A=
-=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 const char *alpha2);=0A=
-+ =A0 int (*set_p2p_listen) (struct connman_technology *technology, bool en=
-able);=0A=
-=A0};=0A=
-=A0=0A=
-=A0int connman_technology_driver_register(struct connman_technology_driver =
-*driver);=0A=
-diff --git a/plugins/wifi.c b/plugins/wifi.c=0A=
-index 12389fa..cbfcf5d 100644=0A=
---- a/plugins/wifi.c=0A=
-+++ b/plugins/wifi.c=0A=
-@@ -184,6 +184,7 @@ static bool wfd_service_registered =3D false;=0A=
-=A0static void start_autoscan(struct connman_device *device);=0A=
-=A0static int tech_set_tethering(struct connman_technology *technology,=0A=
-=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 const char *bridge, bool enabled);=0A=
-+static int tech_set_p2p_listen(struct connman_technology *technology, bool=
- enable);=0A=
-=A0=0A=
-=A0static int p2p_tech_probe(struct connman_technology *technology)=0A=
-=A0{=0A=
-@@ -3663,6 +3664,7 @@ static struct connman_technology_driver tech_driver =
-=3D {=0A=
-=A0 =A0 .remove =A0 =A0 =3D tech_remove,=0A=
-=A0 =A0 .set_tethering =A0=3D tech_set_tethering,=0A=
-=A0 =A0 .set_regdom =3D tech_set_regdom,=0A=
-+ =A0 .set_p2p_listen =3D tech_set_p2p_listen,=0A=
-=A0};=0A=
-=A0=0A=
-=A0static int wifi_init(void)=0A=
-@@ -3700,5 +3702,38 @@ static void wifi_exit(void)=0A=
-=A0 =A0 connman_network_driver_unregister(&network_driver);=0A=
-=A0}=0A=
-=A0=0A=
-+static int p2p_enter_listen_state(GSupplicantInterface *interface)=0A=
-+{=0A=
-+ =A0 GSupplicantP2PExtendedListenParams params =3D {=0A=
-+ =A0 =A0 =A0 .period =3D 50, =A0 =A0 =A0// ms=0A=
-+ =A0 =A0 =A0 .interval =3D 100 =A0 =A0// ms=0A=
-+ =A0 };=0A=
-+=0A=
-+ =A0 return g_supplicant_interface_p2p_extended_listen(interface, &params,=
- NULL, NULL);=0A=
-+}=0A=
-+=0A=
-+static int tech_set_p2p_listen(struct connman_technology *technology, bool=
- enable)=0A=
-+{=0A=
-+ =A0 GList *list;=0A=
-+ =A0 struct wifi_data *wifi =3D NULL;=0A=
-+ =A0 GSupplicantInterface *interface;=0A=
-+ =A0 int err;=0A=
-+=0A=
-+ =A0 for (list =3D iface_list; list; list =3D list->next) {=0A=
-+ =A0 =A0 =A0 wifi =3D list->data;=0A=
-+ =A0 =A0 =A0 interface =3D wifi->interface;=0A=
-+=0A=
-+ =A0 =A0 =A0 if (interface =3D=3D NULL)=0A=
-+ =A0 =A0 =A0 =A0 =A0 continue;=0A=
-+=0A=
-+ =A0 =A0 =A0 if (wifi->interface){=0A=
-+ =A0 =A0 =A0 =A0 =A0 err =3D p2p_enter_listen_state(wifi->interface);=0A=
-+ =A0 =A0 =A0 =A0 =A0 return err;=0A=
++ =A0 if (peer_driver->connect){=0A=
++ =A0 =A0 =A0 if(!pin || strlen(pin)=3D=3D0){=0A=
++ =A0 =A0 =A0 err =3D peer_driver->connect(peer,=0A=
++ =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 CONNMAN_PEER_WPS_PBC, NULL);=0A=
++ =A0 =A0 =A0 }else{=0A=
+=A0 =A0 =A0 =A0 err =3D peer_driver->connect(peer,=0A=
+- =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 CONNMAN_PEER_WPS_UNKNOWN, NULL);=0A=
++ =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 CONNMAN_PEER_WPS_PIN, pin);=0A=
 + =A0 =A0 =A0 }=0A=
 + =A0 }=0A=
-+=0A=
-+ =A0 return -EOPNOTSUPP;=0A=
-+}=0A=
-+=0A=
-=A0CONNMAN_PLUGIN_DEFINE(wifi, "WiFi interface plugin", VERSION,=0A=
-=A0 =A0 =A0 =A0 CONNMAN_PLUGIN_PRIORITY_DEFAULT, wifi_init, wifi_exit)=0A=
+=A0=0A=
+=A0 =A0 if (err =3D=3D -ENOKEY) {=0A=
+=A0 =A0 =A0 =A0 err =3D __connman_agent_request_peer_authorization(peer,=0A=
 diff --git a/src/technology.c b/src/technology.c=0A=
-index 1bcd184..3f3b022 100644=0A=
+index 3f3b022..fc90663 100644=0A=
 --- a/src/technology.c=0A=
 +++ b/src/technology.c=0A=
-@@ -85,6 +85,7 @@ struct connman_technology {=0A=
-=A0 =A0 bool softblocked;=0A=
+@@ -86,6 +86,7 @@ struct connman_technology {=0A=
 =A0 =A0 bool hardblocked;=0A=
 =A0 =A0 bool dbus_registered;=0A=
-+ =A0 bool p2p_listen;=0A=
+=A0 =A0 bool p2p_listen;=0A=
++ =A0 char * wps_pin;=0A=
 =A0};=0A=
 =A0=0A=
 =A0static GSList *driver_list =3D NULL;=0A=
-@@ -647,6 +648,10 @@ static void append_properties(DBusMessageIter *iter,=
-=0A=
-=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 DBUS_TYPE_INT32,=0A=
-=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 &technology->tethering_freq);=0A=
+@@ -215,6 +216,12 @@ static void technology_save(struct connman_technology =
+*technology)=0A=
+=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 "Tethering.Freq",=0A=
+=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 technology->tethering_freq);=0A=
 =A0=0A=
-+ =A0 =A0connman_dbus_dict_append_basic(&dict, "P2PListen",=0A=
-+ =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 DBUS_TYPE_BOOLEAN,=0A=
-+ =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 &technology->p2p_listen);=0A=
-+=0A=
-=A0 =A0 connman_dbus_dict_close(iter, &dict);=0A=
-=A0}=0A=
-=A0=0A=
-@@ -957,6 +962,61 @@ make_reply:=0A=
-=A0 =A0 return reply;=0A=
-=A0}=0A=
-=A0=0A=
-+static DBusMessage *set_p2p_listen(struct connman_technology *technology,=
-=0A=
-+ =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 DBusM=
-essage *msg, bool enable)=0A=
-+{=0A=
-+ =A0 DBusMessage *reply =3D NULL;=0A=
-+ =A0 int err =3D 0;=0A=
-+ =A0 GSList *tech_drivers;=0A=
-+=0A=
-+ =A0 __sync_synchronize();=0A=
-+ =A0 if (technology->enabled =3D=3D FALSE) {=0A=
-+ =A0 =A0 =A0 err =3D -EOPNOTSUPP;=0A=
-+ =A0 =A0 =A0 goto make_reply;=0A=
-+ =A0 }=0A=
-+=0A=
-+ =A0 if (technology->type !=3D CONNMAN_SERVICE_TYPE_WIFI) {=0A=
-+ =A0 =A0 =A0 err =3D -EOPNOTSUPP;=0A=
-+ =A0 =A0 =A0 goto make_reply;=0A=
-+ =A0 }=0A=
-+=0A=
-+ =A0 if (technology->p2p_listen =3D=3D enable) {=0A=
-+ =A0 =A0 =A0 err =3D -EALREADY;=0A=
-+ =A0 =A0 =A0 goto make_reply;=0A=
-+ =A0 }=0A=
-+=0A=
-+ =A0 for (tech_drivers =3D technology->driver_list; tech_drivers !=3D NULL=
-;=0A=
-+ =A0 =A0 =A0 =A0 =A0 tech_drivers =3D g_slist_next(tech_drivers)) {=0A=
-+ =A0 =A0 =A0 struct connman_technology_driver *driver =3D tech_drivers->da=
-ta;=0A=
-+=0A=
-+ =A0 =A0 =A0 if (driver =3D=3D NULL || driver->set_p2p_listen =3D=3D NULL)=
-=0A=
-+ =A0 =A0 =A0 =A0 =A0 continue;=0A=
-+=0A=
-+ =A0 =A0 =A0 err =3D driver->set_p2p_listen(technology, enable);=0A=
-+ =A0 =A0 =A0 if (err < 0)=0A=
-+ =A0 =A0 =A0 =A0 =A0 break;=0A=
-+ =A0 }=0A=
-+=0A=
-+ =A0 if (err >=3D 0)=0A=
-+ =A0 =A0 =A0 technology->p2p_listen =3D enable;=0A=
-+=0A=
-+ =A0 make_reply:=0A=
-+ =A0 if (err =3D=3D -EINPROGRESS)=0A=
-+ =A0 =A0 =A0 reply =3D g_dbus_create_reply(msg, DBUS_TYPE_INVALID);=0A=
-+ =A0 else if (err =3D=3D -EALREADY) {=0A=
-+ =A0 =A0 =A0 if (enable =3D=3D TRUE)=0A=
-+ =A0 =A0 =A0 =A0 =A0 reply =3D __connman_error_already_enabled(msg);=0A=
-+ =A0 =A0 =A0 else=0A=
-+ =A0 =A0 =A0 =A0 =A0 reply =3D __connman_error_already_disabled(msg);=0A=
-+ =A0 } else if (err < 0)=0A=
-+ =A0 =A0 =A0 reply =3D __connman_error_failed(msg, -err);=0A=
-+ =A0 else=0A=
-+ =A0 =A0 =A0 reply =3D g_dbus_create_reply(msg, DBUS_TYPE_INVALID);=0A=
-+=0A=
-+ =A0 return reply;=0A=
++ =A0 if (technology->wps_pin) {=0A=
++ =A0 =A0 =A0 =A0 =A0 =A0 =A0 g_key_file_set_string(keyfile, identifier,=0A=
++ =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 "WiFi=
+.PinWPS",=0A=
++ =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 techn=
+ology->wps_pin);=0A=
 +}=0A=
 +=0A=
-+=0A=
-=A0static DBusMessage *set_property(DBusConnection *conn,=0A=
-=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 DBusMessage *msg, void *data)=0A=
-=A0{=0A=
-@@ -1148,7 +1208,19 @@ static DBusMessage *set_property(DBusConnection *con=
-n,=0A=
-=A0 =A0 =A0 =A0 dbus_message_iter_get_basic(&value, &enable);=0A=
+=A0done:=0A=
+=A0 =A0 g_free(identifier);=0A=
 =A0=0A=
-=A0 =A0 =A0 =A0 return set_powered(technology, msg, enable);=0A=
-- =A0 } else=0A=
-+ =A0 } else if (g_str_equal(name, "P2PListen") =3D=3D TRUE) {=0A=
-+ =A0 bool enable;=0A=
+@@ -1220,7 +1227,24 @@ static DBusMessage *set_property(DBusConnection *con=
+n,=0A=
+=A0 =A0 dbus_message_iter_get_basic(&value, &enable);=0A=
+=A0=0A=
+=A0 =A0 return set_p2p_listen(technology, msg, enable);=0A=
+-} else=0A=
++}else if (g_str_equal(name, "WiFi.PinWPS") =3D=3D TRUE) {=0A=
++ =A0 const char *pin =3D NULL;=0A=
 +=0A=
-+ =A0 if (type !=3D DBUS_TYPE_BOOLEAN)=0A=
++ =A0 if (type !=3D DBUS_TYPE_STRING)=0A=
 + =A0 =A0 =A0 return __connman_error_invalid_arguments(msg);=0A=
 +=0A=
-+ =A0 if (technology->type !=3D CONNMAN_SERVICE_TYPE_WIFI)=0A=
-+ =A0 =A0 =A0 return __connman_error_not_supported(msg);=0A=
++ =A0 dbus_message_iter_get_basic(&value, &pin);=0A=
 +=0A=
-+ =A0 dbus_message_iter_get_basic(&value, &enable);=0A=
++ =A0 // Save the WPS PIN to the technology struct=0A=
++ =A0 g_free(technology->wps_pin); =A0 // free old if any=0A=
++ =A0 technology->wps_pin =3D g_strdup(pin);=0A=
 +=0A=
-+ =A0 return set_p2p_listen(technology, msg, enable);=0A=
-+} else=0A=
++ =A0 // Call save function=0A=
++ =A0 technology_save(technology);=0A=
++=0A=
++ =A0 if (err < 0)=0A=
++ =A0 =A0 =A0 return __connman_error_failed(msg, -err);=0A=
++}else=0A=
 =A0 =A0 =A0 =A0 return __connman_error_invalid_property(msg);=0A=
 =A0=0A=
 =A0 =A0 return g_dbus_create_reply(msg, DBUS_TYPE_INVALID);=0A=
+=0A=
 =0A=
