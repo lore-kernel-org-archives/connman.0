@@ -1,45 +1,45 @@
 Received: from mail.kapsi.fi (mail-auth.kapsi.fi [91.232.154.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F9192E7BB1
-	for <connman@lists.linux.dev>; Fri, 11 Jul 2025 14:27:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4F582E7BC5
+	for <connman@lists.linux.dev>; Fri, 11 Jul 2025 14:27:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.232.154.24
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752244078; cv=none; b=iTcJ/+8Itob/xJP2Jp4if8pZmbpWtrcZPAN86LbCWW170w3C0tax/Kdpn5kazQfLHcnOwGw9V4LSLAX7Z8YAiQSFtWMsQ4kshEE3JNjQl9cO+4xy4XOQ4g4p+q0oBIARm4Nkze0/wQw1Q/mVKEp/D9w5P9KIX0RbNZP3ic2vA9I=
+	t=1752244078; cv=none; b=BawWpc3fnUF8F/v9X8DsWm6SpEokawlrWHs5aCalenquO0Ms/otc93WRvVYIbatOFic5Hl128s6nsBX3YCHbyZKJ2LPE6TsrJ0y+18xroKY6c3P7awKeAManqFbyaatj87+KjkmDpgZMvbg6tykLO2RIPfw3MkhCx8R83bFkHBs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1752244078; c=relaxed/simple;
-	bh=lQtNL615u72qVz634XPwOQrKQp8bCjgt6oIjwGswj38=;
+	bh=QFzgpTCUJyMtTg+C0DkfxUHmoXXUwV+IXFlE7Q2aSVI=;
 	h=From:To:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=GtyiLjNxFu2Gd0dcRNbV7ShyPKZnIJjoEs5+JL6lp+S1b1eXib4ZCQTLm9AFTdokuM84xlzabfdlEI0q7DHhLDmtMv3PUG4FCPMqmTMQzZZAPb56d4MwO+Gr/IkYUfvoChHXF2Oai0sLyZoUJuDXWXKHUxc+qZjEOyKWvb25Q9M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=jolla.com; spf=pass smtp.mailfrom=kapsi.fi; dkim=pass (2048-bit key) header.d=kapsi.fi header.i=@kapsi.fi header.b=g8dmzCJW; arc=none smtp.client-ip=91.232.154.24
+	 MIME-Version; b=nUSOS5nRoA0n09jbUZMpYeuRxE34kA1Oo5mK1seG0sJGaHpMZoPXBFn3xPdsSLpXbNZE+JEEuxY1ShRG22S5Wi5wNV8CA65S4AGedTCykOzTP4UXqrdB10EhFzPB41im26oGmOKHhmgkB5XDKT36YTNZX8ezQcfeh5uTGeHoGXo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=jolla.com; spf=pass smtp.mailfrom=kapsi.fi; dkim=pass (2048-bit key) header.d=kapsi.fi header.i=@kapsi.fi header.b=ZHYF8Y9H; arc=none smtp.client-ip=91.232.154.24
 Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=jolla.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kapsi.fi
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kapsi.fi header.i=@kapsi.fi header.b="g8dmzCJW"
+	dkim=pass (2048-bit key) header.d=kapsi.fi header.i=@kapsi.fi header.b="ZHYF8Y9H"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
 	s=20161220; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:To:From:Sender:Reply-To:Cc:Content-Type:Content-ID:
 	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
 	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
 	List-Post:List-Owner:List-Archive;
-	bh=emYeZ4h7rPezZTt5bkycveQhOTDYl4JJORP6b21YuEc=; b=g8dmzCJWVo47jIdp4xWo9cAAPR
-	OfWX6IQozsfOIOzVRGjmlDWNCvT4tMnxHdUzF/Sfm0LuJOMdghxldoz9rZbM51uwip6K3p+x0sFR0
-	7n5ePEBqydvbSOlsLAz06a+H6wUH7h+E6xomUpXdUVOBMJLbrR+xqxy+EULviLzFhuEzvER90KDMq
-	uOUu1KLlilFVAwVQAjR5LnSu0XwYUOoXrBopQMMwv0k3T0r3a9XPd0GLe4lDsBXO2ZoDazGFwHGKx
-	CXA+tj3wGgeR+CPESPJZSgVOSapS65wVPP6m1EEqEPsGaTRhHl6L/myjFwTOe5jErRWDeOcqX0cCx
-	cMQbtzrA==;
+	bh=MKpnbDoXDG5g+BmD8kx9AyxQdD6YymlJauDO0s9aTaA=; b=ZHYF8Y9Hsk25HrKQnAdxysTqt0
+	L6oFsRvWoEFONRoKrq1+8pO2m7mWDO5kLyKvMtiTOZ9M10Tu6mTizxfOPdSBAOU7ZbinWOt7GijLN
+	j//Nss4gDGM9U+eT8JLvah6LkVLB085zM01sYfnVESHsk4d1JiNiwX6wgRc52pMwi2IsTDs1IBrWG
+	K9UiojsJIw8+F4bPnZaYjoG0uN6FBXucuDrERbIOdm5PlNEnMBzP+cliZ6BicLYTuowx1IFCEBMqi
+	1/EEAT7Qeuge2+j9tT57LRjjrE5lijsHZsZqZimt/zedYmTcG2a27IK86mU0flmmdPHIgiA0HcDWk
+	L8CZ2XMg==;
 Received: from [2a10:a5c0:37:6500:7901:7c96:5fcf:719b] (helo=jl-x230.local)
 	by mail.kapsi.fi with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.96)
 	(envelope-from <jussi.laakkonen@jolla.com>)
-	id 1uaEj0-003kbq-2o
+	id 1uaEj1-003kbq-2t
 	for connman@lists.linux.dev;
-	Fri, 11 Jul 2025 17:27:42 +0300
+	Fri, 11 Jul 2025 17:27:43 +0300
 From: Jussi Laakkonen <jussi.laakkonen@jolla.com>
 To: connman@lists.linux.dev
-Subject: [PATCH 02/45] vpn-provider: Use association state for VPN agent input wait
-Date: Fri, 11 Jul 2025 17:26:53 +0300
-Message-Id: <20250711142736.1757060-3-jussi.laakkonen@jolla.com>
+Subject: [PATCH 25/45] provider: Add support for dual-IP VPNs
+Date: Fri, 11 Jul 2025 17:27:16 +0300
+Message-Id: <20250711142736.1757060-26-jussi.laakkonen@jolla.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250711142736.1757060-1-jussi.laakkonen@jolla.com>
 References: <20250711142736.1757060-1-jussi.laakkonen@jolla.com>
@@ -54,148 +54,201 @@ X-SA-Exim-Connect-IP: 2a10:a5c0:37:6500:7901:7c96:5fcf:719b
 X-SA-Exim-Mail-From: jussi.laakkonen@jolla.com
 X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
 
-Use the association state with VPNs to define that VPN is waiting for
-input via agent. The same state is used for every service in connmand so
-this change synchronizes the states in both.
+Handle both IP family types for a VPN if it, like WireGuard, has them.
+Use a boolean array to define AFs for a VPN.
 
-Set the state to be identical to connmand side states by injecting this
-into the VPN state machine before the connect state ("configuration"
-state). This is then changed when the state is set to connected either
-by getting a non-error reply from VPN agent or via VPN driver gets
-connect state notify.
+Change the functionality regarding supported families to use a boolean
+array defining which address families are supported by a VPN.
 
-In this is association state the VPN indicates to connmand that the VPN
-is requesting user input via agent and shouldn't be subject to connect
-timeout checks. Having this additional state allows to obey the D-Bus VPN
-agent query timeout value, instead of getting the dialog shut down at
-connection timeout.
+Modify the connman_provider_get_family() to be a query type based on the
+AF given.
 ---
- vpn/vpn-provider.c | 45 +++++++++++++++++++++++++++++++++++++++++----
- vpn/vpn-provider.h |  6 ++++++
- 2 files changed, 47 insertions(+), 4 deletions(-)
+ include/provider.h |  2 +-
+ src/provider.c     | 88 +++++++++++++++++++++++++++++++++-------------
+ 2 files changed, 65 insertions(+), 25 deletions(-)
 
-diff --git a/vpn/vpn-provider.c b/vpn/vpn-provider.c
-index 4bcb8373..56040e65 100644
---- a/vpn/vpn-provider.c
-+++ b/vpn/vpn-provider.c
-@@ -1487,6 +1487,23 @@ int __vpn_provider_disconnect(struct vpn_provider *provider)
- 	return err;
- }
+diff --git a/include/provider.h b/include/provider.h
+index aac47527..3e6ea2c7 100644
+--- a/include/provider.h
++++ b/include/provider.h
+@@ -117,7 +117,7 @@ void connman_provider_set_autoconnect(struct connman_provider *provider,
+ bool connman_provider_is_split_routing(struct connman_provider *provider);
+ int connman_provider_set_split_routing(struct connman_provider *provider,
+ 							bool split_routing);
+-int connman_provider_get_family(struct connman_provider *provider);
++bool connman_provider_get_family(struct connman_provider *provider, int family);
  
-+static bool is_connected_state(enum vpn_provider_state state)
-+{
-+	switch (state) {
-+	case VPN_PROVIDER_STATE_UNKNOWN:
-+	case VPN_PROVIDER_STATE_IDLE:
-+	case VPN_PROVIDER_STATE_DISCONNECT:
-+	case VPN_PROVIDER_STATE_FAILURE:
-+		break;
-+	case VPN_PROVIDER_STATE_CONNECT:
-+	case VPN_PROVIDER_STATE_READY:
-+	case VPN_PROVIDER_STATE_ASSOCIATION:
-+		return true;
-+	}
-+
-+	return false;
-+}
-+
- static void connect_cb(struct vpn_provider *provider, void *user_data,
- 								int error)
- {
-@@ -1509,6 +1526,8 @@ static void connect_cb(struct vpn_provider *provider, void *user_data,
- 			 * No reply, disconnect called by connmand because of
- 			 * connection timeout.
- 			 */
-+			vpn_provider_indicate_error(provider,
-+					VPN_PROVIDER_ERROR_CONNECT_FAILED);
- 			break;
- 		case ENOMSG:
- 			/* fall through */
-@@ -1533,9 +1552,7 @@ static void connect_cb(struct vpn_provider *provider, void *user_data,
- 			 * process gets killed and vpn_died() is called to make
- 			 * the provider back to idle state.
- 			 */
--			if (provider->state == VPN_PROVIDER_STATE_CONNECT ||
--						provider->state ==
--						VPN_PROVIDER_STATE_READY) {
-+			if (is_connected_state(provider->state)) {
- 				if (provider->driver->set_state)
- 					provider->driver->set_state(provider,
- 						VPN_PROVIDER_STATE_DISCONNECT);
-@@ -1597,6 +1614,17 @@ int __vpn_provider_connect(struct vpn_provider *provider, DBusMessage *msg)
- 		if (reply)
- 			g_dbus_send_message(connection, reply);
+ const char *connman_provider_get_driver_name(struct connman_provider *provider);
+ const char *connman_provider_get_save_group(struct connman_provider *provider);
+diff --git a/src/provider.c b/src/provider.c
+index ab4aeafb..e790ccea 100644
+--- a/src/provider.c
++++ b/src/provider.c
+@@ -31,6 +31,7 @@
+ #include <gweb/gresolv.h>
  
-+		return -EINPROGRESS;
-+	case VPN_PROVIDER_STATE_ASSOCIATION:
-+		/*
-+		 * Do not interrupt user when inputting credentials via agent.
-+		 * The driver is in CONNECT state that would return EINPROGRESS
-+		 * and change provider state to CONNECT.
-+		 */
-+		reply = __connman_error_in_progress(msg);
-+		if (reply)
-+			g_dbus_send_message(connection, reply);
-+
- 		return -EINPROGRESS;
- 	case VPN_PROVIDER_STATE_UNKNOWN:
- 	case VPN_PROVIDER_STATE_IDLE:
-@@ -1626,7 +1654,7 @@ int __vpn_provider_connect(struct vpn_provider *provider, DBusMessage *msg)
- 		return -EOPNOTSUPP;
+ #include "connman.h"
++#include "src/shared/util.h"
  
- 	if (err == -EINPROGRESS)
--		vpn_provider_set_state(provider, VPN_PROVIDER_STATE_CONNECT);
-+		vpn_provider_set_state(provider, VPN_PROVIDER_STATE_ASSOCIATION);
+ static DBusConnection *connection = NULL;
  
- 	return err;
- }
-@@ -1767,6 +1795,8 @@ static const char *state2string(enum vpn_provider_state state)
- 		break;
- 	case VPN_PROVIDER_STATE_IDLE:
- 		return "idle";
-+	case VPN_PROVIDER_STATE_ASSOCIATION:
-+		return "association";
- 	case VPN_PROVIDER_STATE_CONNECT:
- 		return "configuration";
- 	case VPN_PROVIDER_STATE_READY:
-@@ -1875,6 +1905,9 @@ static void append_state(DBusMessageIter *iter,
- 	case VPN_PROVIDER_STATE_IDLE:
- 		str = "idle";
- 		break;
-+	case VPN_PROVIDER_STATE_ASSOCIATION:
-+		str = "association";
-+		break;
- 	case VPN_PROVIDER_STATE_CONNECT:
- 		str = "configuration";
- 		break;
-@@ -2026,6 +2059,10 @@ int vpn_provider_set_state(struct vpn_provider *provider,
- 	case VPN_PROVIDER_STATE_IDLE:
- 		return set_connected(provider, false);
- 	case VPN_PROVIDER_STATE_CONNECT:
-+		if (provider->driver && provider->driver->set_state)
-+			provider->driver->set_state(provider, state);
-+		return provider_indicate_state(provider, state);
-+	case VPN_PROVIDER_STATE_ASSOCIATION:
- 		return provider_indicate_state(provider, state);
- 	case VPN_PROVIDER_STATE_READY:
- 		return set_connected(provider, true);
-diff --git a/vpn/vpn-provider.h b/vpn/vpn-provider.h
-index 5d1455da..c81476c6 100644
---- a/vpn/vpn-provider.h
-+++ b/vpn/vpn-provider.h
-@@ -44,6 +44,12 @@ enum vpn_provider_state {
- 	VPN_PROVIDER_STATE_READY         = 3,
- 	VPN_PROVIDER_STATE_DISCONNECT    = 4,
- 	VPN_PROVIDER_STATE_FAILURE       = 5,
-+	/*
-+	 * Special state to indicate that user interaction is being waited for
-+	 * and disconnect timeout in connmand should not terminate this VPN but
-+	 * to let the agent timeout handle the case.
-+	 */
-+	VPN_PROVIDER_STATE_ASSOCIATION   = 6,
+@@ -44,11 +45,35 @@ struct connman_provider {
+ 	struct connman_service *vpn_service;
+ 	int index;
+ 	char *identifier;
+-	int family;
++	bool family[AF_ARRAY_LENGTH];
+ 	struct connman_provider_driver *driver;
+ 	void *driver_data;
  };
  
- enum vpn_provider_error {
++static void provider_set_family(struct connman_provider *provider, int family)
++{
++	if (!provider)
++		return;
++
++	util_set_afs(provider->family, family);
++}
++
++static bool provider_get_family(struct connman_provider *provider, int family)
++{
++	if (!provider)
++		return false;
++
++	return util_get_afs(provider->family, family);
++}
++
++static void provider_reset_family(struct connman_provider *provider)
++{
++	if (!provider)
++		return;
++
++	util_reset_afs(provider->family);
++}
++
+ void __connman_provider_append_properties(struct connman_provider *provider,
+ 							DBusMessageIter *iter)
+ {
+@@ -171,6 +196,8 @@ int connman_provider_disconnect(struct connman_provider *provider)
+ 		provider_indicate_state(provider,
+ 					CONNMAN_SERVICE_STATE_IDLE);
+ 
++	provider_reset_family(provider);
++
+ 	return 0;
+ }
+ 
+@@ -258,22 +285,36 @@ static int set_connected(struct connman_provider *provider,
+ 					bool connected)
+ {
+ 	struct connman_service *service = provider->vpn_service;
+-	struct connman_ipconfig *ipconfig;
++	struct connman_ipconfig *ipconfig_ipv4 = NULL;
++	struct connman_ipconfig *ipconfig_ipv6 = NULL;
+ 
+ 	if (!service)
+ 		return -ENODEV;
+ 
+-	ipconfig = __connman_service_get_ipconfig(service, provider->family);
++	if (provider_get_family(provider, AF_INET))
++		ipconfig_ipv4 = __connman_service_get_ipconfig(service,
++								AF_INET);
++
++	if (provider_get_family(provider, AF_INET6))
++		ipconfig_ipv6 = __connman_service_get_ipconfig(service,
++								AF_INET6);
+ 
+ 	if (connected) {
+-		if (!ipconfig) {
++		if (!ipconfig_ipv4 && !ipconfig_ipv6) {
+ 			provider_indicate_state(provider,
+ 						CONNMAN_SERVICE_STATE_FAILURE);
+ 			return -EIO;
+ 		}
+ 
+-		__connman_ipconfig_address_add(ipconfig);
+-		__connman_ipconfig_gateway_add(ipconfig);
++		if (ipconfig_ipv4) {
++			__connman_ipconfig_address_add(ipconfig_ipv4);
++			__connman_ipconfig_gateway_add(ipconfig_ipv4);
++		}
++
++		if (ipconfig_ipv6) {
++			__connman_ipconfig_address_add(ipconfig_ipv6);
++			__connman_ipconfig_gateway_add(ipconfig_ipv6);
++		}
+ 
+ 		provider_indicate_state(provider,
+ 					CONNMAN_SERVICE_STATE_READY);
+@@ -283,10 +324,16 @@ static int set_connected(struct connman_provider *provider,
+ 						CONNMAN_PROVIDER_ROUTE_ALL);
+ 
+ 	} else {
+-		if (ipconfig) {
++		if (ipconfig_ipv4) {
+ 			provider_indicate_state(provider,
+ 					CONNMAN_SERVICE_STATE_DISCONNECT);
+-			__connman_ipconfig_gateway_remove(ipconfig);
++			__connman_ipconfig_gateway_remove(ipconfig_ipv4);
++		}
++
++		if (ipconfig_ipv6) {
++			provider_indicate_state(provider,
++					CONNMAN_SERVICE_STATE_DISCONNECT);
++			__connman_ipconfig_gateway_remove(ipconfig_ipv6);
+ 		}
+ 
+ 		provider_indicate_state(provider,
+@@ -570,7 +617,7 @@ int connman_provider_set_ipaddress(struct connman_provider *provider,
+ 	if (!ipconfig)
+ 		return -EINVAL;
+ 
+-	provider->family = ipaddress->family;
++	provider_set_family(provider, ipaddress->family);
+ 
+ 	__connman_ipconfig_set_method(ipconfig, CONNMAN_IPCONFIG_METHOD_FIXED);
+ 
+@@ -665,19 +712,15 @@ int connman_provider_set_split_routing(struct connman_provider *provider,
+ 		return -EALREADY;
+ 	}
+ 
+-	switch (provider->family) {
+-	case AF_INET:
++	if (provider_get_family(provider, AF_INET) &&
++				provider_get_family(provider, AF_INET6))
++		type = CONNMAN_IPCONFIG_TYPE_ALL;
++	else if (provider_get_family(provider, AF_INET))
+ 		type = CONNMAN_IPCONFIG_TYPE_IPV4;
+-		break;
+-	case AF_INET6:
++	else if (provider_get_family(provider, AF_INET6))
+ 		type = CONNMAN_IPCONFIG_TYPE_IPV6;
+-		break;
+-	case AF_UNSPEC:
+-		type = CONNMAN_IPCONFIG_TYPE_ALL;
+-		break;
+-	default:
++	else
+ 		type = CONNMAN_IPCONFIG_TYPE_UNKNOWN;
+-	}
+ 
+ 	if (!__connman_service_is_connected_state(provider->vpn_service,
+ 								type)) {
+@@ -719,12 +762,9 @@ out:
+ 	return err;
+ }
+ 
+-int connman_provider_get_family(struct connman_provider *provider)
++bool connman_provider_get_family(struct connman_provider *provider, int family)
+ {
+-	if (!provider)
+-		return AF_UNSPEC;
+-
+-	return provider->family;
++	return provider_get_family(provider, family);
+ }
+ 
+ static void unregister_provider(gpointer data)
 -- 
 2.39.5
 
