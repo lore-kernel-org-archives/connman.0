@@ -1,45 +1,45 @@
 Received: from mail.kapsi.fi (mail-auth.kapsi.fi [91.232.154.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B1F12E7F10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C9032E7F13
 	for <connman@lists.linux.dev>; Fri, 11 Jul 2025 14:27:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.232.154.24
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752244078; cv=none; b=Qvguv3GdMsI3wDN8qQjfq+9ipSjuR88pV4IddFRVLrJrGgzEO1zGsSHTXnksqa1R/nVx6qvpK9BhvoFbjtBnZPQ6IJaAdrqOdYOO1/VLYFzC4pW7Yq3xZzaIWzOJUHuRWALNCVWyZiBJMzNDBEL7YTeOC9hejIZZ+E4tOYTJc5s=
+	t=1752244078; cv=none; b=PSadExorsLCQqr3CR0qeVJQ3sBea4NBbPF0Pe0Ad9WkGC1Et6GyQodUsiXmfZvCBuD3wxGKLqEtqyOT3pBvvxrRAwQijBNJ2MkvKujpoktopHGtktywHnthz9lp1OPYJ1QI9UbRoBEfr2k/TIgDXSzigW8budm/v9NTTmnC9yRc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1752244078; c=relaxed/simple;
-	bh=xWLzUCbOly5OgIecwqtQcZ5O77tGYTf4EbkGwKd6CuE=;
+	bh=70ATb5Z8Fkc+6R+vOd0Azoip7nxT2aR9rjBZPhngJz0=;
 	h=From:To:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=QWr4o3uDEaRuWTBgxE9I4UNcjj9O73L8WIpqF5dIQ2bQ2RELFHy/KsxcUnFsLEiyCBxI1ZAcilAxSr4w5m1QXl3jIOuOSM498WTnGocHCWZSeORZH9U4B5iTwew/hrZrNliHdFIbUEn89kmrqB741V8QHoQJWbtjd7PUqlafP4Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=jolla.com; spf=pass smtp.mailfrom=kapsi.fi; dkim=pass (2048-bit key) header.d=kapsi.fi header.i=@kapsi.fi header.b=VTBxEtws; arc=none smtp.client-ip=91.232.154.24
+	 MIME-Version; b=HrI1TUPunCn8DqmfvjYbmNNS0zfNcMpBFdGBt28ZFxxxJdUszCPg9q88U1sDTRsSY/jfHoU+Mlif/gKCMdXIFxKg/7X/byZdNH0/M5TaZLduRHdREuZ1Wu8lMmwFtTxMxCF/T9hgxf8jsZBSr80IiPonj5N74r4Bm+DzhdJdXfs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=jolla.com; spf=pass smtp.mailfrom=kapsi.fi; dkim=pass (2048-bit key) header.d=kapsi.fi header.i=@kapsi.fi header.b=NbExXavh; arc=none smtp.client-ip=91.232.154.24
 Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=jolla.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kapsi.fi
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kapsi.fi header.i=@kapsi.fi header.b="VTBxEtws"
+	dkim=pass (2048-bit key) header.d=kapsi.fi header.i=@kapsi.fi header.b="NbExXavh"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
 	s=20161220; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:To:From:Sender:Reply-To:Cc:Content-Type:Content-ID:
 	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
 	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
 	List-Post:List-Owner:List-Archive;
-	bh=OawXDQIBXbRio6/Iu3l1+HPY+lhZKkbQDVJBcYGzJwA=; b=VTBxEtwsrOLOFtFh9OiCEeI4dW
-	N6Gp0IyoYN/3iek+8hPhkcA288Cf2puM3YPxfKgBEp+C+5MUE8zot4VjyCHgcpsSsK3B70ZyjrwtV
-	ae7Fp4rcyroH0c1gbvwglaNuZLcHs/F5yqdmzflqZR3WPscQS5gFjcTjt/Nb6D7WWLIoaciKWWODr
-	7ydh/Kh0HHf3fxXWMRmY8XkSgcVg3gzM1Nco+c6ZrN94Y4GUNa5AZ1NSjnXhr4WtRCBctEDM9lUjh
-	2nU+GWNvsZupRWh47QzoEjDurI/rjEE4SgFWerGtg3MOyAk94PMmxcJP7c56ZF/yt1Wb9V3ut2ORc
-	P6Szh6RA==;
+	bh=yk6AF5D6R3GUzP7BzaASBnAX4mUTkv6y/iGvBOIrdpU=; b=NbExXavheI8RKfiqi2PbSSNx00
+	/2HJVWGX/RxEk2geQPnjBC4jrX9ixHDoiA9CZwEevbq3Bg2yTIn4Fxq/MsUvGAdb3L9D9phQqsViB
+	TRTkQfJve5FvCYXoiq3DLmTDOTmcdwWOl9mMRFCqWaEQtSDoLaZZ4CJF5K29rztiDgm+HZjO42bPe
+	66X5/ve5CMjvBlkfM99xrTsV2WIv/i51UqnjQZ7RNHABZsywyumq+yht7w3POMw82FhwD4QXSoXOg
+	ujP51Qbe85PwL9tQTimlzudGCTnDDH8iZVnoN05J6xbAEZyYFSz/wNmYmv1WUnZk2/eElZIoC/tUy
+	lzVeXFbQ==;
 Received: from [2a10:a5c0:37:6500:7901:7c96:5fcf:719b] (helo=jl-x230.local)
 	by mail.kapsi.fi with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.96)
 	(envelope-from <jussi.laakkonen@jolla.com>)
-	id 1uaEj2-003kbq-2T
+	id 1uaEj2-003kbq-2K
 	for connman@lists.linux.dev;
 	Fri, 11 Jul 2025 17:27:44 +0300
 From: Jussi Laakkonen <jussi.laakkonen@jolla.com>
 To: connman@lists.linux.dev
-Subject: [PATCH 44/45] wireguard: Fix FQDN by using the resolved IP as the gateway
-Date: Fri, 11 Jul 2025 17:27:35 +0300
-Message-Id: <20250711142736.1757060-45-jussi.laakkonen@jolla.com>
+Subject: [PATCH 43/45] wireguard: Add option for using transport nameservers for DNS reresolve
+Date: Fri, 11 Jul 2025 17:27:34 +0300
+Message-Id: <20250711142736.1757060-44-jussi.laakkonen@jolla.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250711142736.1757060-1-jussi.laakkonen@jolla.com>
 References: <20250711142736.1757060-1-jussi.laakkonen@jolla.com>
@@ -54,163 +54,84 @@ X-SA-Exim-Connect-IP: 2a10:a5c0:37:6500:7901:7c96:5fcf:719b
 X-SA-Exim-Mail-From: jussi.laakkonen@jolla.com
 X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
 
-This fixes the hostname use with WireGuard by using the resolved IP as
-the gateway for the ipaddress. This address will be sent to connmand for
-setting up the routes and DNS will be otherwise broken if the FQDN is
-set "as is" as the gateway.
-
-By returning also the resolved IP in string format in the initial
-resolve, and setting it as the gateway for the address for the interface
-in in the ipaddress.c the FQDN using WireGuard services can be used.
+If the "WireGuard.ReresolveUseTransportDNS" is defined add the
+nameservers of the transport to be used for DNS reresolve queries. This
+affects only the GResolv queries done after the intial connection to
+reresolve the endpoint address.
 ---
- vpn/plugins/wireguard.c | 80 +++++++++++++++++++++++++----------------
- 1 file changed, 50 insertions(+), 30 deletions(-)
+ vpn/plugins/wireguard.c | 23 ++++++++++++++++++++---
+ 1 file changed, 20 insertions(+), 3 deletions(-)
 
 diff --git a/vpn/plugins/wireguard.c b/vpn/plugins/wireguard.c
-index 2787aa7e..98a9c71a 100644
+index a2d92ec6..2787aa7e 100644
 --- a/vpn/plugins/wireguard.c
 +++ b/vpn/plugins/wireguard.c
-@@ -249,10 +249,35 @@ static int get_endpoint_addr(const char *host, const char *port, int flags,
- 	return 0;
- }
+@@ -53,6 +53,7 @@
  
-+static const char *endpoint_to_str(struct wg_peer *peer, char *buf,
-+							socklen_t len)
-+{
-+	struct sockaddr_u *addr;
-+	int family;
-+
-+	addr = (struct sockaddr_u *)&peer->endpoint.addr;
-+	family = peer->endpoint.addr.sa_family;
-+
-+	switch (family) {
-+	case AF_INET:
-+		return inet_ntop(family, &addr->sin.sin_addr, buf, len);
-+	case AF_INET6:
-+		return inet_ntop(family, &addr->sin6.sin6_addr, buf, len);
-+	default:
-+		break;
-+	}
-+
-+	return NULL;
-+}
-+
- static int parse_endpoint_hostname(const char *host, const char *port,
--							struct sockaddr_u *addr)
-+							struct wg_peer *peer,
-+							char **gateway_resolved)
- {
-+	struct sockaddr_u *addr;
- 	char **tokens;
-+	const char *gw = NULL;
-+	char buf[INET6_ADDRSTRLEN] = { 0 };
- 	unsigned int len;
- 	int err;
+ #define DNS_RERESOLVE_TIMEOUT 20
+ #define DNS_RERESOLVE_ERROR_LIMIT 5
++#define DNS_DEFAULT_PORT 53
+ #define ROUTE_SETUP_TIMEOUT 200 // ms
+ #define ARRAY_SIZE(a) (sizeof(a)/sizeof(a[0]))
  
-@@ -271,9 +296,21 @@ static int parse_endpoint_hostname(const char *host, const char *port,
+@@ -90,7 +91,8 @@ struct {
+ 	{"WireGuard.PublicKey", true},
+ 	{"WireGuard.AllowedIPs", true},
+ 	{"WireGuard.EndpointPort", true},
+-	{"WireGuard.PersistentKeepalive", true}
++	{"WireGuard.PersistentKeepalive", true},
++	{"WireGuard.ReresolveUseTransportDNS", false}
+ };
  
- 	DBG("using host %s", tokens[0]);
- 
-+	addr = (struct sockaddr_u *)&peer->endpoint.addr;
-+
- 	err = get_endpoint_addr(tokens[0], port, 0, addr);
--	if (!err)
-+	if (!err) {
-+		/*
-+		 * In case the endpoint is an host address use the resolved
-+		 * IP address as gateway for DNS over WireGuard to work.
-+		 */
-+		if (connman_inet_check_ipaddress(tokens[0]) <= 0)
-+			gw = endpoint_to_str(peer, buf, INET6_ADDRSTRLEN);
-+
- 		DBG("success");
-+	}
-+
-+	*gateway_resolved = gw ? g_strdup(gw) : g_strdup(tokens[0]);
- 
- 	g_strfreev(tokens);
- 
-@@ -648,27 +685,6 @@ static gboolean wg_dns_reresolve_cb(gpointer user_data)
- 	return G_SOURCE_REMOVE;
- }
- 
--static const char *endpoint_to_str(struct wg_peer *peer, char *buf,
--							socklen_t len)
--{
--	struct sockaddr_u *addr;
--	int family;
--
--	addr = (struct sockaddr_u *)&peer->endpoint.addr;
--	family = peer->endpoint.addr.sa_family;
--
--	switch (family) {
--	case AF_INET:
--		return inet_ntop(family, &addr->sin.sin_addr, buf, len);
--	case AF_INET6:
--		return inet_ntop(family, &addr->sin6.sin6_addr, buf, len);
--	default:
--		break;
--	}
--
--	return NULL;
--}
--
- static gboolean wg_route_setup_cb(gpointer user_data)
+ static struct wireguard_info *create_private_data(struct vpn_provider *provider)
+@@ -532,7 +534,7 @@ static void resolve_endpoint_cb(GResolvResultStatus status,
+ 	case G_RESOLV_RESULT_STATUS_NO_ANSWER:
+ 	case G_RESOLV_RESULT_STATUS_NO_RESPONSE:
+ 	case G_RESOLV_RESULT_STATUS_SERVER_FAILURE:
+-		DBG("retry DNS reresolve");
++		DBG("retry DNS reresolve, status %d", status);
+ 		if (info->provider)
+ 			vpn_provider_add_error(info->provider,
+ 					VPN_PROVIDER_ERROR_CONNECT_FAILED);
+@@ -544,7 +546,7 @@ static void resolve_endpoint_cb(GResolvResultStatus status,
+ 	case G_RESOLV_RESULT_STATUS_FORMAT_ERROR:
+ 	case G_RESOLV_RESULT_STATUS_NOT_IMPLEMENTED:
+ 	case G_RESOLV_RESULT_STATUS_REFUSED:
+-		DBG("stop DNS reresolve, error %d", status);
++		DBG("stop DNS reresolve, status %d", status);
+ 		if (err && info->provider)
+ 			vpn_provider_add_error(info->provider,
+ 					VPN_PROVIDER_ERROR_CONNECT_FAILED);
+@@ -598,7 +600,10 @@ static int disconnect(struct vpn_provider *provider, int error);
+ static gboolean wg_dns_reresolve_cb(gpointer user_data)
  {
  	struct wireguard_info *info = user_data;
-@@ -767,7 +783,9 @@ static int wg_connect(struct vpn_provider *provider,
- {
- 	struct wg_ipaddresses ipaddresses = { 0 };
- 	struct wireguard_info *info;
--	const char *option, *gateway;
-+	const char *option;
-+	const char *endpoint;
-+	char *gateway = NULL;
- 	char *ifname;
- 	bool do_split_routing = true;
- 	int err = -EINVAL;
-@@ -856,21 +874,20 @@ static int wg_connect(struct vpn_provider *provider,
- 	if (!option)
- 		option = "51820";
++	char **nameservers;
++	bool option;
+ 	int err;
++	int i;
  
--	gateway = vpn_provider_get_string(provider, "Host");
-+	endpoint = vpn_provider_get_string(provider, "Host");
- 	/*
- 	 * Use the resolve timeout only with re-resolve. Here the network
- 	 * is setup as the transport is used. In succeeding attempts resolving
- 	 * is needed as it is done over potentially misconfigured WireGuard
- 	 * connection that may end up blocking vpnd with getaddrinfo().
- 	 */
--	err = parse_endpoint_hostname(gateway, option,
--			(struct sockaddr_u *)&info->peer.endpoint.addr);
-+	err = parse_endpoint_hostname(endpoint, option, &info->peer, &gateway);
- 	if (err) {
--		DBG("Failed to parse endpoint %s:%s", gateway, option);
-+		DBG("Failed to parse endpoint %s:%s", endpoint, option);
- 		goto error;
- 	}
+ 	DBG("");
  
--	info->endpoint_fqdn = g_strdup(gateway);
-+	info->endpoint_fqdn = g_strdup(endpoint);
- 	info->port = g_strdup(option);
+@@ -617,6 +622,18 @@ static gboolean wg_dns_reresolve_cb(gpointer user_data)
  
- 	option = vpn_provider_get_string(provider, "WireGuard.Address");
-@@ -878,11 +895,14 @@ static int wg_connect(struct vpn_provider *provider,
- 		DBG("Missing WireGuard.Address configuration");
- 		goto error;
- 	}
+ 	DBG("endpoint_fqdn %s", info->endpoint_fqdn);
+ 
++	option = vpn_provider_get_boolean(info->provider,
++					"WireGuard.ReresolveUseTransportDNS",
++					false);
++	if (option) {
++		nameservers = vpn_provider_get_string_list(info->provider,
++						"TransportNameservers");
++		for (i = 0; nameservers && nameservers[i]; i++)
++			vpn_util_resolv_add_nameserver(info->resolv,
++							nameservers[i],
++							DNS_DEFAULT_PORT, 0);
++	}
 +
- 	err = parse_addresses(option, gateway, &ipaddresses);
- 	if (err) {
--		DBG("Failed to parse addresses %s gateway %s", option, gateway);
-+		DBG("Failed to parse addresses %s endpoint %s gateway %s",
-+						option, endpoint, gateway);
- 		goto error;
- 	}
-+	g_free(gateway);
- 
- 	ifname = get_ifname();
- 	if (!ifname) {
+ 	info->resolv_id = vpn_util_resolve_hostname(info->resolv,
+ 						info->endpoint_fqdn,
+ 						resolve_endpoint_cb, info);
 -- 
 2.39.5
 
