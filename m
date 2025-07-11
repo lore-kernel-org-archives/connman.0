@@ -1,45 +1,45 @@
 Received: from mail.kapsi.fi (mail-auth.kapsi.fi [91.232.154.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50D3F2E7BB4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 490262E7BA3
 	for <connman@lists.linux.dev>; Fri, 11 Jul 2025 14:27:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.232.154.24
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752244078; cv=none; b=jhskGh5nRN9zubC74uLDT7hJM5ejtBoALdzkoPaDaZ1s8lz0aGDqGSczpmrNKk64PNEF9PB01g0OjoGY0Wun+YCwq9PDkYWVkH4fbIreJrvHIkzJjLcZ4ZUNnZIGxeB1eP3Lerop4WfxxL0Fg93qKLCrihOpXvljzo35oSGPtDA=
+	t=1752244078; cv=none; b=MjksvW+1wXJpV9ke1rXg56GwCNfBzeeOqdMgO4yPk83x9028r3GR7AFcP6RZ9UvuYHU2y80Z6SvLz3XTl8w1dPfETrzV2w+d+YmF5WHz/6wRkmoqcMtmXo7dZA2ocudZXCZqXZ6Gu+kXpUVWI+d1dVroulXx7saySvb60mNoVLc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1752244078; c=relaxed/simple;
-	bh=RQZ3EfTsn2nc9Ld5iHLKfXe0ruK6rRlGM3ZQCsZFvpI=;
+	bh=NXN/DDBkOSFjDTqCH0RU1qv+hz5HLJnYGWzSQ2m82r4=;
 	h=From:To:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=HzzYd601yxfKobntcZTuRbRrWwREMg4KS8Y3P98jMLGoCWH8kpSHSoj6lvX0dpZabozuuD58SwxOSn0MFz1fFZWty4re+BLMVrfN1BCLovVL6woDtp/wDKdm48wGr6/i9R6xraZeS6c3FyHvLwXUaztG6cIJiS4B0RsJW/plRFM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=jolla.com; spf=pass smtp.mailfrom=kapsi.fi; dkim=pass (2048-bit key) header.d=kapsi.fi header.i=@kapsi.fi header.b=QVOXAjXE; arc=none smtp.client-ip=91.232.154.24
+	 MIME-Version; b=i8+A7TbsrzC8IdzNM37JNv8vIMLr+cv6Iyh2/fwfQ+zt0xLC9B47tVrA4X4xnQ0inf+UVs7X58Q2AFnU8NtkAlVBA8R/uPqsUZMVR/CBI1MonY5pF+dFtz67mFEipsmYZEr13lfuEotqa8to2vxUW97eF/k2ntL5dtvOIRBRJ1E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=jolla.com; spf=pass smtp.mailfrom=kapsi.fi; dkim=pass (2048-bit key) header.d=kapsi.fi header.i=@kapsi.fi header.b=KHUXENfX; arc=none smtp.client-ip=91.232.154.24
 Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=jolla.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kapsi.fi
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kapsi.fi header.i=@kapsi.fi header.b="QVOXAjXE"
+	dkim=pass (2048-bit key) header.d=kapsi.fi header.i=@kapsi.fi header.b="KHUXENfX"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
 	s=20161220; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:To:From:Sender:Reply-To:Cc:Content-Type:Content-ID:
 	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
 	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
 	List-Post:List-Owner:List-Archive;
-	bh=W32G/exbWG9CXWy1HG9fl7YxXAcfrfgqJEu8gp6bKXo=; b=QVOXAjXEUrH7Jpd6D7dIOFjMBv
-	RfRNjw8IinIsX3/FpBhiHTo4f49/KuBm3xhKpzVRaAOAIn6aqXChGPD842lc6rmvDbc3ayHF+gUmM
-	8Ch58LL7idr1vNEK1Tkx5oY5mI9rWl6dwsXLhqYEekUnABpz0TtE7kTD2ogB3jR0lC2O0nNcaZQHq
-	guEKaxNAZ0lneI3VTbMSzch2qdOHn+X3+QcRv9c8/fZ04nsGXBpNw/QOo5Ad2Knr+Ax+KwPFykZjU
-	edAY86mXAAfDTP1fnfqfC/v1CvepUFVO5XTbGTr2pGdeO2q92MmRL6h9rbz2sI91kC9cLYoaHBpZD
-	g9hYIGTA==;
+	bh=U3BMt67ZEhsIALbBFwSaGTgRzGTkN5YZVAAQ1jbPA/o=; b=KHUXENfXs6M0C6Nuo1Qc0r/pwZ
+	VRiffci3Ksx+cda20k5bN7MSi9X/zYiPecbL65rxhMugfK3rGOE8oRSLf72j8v7Jg3bwNlxHSP3Mt
+	FGdkpzRIAf2C/pKskNhULAnKyNhIDKvG8+txtaesR2eGkRcnKSnV61nA0lZN2wtS2mazXz0AfIVVu
+	qwxrTqxaXnk6O2fble/xQQZh7VJitjBqUURApWL4oayvP5x+u3Jbf9Bzm9Qg9fyvjhhl8szJ51gg/
+	8Fv4UPV0/cY8l9rGanrjGBst/Du9xXq+bKOQYcsAodqR4BsK7ZhW7lM1lY9b+3SLyF+MUcgYpmT5A
+	ybRMEeFw==;
 Received: from [2a10:a5c0:37:6500:7901:7c96:5fcf:719b] (helo=jl-x230.local)
 	by mail.kapsi.fi with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.96)
 	(envelope-from <jussi.laakkonen@jolla.com>)
-	id 1uaEj1-003kbq-1t
+	id 1uaEj1-003kbq-1J
 	for connman@lists.linux.dev;
 	Fri, 11 Jul 2025 17:27:43 +0300
 From: Jussi Laakkonen <jussi.laakkonen@jolla.com>
 To: connman@lists.linux.dev
-Subject: [PATCH 18/45] wireguard: Use GResolv for DNS reresolve to avoid blocking
-Date: Fri, 11 Jul 2025 17:27:09 +0300
-Message-Id: <20250711142736.1757060-19-jussi.laakkonen@jolla.com>
+Subject: [PATCH 14/45] vpn: Fix VPN_FLAG_NO_DAEMON use in error cases
+Date: Fri, 11 Jul 2025 17:27:05 +0300
+Message-Id: <20250711142736.1757060-15-jussi.laakkonen@jolla.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250711142736.1757060-1-jussi.laakkonen@jolla.com>
 References: <20250711142736.1757060-1-jussi.laakkonen@jolla.com>
@@ -54,263 +54,147 @@ X-SA-Exim-Connect-IP: 2a10:a5c0:37:6500:7901:7c96:5fcf:719b
 X-SA-Exim-Mail-From: jussi.laakkonen@jolla.com
 X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
 
-Change to use GResolv for the reresolve lookups as with broken
-configuration getaddrinfo() will block vpnd for the time it timeouts in
-a broken network. By using GResolv the resolving is done first and only
-after it is succesful getaddrinfo() is called. This is not done for the
-initial connection as the transport medium's network is used, thus it
-has no possibility of such misconfiguration as the network is at least
-in READY state.
+The VPNs that have no daemon, WireGuard, should not be called to
+disconnect twice because in error situations the change of state from
+error case is overridden. This makes it impossible to track the state
+via an UI that relies on state notifications and uses autoconnect to
+toggle active VPN(s).
 
-Check the GResolv lookup error and if it is set kill the VPN. This is
-because the set error is quite terminal on the connection, better just
-to die.
+Make vpn_died VPN_FLAG_NO_DAEMON friendly that can be called also by the
+VPNs without a task. This makes it possible to use vpn_died in WireGuard
+as final call to make state transitions complete.
 
-Change reresolve_id to be guint as it should be and handle it properly.
+Make the state transitions of VPN_FLAG_NO_DAEMON to use the
+VPN_STATE_ASSOCIATION properly. This is the initial state when
+connecting, and the VPN_STATE_CONNECT is set by the
+update_provider_state() when driver replies that connection is ok.
 
-Document why the remove_resolv_cb() and resolv id is used like it is.
+Also cleanup some code to use the same base more.
 ---
- vpn/plugins/wireguard.c | 162 ++++++++++++++++++++++++++++++++++++----
- 1 file changed, 147 insertions(+), 15 deletions(-)
+ vpn/plugins/vpn.c | 57 ++++++++++++++++++++++++++---------------------
+ 1 file changed, 32 insertions(+), 25 deletions(-)
 
-diff --git a/vpn/plugins/wireguard.c b/vpn/plugins/wireguard.c
-index 2c5981f8..4a3d9ec7 100644
---- a/vpn/plugins/wireguard.c
-+++ b/vpn/plugins/wireguard.c
-@@ -43,6 +43,8 @@
- #include <connman/setting.h>
- #include <connman/vpn-dbus.h>
+diff --git a/vpn/plugins/vpn.c b/vpn/plugins/vpn.c
+index 2f87cf04..81a62ff4 100644
+--- a/vpn/plugins/vpn.c
++++ b/vpn/plugins/vpn.c
+@@ -91,7 +91,13 @@ static int stop_vpn(struct vpn_provider *provider)
  
-+#include <gweb/gresolv.h>
-+
- #include "../vpn-provider.h"
- #include "../vpn.h"
+ 	if (vpn_driver_data && vpn_driver_data->vpn_driver &&
+ 			vpn_driver_data->vpn_driver->flags & VPN_FLAG_NO_TUN) {
+-		vpn_driver_data->vpn_driver->disconnect(data->provider);
++		/*
++		 * Disconnect only VPNs with daemon, otherwise in error return
++		 * there is a double free with vpn_died() or the failure state
++		 * is overridden by changes made by disconnect to state.
++		 */
++		if (!(vpn_driver_data->vpn_driver->flags & VPN_FLAG_NO_DAEMON))
++			vpn_driver_data->vpn_driver->disconnect(data->provider);
+ 		return 0;
+ 	}
  
-@@ -59,7 +61,10 @@ struct wireguard_info {
- 	struct wg_peer peer;
- 	char *endpoint_fqdn;
- 	char *port;
--	int reresolve_id;
-+	guint reresolve_id;
-+	GResolv *resolv;
-+	guint resolv_id;
-+	guint remove_resolv_id;
- };
- 
- struct sockaddr_u {
-@@ -293,43 +298,120 @@ static bool sockaddr_cmp_addr(struct sockaddr_u *a, struct sockaddr_u *b)
- 
- static void run_dns_reresolve(struct wireguard_info *info);
- 
--static gboolean wg_dns_reresolve_cb(gpointer user_data)
-+static void remove_resolv(struct wireguard_info *info)
-+{
-+	DBG("");
-+
-+	if (info->remove_resolv_id)
-+		g_source_remove(info->remove_resolv_id);
-+
-+	if (info->resolv && info->resolv_id) {
-+		DBG("cancel resolv lookup");
-+		vpn_util_cancel_resolve(info->resolv, info->resolv_id);
-+	}
-+
-+	info->resolv_id = 0;
-+	info->remove_resolv_id = 0;
-+
-+	vpn_util_resolve_unref(info->resolv);
-+	info->resolv = NULL;
-+}
-+
-+static gboolean remove_resolv_cb(gpointer user_data)
-+{
-+	struct wireguard_info *info = user_data;
-+
-+	remove_resolv(info);
-+
-+	return G_SOURCE_REMOVE;
-+}
-+
-+static void resolve_endpoint_cb(GResolvResultStatus status,
-+					char **results, gpointer user_data)
+@@ -131,16 +137,27 @@ void vpn_died(struct connman_task *task, int exit_code, void *user_data)
  {
- 	struct wireguard_info *info = user_data;
- 	struct sockaddr_u addr;
- 	int err;
- 
--	if (vpn_provider_get_connection_errors(info->provider) >=
--						DNS_RERESOLVE_ERROR_LIMIT) {
--		connman_warn("reresolve error limit reached");
--		vpn_died(NULL, -ENONET, info->provider);
--		return G_SOURCE_REMOVE;
-+	DBG("");
+ 	struct vpn_provider *provider = user_data;
+ 	struct vpn_data *data = vpn_provider_get_data(provider);
++	struct vpn_driver_data *vpn_data = NULL;
++	const char *name;
+ 	int state = VPN_STATE_FAILURE;
+ 	enum vpn_provider_error ret;
++	bool no_daemon = false;
 +
-+	if (!info->resolv && info->resolv_id) {
-+		DBG("resolv already removed");
-+		return;
++	name = vpn_provider_get_driver_name(provider);
++	if (name) {
++		vpn_data = g_hash_table_lookup(driver_hash, name);
++		if (vpn_data && vpn_data->vpn_driver)
++			no_daemon = vpn_data->vpn_driver->flags &
++							VPN_FLAG_NO_DAEMON;
++	}
+ 
+-	DBG("provider %p data %p", provider, data);
++	DBG("provider %p data %p no_daemon %d", provider, data, no_daemon);
+ 
+ 	if (!data)
+ 		goto vpn_exit;
+ 
+ 	/* The task may die after we have already started the new one */
+-	if (data->task != task)
++	if (!no_daemon && data->task != task)
+ 		goto done;
+ 
+ 	state = data->state;
+@@ -156,15 +173,7 @@ void vpn_died(struct connman_task *task, int exit_code, void *user_data)
+ 
+ vpn_exit:
+ 	if (state != VPN_STATE_READY && state != VPN_STATE_DISCONNECT) {
+-		const char *name;
+-		struct vpn_driver_data *vpn_data = NULL;
+-
+-		name = vpn_provider_get_driver_name(provider);
+-		if (name)
+-			vpn_data = g_hash_table_lookup(driver_hash, name);
+-
+-		if (vpn_data && vpn_data->vpn_driver &&
+-				vpn_data->vpn_driver->error_code)
++		if (vpn_data && vpn_data->vpn_driver->error_code)
+ 			ret = vpn_data->vpn_driver->error_code(provider,
+ 					exit_code);
+ 		else
+@@ -183,7 +192,8 @@ vpn_exit:
  	}
  
--	/* If this fails after being connected it means configuration error
--	 * that results in connection errors. */
--	err = parse_endpoint(info->endpoint_fqdn,
--			info->port, &addr);
-+	/*
-+	 * We cannot unref the resolver here as resolv struct is manipulated
-+	 * by gresolv.c after we return from this callback. By clearing the
-+	 * resolv_id no attempt to cancel the lookup that has been executed
-+	 * here is done.
-+	 */
-+	info->remove_resolv_id = g_timeout_add(0, remove_resolv_cb, info);
-+	info->resolv_id = 0;
-+
-+	switch (status) {
-+	case G_RESOLV_RESULT_STATUS_SUCCESS:
-+		if (!results || !g_strv_length(results)) {
-+			DBG("no resolved results");
-+			if (info->provider)
-+				vpn_provider_add_error(info->provider,
-+					VPN_PROVIDER_ERROR_CONNECT_FAILED);
-+
-+			return;
-+		}
-+
-+		DBG("resolv success, parse endpoint");
-+		break;
-+	/* request timeouts or an server issue is not an error, try again */
-+	case G_RESOLV_RESULT_STATUS_NO_RESPONSE:
-+	case G_RESOLV_RESULT_STATUS_SERVER_FAILURE:
-+		DBG("retry DNS reresolve");
-+		if (info->provider)
-+			vpn_provider_add_error(info->provider,
-+					VPN_PROVIDER_ERROR_CONNECT_FAILED);
-+
-+		run_dns_reresolve(info);
-+		return;
-+	/* Consider these as non-continuable errors */
-+	case G_RESOLV_RESULT_STATUS_ERROR:
-+	case G_RESOLV_RESULT_STATUS_FORMAT_ERROR:
-+	case G_RESOLV_RESULT_STATUS_NAME_ERROR:
-+	case G_RESOLV_RESULT_STATUS_NOT_IMPLEMENTED:
-+	case G_RESOLV_RESULT_STATUS_REFUSED:
-+	case G_RESOLV_RESULT_STATUS_NO_ANSWER:
-+		DBG("stop DNS reresolve");
-+		if (info->provider)
-+			vpn_provider_add_error(info->provider,
-+					VPN_PROVIDER_ERROR_CONNECT_FAILED);
-+
-+		return;
-+	}
-+
-+	/*
-+	 * If this fails after being connected it means configuration error
-+	 * that results in connection errors.
-+	 */
-+	err = parse_endpoint(info->endpoint_fqdn, info->port, &addr);
- 	if (err) {
- 		if (info->provider)
- 			vpn_provider_add_error(info->provider,
- 					VPN_PROVIDER_ERROR_CONNECT_FAILED);
- 		run_dns_reresolve(info);
--		return G_SOURCE_REMOVE;
-+		return;
- 	}
- 
- 	if (sockaddr_cmp_addr(&addr,
- 			(struct sockaddr_u *)&info->peer.endpoint.addr)) {
- 		run_dns_reresolve(info);
--		return G_SOURCE_REMOVE;
-+		return;
- 	}
- 
- 	if (addr.sa.sa_family == AF_INET)
- 		memcpy(&info->peer.endpoint.addr, &addr.sin,
--			sizeof(info->peer.endpoint.addr4));
-+					sizeof(info->peer.endpoint.addr4));
- 	else
- 		memcpy(&info->peer.endpoint.addr, &addr.sin6,
--			sizeof(info->peer.endpoint.addr6));
-+					sizeof(info->peer.endpoint.addr6));
- 
- 	DBG("Endpoint address has changed, udpate WireGuard device");
- 	err = wg_set_device(&info->device);
-@@ -338,6 +420,39 @@ static gboolean wg_dns_reresolve_cb(gpointer user_data)
- 			info->device.name);
- 
- 	run_dns_reresolve(info);
-+}
-+
-+static gboolean wg_dns_reresolve_cb(gpointer user_data)
-+{
-+	struct wireguard_info *info = user_data;
-+	int err;
-+
-+	DBG("");
-+
-+	info->reresolve_id = 0;
-+
-+	if (info->resolv_id > 0) {
-+		DBG("previous query was running, abort it");
-+		remove_resolv(info);
-+	}
-+
-+	info->resolv = vpn_util_resolve_new(0);
-+	if (!info->resolv) {
-+		connman_error("cannot create GResolv");
-+		return G_SOURCE_REMOVE;
-+	}
-+
-+	info->resolv_id = vpn_util_resolve_hostname(info->resolv,
-+						info->endpoint_fqdn,
-+						resolve_endpoint_cb, info);
-+
-+	err = vpn_util_get_resolve_error(info->resolv);
-+	if (!info->resolv_id && err) {
-+		connman_error("failed to start hostname lookup for %s, err %d",
-+						info->endpoint_fqdn, err);
-+		vpn_died(NULL, err, info->provider);
-+	}
-+
- 	return G_SOURCE_REMOVE;
+ done:
+-	connman_task_destroy(task);
++	if (!no_daemon)
++		connman_task_destroy(task);
  }
  
-@@ -346,6 +461,14 @@ static void run_dns_reresolve(struct wireguard_info *info)
- 	if (info->reresolve_id)
- 		g_source_remove(info->reresolve_id);
+ int vpn_set_ifname(struct vpn_provider *provider, const char *ifname)
+@@ -546,6 +556,8 @@ static gboolean update_provider_state(gpointer data)
+ 	vpn_data->watch = vpn_rtnl_add_newlink_watch(index,
+ 						vpn_newlink, provider);
+ 	connman_inet_ifup(index);
++	vpn_data->state = VPN_STATE_CONNECT;
++	vpn_provider_set_state(provider, VPN_PROVIDER_STATE_CONNECT);
  
-+	if (vpn_provider_get_connection_errors(info->provider) >=
-+						DNS_RERESOLVE_ERROR_LIMIT) {
-+		connman_warn("reresolve error limit reached");
-+		vpn_died(NULL, -ENONET, info->provider);
-+		info->reresolve_id = 0;
-+		return;
-+	}
-+
- 	info->reresolve_id = g_timeout_add_seconds(DNS_RERESOLVE_TIMEOUT,
- 						wg_dns_reresolve_cb, info);
+ 	return FALSE;
  }
-@@ -446,6 +569,12 @@ static int wg_connect(struct vpn_provider *provider,
- 		option = "51820";
+@@ -621,18 +633,10 @@ static int vpn_connect(struct vpn_provider *provider,
  
- 	gateway = vpn_provider_get_string(provider, "Host");
-+	/*
-+	 * Use the resolve timeout only with re-resolve. Here the network
-+	 * is setup as the transport is used. In succeeding attempts resolving
-+	 * is needed as it is done over potentially misconfigured WireGuard
-+	 * connection that may end up blocking vpnd with getaddrinfo().
-+	 */
- 	err = parse_endpoint(gateway, option,
- 			(struct sockaddr_u *)&info->peer.endpoint.addr);
- 	if (err) {
-@@ -528,6 +657,9 @@ static void wg_disconnect(struct vpn_provider *provider)
- 	if (info->reresolve_id > 0)
- 		g_source_remove(info->reresolve_id);
+ 		ret = vpn_driver_data->vpn_driver->connect(provider,
+ 					NULL, NULL, cb, dbus_sender, user_data);
+-		if (ret) {
+-			stop_vpn(provider);
+-			goto exist_err;
+-		}
++		if (!ret)
++			g_timeout_add(1, update_provider_state, provider);
  
-+	if (info->resolv || info->resolv_id)
-+		remove_resolv(info);
+-		DBG("%s started with dev %s",
+-			vpn_driver_data->provider_driver.name, data->if_name);
+-
+-		data->state = VPN_STATE_CONNECT;
+-
+-		g_timeout_add(1, update_provider_state, provider);
+-		return -EINPROGRESS;
++		goto done;
+ 	}
+ 
+ 	vpn_plugin_data =
+@@ -658,9 +662,12 @@ static int vpn_connect(struct vpn_provider *provider,
+ 	ret = vpn_driver_data->vpn_driver->connect(provider, data->task,
+ 						data->if_name, cb, dbus_sender,
+ 						user_data);
 +
- 	vpn_provider_set_plugin_data(provider, NULL);
- 
- 	vpn_provider_set_state(provider, VPN_PROVIDER_STATE_DISCONNECT);
++done:
+ 	if (ret < 0 && ret != -EINPROGRESS) {
+ 		stop_vpn(provider);
+-		connman_task_destroy(data->task);
++		if (data->task)
++			connman_task_destroy(data->task);
+ 		data->task = NULL;
+ 		goto exist_err;
+ 	}
 -- 
 2.39.5
 
