@@ -1,137 +1,256 @@
-Received: from mail.kapsi.fi (mail-auth.kapsi.fi [91.232.154.24])
+Received: from AM0PR83CU005.outbound.protection.outlook.com (mail-westeuropeazon11020096.outbound.protection.outlook.com [52.101.69.96])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E840C2E7BDE
-	for <connman@lists.linux.dev>; Fri, 11 Jul 2025 14:27:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.232.154.24
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752244080; cv=none; b=HoNmA1dczukFgBsVvRc2+BSESfHF43+yVJ5QnQyb372c68Wf3W2gsJEIpYBgcQI1Zl9gPSz92CiAimdMnMwRXK/7D9vD/wLFOVb1ZVoS4FPnNrM3wYAPdzCMIyPNyAnYKZlNLS4flVgaH9AE16koXHaQQ/7BeKJU90Ma9I6VNMo=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752244080; c=relaxed/simple;
-	bh=criNfX18F3+mkbTUedJXeibugujStQFZ1k2ce4tg+gM=;
-	h=From:To:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=ttmvgdqhgBnzBplwvKDZEPl4lDIJZSMdcZxEwCEzK7z8Hd6wEd9ZKjQhrqUjhNDUJe2JLyWjuyaEotQ4NjjyWjevEWJhaNiV0oVX+laU23YLe8iJlw/jDwoCptdLpdk4cAxhmU5yRvHvmKpr/DcGGI1493ziRgjRLS8Qw+S01HE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=jolla.com; spf=pass smtp.mailfrom=kapsi.fi; dkim=pass (2048-bit key) header.d=kapsi.fi header.i=@kapsi.fi header.b=ch4nQLci; arc=none smtp.client-ip=91.232.154.24
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=jolla.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kapsi.fi
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E5962DCF5E
+	for <connman@lists.linux.dev>; Fri, 18 Jul 2025 16:52:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.69.96
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1752857552; cv=fail; b=ChKemOnUokt5rnyNQAlJ93+gu4LavnmJq/2bYz7BW1iV7rTLfzFqtnJn/AawFmUo80YRJs1AoaenBQS1gOmH17nAY/NhKMRy5saJ26O4d3jqSIugMySBNXnlMErs4fHsr28WlNezM/1NQHsZWIVHciQ0m5s45XfhQL7xZkr6GW0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1752857552; c=relaxed/simple;
+	bh=QvBngUZlfqYOxSOlei+5YfOo1O6x5X6LTJPWeJjQgc0=;
+	h=Message-ID:Date:Subject:From:To:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=HFyPMG7jd9nMT+7caXKdfBWrQ3lWsu49z9QJAachN9T9no3a/3QjNawXVv9iso+8FkH5qcQRzGP5DCTsLFVV5QsHhqEMH9rCMiDyE+3Tw++9293NABBAva654vl9kXr/xJf8l4amUhBnF7oClt1j9KcPQRyEe/SXrwGyAxUUwqI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=jolla.com; spf=pass smtp.mailfrom=jolla.com; dkim=pass (2048-bit key) header.d=jolla.com header.i=@jolla.com header.b=BLW2kIqO; arc=fail smtp.client-ip=52.101.69.96
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=jolla.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jolla.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kapsi.fi header.i=@kapsi.fi header.b="ch4nQLci"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
-	s=20161220; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
-	Message-Id:Date:Subject:To:From:Sender:Reply-To:Cc:Content-Type:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-	List-Post:List-Owner:List-Archive;
-	bh=+d2SUfBV5TBc5ONI8kwZNaWh64mZmPmozWpCWSzj9TM=; b=ch4nQLci6/lhW/dcGY3ZoIWXRN
-	FPlHDDnlgwvkhLSpH4ZbZ5uiqaodiwIVXZtKnDaz0mySOR7OcGyLaex4O0uG//1mFcGbE/Zla8y54
-	wPIAFCRJvrm6qpnp2kRKmiL/+yndlxgRGbLtXH3LG4c26nlH9TafKBuMwanYm3ql3TclxLO+N/SVh
-	wWm3iawdjdClADu0oNJ5PZ8uVUpACnRk31e3Rb4alyXJweunIiajOh/o2JJxvgxlsqufNqOlAIt3P
-	Qs8MulyBot6EvMbSS9iG5Q6MaUdAhxnuRjc7oG8vsUBOHAHRq9CXfkASW8oLdLbmticQ4xXg1d7fu
-	33QnDftQ==;
-Received: from [2a10:a5c0:37:6500:7901:7c96:5fcf:719b] (helo=jl-x230.local)
-	by mail.kapsi.fi with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <jussi.laakkonen@jolla.com>)
-	id 1uaEj2-003kbq-0F
-	for connman@lists.linux.dev;
-	Fri, 11 Jul 2025 17:27:44 +0300
+	dkim=pass (2048-bit key) header.d=jolla.com header.i=@jolla.com header.b="BLW2kIqO"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=M+YXjOfmol8f4fBp+DZzvgFwnRGxuwclQ954kqpxv74Yk5oSgHuTroAcFdVSF38Y0vN0iGkyIaAlkav9q8oFPjUN8SGLh26ubfoP/IYZbHd5imvAScIv8pXHoTshLGqKFSbuR9G1/O7Hl0PtMXEs81gmbUud4/WBrFAOUU/LQjw4f0KoiXXob6z3K8/vnSv+Twj3B92jdOAch1QXNteQgEjWspGRann5JAxcIjNYX2v17H7mFMszTl7HDGIKlaQiBjnu1IBHaoMZxTtihKc/n3T12oDtVwdICwccVDo4DTNZ4yyfD8JH+na8mdqGwfC2lu67YHqHMlFaXsZkaCzlnA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=2Qc/A/RkYOoblPUH4CVanay7T9P8rYf302ULlkgCa20=;
+ b=lTAyFS3zF1715tZYyWaHR+t8ss5mtkDQz9ogVp/ypbxXvbGVDSFQqQoZHm8+/+UQNrE2ztf4+7B0QiCsFRigApImP3GnkYLsjm4gn+/ZiqcvLhSC1JDvx3G1FgFFXYEfnDA0Lkw0pQCTCQgaSX3YRhOJjPMUV2xEhP7cmIrEflY70EJIKafGQxujEIse1VIbZs7MzSUZmShIBHOuMZx4L+RFDHzuxaSNiQ2sk2CT7PcS4/Z4b4g/q3Jg98YiwZ/MvNNNctoheLuMgNtZ7fzYeqw68uAklPjLBCSdXXitF6vGysiwnSMe3wniyq6Z7qnhfTGIZKyLtxsJ8bl8i593Yw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=jolla.com; dmarc=pass action=none header.from=jolla.com;
+ dkim=pass header.d=jolla.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jolla.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=2Qc/A/RkYOoblPUH4CVanay7T9P8rYf302ULlkgCa20=;
+ b=BLW2kIqOm5x6kdl1ARp2xpX4ueaq9LCL9d4zDs+aplxP/jzeMNDnJtL2/eTaQVplyEuu0EVqFuA4AzyWWLMr0Yogx0/d8VPTAxq0fyPOQlvIxo8jesren8nt0ABWj+5XRjWykb9RX+cyoji9XAO14gKdynnl2yS8cQrkAefQS+nYRD6Sul09efv/Zra2/1J0qm/KywzzHVmF1l3FQ9VLZS2Ze5QDuDYtS7gZEXq+eHVluvmxqQJmGqJQI+Jfaophi2UxVUG/vr9tJgC1h787kDc4XbN6AtITp9xo+WuSNe5HfqGUct+4n4XR1FTU3m645Y5JosfMS2G9Vo99RrUF2w==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=jolla.com;
+Received: from PAXPR06MB8376.eurprd06.prod.outlook.com (2603:10a6:102:22a::18)
+ by AS8PR06MB7718.eurprd06.prod.outlook.com (2603:10a6:20b:319::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8922.39; Fri, 18 Jul
+ 2025 16:52:27 +0000
+Received: from PAXPR06MB8376.eurprd06.prod.outlook.com
+ ([fe80::a624:3da2:b1f5:e229]) by PAXPR06MB8376.eurprd06.prod.outlook.com
+ ([fe80::a624:3da2:b1f5:e229%7]) with mapi id 15.20.8943.027; Fri, 18 Jul 2025
+ 16:52:26 +0000
+Message-ID: <4d0ed972-20ef-401f-ad13-82a2ef594021@jolla.com>
+Date: Fri, 18 Jul 2025 19:52:23 +0300
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 00/46] VPN association state, dual IP support and WG fixes
 From: Jussi Laakkonen <jussi.laakkonen@jolla.com>
 To: connman@lists.linux.dev
-Subject: [PATCH 29/45] wireguard: Set split routing based on AllowedIPs
-Date: Fri, 11 Jul 2025 17:27:20 +0300
-Message-Id: <20250711142736.1757060-30-jussi.laakkonen@jolla.com>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250711142736.1757060-1-jussi.laakkonen@jolla.com>
 References: <20250711142736.1757060-1-jussi.laakkonen@jolla.com>
+Content-Language: en-US
+In-Reply-To: <20250711142736.1757060-1-jussi.laakkonen@jolla.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: GVYP280CA0013.SWEP280.PROD.OUTLOOK.COM
+ (2603:10a6:150:fa::7) To PAXPR06MB8376.eurprd06.prod.outlook.com
+ (2603:10a6:102:22a::18)
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a10:a5c0:37:6500:7901:7c96:5fcf:719b
-X-SA-Exim-Mail-From: jussi.laakkonen@jolla.com
-X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PAXPR06MB8376:EE_|AS8PR06MB7718:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9751bf5a-7a7c-414b-987b-08ddc61b78d0
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|10070799003|376014|366016;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?UERTV2puNzF2VS9JK1ZxUXA1KzJ2dkRxbEVMZDkyMUJzVjN6RGgrblViU28x?=
+ =?utf-8?B?MHVDZ2ZPclBwQmlCM0ZSM2pHY1pJQmFoSXRTckNXb2wwaThqeStCL2dPQi9s?=
+ =?utf-8?B?WnRFNXFQbGx3MExoS3RLcDVNdnNXd2V2VE1tWm93REFJc0kybGJVcjRXSHBl?=
+ =?utf-8?B?ZjhaNS9hcGZLdE5tOWo1SzZhSlQ3NWhldTRNYTNjcHQ3c0ZVTHFTWnlFSDRR?=
+ =?utf-8?B?ZDBHYnl3SERDQWRUdjV0b0FXSElsQldsWUdZOWZWUzZxbm9oOEVBcmw5QjRK?=
+ =?utf-8?B?QVpYRHZYL2s2MU02VGp0Z0xkbXlEb3VFMlQ2NjArWlVxTzJYVGxhK0NzNVQ2?=
+ =?utf-8?B?UThmczhyUzhBSW5xRWltNThtelU2aFRjc2d3ekJKSkp4K3pkcnNmSXFNT3Br?=
+ =?utf-8?B?cWVENHlQZU5VV2ZDMWNnNVZyMnhCZFBvczEydWRMT2sxSzRBamVYbmdLU3ho?=
+ =?utf-8?B?YXNmMHQyOTFlc1ZXMHhLL005ckEvZmdBOGVFaXlRS0ZZc1ZuenMrelZLUExJ?=
+ =?utf-8?B?anA3b3J5YTlKaDQ1UldoZUsyWkl6TzRDcVBFL3psbzB3NWd6dXc5MkVtZEkv?=
+ =?utf-8?B?WHhKT2s1eGtHMmZ0ZlVNZmx0UGsxM0ZEVG1iWWRoMlRKVDFlM2hvY0xDZ2F3?=
+ =?utf-8?B?eGhuZWJnUFE1S1ZDbXR2enZjZk5TVCtPQmVuYXR2aStXaFhHS0dQUDk3QW8w?=
+ =?utf-8?B?ZlYvYm53eDRGampjWWJCbXhaSWVlc0V6ZG9Welo4SGNFRTBWb2FVVWNFYXUz?=
+ =?utf-8?B?clFySTdubE5KZUwxUiszemx1eHUxYnovRlhscE9iSEE5UDBTTnNZbWN1eXRj?=
+ =?utf-8?B?VEJNaCtMOHp0U3hORUNDK3QzdG1YTWVGZVBIa2pQOWUxM2FobUlhdzBVZFUr?=
+ =?utf-8?B?SDN1TzF6TFIyeUhCTnFXemQ0cXZBaUtPYVF0SkNSS0p6STAyb29qempmcGNm?=
+ =?utf-8?B?NUtocW0yYUhJR0JuVm9UbzRlUVZVR09IeEo4TnM3Mmw3RGdZOWw4eHNUVitw?=
+ =?utf-8?B?S1dYU3NZL3k2SlNUNXRVb2VuTTMrQlBIZElTTUJTd1FYdll5YmtERkN5OWll?=
+ =?utf-8?B?a0JIUnlhTE1qbllJc0ZVU00wSEpGWnI5clNxT1dYaFQxd1JrNkpSa2VhVzR1?=
+ =?utf-8?B?L0IrY2M4WUtjc1dWT2pqY1pEZnQzVDQxYWN0YnlONFlGdDZlT1dneXdoQzJB?=
+ =?utf-8?B?ZlFJSWswTzBac0dnUW5VVDlHV2FWa3YrY1E0N0VIamI2RnRBdzQ3bGxTMTd1?=
+ =?utf-8?B?azN2K1ZYZDE3QWx1Zy9OdHpISDFOaUdka3RVNGFwTEMyVUR1U3h0MVJ0eGNI?=
+ =?utf-8?B?TktrQlZIbmxNSW5CbzJQcWJXbkV6a08xR0xUY2RiUVZTcFNSSE9kd0xUZHlR?=
+ =?utf-8?B?bXV2Yy8zVkZGcWpaRnBQa2RuMmZHalhNS0JnNGd3NkJHT2VhenJzNlZZeVhy?=
+ =?utf-8?B?bGxyOEx6OXJ1K3AvYUd1eWRMUjNOSy9IVis0WTBnZ2dJZnErcHpuZ1NCbzEy?=
+ =?utf-8?B?L0QxaUk0N2xyVHVObzlhbjBIRUJ2UklTN240YnFhdEF6RHNxcDRnNjJ0T2Vv?=
+ =?utf-8?B?dCtENnJJQ3pGalNwcDU4Q1A3QXNpaVZ5eU9ZSWxLaGNLYm1tbzZqUjUzKy9L?=
+ =?utf-8?B?MHoyZzEvR3Bjb3lWZmF6bmV5OTVGa3BIdmZRYXNjYnhlQlhXc0xBbkRQdHRs?=
+ =?utf-8?B?VGgvTHRmR3JDbGdPdXJBa0g5M1NPdmRkVm4rMlNBcXg0czRLdFpqdDhqa3Rs?=
+ =?utf-8?B?bGVwdEJOMmVBRjEyam5wd0xLZzBncVlGTTByZ0VMTFNTUHJXU1dFak81V1hu?=
+ =?utf-8?B?QTRQOXVDeGxIbkU4SXNhaXZMRkJFeG1aMmdReGNOekgzNHUxamhTUHBxdk1y?=
+ =?utf-8?B?VWdCWmV6SEZjcG81QU9PT1pPY0RHbElHalJZcVl2OFVRUG83WE5KSFU4ejBJ?=
+ =?utf-8?Q?jgSfbos1Xbs=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR06MB8376.eurprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(10070799003)(376014)(366016);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?NHFtQzFXdFdFN2hXM09JNVB4bjFGVE5EQ0RKMXFZaDJaQ0Z6czFjc0VNMm5B?=
+ =?utf-8?B?WExSRXJ5MTBWRnZ6RUR2a1RnQ1FOeXByalVLWDM2MmhzUUl6SkdUcFhoUVlT?=
+ =?utf-8?B?cDdSelp6OGVwVXhrdi9YSnpieXo5QndsZWJJam0reldock1YWENCenk1YUJq?=
+ =?utf-8?B?Z2Q0TEFuRlFJYlpJQmMxNlhiejFwMjFqa3h1MnlGb212MWVWdDZMYUt5a0t3?=
+ =?utf-8?B?SVJHR0hsQnJSbFZEUVNMTkF4cE93NEF6THRpL2xwVUlmWGQ3c2tqVFJVS2px?=
+ =?utf-8?B?VGFVWmo1T2dVWlU4cktaT21Uazh1VHo0QWtNQ2k4dmRFMS95eVNQeUJyN3dK?=
+ =?utf-8?B?eTh4OWFZclNMbjNVUCsxVVJBVjgyY2l5TjFKWUVGYVZDNk9qc2lWdnY4aHk0?=
+ =?utf-8?B?VThmUklCbVlyUy80cmRSQ0JkTlVhWVNnVi96a1pmR0c2SU1LYnBCYWNXb1J3?=
+ =?utf-8?B?MHRGZkhiRWExY0dRRzAvUUpMdHZxb0tnUE9zdjVTNXVlc3htNG0vTDZMcUQ0?=
+ =?utf-8?B?b1cxU0p3QWpORGhNdEt0dEp4c2pNSkZLUk1EMjdsMWZacCt1aE1RZkRWbW5u?=
+ =?utf-8?B?NGFnNFhqOUhMUFI2bWoyb0t6YzlFU01nb1ZyM0toQWt3aE15SzNvb1pIclNC?=
+ =?utf-8?B?QlRCWHk4T0RTQTd2SitaaVpJQjJhVzFMOWhnNFl2RDB4YlpIUndHSlpvdzQ5?=
+ =?utf-8?B?WDN1QXR2NlZ6eWNSQjExUEVRNC85aXd0YXlVTFJlNWtFTWl5OEJ1SUhoUWE5?=
+ =?utf-8?B?TnErWUx6aklOTkFLY0NkYjJPRzNkbldBelFRQVRPZ29TZkdjYU8rckIyOGo3?=
+ =?utf-8?B?WlQ1Ui9RVUk5eGRQUEhBR3Z5dnJvVWRBUmpaTDlEUythTzVkeGRxV2JBdnpj?=
+ =?utf-8?B?b3pXc2NUV2htR2FDTC84S1YwS0IvcWtNMy82am45U1pXd2VwSmMzRjZkNHoz?=
+ =?utf-8?B?b0lEL0diS3R0M0hZWjJrY04vMVluRVhJc0l2eHMvN3lVeXZ3TWxiTFUyZzg4?=
+ =?utf-8?B?dGZxMHNzdmJnU0dYTWJoZ0E4UVE3QjhIeUdOOFNWdWN4enJxdHNCWEgwMi9t?=
+ =?utf-8?B?MG1HSnNKbVlTNUF0TllaL1lMcHZvbVloWGNXK3g4VEdJS2dmTVNCR1RnRDh1?=
+ =?utf-8?B?dlZqOVpDQUIweU82Wm4yMm0rNE5IYUhXK3ZzS2grTVAxdWdQTnlRcy9mUm1K?=
+ =?utf-8?B?OEorRkdqc3FOWTZrakpZNjRybHl4YTYyWVlqdU5LZlRVeWxBZzRPakpvaWVW?=
+ =?utf-8?B?QUo3SmNWMnlpeVk0N1hOZUVmMytaM3FncVVxaTY5dnhxSFkvUVRJWWxHMkJh?=
+ =?utf-8?B?Uk1mUjBjRDcxK1NjWHpRUkRkeVZpMDV1UzdvcUF3QzdWTEx6MUZTQVhRNVNH?=
+ =?utf-8?B?TXpaVHlUYVZMYUhHUTlFNUZ5RnQwM2ZXUnNld2FaUEc2SkpqNlZIRGFEbzlN?=
+ =?utf-8?B?azN6bFZiK3hTSlplNTNCMGtPbnc3WnIvWTJlb1NRQ0cvU2hoeTFxY3FXTE53?=
+ =?utf-8?B?aE9uTkFJR0Z6VUNJTXBzOGVSOGlaMkUxcytXa1VIcURYNjlyT3RHSFRPczd5?=
+ =?utf-8?B?QUdwa1JNSzZxUGVldE9NdDk0bkJCVDBocmQvcFkxVTN5bHZoR0pCVE9LUDhm?=
+ =?utf-8?B?eFNjVndwRjVudHZnSndpck9laGdjVFlxVnRGOGVZcWwzN2NsalRSMFF6V1RQ?=
+ =?utf-8?B?T08zYXVpMzVrN3hKYmZ6U21DdEwyUllwbGt1Z1ZkQ1BMaStlOEkzWDVpcHNB?=
+ =?utf-8?B?K3ZUQStvYldOdGJhTExkbGxqb2syUlM0WEwrMFBRWnVvdEZMTk5kS3BzVzI0?=
+ =?utf-8?B?NDZkdDQ4cVRmaUtmbWxEanZWZXpkS1NyY1dRem1kM2FGOHVpSVhiZEh4bk12?=
+ =?utf-8?B?VEJGWVpPMWZMczdBcXcyTm1xTGdlTXBnNTB2dmIxU0hNVHNFL1VDNTFiVHdD?=
+ =?utf-8?B?aFZmbkZxQytXNGxXdHZPMDVBUE9PYW5CU1orUkQ5a1RsSmZ0WmNlTENCZ3Zt?=
+ =?utf-8?B?aEFHTncvajdzV0NnRTNYUjIzOTlPWGxIOEMzazZoUEpuckdaSlpNM0MwQ2RJ?=
+ =?utf-8?B?L0s3S3JMcVAzOUtDcHBoUFhBUFZoTzQ2aFluaVk0cXdFTXh3RTJmMk5aQmN5?=
+ =?utf-8?B?M0V6VjF0VTlCTkxJRXJFWmlySjk0VnBZWWFtUzBnTnYvS3BWaUpSbVIydmdJ?=
+ =?utf-8?B?Yk1PM0NoRG5lZjFkQnhSWG5CMUk3TlRHazlXL1ZOTlFIdDU2SjZpYmN3Risy?=
+ =?utf-8?B?azc1SkVBb2M4dStjWXZjV3pxZHV3PT0=?=
+X-OriginatorOrg: jolla.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9751bf5a-7a7c-414b-987b-08ddc61b78d0
+X-MS-Exchange-CrossTenant-AuthSource: PAXPR06MB8376.eurprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Jul 2025 16:52:26.4071
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: b6cd1562-9512-488f-a364-34d46554c96a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: bK6KNStLvvr+Q+nRfBCFOdR/fxqV+XeDjSR27IQEJz4bZMeRJq058n2NV2c7LNtj7AJxP7hZrpq2mJkYBPrDV8ukGSomqCcUfwyXrw5dJe8=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR06MB7718
 
-Split routing value must be set with WireGuard according to the IP
-ranges set with AllowedIPs option. If the option contains an any IP
-range (INADDR_ANY/IN6ADDR_ANY_INIT, i.e. 0.0.0.0/0 or ::/0) split
-routing must be off since the configuration indicates that the
-connection is to be used as the route for all traffic. Similarly,
-if there is no any IP range split routing is enabled as only the IP
-ranges defined are being encrypted and processed according to the
-cryptokey routing table configured on the endpoint.
+Hello all
 
-Also fix a memleak in parse_allowed_ips().
----
- vpn/plugins/wireguard.c | 20 ++++++++++++++++++--
- 1 file changed, 18 insertions(+), 2 deletions(-)
+On 7/11/25 17:26, Jussi Laakkonen wrote:
+> This patch set (1) adds the association state also for the VPNs, (2) implements
+> dual IP support for VPNs and (3) contains fixes for Wireguard address,
+> especially for FQDN handling. This is a combination of all three improvements
+> for the sake of testing them together.
+> 
+> (1): association state for VPNs
+> The association state is to indicate that the VPN is waiting for VPN agent to
+> provide input given by user. In this state service.c must not do connect
+> timeout checks as the timers for both differ in length, default being 120s for
+> connect timeout and 300s for VPN agent dialog timeout.
+> 
+> In order to facilitate this change the association state had to be implemented
+> also for VPNs. It is common state for services and like with services the
+> association state for VPNs preceeds the configuration state (on VPN side
+> connect state). Both vpn.c plugins on connmand and vpnd side require changes
+> to accommodate this state. When the VPN agent succeeds in getting the input
+> from the user the state transitions from association to connect (configuration)
+> state and, thus, requires no specific changes to VPN plugins.
+> 
+> On connmand side the association state is the initial state when VPN is getting
+> connected and the state needs to be accounted as a connecting state in
+> plugins/vpn.c to not to lose transport ident for it and in provider.c as a
+> pre-configuration state to not to start the connect timeout for the VPN before
+> the VPN is in configuration state. The reason for the latter is that the
+> connect timeout should be exact and start from the point when
+> connect/configuration state is entered.
+> 
+> On vpnd side association state is, like on connmand side, the initial state for
+> the VPN getting connected. After the VPN agent succeeds getting the information
+> from the user (credentials) the state transitions to connect (configuratioin).
+> There may be a possibility for a VPN plugin to run without VPN agent and thus
+> in these cases it is ensured that the vpn/plugins/vpn.c:vpn_notify() does
+> the state transition in such cases. It is allowed go back to association state
+> from connect state but not from other states.
+> 
+> (2): dual IP support for VPNs
+> 
+> Dual IP support for VPNs is implemented by adding an family extension that
+> simply uses a boolean array of 2. With this IPv4 and IPv6 can be both defined
+> on a VPN such as WireGuard and provider.c will setup the addresses correctly in
+> connmand.
+> 
+> (3): WireGuard fixes
+> 
+> This improves the WireGuard plugin and adds better error case support for the
+> vpn/plugins/vpn.c. This allows also to propagate the errors upward and with
+> other changes, allows the shutdown to follow the same process as the other
+> VPNs. Also fix the PrefixLength use in the WireGuard plugin by tokenizing the
+> host before getaddrinfo() check. One of the key fixes here is to make FQDN
+> work with WireGuard. Also a new option is added for using the transport
+> nameservers with WireGuard reresolve queries, which by default is off (false).
+> 
+> First, the basic saving of the WireGuard configuration is done similarly to
+> other plugins, as well as to what wg-quick is utilizing.
+> 
+> Second, the handling of errors is improved within the plugin and vpn.c as well.
+> This will make it possible to pass the errors upwards from the plugin  In
+> addition to this there is a limit for reresolve errors (5 by default) after
+> which WireGuard plugin dies in case the configuration is wrong, or network is
+> broken.
+> 
+> Third, the use of getaddrinfo() will block with invalid configuration when
+> doing the reresolve for the endpoint. This is now replaced with GResolv by
+> adding a wrapper for it in vpn-util.c so it can be used within VPN plugins as
+> well. This avoids the blocking of the non-existent address resolve that made
+> vpnd unresponsive for the time being, for example, disconnects did not work.
+> 
+> Fourth, the shutdown is now simulated in a same way other daemon utilizing VPNs
+> do, by calling the vpn_died() with a slight delay. This makes daemonless VPNs
+> work in the same way as the rest of the plugins to do the same cleanup steps.
+> 
+> Fifth, the host given in the configuration as an IP-address should contain
+> CIDR notation but as getaddrinfo() uses inet_pton(), which is relying on the
+> address to not to have the notation, the host is tokenized first for this use.
+> 
+> Sixth, there is an option added, "WireGuard.ReresolveUseTransportDNS" that can
+> be set to boolean values, "true" indicating that the nameservers of the
+> transport are used for the DNS reresolve queries. This may become useful in
+> cases where user cannot affect their network setup outside their devices. By
+> default this option is set off, and is saved among other options.
+> 
+> Seventh, the FQDN server use is fixed by using the resolved IP of the server as
+> the gateway. The reason this broke networking was that the FQDN name was sent
+> to connmand "as is" and it was used as gateway, which could not be resolved
+> when routing packets.
+> 
 
-diff --git a/vpn/plugins/wireguard.c b/vpn/plugins/wireguard.c
-index 2783d9bd..07719273 100644
---- a/vpn/plugins/wireguard.c
-+++ b/vpn/plugins/wireguard.c
-@@ -134,7 +134,8 @@ static int parse_key(const char *str, wg_key key)
- 	return 0;
- }
- 
--static int parse_allowed_ips(const char *allowed_ips, wg_peer *peer)
-+static int parse_allowed_ips(const char *allowed_ips, wg_peer *peer,
-+							bool *do_split_routing)
- {
- 	struct wg_allowedip *curaip, *allowedip;
- 	char buf[INET6_ADDRSTRLEN];
-@@ -142,6 +143,7 @@ static int parse_allowed_ips(const char *allowed_ips, wg_peer *peer)
- 	char *send;
- 	int i;
- 
-+	*do_split_routing = true;
- 	curaip = NULL;
- 	tokens = g_strsplit(allowed_ips, ", ", -1);
- 	for (i = 0; tokens[i]; i++) {
-@@ -169,6 +171,16 @@ static int parse_allowed_ips(const char *allowed_ips, wg_peer *peer)
- 
- 		allowedip->cidr = g_ascii_strtoull(toks[1], &send, 10);
- 
-+		/*
-+		 * Force split routing off if any address is detected as using
-+		 * these as allowed IPs indicates that WireGuard is to be used
-+		 * to route all traffic.
-+		 */
-+		if (connman_inet_is_any_addr(toks[0], allowedip->family))
-+			*do_split_routing = false;
-+
-+		g_strfreev(toks);
-+
- 		if (!curaip)
- 			peer->first_allowedip = allowedip;
- 		else
-@@ -576,6 +588,7 @@ static int wg_connect(struct vpn_provider *provider,
- 	struct wireguard_info *info;
- 	const char *option, *gateway;
- 	char *ifname;
-+	bool do_split_routing = true;
- 	int err = -EINVAL;
- 
- 	info = create_private_data(provider);
-@@ -638,12 +651,15 @@ static int wg_connect(struct vpn_provider *provider,
- 		DBG("WireGuard.AllowedIPs is missing");
- 		goto error;
- 	}
--	err = parse_allowed_ips(option, &info->peer);
-+	err = parse_allowed_ips(option, &info->peer, &do_split_routing);
- 	if (err) {
- 		DBG("Failed to parse allowed IPs %s", option);
- 		goto error;
- 	}
- 
-+	vpn_provider_set_boolean(provider, "SplitRouting", do_split_routing,
-+							false);
-+
- 	option = vpn_provider_get_string(provider,
- 					"WireGuard.PersistentKeepalive");
- 	if (option) {
--- 
-2.39.5
+Forgot to add:
+
+Tested by: Christian Hewitt & LibreELEC community
+
+
+BR,
+  Jussi
 
