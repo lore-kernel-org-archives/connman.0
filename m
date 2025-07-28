@@ -1,94 +1,78 @@
-Received: from mail-ot1-f44.google.com (mail-ot1-f44.google.com [209.85.210.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail5.g24.pair.com (mail5.g24.pair.com [66.39.139.36])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CC4226E6E2
-	for <connman@lists.linux.dev>; Mon, 28 Jul 2025 14:54:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00A318488
+	for <connman@lists.linux.dev>; Mon, 28 Jul 2025 22:38:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=66.39.139.36
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753714450; cv=none; b=pYCRHXm32MvwfVcSLSF6en+6KudQXmI9SqjkQGXlyuQ5NprQpI7/Lqw2gUYW6gfklLlHN48NS50LlbfTIbnmLip84598wulWXOFBgi2jnpaT3qGj71EkzTkM0at6avYQVihzWHQ5CbFVeyl5PYM5n4QL7tXpVtYSdngcbUyHazM=
+	t=1753742295; cv=none; b=vEazHTotoiorf93D6QnaoB2A2izuG3XhNcJKiyP1u48TrzVCPVqkIj1KoAyj964/pvaPLeKWDlIk5k98yKFMZWjUEO3/6X5v0rLRTZmcfcna9bMcaQoOy7DEGk3zLnMCQGKl7+JPF0Dl/YRqhglFEDcEmcTgrqMBFB0jusoqiNM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753714450; c=relaxed/simple;
-	bh=hzkvLarV5YwDrSlhHbFYf/KTHqYg0NnTO3uzODdFkjU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=lo3pwnyeH4WpGltmJ1tgxLn7f9AKWvZsARrRtAjZhS76VW9jub2DC/L8iQa6VLUrCkcDAOnFZYzgmDu5igX/kHdnWG9617YDEbipZ3i3qJLQdk8RWj+yBSYJ5uJYjpdLqAx8X5NdavplVKQ0uLlHCwKHzNr3Z1fxlaJGmND6FvU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BZ0mrebj; arc=none smtp.client-ip=209.85.210.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1753742295; c=relaxed/simple;
+	bh=k7NQdfPEFn3/SVDnE/INaRqr5YOPjH6ujnvBcH+MkGk=;
+	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
+	 Message-Id:References:To; b=d93kU38e1fbm7x4rG0BecJRgNClOUOd7OCmw7urT98p2aDwqN8RP1NzOhMhVpv5qNiw7XgBHaI/c6csTy72tk7zZznwtYdO6qKD9gd3ooRpJkMQ36U8j3wEI1P/OAQ1MN7vx+FgMuy9L9PhQY7MSzFlwXCQgv41ODA2bI11zZbo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nuovations.com; spf=pass smtp.mailfrom=nuovations.com; dkim=pass (2048-bit key) header.d=nuovations.com header.i=@nuovations.com header.b=UcxcBPpC; arc=none smtp.client-ip=66.39.139.36
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nuovations.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nuovations.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BZ0mrebj"
-Received: by mail-ot1-f44.google.com with SMTP id 46e09a7af769-73e810dc22dso2542047a34.3
-        for <connman@lists.linux.dev>; Mon, 28 Jul 2025 07:54:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1753714448; x=1754319248; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=OXzB0eZBeBslmnCRDBjgGOnY0mmGud08L8JzucYzf4A=;
-        b=BZ0mrebj6Bowc1yXP/VmcndNZr6ouTWrvd6+JJdOfIuxEAQQYevO0g8XWlKcTnyJUa
-         3ckP0NQgqzIidMeic14j0oktuwRYbwWz4BgezftG8x+78p9NkpKiss43aPxDK3L54uW9
-         A6mg1K46qtB/ua/9NzXLjwbaEoVErHCs1tlGlzE1rTK5b3n348YWbflunymLUoVUDzRb
-         e135DiC6OXptDeK5uGij3z6UiVTiFchNTJFu/ID210tyRpQfV+VjFBxyWTZw42ufEohm
-         QNePIZRMwPOyG4CLm2BSMjJLxGfUogBrGc6WrQq2/bgDf2WVl2hdiyDgJ9GeRZ0tL9vb
-         3H8g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753714448; x=1754319248;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=OXzB0eZBeBslmnCRDBjgGOnY0mmGud08L8JzucYzf4A=;
-        b=eLRp9Ggt9gNwQR3mIUSCPeS09701/dcvPGPZJWHn/dpv5RFRPLH/PVqlw+3ml0ltx3
-         XAFSDuy7lMciuC9KR/f6iNFwzrVCzPtrz6xVgmDslygIH7yriRGGZQbL9P5gBFy8tJly
-         DSCgAkE+2dRpiYlMzSCR7YT4s04+JGIht+bWbqd4/26j/upd0tcHG8WxxAKUOCzQxUqo
-         RHpqFXTbRSiNtnT0hg/gylgPkY0UTCQ9Tg4KQKrP8GDJjFId04DlMQl10o4K2YUsffwj
-         SE/a2h924KbDxZ0OOfhv/XMfVCzNCZOBkzWTGHI8hAiwHzv0t/8fqavyvnV0zUMs+VcN
-         3xIw==
-X-Forwarded-Encrypted: i=1; AJvYcCUHilXMbYjnSdKY04h++BBudct0oNMK+w7hAL/Z47UdS6z0+0x6PJTbEFFLv8qYpLXH/JRXBWDt@lists.linux.dev
-X-Gm-Message-State: AOJu0YyvIyKDDYj7cKDayU7I2WmoQu7daBgcTeQBfP/2tTMTNhkeg30T
-	J6dk0y+89NR4oqJqePHy8LbwwhE/AMeaSyefUwpHgkKdKcJyBormjrMV
-X-Gm-Gg: ASbGncvN87lGmDNw/SBvHkpNPLN1QYJ6Qiuqvc8QfmF4rDCC69Zvr+B1U1C5AE+B2xE
-	EJ0oaCJmy65G1QgTv9ODPtvY2tWpt+gvYZY+Wt9nLclXFtDu426xfugoL2TEKeVAW3yADFHtTpM
-	FyVd7ep8T7QUvgcTElyq6PcDlKk1pcZa55uavMo94/geIKbtWoykBA0DVR2aIInBMvcm/7deNQU
-	QWOwuKhOdfGGAx4iyTrKYL/V7a0eOw0c/WrsmP/fQi1AEUmHeNfI8TyoaUgvAZt1Xl966cbdLb+
-	suDb8KRHPuKrQtFKEWzu+v/ds0IPG1VUEsKr012jDM+pbPF3HD0MwiYs8sRa7qikdxEBzSjMJo0
-	dR28xQWFA5ixejSb6/emeQnGsw0EpafNzCzOpNdS5Ff9wY+cfbohCFGplnyoA5+BM2NuRobJm2c
-	4=
-X-Google-Smtp-Source: AGHT+IGwwtY7eRVEhGbzlL9YRW0yIz+90R5/fSxA7xnjmeAUvRAOAYm0xIHG1Nwe1nqdv205X5mxew==
-X-Received: by 2002:a05:6808:4fd1:b0:41f:79f9:1b6b with SMTP id 5614622812f47-42bbacc3e6amr6383463b6e.34.1753714448139;
-        Mon, 28 Jul 2025 07:54:08 -0700 (PDT)
-Received: from [172.16.49.130] (syn-070-114-247-242.res.spectrum.com. [70.114.247.242])
-        by smtp.googlemail.com with ESMTPSA id 5614622812f47-42c7d3c2ea7sm1090640b6e.23.2025.07.28.07.54.07
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 28 Jul 2025 07:54:07 -0700 (PDT)
-Message-ID: <bdfd4f28-e5ef-4949-a032-a4f838c40779@gmail.com>
-Date: Mon, 28 Jul 2025 09:54:06 -0500
+	dkim=pass (2048-bit key) header.d=nuovations.com header.i=@nuovations.com header.b="UcxcBPpC"
+Received: from mail5.g24.pair.com (localhost [127.0.0.1])
+	by mail5.g24.pair.com (Postfix) with ESMTP id C414D164A38;
+	Mon, 28 Jul 2025 18:38:10 -0400 (EDT)
+Received: from smtpclient.apple (c-73-202-173-252.hsd1.ca.comcast.net [73.202.173.252])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mail5.g24.pair.com (Postfix) with ESMTPSA id 4E77D124E6D;
+	Mon, 28 Jul 2025 18:38:10 -0400 (EDT)
+Content-Type: text/plain;
+	charset=utf-8
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 00/46] VPN association state, dual IP support and WG fixes
-To: Jussi Laakkonen <jussi.laakkonen@jolla.com>, connman@lists.linux.dev
-References: <20250711142736.1757060-1-jussi.laakkonen@jolla.com>
-Content-Language: en-US
-From: Denis Kenzior <denkenz@gmail.com>
-In-Reply-To: <20250711142736.1757060-1-jussi.laakkonen@jolla.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.600.51.1.1\))
+Subject: Re: [PATCH] Adjust printf(3) formats for 32-bit platforms
+From: Grant Erickson <gerickson@nuovations.com>
+In-Reply-To: <20250721141712.796989-1-l.stelmach@samsung.com>
+Date: Mon, 28 Jul 2025 15:37:59 -0700
+Cc: connman@lists.linux.dev,
+ m.szyprowski@samsung.com,
+ k.lewandowsk@samsung.com
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <3717461C-D785-4074-B43B-6297BCBE0EED@nuovations.com>
+References: <CGME20250721141728eucas1p26fc6074b92a22ad65366edd47a7c588a@eucas1p2.samsung.com>
+ <20250721141712.796989-1-l.stelmach@samsung.com>
+To: =?utf-8?Q?=C5=81ukasz_Stelmach?= <l.stelmach@samsung.com>
+X-Mailer: Apple Mail (2.3826.600.51.1.1)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nuovations.com; h=content-type:mime-version:subject:from:in-reply-to:date:cc:content-transfer-encoding:message-id:references:to; s=pair-202401062137; bh=iamwVNQUMoysTzSwEYAzA3tIrIRj/o9CJ1tthz2BI/U=; b=UcxcBPpCCJe+6CVJmS/1REUvqa7Jkg5HWVt8m6GIuKtH0Z1qAPh0xl+rCE9Yx7VoY6e4Gaj3tevbCe69mmkz+oTc3yY1rSyIKxEpJ4s8ir0htdyMWsQRu+iPjzX8YuHYLICHltEKW+R/FGh2JEnK+JAmfu5ooTZijBHYPLa66xtmiQOjhitOoxToqfFtlApdkBBmPP4cNUD+1jZso6X9RUtXAhOlBxDsPTJPG0G8AzDHUGO/YFRDyVRL83405rr09ODKgDAanHIYqHBMzLiZb5dtRZbnYp+hvPzqOwCaeFdF6CQ8b9ac8JKxOxHeMh10FJ6aPiA38bEqYRunA79/5Q==
+X-Scanned-By: mailmunge 3.10 on 66.39.139.36
 
-Hi Jussi,
+On Jul 21, 2025, at 7:17=E2=80=AFAM, =C5=81ukasz Stelmach =
+<l.stelmach@samsung.com> wrote
+> On 32-bit platforms time_t may be defined as long long int to make it
+> 64-bit wide and y2038 compatible. On 64-bit platform with LP64 data =
+model
+> ABI long long is also 64-bit, so it is convenient and safe to always
+> cast time_t to long long and use %lld/%llu format on all platforms.
 
-On 7/11/25 9:26 AM, Jussi Laakkonen wrote:
-> This patch set (1) adds the association state also for the VPNs, (2) implements
-> dual IP support for VPNs and (3) contains fixes for Wireguard address,
-> especially for FQDN handling. This is a combination of all three improvements
-> for the sake of testing them together.
-> 
+=C5=81ukasz:
 
-Now that connman 1.45 is out, I'll start reviewing these.  It'll take a bit 
-since I have limited time these days FYI.  Most likely I will cherry pick what I 
-can on the first round and then request additional changes.
+Had you considered using the mnemonics in inttypes.h to avoid the cast =
+such as:
 
-Regards,
--Denis
+	selection_str =3D g_strdup_printf("%s:%=E2=80=9D PRId64 "",
+	device->last_user_selection_ident, =
+device->last_user_selection_time)
+
+Best,
+
+Grant
+
+--=20
+Principal
+Nuovations
+
+gerickson@nuovations.com
+https://www.nuovations.com/
+
