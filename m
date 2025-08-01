@@ -1,66 +1,66 @@
-Received: from mail-oa1-f46.google.com (mail-oa1-f46.google.com [209.85.160.46])
+Received: from mail-oi1-f179.google.com (mail-oi1-f179.google.com [209.85.167.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C27B3C2C9
-	for <connman@lists.linux.dev>; Fri,  1 Aug 2025 19:34:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E991D28C845
+	for <connman@lists.linux.dev>; Fri,  1 Aug 2025 19:39:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754076854; cv=none; b=TqBCqWA0yFgNJsDD+EnK5fVSlqqMJ29A/NbeHq7924+z94W96vyFXvpb4+DYh1EhNpmsIB2Wobt2tGbE1E/oi6y7RN1sCSuMyi3hwXQVeezLxIXMyCV7fw5KmavShNU2jaLLyKEpVXwXlT9ODl57ePMGi1qWHqfizg5eWQ8OY9k=
+	t=1754077160; cv=none; b=iexgvxAPwUMghAaP09g3Fln6zt0v4YoX396XgXe4hCkG0dE9cOqADNvUKNwuzrys1odW4NJsqzvAkFmL+shyZAiEt8yMPMGHKHVYgsHNUoD8z52GytcAeSUe0ieoDLgFODp8LFZdxc8OdqLwhbfJwFxtRCwLAgYTB8tA5G5nrPY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754076854; c=relaxed/simple;
-	bh=2kazlXonTPwktERdiKfFGsiTsA3sPnEfRNoM7fPecPc=;
+	s=arc-20240116; t=1754077160; c=relaxed/simple;
+	bh=k8nmOa/XW1LkPkSXk72IqotSHeV0z+feimyuccT9/5A=;
 	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=ICpPcSlWluJCOtEPqr40vdWv5mECQ/QhQHysFgqmmYw+amLbbjuyFGQgClS+RZzldsp3BOGz3RwyDTpPsJL6WGTLmF7LLbqB/X9PQsVFb99W31+pHz3obXbllDkjVRz0sPYEWw1hBq8hJz2JEJ78YXIf1PA/Si75e9b70Jvsers=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Y+3c+ztY; arc=none smtp.client-ip=209.85.160.46
+	 In-Reply-To:Content-Type; b=Kg2O2mSTSZYKx+gn11Hpq34xzjNKObecDCkvvEXRtfrdVg+HqoP1A/yuNmVzYp0kT2oWFHbXCEazRI41joekbRLZlKBmh0ZB8PwPFndmpdaP8WRz7tCUxU9b7+EDdGSzFyhGIkqf7ydI82dPW+cswvlIZmGqIqGax4LhX4aNBzE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SVQ9L/KJ; arc=none smtp.client-ip=209.85.167.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Y+3c+ztY"
-Received: by mail-oa1-f46.google.com with SMTP id 586e51a60fabf-2ff9b45aec2so1270422fac.2
-        for <connman@lists.linux.dev>; Fri, 01 Aug 2025 12:34:12 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SVQ9L/KJ"
+Received: by mail-oi1-f179.google.com with SMTP id 5614622812f47-41b309ce7d5so510786b6e.0
+        for <connman@lists.linux.dev>; Fri, 01 Aug 2025 12:39:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1754076852; x=1754681652; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1754077158; x=1754681958; darn=lists.linux.dev;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:to:subject:user-agent:mime-version:date:message-id:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=I3fY67XDGRpH2Uo3fbR7YHG2crELmM0Y4sVNc3XBwLc=;
-        b=Y+3c+ztYGKlHKdZSYDueO2eqKf8d9hhgowoMcdMjPzMypcqu8bRJPRRjIJX3sfy1JH
-         dDTLufn82EIlqxuy5yGX1fiDUc2+xT1Wqnm1e8/I0WEGJ+8FY2Es1m2K78cAYoci8GBE
-         aI8h47kjjZ+lH6xGp5bQW7JEbSW1V86Hr4fdnfvVfiUSfkENedKOX57D4RgmS2V3Rhov
-         Knko3Iwsnh8JxaAbIyYlz+BOnSR8rh2lA9MHgwlttBy0z6AjgCJ//LUaVPDIqe/jxwt8
-         D+kxSGdroMHYqSfUOTdkSVSmbUND1lJ8ZQSadJAEi7tWd+oN+7blv1oRkl0730vGHqWL
-         Bw8A==
+        bh=/Iaz/3xZAXzcL0TB7LK7DgtaMQr74ewcIroKeIrLGRw=;
+        b=SVQ9L/KJOXWBW8hAo08PYCVbn8Rzdk1h/tgT+tVypNom/Qm4f1pCNSijwwcvL9gxQ1
+         DAm0TfFnuwOdr8XWEUiwiycM3q9X8njg53p280vIiuuxWA5Lzl+Grleaz8uM8RRBr6kR
+         fhiXVWs/EDiSbl+jyQM9BpIsOjZnfSAmWs7ohNhk4LNZYa6xxl8ak3lIx1O/sWxWY9U1
+         1b4LSRlAQAl3Ea7+bLaIyUtEpjQd/x8kEa6cbKItucqzSFDGA2wt0M9j3gsbk07QAh5H
+         lR5fiYQc7eryRZAeIKilFsKqpzQ/VqmiIjYiU91hb0SeCHKQZ+Jf8aci77g470zNQzTZ
+         rakw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754076852; x=1754681652;
+        d=1e100.net; s=20230601; t=1754077158; x=1754681958;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=I3fY67XDGRpH2Uo3fbR7YHG2crELmM0Y4sVNc3XBwLc=;
-        b=xPR1zHbN88FP/glwsGEQctcVtYqVktbFM5Yr/Ry6DG1DogzQAw56ykojqCML7vxf/9
-         NWXwW+TWSUr/93tUP7FaykEU4RLBHvEAKFsN3vJgFUw7jYoi4ISbBZY8uxXzkcIpCEBx
-         MoM9zXeoBwohd8ced/aczFSmiTFHo7vPXXgdU0KMETuuiWJH1Yeosmuoix+MPiCOYg1V
-         P7mSdT9UuDS1gPiYHLQqJ4uC0oH1wEFuZ0lRWba4AGocrMmvwce78XELgPnUb6xWacrI
-         2ktOZY3ADBTh+MYmtouWclImiX8wBrEsPRAqLecSlulNpOIfxKnis1ZQYSySiRvelqtu
-         5f9Q==
-X-Forwarded-Encrypted: i=1; AJvYcCWDKhVgYY4AUxockBcSwVk7gNL0GPKkJ4l/BIiz+bIqBGHlS/8WqsQx+EE5HjPbniEmzjZQ+8gZ@lists.linux.dev
-X-Gm-Message-State: AOJu0YwkiDAcZgVgPT3YH8TwKYYHr86NppR9UZOtpnm7/VCefxXPTEpB
-	Wo/ZFPnh1OYrpv3PvRXIbwUZ4e70GDWJG4Ik4UqYRoyDW5dypOCiEK7k
-X-Gm-Gg: ASbGncurvJUml/F4wyP2ZWzLB9Fs7f7v9p1ZYi4h2DMLg3ezbDhj8+GAjJTzFOwvNMJ
-	H580QXNZKRirn3QQwyZO/6QV/+9NVkG2luY4ZrV7JuiRog5T5qLClB3QzLrfQOZCbSmx3Fb/6Tq
-	Ook9BMg6jPPI2s1BPRQEcWI6tYPZQO/U5FR8Pfh+nQO5W+afRXdX/uyiDJgUU1U63pDEF9CyO3w
-	rjmiv8e/ggyEqpRzn7T8N72mi9evZHX4RL7Ps24aefoj8KRb05CqkTtGeOJlG9G1Dd1WjJzhqTj
-	eVYmbPqmeB/kPnyzfS0uWukDbN6vP0UEti2x7VWWGnXqoEO1Xy9je0/vVRRMNDC90IBWKzQGHis
-	VKcXUww0mpldCy9HVJ16WMf85oxaWTFnVX/95tF1PxQhXejrJjrPdy4574Kf80OhUTrWc3yMaYu
-	phFfX5MpuohQ==
-X-Google-Smtp-Source: AGHT+IFZoEgsmhZ+5dAwtV3F3VopvidNWf/C1ysTaNefEiV2D1mdlakPh6wVi+543fCxaA3iq9lSbA==
-X-Received: by 2002:a05:6870:3516:b0:2e9:9e9:d94b with SMTP id 586e51a60fabf-30b67cbad99mr540017fac.39.1754076851826;
-        Fri, 01 Aug 2025 12:34:11 -0700 (PDT)
+        bh=/Iaz/3xZAXzcL0TB7LK7DgtaMQr74ewcIroKeIrLGRw=;
+        b=Kb8E+By3XXBCYDoZo083scBnDnkqyqVoUQG2L0FJ3Fl9jKfqi8+J3JBLSC1OAH4Bu9
+         uzgk2FEXMW/360kIM+KPt01pKOQg4AebCE1UOPc1oaqSTq8UmA0q9JpZj4sqifhSTMSF
+         DD1Ir4MGp9nFyatAYXQb4xbG5BtgZdKYkmfpFEJobik8IAqtEeS3G6vxGvSycgtgf5Tb
+         haS7+1PHjm4unYMowcK4UQMFqtKZMaP0S/VKZG4lLCabB0QEbs35OikQIEYl+x2dlvlr
+         ZQ32Zr1tS1N8X/oge8TMBHbYBOStifKqZDiLBbGNjXe6STCNlJ6ZCdYs1NuNT9WtSo+R
+         fp+g==
+X-Forwarded-Encrypted: i=1; AJvYcCURkiQsv+TJ+1pnNpNpHBTNgjL47g/Pmy62gJ8rAqtc9IDH8JcE4w9PqpRAeBkqVsGjo4TzqtQ/@lists.linux.dev
+X-Gm-Message-State: AOJu0YwHqEBuMFZFJ1mVUR6vWkyEW8Zklr20O5m4I1ML2hdwm2MsSN87
+	J2NVtTNWQhmz4RCXGW7aY2FPocp8ApSIbNHsS5svFPyibm6ap1zJZc3U
+X-Gm-Gg: ASbGncsVzRC+pEkI5JAdkZIBYBUW4lVvhfNdQRsf3zT5BivMPG3WvMboj77V66LyDSl
+	6AzYDgbVt81jxqxb9yzw3gPWmPAYHZWHdR+dMVC6D3J3JmmVRBCY6mrjUh1w3f6u8z+KEZ8c9z/
+	WZrVdxhqqWoL3cAiLBMv1vcsMLnkgLWSqpTxtbW8qE+uP6W/SHKQPqJoQq70QYEySN9HG8BOPFZ
+	BLv/VD+uAt2bmld/uLIdBhHVnYTxTLYpigFtz032K7yuWfhTJUMnH/9tadHQNl9uNpYMLhiGkwD
+	k4+FvJSli2nECSgk5kk4nwBzZaVq6hGEvt5DF+QQ9n2HGoNdr9mwEmqpjTPryNbHkvWUoTmvu9h
+	o6ZJ3aNPXeC7a1+0uWW87oQyre42bc7xwlY9WwJUgZMwy51hYEBo95X+nqSrwbXfPFL0ZrhNzHf
+	A=
+X-Google-Smtp-Source: AGHT+IF7/0nkguCk708UMmmkMIGhtOYclAS/KkEwZK8dQm5McG2rWk1DYRd9KjHR9w92EyMuzjw50Q==
+X-Received: by 2002:a05:6808:524a:b0:42a:3636:115d with SMTP id 5614622812f47-433f0368faemr795405b6e.31.1754077157987;
+        Fri, 01 Aug 2025 12:39:17 -0700 (PDT)
 Received: from [172.16.49.130] (syn-070-114-247-242.res.spectrum.com. [70.114.247.242])
-        by smtp.googlemail.com with ESMTPSA id 586e51a60fabf-307a71236b3sm1081122fac.4.2025.08.01.12.34.11
+        by smtp.googlemail.com with ESMTPSA id 006d021491bc7-61970528732sm674614eaf.13.2025.08.01.12.39.17
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 01 Aug 2025 12:34:11 -0700 (PDT)
-Message-ID: <e82d52a3-aa88-46c0-af63-53aacb565772@gmail.com>
-Date: Fri, 1 Aug 2025 14:34:10 -0500
+        Fri, 01 Aug 2025 12:39:17 -0700 (PDT)
+Message-ID: <4810774e-ef89-4b55-a393-356ea8b78c20@gmail.com>
+Date: Fri, 1 Aug 2025 14:39:16 -0500
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
@@ -68,81 +68,53 @@ List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 06/45] provider: Handle VPN configuration and association
- states
+Subject: Re: [PATCH 09/45] vpn: Add VPN agent use callback for plugins
 To: Jussi Laakkonen <jussi.laakkonen@jolla.com>, connman@lists.linux.dev
 References: <20250711142736.1757060-1-jussi.laakkonen@jolla.com>
- <20250711142736.1757060-7-jussi.laakkonen@jolla.com>
+ <20250711142736.1757060-10-jussi.laakkonen@jolla.com>
 Content-Language: en-US
 From: Denis Kenzior <denkenz@gmail.com>
-In-Reply-To: <20250711142736.1757060-7-jussi.laakkonen@jolla.com>
+In-Reply-To: <20250711142736.1757060-10-jussi.laakkonen@jolla.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 Hi Jussi,
 
-On 7/11/25 9:26 AM, Jussi Laakkonen wrote:
-> Set the association state when VPN is waiting for user input as an
-> initial state after connecting the provider. Set the configuration
-> state (as it is declaced to be the string to connect state in VPN)
-> accordingly as well. Start VPN connect timeout in configuration
-> state with restart option to ensure that the timeout begins from the
-> last known configuration (connect) state.
-> ---
->   include/provider.h |  9 +++++----
->   src/provider.c     | 22 +++++++++++++++++++++-
->   2 files changed, 26 insertions(+), 5 deletions(-)
+On 7/11/25 9:27 AM, Jussi Laakkonen wrote:
+> Add callback that can be used by the VPN plugins to tell the vpn_driver
+> whether it uses VPN agent or not. Default to using VPN agent if the
+> function is not defined.
 > 
-> diff --git a/include/provider.h b/include/provider.h
-> index 3f2e36ad..aac47527 100644
-> --- a/include/provider.h
-> +++ b/include/provider.h
-> @@ -44,10 +44,11 @@ enum connman_provider_type {
->   enum connman_provider_state {
->   	CONNMAN_PROVIDER_STATE_UNKNOWN       = 0,
->   	CONNMAN_PROVIDER_STATE_IDLE          = 1,
-> -	CONNMAN_PROVIDER_STATE_CONNECT       = 2,
-> -	CONNMAN_PROVIDER_STATE_READY         = 3,
-> -	CONNMAN_PROVIDER_STATE_DISCONNECT    = 4,
-> -	CONNMAN_PROVIDER_STATE_FAILURE       = 5,
-> +	CONNMAN_PROVIDER_STATE_ASSOCIATION   = 2,
-> +	CONNMAN_PROVIDER_STATE_CONNECT       = 3,
-> +	CONNMAN_PROVIDER_STATE_READY         = 4,
-> +	CONNMAN_PROVIDER_STATE_DISCONNECT    = 5,
-> +	CONNMAN_PROVIDER_STATE_FAILURE       = 6,
+> This is done to accommodate the state transition in vpn-provider when
+> the VPN does not utilize VPN agent.
+
+What about the case where previous credentials are cached?
+
+> ---
+>   vpn/plugins/vpn.c  | 22 ++++++++++++++++++++++
+>   vpn/plugins/vpn.h  |  1 +
+>   vpn/vpn-provider.h |  1 +
+>   3 files changed, 24 insertions(+)
+> 
+
+<snip>
+
+> diff --git a/vpn/plugins/vpn.h b/vpn/plugins/vpn.h
+> index a8d24fc3..b24cbf9b 100644
+> --- a/vpn/plugins/vpn.h
+> +++ b/vpn/plugins/vpn.h
+> @@ -57,6 +57,7 @@ struct vpn_driver {
+>   	int (*route_env_parse) (struct vpn_provider *provider, const char *key,
+>   			int *family, unsigned long *idx,
+>   			enum vpn_provider_route_type *type);
+> +	bool (*uses_vpn_agent) (struct vpn_provider *provider);
+
+The only user of this would seem to be wireguard which blankly returns false. 
+Can this be made into a boolean of a set of flags instead?
+
 >   };
 >   
->   enum connman_provider_error {
-> diff --git a/src/provider.c b/src/provider.c
-> index 1f0ce10d..ab4aeafb 100644
-> --- a/src/provider.c
-> +++ b/src/provider.c
-> @@ -126,6 +126,22 @@ static int provider_indicate_state(struct connman_provider *provider,
->   {
->   	DBG("state %d", state);
->   
-> +	switch (state) {
-> +	case CONNMAN_SERVICE_STATE_UNKNOWN:
-> +	case CONNMAN_SERVICE_STATE_IDLE:
-> +	case CONNMAN_SERVICE_STATE_ASSOCIATION:
-> +		break;
-> +	case CONNMAN_SERVICE_STATE_CONFIGURATION:
-> +		__connman_service_start_connect_timeout(provider->vpn_service,
-> +								true);
-
-Possibly handle this inside service.c?
-
-> +		break;
-> +	case CONNMAN_SERVICE_STATE_READY:
-> +	case CONNMAN_SERVICE_STATE_ONLINE:
-> +	case CONNMAN_SERVICE_STATE_DISCONNECT:
-> +	case CONNMAN_SERVICE_STATE_FAILURE:
-> +		break;
-> +	}
-> +
->   	__connman_service_ipconfig_indicate_state(provider->vpn_service, state,
->   					CONNMAN_IPCONFIG_TYPE_IPV4);
->   
+>   int vpn_register(const char *name, const struct vpn_driver *driver,
 
 Regards,
 -Denis
