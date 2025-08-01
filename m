@@ -1,141 +1,77 @@
-Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com [210.118.77.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A2AF635
-	for <connman@lists.linux.dev>; Wed, 30 Jul 2025 09:20:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.118.77.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8A5F37160
+	for <connman@lists.linux.dev>; Fri,  1 Aug 2025 11:04:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753867222; cv=none; b=UpjSh/ExJ0M+/bDmdFbXUsrsnOhzl2Kh6R3W+n/6bFLIl+Bi0hFGc0cKD/08cfV6KZI9R08HGrBbG/eppBRqJs2qkwk1XdjpN8J8zcDfu4bgfoxGPJdA4lJiBze3XqNgiEb7lMZrsc6SpSbFYEYlFtsWo5nPMxjXlIXeIpV9rEw=
+	t=1754046296; cv=none; b=pfVUhvL8aEwCIzOzHwkceUK5iHQ0rr2+wS8ki5DSZZFewRerz5c5smCXYZkiI2NtO1wkWIzGx6nkkoeGawuAgYVXEE5Sl9RO57cSzhpbuBFmYlhuUMfdNaR7+7rBhnAWy7LvU37eId5xewHcwpwZ0PalfqjS4s+DGtBq0dbEkzE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753867222; c=relaxed/simple;
-	bh=40D5yxOSE7mGyCHnGFlmZT2v9LGii3p+rLM2n7PfOEg=;
-	h=From:To:Cc:Subject:In-Reply-To:Date:Message-ID:MIME-Version:
-	 Content-Type:References; b=rs3A58u4QqnSRyvRMVkTcP+aKDOe3KYge1XGKXr4hcC2CUrLuwnuw0/6hNMKxy3235fZnLrbH3j6C2WYje8b5WDxYGnZVBmwJ2k3L1Hk4NGWFFWf9wip3oSEfq4c6Xe7/bx83c6/iH/Va4gVmeZ6G+hDU9mCaAF19gZWPO8B8b4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=BETASllQ; arc=none smtp.client-ip=210.118.77.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
+	s=arc-20240116; t=1754046296; c=relaxed/simple;
+	bh=2WNSwdKHOqPbp8dT5M566RqeVNfOQXbr3OhbqAg6NNo=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version; b=spRwKGI5Jse9H0u89pP1RMBDuUXgfEJfM9iwMtooxjFlWJSbkQUD7Y+4ERzl1svW5bXMU7gvx1XE8rcUQyMvLK+auv5fMBdn18P3amQKNWwzQGeltzbFbHRBbeCD6ZcAaKuOhvtD7SP2jFHuxOgVWQJmpjUVEjZkx+XluelUt6g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=dividat.com; spf=pass smtp.mailfrom=dividat.ch; dkim=pass (2048-bit key) header.d=dividat-ch.20230601.gappssmtp.com header.i=@dividat-ch.20230601.gappssmtp.com header.b=Cjfr2Dpq; arc=none smtp.client-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=dividat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dividat.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="BETASllQ"
-Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
-	by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id 20250730092017euoutp01379c97369d5238948920f94b3afb585e~W-PEjWS5x1080110801euoutp01M;
-	Wed, 30 Jul 2025 09:20:17 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com 20250730092017euoutp01379c97369d5238948920f94b3afb585e~W-PEjWS5x1080110801euoutp01M
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1753867217;
-	bh=9AUQ4shNQt6Z9LAxfAACaNTrMGvjHdDFSGCDFPOHTUA=;
-	h=From:To:Cc:Subject:In-Reply-To:Date:References:From;
-	b=BETASllQt1LdCt/4OZMkUBiKo5zGlg1NEoPJxO8SkwcqCGt60WrH9/TyVD0r79SPn
-	 TFdK50y8yYa39Zc0f9TTR9nmpmi4E0GuEwYdPufZ0FFZcMvrg8tV21fVtpr8kTuZEq
-	 iXCpuNaSmbCALTFoT+1y291CHPHZEsOe/bszvIMU=
-Received: from eusmtip1.samsung.com (unknown [203.254.199.221]) by
-	eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
-	20250730092017eucas1p2c3851407d61294f44bc90964d38f5155~W-PEFLCSU0798107981eucas1p2Q;
-	Wed, 30 Jul 2025 09:20:17 +0000 (GMT)
-Received: from localhost (unknown [106.120.51.111]) by eusmtip1.samsung.com
-	(KnoxPortal) with ESMTPA id
-	20250730092016eusmtip15a61140708958282ad811b57d90402f6~W-PEBY3K_2748827488eusmtip1u;
-	Wed, 30 Jul 2025 09:20:16 +0000 (GMT)
-From: Lukasz Stelmach <l.stelmach@samsung.com>
-To: Grant Erickson <gerickson@nuovations.com>
-Cc: connman@lists.linux.dev,  m.szyprowski@samsung.com,
-	k.lewandowsk@samsung.com
-Subject: Re: [PATCH] Adjust printf(3) formats for 32-bit platforms
-In-Reply-To: <3717461C-D785-4074-B43B-6297BCBE0EED@nuovations.com> (Grant
-	Erickson's message of "Mon, 28 Jul 2025 15:37:59 -0700")
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
-Date: Wed, 30 Jul 2025 11:20:16 +0200
-Message-ID: <oypijd5xfarq5r.fsf%l.stelmach@samsung.com>
+	dkim=pass (2048-bit key) header.d=dividat-ch.20230601.gappssmtp.com header.i=@dividat-ch.20230601.gappssmtp.com header.b="Cjfr2Dpq"
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4538bc52a8dso11127635e9.2
+        for <connman@lists.linux.dev>; Fri, 01 Aug 2025 04:04:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=dividat-ch.20230601.gappssmtp.com; s=20230601; t=1754046292; x=1754651092; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=2WNSwdKHOqPbp8dT5M566RqeVNfOQXbr3OhbqAg6NNo=;
+        b=Cjfr2Dpqv41xxNT67oqUvrfg7Iq1HiiIEo1ASn4Jzoa4OA/Sf/7Gnh3jpI39E+0gmR
+         U44gx1ia3E6Ig9PoGgxGgtcpbmd4Yv/uTtJVy3do3gI45OQLDHVB83NQNCrqa2tKe+mM
+         QrVOoeUTYKBhVRzY/kcx8y1UdrxjGZmnbEyjBOEUGJHJTzeeMGr5RxAhowDUnxa2S+1k
+         YFCzJIq1q6+ogMJ/toyAyWN2C8CX0MUha/poD6K1/ttfsSbbR5fCyXNv6l9c5y6lO6gU
+         m8aLxepy7tVO7dT9Rna+mVT2ERKj3SVxHL2SXj928eB+JcqZ5IFR7yKvMxXU+Z2wbQlE
+         QO2w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1754046292; x=1754651092;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=2WNSwdKHOqPbp8dT5M566RqeVNfOQXbr3OhbqAg6NNo=;
+        b=MYdCd2az9DLKeJFMj5Nwjc5ceWyOI9xhvm/7NBfGFVRH6lOY45P4R1bbW9QJARoj1H
+         zJObJT98oj4RflCiv67nMomAJQ+NKM/MXpw/BZKSKDb21YX9eB0pKb1w7+BTXehQmjv/
+         6o9G42JV8saIOUzKIfXk+RhSzFkcFtsgLxbjYiSB2hJeQgeCHWiRBEfcKf7jjZQ5w6kn
+         WVwrKmGH3BRjFs/xqGMntYfVgY2z/vjfcu8WZB7D9dCGKTdPz8y85ETV5TRRTfe2Ep5O
+         5Rj+UQIxvhQVgwOgoWcdgzqmrpqtCpPs9hOT9NTrsXEPk44C/bdMYexGBwCi373tpc2z
+         arJA==
+X-Gm-Message-State: AOJu0YwswEwv8FYJICcCn6k2kTAcVELO2k4sk++pIz+HoF3OZWxv8+0c
+	1z//yvXvs31f2kV49AXLRugOEmg2pYyOxN33Jg1W9miRZzQPxns0ERr9FiDQS0lOk0hv0Z9gDCK
+	LFHkX
+X-Gm-Gg: ASbGncua9LsR0srFlY0nFsIkMENRmbnCYi4o/qs4fHM2motDoesvEta2PW86sjdELhX
+	oooW3yUfgAl+kkURNHC2K3ayg3YF10/pQusYBdRitle/vWO68R7bIwGYk/5cUbY17g/I+P+BWZR
+	hwJgHJkCmiN+X2xBto0DbU8swz7osTze3RcvqZ3cr7sIO15wIDulJGpPogoDysyIljatt/mJF4t
+	oLI3vHdD2LHsPtmZeXqAPx5/XKRhxnMeFehbfIkq7Rja6mab0H+XXRj3Jk2kJK7cOR3Lqc/0UA0
+	7tAyj03K+6WQKXV7wHw1Xvq2EJq3fAlSarqrcjk+duGhXxd4Y3Tfr1FfvJz0wO8XLv6HyxGBGLH
+	L1T/ZJ7oNUnX6cO4LzxkW6FA01b0=
+X-Google-Smtp-Source: AGHT+IH8eWT9dQRp769hTriUShteOiPrbB9otOwKftVPt3J2ZlrROcefRDwbPOycsftLM+i1o6iZlw==
+X-Received: by 2002:a05:6000:2f84:b0:3b6:d95:a3a4 with SMTP id ffacd0b85a97d-3b794fbec3emr8100475f8f.4.1754046292004;
+        Fri, 01 Aug 2025 04:04:52 -0700 (PDT)
+Received: from sugar.fritz.box ([77.21.195.152])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4589536acc9sm103116905e9.6.2025.08.01.04.04.51
+        for <connman@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 01 Aug 2025 04:04:51 -0700 (PDT)
+From: Johannes Emerich <johannes@dividat.com>
+To: connman@lists.linux.dev
+Subject: [PATCH] service: Fix comparison of services of same preferred type
+Date: Fri,  1 Aug 2025 13:02:38 +0200
+Message-ID: <20250801110412.203290-1-johannes@dividat.com>
+X-Mailer: git-send-email 2.47.2
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="=-=-="; micalg="pgp-sha256";
-	protocol="application/pgp-signature"
-X-CMS-MailID: 20250730092017eucas1p2c3851407d61294f44bc90964d38f5155
-X-Msg-Generator: CA
-X-RootMTR: 20250721141728eucas1p26fc6074b92a22ad65366edd47a7c588a
-X-EPHeader: CA
-X-CMS-RootMailID: 20250721141728eucas1p26fc6074b92a22ad65366edd47a7c588a
-References: <CGME20250721141728eucas1p26fc6074b92a22ad65366edd47a7c588a@eucas1p2.samsung.com>
-	<20250721141712.796989-1-l.stelmach@samsung.com>
-	<3717461C-D785-4074-B43B-6297BCBE0EED@nuovations.com>
+Content-Transfer-Encoding: 8bit
 
---=-=-=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+I don't have enough familiarity with the project to judge whether parts
+of ConnMan may have become reliant on this path-dependent sorting
+behaviour. My patch is based purely on local understanding of the
+comparison functions.
 
-It was <2025-07-28 pon 15:37>, when Grant Erickson wrote:
-> On Jul 21, 2025, at 7:17=E2=80=AFAM, =C5=81ukasz Stelmach <l.stelmach@sam=
-sung.com> wrote
->> On 32-bit platforms time_t may be defined as long long int to make it
->> 64-bit wide and y2038 compatible. On 64-bit platform with LP64 data model
->> ABI long long is also 64-bit, so it is convenient and safe to always
->> cast time_t to long long and use %lld/%llu format on all platforms.
->
-> =C5=81ukasz:
->
-> Had you considered using the mnemonics in inttypes.h to avoid the cast su=
-ch as:
->
-> 	selection_str =3D g_strdup_printf("%s:%=E2=80=9D PRId64 "",
-> 	device->last_user_selection_ident, device->last_user_selection_time)
->
-
-Yes, I had. Alas, there is no mnemonic for time_t in glibc like for
-example PRIdTT that matches time_t on current platform and time_t may be
-different on different platforms. Using PRId64 would cause problems on
-some 32-bit platforms. Even on the same hardware glibc may be configured
-in different ways. With newer gcc even same sized types (e.g long and
-long long on ILP64 platforms) trigger warnings/errors when checking
-printf(3) formats and arguments. I figure casting "upwards" to long long
-is the safest and most portable, albeit not too pretty, way to solve
-this problem.
-
-Take for example this code
-
-=2D-8<---------------cut here---------------start------------->8---
-#include <stdio.h>
-long a =3D 1L;
-long long b =3D 1LL;
-
-int main(int ac, char  *av[]) {
-  printf("sizeof(a): %ld\n", sizeof(a));
-  printf("sizeof(b): %ld\n", sizeof(b));
-
-#ifdef WITH_ERRORS
-  printf("%ld %ld\n", a, b);
-  printf("%lld %lld\n", a, b);
-#endif
-}
-=2D-8<---------------cut here---------------end--------------->8---
-
-Compile it once
-
-    gcc -o longs longs.c
-=20=20=20=20
-and run and then trigger the warnings
-
-    gcc -Wformat -DWITH_ERRORS -o longs longs.c
-
-=2D-=20
-=C5=81ukasz Stelmach
-Samsung R&D Institute Poland
-Samsung Electronics
-
---=-=-=
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEXpuyqjq9kGEVr9UQsK4enJilgBAFAmiJ49AACgkQsK4enJil
-gBDlxwf/Zot+Erwe8gxAGi3ZQvGU6rP9LOyua9C8WlorbKwTmvn+TcQisYXAHbGe
-J37o55OGTpYT1uAE/QFqbQWayfzrD0BTS4z9P94W1wZwiPzj/IYmRDnqR5rsuklm
-UEZgWpWqyUYCCE0uozogGTXFuuH5rve4c4BInLQkUn4QFKh6fLcwWI9HQix4dWcW
-/rC5Wb3BDxr+uqTMnKafFVU8oNuGa4OLls0nQ6sO3StLuwRk5ulUympkWfi0shnx
-Uqc2PnXKPumCL5vQprVs94koAZAvN36f1/psJJF3sOO4PsXIZQvSbHLbkdbmleY2
-IqVMHQcAFGlMWHukI7KiEXXlPqbF1Q==
-=btaR
------END PGP SIGNATURE-----
---=-=-=--
