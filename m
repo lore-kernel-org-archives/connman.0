@@ -1,66 +1,66 @@
-Received: from mail-oi1-f171.google.com (mail-oi1-f171.google.com [209.85.167.171])
+Received: from mail-oi1-f177.google.com (mail-oi1-f177.google.com [209.85.167.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1F3311713
-	for <connman@lists.linux.dev>; Mon,  4 Aug 2025 14:37:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D9C6271A9A
+	for <connman@lists.linux.dev>; Mon,  4 Aug 2025 14:39:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754318278; cv=none; b=tEXeswp2DSk8Ibnctj2LSc6JDrFczF3nRnGWUJW5OdTnM81v+Xv0idCEB+Sy5rBiOhQA18PRyadRRV8w7+gdz/yXX2h7g62wRnQqcjHQtEZMpgICWOVWKI6yvLvxPRH9cww5xPjf07n0zWQzXUhAHaEHLvy+ew6YRh9E03GbaTM=
+	t=1754318380; cv=none; b=oCSmb3OFBp6tCpMU8edCwfqgJaDQl3XHYeWT8tE9N+FWMxjujzYAUav4RaZiBOOTBH9gCGx6469CBt4JgiYLF9CWdqqWQ3HWsG0pDsktLHRdf6PHgto9t4gzngpt8cZr/v1QZ7zU+WdBJFsx6t6pA/Cu4XdIq3HZbjpbJFx99vk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754318278; c=relaxed/simple;
-	bh=fJFPvutF7LZr+KvaAgYKorLgo50ivYzktRVdAJu1nIA=;
+	s=arc-20240116; t=1754318380; c=relaxed/simple;
+	bh=ZRhQjfmhIs24eDYC3Yd9Qp+QI2jvRjP4r02YE1ocz3k=;
 	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=iuc1dYPa/XAUkGNcmisikxBUJvYLV9zTxWa0W0FuLBJ7PTnlAiyWhF/4yzjLotEPLOAORSV5JGia8jVf3W5GJT+Z/nEkavNm8qx7TbZGFbzGeZMi6d7wu99W0SW41moX45TGELDckDi24E2RjJqDEeLE5/Woi8nBd8vcwxuNkwE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IKgG8kXp; arc=none smtp.client-ip=209.85.167.171
+	 In-Reply-To:Content-Type; b=RHeRb02lkjrXi0DCR/2pWmp0VrPMU4gFg7gJSAoDQ7vll7pKsBe7jdZ37d85K9tmjQjQxNkFKIl2ouQfgMtekhB8mAJ4Y0N4J7LLAn+UOwExuZz7BWfck4mgOuntRH4DQom8qq6T5si6aS4U41LZ+ZL6gSOvHDpZf0G5EhxJP8E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bG3Ef28v; arc=none smtp.client-ip=209.85.167.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IKgG8kXp"
-Received: by mail-oi1-f171.google.com with SMTP id 5614622812f47-433f36eb840so531367b6e.3
-        for <connman@lists.linux.dev>; Mon, 04 Aug 2025 07:37:56 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bG3Ef28v"
+Received: by mail-oi1-f177.google.com with SMTP id 5614622812f47-433f984817dso1215255b6e.0
+        for <connman@lists.linux.dev>; Mon, 04 Aug 2025 07:39:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1754318276; x=1754923076; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1754318378; x=1754923178; darn=lists.linux.dev;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:to:subject:user-agent:mime-version:date:message-id:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=kkKB1sY/nnwzONS2uTpb9fY1xGsTQ+EvB3GK6X6Rmv4=;
-        b=IKgG8kXpApYbcBdpUUnLnV0qACZDMmuM3ABCJI7WT7owRHs8rK6JV+aSG2O6v4yDRu
-         ICSdMrqT5nmPvsnqplJwy5kY993Zr6pXmRvT/sW1Y91bTNHBjcDcqf+7MM7kjsYdMzGV
-         PcpCfmCYKoI3ZhFhJIMXOOZnCAyxII1SmBXvCNZ3OPP/qFM0/mBuh1VRprCj+3EJqeJe
-         A3okRqnehQiIa0D1y7NOcmZ0sPf8TZiXNFMLz6TN0kq3bFmbbEvrv1I8lFw+sb2mFFBH
-         KypILBYLsEUMPuobRFwI0Vbqdg360erH4hYkBywGvqvAM/Xm7LbJObGRB39lmxbHMhax
-         7J6w==
+        bh=06CMIMAe+24FX1nCn5mU3te0YjE1le2tzaI0zZbez80=;
+        b=bG3Ef28v62+Y5xxH1AWazE/W8XDZ8i+88dagscZQwLkaRoH1lCoOjwYR0hNiaagfcX
+         ySFvlKuF39MFTwF09EGb+CMOY1ybA3TKuDlSOjS5Yr+HxBkyS8XojU4ycDjamtzZao84
+         hN4mtc/wpDqo5HFu6XJ5lte799G5bwJfUKnzwa4HdUkiOFUM5bZNHTVi6mheJE/TKod+
+         Dxlo2tqhcHCqG+5RsOHRMpLEl8hqfVlXqAYhDu9uV3Tel+PuGtRwxM/JO+ef1wkVFfzt
+         IcY3YACUcRiSDOQ0GoFaEFCYpmvtuWT+E82EmbLVXq4MtgJ6SddYQ1+gkRa80TSgHdMW
+         KAVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754318276; x=1754923076;
+        d=1e100.net; s=20230601; t=1754318378; x=1754923178;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=kkKB1sY/nnwzONS2uTpb9fY1xGsTQ+EvB3GK6X6Rmv4=;
-        b=Vd2xoIT1yVcEvPvGM7OZghHnU95Bg2bfZovUEndkk43gL/O74SKX/OnaJdpL7rlVpw
-         n8hHmjemqudfb+i0O7GpQMWs5qgSmGX/x9FaVqB5LUq8RIFB7TElOWJt+NKrocN3e8vp
-         8kvv/CNwG+qldoO5qW6aW5nCei3wDRMXF7/E2HtjF8TCdKljO4wPVm0QN4Sir5T2EI8/
-         17jlK8/Sn8Qyh5uJOtgXv2I2XTsx7SqgoujIZZOtFlz9rFknEQ4laeowhOumFyWREhAS
-         o3wLTHux+CP7KOA4vx9Q0Mg/gjL8wN8JP3wKe59yCUVM0iO5FQzbI7OF6jyY6LN04WkR
-         i6GQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVcWbZCjnr7EqCC5ohx2rPtCYmWQzFQHk3K5Ny595EiQu+917UPa3vFlO4lm5Z83bthD/BbXfzw@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx+29WNXQXIoUXAFLh0V6ge25EutJFYQHuIcJHgBVOkudWU5KGU
-	LMS3jipg8DPsW50DRtsJmjTnCE4EaQe5tOKKEqzQz6MZasA84lwdHb1qLBKQnA==
-X-Gm-Gg: ASbGnctZ1ijqhR56V4VEsk2gt4xR+bh7zhApO9QJwEkWo0iRbQS2J/xeV9IyBua48z9
-	OnB1IvF7hJrM4JWrXIB3vWMwVeptnnxSNoxN5zQRVefRgT6KYuZ9gD7cv4phaCWwi/rc/rBKd2L
-	WrKdu+rtPznuVh0O/fNgVEU8Aj2LAqQ6uC1JawzTV+y0gnK/rjk2cwniGDEr8ivT+hWa/5HgKjZ
-	Ynrlm/3sQEDW8XRSF7JD+ALuknt7Ri6DN8t34r5qBDTI1ZA/2Obh2uY3XfkwWoSvLn+5WR/iRX3
-	4Kjq03g+vHb1yK1RApY2LtGzYUPWKhVEbhaIs7wGmpbaobH2VgF5RCtVcuON8vEldxAOMJTWhv+
-	fOzJH8hVkIGioi/FBEBwI5BkY+wuuCA0WMIx32/fN9bPg07PILQROnKDjxzgUsATGLLwQIibFbf
-	dPctx5+4fBwQ==
-X-Google-Smtp-Source: AGHT+IFeCaM3/tOSdkdYyuKgNYJCvHBXnXgNH7NBgc8OBnoMutG6Ozuu2nfjSKefN0+gqm74LvSF3w==
-X-Received: by 2002:a05:6808:8817:b0:433:fa6d:9104 with SMTP id 5614622812f47-433fa6da581mr3245143b6e.24.1754318275648;
-        Mon, 04 Aug 2025 07:37:55 -0700 (PDT)
+        bh=06CMIMAe+24FX1nCn5mU3te0YjE1le2tzaI0zZbez80=;
+        b=ayi4ODJudbiLcIHhxkGXnk3qRsymmwNbKVgC+7k3h4oXF3vdY0BZIOCyMZ9LzYhsbY
+         nimzplnFCxM6Zq7qL0BMjgpw2k00j8wVh2onS+m/5pXyPYT6Clfme0XGXcL6f2NgGgUo
+         q7pHMeh1NVpiuiQFrV0TxKyXMILDEJNh7/9bVehrux7SkOeXHsR9fmUYcZVudgV6SZf0
+         sS9kuGSbo4YuL+4jqOsOT5Lxt2dNM8SOO8pBoF76cdq8c+Wq4OFHU6MaOBLqRzwabra7
+         Wz4MVE23WWo/NRq9+Sgil1nfPjIU1fecJEQi5p8a9iqulRYo7668/MeNiaXZ9nderLT5
+         uEyg==
+X-Forwarded-Encrypted: i=1; AJvYcCVLO4cSgAcMFOKatDKmJUkHttQpObv82nWkAmFzOcWKUODDoPq00S0t4Dwot77um4p4y6tbLYyb@lists.linux.dev
+X-Gm-Message-State: AOJu0YxeywiUhAKuQLKkHyRhXmwfhRWUkdHf50Phf6nbylLD3lhlsxjg
+	4pxGEzvi1OruStoueqDmF5NBVYUW7Hpk0GcfroNKVWV5SymEhpW+xNcL4fuTKw==
+X-Gm-Gg: ASbGnctI25l9KL996M16cOFDOvKw+VAiPV3iRqvikvSOKo3CWXnsklN13xgsWF08CGv
+	xZrs3ojdw9LPT1MKkDJDZiJsfERRMb6V4Kjq09833e+1+JlFSDXNU/lSREOJOc1XZOFRmauOMWL
+	6WMBF/LXOzX0W/bFg+qE7UZ6nQ5tuTapCDfHeVMxv6RHQsYSRuPB7q+UJqR824R15ZGzPoPm/1B
+	wYPuicO9TyOGkxovNWCmBeRlx7omevd7LObkXjRUvifg/J63I6JxfOxbm5mdwijkqmcCkP5dIKd
+	iuGn68skS8EFkWqvzUTyhLr2jIYXqDak9yb98qjJVxNXYs67oDK4Hwg6nLEfmILm5aAQS6Ps9q8
+	vQDvatZ1jGmn5EXhrY+ecexHoOMGfOKPhld2F9wj5YG28ZLnzp6X+oEvEvxqLea3VJUmzH4rBY5
+	o=
+X-Google-Smtp-Source: AGHT+IEDoCq6pk7P4ZkHL3EnFLh9n2F1PgoR9eBUL5p+axIIO2haSNK8Naj0OlNm+wJZU7lAyAATCA==
+X-Received: by 2002:a05:6808:181a:b0:41f:4f52:2498 with SMTP id 5614622812f47-433f0351dd5mr6061360b6e.31.1754318378463;
+        Mon, 04 Aug 2025 07:39:38 -0700 (PDT)
 Received: from [172.16.49.130] (syn-070-114-247-242.res.spectrum.com. [70.114.247.242])
-        by smtp.googlemail.com with ESMTPSA id 5614622812f47-433ffe7bb91sm932408b6e.2.2025.08.04.07.37.55
+        by smtp.googlemail.com with ESMTPSA id 006d021491bc7-61986ef9086sm1282129eaf.27.2025.08.04.07.39.37
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 04 Aug 2025 07:37:55 -0700 (PDT)
-Message-ID: <98baf14c-069b-465f-9532-44f48b12e888@gmail.com>
-Date: Mon, 4 Aug 2025 09:37:54 -0500
+        Mon, 04 Aug 2025 07:39:37 -0700 (PDT)
+Message-ID: <c4b5a272-a47e-4644-8bc4-7647f6ed5d40@gmail.com>
+Date: Mon, 4 Aug 2025 09:39:36 -0500
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
@@ -68,59 +68,31 @@ List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 16/45] gresolv: Add generic error for GResolv struct with
- getter
+Subject: Re: [PATCH 17/45] vpn-util: Add wrappers for GResolv hostname lookup
+ use
 To: Jussi Laakkonen <jussi.laakkonen@jolla.com>, connman@lists.linux.dev
 References: <20250711142736.1757060-1-jussi.laakkonen@jolla.com>
- <20250711142736.1757060-17-jussi.laakkonen@jolla.com>
+ <20250711142736.1757060-18-jussi.laakkonen@jolla.com>
 Content-Language: en-US
 From: Denis Kenzior <denkenz@gmail.com>
-In-Reply-To: <20250711142736.1757060-17-jussi.laakkonen@jolla.com>
+In-Reply-To: <20250711142736.1757060-18-jussi.laakkonen@jolla.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 Hi Jussi,
 
 On 7/11/25 9:27 AM, Jussi Laakkonen wrote:
-> Add a error for the struct to be used with hostname lookup. The function
-> should return either 0 in case of error or the source id, this fixes the
-> wrong returns when error happens and makes it possible to retrieve the
-> error afterwards.
+> To avoid linking GResolv with every VPN plugin that uses it, add wrappers
+> for the required calls in VPN utils.
+
+This may need a bit more explanation?  You're still using GResolv types in these 
+functions?  Why can't g_resolv_ be used instead?
+
 > ---
->   gweb/gresolv.c | 15 +++++++++++++--
->   gweb/gresolv.h |  2 ++
->   2 files changed, 15 insertions(+), 2 deletions(-)
+>   vpn/vpn-util.c | 30 ++++++++++++++++++++++++++++++
+>   vpn/vpn.h      | 10 ++++++++++
+>   2 files changed, 40 insertions(+)
 > 
-> diff --git a/gweb/gresolv.c b/gweb/gresolv.c
-> index 8101d718..1f1db474 100644
-> --- a/gweb/gresolv.c
-> +++ b/gweb/gresolv.c
-> @@ -116,6 +116,7 @@ struct _GResolv {
->   
->   	GResolvDebugFunc debug_func;
->   	gpointer debug_data;
-> +	int err;
-
-These errors are really local to g_resolv_lookup_hostname, so not sure this 
-warrants a member.
-
->   };
->   
->   #define debug(resolv, format, arg...)				\
-> @@ -1060,7 +1061,8 @@ guint g_resolv_lookup_hostname(GResolv *resolv, const char *hostname,
->   	if (resolv->result_family != AF_INET6) {
->   		if (add_query(lookup, hostname, ns_t_a)) {
->   			g_free(lookup);
-> -			return -EIO;
-> +			resolv->err = -EIO;
-> +			return 0;
-
-Since this is a glib library, have you considered returning 0 and setting GError 
-in/out parameter instead?
-
->   		}
->   	}
->   
 
 Regards,
 -Denis
