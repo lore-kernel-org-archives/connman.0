@@ -1,66 +1,66 @@
-Received: from mail-oa1-f49.google.com (mail-oa1-f49.google.com [209.85.160.49])
+Received: from mail-ot1-f50.google.com (mail-ot1-f50.google.com [209.85.210.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3877419343B
-	for <connman@lists.linux.dev>; Mon,  4 Aug 2025 14:47:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A84520408A
+	for <connman@lists.linux.dev>; Mon,  4 Aug 2025 14:57:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754318863; cv=none; b=syYjWepGLN7pMmQz30yRHs/HVUxYTzUralayz7QmzoeYzq4bTZrHX6JKgmQcaxC2564dv69IDcUY5ltpBXp1G2axwEjf+y9ZGU3W3L7A6zdGMe7+Xj7fbCR1oDSHNYl77blsTP8wTvtWvc4+BdlIRr6Whq0MCYnTKyxsJ9djJC8=
+	t=1754319454; cv=none; b=S7sd4TNXeiQnPpKnDwsG2orOi9B7eXRtz3jtFBa8yK+ZYbDxMj82kpH5v4C4WudS4sK3ek4ostFu4BYx/CrTdhaneK9RVi9kIHHg/eOaXdVzayl1isCkXFuZo7AniQHWTpG1Y37QJus+OQEATFPkZFc6jpW70TqlE9JN8FHuuZw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754318863; c=relaxed/simple;
-	bh=75kr64T4DZS4QUX5t96tekAef0jW66ExHhpeAAzcSFA=;
+	s=arc-20240116; t=1754319454; c=relaxed/simple;
+	bh=GQA4YzHDJLuBXWxWCEq/UhMNwtyH6CqLWt/4KVkIYGs=;
 	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=hzsa1yByckZGtJtp18BhAkRyDwlemTyhChvG3KMFdWPOkFDuEFV5RrEOo9iV19h7L2pCh3YaQ9EMFyzCD8bqkPY1oqCHN/S5Mtaz6eLX4LAL05p2HmU3RBkLALEEQ7cfgfVZ1CSFIVa1F4AeG03FLLxn2XdqxWRTwek2dqdFTvo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gqnkWb+B; arc=none smtp.client-ip=209.85.160.49
+	 In-Reply-To:Content-Type; b=PveIqDmrYcnt1IAtniAWJE9fw0jBb8ICrAeKu6oQa2zEhDmev+u7tU3c7Osa80srkY1uq4CQvTASB2mEIVw5dpAB8JyszFptdTeKk/g7aBlUt2JPtHY+lSrXEu+eUVM8RoGtZKS7Iv+4u5m1FOZF5ZfoC0jG4DLX8AByZaP9gk8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lS03PAnZ; arc=none smtp.client-ip=209.85.210.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gqnkWb+B"
-Received: by mail-oa1-f49.google.com with SMTP id 586e51a60fabf-306ab1b63fdso2068401fac.1
-        for <connman@lists.linux.dev>; Mon, 04 Aug 2025 07:47:42 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lS03PAnZ"
+Received: by mail-ot1-f50.google.com with SMTP id 46e09a7af769-73e88bc371cso1580949a34.2
+        for <connman@lists.linux.dev>; Mon, 04 Aug 2025 07:57:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1754318861; x=1754923661; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1754319451; x=1754924251; darn=lists.linux.dev;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:to:subject:user-agent:mime-version:date:message-id:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=r714A9saYb6vU+0LjA2j9PfdNM8ytBTvOPPMVhOJMLU=;
-        b=gqnkWb+BEkKJurjpiZ81ok6A6HN78caOm28v6j9pI8S5RoPSLG5FrIspDkZfZsOk8f
-         QW+OoSBf3w3aJZWQx/nNiCC72wTHKzZIJ8R3h+scGfkisKaW/pNZmtwOpDkLBDyw6SFT
-         GlNmer1J8mpn9X+rxh6DZMf/4862cA43zOxXvvIBL+JixYsKnwWnJTxlBBVaHasbeue7
-         ETAa4El/qsEp/SBsiguFX+mGcufueHJQeJywuANodjP49q2J9cAK768I0O2RPO33wfsj
-         H+Tb7fIPBky9duuXswhBU5zQWUisc4WUXV2/PntaIYKtC2CSjH2te9dq/vz6fuvzokND
-         mXiA==
+        bh=h1WSn2WEw+WA3Ty3ufImnreX0UniRxEszAYDIVsLFPo=;
+        b=lS03PAnZVWy0bL30LdHJHoqTlQZyFz+Go2jedyfY4BDKHwkdsT7dxABM5zYTBvTz8L
+         COFMWXMrGE0SNU6ILZTLETsZuG00+7mgXky/mY5gQ7EEYp9+OJ5aiNDSmzH1jjyY8QSe
+         hQnUwTDM9r+zkutXQk24kScOpNbw7ecZ+aSYQRWvK70Qk+pqi7K5ffej5pBQQhZx5ubO
+         MBie8moLIIrvv72aPQOrCLbfe4giPlIxbxPrf8jk3xHrLoxV1GGJYfEsHhtw/zgNOl9J
+         PQ+DNZG5TpuTO4UxlTrOjmmyZYoZsy/KLZ/39QWQzK017pRIHXTagHMXeq+acskmFq46
+         vyzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754318861; x=1754923661;
+        d=1e100.net; s=20230601; t=1754319451; x=1754924251;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=r714A9saYb6vU+0LjA2j9PfdNM8ytBTvOPPMVhOJMLU=;
-        b=wpjUe6Mk8Xugf5gCnu06nTK0bSP+UhOQJtZIN4Moz9X2x8TkDFXv7UsmfgIPK8c7T2
-         +WlYjgfHYKkat3vph4BuVAdtdJOdSAuyxpbd2DMg00LLyb8k9exc/gzFK5oZnFMP4+YT
-         LWIuXoD66OhCr5L2+4zukw58b3NymIfI4Ls/DY5vgEtZyUWgrf6YJFP7lxp0+xcG3TkX
-         QvT/l/7lAquEfzZx51OBcCSrgpAHwWsskCH66x/YEC6cbJi8fdItPdf/Agyvu9FjIYsQ
-         dGx8JKQVez9qd0OU4jqyjNR1SDrXApPyBWZmT3eXjG+5VV6cwixc/juNkhTpKckFbKH+
-         8NgA==
-X-Forwarded-Encrypted: i=1; AJvYcCVqEdT6Aim6ArwGU57l5vrNrtQDnYHT2VSTM4lG8a1FD9mTYB6paiaGCqVt6BWHUkkyW8nri5Wm@lists.linux.dev
-X-Gm-Message-State: AOJu0YwHlM7v53Z6oV1UbipqpEsthZxSKtKOJLRyHvqu5mLeIbNMwk+a
-	2n5AwyKMUE5okGwuM5/fNmns6wwEvJF4uc/4FKfH4Vz0oQzZhYyXYaLdrtTolQ==
-X-Gm-Gg: ASbGnctDr0PO1hoe2+DqltH6/ThEDmKLPO+BXG8vZ//qRgomqaOildZklevksgWNkxZ
-	11/6gYrn6yfzXqj7tPW8TlSTPnoPxfoJSplctjoaM4iFVF4ICXkVUzPRUjKw8Nj3OzRbSVFA5E7
-	/YnEUmuEP2zRSfy2WB5WgOxE1tx94oIrpA34hekhw3/b04YwOF41FmjRwV4yL8LyoutczzMg3M7
-	5yYZ4WiIHsnSCM2Sq4o3Nb3/ujjL2IqdjzSeYHfsKhGVVVIm2P7d+CBtWew35UGFl9U6IBvx1XR
-	HqqwwZNu7yBxqcmfipFRPbgVSbdvygydCxODohTzOnHDjkiQwq2o5Xh5fPdayUlrX1s1WNZ9Oum
-	YnNSrd7Cd1Wk6py8NI/CvAfMb31H5xtpUgBg5vQFXlfF6AcN58YcZ2BYGyJCxOQCUrC3GW0y/Rk
-	g=
-X-Google-Smtp-Source: AGHT+IE4YTKGVUOw/kSlnqon1xCv3VD/PbYG9QRoBKnzBAhJq/86idIe6ugqn+ASNpXJsZrfmrW/7A==
-X-Received: by 2002:a05:6870:d8d0:b0:2cc:3523:9cd5 with SMTP id 586e51a60fabf-30b67723e3emr5712537fac.17.1754318861123;
-        Mon, 04 Aug 2025 07:47:41 -0700 (PDT)
+        bh=h1WSn2WEw+WA3Ty3ufImnreX0UniRxEszAYDIVsLFPo=;
+        b=egklBtYG/CxYIJUE17nAJtVbusLKo76qzYZfIIfMB1QwSZNSLqm1xKO24mzqaVQyGR
+         dOH5yTBUzUJ/63mNr1YW5Er84VFPZVleVT49YdnzAjEl4dygQpMk1GXS5pL64cdn2/id
+         A569DyZdU9GC6rHERznMnm+zphDXvO2gVcK3R4dEKMqlNCMx8zzL4FD8XQX3Fs1ySYUD
+         2+f4I5WwTMN8v6VQDAl/ivJeo9nslS83hltP6tt9Z3NnL3dlFCGhDXEEIMl9xxpgN15p
+         4qWjfqfT5kjieQgiUREFskh7Vi+VjedEdx+CCB0fxVvNIMQ1a/bZ+M5JEUF/z+fI4tMo
+         t4gg==
+X-Forwarded-Encrypted: i=1; AJvYcCXC+8uQw1ULY1AS/ZedfmE4z4lQPd0EtraaQY5jxEGiwZs18FlzAEXFs7n5qmvCm8PuWZma9pVx@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz3kMhzy/9V/WmOaNZCzten6RjVfsf/tYa+Q6VUXDhjTbEPFWFc
+	mfh/2XX2DOxCxnjKDtsJXMxBZkU2icXFzcQpQPWEIUlLyJnmN88pMffjDo7FGQ==
+X-Gm-Gg: ASbGncvxOaE6vxJBeHzwgCdV/C4l2hFKcxulrCqxpTb7knfQ3fPrrIb1FHpCW+6JVS1
+	OeluBDp9B6WHJiGJQP+g84mYdpM6s4flo0PppZYieA2ay7lkZmn4i0QWmYDEz5xSFzYRGfSxLYi
+	rFoiVbdi49qLl8Exac/aJ3bsK8vbMYVbabKobiCLu3vTeGtKeVico9hZiiIjSNVLkKv4ZQtGjKW
+	xr9hBJf1Q8gnBzYyNIAGuSGTvlrSG7uLMuUOOaENnaFpktc/sU/8v6y4paNZz4dKycuqO5/hcQJ
+	orjeKa1HEVLKOQRmRk8CQJv8fPyBigYGGI6fJ/Jo6IQ0tiPEvwRrpO20kGqmc7DKKCkRKcON9nJ
+	NH3XkklqoH1EPbXB6ukIU/5JX/uZFP5pu8fYeLD3bIF05BVQLKJgO9FCOncx8QTGL4YHu8mC3CY
+	s=
+X-Google-Smtp-Source: AGHT+IHomNd0CtXwFYm4yTWMbMPHxJytR1hxla5BVoP7OEiE0fF6ZrDqD2+16Zr62hAQ/9BXXTMBeQ==
+X-Received: by 2002:a05:6830:d12:b0:741:21b8:b245 with SMTP id 46e09a7af769-7419d284f37mr4992115a34.16.1754319450896;
+        Mon, 04 Aug 2025 07:57:30 -0700 (PDT)
 Received: from [172.16.49.130] (syn-070-114-247-242.res.spectrum.com. [70.114.247.242])
-        by smtp.googlemail.com with ESMTPSA id 586e51a60fabf-30b93b644d9sm947791fac.30.2025.08.04.07.47.40
+        by smtp.googlemail.com with ESMTPSA id 46e09a7af769-7425127e203sm205387a34.45.2025.08.04.07.57.30
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 04 Aug 2025 07:47:40 -0700 (PDT)
-Message-ID: <94f9fdd1-944c-444c-8b1e-49fb0333c740@gmail.com>
-Date: Mon, 4 Aug 2025 09:47:39 -0500
+        Mon, 04 Aug 2025 07:57:30 -0700 (PDT)
+Message-ID: <a32467d4-d902-4cd4-b5ad-3ec3c4b3cec7@gmail.com>
+Date: Mon, 4 Aug 2025 09:57:29 -0500
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
@@ -68,41 +68,41 @@ List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 23/45] util: Add address family set/get/reset helpers
+Subject: Re: [PATCH 28/45] inet: Expose __connman_inet_is_any_addr() for
+ plugins to use
 To: Jussi Laakkonen <jussi.laakkonen@jolla.com>, connman@lists.linux.dev
 References: <20250711142736.1757060-1-jussi.laakkonen@jolla.com>
- <20250711142736.1757060-24-jussi.laakkonen@jolla.com>
+ <20250711142736.1757060-29-jussi.laakkonen@jolla.com>
 Content-Language: en-US
 From: Denis Kenzior <denkenz@gmail.com>
-In-Reply-To: <20250711142736.1757060-24-jussi.laakkonen@jolla.com>
+In-Reply-To: <20250711142736.1757060-29-jussi.laakkonen@jolla.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 Hi Jussi,
 
 On 7/11/25 9:27 AM, Jussi Laakkonen wrote:
-> [util] Add address family set/get/reset helpers. JB#62713
-
-I don't know what this is.  Please drop any references to internal tickets when 
-submitting and spell out what the commit is trying to do in the commit description.
-
-> 
-> Add address family (af) helper functions to be used with a boolean array
-> defining which address families a provider has. Supports AF_INET and
-> AF_INET6 as set/get parameters. The array must be of AF_ARRAY_LENGTH
-> size.
-
-Ugh, seriously?  Maybe:
-bool support_ipv6 : 1;
-bool support_ipv4 : 1;
-
-?
-
 > ---
->   src/shared/util.c | 40 ++++++++++++++++++++++++++++++++++++++++
->   src/shared/util.h | 11 +++++++++++
->   2 files changed, 51 insertions(+)
+>   include/inet.h | 1 +
+>   src/inet.c     | 5 +++++
+>   2 files changed, 6 insertions(+)
 > 
+
+<snip>
+
+>   
+> +bool connman_inet_is_any_addr(const char *address, int family)
+> +{
+> +	return __connman_inet_is_any_addr(address, family);
+
+Might as well just rename __connman_inet_is_any_addr and fixup any users to use 
+__connman_inet_is_any_addr() directly.
+
+> +}
+> +
+>   struct in6_ifreq {
+>   	struct in6_addr ifr6_addr;
+>   	__u32 ifr6_prefixlen;
 
 Regards,
 -Denis
