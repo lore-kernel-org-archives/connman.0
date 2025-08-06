@@ -1,66 +1,66 @@
-Received: from mail-oi1-f172.google.com (mail-oi1-f172.google.com [209.85.167.172])
+Received: from mail-oa1-f49.google.com (mail-oa1-f49.google.com [209.85.160.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 493E419343B
-	for <connman@lists.linux.dev>; Tue,  5 Aug 2025 15:39:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C37B27146E
+	for <connman@lists.linux.dev>; Wed,  6 Aug 2025 14:29:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754408370; cv=none; b=WSjbCNeQTfZJINOtDPQahc1GQbXOa6jLJw4fA+HRmRFr4wLvwD6d27i38LNP5qFCKB36ah1WJ2ZRomnpE4VxiuJx5Eoyb/ylKw+3C7djQMr2didMx3aeYuvIUDKo0+N9BwvsevCar4WKS3zRAtGAc3okZX74W/nGwVPdnI3CGvA=
+	t=1754490582; cv=none; b=uWPDEvNIN/aWc8de6DKlTZgk/be6LT/CKo3Q/ItRXuRQ/+TeS1fHYwAljOBQ0OboTj4TiT3OEVM6zi1XhEx7ecdysT62tOjeSrcZfrsKPze4ygDrr5rTmihtcUWt5FUJStMx43p9KW7ehRL3hOGjWSRV8lrDqGptY4kDEzFPF14=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754408370; c=relaxed/simple;
-	bh=FjuGTjYpn0uJzDmM47e9bCzzp93W1IW7+m3Aku115D0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=cg2pObpTHbSdaksjFw0kOaQ+iy3Y1tfaxiGwRBnJtqs+DJtdOThmChoK+CYQ3JH6xwndKQQ8Ku9/8BZ7lkJiplZlw8t0hBc2U7BjJRJO7W/p0RKcLzwBI5R7Ngcb0X+7DwEgUp/FZx26KiZiKgFs190iWTzpxRkGRilAihs7O0I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VFo6l16S; arc=none smtp.client-ip=209.85.167.172
+	s=arc-20240116; t=1754490582; c=relaxed/simple;
+	bh=7zyp1eS9aJOVwG9onJqOcmL+EToLnn3cFzIDHo0hiYQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=ciYqAb8MoyPd/dbpQ62Oy3ITFVkzkj8E8QxjQwEJ4mma/LaHifGYfjQ36y8cPxLd+tU1SGwjkVxQEZGpKpJFMAjU0Qg5nTBuZIBXKxh2En8ir/3hWwtrUc2j91P3RGJVhtq6x/m80S2W+zrxOMY2cwR5ZkyZWBB/eC2kttCs5aE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JzhUUreI; arc=none smtp.client-ip=209.85.160.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VFo6l16S"
-Received: by mail-oi1-f172.google.com with SMTP id 5614622812f47-433f681be75so1670194b6e.1
-        for <connman@lists.linux.dev>; Tue, 05 Aug 2025 08:39:28 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JzhUUreI"
+Received: by mail-oa1-f49.google.com with SMTP id 586e51a60fabf-2e95ab2704fso5570529fac.3
+        for <connman@lists.linux.dev>; Wed, 06 Aug 2025 07:29:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1754408367; x=1755013167; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1754490580; x=1755095380; darn=lists.linux.dev;
         h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=GEDr9t1lNoU6WFaW6F1L0pj6E/5nuBfgAYeMY7f9vFw=;
-        b=VFo6l16Ste201PD6O0A/a/aslW/Ujj+OjLJo3YMCPIBQthArQCl+AditUm9CfgbyPy
-         nln/0hkVktZI8MJ3Ed2kdasJ+yjpkd8jXcrpwTMtaSi5DRduItgEikOadwvqKCZ0OTwD
-         xB2WJ1XvtnDoXMQEH7TnsB5mDfwlvYG93BxkO8pktbvnGEmR6V61uA5PQRWNpR+/mRrQ
-         2cWQrGFJ0HADllSeo1nzf9JdC4iwLs9kjQxlmHjvt71DWuNwh9GkCRAkPHQ9RpraT9mL
-         9VdECiCEKSB/uscYGoyV6kkRErOxVXKRmEliy0tFNU7gqu3D6ZaDGFUaL/cwUJqMVIcf
-         7oVQ==
+         :references:to:subject:user-agent:mime-version:date:message-id:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=W1hP/KAgmDPNceTJFmoA7Xnm+UQgZ2q0KotAPuHBdGg=;
+        b=JzhUUreIXoypX26V3k6lLFEtJsyTeEzMSAbOC0zWYxbcaMNQwwSlMAUpd+aZAoOnyd
+         ay2o0v85179F17wa8qBkI9BvEhRzUeUswTMTgwFOjypuxiCkOO9txov6Zr9kaEgvX6Ay
+         FYWoJ+JTYMvL8EkVYUX9y1kh2lS36OZ3DlrZzdrpFa+xN0TW3NVPGBOi5NsAnh2C8Oov
+         GmMwSz8xSDHjrnDKKWj+M099jj7yqwX/+8qwDCCmcyRbTbKz1lhdAvLSFm1c1b55k0Vv
+         fzDKL4VpYObhWCVJgWMKKNXKboEPUpJPz4tIAJ7E0TK/gvFXduDxv19fUzI1+oVKS3zn
+         OzCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754408367; x=1755013167;
+        d=1e100.net; s=20230601; t=1754490580; x=1755095380;
         h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :references:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=GEDr9t1lNoU6WFaW6F1L0pj6E/5nuBfgAYeMY7f9vFw=;
-        b=kQXTtY651MJSBDFJAiQUEMFrndtjqWe+ObP7NZIMw5GwHQ0TG04VHwQeQ8AWscQ/+z
-         m76yC9FEmhXhialWZygOsIM9r/2hTkU48OfFDxcVyPDX5gE898kIe+LPnj1ttkBo85A4
-         2/0UAtFztcX9bUWL7Rl4hItYdRA2FSHlbcdJy2qxfHjn+tgH5mzhEXBr3wB/Q7lnpYAy
-         zZhIuPOO3Mc9Ue1O+/J+1bXNlbD62LluwgxGZs80wMC8FbtGOe4VzS9Auy/BizbHDPM2
-         5W+t8kWlizRMjcSemNsLfZudniqlqYnSsw/mxfnFFMZKtiscRFGpXLK/C4hxWlrRqb7a
-         V9ag==
-X-Forwarded-Encrypted: i=1; AJvYcCXsosnxb6tTsJQ/F0z9Jw7xpRjjq9V5ZVPPujduGGV0yy3mLWNhiA/7t8gj5ajdhn4UJQyhy+C9@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy6Fix8Sfvubh8pkUYNy8i77pxxsmCzpcsr+z2jBsFLgaduGmBV
-	2xlhYyHrqj4pP4Cv1roSbSL+9w9zYlwm9drQ/caM80EopqTs6dTrWy7o
-X-Gm-Gg: ASbGncsdGRjnS/m9YLKVbykFxAALzQKZfyCh/gZ3PKRp9z1kk6jWIrMP1Cn/p5u0CZc
-	iVWOoeBWyYoUSVxicTAxARO1WvuOdTxxhRVlU1xcfmJth7fc4vxiFTRxFTDfSJaHobsksFPeB+V
-	yj37WISazxhHIwbHee7USYHsn0Yg4JLM/dZHf01tQlKW316ZyLKZeE7BXJfdfe3K2Zmnw+fF04C
-	xDwDG9z0aDA+nOo+elctmqZbI1cxr/xHWJhnRvag7PMBu/tQVMKvcFthyaNxxULzNAQ8SXH/c2E
-	LCYs0h0SjYAjMd3Zupoy+SX9KE1stPEmLe/jKOgMmT1vWVTzJrsiPgwlP98RdynOWZTc2Sc9fR1
-	PopNi68keM/1bM3o3hf+UIQ6o+JvBJSdDbrKTxYfGMdW0AJdYbyxaV+5nNnXkAWg3Nj+81GO4z/
-	w=
-X-Google-Smtp-Source: AGHT+IFfmVlp3R+nXa23e8mT6PZLnRDlh3NcK5QYaKC89ennn3sIH7e/8UPL5AXq/QpREbIuercgzA==
-X-Received: by 2002:a05:6808:1b28:b0:435:6c1a:f3b with SMTP id 5614622812f47-4356c1a1b65mr1918607b6e.14.1754408367162;
-        Tue, 05 Aug 2025 08:39:27 -0700 (PDT)
+        bh=W1hP/KAgmDPNceTJFmoA7Xnm+UQgZ2q0KotAPuHBdGg=;
+        b=OMHPB/OWAwLnDVfVEWlZ4es9hC9uTT4WIzqPS0eMgLIdbGFtCMbqwv3rHoKdj9j7Qb
+         X8TH2VGziBGP22Whwc13Wwfwcp43aQN752U0fflhv4XSm370THI7CHLq07LRfynDWFYs
+         22yJo8XddsksDnaS8NL+Pwtvrw0Xi+vRA6+8CG6xvYgMo2Zx0uQeWC+2z+4F0Mbq/wLr
+         NZvy1vhkzx2EEWHeOWzjpsOUH93dozajzhdAJqnsnNe/mUsJV5Uqu4FpNCZUqeyHXPfc
+         s6VPa4lyb+IWjrs0EsNnUXJCf32B1Irr6+4r0knKus732kOsFzKpo/lo5HgiVied6vmy
+         QHUQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXSSs9XRKA4/vg8a5Q3GlZCtAUx0ObZXp+B0kxpuyb4pFFl8T9AfVW0Uoz0I0nFAJgDwI7naiPv@lists.linux.dev
+X-Gm-Message-State: AOJu0YwQhL9aOk07kSBv9e5XtYKNtzyJMQ/N/CsZ0dOoxoV0d2CMQwAQ
+	f+Z12DRZpBmI5ikLMpGwWH3yaXKvZsHIhrmr3sZwMNfK6LYrzUdYfRQDS/0HBQ==
+X-Gm-Gg: ASbGncuy2wk5Qp6UGMJnEmJPVEnErrxvtQkKiFM89AHI4I/K5UliruBinJAcXF7lFa9
+	N3p61STqA1X+BHgFAX2dgMK+2puIRbDm9BuwPcbVe34RgzX7+xtG/ZHpXrrvLkkpgaBJ6u/fUcn
+	5GBUMQhFBIjxNDrkJPw+jjqdzZxyxpX9+oK9yEziOt+XEZSx2k7d4cYL6puiJbmUJs7/hNhOigz
+	xgueP31kDK/3OCPs3eTT3JKqjPtYnKKZuYjbKUqoE8gU1M8+jNskpFAF5mI30Co8lfoe8xoIrDe
+	JmNWvkiG2ckRqDo1WmDiiD2kH0b3QPsDARYA2OFO16Al4WFhMMOreRWobHqTDjqwEe+k8IKHSly
+	XfO4khb/IuBIaGLhjmjXU8TL2Ih80THwFdlPl4qhIF8B1fN3Ln0KH7a8YpzaQYqLGat6qN9MYJn
+	c=
+X-Google-Smtp-Source: AGHT+IHXhzHHcg6R0a8br1lpDf9WYAQk/vwV8W+N0gpQlZbReb7FeRx+NHR8ukoztQGaxryKRRRzng==
+X-Received: by 2002:a05:687c:143:b0:30b:6a26:5193 with SMTP id 586e51a60fabf-30be2c6ff38mr1380022fac.37.1754490579943;
+        Wed, 06 Aug 2025 07:29:39 -0700 (PDT)
 Received: from [172.16.49.130] (syn-070-114-247-242.res.spectrum.com. [70.114.247.242])
-        by smtp.googlemail.com with ESMTPSA id 5614622812f47-43358891df0sm2631591b6e.23.2025.08.05.08.39.26
+        by smtp.googlemail.com with ESMTPSA id 586e51a60fabf-30bb72e77ccsm1563875fac.2.2025.08.06.07.29.38
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 05 Aug 2025 08:39:26 -0700 (PDT)
-Message-ID: <89108c70-fccd-45ce-8754-87aa5c0ab93b@gmail.com>
-Date: Tue, 5 Aug 2025 10:39:25 -0500
+        Wed, 06 Aug 2025 07:29:39 -0700 (PDT)
+Message-ID: <a61b634f-412f-4e45-be20-935e1a5b73c7@gmail.com>
+Date: Wed, 6 Aug 2025 09:29:37 -0500
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
@@ -68,45 +68,32 @@ List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Connman : Allow connmanctl to trigger Wi-Fi scan
-To: Shailesh Rathod/LGSI Connectivity Team <shailesh.rathod@lge.com>,
- "connman@lists.linux.dev" <connman@lists.linux.dev>
-Cc: Vasu Kantubukta/LGSI Connectivity Team <vasu.kantubukta@lge.com>
-References: <SE1P216MB264730620165FFEBF76CD1B9F04BA@SE1P216MB2647.KORP216.PROD.OUTLOOK.COM>
+Subject: Re: connman configuration for combined wlan0 + ap0 devices for
+ tethering
+To: Adam Pigg <adam@piggz.co.uk>, connman@lists.linux.dev
+References: <27032848.1r3eYUQgxm@adam-laptop-hp>
 Content-Language: en-US
 From: Denis Kenzior <denkenz@gmail.com>
-In-Reply-To: <SE1P216MB264730620165FFEBF76CD1B9F04BA@SE1P216MB2647.KORP216.PROD.OUTLOOK.COM>
+In-Reply-To: <27032848.1r3eYUQgxm@adam-laptop-hp>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-Hi Shailesh,
+Hi Adam,
 
-On 7/11/25 4:31 AM, Shailesh Rathod/LGSI Connectivity Team wrote:
->  From 7a587f647db2d86404bd1a578ee90447b5e2ce26 Mon Sep 17 00:00:00 2001
-> From: shailesh <shailesh.rathod@lge.com>
-> Date: Thu, 10 Jul 2025 04:32:13 +0000
-> Subject: [PATCH] Allow connmanctl to trigger Wi-Fi scan
+On 8/5/25 5:43 AM, Adam Pigg wrote:
+> Hi
 > 
-> Due to P2P Scan feature connmanctl couldn't do Wi-Fi Scan.
-> This patch enables the use of connmanctl to
-> manually trigger a Wi-Fi scan.
-> ---
->   src/device.c     | 14 +++++++-------
->   src/technology.c | 19 +++++++------------
->   2 files changed, 14 insertions(+), 19 deletions(-)
+> In modern WMT mobile wlan devices, there are typically multiple netwrok
+> interfaces for different purposes, example, wlan0, wlan1 and ap0.
 > 
+> wlan0/1 use for 2.5/5ghz access, and ap0 for sharing/tethering.
+> 
+> Is it possible to configure connman in this way, such that enabling tethering
+> on the  wifi technology activates the ap0 device, and not the active wlan
+> device?
 
-Looks like all your patches are not coming through correctly and are corrupted 
-somehow.  Perhaps your local mail server is not configured correctly?  Outlook 
-is known to not play nicely with open source mailing lists.
-
-You can see for yourself here:
-https://patchwork.kernel.org/project/connman/patch/SE1P216MB264701522C92F2327FD04590F04FA@SE1P216MB2647.KORP216.PROD.OUTLOOK.COM/
-
-Try downloading the 'mbox' or diff format and note how the whitespace is badly 
-mangled.
-
-Please resubmit, thanks.
+I've never actually tried.  Hopefully it does?  Multiple devices of the same 
+technology should definitely work just fine (e.g. multiple ethernet/cellular/wifi).
 
 Regards,
 -Denis
