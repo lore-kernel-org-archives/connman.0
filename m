@@ -1,180 +1,130 @@
-Received: from PAUP264CU001.outbound.protection.outlook.com (mail-francecentralazon11021112.outbound.protection.outlook.com [40.107.160.112])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from sonic312-27.consmr.mail.ir2.yahoo.com (sonic312-27.consmr.mail.ir2.yahoo.com [77.238.178.98])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C26B288A8
-	for <connman@lists.linux.dev>; Thu,  7 Aug 2025 10:40:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.160.112
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754563214; cv=fail; b=HrXE6qrDHB1SdUuej59EQ4DR7fQ58JDy6CbR9BzWLJrZclREADuogBdoD8skbnuLUJmzL8ba413RR4UIk7pFlI71JIunTgpGExLztAiZFal+jRZuibT9nOrT4OIY0kWMryoUKCGSJ6R4h1ggrBmVIuihT3nxe0xPD8+dXSB00Nk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754563214; c=relaxed/simple;
-	bh=nG8CAuHp/MVMeeJECh2IxhPBLxxWiuLFs31dgoNRQSg=;
-	h=From:To:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=LK6Y+arKzt3w5c9BGMmXeIZWNuxLhk4cO0Y6YdkkDSGpxGPfD71wFLP7xmnHzkaIU1ewThJOs5AI88zZ+0ut5Ed+soVVaUSbgv99oqNJHKFs/C+usMvb7MAu0g6rnySLnpjooslkDMssPwMw+uneZ2QOM2oyIMgkBWJvFMFt+ys=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wiifor.com; spf=pass smtp.mailfrom=wiifor.com; dkim=pass (2048-bit key) header.d=wiifor.com header.i=@wiifor.com header.b=FFUcrM3Y; arc=fail smtp.client-ip=40.107.160.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wiifor.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wiifor.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45BC223C8A4
+	for <connman@lists.linux.dev>; Fri,  8 Aug 2025 07:56:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.238.178.98
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1754639821; cv=none; b=VqgKREjh51cSajJaZ7TyrVe27YeGUdko1YwS/7hnhr/JHAKQ5QMbbYltV6/P8Dw3d0aYIrdt2FJIKZJ38bzjmt3iRYpYPwmFSai8HAVV50iRAqIym9pDAbokUBWsVAooPFSezPT/4rrrqimnzWedAxARIGIBEuv3C20sOhMF8Co=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1754639821; c=relaxed/simple;
+	bh=a9IGV4CJINUaNoDrzPTLU+w9uT3hkAFdgQQg+ZCkjVU=;
+	h=Date:From:To:Message-ID:In-Reply-To:References:Subject:
+	 MIME-Version:Content-Type; b=gKZLopvqJx+4KZZuWQUMx8icvQ5tfo+GXprPZETi/jiOTfXCBwgYjqBv0Jj5oAE/4aXUqPPdOB7O4z1Ti41xck//jB4Q6JN/AgOeNfDNvxs6DNAMXCRH0J4ZVTSzHy/1yd91pF5a921t1bvTG9wTxnxeEZaAhqDp8OQXvs9WuSM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.de; spf=pass smtp.mailfrom=yahoo.de; dkim=pass (2048-bit key) header.d=yahoo.de header.i=@yahoo.de header.b=YyMh4qFN; arc=none smtp.client-ip=77.238.178.98
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yahoo.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wiifor.com header.i=@wiifor.com header.b="FFUcrM3Y"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ggZq6BfSrKz1kzKvlu0hFurlxQNSKKlLQIso1clzqNA7WCU+Lg8QJW8ul8TkaUd4a37QvSEVjB5HEU4fNmlPQaK8iv0CkoubaLy79oN0uoaWN2BePBe5NHM1V/1BcLpsJkdhr5JyAHiyMW3WeKDPN/4Q8JJBZEP78YdE8W+fCTeQXmmYNHuSr/jwkyH2Fqqu1P1d9R8kEcitJHZU9mAmW2gDOBrKnD1CBN+TeyP2aPTbbJpv/wRHUZqRdlBlv/ysNZ0UwkO6zSv4ByIsh4Fezlp++m7CcsaZ+wK31CMRjMTt72nunZU2WkId0V3a8yDpcip8X1OhOGIn+RlOFMYzHw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=nG8CAuHp/MVMeeJECh2IxhPBLxxWiuLFs31dgoNRQSg=;
- b=kIEqjT2tEzMZtslHLiYT4ienS1K9wpwLwisMzJ54mqG7s+kilogkmCkWsAjNLsVk9HrO3hFFpsnF89vxChizB/2w4Ld9QEwCRqOMnvsT+8sV+/8tPjloKlnfeeF4SIDVGsY8GdsfoGlY6UiQ5dvOLdZacVbkRZ0xxWU+2oe/9UJsLnugfhoXBQbOxkEC53czkgPyMEAWaVmpU56U7IP4Jz0YAPSOsOD9XoU/dGzxJOxGmOEWg2EVYRfJHUYkz9aoIlZ2ZxbafX+PRtsAtAmn2UaraIa9bFOG+HS02WnW0R7Y5rFV9UCq7I19p2q0q6c9UZdrRJJgYE21TO5VXmndaw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wiifor.com; dmarc=pass action=none header.from=wiifor.com;
- dkim=pass header.d=wiifor.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wiifor.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=nG8CAuHp/MVMeeJECh2IxhPBLxxWiuLFs31dgoNRQSg=;
- b=FFUcrM3YOCFMIYc+Q6uVXI/Ziea9tK/5tSJ7NNVS2Xp8EzH7MhBm2mE88vp5dUBdtHcAp8G7x3Oui5rCMZ3ZlBsGFEb4Ws4NF6tu4pn4/uq9FH4Ycs+aXdX3kZyCFzhrSMoEkUqiGZKQQUxMMAbqjaoiUXqMysTq7ucnRzSeKpXXkQkqDvVB6nn8A0Xg82uSc9rUFXy10WDs3S7arP/9zr3hfJD6ny5luKn/yhVo8CFIwjewzRZ8IErQoOc6Ng2fKDGwmwlqpgh7pyio0aFb/G07Yw/zWIzxjpj1t0tZn3KEZY8+GZTWvNYeknGquduVKN7KGs42USvCtUC580yLfw==
-Received: from PR0P264MB1628.FRAP264.PROD.OUTLOOK.COM (2603:10a6:102:166::15)
- by PA3PPF322DCE311.FRAP264.PROD.OUTLOOK.COM (2603:10a6:108:1::62f) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9009.16; Thu, 7 Aug
- 2025 10:40:08 +0000
-Received: from PR0P264MB1628.FRAP264.PROD.OUTLOOK.COM
- ([fe80::22c3:9151:ea3b:cb30]) by PR0P264MB1628.FRAP264.PROD.OUTLOOK.COM
- ([fe80::22c3:9151:ea3b:cb30%5]) with mapi id 15.20.9009.013; Thu, 7 Aug 2025
- 10:40:08 +0000
-From: =?iso-8859-1?Q?L=E9o_Granier?= <leo.granier@wiifor.com>
+	dkim=pass (2048-bit key) header.d=yahoo.de header.i=@yahoo.de header.b="YyMh4qFN"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.de; s=s2048; t=1754639817; bh=a9IGV4CJINUaNoDrzPTLU+w9uT3hkAFdgQQg+ZCkjVU=; h=Date:From:Reply-To:To:In-Reply-To:References:Subject:From:Subject:Reply-To; b=YyMh4qFNggGII+ZPBeTC/oQQg75CJ9pl8LKG2jb9JPsiTkF8BUphg7VHr5ajD6RKaymz5zmrGQ9YIWWOoZZw4SiC6tfOHLg6rFL87wOLQi96XiJZcmHqowNREOnLy0IrFMLKaJqfwbycsixS/h2PoDf9ukSoCySfIRkqRTx0GKNPd2qgtz7O7nAWgN5WcYy+nefYLEnqMVgg9NKMvQVlC1Nw+MOZHMKuriu6xVIbOU/tHB4+lyk7KLK40CpS+8/QobmemyBMgYhulil6muB3Ulfs+fP7N8Xfs8A+EbcI00+4MtjIgW7N2MDBXTNdukAFDia27Yne7f26NslET01Yjg==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1754639817; bh=5EJKevYdjxOZR63be5n2v+hNQ5G0skTROkQg+rEsTpX=; h=X-Sonic-MF:X-Sonic-MF:Date:From:To:Subject:From:Subject; b=VXmJ2YMSHjGo44cRLkb0Axm43qxBLIOaAXBJ2Fb2l+smoQv4DYLZv3k3uEO/9Tltrs2R79lnDxVJH/G8HgZeLbCGXZopkUPjD6CTIYmWPAFnawT33dqTUn+50ymja2EL9Nq2URFoYmUWzxeo5EVTXP6aJMtNNfurpOgO1SsRmWQ7Kd5357DTrPR5Kl1IssS0YgK3z2XotagIerroYZFw6AJ6SvX51e7WIQ27Vl2SqcMp2nNQYYgtWOTesKXi6uUNdRgTWMevtG4UWR3cyLT00kqADbFtnK2f0rgD+gTNMvM5CVy5jTYB8Ywelop1vUi9sIGoZcj9ELsnkDxrfc42HA==
+X-YMail-OSG: pnM8q_kVM1mJHUzp31G.BRn.itmkfmaoNy_6y3pJGxfjQTnXhf2DcszMug91JT0
+ V.g58lfcN7MULtAqVkPwWa_YHgJRqLJNuubM_DkLvUAbFBqaRXPGaKQv7ueR7msPe45SSFrIJIuG
+ PklPHiX9_7zm1vlNGOHAp0R9yYi4jHnwrboXEX2LwyEgRhTcDtBSPaEfO15AreB3U12zd4c.Qw8x
+ vtS_NixGBRvwfKHr4afvi3Y9vKD8zlJ.u9HeXRgQyy6vQHJjLP8kEyUEd_2y.I.EUh2SZaNA74_l
+ fu4CpubBWBlOHDS6gDV17JJWT93H6qenWLE3QOXVNYge..0dhNhoBVrYXmmZaldrdLce7CmEr66r
+ yEYkb7DLzds.UV3BYEOlvhDcg0jOatTek3t2TmRkD3sP.uqowIotkUyVUEwlfN7vxelKavXBK4od
+ 3g3QVZqcxL4njE2E4NVIAAvRbb8gQIbiqYGn4MSQb0e4uhweOdssWY8mltxwdEQARiodfjfYqVx1
+ Hev9nwBOvrSZwHNJdktX764WU8JWAd7XaiYDbTD5Men8ud1ig8R9TcOsF0yNR1m2_rEzt7si1NKe
+ 2EktSUFCrC8L8Rz6K0l1UC6g31dY0yxt8R5YZYDmKJI5gc44zQxgt2xLbK1p91nJTcqFtOOFGi.r
+ TajO.XO_I6SR0c0zSGNN4i9Rv3hbRUa4iAgzD99pZqidDM6UTksn3xHGm_wYXAYZhLdLwtrRA_Nk
+ f1wdExQ0Q.mHrVhqraLiTERTuOmod4zjiCr9stPDdUvW54DD.DrAEI.6lkT_AIzWKMbWo8E0SJgn
+ gDPVfSwoX_J4u4gwHV2CMyVbXctj6Db0pyRJCJse4P8_aplGVzw.KHIvXUbntY_Yq7MP3lhxuNx5
+ fBlNudiKpdmN71DpVhTpxmSSBREwcXzbSodPXLdINzTPV3wp6eokOp6mCBh6D94whERc8SY7b4zw
+ FBU9fMXxguqT9aR_qX5PU9SLZliTrwcfoce4kiFhRzRm1.ArmgEkzzmH0_BUe1Gc1J2hKYICl7M9
+ j7aym7tpBcFlMJ4ZwaC6p.l5uqKA08jaDgZcSCwlatjXr7rHIIj_bcoAxwvpmEwoQJq5HBOhmL7f
+ jXxAnDnXVUXwwtrDV3qEME6njP3q.ZV.D097KdieDSVyS67Xu52erQ1_GV7z0eheihVtHcgbatwP
+ 0OuYowqi5RLMI5TLiR5ZFGBoDPc1iWt5QJq5STNmMfa8Z5ym_n3EurobZBWF.3nI30YRgJoRWggf
+ N1tF_BOjxxk184XDpMEy.v4NlsNdokpChCwpR_1BuV6e4GN0yv5XLWJc.YJKr.bf9mrU5c1hly1U
+ BEKSJE0zu6Vk.vfV5JKHPay5qyvpu0pzwCIqeNu3jXGGBScc_ge2wWqila6NKWmLrNJpy29m2wbM
+ 0KjyCVLQFzn.OAynYk6wWJ0lN45BKxIcsI3UhSyqsDDVWuiTYzyhZwI0aYMxlN1AzfwIgxA6I6H_
+ UmpLi4voS.zz9rg1ePQ35OpANEgAumm1jcqhMGu2XWaTpWQ_ZogZdCAVMPpvld7ZtiO0JHQhcwPd
+ eeBAlWeMQKYouloTk_PWFiS1qxhSF5mYMKjaOycRW2d2fTgNYvDmKi7aTMJrxz7FWC0nzUuej8mY
+ 8GzFSE2r0nnVK9SXM03Io.UMC59Pd1UbhH7LMZkS6GHxQbU5jYq1_X092ynzwCSC7b3yDYCHgulr
+ WjLW59l8LNqOynqYu5W3dHiRTFPJgnta6hNfM4iwYccwuqbjx6chI7U9_Usib4l25hoqzZ1bHz58
+ aq5r9lhWncty_N30EtPTPWIzklA8qj1.0e.Dua3h53SqIBVT4eyhcA7I6pBKPNxKjyKFUQpzL4yj
+ WXHi6zrNfLKuLa6qiiQOHxs4IThbyhoaph1spVcriF3sDutgES08noYWf2kI31w.gRdKoHg9gsdB
+ YVIi7jL0DTt9p.lwMxx4_vwhTs3RPFydfwt5OEvCgKJQJN8cnqQsZmgQgYrIwP.D1M70BTx4gzk6
+ C4brQNUR5D8abGOR5mXzuCFidwrDEzKNBhRyD4QklLUpcOLDjLVSzWk_A7uiV32D3trN9O88o2P1
+ 0czd_0C10RQDfewOzo_ueQgGlwS3x5mFk1xTGWdoeKOuoLz0oKgc8w0Vc87e3JApmpGYTU3pj5Sr
+ 3E419kYEMLEqSMJ_mZjLv0OLhrQ9VYRSfiTrOidOECi3ErFCCmuX92DTZi_hGd3Gu3959vyHHBrR
+ 78cmPUet3t6ozJVopiPY7dxNyZFVlViu9q0Y51Eo.JMzSViwCtSyC194J_Pkl6l6WvUEgM18BSft
+ 66LOVPg83NmRvyi2KXOCoxWXMDoHyjmd_FUVKAy6b
+X-Sonic-MF: <hugo.portisch@yahoo.de>
+X-Sonic-ID: c3222401-550a-4194-8aa3-1bff23dc70f5
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic312.consmr.mail.ir2.yahoo.com with HTTP; Fri, 8 Aug 2025 07:56:57 +0000
+Received: by hermes--production-ir2-858bd4ff7b-9r9sx (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID 9b6c11217916abe6bc652d2e6760cb45;
+          Fri, 08 Aug 2025 07:56:56 +0000 (UTC)
+X-YMail-OSG: 3LiDbD4VM1mmzde2gHYOT7rQux6UhVP9AANkswhYOmhY7b0ElBKWET3NXfkSCdU
+ cjYOQZAtDVDiayIXdDgbw4QZwQ5b75nbrXradkbKqQCsCxZ5sVpsi1PLvufgR2FJ9kI_BTUnupPE
+ lGimtIUaB7Gc7ojBJBOYiL9dImqt.TmhkMiCs8yI1oW4eHNub_2O7FTYxfdrFqWn.ELYgLVrPn.T
+ NXvlxXilIVHB5Gb73AnkA_TT7Y.48d8FwAjKG0PQ4K3xAW75L3OWkHpC6GAG0TyxVhRhSNo4Ymz.
+ uo4GnI.WW0QUEivUHBedxDKVqlwWhTw5CiPUEDlELuJV9beiGHeuQk7rMkapGXhQoWExY3_SL6N2
+ JBOkeG86H5z_l743M9i1oSw6CdLsuNUwEnUnjp1DyMiDlVYSpJnlzjLlTrulLpYQqd6IAMU38_1c
+ 1ykNSMmcU9_IcAbXKCFovknIEkS7VuUYLORIQqmImlmuai8Xwqam6vjtvn_2wYjhD.5_EERq60Mr
+ lDxEqyCw1uxa_YvtNAXn_HjlaVsvLB4yFy5Nyl9fUkg8D3Ycom57QUwkRAJic_5uKBkIoNDHAkYW
+ Y3F_mospzKab.UTwvTQ7uxmYlFN9IKfZ2mn4vFZvJ22VMxesA_ud__NDJgStK1lrkvcqbDIJ7CUc
+ W6iHglo8TbCSBUtbJCxqISGSOmffkeZL8fXyRto.zE3p4MTeFougJ5rYVgd6QZrHfYO3qhZrnMtZ
+ 0sxaAAvRmsJUBRg0qViOa9SNIfnpk5DoPp0ObmbN7onDJbq4fgA0yNDY6XKTrJDqjwXj1AHGlU1Z
+ hKEI34uuDuInWbD7ZCeM65c.t7yCSBatx7osJo.4z5Lxrg4mXvqOk_.nY7BovLqI_tVFjZgC3Whi
+ QOtWQh3sOACO91uDnVp0kOIzjs5GTJ.MZbuQqlWgUBIuxB9ZWlXze6MGGdBpy5qnqoR1zKY63Ttc
+ rcMgi6PthTWLLK7jp7J3pCpA4Fr3yWvT0xhgoUjumm22OWHLAmHOY6KyTUr85g9r4RadXCRc.yEQ
+ Rdg7wWJNHvLbDW_ULckDxyKOmL5O0AoExtxJ6k4GIyKUxseZNv1IXKuBVDdenn50TVGIrVXSzJ3K
+ x5bLAeHdGK2TPNJHXalaFUR0zcMd6tWj31boFEBNfkvj_3mlWz52q6d.yD4p0_Vy4EuDXaVVjNSp
+ xZ6JDNf5U57.DEI_tpw7HlBl.kEhYs_iXkUNE58Pp4ZRFckpo0UGfrqoVKeh8YriJKLiPeeErbMP
+ 2BAej.Kf0mnEnRZORUHGCUkY0uow0AMDV7QoWflc3Jsg7zIdUyl7I_7Itwde3J.khDDjnescwvKh
+ 7TXNU1qg2FwSZIg7AkFXIxVTAG.T6V2yXCl0QFyxRSdPFODv1aXpn7c4gSwI5li1425.e.KPh1Kf
+ n6Ep.uho6NF5d6CpoQXV8Rm9nPeOUaFCIzU3I4GfeHa6O1qq_zzxAEOzNZdLk3Vy5vgTmEYTsEPi
+ t5f7xUY20ZclcMwqWgXM651ALs.kY0zkZlO8BWaaX55kw9i6wUxUHVIDYeNjfvRa3f.44Q3IrW6o
+ TCca_5RjlaHCnkShpT13A20kOeYA7f8MgxtiVkkfuhqzsW2N6E.AJ3JtipCs7rKg4Yy5lHeeaift
+ nV9zeW8peaQSyQrmd2D0ssLiHDGvLU8mT0Mh5gRpkfI0juD.74lWiXEosaCBSt.rDKfYLgYII8cb
+ PrI7MfoZRiFLWeoWfR8Z70gQ3xv5ruz5ayqYUtXOmHX0HOYm0XsL_SQBEtkBeOfgqWXc52IN9Nmk
+ 38ReJgYuQFgPjFuLUKg4BA903eSf9QdDyOZJpsvfh0iSARR7n5v72lEqpSqy1OXPSJr6kpMuTmLY
+ .AYrSS9WSj.LNLFpI8ukIFgwtv3vU4peXWb862KafhhEcUVzsE7otqbRLb8tK4O2yczoZT2gdn8x
+ Frq0H1DabmIW8K0cVwxzTM93rwLqhJFRHRyyQQ6kztlWNfdQMwETy5XC_OzLzpqexy_4jIOuYWrL
+ ynWt5jryMd18vJn94d.9jbhbOGg0aqeDWrCrRndfYOo6qC.tRXnu1K_vOsawICJH_nBvX8wUSaHu
+ sq4oRKUyIAcLDcsG60oMney6uvrOb4r69AfNKMV_OTtm8ksf4fgVioirMlgjDzYaNuwPnAEoOCaE
+ ZKLU7YM1LPqbgI4Jc5Y4tUCRXqE0VaUN3IaFdMIY4PRrU3xvyWs13h45cot.MQFUpd.ssrn1OA9Q
+ S8mH.Wi4HrEt.DTguUNysXCeB0CU.cW1rkkkMkNppY99y3pb7fZsEQpXbVTZ_Pi68sByf_rLKjeI
+ cXqkIJ2glyZOf
+X-Sonic-MF: <hugo.portisch@yahoo.de>
+X-Sonic-ID: 711aeeba-1f6d-46f4-8d74-1ea5835b30fb
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic308.consmr.mail.ir2.yahoo.com with HTTP; Fri, 8 Aug 2025 07:56:56 +0000
+Date: Fri, 8 Aug 2025 07:56:55 +0000 (UTC)
+From: "hugo.portisch@yahoo.de" <hugo.portisch@yahoo.de>
+Reply-To: "hugo.portisch@yahoo.de" <hugo.portisch@yahoo.de>
 To: "connman@lists.linux.dev" <connman@lists.linux.dev>
-Subject: RE: Connman - Issue - AlwaysConnectedTechnologies option not working
-Thread-Topic: Connman - Issue - AlwaysConnectedTechnologies option not working
-Thread-Index: AQHcB4c23LPuBSze6UKHl2lRGA9/TbRW/67xgAAAUOc=
-Date: Thu, 7 Aug 2025 10:40:08 +0000
-Message-ID:
- <PR0P264MB16281F81ED11317E303540B2952CA@PR0P264MB1628.FRAP264.PROD.OUTLOOK.COM>
-References:
- <PR0P264MB1628F168678E10EA4FFAA794952CA@PR0P264MB1628.FRAP264.PROD.OUTLOOK.COM>
- <PR0P264MB1628D1F35FBA6DA24DB7789C952CA@PR0P264MB1628.FRAP264.PROD.OUTLOOK.COM>
-In-Reply-To:
- <PR0P264MB1628D1F35FBA6DA24DB7789C952CA@PR0P264MB1628.FRAP264.PROD.OUTLOOK.COM>
-Accept-Language: fr-FR, en-US
-Content-Language: fr-FR
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-msip_labels:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=wiifor.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PR0P264MB1628:EE_|PA3PPF322DCE311:EE_
-x-ms-office365-filtering-correlation-id: 5ee75157-1003-4131-469d-08ddd59ec74e
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|366016|1800799024|376014|38070700018;
-x-microsoft-antispam-message-info:
- =?iso-8859-1?Q?nnjn/9MzAyCESSEE6C8n9JLek2FBD8HnmUKJPok3zYfB2pyy6mszcGg/Ec?=
- =?iso-8859-1?Q?qZBH6QAvl51YZVdmmMV+aTTIUxnUXOpdsr4ZOfY57FNj3b2nkgWYIhqxyS?=
- =?iso-8859-1?Q?ZOdC8Lt5eHRQ0d3tXgDmuCLkevW4ACVaJRP47sj2eor8lC2abeOvobY2tH?=
- =?iso-8859-1?Q?uYlEvC9W3G8nu+CY7HxD3f90S9qo4VtzaxJ4cUbdORG+AWRTPviQbG2gyK?=
- =?iso-8859-1?Q?0gknX4SFxbHlGkEfH0JqZDhhpT+57T/9xMBsry2E53pscUJ2oEnNqJ8dRM?=
- =?iso-8859-1?Q?y41xXhqqd2bkFBwrc1QgspWxnOyG3+7Soa66S+MADC/xQcCkOH3FojfTxF?=
- =?iso-8859-1?Q?brPJ58y+ysozkHEa/TRkng50I2G/ZyV2891XnHLfwMqlhFbRMWv5160II4?=
- =?iso-8859-1?Q?4PutyhTeICNUgAGcgUbvRZt7+GYikZLQQpgTSzpujT5f3PpERUdked+BiB?=
- =?iso-8859-1?Q?MLCMzU2ReAG0qwrZRKyhbcaeFdpsaozS9IV2ifArizggBQlEEkktAzRavR?=
- =?iso-8859-1?Q?wIjeDLLEcTGxt91NkxJmBE+1mfsCuPveJKV40MLEO93e0/vrGDfxZkb0zk?=
- =?iso-8859-1?Q?FC6c6exog46YjDVnjS8TSdnMFkw0LtrO84Y6yXHCySkk9955ZQH0+y7XGb?=
- =?iso-8859-1?Q?QZP1eyr2oWSliOvHxDQjSM/+xZyOqnuF7n3DtgQZczVgi4Pf0C57U7JYBu?=
- =?iso-8859-1?Q?mQKFthJLavSO/FPffTqjNke1MbSx+rdv5Pk6U+58um6tAxvFZWS72o2dlL?=
- =?iso-8859-1?Q?kFN/aWcuIR/T1Dynx9McwCC1eglS81T6CSZQ0606f2Ly1W82vsGpUTU1ve?=
- =?iso-8859-1?Q?+nZ2qdnvms3LdBUZPN7PDNGdlW0I9+RP/xwUMuLP/m00SBDav5b8Kn5x85?=
- =?iso-8859-1?Q?yuYgyTVXAKST3iPeyBY1a6h3OlhAw0TE7j5OnXQMT7S5YIt0m1u5WZivas?=
- =?iso-8859-1?Q?7n3ZtBKT8KXZiw2N0Tmu0fo8lvMSA56yOR5ahu0q7wgmHEYXL3k/UNtbd0?=
- =?iso-8859-1?Q?mmR77GRjHLAHLDv1zu4hh69779i+kwaUM9TGIGAL9WVaMCQLGjENKgKxn0?=
- =?iso-8859-1?Q?O8Y271BicWtTC9eupmQHlqYr4XJAIJnYO2BRkUQ2s7ZcG6B5N05L00dt58?=
- =?iso-8859-1?Q?iMKyIjvF3vq9qMb2Zx+UuvZAadjgsv8P9mQGPlJbrzp0F1fZN0zClB7rYW?=
- =?iso-8859-1?Q?jDyULWDEatp0ZlOA/jJsGgbhEIGRcTTB+tQcUX2PDOAM8fDdsWjvzbHGFG?=
- =?iso-8859-1?Q?4logG36efwLqdbhGxUSepBaEk/T4ROMK97Gya1fqeaKsePQ6dYyuJDCWhw?=
- =?iso-8859-1?Q?6IsqN4EvtIceocqhejBLt8aDh6NbUCcupHHflMlTbwjo/TujfH0o9rxbyN?=
- =?iso-8859-1?Q?J1E/Ei/JRaSNKAOgYzo8/eE9wjjms+MHdbsbvypIqgTzb1jVnXneZw8JXd?=
- =?iso-8859-1?Q?yLWGqdM3WgnNJMv5HaJdGIYAbDEAapbngXc5axczvP10apY/wDNMMAnabf?=
- =?iso-8859-1?Q?kNRySu7Dm7U+pBmbpB9vzw2Sid8m00VO40FWAELFrrmw=3D=3D?=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PR0P264MB1628.FRAP264.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(38070700018);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?iso-8859-1?Q?sDjEgasgZhBLag2wlcqB0gEUGsGB9UZRBwYqaZiKgfzdADfsfGKI1Us6mL?=
- =?iso-8859-1?Q?CTZhjLtsa+vQmn1q1hqPLt6CHLHhVG7w6yrQAcBdS60oCjwZi0UANH8mF1?=
- =?iso-8859-1?Q?53XLFn7INH27fz2iMCpX8DeOdtZkW3JjDeuu8OJwDxjAV7jf2wb+62mNOU?=
- =?iso-8859-1?Q?NBet0/krsDzbMmM9W+ddjujfByZmmLs1GYqYqeMtX2uLsnmHMmm5B46WaM?=
- =?iso-8859-1?Q?s0jk9tz9uamC3DaIdZKNudJQ5W+XjZGE5ZnMb4JD4MnaMc1P7NTnEbVep6?=
- =?iso-8859-1?Q?Id8HRRDugnM5ZT32uF8ThTPVrogACmb9RLiwVPS1I3R75zVlKmmu9pHl2q?=
- =?iso-8859-1?Q?1B9X2ApPjPeuRAdgoyG9/n8h4+13QhmhiwTa0B/E+44fCfCTv7f1QWXzZp?=
- =?iso-8859-1?Q?9/cqmxIMeEXKiCXiI3zryPHgfupvXytNBFCg5+SKxIGieotTgqg8JPzu9P?=
- =?iso-8859-1?Q?MnYl8jA9Ghqri5lHuylQAvQsX9luUZlcx9aRu8e++EXJZ2s6dddEPDPl/9?=
- =?iso-8859-1?Q?VxNbEyEOE8nA84lxC6b+HOb8tDuN2GaEj1miJBmyeC2/eCXQIIViDYfHB+?=
- =?iso-8859-1?Q?FPIUMOZSkjmtu97abkEszfkheJANeQIDSQbjmvNNLCh9x17F8AG9WyUD+U?=
- =?iso-8859-1?Q?llJB5TT3T07Ke1Xo7E6LY3EUMUHG9xKZSZVVuFVcX4HfzFcAjrJUWVsMP3?=
- =?iso-8859-1?Q?dLS48y7TONS85Onmj6mpQFbpSXKooJd79/z/Exhd639hx3ljnLHOYnruxS?=
- =?iso-8859-1?Q?t3Q+hCjqLN9s2KTnX0U1J0vPFduCrDaw8XCatOs8J0IqNr26AMKK/udb5f?=
- =?iso-8859-1?Q?Z85eBsjPGw3mO3FkSN+2V3xooh3pcnmnjQcAb0WISI/+8rSxLub9/2/32j?=
- =?iso-8859-1?Q?WYMg6wQrNivpRPEfVfmKINY0YjnVSHJEuwhXuWaGjYLuAq88bES/gZSaNU?=
- =?iso-8859-1?Q?mzgrqFVYhCVKFb0KAB4OlTKsCrNiIPsfRxj+1i39quZXB7sICOMuzFOmJY?=
- =?iso-8859-1?Q?ukfZgLEGbqArjwrpJf43z9Dr0JVTDh+gI5WvQZDFrBQQKb0UQFBMMKRzlU?=
- =?iso-8859-1?Q?8XsFHXcNnauWlLJTsd+Fksb+yHwlTJaHg++Ik8gC3pZrQdcqfvhdyPV+lW?=
- =?iso-8859-1?Q?PRMxFJyBogc1CqziYAPnYJT+eIMwvIKjgo0WT4dR7sQ54qkqex5EFcjO4D?=
- =?iso-8859-1?Q?KIRvghxD+aEdi2cuNVM8i1+JrsJmGOZf0x4vLYCwPG9gPuyKk4biEXc/nA?=
- =?iso-8859-1?Q?CSgaQODGDUvEterFmZ89TiHOmqn2a3jg+3EBKk4lRelhQUdJmOfsl4c3Ao?=
- =?iso-8859-1?Q?WTJ2fb9zrnq6BYWm0jGtTecikuCdLbQTYa1tua7a0IPVrCAvrxI2WG7dW5?=
- =?iso-8859-1?Q?MHDot2gJaxtyF510NERfDWoQffQbcR31K25nVo4BtZtIDsWIRPInqcseJk?=
- =?iso-8859-1?Q?4tOcoIrKyLr1N5hAaE2nCAPPYs1/+OIPWgSNkhgrE8td/GNkSWoHKbZPO7?=
- =?iso-8859-1?Q?eoFQcuOJ5aLr6ZWFGPispgcxDqXbuHPgF5ZZVXytj9rh7bLqPzq4o14L7c?=
- =?iso-8859-1?Q?4fiq9Ugx/zFQWud71lAIaucWwNnJQHzFbC9XPzgUE3FgQHKtm+aFMC2cy6?=
- =?iso-8859-1?Q?iPhfukUSBakwgNgrum+NFOdTCKnc0n/YoF?=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Message-ID: <211116062.4586180.1754639815460@mail.yahoo.com>
+In-Reply-To: <1082538859.4574595.1754637525886@mail.yahoo.com>
+References: <1082538859.4574595.1754637525886.ref@mail.yahoo.com> <1082538859.4574595.1754637525886@mail.yahoo.com>
+Subject: v1.45, broken wifi connect
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-OriginatorOrg: wiifor.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PR0P264MB1628.FRAP264.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5ee75157-1003-4131-469d-08ddd59ec74e
-X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Aug 2025 10:40:08.1274
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 5c1e387d-5579-450a-aee9-eea6dfc6e2da
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 29+y4bd3CSdSdv8EBhIM30O1mPDWjxQ56O8/vU2FiDLYBJNZKUpzYs5XnjujPFTiPDnL7fi4qV4z1DZubRCI0g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA3PPF322DCE311
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Mailer: WebService/1.1.24260 YMailNovation
 
-Hello,=0A=
-=0A=
-We may have identified an issue related to the fallback mechanism when usin=
-g ConnMan.=0A=
-=0A=
-Problem Description:=0A=
-If the=A04G (cellular) interface has never been used as the main interface,=
- the fallback does not work properly. This is because the IP routes are not=
- created for the cellular interface until it has been activated at least on=
-ce. The cellular interface is not online or ready.=0A=
-It seems that the AlwaysConnectedTechnologies=A0setting does not=A0behave a=
-s expected and does not automatically connect=A0the cellular interface at b=
-oot.=0A=
-=0A=
-main.conf=0A=
-[General]=0A=
-AlwaysConnectedTechnologies =3D cellular=0A=
-DefaultAutoConnectTechnologies =3D ethernet,cellular,wifi=0A=
-PreferredTechnologies =3D ethernet,cellular=0A=
-OnlineCheckMode =3D continuous=0A=
-OnlineCheckInitialInterval =3D 30=0A=
-OnlineCheckMaxInterval =A0=A0=A0=A0=3D 60=0A=
-OnlineCheckFailuresThreshold =A0=A0=3D 2=0A=
-OnlineCheckSuccessesThreshold =A0=3D 1=0A=
-AutoConnectRoamingServices =3D true=0A=
-=0A=
-Could=A0you please investigate this behavior on your side? It seems like a =
-bug or unexpected behavior in ConnMan or a misconfiguration on our side.=0A=
-Let us know if you need logs or further details.=0A=
-=0A=
-Best regards,=0A=
-Leo Granier=0A=
-Wiifor=
+Hi,
+
+current connman is broken and can not connect to encrypted networks.
+
+The reason is the commit: https://git.kernel.org/pub/scm/network/connman/connman.git/commit/?id=5e73b55e00b97e1867397258b72f0d6e5ad7d31d
+
+Revert of this commit do solve the issue.
+
+Error log:
+connmanctl> connect wifi_485c2cd4ca36_43492d30303330313536_managed_psk Error /net/connman/service/wifi_485c2cd4ca36_43492d30303330313536_managed_psk: Input/output error
+connmanctl> disconnect wifi_485c2cd4ca36_43492d30303330313536_managed_psk Error /net/connman/service/wifi_485c2cd4ca36_43492d30303330313536_managed_psk: Not connected
+
+
+With 1.44 there is no such error:
+connmanctl> disconnect wifi_485c2cd4ca36_43492d30303330313536_managed_psk Disconnected wifi_485c2cd4ca36_43492d30303330313536_managed_psk connmanctl> connect wifi_485c2cd4ca36_43492d30303330313536_managed_psk Connected wifi_485c2cd4ca36_43492d30303330313536_managed_psk
+
+Thanks,
+Portisch
+Team CoreELEC
+
