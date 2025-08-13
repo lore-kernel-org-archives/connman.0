@@ -1,45 +1,45 @@
 Received: from mail.kapsi.fi (mail-auth.kapsi.fi [91.232.154.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 547A11A23AF
-	for <connman@lists.linux.dev>; Wed, 13 Aug 2025 15:59:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FE0B24290E
+	for <connman@lists.linux.dev>; Wed, 13 Aug 2025 15:59:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.232.154.24
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755100765; cv=none; b=Zw01spJ/JpwmBnttpU5teGZ4NQkmHgSjPZd9uxBEAsLANLDTUD+72S6mkmBBe/pIRXPtxU4Knwm3uo14nEtgADdZY4qTtxDot/DZFiejnfeOVZzLlk7LpQVd7FRR3Qes5zaCv4NR6QltfrxRVKW273y1cEUwwTEoMUQbFIKbsLk=
+	t=1755100769; cv=none; b=VUNyc4DhVE6AAOVrXF9iEsPsKi4uKpH/iBJcGAjW3mvv0k5gKc5miVAURFWkeKrMEAEDbpa+yWEiRVAdbctuznoeBFa/73lQiM6neNEHwP5gws9ZDcCLF74/26Rp4YZbQLc7lnafJPI2xnS+pEufz/Xe4FYY/E4wy2bl2lEywxE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755100765; c=relaxed/simple;
-	bh=iaWBOhjhWxZ1EiLgJ+Cm9LjRd9qTxpIV/B2dhtbnDls=;
+	s=arc-20240116; t=1755100769; c=relaxed/simple;
+	bh=V/769q8/JpOu7fk/MQMRci/2ucAoTuYegPlOu5KyzRA=;
 	h=From:To:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=eV9s3HSYj7oZp6E7aBcakQli0hmWrLbQAZJFaV8VyO40HxB7eJY897hj8KbwjKK+SXK/DkicoV0j0G5J70o15y2jnWW7pTfw5KsT//QpMcPm9ajRIqNaFTANqEA4SNGN/1Qg3xVu4FctGB4shtMrU6Z2+4k8gghGDGdeIPm6jNY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=jolla.com; spf=pass smtp.mailfrom=kapsi.fi; dkim=pass (2048-bit key) header.d=kapsi.fi header.i=@kapsi.fi header.b=XGbNffmm; arc=none smtp.client-ip=91.232.154.24
+	 MIME-Version; b=f3P/sjxrngyktLG+GeNdaVlPkFivG2vpwwcblYgC3+Q+eaZC+gmBGMtIWc+Ws/jdRbPP7+ypVynnzOu82sBCbS0/li5tKk406/5XP78tpKOYCw/taTbkmIDU+7agN4wck4uiyncl0FxxQuf/shmuunQwC0000yrFiD8eZGwl6f4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=jolla.com; spf=pass smtp.mailfrom=kapsi.fi; dkim=pass (2048-bit key) header.d=kapsi.fi header.i=@kapsi.fi header.b=glsAkCW6; arc=none smtp.client-ip=91.232.154.24
 Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=jolla.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kapsi.fi
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kapsi.fi header.i=@kapsi.fi header.b="XGbNffmm"
+	dkim=pass (2048-bit key) header.d=kapsi.fi header.i=@kapsi.fi header.b="glsAkCW6"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
 	s=20161220; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:To:From:Sender:Reply-To:Cc:Content-Type:Content-ID:
 	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
 	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
 	List-Post:List-Owner:List-Archive;
-	bh=LzYI40ONoVHOJWbzD4JibGm/gjeg4ecfnI2RkfgbHHM=; b=XGbNffmmFVj7wVSary4hAlYbLj
-	NwbK2XCAoCPubxRTXdZeWEiucvqSVhWIZ70EqyHn8NAeigV3yTyJI+XFUezEko5+QqP5mBem4Qhyw
-	DJtVFE9LX9Zg6WSsVJ5OQ4bHY3nQRWPAQ62nxaK19abIv7SGq92oHd6Fh8g2632ZWQdqce+Es/Fcx
-	k7JkTzQkTNuyPpi94sOGjG7uE9GsnobdI5NhZNvAZQb5ctBlbg62WonmZSLUUCxO8ocMNCIZD58WV
-	48xzUb8J1aTs6WwxA1M2+k5dmciLc63Edku+9jSGnNUipJ5epAErscM/mR0eXuYumph3+M73TG4zZ
-	GOCQSgBg==;
+	bh=lmwt4fFKyPLMVlg5ei9yyNNJ1Dpd/hTUUYSAwLwyKgk=; b=glsAkCW6i2z1PLkAFOFejBfKfP
+	h7imq/VsQUeGK0l+pDgbi/EDd17/ICOOKV6xX1mTBHccNNGbOwH5rvvJXawnZkPBMPF2LWbk6gQzp
+	hX2/kSVNENAX3LgpzSa2l6ESCg/fiM4HEJ+fl8ldI/ddE9LBlMHBphqAufPXbttiC1Eim4laIQxK7
+	tS+NOkTx6B1/d0kHFhOhPMX1dl7+r88MxcQBhgJYQUE+ft1k2SseKapnNBiF7xVM/SsVO9qboSgNd
+	rUUP/CZB8w3NOEid8vMl5Dvud8F1+z/IUVw3jfoNfwlZTc3ngvaMiwqG8nvAN33RFfKopn5AKSlYz
+	gOhVnjtA==;
 Received: from [2a10:a5c0:37:6500:b275:797e:525b:8df9] (helo=jl-x230.local)
 	by mail.kapsi.fi with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.96)
 	(envelope-from <jussi.laakkonen@jolla.com>)
-	id 1umCzf-009qQa-0Z
+	id 1umCze-009qQa-2D
 	for connman@lists.linux.dev;
-	Wed, 13 Aug 2025 18:02:23 +0300
+	Wed, 13 Aug 2025 18:02:22 +0300
 From: Jussi Laakkonen <jussi.laakkonen@jolla.com>
 To: connman@lists.linux.dev
-Subject: [PATCH v2 27/42] wireguard: Set split routing based on AllowedIPs
-Date: Wed, 13 Aug 2025 18:01:59 +0300
-Message-Id: <20250813150214.189282-28-jussi.laakkonen@jolla.com>
+Subject: [PATCH v2 16/42] wireguard: Use GResolv for DNS reresolve to avoid blocking
+Date: Wed, 13 Aug 2025 18:01:48 +0300
+Message-Id: <20250813150214.189282-17-jussi.laakkonen@jolla.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250813150214.189282-1-jussi.laakkonen@jolla.com>
 References: <20250813150214.189282-1-jussi.laakkonen@jolla.com>
@@ -54,84 +54,289 @@ X-SA-Exim-Connect-IP: 2a10:a5c0:37:6500:b275:797e:525b:8df9
 X-SA-Exim-Mail-From: jussi.laakkonen@jolla.com
 X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
 
-Split routing value must be set with WireGuard according to the IP
-ranges set with AllowedIPs option. If the option contains an any IP
-range (INADDR_ANY/IN6ADDR_ANY_INIT, i.e. 0.0.0.0/0 or ::/0) split
-routing must be off since the configuration indicates that the
-connection is to be used as the route for all traffic. Similarly,
-if there is no any IP range split routing is enabled as only the IP
-ranges defined are being encrypted and processed according to the
-cryptokey routing table configured on the endpoint.
+Change to use GResolv for the reresolve lookups as with broken
+configuration getaddrinfo() will block vpnd for the time it timeouts in
+a broken network. By using GResolv the resolving is done first and only
+after it is succesful getaddrinfo() is called. This is not done for the
+initial connection as the transport medium's network is used, thus it
+has no possibility of such misconfiguration as the network is at least
+in READY state.
 
-Also fix a memleak in parse_allowed_ips().
+Check the GResolv lookup error and if it is set kill the VPN. This is
+because the set error is quite terminal on the connection, better just
+to die.
+
+Change reresolve_id to be guint as it should be and handle it properly.
+
+Document why the remove_resolv_cb() and resolv id is used like it is.
 ---
- vpn/plugins/wireguard.c | 20 ++++++++++++++++++--
- 1 file changed, 18 insertions(+), 2 deletions(-)
+ Makefile.plugins        |   4 +-
+ vpn/plugins/wireguard.c | 165 ++++++++++++++++++++++++++++++++++++----
+ 2 files changed, 152 insertions(+), 17 deletions(-)
 
+diff --git a/Makefile.plugins b/Makefile.plugins
+index bd5049ec..5392d37b 100644
+--- a/Makefile.plugins
++++ b/Makefile.plugins
+@@ -70,7 +70,7 @@ builtin_vpn_sources += src/shared/mnlg.h src/shared/mnlg.c \
+ 			vpn/plugins/wireguard.h vpn/plugins/libwireguard.c \
+ 			vpn/plugins/wireguard.c
+ builtin_vpn_cflags += @LIBMNL_CFLAGS@ -DWIREGUARD=\"@WIREGUARD@\"
+-builtin_vpn_libadd += @LIBMNL_LIBS@
++builtin_vpn_libadd += @LIBMNL_LIBS@ -lresolv
+ else
+ vpn_plugin_LTLIBRARIES += vpn/plugins/wireguard.la
+ vpn_plugin_objects += $(plugins_wireguard_la_OBJECTS)
+@@ -83,7 +83,7 @@ vpn_plugins_wireguard_la_CFLAGS = $(plugin_cflags) @LIBMNL_CFLAGS@ \
+ 					-DVPN_STATEDIR=\""$(vpn_statedir)"\" \
+ 					-DSCRIPTDIR=\""$(build_scriptdir)"\"
+ vpn_plugins_wireguard_la_LDFLAGS = $(plugin_ldflags)
+-vpn_plugins_wireguard_la_LIBADD = @LIBMNL_LIBS@
++vpn_plugins_wireguard_la_LIBADD = @LIBMNL_LIBS@ -lresolv
+ endif
+ endif
+ 
 diff --git a/vpn/plugins/wireguard.c b/vpn/plugins/wireguard.c
-index 2531fff6..271b57b2 100644
+index 2c5981f8..b7fa77b3 100644
 --- a/vpn/plugins/wireguard.c
 +++ b/vpn/plugins/wireguard.c
-@@ -134,7 +134,8 @@ static int parse_key(const char *str, wg_key key)
- 	return 0;
+@@ -43,6 +43,8 @@
+ #include <connman/setting.h>
+ #include <connman/vpn-dbus.h>
+ 
++#include <gweb/gresolv.h>
++
+ #include "../vpn-provider.h"
+ #include "../vpn.h"
+ 
+@@ -59,7 +61,10 @@ struct wireguard_info {
+ 	struct wg_peer peer;
+ 	char *endpoint_fqdn;
+ 	char *port;
+-	int reresolve_id;
++	guint reresolve_id;
++	GResolv *resolv;
++	guint resolv_id;
++	guint remove_resolv_id;
+ };
+ 
+ struct sockaddr_u {
+@@ -293,43 +298,120 @@ static bool sockaddr_cmp_addr(struct sockaddr_u *a, struct sockaddr_u *b)
+ 
+ static void run_dns_reresolve(struct wireguard_info *info);
+ 
+-static gboolean wg_dns_reresolve_cb(gpointer user_data)
++static void remove_resolv(struct wireguard_info *info)
++{
++	DBG("");
++
++	if (info->remove_resolv_id)
++		g_source_remove(info->remove_resolv_id);
++
++	if (info->resolv && info->resolv_id) {
++		DBG("cancel resolv lookup");
++		g_resolv_cancel_lookup(info->resolv, info->resolv_id);
++	}
++
++	info->resolv_id = 0;
++	info->remove_resolv_id = 0;
++
++	g_resolv_unref(info->resolv);
++	info->resolv = NULL;
++}
++
++static gboolean remove_resolv_cb(gpointer user_data)
++{
++	struct wireguard_info *info = user_data;
++
++	remove_resolv(info);
++
++	return G_SOURCE_REMOVE;
++}
++
++static void resolve_endpoint_cb(GResolvResultStatus status,
++					char **results, gpointer user_data)
+ {
+ 	struct wireguard_info *info = user_data;
+ 	struct sockaddr_u addr;
+ 	int err;
+ 
+-	if (vpn_provider_get_connection_errors(info->provider) >=
+-						DNS_RERESOLVE_ERROR_LIMIT) {
+-		connman_warn("reresolve error limit reached");
+-		vpn_died(NULL, -ENONET, info->provider);
+-		return G_SOURCE_REMOVE;
++	DBG("");
++
++	if (!info->resolv && info->resolv_id) {
++		DBG("resolv already removed");
++		return;
+ 	}
+ 
+-	/* If this fails after being connected it means configuration error
+-	 * that results in connection errors. */
+-	err = parse_endpoint(info->endpoint_fqdn,
+-			info->port, &addr);
++	/*
++	 * We cannot unref the resolver here as resolv struct is manipulated
++	 * by gresolv.c after we return from this callback. By clearing the
++	 * resolv_id no attempt to cancel the lookup that has been executed
++	 * here is done.
++	 */
++	info->remove_resolv_id = g_timeout_add(0, remove_resolv_cb, info);
++	info->resolv_id = 0;
++
++	switch (status) {
++	case G_RESOLV_RESULT_STATUS_SUCCESS:
++		if (!results || !g_strv_length(results)) {
++			DBG("no resolved results");
++			if (info->provider)
++				vpn_provider_add_error(info->provider,
++					VPN_PROVIDER_ERROR_CONNECT_FAILED);
++
++			return;
++		}
++
++		DBG("resolv success, parse endpoint");
++		break;
++	/* request timeouts or an server issue is not an error, try again */
++	case G_RESOLV_RESULT_STATUS_NO_RESPONSE:
++	case G_RESOLV_RESULT_STATUS_SERVER_FAILURE:
++		DBG("retry DNS reresolve");
++		if (info->provider)
++			vpn_provider_add_error(info->provider,
++					VPN_PROVIDER_ERROR_CONNECT_FAILED);
++
++		run_dns_reresolve(info);
++		return;
++	/* Consider these as non-continuable errors */
++	case G_RESOLV_RESULT_STATUS_ERROR:
++	case G_RESOLV_RESULT_STATUS_FORMAT_ERROR:
++	case G_RESOLV_RESULT_STATUS_NAME_ERROR:
++	case G_RESOLV_RESULT_STATUS_NOT_IMPLEMENTED:
++	case G_RESOLV_RESULT_STATUS_REFUSED:
++	case G_RESOLV_RESULT_STATUS_NO_ANSWER:
++		DBG("stop DNS reresolve");
++		if (info->provider)
++			vpn_provider_add_error(info->provider,
++					VPN_PROVIDER_ERROR_CONNECT_FAILED);
++
++		return;
++	}
++
++	/*
++	 * If this fails after being connected it means configuration error
++	 * that results in connection errors.
++	 */
++	err = parse_endpoint(info->endpoint_fqdn, info->port, &addr);
+ 	if (err) {
+ 		if (info->provider)
+ 			vpn_provider_add_error(info->provider,
+ 					VPN_PROVIDER_ERROR_CONNECT_FAILED);
+ 		run_dns_reresolve(info);
+-		return G_SOURCE_REMOVE;
++		return;
+ 	}
+ 
+ 	if (sockaddr_cmp_addr(&addr,
+ 			(struct sockaddr_u *)&info->peer.endpoint.addr)) {
+ 		run_dns_reresolve(info);
+-		return G_SOURCE_REMOVE;
++		return;
+ 	}
+ 
+ 	if (addr.sa.sa_family == AF_INET)
+ 		memcpy(&info->peer.endpoint.addr, &addr.sin,
+-			sizeof(info->peer.endpoint.addr4));
++					sizeof(info->peer.endpoint.addr4));
+ 	else
+ 		memcpy(&info->peer.endpoint.addr, &addr.sin6,
+-			sizeof(info->peer.endpoint.addr6));
++					sizeof(info->peer.endpoint.addr6));
+ 
+ 	DBG("Endpoint address has changed, udpate WireGuard device");
+ 	err = wg_set_device(&info->device);
+@@ -338,6 +420,42 @@ static gboolean wg_dns_reresolve_cb(gpointer user_data)
+ 			info->device.name);
+ 
+ 	run_dns_reresolve(info);
++}
++
++static gboolean wg_dns_reresolve_cb(gpointer user_data)
++{
++	struct wireguard_info *info = user_data;
++	GError *error = NULL;
++
++	DBG("");
++
++	info->reresolve_id = 0;
++
++	if (info->resolv_id > 0) {
++		DBG("previous query was running, abort it");
++		remove_resolv(info);
++	}
++
++	info->resolv = g_resolv_new(0);
++	if (!info->resolv) {
++		connman_error("cannot create GResolv");
++		return G_SOURCE_REMOVE;
++	}
++
++	info->resolv_id = g_resolv_lookup_hostname(info->resolv,
++						info->endpoint_fqdn,
++						resolve_endpoint_cb, info,
++						&error);
++
++	if (!info->resolv_id && error) {
++		connman_error("failed to start hostname lookup for %s, err %d",
++						info->endpoint_fqdn,
++						error->code);
++		vpn_died(NULL, -EIO, info->provider);
++	}
++
++	g_clear_error(&error);
++
+ 	return G_SOURCE_REMOVE;
  }
  
--static int parse_allowed_ips(const char *allowed_ips, wg_peer *peer)
-+static int parse_allowed_ips(const char *allowed_ips, wg_peer *peer,
-+							bool *do_split_routing)
- {
- 	struct wg_allowedip *curaip, *allowedip;
- 	char buf[INET6_ADDRSTRLEN];
-@@ -142,6 +143,7 @@ static int parse_allowed_ips(const char *allowed_ips, wg_peer *peer)
- 	char *send;
- 	int i;
+@@ -346,6 +464,14 @@ static void run_dns_reresolve(struct wireguard_info *info)
+ 	if (info->reresolve_id)
+ 		g_source_remove(info->reresolve_id);
  
-+	*do_split_routing = true;
- 	curaip = NULL;
- 	tokens = g_strsplit(allowed_ips, ", ", -1);
- 	for (i = 0; tokens[i]; i++) {
-@@ -169,6 +171,16 @@ static int parse_allowed_ips(const char *allowed_ips, wg_peer *peer)
- 
- 		allowedip->cidr = g_ascii_strtoull(toks[1], &send, 10);
- 
-+		/*
-+		 * Force split routing off if any address is detected as using
-+		 * these as allowed IPs indicates that WireGuard is to be used
-+		 * to route all traffic.
-+		 */
-+		if (connman_inet_is_any_addr(toks[0], allowedip->family))
-+			*do_split_routing = false;
++	if (vpn_provider_get_connection_errors(info->provider) >=
++						DNS_RERESOLVE_ERROR_LIMIT) {
++		connman_warn("reresolve error limit reached");
++		vpn_died(NULL, -ENONET, info->provider);
++		info->reresolve_id = 0;
++		return;
++	}
 +
-+		g_strfreev(toks);
-+
- 		if (!curaip)
- 			peer->first_allowedip = allowedip;
- 		else
-@@ -579,6 +591,7 @@ static int wg_connect(struct vpn_provider *provider,
- 	struct wireguard_info *info;
- 	const char *option, *gateway;
- 	char *ifname;
-+	bool do_split_routing = true;
- 	int err = -EINVAL;
+ 	info->reresolve_id = g_timeout_add_seconds(DNS_RERESOLVE_TIMEOUT,
+ 						wg_dns_reresolve_cb, info);
+ }
+@@ -446,6 +572,12 @@ static int wg_connect(struct vpn_provider *provider,
+ 		option = "51820";
  
- 	info = create_private_data(provider);
-@@ -641,12 +654,15 @@ static int wg_connect(struct vpn_provider *provider,
- 		DBG("WireGuard.AllowedIPs is missing");
- 		goto error;
- 	}
--	err = parse_allowed_ips(option, &info->peer);
-+	err = parse_allowed_ips(option, &info->peer, &do_split_routing);
+ 	gateway = vpn_provider_get_string(provider, "Host");
++	/*
++	 * Use the resolve timeout only with re-resolve. Here the network
++	 * is setup as the transport is used. In succeeding attempts resolving
++	 * is needed as it is done over potentially misconfigured WireGuard
++	 * connection that may end up blocking vpnd with getaddrinfo().
++	 */
+ 	err = parse_endpoint(gateway, option,
+ 			(struct sockaddr_u *)&info->peer.endpoint.addr);
  	if (err) {
- 		DBG("Failed to parse allowed IPs %s", option);
- 		goto error;
- 	}
+@@ -528,6 +660,9 @@ static void wg_disconnect(struct vpn_provider *provider)
+ 	if (info->reresolve_id > 0)
+ 		g_source_remove(info->reresolve_id);
  
-+	vpn_provider_set_boolean(provider, "SplitRouting", do_split_routing,
-+							false);
++	if (info->resolv || info->resolv_id)
++		remove_resolv(info);
 +
- 	option = vpn_provider_get_string(provider,
- 					"WireGuard.PersistentKeepalive");
- 	if (option) {
+ 	vpn_provider_set_plugin_data(provider, NULL);
+ 
+ 	vpn_provider_set_state(provider, VPN_PROVIDER_STATE_DISCONNECT);
 -- 
 2.39.5
 
