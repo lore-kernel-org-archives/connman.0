@@ -1,45 +1,45 @@
 Received: from mail.kapsi.fi (mail-auth.kapsi.fi [91.232.154.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 318D72309B9
-	for <connman@lists.linux.dev>; Wed, 13 Aug 2025 15:29:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D7612309B9
+	for <connman@lists.linux.dev>; Wed, 13 Aug 2025 15:29:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.232.154.24
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755098970; cv=none; b=ZjGBAQtdWMk2G0sIr0Xb1Qq0X1azKl/BbrmijUlYeaxLCopD49j3ix/RmQJl/3lggjeoV1Iq6OJiqHqruemxzPArrJ5RGT4jA1sDz05/4mg5dVq0ldsJIaQYgRJhNVltDsXljCuNYQ92jqVEjwgZTqGM29hhi5fAYqoEVvGXU9Y=
+	t=1755098981; cv=none; b=jt6aUp7a/xlPbnR5G2uva580R4AJ9oXdlf0zbLVI4tneyTbuA9CQjDxRhiL/4qF7uV5u3RQC3/y3mcidHUWdwvemv43OYjqLP4TDQa60SSZlmXr13u1XBCrGorsJAFsZxyUZMc5Hb1nwz4vFRYwxRVUkvAOe4taX9LMw2HZ+LBM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755098970; c=relaxed/simple;
-	bh=9kZTnKJ3pkvS2WwYp0oVwPFxy8DoO0FY/XM08UpruBI=;
+	s=arc-20240116; t=1755098981; c=relaxed/simple;
+	bh=ypLwxEPPn9CDih2PM8139R4NqSSqK63Dj8DNJFhaS7E=;
 	h=From:To:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=FTg9N6WbVgyY3qoA2Qp7DmPgxpOoWp45wvqWYAB8GQTS98iMrkHla1LLi9y91enFrNUYOeMuGGFnbasE2Z4jREckY/7oAmk5kRcQMwjqQR5ZRVmoapr/sQcv1SjPU6pHv/1Oc87oCQZ70NqIZ21G48H/6K6pI70hwNStGqSdZ1U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=jolla.com; spf=pass smtp.mailfrom=kapsi.fi; dkim=pass (2048-bit key) header.d=kapsi.fi header.i=@kapsi.fi header.b=t6vYbp9v; arc=none smtp.client-ip=91.232.154.24
+	 MIME-Version; b=sXdhVx2E0/opX6btCNGhCzXnZvONA56TFwCeXSLVJrnzlyQiRJjX4hvZ3C+vM9vUf/E/3kr95PVY9wxR6n7dM2ae13Jp67cq+SISYiHdUQAYY3YLgCAqx+znnT8+FwYtk5KagP5cGzoz3Ng9LoWNTNrdAV7HXvbQUKqKI66OOeE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=jolla.com; spf=pass smtp.mailfrom=kapsi.fi; dkim=pass (2048-bit key) header.d=kapsi.fi header.i=@kapsi.fi header.b=w9YzVEXa; arc=none smtp.client-ip=91.232.154.24
 Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=jolla.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kapsi.fi
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kapsi.fi header.i=@kapsi.fi header.b="t6vYbp9v"
+	dkim=pass (2048-bit key) header.d=kapsi.fi header.i=@kapsi.fi header.b="w9YzVEXa"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
 	s=20161220; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:To:From:Sender:Reply-To:Cc:Content-Type:Content-ID:
 	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
 	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
 	List-Post:List-Owner:List-Archive;
-	bh=pAILlpLO/7VBiKJxkJP/iKun/G0fnhpost0uhaqEIZ0=; b=t6vYbp9vfZxQTbrnT0isjWEa5y
-	m7icnFVsE0i6UcbASfmnArpWrSowFdd76lOlaXIAaETDDxXOF8a4LEe7As0RS89XfrVJ5X2CbYlQu
-	X0WsxhnawqjQiSMdGJX14lRGK4HHbCuz/2guxbatZQLkj2v5CIuBPPx/626x0YYT/1T54kyHB8kzB
-	we49dcmlR/yELLdaLh/Sv8whWplXEcXwXjXFkhdZm5raoUjlLDctTx6uF/Tu43gLt6qEVsBMqfoWE
-	P8gzDLsxH8ni7XyAuikAgpsFSY0HZiZjTreJ4XOClG/cvv68EenMdkBEd4SJzHkDl7moRvuiNmeuu
-	54HpuGiw==;
+	bh=5vL8IGUKjKDjbwodcW55Dn/X9WH1RQsyfJHsAB+P8KE=; b=w9YzVEXae23aX7RLEworQQl8nw
+	xv+dN07C50Jmp71qbU9sl78QWpaib6m8ImmAHFieUeV2BLzX234HstGmos0MAEHyQpwYzSfAAAhln
+	/4R3Ceefpn3ligW5Ln3lJjN5XY4n4TyvioAuHzU2EsqLcaDGeM6a+nHdte08kThdFaYBQif5q2Orq
+	UsP/S2bmIe6DlyPIFuovOKdMY197Q3lEqjflW/tZnj2GXytnlHDL7vcnizPmIMc6LYxlT8pWN9gys
+	BG1CIEaXF4JllPmkuS4O1zDAA2ZTPv6zaf5hD77r0twJXpXCVKK1mY9QtoAzwQiOKmxIpGF8UAaoO
+	VPEpHrgw==;
 Received: from [2a10:a5c0:37:6500:b275:797e:525b:8df9] (helo=jl-x230.local)
 	by mail.kapsi.fi with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.96)
 	(envelope-from <jussi.laakkonen@jolla.com>)
-	id 1umCze-009qQa-2V
+	id 1umCzf-009qQa-08
 	for connman@lists.linux.dev;
-	Wed, 13 Aug 2025 18:02:22 +0300
+	Wed, 13 Aug 2025 18:02:23 +0300
 From: Jussi Laakkonen <jussi.laakkonen@jolla.com>
 To: connman@lists.linux.dev
-Subject: [PATCH v2 18/42] wireguard: Fix shutdown, ensure one exit and set no agent is used
-Date: Wed, 13 Aug 2025 18:01:50 +0300
-Message-Id: <20250813150214.189282-19-jussi.laakkonen@jolla.com>
+Subject: [PATCH v2 24/42] vpn: Add support for dual-IP VPNs
+Date: Wed, 13 Aug 2025 18:01:56 +0300
+Message-Id: <20250813150214.189282-25-jussi.laakkonen@jolla.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250813150214.189282-1-jussi.laakkonen@jolla.com>
 References: <20250813150214.189282-1-jussi.laakkonen@jolla.com>
@@ -54,213 +54,182 @@ X-SA-Exim-Connect-IP: 2a10:a5c0:37:6500:b275:797e:525b:8df9
 X-SA-Exim-Mail-From: jussi.laakkonen@jolla.com
 X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
 
-Split disconnect into wg_disconnect() and disconnect(). Use disconnect()
-to properly disconnect when error occurs with the appropriate error
-code. Do the same in wg_disconnect() by using the error code to be from
-device removal.
+Information sent by vpn-provider.c on dual-IP VPNs must be handled also
+here properly. Adapt to using modified connman_provider_get_family().
 
-The shutdown process requires, that in order to do the proper transition
-to IDLE, vpn_died() is to be called. This is normally called by the task
-that has been killed so simulate this behavior in WireGuard by adding a
-delayed call for that. It is to be executed only once as all the cleanup
-is to be done at that last step. Use a delay of 50ms to simulate exit.
-
-Add use of the VPN_FLAG_NO_AGENT to declare that WireGuard does not use
-a VPN agent. This ensures that the state transition is done according
-to state machine by __vpn_provider_connect().
-
-Add separate create/free for struct wireguard_info for VPN consistency.
+Use with the modified connman_provider_get_family() to query which
+families are supported to clean up the code.
 ---
- vpn/plugins/wireguard.c | 103 ++++++++++++++++++++++++++++++++--------
- 1 file changed, 82 insertions(+), 21 deletions(-)
+ plugins/vpn.c | 126 +++++++++++++++++++++++++++++++++-----------------
+ 1 file changed, 84 insertions(+), 42 deletions(-)
 
-diff --git a/vpn/plugins/wireguard.c b/vpn/plugins/wireguard.c
-index b7fa77b3..ee97f378 100644
---- a/vpn/plugins/wireguard.c
-+++ b/vpn/plugins/wireguard.c
-@@ -65,6 +65,7 @@ struct wireguard_info {
- 	GResolv *resolv;
- 	guint resolv_id;
- 	guint remove_resolv_id;
-+	guint dying_id;
- };
+diff --git a/plugins/vpn.c b/plugins/vpn.c
+index c0739fc1..97ca72c5 100644
+--- a/plugins/vpn.c
++++ b/plugins/vpn.c
+@@ -1554,57 +1554,94 @@ static void set_route(struct connection_data *data, struct vpn_route *route)
+ static int save_route(GHashTable *routes, int family, const char *network,
+ 			const char *netmask, const char *gateway);
  
- struct sockaddr_u {
-@@ -90,6 +91,31 @@ struct {
- 	{"WireGuard.PersistentKeepalive", true}
- };
- 
-+static struct wireguard_info *create_private_data(struct vpn_provider *provider)
-+{
-+	struct wireguard_info *info;
+-static int add_network_route(struct connection_data *data)
 +
-+	info = g_malloc0(sizeof(struct wireguard_info));
-+	info->peer.flags = WGPEER_HAS_PUBLIC_KEY | WGPEER_REPLACE_ALLOWEDIPS;
-+	info->device.flags = WGDEVICE_HAS_PRIVATE_KEY;
-+	info->device.first_peer = &info->peer;
-+	info->device.last_peer = &info->peer;
-+	info->provider = vpn_provider_ref(provider);
-+
-+	return info;
-+}
-+
-+static void free_private_data(struct wireguard_info *info)
-+{
-+	if (vpn_provider_get_plugin_data(info->provider) == info)
-+		vpn_provider_set_plugin_data(info->provider, NULL);
-+
-+	vpn_provider_unref(info->provider);
-+	g_free(info->endpoint_fqdn);
-+	g_free(info->port);
-+	g_free(info);
-+}
-+
- static int parse_key(const char *str, wg_key key)
++static int set_network_route(struct connection_data *data, struct vpn_route *rt)
  {
- 	unsigned char *buf;
-@@ -422,6 +448,8 @@ static void resolve_endpoint_cb(GResolvResultStatus status,
- 	run_dns_reresolve(info);
- }
+-	struct vpn_route rt = { 0, };
+ 	int err;
  
-+static int disconnect(struct vpn_provider *provider, int error);
-+
- static gboolean wg_dns_reresolve_cb(gpointer user_data)
- {
- 	struct wireguard_info *info = user_data;
-@@ -451,7 +479,7 @@ static gboolean wg_dns_reresolve_cb(gpointer user_data)
- 		connman_error("failed to start hostname lookup for %s, err %d",
- 						info->endpoint_fqdn,
- 						error->code);
--		vpn_died(NULL, -EIO, info->provider);
-+		disconnect(info->provider, -EIO);
- 	}
- 
- 	g_clear_error(&error);
-@@ -467,7 +495,7 @@ static void run_dns_reresolve(struct wireguard_info *info)
- 	if (vpn_provider_get_connection_errors(info->provider) >=
- 						DNS_RERESOLVE_ERROR_LIMIT) {
- 		connman_warn("reresolve error limit reached");
--		vpn_died(NULL, -ENONET, info->provider);
-+		disconnect(info->provider, -ENONET);
- 		info->reresolve_id = 0;
- 		return;
- 	}
-@@ -487,12 +515,7 @@ static int wg_connect(struct vpn_provider *provider,
- 	char *ifname;
- 	int err = -EINVAL;
- 
--	info = g_malloc0(sizeof(struct wireguard_info));
--	info->peer.flags = WGPEER_HAS_PUBLIC_KEY | WGPEER_REPLACE_ALLOWEDIPS;
--	info->device.flags = WGDEVICE_HAS_PRIVATE_KEY;
--	info->device.first_peer = &info->peer;
--	info->device.last_peer = &info->peer;
--	info->provider = vpn_provider_ref(provider);
-+	info = create_private_data(provider);
- 
- 	DBG("");
- 
-@@ -646,8 +669,34 @@ error:
- 	goto done;
- }
- 
--static void wg_disconnect(struct vpn_provider *provider)
-+struct wireguard_exit_data {
-+	struct vpn_provider *provider;
-+	int err;
-+};
-+
-+static gboolean wg_died(gpointer user_data)
- {
-+	struct wireguard_exit_data *data = user_data;
-+	struct wireguard_info *info;
-+
-+	DBG("");
-+
-+	/* No task for no daemon VPN - use vpn_died() with no task. */
-+	vpn_died(NULL, data->err, data->provider);
-+
-+	info = vpn_provider_get_plugin_data(data->provider);
-+	if (info)
-+		free_private_data(info);
-+
-+	g_free(data);
-+
-+	return G_SOURCE_REMOVE;
-+}
-+
-+/* Allow to overrule the exit code for vpn_died */
-+static int disconnect(struct vpn_provider *provider, int err)
-+{
-+	struct wireguard_exit_data *data;
- 	struct wireguard_info *info;
- 	int exit_code;
- 
-@@ -655,7 +704,10 @@ static void wg_disconnect(struct vpn_provider *provider)
- 
- 	info = vpn_provider_get_plugin_data(provider);
- 	if (!info)
--		return;
-+		return -ENODATA;
-+
-+	if (info->dying_id)
-+		return -EALREADY;
- 
- 	if (info->reresolve_id > 0)
- 		g_source_remove(info->reresolve_id);
-@@ -663,21 +715,29 @@ static void wg_disconnect(struct vpn_provider *provider)
- 	if (info->resolv || info->resolv_id)
- 		remove_resolv(info);
- 
--	vpn_provider_set_plugin_data(provider, NULL);
+-	if (!data)
+-		return -EINVAL;
 -
- 	vpn_provider_set_state(provider, VPN_PROVIDER_STATE_DISCONNECT);
+-	rt.family = connman_provider_get_family(data->provider);
+-	switch (rt.family) {
+-	case PF_INET:
+-		err = connman_inet_get_route_addresses(data->index,
+-					&rt.network, &rt.netmask, &rt.gateway);
+-		break;
+-	case PF_INET6:
+-		err = connman_inet_ipv6_get_route_addresses(data->index,
+-					&rt.network, &rt.netmask, &rt.gateway);
+-		break;
+-	default:
+-		connman_error("invalid protocol family %d", rt.family);
++	if (!data || !rt)
+ 		return -EINVAL;
+-	}
  
- 	exit_code = wg_del_device(info->device.name);
+ 	DBG("network %s gateway %s netmask %s for provider %p",
+-						rt.network, rt.gateway, rt.netmask,
+-						data->provider);
++					rt->network, rt->gateway, rt->netmask,
++					data->provider);
  
--	vpn_provider_unref(info->provider);
--	g_free(info->endpoint_fqdn);
--	g_free(info->port);
--	g_free(info);
-+	/* Simulate a task-running VPN to issue vpn_died after exiting this */
-+	data = g_malloc0(sizeof(struct wireguard_exit_data));
-+	data->provider = provider;
-+	data->err = err ? err : exit_code;
+-	if (err) {
+-		connman_error("cannot get network/gateway/netmask for %p",
+-							data->provider);
+-		goto out;
+-	}
+-
+-	err = save_route(data->server_routes, rt.family, rt.network, rt.netmask,
+-				rt.gateway);
++	err = save_route(data->server_routes, rt->family, rt->network,
++						rt->netmask, rt->gateway);
+ 	if (err) {
+ 		connman_warn("failed to add network route for provider"
+ 					"%p", data->provider);
+-		goto out;
++		return err;
+ 	}
+ 
+-	set_route(data, &rt);
+-
+-out:
+-	g_free(rt.network);
+-	g_free(rt.netmask);
+-	g_free(rt.gateway);
++	set_route(data, rt);
+ 
+ 	return 0;
+ }
+ 
++static void free_network_route(struct vpn_route *rt)
++{
++	g_free(rt->network);
++	rt->network = NULL;
 +
-+	info->dying_id = g_timeout_add(50, wg_died, data);
++	g_free(rt->netmask);
++	rt->network = NULL;
 +
-+	return exit_code;
++	g_free(rt->gateway);
++	rt->network = NULL;
 +}
 +
-+static void wg_disconnect(struct vpn_provider *provider)
++static int add_network_route(struct connection_data *data)
 +{
-+	int exit_code;
++	struct vpn_route rt = { 0, };
++	int err = 0;
 +
-+	DBG("");
- 
--	DBG("exiting with %d", exit_code);
-+	exit_code = disconnect(provider, 0);
- 
--	/* No task for no daemon VPN - use VPN died with no task. */
--	vpn_died(NULL, exit_code, provider);
-+	DBG("exited with %d", exit_code);
++	if (!data)
++		return -EINVAL;
++
++	if (connman_provider_get_family(data->provider, AF_INET)) {
++		rt.family = AF_INET;
++		err = connman_inet_get_route_addresses(data->index,
++					&rt.network, &rt.netmask,
++					&rt.gateway);
++		if (err) {
++			connman_error("cannot get IPv4 network/gateway/netmask "
++						"for %p/%s", data->provider,
++						data->ident);
++		} else {
++			err = set_network_route(data, &rt);
++			if (err)
++				connman_error("cannot set IPv4 network route "
++						"for %p/%s", data->provider,
++						data->ident);
++		}
++
++		free_network_route(&rt);
++	}
++
++	if (connman_provider_get_family(data->provider, AF_INET6)) {
++		rt.family = AF_INET6;
++		err = connman_inet_ipv6_get_route_addresses(data->index,
++					&rt.network, &rt.netmask,
++					&rt.gateway);
++		if (err) {
++			connman_error("cannot get IPv6 network/gateway/netmask "
++						"for %p/%s", data->provider,
++						data->ident);
++		} else {
++			err = set_network_route(data, &rt);
++			if (err)
++				connman_error("cannot set IPv6 network route "
++						"for %p/%s", data->provider,
++						data->ident);
++		}
++
++		free_network_route(&rt);
++	}
++
++	return err;
++}
++
+ static bool is_valid_route_table(struct connman_provider *provider,
+ 							GHashTable *table)
+ {
+@@ -1667,6 +1704,14 @@ static bool check_routes(struct connman_provider *provider)
+ 	return false;
  }
  
- static int wg_error_code(struct vpn_provider *provider, int exit_code)
-@@ -715,11 +775,12 @@ static int wg_save(struct vpn_provider *provider, GKeyFile *keyfile)
- }
++static void set_default_route(struct connection_data *data, int family,
++							char *ipaddr_any)
++{
++	struct vpn_route def_route = {family, ipaddr_any, ipaddr_any, NULL};
++
++	set_route(data, &def_route);
++}
++
+ static int set_routes(struct connman_provider *provider,
+ 				enum connman_provider_route_type type)
+ {
+@@ -1699,13 +1744,10 @@ static int set_routes(struct connman_provider *provider,
+ 	/* If non-split routed VPN does not have a default route, add it */
+ 	if (!connman_provider_is_split_routing(provider) &&
+ 						!data->default_route_set) {
+-		int family = connman_provider_get_family(provider);
+-		const char *ipaddr_any = family == AF_INET6 ?
+-							"::" : "0.0.0.0";
+-		struct vpn_route def_route = {family, (char*) ipaddr_any,
+-						(char*) ipaddr_any, NULL};
+-
+-		set_route(data, &def_route);
++		if (connman_provider_get_family(provider, AF_INET))
++			set_default_route(data, AF_INET, "0.0.0.0");
++		if (connman_provider_get_family(provider, AF_INET6))
++			set_default_route(data, AF_INET6, "::");
+ 	}
  
- static struct vpn_driver vpn_driver = {
--	.flags		= VPN_FLAG_NO_TUN | VPN_FLAG_NO_DAEMON,
-+	.flags		= VPN_FLAG_NO_TUN | VPN_FLAG_NO_DAEMON |
-+							VPN_FLAG_NO_AGENT,
- 	.connect	= wg_connect,
- 	.disconnect	= wg_disconnect,
- 	.save		= wg_save,
--	.error_code	= wg_error_code
-+	.error_code	= wg_error_code,
- };
- 
- static int wg_init(void)
+ 	/* Split routed VPN must have at least one route to the network */
 -- 
 2.39.5
 
