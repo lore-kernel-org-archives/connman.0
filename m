@@ -1,45 +1,45 @@
 Received: from mail.kapsi.fi (mail-auth.kapsi.fi [91.232.154.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB222230268
-	for <connman@lists.linux.dev>; Wed, 13 Aug 2025 15:40:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 618262777FC
+	for <connman@lists.linux.dev>; Wed, 13 Aug 2025 15:40:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.232.154.24
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755099636; cv=none; b=g9sAtzkpPxcKGJgwK1nPG2r4DzcfPo/+LjLoSHs19XOX4im1meCw90tu47MrLpUlUPcCJdelXxLDoAoOUkm6+uuSNgJlw1s0rwQvCKqo2gG2DJtxytHJv51Oo5BugdgOgRm+lR6iHEjSXXIPpQafDyYd/ub5RUwK802dfiPJ3QE=
+	t=1755099640; cv=none; b=AvgOFF/XNgN5CxAcyHWOveae9/sn1WSZ5AwnOReIxqp78AzsImkzedzy6Pk1FeQYamglQ1Icg6e5OuINiXRZwSAnj+QQxGSR+rUDWNRpHWbgLsLoIRAXS75BVaOi0spIjZAOsKHtxhcfzVaut4xQiMzIRUN3PamR/ZfGZl4DAdM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755099636; c=relaxed/simple;
-	bh=GO2zg/VCKj8rynAQJo7xGmdN1WTFYXOl5eXxwNi63FE=;
+	s=arc-20240116; t=1755099640; c=relaxed/simple;
+	bh=NI4eBsxXqWzySbyJEOJhHddJH3+bcshWqDwCAtgJhIA=;
 	h=From:To:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=HlCs9gZ51MvvRANWh0gALd6o3p9QUqoe+uUY11TdWRQznjHDDM5n+XvJbwTkUbKIssEbLOAwu5HOwjwEy+bQlpkd3iCACzJMI4Qf0AEyKXyE+FBBwp1ICOXMjtUKtHNS2qpBFqH8qUFPeMpufrz2HnqjB8UwkJm1XdCXzwFEHxc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=jolla.com; spf=pass smtp.mailfrom=kapsi.fi; dkim=pass (2048-bit key) header.d=kapsi.fi header.i=@kapsi.fi header.b=0q4uwnNy; arc=none smtp.client-ip=91.232.154.24
+	 MIME-Version; b=bh9FsBL9fDEc44JkUYLeLxw59V3GZds33AlTbBS4oU94rFNJbjwxvHJ1RzhWNpHrpEWFGASBukO0HRlVPJAFzhOja3NXBfE+XBCkgLb5tw33pS+YLuM23pHjB4Uj305GvCDGT5p2oD186ejJQIjbglhsA0ISc0IGN4VTazlhiXc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=jolla.com; spf=pass smtp.mailfrom=kapsi.fi; dkim=pass (2048-bit key) header.d=kapsi.fi header.i=@kapsi.fi header.b=eac7w7ZQ; arc=none smtp.client-ip=91.232.154.24
 Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=jolla.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kapsi.fi
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kapsi.fi header.i=@kapsi.fi header.b="0q4uwnNy"
+	dkim=pass (2048-bit key) header.d=kapsi.fi header.i=@kapsi.fi header.b="eac7w7ZQ"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
 	s=20161220; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:To:From:Sender:Reply-To:Cc:Content-Type:Content-ID:
 	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
 	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
 	List-Post:List-Owner:List-Archive;
-	bh=j1800XvM+VBb/FkBhbaVm32F6Pj+yfhlbyyQwhSQ6sg=; b=0q4uwnNy+snbyaNdW5ytdGQPNj
-	Kq/q/RnqHi97ZEgv/GHoiR7srSQ09tqJqsSTsoWTfJ4tqfRO1yf6dtK9xYyTL6Dhzgl441RYCOK/d
-	gMXN1cIjYQNqN5Xl5EuWN9HC9EQuGc8rV4gI48RQOC46r2kMEpM4W3z1loKxgGZPbA4JJs+1yKbGy
-	hFyguIuiKX3vxNkRnffjxp71i6s6GdhaWjgVzok0YbaB9lWRTGesMKqCGfmuiGULFRvHtSpBUE2Uz
-	/PaGnqYk822paT3AsgVRwLmsvVb+6L9VxpFkf9dHiGN/X9dmEyeNs/Udfk4GFZmnx5BDfdA+oKRIr
-	ccmUfU2A==;
+	bh=bxNNou3zN+/N3RQx1HCuSmBsyPWlxIGfVZiotHnI0Vg=; b=eac7w7ZQ0K0TEXoA09MdolWpo+
+	xLA1acXXRoavjGelCyq38+A04Jnyiz3P4kB3Aw1up0lsk9AUiffSP/VU37n3jucu6NwoKYDaH51gF
+	k3TH2ukqoF+IQPVEGPb35y9w7M67+A4RM4aS4kFW3CnmxgBQnhiEp1N00n9YACt+B+gK3oNX2BDe/
+	KSMc7m3tYTZ+vao4vOBYstUMyxdjGcpT6zFtPzbURkLGiEoGToCIyIR3YmrLkU6Z8Vp/sZCBPnxP3
+	nYfH49FynpmNp8+wEWrfbMdSKrWo/XbsfeB9bFgk3Ta+OadXTeuYvMtOYRZQa4ISpytdO6CCV5Kfz
+	Q4jkm8Vg==;
 Received: from [2a10:a5c0:37:6500:b275:797e:525b:8df9] (helo=jl-x230.local)
 	by mail.kapsi.fi with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.96)
 	(envelope-from <jussi.laakkonen@jolla.com>)
-	id 1umCzf-009qQa-2P
+	id 1umCze-009qQa-11
 	for connman@lists.linux.dev;
-	Wed, 13 Aug 2025 18:02:23 +0300
+	Wed, 13 Aug 2025 18:02:22 +0300
 From: Jussi Laakkonen <jussi.laakkonen@jolla.com>
 To: connman@lists.linux.dev
-Subject: [PATCH v2 40/42] wireguard: Add option for using transport nameservers for DNS reresolve
-Date: Wed, 13 Aug 2025 18:02:12 +0300
-Message-Id: <20250813150214.189282-41-jussi.laakkonen@jolla.com>
+Subject: [PATCH v2 08/42] vpn: Add VPN agent use flag for plugins
+Date: Wed, 13 Aug 2025 18:01:40 +0300
+Message-Id: <20250813150214.189282-9-jussi.laakkonen@jolla.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250813150214.189282-1-jussi.laakkonen@jolla.com>
 References: <20250813150214.189282-1-jussi.laakkonen@jolla.com>
@@ -54,84 +54,79 @@ X-SA-Exim-Connect-IP: 2a10:a5c0:37:6500:b275:797e:525b:8df9
 X-SA-Exim-Mail-From: jussi.laakkonen@jolla.com
 X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
 
-If the "WireGuard.ReresolveUseTransportDNS" is defined add the
-nameservers of the transport to be used for DNS reresolve queries. This
-affects only the GResolv queries done after the intial connection to
-reresolve the endpoint address.
----
- vpn/plugins/wireguard.c | 24 +++++++++++++++++++++---
- 1 file changed, 21 insertions(+), 3 deletions(-)
+Add a flag that can be used by the VPN plugins to tell the vpn_driver
+whether it uses VPN agent or not. Default to using VPN agent if the flag
+is omitted.
 
-diff --git a/vpn/plugins/wireguard.c b/vpn/plugins/wireguard.c
-index 07829cd6..a99d0b75 100644
---- a/vpn/plugins/wireguard.c
-+++ b/vpn/plugins/wireguard.c
-@@ -53,6 +53,7 @@
+This is done to accommodate the state transition in vpn-provider when
+the VPN does not utilize VPN agent.
+---
+ vpn/plugins/vpn.c  | 19 +++++++++++++++++++
+ vpn/plugins/vpn.h  |  1 +
+ vpn/vpn-provider.h |  1 +
+ 3 files changed, 21 insertions(+)
+
+diff --git a/vpn/plugins/vpn.c b/vpn/plugins/vpn.c
+index 52f7cac7..ea64fdc2 100644
+--- a/vpn/plugins/vpn.c
++++ b/vpn/plugins/vpn.c
+@@ -800,6 +800,24 @@ static int vpn_route_env_parse(struct vpn_provider *provider, const char *key,
+ 	return 0;
+ }
  
- #define DNS_RERESOLVE_TIMEOUT 20
- #define DNS_RERESOLVE_ERROR_LIMIT 5
-+#define DNS_DEFAULT_PORT 53
- #define ROUTE_SETUP_TIMEOUT 200 // ms
- #define ARRAY_SIZE(a) (sizeof(a)/sizeof(a[0]))
++static bool vpn_uses_vpn_agent(struct vpn_provider *provider)
++{
++	struct vpn_driver_data *vpn_driver_data = NULL;
++	const char *name = NULL;
++
++	if (!provider)
++		return false;
++
++	name = vpn_provider_get_driver_name(provider);
++	vpn_driver_data = g_hash_table_lookup(driver_hash, name);
++
++	if (!vpn_driver_data || !vpn_driver_data->vpn_driver)
++		return false;
++
++	/* The use of VPN agent must be explicitly dropped by the driver. */
++	return !(vpn_driver_data->vpn_driver->flags & VPN_FLAG_NO_AGENT);
++}
++
+ int vpn_register(const char *name, const struct vpn_driver *vpn_driver,
+ 			const char *program)
+ {
+@@ -825,6 +843,7 @@ int vpn_register(const char *name, const struct vpn_driver *vpn_driver,
+ 	data->provider_driver.save = vpn_save;
+ 	data->provider_driver.set_state = vpn_set_state;
+ 	data->provider_driver.route_env_parse = vpn_route_env_parse;
++	data->provider_driver.uses_vpn_agent = vpn_uses_vpn_agent;
  
-@@ -90,7 +91,8 @@ struct {
- 	{"WireGuard.PublicKey", true},
- 	{"WireGuard.AllowedIPs", true},
- 	{"WireGuard.EndpointPort", true},
--	{"WireGuard.PersistentKeepalive", true}
-+	{"WireGuard.PersistentKeepalive", true},
-+	{"WireGuard.ReresolveUseTransportDNS", false}
+ 	if (!driver_hash)
+ 		driver_hash = g_hash_table_new_full(g_str_hash,
+diff --git a/vpn/plugins/vpn.h b/vpn/plugins/vpn.h
+index a8d24fc3..21cb2481 100644
+--- a/vpn/plugins/vpn.h
++++ b/vpn/plugins/vpn.h
+@@ -30,6 +30,7 @@ extern "C" {
+ 
+ #define VPN_FLAG_NO_TUN     1
+ #define VPN_FLAG_NO_DAEMON  2
++#define VPN_FLAG_NO_AGENT   4
+ 
+ enum vpn_state {
+ 	VPN_STATE_UNKNOWN       = 0,
+diff --git a/vpn/vpn-provider.h b/vpn/vpn-provider.h
+index c81476c6..8a8b6bfd 100644
+--- a/vpn/vpn-provider.h
++++ b/vpn/vpn-provider.h
+@@ -167,6 +167,7 @@ struct vpn_provider_driver {
+ 	int (*route_env_parse) (struct vpn_provider *provider, const char *key,
+ 			int *family, unsigned long *idx,
+ 			enum vpn_provider_route_type *type);
++	bool (*uses_vpn_agent) (struct vpn_provider *provider);
  };
  
- static struct wireguard_info *create_private_data(struct vpn_provider *provider)
-@@ -532,7 +534,7 @@ static void resolve_endpoint_cb(GResolvResultStatus status,
- 	case G_RESOLV_RESULT_STATUS_NO_ANSWER:
- 	case G_RESOLV_RESULT_STATUS_NO_RESPONSE:
- 	case G_RESOLV_RESULT_STATUS_SERVER_FAILURE:
--		DBG("retry DNS reresolve");
-+		DBG("retry DNS reresolve, status %d", status);
- 		if (info->provider)
- 			vpn_provider_add_error(info->provider,
- 					VPN_PROVIDER_ERROR_CONNECT_FAILED);
-@@ -544,7 +546,7 @@ static void resolve_endpoint_cb(GResolvResultStatus status,
- 	case G_RESOLV_RESULT_STATUS_FORMAT_ERROR:
- 	case G_RESOLV_RESULT_STATUS_NOT_IMPLEMENTED:
- 	case G_RESOLV_RESULT_STATUS_REFUSED:
--		DBG("stop DNS reresolve, error %d", status);
-+		DBG("stop DNS reresolve, status %d", status);
- 		if (err && info->provider)
- 			vpn_provider_add_error(info->provider,
- 					VPN_PROVIDER_ERROR_CONNECT_FAILED);
-@@ -599,6 +601,9 @@ static gboolean wg_dns_reresolve_cb(gpointer user_data)
- {
- 	struct wireguard_info *info = user_data;
- 	GError *error = NULL;
-+	char **nameservers;
-+	bool option;
-+	int i;
- 
- 	DBG("");
- 
-@@ -616,6 +621,19 @@ static gboolean wg_dns_reresolve_cb(gpointer user_data)
- 	}
- 
- 	DBG("endpoint_fqdn %s", info->endpoint_fqdn);
-+
-+	option = vpn_provider_get_boolean(info->provider,
-+					"WireGuard.ReresolveUseTransportDNS",
-+					false);
-+	if (option) {
-+		nameservers = vpn_provider_get_string_list(info->provider,
-+						"TransportNameservers");
-+		for (i = 0; nameservers && nameservers[i]; i++)
-+			g_resolv_add_nameserver(info->resolv,
-+							nameservers[i],
-+							DNS_DEFAULT_PORT, 0);
-+	}
-+
- 	info->resolv_id = g_resolv_lookup_hostname(info->resolv,
- 						info->endpoint_fqdn,
- 						resolve_endpoint_cb, info,
+ int vpn_provider_driver_register(struct vpn_provider_driver *driver);
 -- 
 2.39.5
 
