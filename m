@@ -1,45 +1,45 @@
 Received: from mail.kapsi.fi (mail-auth.kapsi.fi [91.232.154.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38ECE230268
-	for <connman@lists.linux.dev>; Wed, 13 Aug 2025 15:40:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB222230268
+	for <connman@lists.linux.dev>; Wed, 13 Aug 2025 15:40:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.232.154.24
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755099632; cv=none; b=E7fiLm6Ibc5MLpLCF/Puvm6ZJYj7JIxlhVWg7pYDCzu0BWx4lAz2usirSocb/BttPyRLh43H2GAM/wrxrsXJ8+CcyMZXtBTBZy+5Ig5RxQqd+X/7xCUBmRWqH9jrpL4/ILQ+nnMP1jp8puBaVOw5p7ztqA373363WQQntEOA31k=
+	t=1755099636; cv=none; b=g9sAtzkpPxcKGJgwK1nPG2r4DzcfPo/+LjLoSHs19XOX4im1meCw90tu47MrLpUlUPcCJdelXxLDoAoOUkm6+uuSNgJlw1s0rwQvCKqo2gG2DJtxytHJv51Oo5BugdgOgRm+lR6iHEjSXXIPpQafDyYd/ub5RUwK802dfiPJ3QE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755099632; c=relaxed/simple;
-	bh=iNJMcTXG0Cgk79e9Zr7ikMN4ojZZG3dL7NzaDLN2sl8=;
+	s=arc-20240116; t=1755099636; c=relaxed/simple;
+	bh=GO2zg/VCKj8rynAQJo7xGmdN1WTFYXOl5eXxwNi63FE=;
 	h=From:To:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=GlHeLFdNHcsdduHe/s5oldK6IuQWvAQf/Aa8lyJeMbw7im50rDeryf/7i/yy0kzIyCuJzr3Wqs40OIaxClNEySESsuJDs/fS+Sq+dCFmDRfr99RSVxQcdO6v/pYbo2KaMPOFVOcDyKgd/8qYRyHrL23Wc/8dQyt3uiOs9VtZ2Vc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=jolla.com; spf=pass smtp.mailfrom=kapsi.fi; dkim=pass (2048-bit key) header.d=kapsi.fi header.i=@kapsi.fi header.b=pgygveCS; arc=none smtp.client-ip=91.232.154.24
+	 MIME-Version; b=HlCs9gZ51MvvRANWh0gALd6o3p9QUqoe+uUY11TdWRQznjHDDM5n+XvJbwTkUbKIssEbLOAwu5HOwjwEy+bQlpkd3iCACzJMI4Qf0AEyKXyE+FBBwp1ICOXMjtUKtHNS2qpBFqH8qUFPeMpufrz2HnqjB8UwkJm1XdCXzwFEHxc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=jolla.com; spf=pass smtp.mailfrom=kapsi.fi; dkim=pass (2048-bit key) header.d=kapsi.fi header.i=@kapsi.fi header.b=0q4uwnNy; arc=none smtp.client-ip=91.232.154.24
 Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=jolla.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kapsi.fi
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kapsi.fi header.i=@kapsi.fi header.b="pgygveCS"
+	dkim=pass (2048-bit key) header.d=kapsi.fi header.i=@kapsi.fi header.b="0q4uwnNy"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
 	s=20161220; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:To:From:Sender:Reply-To:Cc:Content-Type:Content-ID:
 	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
 	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
 	List-Post:List-Owner:List-Archive;
-	bh=bGrs6u+LvBOjvrOchKukkUj0SCFcBi+czBaaDfxGK7Y=; b=pgygveCScPEfsmVTE69siNfX7W
-	aCfjAH1H/qKvrmuypjb+8vOt9tcFs+3+aAOImt4RX4hj/bIFdWKa/BOTbgrz2vufklJgRO80xNY8y
-	VPD9zmDQxeh3RtZ4Hy/yTnU2kjl0NnIeqP5q+L60tjV4Q0uyXrD3wDz0KoCd2yY//8YNT9x7Bg8DB
-	AF6wlJ0DJQFt0Vop3FlCU2cis/q1iiOykf5Z4Nl7sq/e9yysBwKGBZGt93FTBCqsYdMEqhYJBF4Kn
-	wnAtl4Ys4a0jKfeTTPBqSCpdleo0VOSsSSK/9OGsmQX/RWcAkCNP7TbMYi1+QAn6Kas/WrhL6woDp
-	13R1wX/A==;
+	bh=j1800XvM+VBb/FkBhbaVm32F6Pj+yfhlbyyQwhSQ6sg=; b=0q4uwnNy+snbyaNdW5ytdGQPNj
+	Kq/q/RnqHi97ZEgv/GHoiR7srSQ09tqJqsSTsoWTfJ4tqfRO1yf6dtK9xYyTL6Dhzgl441RYCOK/d
+	gMXN1cIjYQNqN5Xl5EuWN9HC9EQuGc8rV4gI48RQOC46r2kMEpM4W3z1loKxgGZPbA4JJs+1yKbGy
+	hFyguIuiKX3vxNkRnffjxp71i6s6GdhaWjgVzok0YbaB9lWRTGesMKqCGfmuiGULFRvHtSpBUE2Uz
+	/PaGnqYk822paT3AsgVRwLmsvVb+6L9VxpFkf9dHiGN/X9dmEyeNs/Udfk4GFZmnx5BDfdA+oKRIr
+	ccmUfU2A==;
 Received: from [2a10:a5c0:37:6500:b275:797e:525b:8df9] (helo=jl-x230.local)
 	by mail.kapsi.fi with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.96)
 	(envelope-from <jussi.laakkonen@jolla.com>)
-	id 1umCzf-009qQa-00
+	id 1umCzf-009qQa-2P
 	for connman@lists.linux.dev;
 	Wed, 13 Aug 2025 18:02:23 +0300
 From: Jussi Laakkonen <jussi.laakkonen@jolla.com>
 To: connman@lists.linux.dev
-Subject: [PATCH v2 23/42] provider: Add support for dual-IP VPNs
-Date: Wed, 13 Aug 2025 18:01:55 +0300
-Message-Id: <20250813150214.189282-24-jussi.laakkonen@jolla.com>
+Subject: [PATCH v2 40/42] wireguard: Add option for using transport nameservers for DNS reresolve
+Date: Wed, 13 Aug 2025 18:02:12 +0300
+Message-Id: <20250813150214.189282-41-jussi.laakkonen@jolla.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250813150214.189282-1-jussi.laakkonen@jolla.com>
 References: <20250813150214.189282-1-jussi.laakkonen@jolla.com>
@@ -54,200 +54,84 @@ X-SA-Exim-Connect-IP: 2a10:a5c0:37:6500:b275:797e:525b:8df9
 X-SA-Exim-Mail-From: jussi.laakkonen@jolla.com
 X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
 
-Handle both IP family types for a VPN if it, like WireGuard, has them.
-
-Change the functionality regarding supported families to use a boolean
-array defining which address families are supported by a VPN.
-
-Modify the connman_provider_get_family() to be a query type based on the
-AF given.
+If the "WireGuard.ReresolveUseTransportDNS" is defined add the
+nameservers of the transport to be used for DNS reresolve queries. This
+affects only the GResolv queries done after the intial connection to
+reresolve the endpoint address.
 ---
- include/provider.h |  2 +-
- src/provider.c     | 88 +++++++++++++++++++++++++++++++++-------------
- 2 files changed, 65 insertions(+), 25 deletions(-)
+ vpn/plugins/wireguard.c | 24 +++++++++++++++++++++---
+ 1 file changed, 21 insertions(+), 3 deletions(-)
 
-diff --git a/include/provider.h b/include/provider.h
-index aac47527..3e6ea2c7 100644
---- a/include/provider.h
-+++ b/include/provider.h
-@@ -117,7 +117,7 @@ void connman_provider_set_autoconnect(struct connman_provider *provider,
- bool connman_provider_is_split_routing(struct connman_provider *provider);
- int connman_provider_set_split_routing(struct connman_provider *provider,
- 							bool split_routing);
--int connman_provider_get_family(struct connman_provider *provider);
-+bool connman_provider_get_family(struct connman_provider *provider, int family);
+diff --git a/vpn/plugins/wireguard.c b/vpn/plugins/wireguard.c
+index 07829cd6..a99d0b75 100644
+--- a/vpn/plugins/wireguard.c
++++ b/vpn/plugins/wireguard.c
+@@ -53,6 +53,7 @@
  
- const char *connman_provider_get_driver_name(struct connman_provider *provider);
- const char *connman_provider_get_save_group(struct connman_provider *provider);
-diff --git a/src/provider.c b/src/provider.c
-index d7218420..d677aa12 100644
---- a/src/provider.c
-+++ b/src/provider.c
-@@ -31,6 +31,7 @@
- #include <gweb/gresolv.h>
+ #define DNS_RERESOLVE_TIMEOUT 20
+ #define DNS_RERESOLVE_ERROR_LIMIT 5
++#define DNS_DEFAULT_PORT 53
+ #define ROUTE_SETUP_TIMEOUT 200 // ms
+ #define ARRAY_SIZE(a) (sizeof(a)/sizeof(a[0]))
  
- #include "connman.h"
-+#include "src/shared/util.h"
- 
- static DBusConnection *connection = NULL;
- 
-@@ -44,11 +45,35 @@ struct connman_provider {
- 	struct connman_service *vpn_service;
- 	int index;
- 	char *identifier;
--	int family;
-+	struct supported_afs family;
- 	struct connman_provider_driver *driver;
- 	void *driver_data;
+@@ -90,7 +91,8 @@ struct {
+ 	{"WireGuard.PublicKey", true},
+ 	{"WireGuard.AllowedIPs", true},
+ 	{"WireGuard.EndpointPort", true},
+-	{"WireGuard.PersistentKeepalive", true}
++	{"WireGuard.PersistentKeepalive", true},
++	{"WireGuard.ReresolveUseTransportDNS", false}
  };
  
-+static void provider_set_family(struct connman_provider *provider, int family)
-+{
-+	if (!provider)
-+		return;
-+
-+	util_set_afs(&provider->family, family);
-+}
-+
-+static bool provider_get_family(struct connman_provider *provider, int family)
-+{
-+	if (!provider)
-+		return false;
-+
-+	return util_get_afs(&provider->family, family);
-+}
-+
-+static void provider_reset_family(struct connman_provider *provider)
-+{
-+	if (!provider)
-+		return;
-+
-+	util_reset_afs(&provider->family);
-+}
-+
- void __connman_provider_append_properties(struct connman_provider *provider,
- 							DBusMessageIter *iter)
+ static struct wireguard_info *create_private_data(struct vpn_provider *provider)
+@@ -532,7 +534,7 @@ static void resolve_endpoint_cb(GResolvResultStatus status,
+ 	case G_RESOLV_RESULT_STATUS_NO_ANSWER:
+ 	case G_RESOLV_RESULT_STATUS_NO_RESPONSE:
+ 	case G_RESOLV_RESULT_STATUS_SERVER_FAILURE:
+-		DBG("retry DNS reresolve");
++		DBG("retry DNS reresolve, status %d", status);
+ 		if (info->provider)
+ 			vpn_provider_add_error(info->provider,
+ 					VPN_PROVIDER_ERROR_CONNECT_FAILED);
+@@ -544,7 +546,7 @@ static void resolve_endpoint_cb(GResolvResultStatus status,
+ 	case G_RESOLV_RESULT_STATUS_FORMAT_ERROR:
+ 	case G_RESOLV_RESULT_STATUS_NOT_IMPLEMENTED:
+ 	case G_RESOLV_RESULT_STATUS_REFUSED:
+-		DBG("stop DNS reresolve, error %d", status);
++		DBG("stop DNS reresolve, status %d", status);
+ 		if (err && info->provider)
+ 			vpn_provider_add_error(info->provider,
+ 					VPN_PROVIDER_ERROR_CONNECT_FAILED);
+@@ -599,6 +601,9 @@ static gboolean wg_dns_reresolve_cb(gpointer user_data)
  {
-@@ -158,6 +183,8 @@ int connman_provider_disconnect(struct connman_provider *provider)
- 		provider_indicate_state(provider,
- 					CONNMAN_SERVICE_STATE_IDLE);
+ 	struct wireguard_info *info = user_data;
+ 	GError *error = NULL;
++	char **nameservers;
++	bool option;
++	int i;
  
-+	provider_reset_family(provider);
-+
- 	return 0;
- }
+ 	DBG("");
  
-@@ -245,22 +272,36 @@ static int set_connected(struct connman_provider *provider,
- 					bool connected)
- {
- 	struct connman_service *service = provider->vpn_service;
--	struct connman_ipconfig *ipconfig;
-+	struct connman_ipconfig *ipconfig_ipv4 = NULL;
-+	struct connman_ipconfig *ipconfig_ipv6 = NULL;
- 
- 	if (!service)
- 		return -ENODEV;
- 
--	ipconfig = __connman_service_get_ipconfig(service, provider->family);
-+	if (provider_get_family(provider, AF_INET))
-+		ipconfig_ipv4 = __connman_service_get_ipconfig(service,
-+								AF_INET);
-+
-+	if (provider_get_family(provider, AF_INET6))
-+		ipconfig_ipv6 = __connman_service_get_ipconfig(service,
-+								AF_INET6);
- 
- 	if (connected) {
--		if (!ipconfig) {
-+		if (!ipconfig_ipv4 && !ipconfig_ipv6) {
- 			provider_indicate_state(provider,
- 						CONNMAN_SERVICE_STATE_FAILURE);
- 			return -EIO;
- 		}
- 
--		__connman_ipconfig_address_add(ipconfig);
--		__connman_ipconfig_gateway_add(ipconfig);
-+		if (ipconfig_ipv4) {
-+			__connman_ipconfig_address_add(ipconfig_ipv4);
-+			__connman_ipconfig_gateway_add(ipconfig_ipv4);
-+		}
-+
-+		if (ipconfig_ipv6) {
-+			__connman_ipconfig_address_add(ipconfig_ipv6);
-+			__connman_ipconfig_gateway_add(ipconfig_ipv6);
-+		}
- 
- 		provider_indicate_state(provider,
- 					CONNMAN_SERVICE_STATE_READY);
-@@ -270,10 +311,16 @@ static int set_connected(struct connman_provider *provider,
- 						CONNMAN_PROVIDER_ROUTE_ALL);
- 
- 	} else {
--		if (ipconfig) {
-+		if (ipconfig_ipv4) {
- 			provider_indicate_state(provider,
- 					CONNMAN_SERVICE_STATE_DISCONNECT);
--			__connman_ipconfig_gateway_remove(ipconfig);
-+			__connman_ipconfig_gateway_remove(ipconfig_ipv4);
-+		}
-+
-+		if (ipconfig_ipv6) {
-+			provider_indicate_state(provider,
-+					CONNMAN_SERVICE_STATE_DISCONNECT);
-+			__connman_ipconfig_gateway_remove(ipconfig_ipv6);
- 		}
- 
- 		provider_indicate_state(provider,
-@@ -557,7 +604,7 @@ int connman_provider_set_ipaddress(struct connman_provider *provider,
- 	if (!ipconfig)
- 		return -EINVAL;
- 
--	provider->family = ipaddress->family;
-+	provider_set_family(provider, ipaddress->family);
- 
- 	__connman_ipconfig_set_method(ipconfig, CONNMAN_IPCONFIG_METHOD_FIXED);
- 
-@@ -652,19 +699,15 @@ int connman_provider_set_split_routing(struct connman_provider *provider,
- 		return -EALREADY;
+@@ -616,6 +621,19 @@ static gboolean wg_dns_reresolve_cb(gpointer user_data)
  	}
  
--	switch (provider->family) {
--	case AF_INET:
-+	if (provider_get_family(provider, AF_INET) &&
-+				provider_get_family(provider, AF_INET6))
-+		type = CONNMAN_IPCONFIG_TYPE_ALL;
-+	else if (provider_get_family(provider, AF_INET))
- 		type = CONNMAN_IPCONFIG_TYPE_IPV4;
--		break;
--	case AF_INET6:
-+	else if (provider_get_family(provider, AF_INET6))
- 		type = CONNMAN_IPCONFIG_TYPE_IPV6;
--		break;
--	case AF_UNSPEC:
--		type = CONNMAN_IPCONFIG_TYPE_ALL;
--		break;
--	default:
-+	else
- 		type = CONNMAN_IPCONFIG_TYPE_UNKNOWN;
--	}
- 
- 	if (!__connman_service_is_connected_state(provider->vpn_service,
- 								type)) {
-@@ -706,12 +749,9 @@ out:
- 	return err;
- }
- 
--int connman_provider_get_family(struct connman_provider *provider)
-+bool connman_provider_get_family(struct connman_provider *provider, int family)
- {
--	if (!provider)
--		return AF_UNSPEC;
--
--	return provider->family;
-+	return provider_get_family(provider, family);
- }
- 
- static void unregister_provider(gpointer data)
+ 	DBG("endpoint_fqdn %s", info->endpoint_fqdn);
++
++	option = vpn_provider_get_boolean(info->provider,
++					"WireGuard.ReresolveUseTransportDNS",
++					false);
++	if (option) {
++		nameservers = vpn_provider_get_string_list(info->provider,
++						"TransportNameservers");
++		for (i = 0; nameservers && nameservers[i]; i++)
++			g_resolv_add_nameserver(info->resolv,
++							nameservers[i],
++							DNS_DEFAULT_PORT, 0);
++	}
++
+ 	info->resolv_id = g_resolv_lookup_hostname(info->resolv,
+ 						info->endpoint_fqdn,
+ 						resolve_endpoint_cb, info,
 -- 
 2.39.5
 
