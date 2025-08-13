@@ -1,45 +1,45 @@
 Received: from mail.kapsi.fi (mail-auth.kapsi.fi [91.232.154.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFB3123BCE2
-	for <connman@lists.linux.dev>; Wed, 13 Aug 2025 15:29:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B28D527472
+	for <connman@lists.linux.dev>; Wed, 13 Aug 2025 15:29:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.232.154.24
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755098962; cv=none; b=KizZkXprD/rv+0GgD9FX0GbSRBAMauhqtbs7pD7r6rCKEP8rrgB0fUn3z5rUEL7/+BS+9E/IteHKRwdEZCDbc8Ajq3DGslyJ7TX4RwjEy6mmwNwuDSOp9BfFMQsq+ADQq86xn0NVMpJE/h4nTRAWkboRcKlE/bm9m164Rg9ef9M=
+	t=1755098966; cv=none; b=Gt6ERb5JCzS1ZlMkjbMu/vzXqz95thONsIe8r6tkSPYmEwhRrYNWWNKpcr1PEWimrqvXNlibY88mZ2pPjtBXbZwD7FtspDugh7/8w/sv7EME/7wEcvT0QvMXYs+04xDkjmtg8HdZm+3qPgTKHJ84xe+K2HN2TO1MUfhchsSdyqE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755098962; c=relaxed/simple;
-	bh=dVMH5lXbsKtfYbcvI6fRt0MZTfRcjGJ1hI8AfEeHuT0=;
+	s=arc-20240116; t=1755098966; c=relaxed/simple;
+	bh=BxwNBFGTWTpNMd/CS6Jxve7b6oLs7Sa/n4bQ+8GddKw=;
 	h=From:To:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=PKVordhd33Fmd5KS8jHSsabXIYuOJFQpK7XnhoRwJE9851UIb1C4lylN/Aszg/OnFCq1NjOA0qCeQU48NNWmtARtAjUCnMqb8N/T53cICVxbf4gwaXrNEfgcLrKhDgU8q0fPspZT6s7U8a2z6vvLXin9k0lJcKAquew40/2ABtE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=jolla.com; spf=pass smtp.mailfrom=kapsi.fi; dkim=pass (2048-bit key) header.d=kapsi.fi header.i=@kapsi.fi header.b=jPh5jY6X; arc=none smtp.client-ip=91.232.154.24
+	 MIME-Version; b=BUneC73Yz28rW3Bg8y48pyqQqDbm0U5DyYOiO3F+/29HVLFSn3w5AZQnZCFgIRVDtF006z+GcKjPaTVdnqCvgdkis+McA8AYWefj5ia5kmEFufoDMBoxX/a6mZcvZdzaow/KaOuxp+SQkodQAIiZV7ups20lRJQfU8daPC3Ywbs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=jolla.com; spf=pass smtp.mailfrom=kapsi.fi; dkim=pass (2048-bit key) header.d=kapsi.fi header.i=@kapsi.fi header.b=k48lG5C3; arc=none smtp.client-ip=91.232.154.24
 Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=jolla.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kapsi.fi
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kapsi.fi header.i=@kapsi.fi header.b="jPh5jY6X"
+	dkim=pass (2048-bit key) header.d=kapsi.fi header.i=@kapsi.fi header.b="k48lG5C3"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
 	s=20161220; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:To:From:Sender:Reply-To:Cc:Content-Type:Content-ID:
 	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
 	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
 	List-Post:List-Owner:List-Archive;
-	bh=MAOeqdQFAZTKpZFOd5qvCTqDv0Y/D0WOZYLMtqBchLg=; b=jPh5jY6XDj6nJocOIqkJqDrnQi
-	yPM4Ihyr1gjV/C2++9TE1htx/T9ivletAO5QvUMP2uryJWagqRwiFSkLrz/WMgAITqcDFc6picjHH
-	X8E+a3RjdHXiJXu2pY/0IxZIwkDsWLXdO7LZlwGddu5AwPyFDwGj1lL7R7UwGhYL3+TAJnPrG2e96
-	FXWyCjfYPSM8ld/DR/lDLvy/kls7QOXTdVGgPdwjTRW8yNp2JUzQAb4+0LKnHt3e2OABLmI3aRD3g
-	GLsYRkuIr4mAQXnBFZBwkL6at5R4MFIUCtQ40bJsGzQQF+/Ll5tO/NyBFaqqChwwaGRkv556QaBwX
-	hxa1hh6w==;
+	bh=zDxwBKl6ghQ/kZ/P8Gf8eyWdWpUO4WGvNgS2Wttr5Qc=; b=k48lG5C3qWfT5259qTdmhE7DCo
+	aoLFUTd4SW1W9vztK067SbhP+sxlgS8KR2dQs0tNLcdboV2OKL9zKA3eY5MBhbASNS5X8KEIlOYcN
+	U4FR8N2Zm6fTWJL9w1ITdbQbkyJLTF+wl/44rsSg0tQLBwdvG+bfMyUUwiLnRUd8WEGvjg1MM9jjF
+	lKsTtaGg9AHkHvAwrIfMT5DccprgyczxiAxdJirDvx/qaF3KWeUoGw6hJiR7rG/AMhrHlZ5F7HR/g
+	Sg7AADTfl/9sZBiRf3NO8aoz4+W/WAZy0PQZu7TxfPIQnrbiFcSUvxvduH2rbaiE+Ro/iNPgUUJdC
+	N04Ku5TA==;
 Received: from [2a10:a5c0:37:6500:b275:797e:525b:8df9] (helo=jl-x230.local)
 	by mail.kapsi.fi with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.96)
 	(envelope-from <jussi.laakkonen@jolla.com>)
-	id 1umCzf-009qQa-2Y
+	id 1umCze-009qQa-1a
 	for connman@lists.linux.dev;
-	Wed, 13 Aug 2025 18:02:23 +0300
+	Wed, 13 Aug 2025 18:02:22 +0300
 From: Jussi Laakkonen <jussi.laakkonen@jolla.com>
 To: connman@lists.linux.dev
-Subject: [PATCH v2 41/42] wireguard: Fix FQDN by using the resolved IP as the gateway
-Date: Wed, 13 Aug 2025 18:02:13 +0300
-Message-Id: <20250813150214.189282-42-jussi.laakkonen@jolla.com>
+Subject: [PATCH v2 12/42] wireguard: Use positive errors for VPN provider connect_cb
+Date: Wed, 13 Aug 2025 18:01:44 +0300
+Message-Id: <20250813150214.189282-13-jussi.laakkonen@jolla.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250813150214.189282-1-jussi.laakkonen@jolla.com>
 References: <20250813150214.189282-1-jussi.laakkonen@jolla.com>
@@ -54,163 +54,110 @@ X-SA-Exim-Connect-IP: 2a10:a5c0:37:6500:b275:797e:525b:8df9
 X-SA-Exim-Mail-From: jussi.laakkonen@jolla.com
 X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
 
-This fixes the hostname use with WireGuard by using the resolved IP as
-the gateway for the ipaddress. This address will be sent to connmand for
-setting up the routes and DNS will be otherwise broken if the FQDN is
-set "as is" as the gateway.
+The vpn-provider.c:connect_cb() expects the errors to be positive ints.
+Remove the sign when calling the cb.
 
-By returning also the resolved IP in string format in the initial
-resolve, and setting it as the gateway for the address for the interface
-in in the ipaddress.c the FQDN using WireGuard services can be used.
+And add debug to see what is really causing the error. For example, when
+parsing fails.
 ---
- vpn/plugins/wireguard.c | 80 +++++++++++++++++++++++++----------------
- 1 file changed, 50 insertions(+), 30 deletions(-)
+ vpn/plugins/wireguard.c | 30 ++++++++++++++++++++++--------
+ 1 file changed, 22 insertions(+), 8 deletions(-)
 
 diff --git a/vpn/plugins/wireguard.c b/vpn/plugins/wireguard.c
-index a99d0b75..123fd3ab 100644
+index 735bac58..de57b15f 100644
 --- a/vpn/plugins/wireguard.c
 +++ b/vpn/plugins/wireguard.c
-@@ -249,10 +249,35 @@ static int get_endpoint_addr(const char *host, const char *port, int flags,
- 	return 0;
- }
- 
-+static const char *endpoint_to_str(struct wg_peer *peer, char *buf,
-+							socklen_t len)
-+{
-+	struct sockaddr_u *addr;
-+	int family;
-+
-+	addr = (struct sockaddr_u *)&peer->endpoint.addr;
-+	family = peer->endpoint.addr.sa_family;
-+
-+	switch (family) {
-+	case AF_INET:
-+		return inet_ntop(family, &addr->sin.sin_addr, buf, len);
-+	case AF_INET6:
-+		return inet_ntop(family, &addr->sin6.sin6_addr, buf, len);
-+	default:
-+		break;
-+	}
-+
-+	return NULL;
-+}
-+
- static int parse_endpoint_hostname(const char *host, const char *port,
--							struct sockaddr_u *addr)
-+							struct wg_peer *peer,
-+							char **gateway_resolved)
- {
-+	struct sockaddr_u *addr;
- 	char **tokens;
-+	const char *gw = NULL;
-+	char buf[INET6_ADDRSTRLEN] = { 0 };
- 	unsigned int len;
- 	int err;
- 
-@@ -271,9 +296,21 @@ static int parse_endpoint_hostname(const char *host, const char *port,
- 
- 	DBG("using host %s", tokens[0]);
- 
-+	addr = (struct sockaddr_u *)&peer->endpoint.addr;
-+
- 	err = get_endpoint_addr(tokens[0], port, 0, addr);
--	if (!err)
-+	if (!err) {
-+		/*
-+		 * In case the endpoint is an host address use the resolved
-+		 * IP address as gateway for DNS over WireGuard to work.
-+		 */
-+		if (connman_inet_check_ipaddress(tokens[0]) <= 0)
-+			gw = endpoint_to_str(peer, buf, INET6_ADDRSTRLEN);
-+
- 		DBG("success");
-+	}
-+
-+	*gateway_resolved = gw ? g_strdup(gw) : g_strdup(tokens[0]);
- 
- 	g_strfreev(tokens);
- 
-@@ -651,27 +688,6 @@ static gboolean wg_dns_reresolve_cb(gpointer user_data)
- 	return G_SOURCE_REMOVE;
- }
- 
--static const char *endpoint_to_str(struct wg_peer *peer, char *buf,
--							socklen_t len)
--{
--	struct sockaddr_u *addr;
--	int family;
--
--	addr = (struct sockaddr_u *)&peer->endpoint.addr;
--	family = peer->endpoint.addr.sa_family;
--
--	switch (family) {
--	case AF_INET:
--		return inet_ntop(family, &addr->sin.sin_addr, buf, len);
--	case AF_INET6:
--		return inet_ntop(family, &addr->sin6.sin6_addr, buf, len);
--	default:
--		break;
--	}
--
--	return NULL;
--}
--
- static gboolean wg_route_setup_cb(gpointer user_data)
- {
- 	struct wireguard_info *info = user_data;
-@@ -770,7 +786,9 @@ static int wg_connect(struct vpn_provider *provider,
- {
- 	struct wg_ipaddresses ipaddresses = { 0 };
- 	struct wireguard_info *info;
--	const char *option, *gateway;
-+	const char *option;
-+	const char *endpoint;
-+	char *gateway = NULL;
- 	char *ifname;
- 	bool do_split_routing = true;
- 	int err = -EINVAL;
-@@ -859,21 +877,20 @@ static int wg_connect(struct vpn_provider *provider,
- 	if (!option)
- 		option = "51820";
- 
--	gateway = vpn_provider_get_string(provider, "Host");
-+	endpoint = vpn_provider_get_string(provider, "Host");
- 	/*
- 	 * Use the resolve timeout only with re-resolve. Here the network
- 	 * is setup as the transport is used. In succeeding attempts resolving
- 	 * is needed as it is done over potentially misconfigured WireGuard
- 	 * connection that may end up blocking vpnd with getaddrinfo().
- 	 */
--	err = parse_endpoint_hostname(gateway, option,
--			(struct sockaddr_u *)&info->peer.endpoint.addr);
-+	err = parse_endpoint_hostname(endpoint, option, &info->peer, &gateway);
- 	if (err) {
--		DBG("Failed to parse endpoint %s:%s", gateway, option);
-+		DBG("Failed to parse endpoint %s:%s", endpoint, option);
- 		goto error;
+@@ -349,8 +349,10 @@ static int wg_connect(struct vpn_provider *provider,
+ 	option = vpn_provider_get_string(provider, "WireGuard.DNS");
+ 	if (option) {
+ 		err = vpn_provider_set_nameservers(provider, option);
+-		if (err)
++		if (err) {
++			DBG("Cannot set nameservers %s", option);
+ 			goto done;
++		}
  	}
  
--	info->endpoint_fqdn = g_strdup(gateway);
-+	info->endpoint_fqdn = g_strdup(endpoint);
+ 	option = vpn_provider_get_string(provider, "WireGuard.PrivateKey");
+@@ -359,8 +361,10 @@ static int wg_connect(struct vpn_provider *provider,
+ 		goto done;
+ 	}
+ 	err = parse_key(option, info->device.private_key);
+-	if (err)
++	if (err) {
++		DBG("Failed to parse private key");
+ 		goto done;
++	}
+ 
+ 	option = vpn_provider_get_string(provider, "WireGuard.PublicKey");
+ 	if (!option) {
+@@ -368,15 +372,19 @@ static int wg_connect(struct vpn_provider *provider,
+ 		goto done;
+ 	}
+ 	err = parse_key(option, info->peer.public_key);
+-	if (err)
++	if (err) {
++		DBG("Failed to parse public key");
+ 		goto done;
++	}
+ 
+ 	option = vpn_provider_get_string(provider, "WireGuard.PresharedKey");
+ 	if (option) {
+ 		info->peer.flags |= WGPEER_HAS_PRESHARED_KEY;
+ 		err = parse_key(option, info->peer.preshared_key);
+-		if (err)
++		if (err) {
++			DBG("Failed to parse pre-shared key");
+ 			goto done;
++		}
+ 	}
+ 
+ 	option = vpn_provider_get_string(provider, "WireGuard.AllowedIPs");
+@@ -385,8 +393,10 @@ static int wg_connect(struct vpn_provider *provider,
+ 		goto done;
+ 	}
+ 	err = parse_allowed_ips(option, &info->peer);
+-	if (err)
++	if (err) {
++		DBG("Failed to parse allowed IPs %s", option);
+ 		goto done;
++	}
+ 
+ 	option = vpn_provider_get_string(provider,
+ 					"WireGuard.PersistentKeepalive");
+@@ -404,8 +414,10 @@ static int wg_connect(struct vpn_provider *provider,
+ 	gateway = vpn_provider_get_string(provider, "Host");
+ 	err = parse_endpoint(gateway, option,
+ 			(struct sockaddr_u *)&info->peer.endpoint.addr);
+-	if (err)
++	if (err) {
++		DBG("Failed to parse endpoint %s gateway %s", option, gateway);
+ 		goto done;
++	}
+ 
+ 	info->endpoint_fqdn = g_strdup(gateway);
  	info->port = g_strdup(option);
- 
- 	option = vpn_provider_get_string(provider, "WireGuard.Address");
-@@ -881,11 +898,14 @@ static int wg_connect(struct vpn_provider *provider,
- 		DBG("Missing WireGuard.Address configuration");
- 		goto error;
+@@ -416,8 +428,10 @@ static int wg_connect(struct vpn_provider *provider,
+ 		goto done;
  	}
-+
- 	err = parse_addresses(option, gateway, &ipaddresses);
- 	if (err) {
--		DBG("Failed to parse addresses %s gateway %s", option, gateway);
-+		DBG("Failed to parse addresses %s endpoint %s gateway %s",
-+						option, endpoint, gateway);
- 		goto error;
- 	}
-+	g_free(gateway);
+ 	err = parse_address(option, gateway, &ipaddress);
+-	if (err)
++	if (err) {
++		DBG("Failed to parse address %s gateway %s", option, gateway);
+ 		goto done;
++	}
  
  	ifname = get_ifname();
  	if (!ifname) {
+@@ -446,7 +460,7 @@ static int wg_connect(struct vpn_provider *provider,
+ 
+ done:
+ 	if (cb)
+-		cb(provider, user_data, err);
++		cb(provider, user_data, -err);
+ 
+ 	connman_ipaddress_free(ipaddress);
+ 
 -- 
 2.39.5
 
