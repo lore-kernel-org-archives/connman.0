@@ -1,45 +1,45 @@
 Received: from mail.kapsi.fi (mail-auth.kapsi.fi [91.232.154.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B28D527472
-	for <connman@lists.linux.dev>; Wed, 13 Aug 2025 15:29:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 318D72309B9
+	for <connman@lists.linux.dev>; Wed, 13 Aug 2025 15:29:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.232.154.24
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755098966; cv=none; b=Gt6ERb5JCzS1ZlMkjbMu/vzXqz95thONsIe8r6tkSPYmEwhRrYNWWNKpcr1PEWimrqvXNlibY88mZ2pPjtBXbZwD7FtspDugh7/8w/sv7EME/7wEcvT0QvMXYs+04xDkjmtg8HdZm+3qPgTKHJ84xe+K2HN2TO1MUfhchsSdyqE=
+	t=1755098970; cv=none; b=ZjGBAQtdWMk2G0sIr0Xb1Qq0X1azKl/BbrmijUlYeaxLCopD49j3ix/RmQJl/3lggjeoV1Iq6OJiqHqruemxzPArrJ5RGT4jA1sDz05/4mg5dVq0ldsJIaQYgRJhNVltDsXljCuNYQ92jqVEjwgZTqGM29hhi5fAYqoEVvGXU9Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755098966; c=relaxed/simple;
-	bh=BxwNBFGTWTpNMd/CS6Jxve7b6oLs7Sa/n4bQ+8GddKw=;
+	s=arc-20240116; t=1755098970; c=relaxed/simple;
+	bh=9kZTnKJ3pkvS2WwYp0oVwPFxy8DoO0FY/XM08UpruBI=;
 	h=From:To:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=BUneC73Yz28rW3Bg8y48pyqQqDbm0U5DyYOiO3F+/29HVLFSn3w5AZQnZCFgIRVDtF006z+GcKjPaTVdnqCvgdkis+McA8AYWefj5ia5kmEFufoDMBoxX/a6mZcvZdzaow/KaOuxp+SQkodQAIiZV7ups20lRJQfU8daPC3Ywbs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=jolla.com; spf=pass smtp.mailfrom=kapsi.fi; dkim=pass (2048-bit key) header.d=kapsi.fi header.i=@kapsi.fi header.b=k48lG5C3; arc=none smtp.client-ip=91.232.154.24
+	 MIME-Version; b=FTg9N6WbVgyY3qoA2Qp7DmPgxpOoWp45wvqWYAB8GQTS98iMrkHla1LLi9y91enFrNUYOeMuGGFnbasE2Z4jREckY/7oAmk5kRcQMwjqQR5ZRVmoapr/sQcv1SjPU6pHv/1Oc87oCQZ70NqIZ21G48H/6K6pI70hwNStGqSdZ1U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=jolla.com; spf=pass smtp.mailfrom=kapsi.fi; dkim=pass (2048-bit key) header.d=kapsi.fi header.i=@kapsi.fi header.b=t6vYbp9v; arc=none smtp.client-ip=91.232.154.24
 Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=jolla.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kapsi.fi
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kapsi.fi header.i=@kapsi.fi header.b="k48lG5C3"
+	dkim=pass (2048-bit key) header.d=kapsi.fi header.i=@kapsi.fi header.b="t6vYbp9v"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
 	s=20161220; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:To:From:Sender:Reply-To:Cc:Content-Type:Content-ID:
 	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
 	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
 	List-Post:List-Owner:List-Archive;
-	bh=zDxwBKl6ghQ/kZ/P8Gf8eyWdWpUO4WGvNgS2Wttr5Qc=; b=k48lG5C3qWfT5259qTdmhE7DCo
-	aoLFUTd4SW1W9vztK067SbhP+sxlgS8KR2dQs0tNLcdboV2OKL9zKA3eY5MBhbASNS5X8KEIlOYcN
-	U4FR8N2Zm6fTWJL9w1ITdbQbkyJLTF+wl/44rsSg0tQLBwdvG+bfMyUUwiLnRUd8WEGvjg1MM9jjF
-	lKsTtaGg9AHkHvAwrIfMT5DccprgyczxiAxdJirDvx/qaF3KWeUoGw6hJiR7rG/AMhrHlZ5F7HR/g
-	Sg7AADTfl/9sZBiRf3NO8aoz4+W/WAZy0PQZu7TxfPIQnrbiFcSUvxvduH2rbaiE+Ro/iNPgUUJdC
-	N04Ku5TA==;
+	bh=pAILlpLO/7VBiKJxkJP/iKun/G0fnhpost0uhaqEIZ0=; b=t6vYbp9vfZxQTbrnT0isjWEa5y
+	m7icnFVsE0i6UcbASfmnArpWrSowFdd76lOlaXIAaETDDxXOF8a4LEe7As0RS89XfrVJ5X2CbYlQu
+	X0WsxhnawqjQiSMdGJX14lRGK4HHbCuz/2guxbatZQLkj2v5CIuBPPx/626x0YYT/1T54kyHB8kzB
+	we49dcmlR/yELLdaLh/Sv8whWplXEcXwXjXFkhdZm5raoUjlLDctTx6uF/Tu43gLt6qEVsBMqfoWE
+	P8gzDLsxH8ni7XyAuikAgpsFSY0HZiZjTreJ4XOClG/cvv68EenMdkBEd4SJzHkDl7moRvuiNmeuu
+	54HpuGiw==;
 Received: from [2a10:a5c0:37:6500:b275:797e:525b:8df9] (helo=jl-x230.local)
 	by mail.kapsi.fi with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.96)
 	(envelope-from <jussi.laakkonen@jolla.com>)
-	id 1umCze-009qQa-1a
+	id 1umCze-009qQa-2V
 	for connman@lists.linux.dev;
 	Wed, 13 Aug 2025 18:02:22 +0300
 From: Jussi Laakkonen <jussi.laakkonen@jolla.com>
 To: connman@lists.linux.dev
-Subject: [PATCH v2 12/42] wireguard: Use positive errors for VPN provider connect_cb
-Date: Wed, 13 Aug 2025 18:01:44 +0300
-Message-Id: <20250813150214.189282-13-jussi.laakkonen@jolla.com>
+Subject: [PATCH v2 18/42] wireguard: Fix shutdown, ensure one exit and set no agent is used
+Date: Wed, 13 Aug 2025 18:01:50 +0300
+Message-Id: <20250813150214.189282-19-jussi.laakkonen@jolla.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250813150214.189282-1-jussi.laakkonen@jolla.com>
 References: <20250813150214.189282-1-jussi.laakkonen@jolla.com>
@@ -54,110 +54,213 @@ X-SA-Exim-Connect-IP: 2a10:a5c0:37:6500:b275:797e:525b:8df9
 X-SA-Exim-Mail-From: jussi.laakkonen@jolla.com
 X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
 
-The vpn-provider.c:connect_cb() expects the errors to be positive ints.
-Remove the sign when calling the cb.
+Split disconnect into wg_disconnect() and disconnect(). Use disconnect()
+to properly disconnect when error occurs with the appropriate error
+code. Do the same in wg_disconnect() by using the error code to be from
+device removal.
 
-And add debug to see what is really causing the error. For example, when
-parsing fails.
+The shutdown process requires, that in order to do the proper transition
+to IDLE, vpn_died() is to be called. This is normally called by the task
+that has been killed so simulate this behavior in WireGuard by adding a
+delayed call for that. It is to be executed only once as all the cleanup
+is to be done at that last step. Use a delay of 50ms to simulate exit.
+
+Add use of the VPN_FLAG_NO_AGENT to declare that WireGuard does not use
+a VPN agent. This ensures that the state transition is done according
+to state machine by __vpn_provider_connect().
+
+Add separate create/free for struct wireguard_info for VPN consistency.
 ---
- vpn/plugins/wireguard.c | 30 ++++++++++++++++++++++--------
- 1 file changed, 22 insertions(+), 8 deletions(-)
+ vpn/plugins/wireguard.c | 103 ++++++++++++++++++++++++++++++++--------
+ 1 file changed, 82 insertions(+), 21 deletions(-)
 
 diff --git a/vpn/plugins/wireguard.c b/vpn/plugins/wireguard.c
-index 735bac58..de57b15f 100644
+index b7fa77b3..ee97f378 100644
 --- a/vpn/plugins/wireguard.c
 +++ b/vpn/plugins/wireguard.c
-@@ -349,8 +349,10 @@ static int wg_connect(struct vpn_provider *provider,
- 	option = vpn_provider_get_string(provider, "WireGuard.DNS");
- 	if (option) {
- 		err = vpn_provider_set_nameservers(provider, option);
--		if (err)
-+		if (err) {
-+			DBG("Cannot set nameservers %s", option);
- 			goto done;
-+		}
+@@ -65,6 +65,7 @@ struct wireguard_info {
+ 	GResolv *resolv;
+ 	guint resolv_id;
+ 	guint remove_resolv_id;
++	guint dying_id;
+ };
+ 
+ struct sockaddr_u {
+@@ -90,6 +91,31 @@ struct {
+ 	{"WireGuard.PersistentKeepalive", true}
+ };
+ 
++static struct wireguard_info *create_private_data(struct vpn_provider *provider)
++{
++	struct wireguard_info *info;
++
++	info = g_malloc0(sizeof(struct wireguard_info));
++	info->peer.flags = WGPEER_HAS_PUBLIC_KEY | WGPEER_REPLACE_ALLOWEDIPS;
++	info->device.flags = WGDEVICE_HAS_PRIVATE_KEY;
++	info->device.first_peer = &info->peer;
++	info->device.last_peer = &info->peer;
++	info->provider = vpn_provider_ref(provider);
++
++	return info;
++}
++
++static void free_private_data(struct wireguard_info *info)
++{
++	if (vpn_provider_get_plugin_data(info->provider) == info)
++		vpn_provider_set_plugin_data(info->provider, NULL);
++
++	vpn_provider_unref(info->provider);
++	g_free(info->endpoint_fqdn);
++	g_free(info->port);
++	g_free(info);
++}
++
+ static int parse_key(const char *str, wg_key key)
+ {
+ 	unsigned char *buf;
+@@ -422,6 +448,8 @@ static void resolve_endpoint_cb(GResolvResultStatus status,
+ 	run_dns_reresolve(info);
+ }
+ 
++static int disconnect(struct vpn_provider *provider, int error);
++
+ static gboolean wg_dns_reresolve_cb(gpointer user_data)
+ {
+ 	struct wireguard_info *info = user_data;
+@@ -451,7 +479,7 @@ static gboolean wg_dns_reresolve_cb(gpointer user_data)
+ 		connman_error("failed to start hostname lookup for %s, err %d",
+ 						info->endpoint_fqdn,
+ 						error->code);
+-		vpn_died(NULL, -EIO, info->provider);
++		disconnect(info->provider, -EIO);
  	}
  
- 	option = vpn_provider_get_string(provider, "WireGuard.PrivateKey");
-@@ -359,8 +361,10 @@ static int wg_connect(struct vpn_provider *provider,
- 		goto done;
+ 	g_clear_error(&error);
+@@ -467,7 +495,7 @@ static void run_dns_reresolve(struct wireguard_info *info)
+ 	if (vpn_provider_get_connection_errors(info->provider) >=
+ 						DNS_RERESOLVE_ERROR_LIMIT) {
+ 		connman_warn("reresolve error limit reached");
+-		vpn_died(NULL, -ENONET, info->provider);
++		disconnect(info->provider, -ENONET);
+ 		info->reresolve_id = 0;
+ 		return;
  	}
- 	err = parse_key(option, info->device.private_key);
--	if (err)
-+	if (err) {
-+		DBG("Failed to parse private key");
- 		goto done;
-+	}
+@@ -487,12 +515,7 @@ static int wg_connect(struct vpn_provider *provider,
+ 	char *ifname;
+ 	int err = -EINVAL;
  
- 	option = vpn_provider_get_string(provider, "WireGuard.PublicKey");
- 	if (!option) {
-@@ -368,15 +372,19 @@ static int wg_connect(struct vpn_provider *provider,
- 		goto done;
- 	}
- 	err = parse_key(option, info->peer.public_key);
--	if (err)
-+	if (err) {
-+		DBG("Failed to parse public key");
- 		goto done;
-+	}
+-	info = g_malloc0(sizeof(struct wireguard_info));
+-	info->peer.flags = WGPEER_HAS_PUBLIC_KEY | WGPEER_REPLACE_ALLOWEDIPS;
+-	info->device.flags = WGDEVICE_HAS_PRIVATE_KEY;
+-	info->device.first_peer = &info->peer;
+-	info->device.last_peer = &info->peer;
+-	info->provider = vpn_provider_ref(provider);
++	info = create_private_data(provider);
  
- 	option = vpn_provider_get_string(provider, "WireGuard.PresharedKey");
- 	if (option) {
- 		info->peer.flags |= WGPEER_HAS_PRESHARED_KEY;
- 		err = parse_key(option, info->peer.preshared_key);
--		if (err)
-+		if (err) {
-+			DBG("Failed to parse pre-shared key");
- 			goto done;
-+		}
- 	}
+ 	DBG("");
  
- 	option = vpn_provider_get_string(provider, "WireGuard.AllowedIPs");
-@@ -385,8 +393,10 @@ static int wg_connect(struct vpn_provider *provider,
- 		goto done;
- 	}
- 	err = parse_allowed_ips(option, &info->peer);
--	if (err)
-+	if (err) {
-+		DBG("Failed to parse allowed IPs %s", option);
- 		goto done;
-+	}
+@@ -646,8 +669,34 @@ error:
+ 	goto done;
+ }
  
- 	option = vpn_provider_get_string(provider,
- 					"WireGuard.PersistentKeepalive");
-@@ -404,8 +414,10 @@ static int wg_connect(struct vpn_provider *provider,
- 	gateway = vpn_provider_get_string(provider, "Host");
- 	err = parse_endpoint(gateway, option,
- 			(struct sockaddr_u *)&info->peer.endpoint.addr);
--	if (err)
-+	if (err) {
-+		DBG("Failed to parse endpoint %s gateway %s", option, gateway);
- 		goto done;
-+	}
+-static void wg_disconnect(struct vpn_provider *provider)
++struct wireguard_exit_data {
++	struct vpn_provider *provider;
++	int err;
++};
++
++static gboolean wg_died(gpointer user_data)
+ {
++	struct wireguard_exit_data *data = user_data;
++	struct wireguard_info *info;
++
++	DBG("");
++
++	/* No task for no daemon VPN - use vpn_died() with no task. */
++	vpn_died(NULL, data->err, data->provider);
++
++	info = vpn_provider_get_plugin_data(data->provider);
++	if (info)
++		free_private_data(info);
++
++	g_free(data);
++
++	return G_SOURCE_REMOVE;
++}
++
++/* Allow to overrule the exit code for vpn_died */
++static int disconnect(struct vpn_provider *provider, int err)
++{
++	struct wireguard_exit_data *data;
+ 	struct wireguard_info *info;
+ 	int exit_code;
  
- 	info->endpoint_fqdn = g_strdup(gateway);
- 	info->port = g_strdup(option);
-@@ -416,8 +428,10 @@ static int wg_connect(struct vpn_provider *provider,
- 		goto done;
- 	}
- 	err = parse_address(option, gateway, &ipaddress);
--	if (err)
-+	if (err) {
-+		DBG("Failed to parse address %s gateway %s", option, gateway);
- 		goto done;
-+	}
+@@ -655,7 +704,10 @@ static void wg_disconnect(struct vpn_provider *provider)
  
- 	ifname = get_ifname();
- 	if (!ifname) {
-@@ -446,7 +460,7 @@ static int wg_connect(struct vpn_provider *provider,
+ 	info = vpn_provider_get_plugin_data(provider);
+ 	if (!info)
+-		return;
++		return -ENODATA;
++
++	if (info->dying_id)
++		return -EALREADY;
  
- done:
- 	if (cb)
--		cb(provider, user_data, err);
-+		cb(provider, user_data, -err);
+ 	if (info->reresolve_id > 0)
+ 		g_source_remove(info->reresolve_id);
+@@ -663,21 +715,29 @@ static void wg_disconnect(struct vpn_provider *provider)
+ 	if (info->resolv || info->resolv_id)
+ 		remove_resolv(info);
  
- 	connman_ipaddress_free(ipaddress);
+-	vpn_provider_set_plugin_data(provider, NULL);
+-
+ 	vpn_provider_set_state(provider, VPN_PROVIDER_STATE_DISCONNECT);
  
+ 	exit_code = wg_del_device(info->device.name);
+ 
+-	vpn_provider_unref(info->provider);
+-	g_free(info->endpoint_fqdn);
+-	g_free(info->port);
+-	g_free(info);
++	/* Simulate a task-running VPN to issue vpn_died after exiting this */
++	data = g_malloc0(sizeof(struct wireguard_exit_data));
++	data->provider = provider;
++	data->err = err ? err : exit_code;
++
++	info->dying_id = g_timeout_add(50, wg_died, data);
++
++	return exit_code;
++}
++
++static void wg_disconnect(struct vpn_provider *provider)
++{
++	int exit_code;
++
++	DBG("");
+ 
+-	DBG("exiting with %d", exit_code);
++	exit_code = disconnect(provider, 0);
+ 
+-	/* No task for no daemon VPN - use VPN died with no task. */
+-	vpn_died(NULL, exit_code, provider);
++	DBG("exited with %d", exit_code);
+ }
+ 
+ static int wg_error_code(struct vpn_provider *provider, int exit_code)
+@@ -715,11 +775,12 @@ static int wg_save(struct vpn_provider *provider, GKeyFile *keyfile)
+ }
+ 
+ static struct vpn_driver vpn_driver = {
+-	.flags		= VPN_FLAG_NO_TUN | VPN_FLAG_NO_DAEMON,
++	.flags		= VPN_FLAG_NO_TUN | VPN_FLAG_NO_DAEMON |
++							VPN_FLAG_NO_AGENT,
+ 	.connect	= wg_connect,
+ 	.disconnect	= wg_disconnect,
+ 	.save		= wg_save,
+-	.error_code	= wg_error_code
++	.error_code	= wg_error_code,
+ };
+ 
+ static int wg_init(void)
 -- 
 2.39.5
 
