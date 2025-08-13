@@ -1,45 +1,45 @@
 Received: from mail.kapsi.fi (mail-auth.kapsi.fi [91.232.154.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C9EC2857CC
-	for <connman@lists.linux.dev>; Wed, 13 Aug 2025 15:40:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 279BB286D6B
+	for <connman@lists.linux.dev>; Wed, 13 Aug 2025 15:40:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.232.154.24
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755099608; cv=none; b=S4ORIeQFKnw6DbmFmEJGaLwThpaQnKdNQwoe/k2Lmkm4aWtugfTTt6AsPB62jOlC952eG/SMN42xv954Bk4qjHpNn85lEDdaBO4028jumMg5yMb3GwsfVT1ctQXHsSwuVzpgyNDJiUymXKcNZMiy4s4C7ljetZyEkQRtwBmss9A=
+	t=1755099611; cv=none; b=TVc4J8Cc9UzJ0Njx2tf9BeQ2tZKfdW1w8U4HdckrfBQAnf2oO0EjzMp6hyoCcoaxIx7LXtSIdAFKKWl7/67e4/S2kyc6D+FOTTxjSH4ztfsqE49KsNezdWiELGodnc99hDc5lPG7ndJMdgz1LWax+8dQM9fzBK5QeYPhWpC8bp4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755099608; c=relaxed/simple;
-	bh=GBAbhVG/MGRl9n8j3XTA3JAvZxkNAmaJMjJjODZmbOc=;
+	s=arc-20240116; t=1755099611; c=relaxed/simple;
+	bh=lQtNL615u72qVz634XPwOQrKQp8bCjgt6oIjwGswj38=;
 	h=From:To:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=Gf0e4BXFvIdOvbZcdUo67yy55fq98PhxFcVzRhjTapTtol/6qzVghzchp7n/c/F1/fn2TJVuOYsn0MmC5cx9OFvPNFf4/tIg/RWZgAZba2pzfLAvcdxoZH3Ff9Xw9X7QFIuXlHPYM1NFuurThOCl8OlEAxXSQc5mnuNs8LaOaPQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=jolla.com; spf=pass smtp.mailfrom=kapsi.fi; dkim=pass (2048-bit key) header.d=kapsi.fi header.i=@kapsi.fi header.b=MLvqI8P7; arc=none smtp.client-ip=91.232.154.24
+	 MIME-Version; b=FcLVjUmq96naW0ikxUxNAe3QOYFhMbBrIjwOK+GjpMR16jXZE/EbAI57vXWmaKmdEFQA8XkUSP0Eq7MUr7N5WMJT7+vYhKeR1YywW8Vb2i1+H2fvtibmDes+x7Qqgzth6v8ERTxSMUS/hbA45N9MMUyFSaFW3aCIgBnE/7e/iwU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=jolla.com; spf=pass smtp.mailfrom=kapsi.fi; dkim=pass (2048-bit key) header.d=kapsi.fi header.i=@kapsi.fi header.b=giW+ZmrN; arc=none smtp.client-ip=91.232.154.24
 Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=jolla.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kapsi.fi
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kapsi.fi header.i=@kapsi.fi header.b="MLvqI8P7"
+	dkim=pass (2048-bit key) header.d=kapsi.fi header.i=@kapsi.fi header.b="giW+ZmrN"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
 	s=20161220; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:To:From:Sender:Reply-To:Cc:Content-Type:Content-ID:
 	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
 	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
 	List-Post:List-Owner:List-Archive;
-	bh=wvqCr81Bx4MihbCgJaIF3odnOQ8pUI1/XgbHnqVMccg=; b=MLvqI8P7fhhp0ni6HsjUoHqlIT
-	8fki12d1OQ8zueN77y0bieqTbKxp+trkf9w7tHKiIvmQqzrP1zFzrjQgBDuv5z39qa1L5m2rdC+Bv
-	oy14Bd1DW1MXAkKf8qGpQGZcEUHT0u69gfEeygBMTc1FSaEafhYbT+huz7CtJzypW//ynfjWN1kXe
-	yxUDA5mWdigl9RdpfOolOAkBLIPHGgsqCFBzMrdyPtSjntGX+Xda6AXRCRm5hZqiF+NyDtSqoautn
-	swJJFDT5Hznyp83G6dtXfxfXREo3SL8jTvUNishhROSIwf04WHPqZOxh5a3rzlY/+vFmxbWHzz9z5
-	V73HUZEw==;
+	bh=emYeZ4h7rPezZTt5bkycveQhOTDYl4JJORP6b21YuEc=; b=giW+ZmrNKs8rr2icv5/igu05mV
+	nm0rc1qWTvnpeRwZQQmBrMMhQyy88lbuQOq6rXu5KXGRvximgDEFiOTb+KxS7lowZiHm0XGZe3w3y
+	Y8IFDMV7+V9eQpa/Pe/co22D6uteb18hJTNBhY4kN/DbuFhsIvuypuPZU4KVDZmInS0qgH3wIoTPn
+	dlFiv9FojgUaBRh4Oj6Mpw4duj+lYvPi5aSPMGQk8GJ7bgxIHgocdI2PnSit0s/HWo+ixYtITsP40
+	clGaNVA7C0w782RxXLAPnC7x5HuiBbJQkCI3Nk1TEOkNB7lLAa5arMhfLaT9nNLQAz0FwtASq67Nf
+	MaZ0u1nQ==;
 Received: from [2a10:a5c0:37:6500:b275:797e:525b:8df9] (helo=jl-x230.local)
 	by mail.kapsi.fi with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.96)
 	(envelope-from <jussi.laakkonen@jolla.com>)
-	id 1umCze-009qQa-1m
+	id 1umCze-009qQa-02
 	for connman@lists.linux.dev;
 	Wed, 13 Aug 2025 18:02:22 +0300
 From: Jussi Laakkonen <jussi.laakkonen@jolla.com>
 To: connman@lists.linux.dev
-Subject: [PATCH v2 13/42] vpn: Fix VPN_FLAG_NO_DAEMON use in error cases
-Date: Wed, 13 Aug 2025 18:01:45 +0300
-Message-Id: <20250813150214.189282-14-jussi.laakkonen@jolla.com>
+Subject: [PATCH v2 01/42] vpn-provider: Use association state for VPN agent input wait
+Date: Wed, 13 Aug 2025 18:01:33 +0300
+Message-Id: <20250813150214.189282-2-jussi.laakkonen@jolla.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250813150214.189282-1-jussi.laakkonen@jolla.com>
 References: <20250813150214.189282-1-jussi.laakkonen@jolla.com>
@@ -54,147 +54,148 @@ X-SA-Exim-Connect-IP: 2a10:a5c0:37:6500:b275:797e:525b:8df9
 X-SA-Exim-Mail-From: jussi.laakkonen@jolla.com
 X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
 
-The VPNs that have no daemon, WireGuard, should not be called to
-disconnect twice because in error situations the change of state from
-error case is overridden. This makes it impossible to track the state
-via an UI that relies on state notifications and uses autoconnect to
-toggle active VPN(s).
+Use the association state with VPNs to define that VPN is waiting for
+input via agent. The same state is used for every service in connmand so
+this change synchronizes the states in both.
 
-Make vpn_died VPN_FLAG_NO_DAEMON friendly that can be called also by the
-VPNs without a task. This makes it possible to use vpn_died in WireGuard
-as final call to make state transitions complete.
+Set the state to be identical to connmand side states by injecting this
+into the VPN state machine before the connect state ("configuration"
+state). This is then changed when the state is set to connected either
+by getting a non-error reply from VPN agent or via VPN driver gets
+connect state notify.
 
-Make the state transitions of VPN_FLAG_NO_DAEMON to use the
-VPN_STATE_ASSOCIATION properly. This is the initial state when
-connecting, and the VPN_STATE_CONNECT is set by the
-update_provider_state() when driver replies that connection is ok.
-
-Also cleanup some code to use the same base more.
+In this is association state the VPN indicates to connmand that the VPN
+is requesting user input via agent and shouldn't be subject to connect
+timeout checks. Having this additional state allows to obey the D-Bus VPN
+agent query timeout value, instead of getting the dialog shut down at
+connection timeout.
 ---
- vpn/plugins/vpn.c | 57 ++++++++++++++++++++++++++---------------------
- 1 file changed, 32 insertions(+), 25 deletions(-)
+ vpn/vpn-provider.c | 45 +++++++++++++++++++++++++++++++++++++++++----
+ vpn/vpn-provider.h |  6 ++++++
+ 2 files changed, 47 insertions(+), 4 deletions(-)
 
-diff --git a/vpn/plugins/vpn.c b/vpn/plugins/vpn.c
-index ea64fdc2..9ff2ad6c 100644
---- a/vpn/plugins/vpn.c
-+++ b/vpn/plugins/vpn.c
-@@ -91,7 +91,13 @@ static int stop_vpn(struct vpn_provider *provider)
+diff --git a/vpn/vpn-provider.c b/vpn/vpn-provider.c
+index 4bcb8373..56040e65 100644
+--- a/vpn/vpn-provider.c
++++ b/vpn/vpn-provider.c
+@@ -1487,6 +1487,23 @@ int __vpn_provider_disconnect(struct vpn_provider *provider)
+ 	return err;
+ }
  
- 	if (vpn_driver_data && vpn_driver_data->vpn_driver &&
- 			vpn_driver_data->vpn_driver->flags & VPN_FLAG_NO_TUN) {
--		vpn_driver_data->vpn_driver->disconnect(data->provider);
-+		/*
-+		 * Disconnect only VPNs with daemon, otherwise in error return
-+		 * there is a double free with vpn_died() or the failure state
-+		 * is overridden by changes made by disconnect to state.
-+		 */
-+		if (!(vpn_driver_data->vpn_driver->flags & VPN_FLAG_NO_DAEMON))
-+			vpn_driver_data->vpn_driver->disconnect(data->provider);
- 		return 0;
- 	}
- 
-@@ -131,16 +137,27 @@ void vpn_died(struct connman_task *task, int exit_code, void *user_data)
- {
- 	struct vpn_provider *provider = user_data;
- 	struct vpn_data *data = vpn_provider_get_data(provider);
-+	struct vpn_driver_data *vpn_data = NULL;
-+	const char *name;
- 	int state = VPN_STATE_FAILURE;
- 	enum vpn_provider_error ret;
-+	bool no_daemon = false;
-+
-+	name = vpn_provider_get_driver_name(provider);
-+	if (name) {
-+		vpn_data = g_hash_table_lookup(driver_hash, name);
-+		if (vpn_data && vpn_data->vpn_driver)
-+			no_daemon = vpn_data->vpn_driver->flags &
-+							VPN_FLAG_NO_DAEMON;
++static bool is_connected_state(enum vpn_provider_state state)
++{
++	switch (state) {
++	case VPN_PROVIDER_STATE_UNKNOWN:
++	case VPN_PROVIDER_STATE_IDLE:
++	case VPN_PROVIDER_STATE_DISCONNECT:
++	case VPN_PROVIDER_STATE_FAILURE:
++		break;
++	case VPN_PROVIDER_STATE_CONNECT:
++	case VPN_PROVIDER_STATE_READY:
++	case VPN_PROVIDER_STATE_ASSOCIATION:
++		return true;
 +	}
- 
--	DBG("provider %p data %p", provider, data);
-+	DBG("provider %p data %p no_daemon %d", provider, data, no_daemon);
- 
- 	if (!data)
- 		goto vpn_exit;
- 
- 	/* The task may die after we have already started the new one */
--	if (data->task != task)
-+	if (!no_daemon && data->task != task)
- 		goto done;
- 
- 	state = data->state;
-@@ -156,15 +173,7 @@ void vpn_died(struct connman_task *task, int exit_code, void *user_data)
- 
- vpn_exit:
- 	if (state != VPN_STATE_READY && state != VPN_STATE_DISCONNECT) {
--		const char *name;
--		struct vpn_driver_data *vpn_data = NULL;
--
--		name = vpn_provider_get_driver_name(provider);
--		if (name)
--			vpn_data = g_hash_table_lookup(driver_hash, name);
--
--		if (vpn_data && vpn_data->vpn_driver &&
--				vpn_data->vpn_driver->error_code)
-+		if (vpn_data && vpn_data->vpn_driver->error_code)
- 			ret = vpn_data->vpn_driver->error_code(provider,
- 					exit_code);
- 		else
-@@ -183,7 +192,8 @@ vpn_exit:
- 	}
- 
- done:
--	connman_task_destroy(task);
-+	if (!no_daemon)
-+		connman_task_destroy(task);
- }
- 
- int vpn_set_ifname(struct vpn_provider *provider, const char *ifname)
-@@ -546,6 +556,8 @@ static gboolean update_provider_state(gpointer data)
- 	vpn_data->watch = vpn_rtnl_add_newlink_watch(index,
- 						vpn_newlink, provider);
- 	connman_inet_ifup(index);
-+	vpn_data->state = VPN_STATE_CONNECT;
-+	vpn_provider_set_state(provider, VPN_PROVIDER_STATE_CONNECT);
- 
- 	return FALSE;
- }
-@@ -621,18 +633,10 @@ static int vpn_connect(struct vpn_provider *provider,
- 
- 		ret = vpn_driver_data->vpn_driver->connect(provider,
- 					NULL, NULL, cb, dbus_sender, user_data);
--		if (ret) {
--			stop_vpn(provider);
--			goto exist_err;
--		}
-+		if (!ret)
-+			g_timeout_add(1, update_provider_state, provider);
- 
--		DBG("%s started with dev %s",
--			vpn_driver_data->provider_driver.name, data->if_name);
--
--		data->state = VPN_STATE_CONNECT;
--
--		g_timeout_add(1, update_provider_state, provider);
--		return -EINPROGRESS;
-+		goto done;
- 	}
- 
- 	vpn_plugin_data =
-@@ -658,9 +662,12 @@ static int vpn_connect(struct vpn_provider *provider,
- 	ret = vpn_driver_data->vpn_driver->connect(provider, data->task,
- 						data->if_name, cb, dbus_sender,
- 						user_data);
 +
-+done:
- 	if (ret < 0 && ret != -EINPROGRESS) {
- 		stop_vpn(provider);
--		connman_task_destroy(data->task);
-+		if (data->task)
-+			connman_task_destroy(data->task);
- 		data->task = NULL;
- 		goto exist_err;
- 	}
++	return false;
++}
++
+ static void connect_cb(struct vpn_provider *provider, void *user_data,
+ 								int error)
+ {
+@@ -1509,6 +1526,8 @@ static void connect_cb(struct vpn_provider *provider, void *user_data,
+ 			 * No reply, disconnect called by connmand because of
+ 			 * connection timeout.
+ 			 */
++			vpn_provider_indicate_error(provider,
++					VPN_PROVIDER_ERROR_CONNECT_FAILED);
+ 			break;
+ 		case ENOMSG:
+ 			/* fall through */
+@@ -1533,9 +1552,7 @@ static void connect_cb(struct vpn_provider *provider, void *user_data,
+ 			 * process gets killed and vpn_died() is called to make
+ 			 * the provider back to idle state.
+ 			 */
+-			if (provider->state == VPN_PROVIDER_STATE_CONNECT ||
+-						provider->state ==
+-						VPN_PROVIDER_STATE_READY) {
++			if (is_connected_state(provider->state)) {
+ 				if (provider->driver->set_state)
+ 					provider->driver->set_state(provider,
+ 						VPN_PROVIDER_STATE_DISCONNECT);
+@@ -1597,6 +1614,17 @@ int __vpn_provider_connect(struct vpn_provider *provider, DBusMessage *msg)
+ 		if (reply)
+ 			g_dbus_send_message(connection, reply);
+ 
++		return -EINPROGRESS;
++	case VPN_PROVIDER_STATE_ASSOCIATION:
++		/*
++		 * Do not interrupt user when inputting credentials via agent.
++		 * The driver is in CONNECT state that would return EINPROGRESS
++		 * and change provider state to CONNECT.
++		 */
++		reply = __connman_error_in_progress(msg);
++		if (reply)
++			g_dbus_send_message(connection, reply);
++
+ 		return -EINPROGRESS;
+ 	case VPN_PROVIDER_STATE_UNKNOWN:
+ 	case VPN_PROVIDER_STATE_IDLE:
+@@ -1626,7 +1654,7 @@ int __vpn_provider_connect(struct vpn_provider *provider, DBusMessage *msg)
+ 		return -EOPNOTSUPP;
+ 
+ 	if (err == -EINPROGRESS)
+-		vpn_provider_set_state(provider, VPN_PROVIDER_STATE_CONNECT);
++		vpn_provider_set_state(provider, VPN_PROVIDER_STATE_ASSOCIATION);
+ 
+ 	return err;
+ }
+@@ -1767,6 +1795,8 @@ static const char *state2string(enum vpn_provider_state state)
+ 		break;
+ 	case VPN_PROVIDER_STATE_IDLE:
+ 		return "idle";
++	case VPN_PROVIDER_STATE_ASSOCIATION:
++		return "association";
+ 	case VPN_PROVIDER_STATE_CONNECT:
+ 		return "configuration";
+ 	case VPN_PROVIDER_STATE_READY:
+@@ -1875,6 +1905,9 @@ static void append_state(DBusMessageIter *iter,
+ 	case VPN_PROVIDER_STATE_IDLE:
+ 		str = "idle";
+ 		break;
++	case VPN_PROVIDER_STATE_ASSOCIATION:
++		str = "association";
++		break;
+ 	case VPN_PROVIDER_STATE_CONNECT:
+ 		str = "configuration";
+ 		break;
+@@ -2026,6 +2059,10 @@ int vpn_provider_set_state(struct vpn_provider *provider,
+ 	case VPN_PROVIDER_STATE_IDLE:
+ 		return set_connected(provider, false);
+ 	case VPN_PROVIDER_STATE_CONNECT:
++		if (provider->driver && provider->driver->set_state)
++			provider->driver->set_state(provider, state);
++		return provider_indicate_state(provider, state);
++	case VPN_PROVIDER_STATE_ASSOCIATION:
+ 		return provider_indicate_state(provider, state);
+ 	case VPN_PROVIDER_STATE_READY:
+ 		return set_connected(provider, true);
+diff --git a/vpn/vpn-provider.h b/vpn/vpn-provider.h
+index 5d1455da..c81476c6 100644
+--- a/vpn/vpn-provider.h
++++ b/vpn/vpn-provider.h
+@@ -44,6 +44,12 @@ enum vpn_provider_state {
+ 	VPN_PROVIDER_STATE_READY         = 3,
+ 	VPN_PROVIDER_STATE_DISCONNECT    = 4,
+ 	VPN_PROVIDER_STATE_FAILURE       = 5,
++	/*
++	 * Special state to indicate that user interaction is being waited for
++	 * and disconnect timeout in connmand should not terminate this VPN but
++	 * to let the agent timeout handle the case.
++	 */
++	VPN_PROVIDER_STATE_ASSOCIATION   = 6,
+ };
+ 
+ enum vpn_provider_error {
 -- 
 2.39.5
 
