@@ -1,45 +1,45 @@
 Received: from mail.kapsi.fi (mail-auth.kapsi.fi [91.232.154.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAF0C23B63C
-	for <connman@lists.linux.dev>; Wed, 13 Aug 2025 15:29:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E08DD239E79
+	for <connman@lists.linux.dev>; Wed, 13 Aug 2025 15:30:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.232.154.24
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755099001; cv=none; b=f6ytKZTyFd1tJhiAhrOlzArtNrkmWUTRLcXKuZ0zaTL7YiRGMAAnbKJLVq8BU+7fXl123M3+Kve6b7LjSp2nbzVjU4oeMLImoo+TPVBZpoRxf9vyRv1pYRtC07MNnLCYmKzC1FM25u7Iu/y04HdOMEuuBxixdMLdgVtaivi+vHQ=
+	t=1755099005; cv=none; b=lo78Gz93vRXaRDY2HDvDyMMBjtSDmew3bBhKmflE9PPp38Y5HXSDuF7CjA3by3LMAoEiWUUjsNH6zJqooUfcwy+aYyNZEcsIP+1ALKs9c+go8caaqRpT++WbtucCAJXvvSoA3c4wDGf/SpjXU/BIGYWrzwA5uof+dQPE6HQr7D0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755099001; c=relaxed/simple;
-	bh=agZTWC8+OcR3GdTQ/PgxBe90YgUFFtWwEDUYVfV1JVY=;
+	s=arc-20240116; t=1755099005; c=relaxed/simple;
+	bh=5mYgqKEHzc99hkehSCXmuFDEFcSGYD7GqOamZQZRDyM=;
 	h=From:To:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=ZzHSy0kjVM3dVhJjdsxJjKJjDWhwcrd1QPRMmIotEyD3HX/bbUDIqqSSJkx4HRcJRUolCB9n9b1qxmhsO5yQnjEvZZKgDoyss91H7t5fq0cfunVpW3pg7OqYJD8lN8vub4TKfnkF6+/rQkdFozCm0UnKndcy6OOVy3wDGgewq7A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=jolla.com; spf=pass smtp.mailfrom=kapsi.fi; dkim=pass (2048-bit key) header.d=kapsi.fi header.i=@kapsi.fi header.b=aacUX2id; arc=none smtp.client-ip=91.232.154.24
+	 MIME-Version; b=kAluFgcRUDN4RvRRTPcoj6+FkNGYdzS/e1ojR8LY0FXkCMEwYRcvEwOw0oDcGu7aR6hqJrqByZfiAaTSwTUqh2L/hmQxNoyK6PqHYTPWPF9zgGwV85hn0CijkIG22/28to9Tb9prIfXn+2IPf8LmGoDoR6CnRWJp0Ki0KvzLV0A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=jolla.com; spf=pass smtp.mailfrom=kapsi.fi; dkim=pass (2048-bit key) header.d=kapsi.fi header.i=@kapsi.fi header.b=CA35xesv; arc=none smtp.client-ip=91.232.154.24
 Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=jolla.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kapsi.fi
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kapsi.fi header.i=@kapsi.fi header.b="aacUX2id"
+	dkim=pass (2048-bit key) header.d=kapsi.fi header.i=@kapsi.fi header.b="CA35xesv"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
 	s=20161220; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:To:From:Sender:Reply-To:Cc:Content-Type:Content-ID:
 	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
 	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
 	List-Post:List-Owner:List-Archive;
-	bh=DBEV3OOOOLowG5qFeuGvl36EK7HWQ1+fi0BL7EP0iYs=; b=aacUX2idWE8LPP7t1mGEoe1Qw7
-	0ATTvVarB00hEBoU9uIXlU67jLNGyJVjMMiUvMw7IRtdHki2P/YP4O15/lsGlgw9BnhE4AShC0szc
-	KOkjYcgO24/aPa8j1zsuD9prNPVFJfbMIkvqL0QEnzLQuvzuIEtIR8XUySDnBFoQ2eHpwG1HN6sJf
-	HTkwZSoVh4BpXWwPjZuygSXE1iQ4BaSSAsFafL9dMNjJOWtm5tgksvijgCnlXfYPY1xGkLp964qPb
-	TMx3qG69vF489VCb027l7V+qJ/tTbrL4+9tyfL4Fn+0zrhj9IsLacTgbkuBJ1d0csVFq3ZnfmKLrH
-	l/G3Zu+A==;
+	bh=uBtwDvnBx13SMhrgd8/WaGr9gUW8vCEO/JMSDszRVjc=; b=CA35xesvDC3p86382cQi2i9PYA
+	z7JfKQC7rF9qXC8BhrNyaHDTxsGlSj/INmA0pdxqb+HLXuQ+1yG9hf5Qy5eOHtn+bhFjv+R+belmA
+	jFUmpZ9higv9wJ3DPKCdxDY+P3cOc+8H2mrd+gFavJ6JERINUrxd9vmrc3rZm6wY9IgZuKxGU4Apa
+	MAlGClBYKnFT+WKx52joEqDI6xaVlgUcrXoIv1Cd52u4aZaKWwBIOpLnsWP0OiihG8H4R2yACg4RN
+	4fb0phfBxn0LGkLM5YS4G/VVF3IjFuBMNJ0yljFGJ7eNWaSqaLRrcd7CM7E3tofGq2xbDUNlV4S7e
+	y80q1+Ww==;
 Received: from [2a10:a5c0:37:6500:b275:797e:525b:8df9] (helo=jl-x230.local)
 	by mail.kapsi.fi with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.96)
 	(envelope-from <jussi.laakkonen@jolla.com>)
-	id 1umCze-009qQa-1A
+	id 1umCze-009qQa-0t
 	for connman@lists.linux.dev;
 	Wed, 13 Aug 2025 18:02:22 +0300
 From: Jussi Laakkonen <jussi.laakkonen@jolla.com>
 To: connman@lists.linux.dev
-Subject: [PATCH v2 09/42] vpn-provider: Transition to CONNECT state with agentless VPNs
-Date: Wed, 13 Aug 2025 18:01:41 +0300
-Message-Id: <20250813150214.189282-10-jussi.laakkonen@jolla.com>
+Subject: [PATCH v2 07/42] vpn: Check if connecting when setting state or disconnecting
+Date: Wed, 13 Aug 2025 18:01:39 +0300
+Message-Id: <20250813150214.189282-8-jussi.laakkonen@jolla.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250813150214.189282-1-jussi.laakkonen@jolla.com>
 References: <20250813150214.189282-1-jussi.laakkonen@jolla.com>
@@ -54,42 +54,72 @@ X-SA-Exim-Connect-IP: 2a10:a5c0:37:6500:b275:797e:525b:8df9
 X-SA-Exim-Mail-From: jussi.laakkonen@jolla.com
 X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
 
-Set to transition to CONNECT state immediately after ASSOCIATION state
-after initializing connection procedure with a VPN if it does not use
-VPN agent. This is done to accommodate the full state machine
-transitions as the VPN agent, when success, will do the transition but
-when VPN agent is not used the transition would be required to be done
-by the plugin.
+Add checking of connected and connecting state in cases when the state
+is being set and state transitions to disconnecting. This change avoids
+clearing the transport ident when VPN is waiting for input from VPN
+agent (association state).
 ---
- vpn/vpn-provider.c | 15 +++++++++++++--
- 1 file changed, 13 insertions(+), 2 deletions(-)
+ plugins/vpn.c | 19 +++++++++++++++----
+ 1 file changed, 15 insertions(+), 4 deletions(-)
 
-diff --git a/vpn/vpn-provider.c b/vpn/vpn-provider.c
-index 56040e65..b21e9e61 100644
---- a/vpn/vpn-provider.c
-+++ b/vpn/vpn-provider.c
-@@ -1653,8 +1653,19 @@ int __vpn_provider_connect(struct vpn_provider *provider, DBusMessage *msg)
- 	} else
- 		return -EOPNOTSUPP;
- 
--	if (err == -EINPROGRESS)
--		vpn_provider_set_state(provider, VPN_PROVIDER_STATE_ASSOCIATION);
-+	if (err == -EINPROGRESS) {
-+		vpn_provider_set_state(provider,
-+					VPN_PROVIDER_STATE_ASSOCIATION);
-+
-+		/*
-+		 * If the VPN does not use VPN agent do direct transition to
-+		 * connect in order to support the complete state machine.
-+		 */
-+		if (provider->driver && provider->driver->uses_vpn_agent &&
-+				!provider->driver->uses_vpn_agent(provider))
-+			vpn_provider_set_state(provider,
-+						VPN_PROVIDER_STATE_CONNECT);
-+	}
- 
- 	return err;
+diff --git a/plugins/vpn.c b/plugins/vpn.c
+index 854b817f..d683c67d 100644
+--- a/plugins/vpn.c
++++ b/plugins/vpn.c
+@@ -270,6 +270,13 @@ static bool provider_is_connected(struct connection_data *data)
+ 			g_str_equal(data->state, "configuration"));
  }
+ 
++static bool provider_is_connected_or_connecting(struct connection_data *data)
++{
++	return data && (g_str_equal(data->state, "ready") ||
++			g_str_equal(data->state, "configuration") ||
++			g_str_equal(data->state, "association"));
++}
++
+ static void set_provider_state(struct connection_data *data)
+ {
+ 	enum connman_provider_state state = CONNMAN_PROVIDER_STATE_UNKNOWN;
+@@ -278,7 +285,11 @@ static void set_provider_state(struct connection_data *data)
+ 
+ 	DBG("provider %p new state %s", data->provider, data->state);
+ 
+-	connected = provider_is_connected(data);
++	/*
++	 * To avoid clearing transport ident when VPN is waiting for agent
++	 * take also connecting state into account.
++	 */
++	connected = provider_is_connected_or_connecting(data);
+ 
+ 	if (g_str_equal(data->state, "ready")) {
+ 		state = CONNMAN_PROVIDER_STATE_READY;
+@@ -1075,7 +1086,7 @@ static int provider_disconnect(struct connman_provider *provider)
+ 	if (!data)
+ 		return -EINVAL;
+ 
+-	if (provider_is_connected(data))
++	if (provider_is_connected_or_connecting(data))
+ 		err = disconnect_provider(data);
+ 
+ 	if (data->call) {
+@@ -1729,7 +1740,7 @@ static void destroy_provider(struct connection_data *data)
+ {
+ 	DBG("data %p", data);
+ 
+-	if (provider_is_connected(data))
++	if (provider_is_connected_or_connecting(data))
+ 		connman_provider_disconnect(data->provider);
+ 
+ 	connman_provider_set_data(data->provider, NULL);
+@@ -2182,7 +2193,7 @@ static bool vpn_is_valid_transport(struct connman_service *transport)
+ 
+ static void vpn_disconnect_check_provider(struct connection_data *data)
+ {
+-	if (provider_is_connected(data)) {
++	if (provider_is_connected_or_connecting(data)) {
+ 		/* With NULL service ident NULL is returned immediately */
+ 		struct connman_service *service =
+ 			connman_service_lookup_from_identifier
 -- 
 2.39.5
 
