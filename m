@@ -1,45 +1,45 @@
 Received: from mail.kapsi.fi (mail-auth.kapsi.fi [91.232.154.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A20328000A
-	for <connman@lists.linux.dev>; Wed, 13 Aug 2025 15:59:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3E692857C1
+	for <connman@lists.linux.dev>; Wed, 13 Aug 2025 15:59:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.232.154.24
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755100772; cv=none; b=knGEWFCjWyAXkfiw0z/uORrHgNAcYFvkfNVTFcqw48gD9dH91KzuDUIrsufmEaFSJDMfS3mDKTTSWJPiHNlAgraSRBz9xFBnS53Mg2ybyjbjm/pB6mwc3R17MedlhWW7H3ZOsrz9XU3fGM+NpInAX7wfru/zTr+D2MFPKqkeT9U=
+	t=1755100776; cv=none; b=U7WtrUZQzGoN82NszpZnG2wKIpQ/n37Ml6VA1/mMAfjojztnVG2mEY8MJ9YC1DvLpud+MJIhS7hc19WnbxIKgBO3UZOz0jgIJ70u3L95Kp2sReZ7GTfHTcPvdtMcony15hTFQ8X9CS6sis8suHrkIg6vAj8zLlNklB78pDUHhfk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755100772; c=relaxed/simple;
-	bh=SWyf4pEEiH1L71Wo4DTpZKFjhjaPsWroleulbcoeM/Y=;
+	s=arc-20240116; t=1755100776; c=relaxed/simple;
+	bh=aep1sVvzvEcY9mY8Hn8BNw3/Gi6Df5ByrPxG/oMupY0=;
 	h=From:To:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=btu1B4F6XH68+NTgATJVThIoyVWr6X5gXBOCiwRrOP14NOSngk3b500f6IJmSkERJQ0NNhiGruWpCKqGRnkRNf7n5gc8Yfuwz+dxVusQYMSQy7vl5IrmtYvplT/HTZaDy212iuHsbP+2gywNep9vXN378hOnAHlDTle37V+tChI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=jolla.com; spf=pass smtp.mailfrom=kapsi.fi; dkim=pass (2048-bit key) header.d=kapsi.fi header.i=@kapsi.fi header.b=jV7MKc6Q; arc=none smtp.client-ip=91.232.154.24
+	 MIME-Version; b=eG3phUMWpX6yJZxgwlTtuOPpoJu81OpeiI0wCwwPSD/AKPXaixVsUOo4OkfbTOzQR7r0RRvMRSa3Ekw5xyGgcNRM50wKuJ+Hokq4z4lKt2tuVNaVI7iYDjaLm/scboSkirZCXprcmeF12s6eZsQIkBs05XvDGf8L7zvwzv9qJQ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=jolla.com; spf=pass smtp.mailfrom=kapsi.fi; dkim=pass (2048-bit key) header.d=kapsi.fi header.i=@kapsi.fi header.b=ug5/veRM; arc=none smtp.client-ip=91.232.154.24
 Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=jolla.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kapsi.fi
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kapsi.fi header.i=@kapsi.fi header.b="jV7MKc6Q"
+	dkim=pass (2048-bit key) header.d=kapsi.fi header.i=@kapsi.fi header.b="ug5/veRM"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
 	s=20161220; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:To:From:Sender:Reply-To:Cc:Content-Type:Content-ID:
 	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
 	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
 	List-Post:List-Owner:List-Archive;
-	bh=b8msAbY7J2TPTgZ+h+sMOLwIAVj1TJExPJWJiUDaVM4=; b=jV7MKc6QuTP5GOoiye66picomj
-	zmlV0yTdcG5Et5Ru04Mlus3uV0stc1NPO3QcyI7hI7G68uqDl6GX8A4UTDiLWVMvnSi9dV2AjWAgT
-	VW208VwtI8ooLeAbKOEEwGdNlWdReI3KdL1VZEkT8VCtscsZiy65Lr6WkolKwsO1x2AUud2ahHXam
-	5Rfn3u6hlIcuO/D1+ksknfKva2DAP4Pio3hua1svZ65rupvC4Nc5IBsDNhWw+19XDWhjQ4Eny2TmR
-	FtowlncoazmccbslxFuNIFmG8X1YNuPn6/dPdfJ28ZhW9S6XHbwtdT35N31Hmb7mwmo5OEidphv2+
-	fvw36+aw==;
+	bh=YKDbvFUF7vRF+33fIujmaN2nwRz0aKUSLsO8z7rYtw8=; b=ug5/veRMibJccIYdWUUFbpDzsH
+	myZApJE1Py2vEE1IcDi2gZ18m5xUYOPjqA0GpHRtINfq6fxijV5596Bv2ilFNBqIlT19gFa7PWA6A
+	IesQz8aGX9qtTT+iFNODDhfqrxwdS32srL6nPRpILSJbAMWTm4wzLHtp8YEZ9ZLuf2L8FkWhyz49b
+	Jv6BLVXObasoFIidKnsavK7fX/ZQh74yMKWLNpxIM9re3lJsC7cS103sllQXRkTxBXs9Ebx0rClkh
+	6SfMltJ2GIAEu2EcSU719MJTm+4u6CN2nie4vLWKBXEyrcRObmt7st29vVRcwPJbE8siJ6rz2qfsl
+	qDIYO8Sw==;
 Received: from [2a10:a5c0:37:6500:b275:797e:525b:8df9] (helo=jl-x230.local)
 	by mail.kapsi.fi with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.96)
 	(envelope-from <jussi.laakkonen@jolla.com>)
-	id 1umCzf-009qQa-0q
+	id 1umCze-009qQa-35
 	for connman@lists.linux.dev;
-	Wed, 13 Aug 2025 18:02:23 +0300
+	Wed, 13 Aug 2025 18:02:22 +0300
 From: Jussi Laakkonen <jussi.laakkonen@jolla.com>
 To: connman@lists.linux.dev
-Subject: [PATCH v2 29/42] vpn-provider: Allow to add complete routes and to remove routes
-Date: Wed, 13 Aug 2025 18:02:01 +0300
-Message-Id: <20250813150214.189282-30-jussi.laakkonen@jolla.com>
+Subject: [PATCH v2 22/42] vpn-provider: Add support for dual-IP VPNs
+Date: Wed, 13 Aug 2025 18:01:54 +0300
+Message-Id: <20250813150214.189282-23-jussi.laakkonen@jolla.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250813150214.189282-1-jussi.laakkonen@jolla.com>
 References: <20250813150214.189282-1-jussi.laakkonen@jolla.com>
@@ -54,103 +54,171 @@ X-SA-Exim-Connect-IP: 2a10:a5c0:37:6500:b275:797e:525b:8df9
 X-SA-Exim-Mail-From: jussi.laakkonen@jolla.com
 X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
 
-Adding functionality to add complete routes when all parameters are
-known, like with WireGuard. Using the route_env_parse() cb in such case
-is too complex and with daemonless VPNs the parameters can be added
-once. Move the route lookup into its own function and follow coding
-guidelines on memory handling.
-
-Also allow to remove all or a single route from the hash table. In
-WireGuard the endpoint may change and this is required for removing the
-obsolete routes.
+WireGuard can use both IP addresses, for example. Use a the utils afs to
+define AFs for a VPN.
 ---
- vpn/vpn-provider.c | 54 ++++++++++++++++++++++++++++++++++++++++++++++
- vpn/vpn-provider.h |  7 ++++++
- 2 files changed, 61 insertions(+)
+ Makefile.am        |  3 ++-
+ vpn/vpn-provider.c | 64 ++++++++++++++++++++++++++++++----------------
+ 2 files changed, 44 insertions(+), 23 deletions(-)
 
+diff --git a/Makefile.am b/Makefile.am
+index 3dc3bb5c..28a8b7d5 100644
+--- a/Makefile.am
++++ b/Makefile.am
+@@ -181,7 +181,8 @@ vpn_connman_vpnd_SOURCES = $(builtin_vpn_sources) $(backtrace_sources) \
+ 			vpn/vpn-ipconfig.c src/inet.c vpn/vpn-rtnl.c \
+ 			src/dbus.c src/storage.c src/ipaddress.c src/agent.c \
+ 			vpn/vpn-agent.c vpn/vpn-agent.h src/inotify.c \
+-			vpn/vpn-config.c vpn/vpn-settings.c vpn/vpn-util.c
++			vpn/vpn-config.c vpn/vpn-settings.c vpn/vpn-util.c \
++			src/shared/util.c
+ 
+ vpn_connman_vpnd_LDADD = gdbus/libgdbus-internal.la $(builtin_vpn_libadd) \
+ 				@GIO_LIBS@ @GLIB_LIBS@ @DBUS_LIBS@ @GNUTLS_LIBS@ \
 diff --git a/vpn/vpn-provider.c b/vpn/vpn-provider.c
-index 0462978b..3942c937 100644
+index b79b7963..c05e4cf5 100644
 --- a/vpn/vpn-provider.c
 +++ b/vpn/vpn-provider.c
-@@ -3253,6 +3253,60 @@ int vpn_provider_append_route(struct vpn_provider *provider,
- 	return 0;
- }
+@@ -55,6 +55,7 @@
+ #include "vpn-provider.h"
+ #include "vpn.h"
+ #include "plugins/vpn.h"
++#include "../src/shared/util.h"
  
-+int vpn_provider_append_route_complete(struct vpn_provider *provider,
-+				unsigned long idx, int family,
-+				const char *network, const char *netmask,
-+				const char *gateway)
+ static DBusConnection *connection;
+ static GHashTable *provider_hash;
+@@ -85,7 +86,7 @@ struct vpn_provider {
+ 	char *type;
+ 	char *host;
+ 	char *domain;
+-	int family;
++	struct supported_afs family;
+ 	bool do_split_routing;
+ 	GHashTable *routes;
+ 	struct vpn_provider_driver *driver;
+@@ -127,6 +128,31 @@ static guint connman_service_watch;
+ static bool connman_online;
+ static bool state_query_completed;
+ 
++
++static bool provider_get_family(struct vpn_provider *provider, int family)
 +{
-+	struct vpn_route *route;
++	if (!provider)
++		return false;
 +
-+	DBG("provider %p idx %lu family %d network %s netmask %s gateway %s",
-+						provider, idx, family, network,
-+						netmask, gateway);
-+
-+	if (!netmask || !gateway || !network)
-+		return -EINVAL;
-+
-+	if (g_hash_table_lookup(provider->routes, GINT_TO_POINTER(idx)))
-+		return -EALREADY;
-+
-+	route = g_new0(struct vpn_route, 1);
-+	route->family = family;
-+	route->network = g_strdup(network);
-+	route->netmask = g_strdup(netmask);
-+	route->gateway = g_strdup(gateway);
-+
-+	g_hash_table_replace(provider->routes, GINT_TO_POINTER(idx), route);
-+	provider_schedule_changed(provider);
-+
-+	return 0;
++	return util_get_afs(&provider->family, family);
 +}
 +
-+void vpn_provider_delete_all_routes(struct vpn_provider *provider)
++static void provider_set_family(struct vpn_provider *provider, int family)
 +{
-+	DBG("provider %p", provider);
-+;
-+	if (!__vpn_provider_check_routes(provider))
++	if (!provider)
 +		return;
 +
-+	g_hash_table_remove_all(provider->routes);
-+	provider_schedule_changed(provider);
++	util_set_afs(&provider->family, family);
 +}
 +
-+int vpn_provider_delete_route(struct vpn_provider *provider,
-+							unsigned long idx)
++static void provider_reset_family(struct vpn_provider *provider)
 +{
-+	if (!__vpn_provider_check_routes(provider))
-+		return -ENOENT;
++	if (!provider)
++		return;
 +
-+	if (!g_hash_table_remove(provider->routes, GINT_TO_POINTER(idx)))
-+		return -EINVAL;
-+
-+	provider_schedule_changed(provider);
-+
-+	return 0;
++	util_reset_afs(&provider->family);
 +}
 +
- const char *vpn_provider_get_driver_name(struct vpn_provider *provider)
- {
- 	if (!provider->driver)
-diff --git a/vpn/vpn-provider.h b/vpn/vpn-provider.h
-index 8a8b6bfd..c7487525 100644
---- a/vpn/vpn-provider.h
-+++ b/vpn/vpn-provider.h
-@@ -124,6 +124,13 @@ int vpn_provider_set_nameservers(struct vpn_provider *provider,
- 					const char *nameservers);
- int vpn_provider_append_route(struct vpn_provider *provider,
- 					const char *key, const char *value);
-+int vpn_provider_append_route_complete(struct vpn_provider *provider,
-+				unsigned long idx, int family,
-+				const char *address, const char *netmask,
-+				const char *gateway);
-+void vpn_provider_delete_all_routes(struct vpn_provider *provider);
-+int vpn_provider_delete_route(struct vpn_provider *provider,
-+							unsigned long index);
+ static void append_properties(DBusMessageIter *iter,
+ 				struct vpn_provider *provider);
+ static int vpn_provider_save(struct vpn_provider *provider);
+@@ -1875,11 +1901,11 @@ static int provider_indicate_state(struct vpn_provider *provider,
+ 					VPN_CONNECTION_INTERFACE, "Index",
+ 					DBUS_TYPE_INT32, &provider->index);
  
- const char *vpn_provider_get_driver_name(struct vpn_provider *provider);
- const char *vpn_provider_get_save_group(struct vpn_provider *provider);
+-		if (provider->family == AF_INET)
++		if (provider_get_family(provider, AF_INET))
+ 			connman_dbus_property_changed_dict(provider->path,
+ 					VPN_CONNECTION_INTERFACE, "IPv4",
+ 					append_ipv4, provider);
+-		else if (provider->family == AF_INET6)
++		if (provider_get_family(provider, AF_INET6))
+ 			connman_dbus_property_changed_dict(provider->path,
+ 					VPN_CONNECTION_INTERFACE, "IPv6",
+ 					append_ipv6, provider);
+@@ -1976,10 +2002,10 @@ static void append_properties(DBusMessageIter *iter,
+ 	connman_dbus_dict_append_basic(&dict, "SplitRouting",
+ 					DBUS_TYPE_BOOLEAN, &split_routing);
+ 
+-	if (provider->family == AF_INET)
++	if (provider_get_family(provider, AF_INET))
+ 		connman_dbus_dict_append_dict(&dict, "IPv4", append_ipv4,
+ 						provider);
+-	else if (provider->family == AF_INET6)
++	if (provider_get_family(provider, AF_INET6))
+ 		connman_dbus_dict_append_dict(&dict, "IPv6", append_ipv6,
+ 						provider);
+ 
+@@ -2032,18 +2058,16 @@ static void connection_added_signal(struct vpn_provider *provider)
+ static int set_connected(struct vpn_provider *provider,
+ 					bool connected)
+ {
+-	struct vpn_ipconfig *ipconfig;
+-
+ 	DBG("provider %p id %s connected %d", provider,
+ 					provider->identifier, connected);
+ 
+ 	if (connected) {
+-		if (provider->family == AF_INET6)
+-			ipconfig = provider->ipconfig_ipv6;
+-		else
+-			ipconfig = provider->ipconfig_ipv4;
+-
+-		__vpn_ipconfig_address_add(ipconfig, provider->family);
++		if (provider_get_family(provider, AF_INET))
++			__vpn_ipconfig_address_add(provider->ipconfig_ipv4,
++								AF_INET);
++		if (provider_get_family(provider, AF_INET6))
++			__vpn_ipconfig_address_add(provider->ipconfig_ipv6,
++								AF_INET6);
+ 
+ 		provider_indicate_state(provider,
+ 					VPN_PROVIDER_STATE_READY);
+@@ -2053,6 +2077,7 @@ static int set_connected(struct vpn_provider *provider,
+ 
+ 		provider_indicate_state(provider,
+ 					VPN_PROVIDER_STATE_IDLE);
++		provider_reset_family(provider);
+ 	}
+ 
+ 	return 0;
+@@ -3077,7 +3102,7 @@ int vpn_provider_set_ipaddress(struct vpn_provider *provider,
+ 	if (!ipconfig)
+ 		return -EINVAL;
+ 
+-	provider->family = ipaddress->family;
++	provider_set_family(provider, ipaddress->family);
+ 
+ 	if (provider->state == VPN_PROVIDER_STATE_CONNECT ||
+ 			provider->state == VPN_PROVIDER_STATE_READY) {
+@@ -3367,18 +3392,13 @@ unsigned int vpn_provider_get_connection_errors(
+ 
+ void vpn_provider_change_address(struct vpn_provider *provider)
+ {
+-	switch (provider->family) {
+-	case AF_INET:
++	if (provider_get_family(provider, AF_INET))
+ 		connman_inet_set_address(provider->index,
+ 			__vpn_ipconfig_get_address(provider->ipconfig_ipv4));
+-		break;
+-	case AF_INET6:
++
++	if (provider_get_family(provider, AF_INET6))
+ 		connman_inet_set_ipv6_address(provider->index,
+ 			__vpn_ipconfig_get_address(provider->ipconfig_ipv6));
+-		break;
+-	default:
+-		break;
+-	}
+ }
+ 
+ void vpn_provider_clear_address(struct vpn_provider *provider, int family)
 -- 
 2.39.5
 
