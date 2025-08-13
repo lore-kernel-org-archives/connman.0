@@ -1,45 +1,45 @@
 Received: from mail.kapsi.fi (mail-auth.kapsi.fi [91.232.154.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC94311CBA
-	for <connman@lists.linux.dev>; Wed, 13 Aug 2025 15:58:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67C1424467B
+	for <connman@lists.linux.dev>; Wed, 13 Aug 2025 15:58:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.232.154.24
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755100730; cv=none; b=P3unHOFcwUReywsquDVFcNF9a23CkJy9ik1OC79N+717ZegKWNsh1hpwJpyM1dMljwnC85NcpkrDHTcKnUi1bhcI1Rf6AeUezBO7MrwHdcQHzSrw0L+f3H2/R2ScR4uXd1fJPZ0j3B0poXhnVC7tH7Fug2NDn+oMgAIG0i8imNI=
+	t=1755100734; cv=none; b=qbNQfrPLdqzem6eGttIad7jSh/NdN3/u45vXLcloevnXYwgYzLyfAk8ws3T3jEjjR7KP64Gmpht1zTCL7NeB1ow529KdQUvyI6fKidg3/Q6iw2fghn7GLCzFcdcEmGWMq0tnanVPmcTA06IO2Vj2PNSM45yN/1Nz3zt8MxHXDEA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755100730; c=relaxed/simple;
-	bh=0QIgCPEqnY+KN2q3Wm4Be3OgItOXi2uhl6jNWNIuKB0=;
+	s=arc-20240116; t=1755100734; c=relaxed/simple;
+	bh=oij8ahuAHg7KRzrpO0dFcM58p12m2GJzXp4aqAbWsvs=;
 	h=From:To:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=TGVvZU6bWVWdVGxAKVvd0ITpwFDdpGG4jj13zYD0N+SpDR0/bCDrZi7kCVoc3Rq2EH5ENpKJpEv0VUQEOoe2gGXnt6QhxjcwGuGdXiWdABYdYCS7CCXZ0QSZh0L4wtCByC2bZObLgKaZPF1VLQO2Wjdz83ekQhu2rP8iJbRn9nc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=jolla.com; spf=pass smtp.mailfrom=kapsi.fi; dkim=pass (2048-bit key) header.d=kapsi.fi header.i=@kapsi.fi header.b=TZToZhbs; arc=none smtp.client-ip=91.232.154.24
+	 MIME-Version; b=Bvb17O1nZiGsM18Hql1VpFPifAsA/Btr0RcXqRJiJFXp4Xts/O5wvMteKc3vo74uGOK97+uBVGffl0GWHv6pXRmeKA6GoxNgRik1aoNZ25S00PnsK8nPHnPnt86fn7MWLzKkAPH5eX4nhuK/1O536szYMtaSElfH7LFy2U90Gp0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=jolla.com; spf=pass smtp.mailfrom=kapsi.fi; dkim=pass (2048-bit key) header.d=kapsi.fi header.i=@kapsi.fi header.b=TYAVXL+E; arc=none smtp.client-ip=91.232.154.24
 Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=jolla.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kapsi.fi
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kapsi.fi header.i=@kapsi.fi header.b="TZToZhbs"
+	dkim=pass (2048-bit key) header.d=kapsi.fi header.i=@kapsi.fi header.b="TYAVXL+E"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
 	s=20161220; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:To:From:Sender:Reply-To:Cc:Content-Type:Content-ID:
 	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
 	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
 	List-Post:List-Owner:List-Archive;
-	bh=85y7HZcYsVWob+jhrm2MiwsDLmOcQ5QhCDMYeeOBQKc=; b=TZToZhbs7yCrZnsKv4q6w6niIj
-	cICySnLo2YlawyR7GeEbIjX7jdlz39xYS3LSd3pIilp7DgVygAv9v8srI9G0lP8lCnsMUbVhCcG3M
-	5vMPprdbxZZ/JUSnEuLtGYEh6KJ0YUPWdBqP+d171chbstK1ejqKP4tOj1Coi/7mjiOBZ7F0BUK2x
-	j/eIVhlwo2Uq7XOyJkIE93gxm9LcmxuDWI5pvU6XYEwDXl+HrJ1ewynO+vhgbcZ+spEOs3HSNV62A
-	U24dPB+Iq0PbtA9XW78YONENtHWwiFnnwKMYzEBksZajorOJl7xFN6wF0gf6oGECVbt1AZ7xPaC29
-	Xin8gNTQ==;
+	bh=Vk63hJMwZm4Ato+JcOtrTJqPvJa0JrwcXIneuUpMyoo=; b=TYAVXL+EqYS5H2Q1f0S5b73eWM
+	Uue98jcCxf6/1vRXntM/xy13VZnZvtBNMh+wPPJabCc3muCpC3a/R7358On7cev2voctpVhy6t009
+	L+BUgUrr2ZdE+pxLfmKRfXsxEQMG8tZtsV4Tyfb/a/0AL82F8MaFM4roBMAQl/cMkrGrmRDrDNFm5
+	JauP7f+1/OUg8Mto9yS1lhzwT2/65CPwH+f4J7gAZT4c620vvq8hb+DuAJ/UVGJRtO/LYt/1lQ4ey
+	XBZrH1NfZ/JZejSONbL0cyXvwYJRvxk9yvPWSpx8gZ3SCItxCHGB8nyrHPCr3XRe7lKaavUqz2Xvn
+	C9lUw9SA==;
 Received: from [2a10:a5c0:37:6500:b275:797e:525b:8df9] (helo=jl-x230.local)
 	by mail.kapsi.fi with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.96)
 	(envelope-from <jussi.laakkonen@jolla.com>)
-	id 1umCzf-009qQa-0i
+	id 1umCze-009qQa-0B
 	for connman@lists.linux.dev;
-	Wed, 13 Aug 2025 18:02:23 +0300
+	Wed, 13 Aug 2025 18:02:22 +0300
 From: Jussi Laakkonen <jussi.laakkonen@jolla.com>
 To: connman@lists.linux.dev
-Subject: [PATCH v2 28/42] Revert "vpn: Remove unused __vpn_provider_check_routes"
-Date: Wed, 13 Aug 2025 18:02:00 +0300
-Message-Id: <20250813150214.189282-29-jussi.laakkonen@jolla.com>
+Subject: [PATCH v2 02/42] vpn: Add association state before connect state
+Date: Wed, 13 Aug 2025 18:01:34 +0300
+Message-Id: <20250813150214.189282-3-jussi.laakkonen@jolla.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250813150214.189282-1-jussi.laakkonen@jolla.com>
 References: <20250813150214.189282-1-jussi.laakkonen@jolla.com>
@@ -54,51 +54,107 @@ X-SA-Exim-Connect-IP: 2a10:a5c0:37:6500:b275:797e:525b:8df9
 X-SA-Exim-Mail-From: jussi.laakkonen@jolla.com
 X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
 
-This reverts commit 192696c5b032b0bdfa09950c43b569131315d490.
----
- vpn/vpn-provider.c | 16 ++++++++++++++++
- vpn/vpn.h          |  1 +
- 2 files changed, 17 insertions(+)
+This changes the state machine by adding the VPN_STATE_ASSOCIATION to be
+entered right after connect() callback is called. This is needed in
+order to properly react with the user input dialog waiting on VPNs.
+connect state is now set when the dialog is closed to indicate that user
+input is given and now the VPN really connects.
 
-diff --git a/vpn/vpn-provider.c b/vpn/vpn-provider.c
-index c05e4cf5..0462978b 100644
---- a/vpn/vpn-provider.c
-+++ b/vpn/vpn-provider.c
-@@ -3025,6 +3025,22 @@ void vpn_provider_set_auth_error_limit(struct vpn_provider *provider,
- 	provider->auth_error_limit = limit;
- }
+When VPN notify() allback is called the connect state is enforced if the
+return value indicates so and the internal state is different. This is
+to accommodate the changes required and to operate as a fallback that
+the states of provider and driver are kept in sync.
+
+Warn about invalid transition to ASSOCIATION state in case vpn_notify()
+gets it as a reply back from plugin notify.
+---
+ vpn/plugins/vpn.c | 22 +++++++++++++++++++++-
+ vpn/plugins/vpn.h | 11 ++++++-----
+ 2 files changed, 27 insertions(+), 6 deletions(-)
+
+diff --git a/vpn/plugins/vpn.c b/vpn/plugins/vpn.c
+index 1644e16d..52f7cac7 100644
+--- a/vpn/plugins/vpn.c
++++ b/vpn/plugins/vpn.c
+@@ -220,6 +220,9 @@ static int vpn_set_state(struct vpn_provider *provider,
+ 	case VPN_PROVIDER_STATE_IDLE:
+ 		data->state = VPN_STATE_IDLE;
+ 		break;
++	case VPN_PROVIDER_STATE_ASSOCIATION:
++		data->state = VPN_STATE_ASSOCIATION;
++		break;
+ 	case VPN_PROVIDER_STATE_CONNECT:
+ 	case VPN_PROVIDER_STATE_READY:
+ 		data->state = VPN_STATE_CONNECT;
+@@ -282,6 +285,12 @@ static DBusMessage *vpn_notify(struct connman_task *task,
  
-+bool __vpn_provider_check_routes(struct vpn_provider *provider)
-+{
-+	if (!provider)
-+		return false;
-+
-+	if (provider->user_routes &&
-+			g_hash_table_size(provider->user_routes) > 0)
-+		return true;
-+
-+	if (provider->routes &&
-+			g_hash_table_size(provider->routes) > 0)
-+		return true;
-+
-+	return false;
-+}
-+
- void *vpn_provider_get_data(struct vpn_provider *provider)
- {
- 	return provider->driver_data;
-diff --git a/vpn/vpn.h b/vpn/vpn.h
-index 1f8c8fcd..97c0ad6c 100644
---- a/vpn/vpn.h
-+++ b/vpn/vpn.h
-@@ -73,6 +73,7 @@ void __vpn_ipconfig_cleanup(void);
- #include "vpn-provider.h"
+ 	switch (state) {
+ 	case VPN_STATE_CONNECT:
++		if (data->state == VPN_STATE_ASSOCIATION) {
++			data->state = VPN_STATE_CONNECT;
++			vpn_provider_set_state(provider,
++						VPN_PROVIDER_STATE_CONNECT);
++		}
++		/* fall through */
+ 	case VPN_STATE_READY:
+ 		if (data->state == VPN_STATE_READY) {
+ 			/*
+@@ -334,6 +343,16 @@ static DBusMessage *vpn_notify(struct connman_task *task,
+ 		break;
  
- char *__vpn_provider_create_identifier(const char *host, const char *domain);
-+bool __vpn_provider_check_routes(struct vpn_provider *provider);
- int __vpn_provider_append_user_route(struct vpn_provider *provider,
- 				int family, const char *network,
- 				const char *netmask, const char *gateway);
+ 	case VPN_STATE_UNKNOWN:
++		break;
++
++	/* State transition to ASSOCIATION via notify is not allowed */
++	case VPN_STATE_ASSOCIATION:
++		connman_warn("Invalid %s vpn_notify() state transition "
++					"from %d to %d (ASSOCIATION)."
++					"VPN provider %p is disconnected",
++					vpn_driver_data->name, data->state,
++					state, provider);
++		/* fall through */
+ 	case VPN_STATE_IDLE:
+ 	case VPN_STATE_DISCONNECT:
+ 	case VPN_STATE_FAILURE:
+@@ -568,6 +587,7 @@ static int vpn_connect(struct vpn_provider *provider,
+ 		data->state = VPN_STATE_IDLE;
+ 		break;
+ 
++	case VPN_STATE_ASSOCIATION:
+ 	case VPN_STATE_CONNECT:
+ 		return -EINPROGRESS;
+ 
+@@ -648,7 +668,7 @@ static int vpn_connect(struct vpn_provider *provider,
+ 	DBG("%s started with dev %s",
+ 		vpn_driver_data->provider_driver.name, data->if_name);
+ 
+-	data->state = VPN_STATE_CONNECT;
++	data->state = VPN_STATE_ASSOCIATION;
+ 
+ 	return -EINPROGRESS;
+ 
+diff --git a/vpn/plugins/vpn.h b/vpn/plugins/vpn.h
+index fd10addf..a8d24fc3 100644
+--- a/vpn/plugins/vpn.h
++++ b/vpn/plugins/vpn.h
+@@ -34,11 +34,12 @@ extern "C" {
+ enum vpn_state {
+ 	VPN_STATE_UNKNOWN       = 0,
+ 	VPN_STATE_IDLE          = 1,
+-	VPN_STATE_CONNECT       = 2,
+-	VPN_STATE_READY         = 3,
+-	VPN_STATE_DISCONNECT    = 4,
+-	VPN_STATE_FAILURE       = 5,
+-	VPN_STATE_AUTH_FAILURE  = 6,
++	VPN_STATE_ASSOCIATION   = 2,
++	VPN_STATE_CONNECT       = 3,
++	VPN_STATE_READY         = 4,
++	VPN_STATE_DISCONNECT    = 5,
++	VPN_STATE_FAILURE       = 6,
++	VPN_STATE_AUTH_FAILURE  = 7,
+ };
+ 
+ struct vpn_driver {
 -- 
 2.39.5
 
