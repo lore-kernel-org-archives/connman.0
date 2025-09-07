@@ -1,129 +1,90 @@
-Received: from mail-yb1-f170.google.com (mail-yb1-f170.google.com [209.85.219.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mta-64-225.siemens.flowmailer.net (mta-64-225.siemens.flowmailer.net [185.136.64.225])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EBDD2FCBEB
-	for <connman@lists.linux.dev>; Wed,  3 Sep 2025 12:51:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 238C24A06
+	for <connman@lists.linux.dev>; Sun,  7 Sep 2025 08:18:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.136.64.225
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756903869; cv=none; b=YvxfdEAEWMLceU7dmpVyuClb0YtFaRx+xQk2BgTErL4IFA2qxrnegghmx0OrXdY5CGh8/h0dXvjkcnAGuXLxlPCerwbrpKkn5TXF+jBQduJGWkNKayNtqO9OV7lmo+brZd7idy+rsUjL2V7xea46I60y3RGsv0H3JhEakRfeecI=
+	t=1757233140; cv=none; b=u5VuE9su4Jm7tFFZSIj+5RUkO3VXhmoWT89BZV0QaeQtHbi31r3EpYDYXakGLL6g/6j/eTVtNfCYBfXdPFFSqCcKLVmEs2I6kdKXj74YRBSj5hDpVCS6Bz2bGPTBFbOt7O+5uTRJt+Gy18LsANTWCzlaUIZFz8rQ1fV5TzHes4c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756903869; c=relaxed/simple;
-	bh=xb6zL+cD1tVhR3794S5ktMVLLOSKPlq163MWfj6+85Y=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Content-Type; b=sH6TYddb6jB1oNP5Keb7xf0ms1APxxFSVy11ZaiE5SJpOZ3PDFyUZ2MwA1lfSz3pFCimR9JtFKo8Vq8/znmGgVjJxcZb4d3AB+9HhB6FFFF72RHiqCyMI5lJwjSK7g7l6lb7urYbXc7c4EB38QCL4FPBoCi9b1Bxw2RKuhMHfNE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=dividat.com; spf=pass smtp.mailfrom=dividat.ch; dkim=pass (2048-bit key) header.d=dividat-ch.20230601.gappssmtp.com header.i=@dividat-ch.20230601.gappssmtp.com header.b=KevVyNrJ; arc=none smtp.client-ip=209.85.219.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=dividat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dividat.ch
+	s=arc-20240116; t=1757233140; c=relaxed/simple;
+	bh=S3cgJ7qkDcIYrOx0G7FKfFKSRXIWgs0mpHgkgsyLxRQ=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=rvI0MK6NMCpMbeSPGcwVS19Kwgc+jR6Y6bZQW9I4oXc36pl0vVfZodt/2nrdGxokxCPHCg00ivzK+ZbSld0xxhZIssMnanPx7xvLdTPqC/blxnm2flrtRrWy8x+TNk4UUs01+kn2amzkpwk+P31MyIzWd6bwhf95JBqKOM+MuVU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=siemens.com; spf=pass smtp.mailfrom=rts-flowmailer.siemens.com; dkim=pass (2048-bit key) header.d=siemens.com header.i=peter.tatrai.ext@siemens.com header.b=FPNh6Oql; arc=none smtp.client-ip=185.136.64.225
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=siemens.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rts-flowmailer.siemens.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=dividat-ch.20230601.gappssmtp.com header.i=@dividat-ch.20230601.gappssmtp.com header.b="KevVyNrJ"
-Received: by mail-yb1-f170.google.com with SMTP id 3f1490d57ef6-e96c48e7101so5955468276.2
-        for <connman@lists.linux.dev>; Wed, 03 Sep 2025 05:51:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dividat-ch.20230601.gappssmtp.com; s=20230601; t=1756903866; x=1757508666; darn=lists.linux.dev;
-        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=ZMLzvMuSpcLTQ6/gQfyehcKubwyCHfHZT7sJCN7zRZc=;
-        b=KevVyNrJSyQdNl1qZ/PZhch83BEZ2fQbwCHJ1iE692ZV9kKEI1qXqeKjml4mdRdEI5
-         cQbBX+v8BskehiCYLar7PtwGxxC4KvhDdb3q0im3Y7k5H15LUka2NGmDGmdwuUEwnrwt
-         9aPnr0sBHcJ6f5FKT5FLmi1zLzaxDp7J0vCMEgJldw2w+VompZ9txwBsYqFENsaTqTyk
-         9XlIYyQLU3Vo1loV2dOejnygfhRWk9med7auvycbvEFGaxfYknk1In82wGOpZvotGiVP
-         kyHuEgQSKd5YDbYFxsMKZ1jVAxBzZZrtwHw8o2tRCgNvHG2QO6TPpP5a6/fjlWXMYijI
-         Npzg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756903866; x=1757508666;
-        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ZMLzvMuSpcLTQ6/gQfyehcKubwyCHfHZT7sJCN7zRZc=;
-        b=jmXQT4aADJzQ64UUwKINwePIwOwELsmtpfGw/1/Hc/6ntWL0uNRzdfFDa9UcqqTR7f
-         p5/IIRvGqxRwlRiaI8EpiL2Wr1RF1YDpA/rRc0QX5ay5XVy7LFzVB/LhVTWWBGQh42YD
-         yfKYfpwyWvBzZlGcADMVa9Dk9u/rVSfw2kVYD+KnySyxTHsQUBgE1s1OcxQZFjEzwhWv
-         flS+QIlo8GnoYh+AhVMFPvwk1yGw2A263Rck6n5+iYIomGYw0sM0cKwJ5SH02us6aGe4
-         lMPdrVQK880q9cQ+8QVnsrCYWeZxCQAxj8kRclbRhj9J2EWPuZDIS73W3tgjSofsuFMN
-         FsBw==
-X-Gm-Message-State: AOJu0YyJyLlgREirhAyeJogbhXqYLHFy40FBtyVt3Ni+8p4rsQfjxTFA
-	bz5aWT/HhOmMYM6NTyjk6UOo6Y5Pd/YTVJ9iKV+zJAkUjF1MvzIhIU304ja4l8hydbou5wWTKeL
-	unuho7aRUi9nT1QqjWvhzvU8ArUTEuW+uu9N0HhVzZMcETbnH8iZdFGE=
-X-Gm-Gg: ASbGncsYwAOV6bLOD5FIRRg92VwycxCvfmYU7XrcgRbv6G07jxRH5ZM/KhwgUzzdPvI
-	v/kEsexuGmnONs9EI7ti2i3BuDAOHWw9IUJRXaEc5YgTyiXzOnTl17NlbHzGyU6JjQn1TAsKyt/
-	ZS2ACY/wYFXe+9sZETZeichuyjtrdbQEU1xB4wj+Indbu/J8NeYb4Hm3wT/zjG1e78qIy4cOyTB
-	dAYA8FVmDRi0WBN6A==
-X-Google-Smtp-Source: AGHT+IFVa1jWQ1YfK7x/Lprs9yZZYz6K8/1APg90ea5W6quulHeIBcDqWv0aZKQA3MxbSuniTFY8YSWdMYjjY0eZO6I=
-X-Received: by 2002:a05:6902:4408:b0:e95:2eea:a269 with SMTP id
- 3f1490d57ef6-e98a578757cmr15281934276.20.1756903866053; Wed, 03 Sep 2025
- 05:51:06 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=siemens.com header.i=peter.tatrai.ext@siemens.com header.b="FPNh6Oql"
+Received: by mta-64-225.siemens.flowmailer.net with ESMTPSA id 20250907081846355bc8e67100020701
+        for <connman@lists.linux.dev>;
+        Sun, 07 Sep 2025 10:18:46 +0200
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
+ d=siemens.com; i=peter.tatrai.ext@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
+ bh=lQvEprI4yLFkTgEJuTxz/vKHY3Y5RdehcTqahXuMC/o=;
+ b=FPNh6Oqln7vJXUupL8jNUYd2tEdJ48p1WIiIIPxagprl94ZwTaLWLmKVjC1FNkRV48yZU5
+ n6MNs5Ob3lnGI6i369eSa0GHr6c/gNwL2tOBLMYBVc4v2xiFht35FBAtpid6E98x4RJULsBu
+ DmVDPdZ1qmXWDdS+bW93zRzFDNssKeiAoLu+uj2AoEkDV75tD9G9sKMwB3/L9FOFnZuW+fGj
+ iM8OaQ0sQ3XVpg7/HU2Ompm1Ayln2VMQ8cQK8ge9ZGJKvvAYD6lPRFifuLNOZOkdRDqF/0zT
+ DqSvZgpChNAEXpeIlyIaMhiRZYYczSswJqrsH7MCkW+Pn/SCEpqndyAA==;
+From: "P. Tatrai" <peter.tatrai.ext@siemens.com>
+To: connman@lists.linux.dev
+Cc: Peter Tatrai <peter.tatrai.ext@siemens.com>
+Subject: [PATCH] connman, vpn: avoid hiding implementation-reserved symbols
+Date: Sun,  7 Sep 2025 10:18:44 +0200
+Message-Id: <20250907081844.1558-1-peter.tatrai.ext@siemens.com>
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-From: Johannes Emerich <johannes@dividat.com>
-Date: Wed, 3 Sep 2025 14:50:55 +0200
-X-Gm-Features: Ac12FXy-lIz2L-ggkIiMw5fzers9KZpiDULMU2yR7q9xGkqIinC1JjY8V3de1Cc
-Message-ID: <CAKQ2e6X9BVihgY58OjzwbaqNn5HVHqHDCirsO2+qCBro91sygg@mail.gmail.com>
-Subject: Demoting IPv4 link-local services in service list sorting
-To: connman@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-1328017:519-21489:flowmailer
 
-I am trying to teach ConnMan to give IPv4 link-local services lower
-priority than READY/ONLINE services using another ipconfig method (e.g.
-DHCP). This seems like a useful heuristic, given that link-local
-services are not suitable for configuring the default route.
+From: Peter Tatrai <peter.tatrai.ext@siemens.com>
 
-As far as I can see, two changes would be required:
+When using 'local: *;' in the version script, all symbols, including those
+reserved for the implementation (such as _IO_stdin_used), are hidden. This
+causes glibc's libio to misdetect the libc version, leading to a crash when
+glibc prints to stdout (e.g., with connmand --help) on PowerPC.
 
-1. Adding a condition to service_compare(), something like this:
+Change 'local: *;' to 'local: [!_]*;' to avoid hiding symbols starting with an
+underscore, as recommended in glibc bug 17908
+(https://sourceware.org/bugzilla/show_bug.cgi?id=17908). This ensures libio can
+correctly detect the libc version and prevents the crash.
 
-    /* Prefer configured IPv4 address over auto/link-local IP.
-     *
-     * This just checks for CONNMAN_IPCONFIG_METHOD_AUTO, but other
-     * checks could be done.
-     */
-    bool a_is_link_local = is_ipv4ll(service_a);
-    bool b_is_link_local = is_ipv4ll(service_b);
-    if (a_connected && !a_is_link_local && b_is_link_local)
-        return -1;
-    if (a_is_link_local && b_connected && !b_is_link_local)
-        return 1;
+Reference: https://sourceware.org/bugzilla/show_bug.cgi?id=17908
 
-2. Triggering re-sorting when IP/ipconfig method of a service changes
+Signed-off-by: Peter Tatrai <peter.tatrai.ext@siemens.com>
+---
+ src/connman.ver | 2 +-
+ vpn/vpn.ver     | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-Currently formerly link-local services are not actually promoted when
-DHCP becomes active. This is likely because a service that transitions
-from IPv4LL to DHCP just remains in READY state, and no re-sorting
-occurs.
+diff --git a/src/connman.ver b/src/connman.ver
+index 03a0eec0..b75e90dc 100644
+--- a/src/connman.ver
++++ b/src/connman.ver
+@@ -3,5 +3,5 @@
+ 		connman_*;
+ 		g_dbus_*;
+ 	local:
+-		*;
++		[!_]*;
+ };
+diff --git a/vpn/vpn.ver b/vpn/vpn.ver
+index b8877064..5cad344c 100644
+--- a/vpn/vpn.ver
++++ b/vpn/vpn.ver
+@@ -4,5 +4,5 @@
+ 		vpn_*;
+ 		g_dbus_*;
+ 	local:
+-		*;
++		[!_]*;
+ };
+-- 
+2.39.5
 
-To address this, ConnMan would need to trigger re-sorting of the service
-list when a service's ipconfig method or IP address changes. I am
-currently looking into triggering sorting from service_ip_bound() or
-address_updated() and this works in a basic test by just adding:
-
-        SERVICE_LIST_SORT();
-        __connman_gateway_update();
-
-
-I would be grateful for any feedback on the below:
-
-- Is address_updated() an appropriate place to hook into, are there any
-  risks/downsides I am overlooking?
-- Is there a more natural existing hook to trigger sorting from, or
-  should a new one be added?
-- Is there any reason not to demote link-local services in the way I
-  described?
-
-
-Context for this change
-
-Our kiosk system built with ConnMan typically uses two simultaneous
-Ethernet connections, one to an input device using a link-local address,
-one to some network providing Internet access. In most cases ConnMan
-reliably uses the Internet-bound network as the default service, but if
-the network is slow to respond to DHCP requests for some reason, both
-Ethernet services end up with link-local addresses initially. In this
-case, ConnMan may choose the local-only connection as default service
-and stick with that choice even when the other service receives a good
-IP and gateway via DHCP later. Continuous online checks are not
-currently a good fit for us and should not be required as it is known a
-priori that link-local services are not useful as default services.
-
-Thanks,
-Johannes
