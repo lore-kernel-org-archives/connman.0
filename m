@@ -1,275 +1,322 @@
-Received: from mail-dy1-f172.google.com (mail-dy1-f172.google.com [74.125.82.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from OSPPR02CU001.outbound.protection.outlook.com (mail-norwayeastazon11013025.outbound.protection.outlook.com [40.107.159.25])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEDD77261D
-	for <connman@lists.linux.dev>; Fri, 12 Dec 2025 07:31:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.172
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765524709; cv=none; b=nYTv7Vzm+XtIw4BTiUUq+cOTJIlkXn+Q8UYB7Ku+aTGILoHa9zWvtkkECAc/ILFbkNZPIf7PjM46sw/5O1dFvRbzul1qU/twJULs0AKAzTKkWs6aIlsQQYVY2wKClScwx74ZS/MEZXtU1NZXTBfYUh9Y6Julgw4x+h8W13aXVlo=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765524709; c=relaxed/simple;
-	bh=z5I35LvE00eVoOQduPZtsVYFK+n0PFI5yUr5+BE7WIM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=qTRBpUR8luwljh1d5JmkL+UENLG1fwDrMrVrszoBHciwtAihr7dUuRINg1QamwjdBvf88GnZtz8nmAymPlHs8q34zzMfmAtYzQKr6lrCAYrvgrnppITrIoCVIUkQEMby/6yWeotpE3GM1vBqkC+KE0JPoheA6xn6QS9p2FX/hys=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=amarulasolutions.com; spf=pass smtp.mailfrom=amarulasolutions.com; dkim=pass (1024-bit key) header.d=amarulasolutions.com header.i=@amarulasolutions.com header.b=MJTOtL9e; arc=none smtp.client-ip=74.125.82.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=amarulasolutions.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amarulasolutions.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F11541E7C03
+	for <connman@lists.linux.dev>; Fri, 12 Dec 2025 12:50:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.159.25
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1765543854; cv=fail; b=NvOqg0eZJG4R434NWKvR8fAxyHwBsgGj9IdjtprGXqHgLm244ZEMxTPc+OlGJ6nTw18qd8amkUfsHIOBbEVGgyl8dnRgxwyw7wi7SAosocE3p6ybGiRsZ74+RuS95iqCu4IDWNEL2fICKhicGEnKCZhBsj7sD90EoannHCsDn20=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1765543854; c=relaxed/simple;
+	bh=SEIcBAwoK5LWTR2wSFog3Kuvzv/R1X0TOmHXhZ67VP8=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=qzStZMljxZssXUDDdYK8pkfpDpLQ2XQ+PdN+As6Hv0o0k++OU6wLlk8ncKn7G/cwp5ZuT7MTrBb1zZP8Lv9QFyw59TRb7icE5nsEcTnR4198mkljiiosYENE011Mk/4j9XjbZERk4ymAr4h48wg5hkfyXBmm4YOVk+Lw8a4Sso4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bshg.com; spf=pass smtp.mailfrom=bshg.com; dkim=pass (2048-bit key) header.d=bshg.com header.i=@bshg.com header.b=gJYztP4k; arc=fail smtp.client-ip=40.107.159.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bshg.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bshg.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amarulasolutions.com header.i=@amarulasolutions.com header.b="MJTOtL9e"
-Received: by mail-dy1-f172.google.com with SMTP id 5a478bee46e88-2a45877bd5eso1245118eec.0
-        for <connman@lists.linux.dev>; Thu, 11 Dec 2025 23:31:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amarulasolutions.com; s=google; t=1765524707; x=1766129507; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Y7hf7XxnXYng7rF2EEGXrmwWuWKniVtGROQLCtpZIJg=;
-        b=MJTOtL9eyORQ58+oRhziq8HGrcCa5/9Aj13kLxJR9zPmXC+L4bp36DVvPjKchEh68H
-         V01VsV+lSApJhDNsgJb5CzS2rJrrh4jfZXiVVrUkQeiy890v+D5hj5INrSASFSEhnTIY
-         oQIHHmv50sIRwDw36EU42VZ9qisnzu3JB3iQY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765524707; x=1766129507;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=Y7hf7XxnXYng7rF2EEGXrmwWuWKniVtGROQLCtpZIJg=;
-        b=KpZfT4idhWD0aqB21q7cbo2uIB7FsNcaBV7jbQ8Q8uYbSOm5jqRJLesC4JKX1mJRNB
-         OCuRyLusNUkBp1CdLnw6gw6gPMV/Shit9UUdifW5ZgxjoT6SDYt4zurFjg1yyPbie3sz
-         9e/T3nrnOeSMI2rx6HOBAR0DusCa8NHonqx+7iGwCggoXiyP+UC1CerkAcp5mRcvYrO1
-         wFvWnQz5mBr125RPCGxrIFi2qp3U/IzoHNcgn7RlILhE99Z25l4kRSUbBObk/pJ0LA/W
-         7rXQ+a3qujbrUf5RQSzly/SloipA/j7i4fE0gflw4Ulm2xOSkIVw1Nrbw1W+0tOmwTaH
-         Xovw==
-X-Gm-Message-State: AOJu0YyVGHkmYKtCbcoewhktGD4f7EKo4DGqke0aFsvRpCX6qQPfezY8
-	iQB7AyeKo1dLF1Q1V9nitaf0ddyYSKNxe8jEMdbz5gUUid3iuO0jlO58gkkT9RZVQ7JVPKBBf3Z
-	2AUTv4q2v1llWUdpq0X4w2gHnpYbTWwqqqDiEh3sL6g==
-X-Gm-Gg: AY/fxX7aAKKNY4eWeJBui12tQo3HAE30H83yZsl9g9pXJ12MWGaO91wx+cg3KXGyH46
-	4vXIK2SXmsTia+Lt71zH0jkKDaiHwgeIfUjQ2tPwhQe2DneLmDEYkvRlTiHEz5wfOgZr1AWgR0+
-	vMqIKDe49HuftRfd7+GTzZ2SvE5TOzmyRNWkYSN45HIwIM2WbGrGNoRRiye2mSAsRR5vn8xIcAO
-	eEv0TplMkbQQTkl3Ocp9hgEG/mcfYHOex6k7J/jY9Uf10F7uSEiacxhTZYRB6/lAu0NhenZV9nB
-	dn9lwe0sLVHzG32P4BjIIPFJyQ==
-X-Google-Smtp-Source: AGHT+IHhWTKh/qXeWcjnq0+dkeJcyJnq//+PY7yfXGMtqPvS1Xa08j8jvIRN4md7K9RMBAtO+OylwCuJXCC1jzhX2/0=
-X-Received: by 2002:a05:7300:d406:b0:2a4:7180:6e1e with SMTP id
- 5a478bee46e88-2ac311c7e56mr661014eec.19.1765524706782; Thu, 11 Dec 2025
- 23:31:46 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=bshg.com header.i=@bshg.com header.b="gJYztP4k"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=iqgo149dHZGOKiV1qO2wb3HZDSZWVtbF7mv0VWbS0pyjzg/E3vZgj3H5j/HsdR3Tbc0ZhA1vwQBVYgWgWQvGdQwiJ6eqKpSZ/4mX70zoIMwMBdAAvpSBRndLJ7RzQOvfmPB8MmaCXBf/NPY4Mv0Iw6hVzYROZ7mjgiVi+miZMF+SFa2rMywkKbSyKQ9+hsBoT8KWFbm+AkKdHi6DWx3cnlJOSarYztzUDL4GFkRYDmIWWye8Lnjx/ZgYjcXYu82hvkSo5Y4oTU+ki3PD+flHCjTzZb7GR9dHiV0hKPL0/Edj2CzNdtresc/9PBTMu5wHmI/A9MJZM5ktKnUJ5mQMzg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=AeXMHGl4wEuLv6uOfeCcBAIL9QvC60aCSdYiCtWqKMg=;
+ b=G45S6kckpfvc2FfcX5em/cgRpSBCHz0IjyzmyHhVAohvcl3aqM9WNruSLwtdg2Amr2ab9Lpy6NW65kZ2t7MizjBPUmjH43EwCpXxs6FUNHqjMeuLrao/vrVsUNQSw2a+CY10iNmpDNGiAaI+p/g+h77GzI0EdMyb6jmeJF9wxytrPpfVpvkJ6rhfG4vooTpgM4Fl1+umHc25bWI+MwUMz++29j6zLVPdnKaZBaUCeOKFNH0HnvX50kPttfB9X4SS8k5gmo5wgvtRD3kTbKLdVpTl5jybfhM4hlnoFf5yvHNvYdp8M1E1lbCEI2dmV6QTF0y9LxRZ6WE+zx8LoCAqWQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bshg.com; dmarc=pass action=none header.from=bshg.com;
+ dkim=pass header.d=bshg.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bshg.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=AeXMHGl4wEuLv6uOfeCcBAIL9QvC60aCSdYiCtWqKMg=;
+ b=gJYztP4kJN2xTr01wgz+/0Qkl0ZZECb9p6q/HPxqWiBN69G9y7yAA/MSCGlh5fiDciB0hLFyrDvbMJAQb1/H1t+6BEeXWYGFfgCagMLipXRRZwy79EK4bQ9hW39iU2ELSIBY7cKsG8HeB5hcNuo4hqryvHKS3B8gTp8VDMX5eaQqfkh6Drbi2WNn1SHxlJTiWOIZBj1mQl5tBCwTDnr8zifxgOnuQtBRnJ1w4EKyOBNA/RtqRT55XWC2lkoFezMtns99QbhOVoq73useHsE1Li76Y4AVf9AHG4FuKg9m1gdqzwwzcWEjm4CQxMiOV++dM8MnGHmGe4GXnkppnArvfQ==
+Received: from PRAPR10MB5421.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:102:299::18)
+ by VI0PR10MB8665.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:800:23a::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9412.9; Fri, 12 Dec
+ 2025 12:50:44 +0000
+Received: from PRAPR10MB5421.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::5edc:fb04:e4ab:bde3]) by PRAPR10MB5421.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::5edc:fb04:e4ab:bde3%5]) with mapi id 15.20.9412.005; Fri, 12 Dec 2025
+ 12:50:44 +0000
+From: "Chen Yaming (BSH GDE-EDSCD)" <Yaming.Chen@bshg.com>
+To: Michael Nazzareno Trimarchi <michael@amarulasolutions.com>, "Dembianny
+ Sven (BSH GDE-EDSD7)" <Sven.Dembianny@bshg.com>
+CC: "connman@lists.linux.dev" <connman@lists.linux.dev>, Grant Erickson
+	<marathon96@gmail.com>
+Subject: RE: Fix the crash issue when restarting the wpa_supplicant or wifi
+ driver while BackgroundScanning is enable
+Thread-Topic: Fix the crash issue when restarting the wpa_supplicant or wifi
+ driver while BackgroundScanning is enable
+Thread-Index: AdxrLUUsPoDeAB9qTIOEHDIxJ5ZvYgAAvjtAAABGqeAAAQ0bAAAA8r2AAAqY4DA=
+Date: Fri, 12 Dec 2025 12:50:44 +0000
+Message-ID:
+ <PRAPR10MB5421E3DC52B8B0479761FC4E90AEA@PRAPR10MB5421.EURPRD10.PROD.OUTLOOK.COM>
+References:
+ <PRAPR10MB5421CC811D1DDDF69E01283690AEA@PRAPR10MB5421.EURPRD10.PROD.OUTLOOK.COM>
+ <PRAPR10MB5421DDB53D5BE922CBECB47B90AEA@PRAPR10MB5421.EURPRD10.PROD.OUTLOOK.COM>
+ <PRAPR10MB5421B3F7A9A117FD038BA5BC90AEA@PRAPR10MB5421.EURPRD10.PROD.OUTLOOK.COM>
+ <CAOf5uwnOFnQZa3zV06RWBum1z6PC1SUoyFicShC-rL2PMyc0uA@mail.gmail.com>
+ <CAOf5uwmeODc99O0LMs=kLXBuxK7RR6MarHLrg5WZX+o5199CqA@mail.gmail.com>
+In-Reply-To:
+ <CAOf5uwmeODc99O0LMs=kLXBuxK7RR6MarHLrg5WZX+o5199CqA@mail.gmail.com>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach: yes
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bshg.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: PRAPR10MB5421:EE_|VI0PR10MB8665:EE_
+x-ms-office365-filtering-correlation-id: 4881046a-34aa-4845-5b13-08de397d10bf
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|376014|366016|1800799024|19092799006|38070700021|4053099003;
+x-microsoft-antispam-message-info:
+ =?utf-8?B?M3JwQm5GYkxZSzZaanhDQ01HWDA4dm1FanM4ZC9mdEI4QUVXSGlHRDRzZW5Z?=
+ =?utf-8?B?SC9yVjM4VW82eHQrNk5SQTJkcTVvNXVCdFhEd2ZKV2plVS9JTDhqaEFYc01j?=
+ =?utf-8?B?Sm83VzhwZDV3ZlZHNnNCTUEza2NIYXEwRWdWaUVSbFFBMFVqMDAwcW4xUlZ1?=
+ =?utf-8?B?dGtBbzFjNmZWM09qNFZGM1Z5WlFXV245OTNhSHpIcXB5QTBCOFM4RnJJVGpI?=
+ =?utf-8?B?MXovb3JLUGF5aFBmWlU2QlMvK1VJUGtCenFwcXY5MDFkNVRKTjhVcnpNN2sr?=
+ =?utf-8?B?VTBHdmNBUGwwczJQaitpK3A5ZHByUFVlTFgycC9hRHdEVzJTbnBqUkZvZnR3?=
+ =?utf-8?B?OTdOVDZ1WnZ5cThXWWVROVh5UmhaNzhFM2JuN0QrLzBQenJFY3J6c09PWkNh?=
+ =?utf-8?B?UUhoRXZnTkZNc2hENXY5VnJ2NVBmN0I4NmJvSFcycHFxR2FyS0NqNkVaRUY0?=
+ =?utf-8?B?UmN4eHQ1Sm5EOUFFaTBSUjgydUkrYTFjMmNtdjNQRnBhZWpMZ3UrVmJ5RnV6?=
+ =?utf-8?B?OGFJVzNid3RsQW5qYkdNakVGRU81dHZ4eWVBZ0pRN21FcUFUNisvNUlUMDNj?=
+ =?utf-8?B?N1YzcXE1WlZGZytzOEFGL2dCWlpjd2xWVTY1UEx6MUJFYjdZNGhyV3JCSHJs?=
+ =?utf-8?B?b0RWaXJqTzQ1OHhCaU1SaFhYR3gxbmxwNzJjcWNDOW1yQk5sN3lrajB1STVP?=
+ =?utf-8?B?NjNHYzN6c2dYV3dNbkNXcmYyNmR2b2xIdS91N2dtdWxoUkFqM1RHWUhrOTFJ?=
+ =?utf-8?B?RmUzRzZvNEJGUnJZYjY2QlJON2EvSG1aMisvNkNuOXpBT3c1ck5JT3h3MGVz?=
+ =?utf-8?B?SkRCWG9peSs5MFNYMFVYazF5aVVIWUY1NGRMVWlUMXJnTG8vL3VLVlVKOTR3?=
+ =?utf-8?B?NUlXN2hENzRlc3dMbWdtZXRaTWFTbEdlb0x3TlhJTENYSWxtVmh1ckE2bXlv?=
+ =?utf-8?B?bXIzZjVKV21qd3I0WUlmKzZ2dEpnV3pJVDUrQjc5OHhBZWYwL2wyV3p2eGNS?=
+ =?utf-8?B?WmdncE9RcDJkdEFCcjRCTG9qUzdUOWFXRnlRd29TTlFPcDd0OFhzc0IyT2dm?=
+ =?utf-8?B?NW5qdVVpSCtOY3ZjMEl1cFcrb2VvdFNiV3dEMDd3VitDMG1pdlpJTm96R0Nt?=
+ =?utf-8?B?a1NzdXJHS24vbkQwNkFJc0xIckt6ZlNGcXp2SnV2UkV5Sm1neG44Wittcitu?=
+ =?utf-8?B?Yjk4dTBoS2QrTjBtVXk1OHZxWGEvSEdtcFRmdmxGWFFKTWpXNDVldGUwSXBJ?=
+ =?utf-8?B?VDVoc0c0NXB2Z1draFR6NDhwaVFvYlhUNWwxTmlTRHFVcDZqY3V4UHBuWXRq?=
+ =?utf-8?B?U0FRS3U2MmEzbjFQeVBESG9SVS9yalZBWThkU0daWCtWVDNxa0cxdUM3TEVp?=
+ =?utf-8?B?UHVLVGJGRmxWd2tQYm5hTGpZWkxxTDhZQ0JLTlI0NzNland1RTI0TS9ORDh0?=
+ =?utf-8?B?Z01Ic01CZGdiNWZmSDBELzZSR284M0NkNlNHTWI5ZlgzbFhqaGErcVB3bksy?=
+ =?utf-8?B?LzVmbXhPQVlKaDlweG54bDI5MWtCNVFpOTNvb3NCY1RpV3dZSkYxaTFCMmt5?=
+ =?utf-8?B?NUxTN0cwS0w4SHZKWDViaFJJY2pwbDRlZGZpbWdiRWoramtpa1hCZzB6YWxm?=
+ =?utf-8?B?ZGc5dFJlek1Mc1FvMzdIN1p4dEZsZHc2cStoYU43dmtxUnRVbmNHeVpzZklq?=
+ =?utf-8?B?V3plTzNTMmF2ODNha09pSkZEeGZhdDlxSW1tcWRUaWlyS2NELzlsd2hmOHlG?=
+ =?utf-8?B?dk5QYm9ZTWplcjNlVi9ESm8ySGVEQTVtM3RKMUc2ai9HYjU4dUtYL3B2MTZH?=
+ =?utf-8?B?ejBjZnFCaTFQZXI3NUsrKzJVdGpSd3JiQUd1cGN1OTBDcDI4cHB2T0tqMU00?=
+ =?utf-8?B?V1dUbXdTVXVhWW9yejNEb2NXK0NIZ2wwdlZRVmNKR3JLREE9PQ==?=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:zh-cn;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PRAPR10MB5421.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(19092799006)(38070700021)(4053099003);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?utf-8?B?d1REUlJhZkRBT2ZMK05pZHhwZEkwbzJMREllbGV0QzBLT2xLejFMMVRkaWYw?=
+ =?utf-8?B?QkRSaVZaTVZSUHlFMkVNRnF1TjU3ZGRKdEpBTDFnTXl5ZW1IQ0FRNzJGQzhI?=
+ =?utf-8?B?ZVM1Y3U0b013Vmt1S2tjTjA3bElCNXR6VHhrOWFEUkltaXBkZ09aRElmbUdJ?=
+ =?utf-8?B?TDRLaCs1cEpKUUd3dTBUVDBvbkNzVmIwWW9xUm9QUDlLTFFvOEI2MTFaNG1N?=
+ =?utf-8?B?SldlSjlKazM5c1ZlRm5McmdRK01Sbjd1SWlvcWtNcEhlNS9odVE0VllrcTBj?=
+ =?utf-8?B?c25RbWF4c0kwYzZyKzVQanAwN2hMSSs2Z2FsNzdoYXVta2k2UUJmWmkra0hU?=
+ =?utf-8?B?YnNML01jVGJBVnp6TnVkTlY1Vy9MWTF2TGlIV21ub2tnU1Y1TUU1UklmWkFm?=
+ =?utf-8?B?cml3VEVTSmVwUVdCelJtNG1HU05NV2p1aUxDSFVONUt5bHc5VGxjc2c1YWow?=
+ =?utf-8?B?bHVkRGFCOXhNVmcyM1N3dE44Z20raFRQTFVEUWpGN3c4Ykpzb1pmb3gvQys5?=
+ =?utf-8?B?ajQ4Sm5ZNkZleWh5akhPM3ZFb0gyOFR0dWRpRmlqQ3hwWDRJaEE2K0pDUmJT?=
+ =?utf-8?B?dTVDVkVZbm1DZUJMcldhOFNsOFA2ekhqWVpQRDBFelo3bFpqNDZ4anhMdndv?=
+ =?utf-8?B?Q3IzVlBnaEprOEtsN3JJMTRoNlV1Um9RdTNvSUVnM040NEhLbHN0RnBzZ2U3?=
+ =?utf-8?B?T3dNdG9XUC83cXRhdnhQZjMrYysybUVBRGoyZExUcmNlSHBtYk9HWVBoekw2?=
+ =?utf-8?B?MVpwbjFFcW0rWVhqM2VSTHlPZ0RDOVEveDZEdUdiWFZacjZPZllHbllDT0Zp?=
+ =?utf-8?B?OExVZmpXSkcrYllEM0xzWmcxakZETlJYSUFSNG5Md01qemFTUURES2Iva1pZ?=
+ =?utf-8?B?VXZGU1VodDNiZnZVSzc1NUdnWHIralJUbDBKMEN5d25IMGlMNWZWQUJZK0xs?=
+ =?utf-8?B?MUFpbjZhV3FMNzREZTFLY3doTVRxWUxxYnpUK1B1cTBVU1d3OXl6Mm9QclRU?=
+ =?utf-8?B?Q3NXamZLNWx3b3NzaTlqK1NjZEpWNEFmTXdaY3lxZVhLRWJuT2pZMElUOUds?=
+ =?utf-8?B?dDV5UDZIQ0hOa2hsSzdEUmUvY2E2UlVsRUdUd29RV25ZOGdna3ZvYnh0aFdJ?=
+ =?utf-8?B?TitUdFJSandwUlNPY2FkbmdtdVlaY1VnaVMxM2Eyd2cyK21RV21HNFRyb2RP?=
+ =?utf-8?B?dEkvc3IvdnB4L0N6amF6YWpIVXcrc3NCU1hRc2RMeWlnMFZ6c1JWWU9ONkpt?=
+ =?utf-8?B?V3duUXh1LzFVT0dSRmRqK2lZRGk4cTNjekRjMDhhSFdsSUtKOUxOckpoN2pF?=
+ =?utf-8?B?VDIrTllZV3BnQkJFanRIV2FOMW9NcW5RUlZDYmlxSW5TQ3gzcnhZcTQ1eGp0?=
+ =?utf-8?B?aXNtM015cys4UUNmQ1ZsT2lnaCs0clR6QXFndUNBNXpQVzFsaCtQaHNhVHJK?=
+ =?utf-8?B?ZFBYN21BZmZ5UW9KM2FaWTFQRTdBbjNHYzBYL3lSSFkzVXJvM3Z2TmNIZndS?=
+ =?utf-8?B?aW1oL0dvTExrdUJJSWFZcWRHVGdMWm1vYmhqZmFMY1Z3TysvNTV1U25VQXlU?=
+ =?utf-8?B?aXU5aDNyeFZrUWxrVUptL2c5R3ozWnZHbGQyS05LN3haN2IzWW5HZWd0elVw?=
+ =?utf-8?B?b0dRTnVrUG9RL01KWlcwR1lLa0MzMlBMN0JhbWNWYUw1Y0pvMjA1dVFhQndn?=
+ =?utf-8?B?VVhSNi94Q1plR3JUS2pMWnFUZ01LK0ZISWtsSHY2STJwS0NsMXhKL0ZnM1ZW?=
+ =?utf-8?B?NmlaaldGeTFpN0pYNFFEMjZjeG5jS3ZWS3lsVlpYbnFzWHhud1dhWEZTeVp3?=
+ =?utf-8?B?QzhEcXdXYWU2QlM3Yzg4VDdjQy8rS2dBMDVBbmNlS1FmQTVzM3ZDM3MyT0xl?=
+ =?utf-8?B?emV3TUMwOEVLQTBtTElVRWJuYkRuMG9SZmpoeXlFSG5OM3R3VVE1NmkzL0N4?=
+ =?utf-8?B?T3pzaHRwcDRNa0dNc1JBVi9Ma3E5ZEYxdU9HOUZYZU9RdXRFUklmaE5LbHd5?=
+ =?utf-8?B?WUFHQjhCNmJ0cDRub2RqNk05YWtyakVXcStzVTJSUUpBVzQzRU1jRFBSM1lE?=
+ =?utf-8?B?akR5RURlb1p1Y05ibWxOMFRkN0tDckhhbGQzU3JGVkR4OTd4d2VSbHFSTnZW?=
+ =?utf-8?Q?aiXw=3D?=
+Content-Type: multipart/mixed;
+	boundary="_002_PRAPR10MB5421E3DC52B8B0479761FC4E90AEAPRAPR10MB5421EURP_"
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <PRAPR10MB5421CC811D1DDDF69E01283690AEA@PRAPR10MB5421.EURPRD10.PROD.OUTLOOK.COM>
- <PRAPR10MB5421DDB53D5BE922CBECB47B90AEA@PRAPR10MB5421.EURPRD10.PROD.OUTLOOK.COM>
- <PRAPR10MB5421B3F7A9A117FD038BA5BC90AEA@PRAPR10MB5421.EURPRD10.PROD.OUTLOOK.COM>
- <CAOf5uwnOFnQZa3zV06RWBum1z6PC1SUoyFicShC-rL2PMyc0uA@mail.gmail.com>
-In-Reply-To: <CAOf5uwnOFnQZa3zV06RWBum1z6PC1SUoyFicShC-rL2PMyc0uA@mail.gmail.com>
-From: Michael Nazzareno Trimarchi <michael@amarulasolutions.com>
-Date: Fri, 12 Dec 2025 08:31:35 +0100
-X-Gm-Features: AQt7F2rxfiDz265vsz0IfmXqTy9Kt51BrmwSoJ-zgzV46XUuqBpL2BF7DWZ6j8c
-Message-ID: <CAOf5uwmeODc99O0LMs=kLXBuxK7RR6MarHLrg5WZX+o5199CqA@mail.gmail.com>
-Subject: Re: Fix the crash issue when restarting the wpa_supplicant or wifi
- driver while BackgroundScanning is enable
-To: "Chen Yaming (BSH GDE-EDSCD)" <Yaming.Chen@bshg.com>, 
-	"Dembianny, Sven (GDE-EDSO)" <Sven.Dembianny@bshg.com>
-Cc: "connman@lists.linux.dev" <connman@lists.linux.dev>, Grant Erickson <marathon96@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-OriginatorOrg: bshg.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: PRAPR10MB5421.EURPRD10.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4881046a-34aa-4845-5b13-08de397d10bf
+X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Dec 2025 12:50:44.7276
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 0ae51e19-07c8-4e4b-bb6d-648ee58410f4
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: IYp2fsa+8nc0ZcImeS/K355pErylG5dZrO4pWOCVFmZP6L2h7TInVjZ9R/JB3zMTqb8e/H5GtzUQBQ8u58m+Aw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI0PR10MB8665
 
-Hi
+--_002_PRAPR10MB5421E3DC52B8B0479761FC4E90AEAPRAPR10MB5421EURP_
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-This is the actual code
+SGVsbG8gTWljaGFlbDoNCg0KICAgICAgICAgIEkgYWdyZWUgd2l0aCB5b3VyIHN1Z2dlc3Rpb24s
+IHRoZXJlIGlzIG5vIG5lZWQgdG8gcmVzZXRfYXV0b3NjYW4gdHdpY2UsIGJ1dCBJIHRoaW5rIGl0
+IGlzIGJldHRlciB0byBwbGFjZSB0aGUgY29ubm1hbl9kZXZpY2VfZGVmIGFmdGVyIHRoZSB3aWZp
+X3V1cGRhdGVfc3Rhbm5lcl90eXBlICh3aWZpLCBXSUZJX1NDQU5OSU5HLUFDVElWRSkuIEkgaGF2
+ZSByZWdlbmVyYXRlZCB0aGUgcGF0Y2gsIHBsZWFzZSB0aGUgYXR0YWNobWVudCEgVGhhbmsgeW91
+IGZvciB5b3VyIHN1cHBvcnRzIQ0KDQogICAgICAgICBUaGVyZSBzZWVtcyB0byBiZSBhbiBpc3N1
+ZSB3aXRoIG15IGdpdCBlbWFpbCwgSSB3YXMgdW5hYmxlIHRvIHNlbmQgZW1haWxzIHN1Y2Nlc3Nm
+dWxseS4gVGhlcmVmb3JlLCBJIGNhbiBvbmx5IHVzZSBNaWNyb3NvZnQgT3V0bG9vayB0byBzZW5k
+IGVtYWlscyB0ZW1wb3JhcmlseS4gU29ycnkgZm9yIHRoZSBpbmNvbnZlbmllbmNlISENCg0KICAg
+ICAgICAgIEJlc3QgcmVnYXJkc++8ge+8gQ0KDQpZYW1pbmcgQ2hlbg0KR0RFLUVEU0NEDQoNCuWN
+muilv+WNjueUteWZqO+8iOaxn+iLj++8ieaciemZkOWFrOWPuCwg5Lit5Zu95rGf6IuP55yB5Y2X
+5Lqs5biC57uP5rWO5oqA5pyv5byA5Y+R5Yy65bCn5paw5aSn6YGTMjA45Y+3IDIxMDA0Ng0K5omL
+5py677yaMTk5NjIwMzI3NTENCllhbWluZy5DaGVuQGJzaGcuY29tDQoNCi0tLS0tT3JpZ2luYWwg
+TWVzc2FnZS0tLS0tDQpGcm9tOiBNaWNoYWVsIE5henphcmVubyBUcmltYXJjaGkgPG1pY2hhZWxA
+YW1hcnVsYXNvbHV0aW9ucy5jb20+DQpTZW50OiBGcmlkYXksIERlY2VtYmVyIDEyLCAyMDI1IDM6
+MzIgUE0NClRvOiBDaGVuIFlhbWluZyAoQlNIIEdERS1FRFNDRCkgPFlhbWluZy5DaGVuQGJzaGcu
+Y29tPjsgRGVtYmlhbm55IFN2ZW4gKEJTSCBHREUtRURTRDcpIDxTdmVuLkRlbWJpYW5ueUBic2hn
+LmNvbT4NCkNjOiBjb25ubWFuQGxpc3RzLmxpbnV4LmRldjsgR3JhbnQgRXJpY2tzb24gPG1hcmF0
+aG9uOTZAZ21haWwuY29tPg0KU3ViamVjdDogUmU6IEZpeCB0aGUgY3Jhc2ggaXNzdWUgd2hlbiBy
+ZXN0YXJ0aW5nIHRoZSB3cGFfc3VwcGxpY2FudCBvciB3aWZpIGRyaXZlciB3aGlsZSBCYWNrZ3Jv
+dW5kU2Nhbm5pbmcgaXMgZW5hYmxlDQoNCkhpDQoNClRoaXMgaXMgdGhlIGFjdHVhbCBjb2RlDQoN
+CiAgICAgICAvKiBEaXN0aW5ndWlzaCBiZXR3ZWVuIGRldmljZXMgcGVyZm9ybWluZyBwYXNzaXZl
+IGFuZCBhY3RpdmUgc2Nhbm5pbmcgKi8NCiAgICAgICAgd2lmaV91cGRhdGVfc2Nhbm5lcl90eXBl
+KHdpZmksIFdJRklfU0NBTk5JTkdfQUNUSVZFKTsNCg0KICAgICAgICBjb25ubWFuX2RldmljZV9y
+ZWYoZGV2aWNlKTsNCg0KICAgICAgICByZXNldF9hdXRvc2NhbihkZXZpY2UpOyA8PT09IHJlc2V0
+IGF1dG9zY2FuIGlzIGhlcmUNCg0KICAgICAgICByZXQgPSBnX3N1cHBsaWNhbnRfaW50ZXJmYWNl
+X3NjYW4od2lmaS0+aW50ZXJmYWNlLCBzY2FuX3BhcmFtcywNCiAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgIHNjYW5fY2FsbGJhY2ssIGRldmljZSk7DQogICAg
+ICAgIGlmIChyZXQgPT0gMCkgew0KICAgICAgICAgICAgICAgIGNvbm5tYW5fZGV2aWNlX3NldF9z
+Y2FubmluZyhkZXZpY2UsDQogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIENPTk5NQU5f
+U0VSVklDRV9UWVBFX1dJRkksIHRydWUpOw0KDQoNCkFjY29yZGluZyB0byB5b3VyIHBhdGNoIHlv
+dSBub3cgZXhlY3V0ZSB0d28gdGltZXMuIEp1c3QgYW4gaWRlYSwgYmVjYXVzZSB0aGUgY29ubm1h
+bl9kZXZpY2VfcmVmIGlzIGEgYml0IGNvbnZvbHV0ZWQsIGlzIHBvc3NpYmxlIHRvIGp1c3QgbW92
+ZSB1cA0KDQogICAgICAgIGNvbm5tYW5fZGV2aWNlX3JlZihkZXZpY2UpOw0KICAgICAgICByZXNl
+dF9hdXRvc2NhbihkZXZpY2UpOw0KICAgICAgICAvKiBEaXN0aW5ndWlzaCBiZXR3ZWVuIGRldmlj
+ZXMgcGVyZm9ybWluZyBwYXNzaXZlIGFuZCBhY3RpdmUgc2Nhbm5pbmcgKi8NCiAgICAgICAgd2lm
+aV91cGRhdGVfc2Nhbm5lcl90eXBlKHdpZmksIFdJRklfU0NBTk5JTkdfQUNUSVZFKTsNCg0KTWlj
+aGFlbA0KDQpPbiBGcmksIERlYyAxMiwgMjAyNSBhdCA4OjA04oCvQU0gTWljaGFlbCBOYXp6YXJl
+bm8gVHJpbWFyY2hpIDxtaWNoYWVsQGFtYXJ1bGFzb2x1dGlvbnMuY29tPiB3cm90ZToNCj4NCj4g
+SGkNCj4NCj4gT24gRnJpLCBEZWMgMTIsIDIwMjUgYXQgNzozN+KAr0FNIENoZW4gWWFtaW5nIChC
+U0ggR0RFLUVEU0NEKQ0KPiA8WWFtaW5nLkNoZW5AYnNoZy5jb20+IHdyb3RlOg0KPiA+DQo+ID4g
+SGVsbG86DQo+ID4NCj4gPg0KPiA+DQo+ID4gICAgICAgICAgICAgSSByZXBhY2thZ2VkIHRoZSBw
+YXRjaCBmaWxlIGludG8gYSB6aXAgZmlsZSwgcGxlYXNlIGNoZWNrIGl0LCB0aGFua3MhIQ0KPiA+
+DQo+DQo+IENhbiB5b3UgdHJ5IHRvIHNlbmQgYW4gaW5saW5lIHBhdGNoPyBZb3UgY2FuIHVzZSBn
+aXQgc2VuZC1lbWFpbCwgdGhpcw0KPiBhbGxvdyBwZW9wbGUgdG8gcmV2aWV3Lg0KPg0KPiBNaWNo
+YWVsDQo+DQo+DQo+ID4NCj4gPg0KPiA+IFlhbWluZyBDaGVuDQo+ID4gR0RFLUVEU0NEDQo+ID4N
+Cj4gPiDljZropb/ljY7nlLXlmajvvIjmsZ/oi4/vvInmnInpmZDlhazlj7gsIOS4reWbveaxn+iL
+j+ecgeWNl+S6rOW4gue7j+a1juaKgOacr+W8gOWPkeWMuuWwp+aWsOWkp+mBkzIwOOWPtyAyMTAw
+NDYNCj4gPiDmiYvmnLrvvJoxOTk2MjAzMjc1MQ0KPiA+IFlhbWluZy5DaGVuQGJzaGcuY29tDQo+
+ID4NCj4gPg0KPiA+DQo+ID4NCj4gPg0KPiA+IEZyb206IEJ5dGVtYXJrIHN1cHBvcnRAYnl0ZW1h
+cmsuY28udWsNCj4gPiBTZW50OiBGcmlkYXksIERlY2VtYmVyIDEyLCAyMDI1IDI6MzEgUE0NCj4g
+PiBUbzogQ2hlbiBZYW1pbmcgKEJTSCBHREUtRURTQ0QpIHlhbWluZy5jaGVuQGJzaGcuY29tDQo+
+ID4gU3ViamVjdDogWW91ciBhdHRhY2htZW50IHdhcyByZWplY3RlZA0KPiA+DQo+ID4NCj4gPg0K
+PiA+IERlYXIgQ2hlbiBZYW1pbmcgKEJTSCBHREUtRURTQ0QpLA0KPiA+DQo+ID4gWW91ciBlbWFp
+bCB0byBvdXIgc3VwcG9ydCBzeXN0ZW0gY291bGQgbm90IGJlIGFjY2VwdGVkIGluIGZ1bGwuIFRo
+ZQ0KPiA+IGZvbGxvd2luZyBmaWxlKHMpIHdlcmUgcmVqZWN0ZWQgYnkgb3VyIHN5c3RlbToNCj4g
+PiAwMDAxLXdpZmktRml4LXRoZS1jcmFzaC1pc3N1ZS13aGVuLXJlc3RhcnRpbmctdGhlLXdwYV9z
+dXBwbGljYW50LW9yLQ0KPiA+IHdpZmktZHJpdmVyLXdoaWxlLWJhY2tncm91bmQtc2Nhbm5pbmct
+ZW5hYmxlLnBhdGNoDQo+ID4NCj4gPiBQbGVhc2UgdHJ5IHJlLXNlbmRpbmcgeW91ciBhdHRhY2ht
+ZW50IHVzaW5nIG9uZSBvZiB0aGUgZm9sbG93aW5nIGFsbG93ZWQgYXR0YWNobWVudCB0eXBlczog
+ZG9jfGRvY3h8eG1sfHBuZ3xnaWZ8anBnfGpwZWd8emlwfHJhcnxwZGZ8dHh0fGxvZ3x4bHN4fHdh
+di4NCj4gPg0KPiA+IEtpbmQgUmVnYXJkcywNCj4gPiBCeXRlbWFyaw0KPiA+DQo+ID4NCj4gPg0K
+PiA+DQo+ID4NCj4gPiBGcm9tOiBDaGVuIFlhbWluZyAoQlNIIEdERS1FRFNDRCkNCj4gPiBTZW50
+OiBGcmlkYXksIERlY2VtYmVyIDEyLCAyMDI1IDI6MjggUE0NCj4gPiBUbzogJ2Nvbm5tYW5AbGlz
+dHMubGludXguZGV2JyA8Y29ubm1hbkBsaXN0cy5saW51eC5kZXY+DQo+ID4gQ2M6IERlbWJpYW5u
+eSBTdmVuIChCU0ggR0RFLUVEU0Q3KSA8U3Zlbi5EZW1iaWFubnlAYnNoZy5jb20+DQo+ID4gU3Vi
+amVjdDogRml4IHRoZSBjcmFzaCBpc3N1ZSB3aGVuIHJlc3RhcnRpbmcgdGhlIHdwYV9zdXBwbGlj
+YW50IG9yDQo+ID4gd2lmaSBkcml2ZXIgd2hpbGUgQmFja2dyb3VuZFNjYW5uaW5nIGlzIGVuYWJs
+ZQ0KPiA+DQo+ID4NCj4gPg0KPiA+IEhlbGxvLCBjb25tYW4gdGVhbToNCj4gPg0KPiA+ICAgICAg
+ICAgICAgICAgSSBhbSBhIHNvZnR3YXJlIGRldmVsb3BtZW50IGVuZ2luZWVyIG9mIEJTSCBjb21w
+YW55LiBXZSBoYXZlIGRpc2NvdmVyZWQgYSBidWcgaW4gb3VyIHByb2plY3QgdXNpbmcgY29ubm1h
+bi4gV2hlbiBCYWNrZ3JvdW5kU2Nhbm5pbmcgaXMgZW5hYmxlLCBpZiB0aGUgd2lmaSBkcml2ZXIg
+b3Igd3BhX3N1cHBsaWNhbnQgaXMgcmVzdGFydGVkLCBpdCB3aWxsIGNhdXNlIGNvbm5tYW4gY3Jh
+c2guIFRoZSBwYXJzaW5nIG9mIHRoZSBjb3JlIGR1bXAgcHJpbnQgY2FsbCBzdGFjayBzaG93cyB0
+aGUgZm9sbG93aW5nOg0KPiA+DQo+ID4NCj4gPg0KPiA+IENvcmUgd2FzIGdlbmVyYXRlZCBieSBg
+L3Vzci9zYmluL2Nvbm5tYW5kIC0tbm9kbnNwcm94eSAtbicuDQo+ID4NCj4gPiBQcm9ncmFtIHRl
+cm1pbmF0ZWQgd2l0aCBzaWduYWwgU0lHU0VHViwgU2VnbWVudGF0aW9uIGZhdWx0Lg0KPiA+DQo+
+ID4gIzAgYXV0b3NjYW5fdGltZW91dCAoZGF0YT0weDE0NGJjMDApIGF0DQo+ID4gLi4vY29ubm1h
+bi0xLjQ0L3BsdWdpbnMvd2lmaS5jOjEzODINCj4gPg0KPiA+IDEzODIgLi4vY29ubm1hbi0xLjQ0
+L3BsdWdpbnMvd2lmaS5jOiBObyBzdWNoIGZpbGUgb3IgZGlyZWN0b3J5Lg0KPiA+DQo+ID4gKGdk
+YikgYnQNCj4gPg0KPiA+ICMwIGF1dG9zY2FuX3RpbWVvdXQgKGRhdGE9MHgxNDRiYzAwKSBhdA0K
+PiA+IC4uL2Nvbm5tYW4tMS40NC9wbHVnaW5zL3dpZmkuYzoxMzgyDQo+ID4NCj4gPiAjMSAweDc2
+ZDBmOGI0IGluID8/ICgpIGZyb20gL3Vzci9saWIvbGliZ2xpYi0yLjAuc28uMA0KPiA+DQo+ID4g
+IzIgMHg3NmQwZWZmNiBpbiBnX21haW5fY29udGV4dF9kaXNwYXRjaCAoKSBmcm9tDQo+ID4gL3Vz
+ci9saWIvbGliZ2xpYi0yLjAuc28uMA0KPiA+DQo+ID4gIzMgMHg3NmQwZjI0YyBpbiA/PyAoKSBm
+cm9tIC91c3IvbGliL2xpYmdsaWItMi4wLnNvLjANCj4gPg0KPiA+ICM0IDB4NzZkMGY0YTYgaW4g
+Z19tYWluX2xvb3BfcnVuICgpIGZyb20gL3Vzci9saWIvbGliZ2xpYi0yLjAuc28uMA0KPiA+DQo+
+ID4gIzUgMHgwMDAxZDEyNiBpbiBtYWluIChhcmdjPTxvcHRpbWl6ZWQgb3V0PiwgYXJndj08b3B0
+aW1pemVkIG91dD4pDQo+ID4gYXQgLi4vY29ubm1hbi0xLjQ0L3NyYy9tYWluLmM6MTI1Mw0KPiA+
+DQo+ID4NCj4gPg0KPiA+IFdlIGhhdmUgY3JlYXRlZCBhIHBhdGNoIHRvIGF0dGVtcHQgdG8gZml4
+IHRoaXMgaXNzdWUsIHBsZWFzZSBoZWxwDQo+ID4gZXZhbHVhdGUgYW5kIHJldmlldyBpdO+8jHRo
+YW5rc++8ge+8gQ0KPiA+DQo+ID4NCj4gPg0KPiA+DQo+ID4NCj4gPiBCZXN0IHJlZ2FyZHPvvIHv
+vIENCj4gPg0KPiA+DQo+ID4NCj4gPg0KPiA+DQo+ID4NCj4gPg0KPiA+IFlhbWluZyBDaGVuDQo+
+ID4gR0RFLUVEU0NEDQo+ID4NCj4gPiDljZropb/ljY7nlLXlmajvvIjmsZ/oi4/vvInmnInpmZDl
+hazlj7gsIOS4reWbveaxn+iLj+ecgeWNl+S6rOW4gue7j+a1juaKgOacr+W8gOWPkeWMuuWwp+aW
+sOWkp+mBkzIwOOWPtyAyMTAwNDYNCj4gPiDmiYvmnLrvvJoxOTk2MjAzMjc1MQ0KPiA+IFlhbWlu
+Zy5DaGVuQGJzaGcuY29tDQo+ID4NCj4gPg0KPg0KPg0KPg0KPiAtLQ0KPiBNaWNoYWVsIE5henph
+cmVubyBUcmltYXJjaGkNCj4gQ28tRm91bmRlciAmIENoaWVmIEV4ZWN1dGl2ZSBPZmZpY2VyDQo+
+IE0uICszOSAzNDcgOTEzIDIxNzANCj4gbWljaGFlbEBhbWFydWxhc29sdXRpb25zLmNvbQ0KPiBf
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fDQo+DQo+IEFtYXJ1bGEgU29sdXRpb25z
+IEJWDQo+IEpvb3AgR2Vlc2lua3dlZyAxMjUsIDExMTQgQUIsIEFtc3RlcmRhbSwgTkwgVC4gKzMx
+ICgwKTg1IDExMSA5MTcyDQo+IGluZm9AYW1hcnVsYXNvbHV0aW9ucy5jb20NCj4gaHR0cDovL3d3
+dy5hLw0KPiBtYXJ1bGFzb2x1dGlvbnMuY29tJTJGJmRhdGE9MDUlN0MwMiU3Q1lhbWluZy5DaGVu
+JTQwYnNoZy5jb20lN0NkMjc0ZWUwDQo+IGUxOTE3NDQ1MDgxMTAwOGRlMzk1MDgyZjMlN0MwYWU1
+MWUxOTA3Yzg0ZTRiYmI2ZDY0OGVlNTg0MTBmNCU3QzAlN0MwJTcNCj4gQzYzOTAxMTIxNTEyMjM5
+MDIzNSU3Q1Vua25vd24lN0NUV0ZwYkdac2IzZDhleUpGYlhCMGVVMWhjR2tpT25SeWRXVXNJbA0K
+PiBZaU9pSXdMakF1TURBd01DSXNJbEFpT2lKWGFXNHpNaUlzSWtGT0lqb2lUV0ZwYkNJc0lsZFVJ
+am95ZlElM0QlM0QlN0MwDQo+ICU3QyU3QyU3QyZzZGF0YT1sMmwlMkJKYUpoRVB0JTJCcTFkZ1Zk
+JTJCcExmQUdxTjl1SUZvTWtkSnNnVmtDMElnJTNEJnINCj4gZXNlcnZlZD0wDQoNCg0KDQotLQ0K
+TWljaGFlbCBOYXp6YXJlbm8gVHJpbWFyY2hpDQpDby1Gb3VuZGVyICYgQ2hpZWYgRXhlY3V0aXZl
+IE9mZmljZXINCk0uICszOSAzNDcgOTEzIDIxNzANCm1pY2hhZWxAYW1hcnVsYXNvbHV0aW9ucy5j
+b20NCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18NCg0KQW1hcnVsYSBTb2x1dGlv
+bnMgQlYNCkpvb3AgR2Vlc2lua3dlZyAxMjUsIDExMTQgQUIsIEFtc3RlcmRhbSwgTkwgVC4gKzMx
+ICgwKTg1IDExMSA5MTcyIGluZm9AYW1hcnVsYXNvbHV0aW9ucy5jb20NCmh0dHA6Ly93d3cuYW1h
+cnVsYXNvbHV0aW9ucy5jb20vDQo=
 
-       /* Distinguish between devices performing passive and active scannin=
-g */
-        wifi_update_scanner_type(wifi, WIFI_SCANNING_ACTIVE);
+--_002_PRAPR10MB5421E3DC52B8B0479761FC4E90AEAPRAPR10MB5421EURP_
+Content-Type: application/x-zip-compressed;
+	name="0001-wifi-Fix-the-crash-issue-when-restarting-the-wpa_supplicant-or-wifi-driver.zip"
+Content-Description:
+ 0001-wifi-Fix-the-crash-issue-when-restarting-the-wpa_supplicant-or-wifi-driver.zip
+Content-Disposition: attachment;
+	filename="0001-wifi-Fix-the-crash-issue-when-restarting-the-wpa_supplicant-or-wifi-driver.zip";
+	size=1180; creation-date="Fri, 12 Dec 2025 12:50:05 GMT";
+	modification-date="Fri, 12 Dec 2025 12:50:44 GMT"
+Content-Transfer-Encoding: base64
 
-        connman_device_ref(device);
+UEsDBBQACAAIAAWXjFsAAAAAAAAAAAAAAABVACAAMDAwMS13aWZpLUZpeC10aGUtY3Jhc2gtaXNz
+dWUtd2hlbi1yZXN0YXJ0aW5nLXRoZS13cGFfc3VwcGxpY2FudC1vci13aWZpLWRyaXZlci5wYXRj
+aHV4CwABBAAAAAAEAAAAAFVUDQAHy/Q7aVAMPGnL9DtptVXfb9s2EH42/4pDn5xYsiVZqX9sLZIm
+y+qHBQNSbA/DIFDUSeYqUQJJxS22/u87UnHtpF23B0+waYm8++677+7kW902EMerNMnjgl+kZR5H
+F8sF8jIWCS5osywX6TxdpaKYw0+tgnvsIF5AFK39B5IoipmDWcOLj7yRqpqKLaoX8P3R02VutnTX
+Nq/ZDbe4hlstA4gTuEFBCMkFxMv1xXwdLWASLaOI3ff5HyjsGn77+erd9dvfYSdLub6VH8BuEYTm
+ZgvSmB5hR/Cg0ViuLYXz57uOZ6bvuloKriyDVnt/KLR8QLrfyhrhDRfvK932qrgnK+V8pQFUPK+R
+sU35TYMAOm4MoQHvbQtmb2Blg21vYdfq96AQC7Aty5EINu0DPXm2nE52wIV1/uYI22pZVaixmL5B
+wXuDnnb42sVwdoyr4lsBd7KuwUcTSDIXUFLmX4kVQN5b1tbFf8mCeBnrgHX/6CzLQc5S6mbHNZK+
+7KnkzumxJsSCWzBtgx4WpPIlKnvba5LRkfBg+9R8nq2vvoGulcqiNp8zKzVpGhDcwempRPBVV1eC
+gquqdtkdTlwxHJl9vlvCq6lByl6RYNTsbQnHKu0FYge129xySulf2JBmdrB/LDH1wNDEFEG0SjVc
+TVkYhgy6uq+kMjMHNBXwF8QpTI4uZxOT9NTBgvhWTg4aJHJB7Tib8eQsgAQKrHF4Ds8YK2RZQhhW
+RIPPnoXIn20wqQr8QKDz5arkL6fTeVqskmUaQRxFL9PU8fwChRG1L5EuLyGMV6tVEM9h4m+SOdAm
+dYaVgkhbL1jmtBobq3th93JkBT5IgXA+/AYMRqNPtNCXTUazc1rgHE45ph7wdLPq4U46sB7xpFPr
+EU87ugPJU8/vvjanHOIh+f9lkh30jFYSEm22xxgPrXz2HZtQI8/O4UYa95/VS3LP0e6QUhlsKH/U
+1AyNz3Vfbqfzs06kMDDyM9R3BbWQHyWFOrMfOxy7gwB+3dxusvvrq7u7zd2P2dX1u80vPxAJIM+n
+w5ZpLA8kgYX/mAC9hOjMwiuojnon8zUpuRhojAcJP28GnnbWcc0b4wfaXX5P8LrOaZADOIQfUceO
+fZBXEJ3Bn/TeAZbQ22gaM/Y3UEsHCLecY6JIAwAAuQgAAFBLAQIUAxQACAAIAAWXjFu3nGOiSAMA
+ALkIAABVABgAAAAAAAAAAAC2gQAAAAAwMDAxLXdpZmktRml4LXRoZS1jcmFzaC1pc3N1ZS13aGVu
+LXJlc3RhcnRpbmctdGhlLXdwYV9zdXBwbGljYW50LW9yLXdpZmktZHJpdmVyLnBhdGNodXgLAAEE
+AAAAAAQAAAAAVVQFAAHL9DtpUEsFBgAAAAABAAEAmwAAAOsDAAAAAA==
 
-        reset_autoscan(device); <=3D=3D=3D reset autoscan is here
-
-        ret =3D g_supplicant_interface_scan(wifi->interface, scan_params,
-                                                scan_callback, device);
-        if (ret =3D=3D 0) {
-                connman_device_set_scanning(device,
-                                CONNMAN_SERVICE_TYPE_WIFI, true);
-
-
-According to your patch you now execute two times. Just an idea,
-because the connman_device_ref is a bit
-convoluted, is possible to just move up
-
-        connman_device_ref(device);
-        reset_autoscan(device);
-        /* Distinguish between devices performing passive and active scanni=
-ng */
-        wifi_update_scanner_type(wifi, WIFI_SCANNING_ACTIVE);
-
-Michael
-
-On Fri, Dec 12, 2025 at 8:04=E2=80=AFAM Michael Nazzareno Trimarchi
-<michael@amarulasolutions.com> wrote:
->
-> Hi
->
-> On Fri, Dec 12, 2025 at 7:37=E2=80=AFAM Chen Yaming (BSH GDE-EDSCD)
-> <Yaming.Chen@bshg.com> wrote:
-> >
-> > Hello:
-> >
-> >
-> >
-> >             I repackaged the patch file into a zip file, please check i=
-t, thanks!!
-> >
->
-> Can you try to send an inline patch? You can use git send-email, this
-> allow people to review.
->
-> Michael
->
->
-> >
-> >
-> > Yaming Chen
-> > GDE-EDSCD
-> >
-> > =E5=8D=9A=E8=A5=BF=E5=8D=8E=E7=94=B5=E5=99=A8=EF=BC=88=E6=B1=9F=E8=8B=
-=8F=EF=BC=89=E6=9C=89=E9=99=90=E5=85=AC=E5=8F=B8, =E4=B8=AD=E5=9B=BD=E6=B1=
-=9F=E8=8B=8F=E7=9C=81=E5=8D=97=E4=BA=AC=E5=B8=82=E7=BB=8F=E6=B5=8E=E6=8A=80=
-=E6=9C=AF=E5=BC=80=E5=8F=91=E5=8C=BA=E5=B0=A7=E6=96=B0=E5=A4=A7=E9=81=93208=
-=E5=8F=B7 210046
-> > =E6=89=8B=E6=9C=BA=EF=BC=9A19962032751
-> > Yaming.Chen@bshg.com
-> >
-> >
-> >
-> >
-> >
-> > From: Bytemark support@bytemark.co.uk
-> > Sent: Friday, December 12, 2025 2:31 PM
-> > To: Chen Yaming (BSH GDE-EDSCD) yaming.chen@bshg.com
-> > Subject: Your attachment was rejected
-> >
-> >
-> >
-> > Dear Chen Yaming (BSH GDE-EDSCD),
-> >
-> > Your email to our support system could not be accepted in full. The fol=
-lowing file(s) were rejected by our system: 0001-wifi-Fix-the-crash-issue-w=
-hen-restarting-the-wpa_supplicant-or-wifi-driver-while-background-scanning-=
-enable.patch
-> >
-> > Please try re-sending your attachment using one of the following allowe=
-d attachment types: doc|docx|xml|png|gif|jpg|jpeg|zip|rar|pdf|txt|log|xlsx|=
-wav.
-> >
-> > Kind Regards,
-> > Bytemark
-> >
-> >
-> >
-> >
-> >
-> > From: Chen Yaming (BSH GDE-EDSCD)
-> > Sent: Friday, December 12, 2025 2:28 PM
-> > To: 'connman@lists.linux.dev' <connman@lists.linux.dev>
-> > Cc: Dembianny Sven (BSH GDE-EDSD7) <Sven.Dembianny@bshg.com>
-> > Subject: Fix the crash issue when restarting the wpa_supplicant or wifi=
- driver while BackgroundScanning is enable
-> >
-> >
-> >
-> > Hello, conman team:
-> >
-> >               I am a software development engineer of BSH company. We h=
-ave discovered a bug in our project using connman. When BackgroundScanning =
-is enable, if the wifi driver or wpa_supplicant is restarted, it will cause=
- connman crash. The parsing of the core dump print call stack shows the fol=
-lowing:
-> >
-> >
-> >
-> > Core was generated by `/usr/sbin/connmand --nodnsproxy -n'.
-> >
-> > Program terminated with signal SIGSEGV, Segmentation fault.
-> >
-> > #0 autoscan_timeout (data=3D0x144bc00) at ../connman-1.44/plugins/wifi.=
-c:1382
-> >
-> > 1382 ../connman-1.44/plugins/wifi.c: No such file or directory.
-> >
-> > (gdb) bt
-> >
-> > #0 autoscan_timeout (data=3D0x144bc00) at ../connman-1.44/plugins/wifi.=
-c:1382
-> >
-> > #1 0x76d0f8b4 in ?? () from /usr/lib/libglib-2.0.so.0
-> >
-> > #2 0x76d0eff6 in g_main_context_dispatch () from /usr/lib/libglib-2.0.s=
-o.0
-> >
-> > #3 0x76d0f24c in ?? () from /usr/lib/libglib-2.0.so.0
-> >
-> > #4 0x76d0f4a6 in g_main_loop_run () from /usr/lib/libglib-2.0.so.0
-> >
-> > #5 0x0001d126 in main (argc=3D<optimized out>, argv=3D<optimized out>) =
-at ../connman-1.44/src/main.c:1253
-> >
-> >
-> >
-> > We have created a patch to attempt to fix this issue, please help evalu=
-ate and review it=EF=BC=8Cthanks=EF=BC=81=EF=BC=81
-> >
-> >
-> >
-> >
-> >
-> > Best regards=EF=BC=81=EF=BC=81
-> >
-> >
-> >
-> >
-> >
-> >
-> >
-> > Yaming Chen
-> > GDE-EDSCD
-> >
-> > =E5=8D=9A=E8=A5=BF=E5=8D=8E=E7=94=B5=E5=99=A8=EF=BC=88=E6=B1=9F=E8=8B=
-=8F=EF=BC=89=E6=9C=89=E9=99=90=E5=85=AC=E5=8F=B8, =E4=B8=AD=E5=9B=BD=E6=B1=
-=9F=E8=8B=8F=E7=9C=81=E5=8D=97=E4=BA=AC=E5=B8=82=E7=BB=8F=E6=B5=8E=E6=8A=80=
-=E6=9C=AF=E5=BC=80=E5=8F=91=E5=8C=BA=E5=B0=A7=E6=96=B0=E5=A4=A7=E9=81=93208=
-=E5=8F=B7 210046
-> > =E6=89=8B=E6=9C=BA=EF=BC=9A19962032751
-> > Yaming.Chen@bshg.com
-> >
-> >
->
->
->
-> --
-> Michael Nazzareno Trimarchi
-> Co-Founder & Chief Executive Officer
-> M. +39 347 913 2170
-> michael@amarulasolutions.com
-> __________________________________
->
-> Amarula Solutions BV
-> Joop Geesinkweg 125, 1114 AB, Amsterdam, NL
-> T. +31 (0)85 111 9172
-> info@amarulasolutions.com
-> www.amarulasolutions.com
-
-
-
---=20
-Michael Nazzareno Trimarchi
-Co-Founder & Chief Executive Officer
-M. +39 347 913 2170
-michael@amarulasolutions.com
-__________________________________
-
-Amarula Solutions BV
-Joop Geesinkweg 125, 1114 AB, Amsterdam, NL
-T. +31 (0)85 111 9172
-info@amarulasolutions.com
-www.amarulasolutions.com
+--_002_PRAPR10MB5421E3DC52B8B0479761FC4E90AEAPRAPR10MB5421EURP_--
