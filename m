@@ -1,71 +1,45 @@
-Received: from GVXPR05CU001.outbound.protection.outlook.com (mail-swedencentralazon11013057.outbound.protection.outlook.com [52.101.83.57])
+Received: from mail.kapsi.fi (mail-auth.kapsi.fi [91.232.154.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAFB7423A6D
-	for <connman@lists.linux.dev>; Tue, 20 Jan 2026 11:34:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.83.57
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768908862; cv=fail; b=GRautxUFFl51nG+5RJ7LN3Bhxb8WGSWVZ4vMS3w7hudbUe0cnrDORaQZ8+0yh9zIIkqAf3Q+ZfgucIpTSJQVPqRMZoW2QCpMGabiTYoGa+GQk/8iqtnUQIhTuXDyRWYaHjUDDedhznsuRhAHBDIDW30W8VmETybdWQPSgyPqx5g=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768908862; c=relaxed/simple;
-	bh=ZxARfj5YfgRj9Uf10DgEkULFT4WBdus6A0sfu82OOpc=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=DuOPg4ot6FN462fsMWcqQUNFWCzZJR4oOU/zPUFbIn12quz+L7r++upYxcRB6jbs+hgt5hLlCsfGVQOWiZDNBi78rfUFFyxpasfCpnNm33b42pJa8EsYJryelZCpNDi+qyj/XwY7MGKW4lpraEHhTzAt6HZMF8VdkooGorjcxW4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bshg.com; spf=pass smtp.mailfrom=bshg.com; dkim=pass (2048-bit key) header.d=bshg.com header.i=@bshg.com header.b=BMsvvja9; arc=fail smtp.client-ip=52.101.83.57
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bshg.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bshg.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9990930EF63
+	for <connman@lists.linux.dev>; Mon, 26 Jan 2026 12:59:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.232.154.24
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1769432359; cv=none; b=eRcBtiTEBwxTnIKBH9UKG1znfhST8IbTssVP5TNZqgXOG6yomb2D75Wcy3oe7bVbhN0nWCKPuQIpfqGQMdDq7vvE0rzMJ7hDaQFhsF3FSvu/gDHm6cpcW8YZFNzReX8SEvDmrnbgsawezj1aCQj4tIqZqdeDM11P1X2LZTRD9qI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1769432359; c=relaxed/simple;
+	bh=pIrPBgTZXdBl6SiCAHcVj0s/5lrINLx+ZM1pA+yLJoQ=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version; b=RLl4EhjtiM8cU7XSOu/zsi7/cXXjY1Eq4wQnXW7IFjtkZmQ7Swo1iwmzCC9ca+TjXsWnAGPUJnms3WFZiBzBzHHb2F4hJPiRUKmXwzICRA+8Ro00fUpLWWtHLoYYsmHUJeDEW/AvmP+JajeK/GufYyuXHSdVDLupz9Ujc/b7fzE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=jolla.com; spf=pass smtp.mailfrom=kapsi.fi; dkim=pass (2048-bit key) header.d=kapsi.fi header.i=@kapsi.fi header.b=rcsscOf+; arc=none smtp.client-ip=91.232.154.24
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=jolla.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kapsi.fi
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bshg.com header.i=@bshg.com header.b="BMsvvja9"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=NMn5wpKsCTGKvvSwhioA2Msjrycq81DYHpO9T33NrTUUPc4HuY3kXCFV/B+SvtsG2Ln040plHV7dOlZuozpodCqY22hDVOxlBV1uA1dQsfTLwpG0SIg7adxHa2rBu6N2VfrXsPzlwLtbhXa1oLcXsY4x9jHQ2X3lfNvQkQgCltSx71S4Zr6LrdcOJaW/iGsjFRCOn9Ei8+yy1yuqkpdp6p459noM0EmNugQDCkWwVoQ7cJtdf/+0xbXm8EN1LbGLyQg5N2C5+/S8l7Ggti+O0QhewjQG4Z1ZoirZAg+UEmEOFlbv3w4Z2lp/TSzpiboSnXy5IvRBKLoKswnZxlQpFQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=4V6FgH72+9bDOR2fn0BbzZYO40EILgfRmN52uX15T6E=;
- b=OuQuqNpwhuPaXF3UvArMOTtdHIva4Bw+weF2iwEGxtdon7jhX4bsnQN8AhMhKqbBW4ucX6NzaomWhZDzRGmH68OepgceU+bDEyRYXzrNhC98mYVm18uaTzoKiSXRTtP1eCBM3lhvMQ8iRjcLQXu+pILAANN/VbEWxEla1OGZmPKLQURg9V6C0R26GjjU6N2+8TW0hweKwt+ivGS9BIydTiVsbMNvZ1ms5OyW0YVtM0UMlshRV+SzSmxAfBCRJkKhUC+/Y0nnJzNddScLhQT8JHlp9wyQ4mESIy+AI7YpcdDx6vlm8RUV9IY7rLjgVZgfbIOsW1/w3wwWE0j8Whonnw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 139.15.153.206) smtp.rcpttodomain=lists.linux.dev smtp.mailfrom=bshg.com;
- dmarc=pass (p=reject sp=none pct=100) action=none header.from=bshg.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bshg.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4V6FgH72+9bDOR2fn0BbzZYO40EILgfRmN52uX15T6E=;
- b=BMsvvja9w7NVRFAHbtCRMoliPOmVxCg49FLW3nhdlRIJYxaWpHz2GHAacxsabVASEU0sCNpYt4kyc7BdYuzdmp+KaX/UQOnTkByH387ZgnX87TqC7VapfapizViXXuzlZ6Ag80+MLiMCBMazRoG3WgQR16Ycq/h62MILgQxNkYwmsUyPffLkxgfdmoi4d5q827vIQCg7J3iXKbP2h/FUYt/BbKScgr7sD01WT/ggUI16gAdZpiRSgPjiF2LeSYY153Ht9NStADVQbdgyRqil5Vuc8MLdm95DOEsCwg2f1+G5V7TjGQ8tb3mxLaRDnay06oQlOGtRK6fA4pfep4meFg==
-Received: from CWLP123CA0258.GBRP123.PROD.OUTLOOK.COM (2603:10a6:400:19e::11)
- by DB4PR10MB7469.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:3cf::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9520.12; Tue, 20 Jan
- 2026 11:34:17 +0000
-Received: from AMS0EPF000001B5.eurprd05.prod.outlook.com
- (2603:10a6:400:19e:cafe::7e) by CWLP123CA0258.outlook.office365.com
- (2603:10a6:400:19e::11) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9542.9 via Frontend Transport; Tue,
- 20 Jan 2026 11:34:16 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 139.15.153.206)
- smtp.mailfrom=bshg.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=bshg.com;
-Received-SPF: Pass (protection.outlook.com: domain of bshg.com designates
- 139.15.153.206 as permitted sender) receiver=protection.outlook.com;
- client-ip=139.15.153.206; helo=eop.bosch-org.com; pr=C
-Received: from eop.bosch-org.com (139.15.153.206) by
- AMS0EPF000001B5.mail.protection.outlook.com (10.167.16.169) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9542.4 via Frontend Transport; Tue, 20 Jan 2026 11:34:17 +0000
-Received: from RNGMBX3002.de.bosch.com (10.124.11.207) by eop.bosch-org.com
- (139.15.153.206) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.35; Tue, 20 Jan
- 2026 12:34:03 +0100
-Received: from NAAWCN10001829.asce.corp.bshg.com (10.183.185.167) by
- smtp.app.bosch.com (10.124.11.207) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.35; Tue, 20 Jan 2026 12:34:01 +0100
-From: yaming.chen <yaming.chen@bshg.com>
-To: <connman@lists.linux.dev>
-CC: <sven.dembianny@bshg.com>, <Yaming.Chen@bshg.com>, yaming.chen
-	<yaming.chen@bshg.com>
-Subject: [PATCH v2] network:Keep network->connecting true during wifi association
-Date: Tue, 20 Jan 2026 19:33:24 +0800
-Message-ID: <20260120113324.1669726-1-yaming.chen@bshg.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=kapsi.fi header.i=@kapsi.fi header.b="rcsscOf+"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
+	s=20161220; h=Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:
+	To:From:Sender:Reply-To:Cc:Content-Type:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	List-Post:List-Owner:List-Archive;
+	bh=w4OrpxzduWLqF6eZDr0ofrHlrjgluDDVHO1gWgFQEN8=; b=rcsscOf+Xb5JZ0v+6GykFMWLsk
+	PfZmNdZWaWAYWWxPUfm+PAmGoTitl7QX894UeOLY2CdMWcMIGWUAZht+83FCK6TLLoyi5AqDrEZrX
+	hBcbBmWgRRMZthPlb0n+lmy9sPhc9A83XHTvKpPk4xuOa/MYNqfHvqLWPETIrZsmaiKkWuudRQSu1
+	kA8XIkhuCm2JvcZJFOZjpsr3juuk7lBRuCR28jMtObejAM5YKj3309Fs0cAtSqoNAMEFH6Ewz8CDO
+	Mou+XchJdKwBdHd4t/y2jzBD5q7oFMBL43QC/p0vhM3lxNrkGcbyuyXXuUw7xEw7Hz61yIyf6CJoL
+	YZEUb7Zw==;
+Received: from [2a10:a5c0:37:6500:4460:24f0:14b1:617b] (helo=jl-x230.local)
+	by mail.kapsi.fi with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <jussi.laakkonen@jolla.com>)
+	id 1vkMBV-00Brql-0x
+	for connman@lists.linux.dev;
+	Mon, 26 Jan 2026 14:59:13 +0200
+From: Jussi Laakkonen <jussi.laakkonen@jolla.com>
+To: connman@lists.linux.dev
+Subject: [PATCH v2] systemd-resolved: Use DNS servers of the default service
+Date: Mon, 26 Jan 2026 14:59:00 +0200
+Message-ID: <20260126125906.37683-1-jussi.laakkonen@jolla.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
@@ -73,108 +47,430 @@ List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AMS0EPF000001B5:EE_|DB4PR10MB7469:EE_
-X-MS-Office365-Filtering-Correlation-Id: b474f1dd-70ba-4e3d-09e7-08de5817d896
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|19092799006|376014|82310400026|36860700013|1800799024;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?kK4SbgM3ZkwCQtcF+JY7guzBIHW04mglTDBuhqClqJF3bvY58c7RB55S5iQE?=
- =?us-ascii?Q?w0UWq23PnlU4/CkN4awshma+CKMVyfdVWTHrObSkjmbbSPXcuZec0W/j0SHs?=
- =?us-ascii?Q?3aJ805A87QH2CnVyhCQY7cBH0bJUFa9gKRY0NKeWrxqxO1WPRmRjgdPSn8zd?=
- =?us-ascii?Q?9v5v4iZI9arkXfrkkUOszsa3eKcXQ+9LyLjsLnpAjOjo5fRQDsvqnqgJhpl8?=
- =?us-ascii?Q?Al52nW/jiqDkzUf29aqKlsDLPdMf4RqDKhrpUqT1NGT5ksmdTQsn/Z2/WqWo?=
- =?us-ascii?Q?RCBOp+9XY9Lyxtnlp0VstgXzXHK3G41KrU2xRlrn4hOL/q3irEBRN9/pT1AN?=
- =?us-ascii?Q?ZAvYEqoVgMVQfqTukKmdNEXOguqQTneqlfKgw0vZuAvYwEgdRNVnCjS8Gaol?=
- =?us-ascii?Q?6iNbkrDNV4xGdhdJjmzSkuqVOxmiPPaNampTvdnSrolMYKJC44sZkDcPEMX9?=
- =?us-ascii?Q?sIShiqy3DPUi7LBQI8PFo0F6GWxSWg80I+SEUVUE/iY/fb3pLCkwmJ4WRoVU?=
- =?us-ascii?Q?l6A91GfoyYdoiXNs3P+YY54lHKKg66zf6Dpzb8c1KxhNPBsVWSLc4NUqMUTo?=
- =?us-ascii?Q?PMfXtMBphp7/gg6F/atrcTlSDxqLjdrFMW2X5WoEuVOeruF+D7DXKydgW29j?=
- =?us-ascii?Q?dOeH1D0rtInZX4piunMh9AUNfqxVYQcyfe2PAAyj5CWDM9DjK7yeV5/GfkFQ?=
- =?us-ascii?Q?Y2II4HGiExXLtph4dUva9VdM1/esT7PjByhmKxd/ILES4jYFxtvvSqRPUIan?=
- =?us-ascii?Q?XxQ/QmJibququvTQ8tm0F4vZOd04JfkO+BrQjKmVDfGmRPmvIsVM3vkOiuum?=
- =?us-ascii?Q?E5K3/1dLM7TgksUDCyJ5mQ7VCeJUSu3iDqpjWZgyiX64MfOw1GFTkGq29jBQ?=
- =?us-ascii?Q?9YRNyDGsHMBPX/nbKP2p+MHD6Y2dWNzO3C8K9L+7CgUSmErpXpJd21xRkbo3?=
- =?us-ascii?Q?2UqwZOXqKlZJBwjzDBHXaAZar2OqPoFnrByn6rtu2ZSB9jOUpNz70oul0FDT?=
- =?us-ascii?Q?42QOWk2eaWMl6nKOakY69vknFwP0bXNKBT/Tk3W/8dKfYcCQertXcMxkZxhL?=
- =?us-ascii?Q?FJl0owq9Rf4FK/07pz8IQ7QZYm2uUmLiplGv/7lyQyVXSDd71Wnp+EPhfkme?=
- =?us-ascii?Q?FLakiLI6+3nEt2dMJFwtgO6G52lFvqeLxAI3J6Z1pSiZgoFEmp/WCtwgPtUr?=
- =?us-ascii?Q?G6qRLJiZ4YUPYSRqcj7+gzv2pwIrvog/bkPrJHtT5mc5A35nHOegmFFqzz2D?=
- =?us-ascii?Q?gD2/DTD+8Nk/L1q6ylQGcBTGSSj0JWPfvTiLjb+oD1emY0A/nmqNbW+31u4Z?=
- =?us-ascii?Q?AFDBW4lpsb1O8BBWn3qhAWqonBQFMJIn/XXMJC5df1FjVUBJKVi0mZdK+y5z?=
- =?us-ascii?Q?SMLrZ1nVrMCQf8jr1+W6QLTBj7zVArjd0H/pfPcIcl8IoFHxP+XgfujUb2kr?=
- =?us-ascii?Q?KCpVsYjqKH8nsFd20vQM/ECXREWHCFpokaJdGpvcvPtdGuN1gBuuBjUm8qPj?=
- =?us-ascii?Q?TmjWUdvBpRi/MYuf0jiKpsCpoT+I5yRSMiplrI7pjkQ5rLB2a1WtmT+wuTFn?=
- =?us-ascii?Q?dCo/JjBZi3+Hrqnr45W9D4arj4pqO9vqVy3XK4OQTQyCt7ZbdpG8/b2LIYmN?=
- =?us-ascii?Q?acLujE+rojhTHgqU5UGgVBmBstjHUx7/t4A7nVbM6f7c7Pck8USoLL3IGyrV?=
- =?us-ascii?Q?bbuitg=3D=3D?=
-X-Forefront-Antispam-Report:
-	CIP:139.15.153.206;CTRY:DE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:eop.bosch-org.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(19092799006)(376014)(82310400026)(36860700013)(1800799024);DIR:OUT;SFP:1101;
-X-OriginatorOrg: bshg.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jan 2026 11:34:17.3489
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: b474f1dd-70ba-4e3d-09e7-08de5817d896
-X-MS-Exchange-CrossTenant-Id: 0ae51e19-07c8-4e4b-bb6d-648ee58410f4
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=0ae51e19-07c8-4e4b-bb6d-648ee58410f4;Ip=[139.15.153.206];Helo=[eop.bosch-org.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	AMS0EPF000001B5.eurprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB4PR10MB7469
+X-SA-Exim-Connect-IP: 2a10:a5c0:37:6500:4460:24f0:14b1:617b
+X-SA-Exim-Mail-From: jussi.laakkonen@jolla.com
+X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
 
-In the case of AutoConnect enabled, if the AP powers off, during
-the first auto reconnection process, network->connecting is set
-to false too early, resulting in no actual network disconnect
-operation being performed in the __connman_network_disconnect
-function, and the network info of GSupplicantInterface object is
-not freed.
+Register to get the notifies about the default service, service state
+and offline mode changes. When default service changes set it as
+default route in resolved, revert other links' status and flush the cache
+so only the default service's DNSs are used. This brings the similar
+behavior that is is in dnsproxy.c, and prevents leaking of DNS queries
+outside VPNs as well. Thus, effectively making only the DNS servers of
+the default online service to be used.
 
-So when the AP powers on and connman triggers wifi auto
-reconnection again, GSupplicantInterface object still returns
--EALREADY and network->connecting remains false.
-
-If the task of autoscan_timeout and the associating event received
-by connman from wpa_supplicant happen at the same time (Now auto
-reconnection is dependent on wpa_supplicant), it will cause the
-network object to be set as unavailable due to the function
-__connman_technology_scan_started and freed in the stop_autoscan
-function due to false network->connecting. Therefore, connman will
-not do dhcp request after receiving the 4-way handshake and
-completed events, and cannot allocate IP to STA device.
-
-No matter how many times connman will request to reconnect to the
-same AP again in the future, because the wifi state of wpa_supplicant
-is already connected and the GSupplicantInterface object still
-returns -EALREADY for connect request, STA will never actually do
-the connect action again and will never be allocated an IP address
-except for restarting wpa_supplicant forcibly.
+To ensure that the servers are gone the domains and servers lists are
+cleared when the service is disconnecting. The current default index is
+being tracked and when it is being reset, the cache will be flushed as
+well.
 
 ---
-Changes since v1:
-- Format line indentation of the code
+Changes since v2:
+ - Send the correct patch file without the internal bug reference.
 
----
- src/network.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ src/dns-systemd-resolved.c | 340 ++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 337 insertions(+), 3 deletions(-)
 
-diff --git a/src/network.c b/src/network.c
-index 416a7e74..d3876efe 100644
---- a/src/network.c
-+++ b/src/network.c
-@@ -1806,7 +1806,8 @@ int __connman_network_connect(struct connman_network *network)
- 	if (err < 0) {
- 		if (err == -EINPROGRESS)
- 			connman_network_set_associating(network, true);
--		else
-+		else if (err != -EALREADY ||
-+				network->type != CONNMAN_NETWORK_TYPE_WIFI)
- 			network->connecting = false;
+diff --git a/src/dns-systemd-resolved.c b/src/dns-systemd-resolved.c
+index 912ab3fe..9dd0328c 100644
+--- a/src/dns-systemd-resolved.c
++++ b/src/dns-systemd-resolved.c
+@@ -36,7 +36,7 @@
+ #define SYSTEMD_RESOLVED_SERVICE "org.freedesktop.resolve1"
+ #define SYSTEMD_RESOLVED_PATH "/org/freedesktop/resolve1"
  
- 		return err;
+-struct mdns_data {
++struct resolved_dbus_data {
+ 	int index;
+ 	bool enabled;
+ };
+@@ -48,6 +48,7 @@ static GDBusProxy *resolved_proxy;
+ 
+ /* update after a full set of instructions has been received */
+ static guint update_interfaces_source;
++static gint current_default_index = -1;
+ 
+ struct dns_interface {
+ 	GList *domains;
+@@ -55,6 +56,7 @@ struct dns_interface {
+ 	int index;
+ 	bool needs_domain_update;
+ 	bool needs_server_update;
++	bool enabled;
+ };
+ 
+ static gboolean compare_index(gconstpointer a, gconstpointer b)
+@@ -405,7 +407,7 @@ static int setup_resolved(void)
+ }
+ 
+ static void setlinkmulticastdns_append(DBusMessageIter *iter, void *user_data) {
+-	struct mdns_data *data = user_data;
++	struct resolved_dbus_data *data = user_data;
+ 	char *val = "no";
+ 
+ 	if (data->enabled)
+@@ -419,7 +421,7 @@ static void setlinkmulticastdns_append(DBusMessageIter *iter, void *user_data) {
+ 
+ int __connman_dnsproxy_set_mdns(int index, bool enabled)
+ {
+-	struct mdns_data data = { .index = index, .enabled = enabled };
++	struct resolved_dbus_data data = { .index = index, .enabled = enabled };
+ 
+ 	if (!resolved_proxy)
+ 		return -ENOENT;
+@@ -434,6 +436,332 @@ int __connman_dnsproxy_set_mdns(int index, bool enabled)
+ 	return 0;
+ }
+ 
++static void setlinkdefaultroute_append(DBusMessageIter *iter, void *user_data)
++{
++	struct resolved_dbus_data *data = user_data;
++	dbus_bool_t val = data->enabled;
++
++	DBG("SetLinkDefaultRoute: %d/%s", data->index, val ? "yes" : "no");
++
++	dbus_message_iter_append_basic(iter, DBUS_TYPE_INT32, &data->index);
++	dbus_message_iter_append_basic(iter, DBUS_TYPE_BOOLEAN, &val);
++}
++
++static int resolved_set_default_route(int index, bool enabled)
++{
++	struct resolved_dbus_data data = { .index = index, .enabled = enabled };
++
++	if (!resolved_proxy)
++		return -ENOENT;
++
++	if (index < 0)
++		return -ENODEV;
++
++	if (!g_dbus_proxy_method_call(resolved_proxy, "SetLinkDefaultRoute",
++			setlinkdefaultroute_append, NULL, &data, NULL))
++		return -EINVAL;
++
++	return 0;
++}
++
++static int resolved_flush_cache()
++{
++	DBG("");
++
++	if (!resolved_proxy)
++		return -ENOENT;
++
++	if (!g_dbus_proxy_method_call(resolved_proxy, "FlushCaches",
++			NULL, NULL, NULL, NULL))
++		return -EINVAL;
++
++	return 0;
++}
++
++static void setrevertlink_append(DBusMessageIter *iter, void *user_data)
++{
++	int index = GPOINTER_TO_INT(user_data);
++
++	DBG("RevertLink: %d", index);
++
++	dbus_message_iter_append_basic(iter, DBUS_TYPE_INT32, &index);
++}
++
++static int resolved_disable_interface(int index)
++{
++	if (!resolved_proxy)
++		return -ENOENT;
++
++	if (index < 0)
++		return -ENODEV;
++
++	if (!g_dbus_proxy_method_call(resolved_proxy, "RevertLink",
++			setrevertlink_append, NULL, GINT_TO_POINTER(index),
++			NULL))
++		return -EINVAL;
++
++	return 0;
++}
++
++struct interface_search_data {
++	bool enable;
++	bool forced;
++	bool disconnected;
++	int index4;
++	int index6;
++	int vpn_index;
++};
++
++static bool interface_index_match(int index,
++				struct interface_search_data *search_data)
++{
++	if (search_data->forced)
++		return true;
++
++	if (index == search_data->index4 || index == search_data->index6) {
++		DBG("interface %d match", index);
++		return true;
++	}
++
++	if (index == search_data->vpn_index) {
++		DBG("VPN interface %d match", index);
++		return true;
++	}
++
++	return false;
++}
++
++static void toggle_interface_dns(struct dns_interface *iface, bool enable)
++{
++	DBG("%s interface %p/%d", enable ? "enable" : "disable", iface,
++								iface->index);
++
++	if (iface->enabled == enable) {
++		DBG("already %s", enable ? "enabled" : "disabled");
++		return;
++	}
++
++	iface->enabled = enable;
++
++	if (!enable) {
++		DBG("disabling interface %d", iface->index);
++		resolved_disable_interface(iface->index);
++	} else {
++		DBG("re-enabling interface %d", iface->index);
++		set_systemd_resolved_values(iface);
++	}
++
++	if (is_empty(iface)) {
++		DBG("removing interface %d", iface->index);
++		g_hash_table_remove(interface_hash,
++					GUINT_TO_POINTER(iface->index));
++	}
++}
++
++static void check_interface(gpointer key, gpointer value, gpointer user_data)
++{
++	struct dns_interface *iface = value;
++	struct interface_search_data *search_data = user_data;
++
++	if (interface_index_match(iface->index, search_data)) {
++		/*
++		 * Clear domains and servers before updating the status to
++		 * resolved when interface is disconnected.
++		 */
++		if (!search_data->enable && search_data->disconnected) {
++			DBG("clear domains and servers of %d", iface->index);
++
++			g_list_free_full(iface->domains, g_free);
++			iface->domains = NULL;
++
++			g_list_free_full(iface->servers, g_free);
++			iface->servers = NULL;
++		}
++
++		toggle_interface_dns(iface, search_data->enable);
++	/* If DNSs of an interface are to be enabled disable the others */
++	} else if (search_data->enable) {
++		toggle_interface_dns(iface, false);
++	} else {
++		return;
++	}
++
++	if (!update_interfaces_source)
++		update_interfaces_source = g_idle_add(update_systemd_resolved,
++									NULL);
++}
++
++static void resolved_offline_mode(bool enabled)
++{
++	struct interface_search_data search_data = { 0 };
++	int err;
++
++	DBG("enabled %d", enabled);
++
++	search_data.enable = !enabled;
++	search_data.forced = true;
++
++	g_hash_table_foreach(interface_hash, check_interface, &search_data);
++
++	/* Offline mode is not on, skip default unset and flushing of cache */
++	if (!enabled)
++		return;
++
++	err = resolved_set_default_route(current_default_index, false);
++	if (err && err != -ENODEV)
++		DBG("failed to unset interface %d as default route",
++							current_default_index);
++
++	current_default_index = -1;
++
++	resolved_flush_cache();
++}
++
++static void resolved_default_changed(struct connman_service *service)
++{
++	struct connman_ipconfig *ipconfig;
++	struct interface_search_data search_data = { 0 };
++	int index;
++	int err;
++
++	DBG("service %p interface %d", service,
++					__connman_service_get_index(service));
++
++	if (!service) {
++		/* When no services are active, then disable DNSs */
++		resolved_offline_mode(true);
++		return;
++	}
++
++	if (connman_service_get_type(service) == CONNMAN_SERVICE_TYPE_VPN) {
++		/* VPN is either or take both to be sure */
++		search_data.index4 = search_data.index6 = -1;
++		search_data.vpn_index = __connman_service_get_index(service);
++
++		if (search_data.vpn_index < 0)
++			return;
++
++		index = search_data.vpn_index;
++	} else {
++		ipconfig = __connman_service_get_ip4config(service);
++		search_data.index4 = __connman_ipconfig_get_index(ipconfig);
++
++		ipconfig = __connman_service_get_ip6config(service);
++		search_data.index6 = __connman_ipconfig_get_index(ipconfig);
++
++		if (search_data.index4 < 0 && search_data.index6 < 0)
++			return;
++
++		/*
++		 * In case non-split-routed VPN is set as split routed the DNS
++		 * servers the VPN must be enabled as well, when the transport
++		 * becomes the default service. Try first with IPv4 and then
++		 * attempt using IPv6 if not set. VPN can be either or.
++		 */
++		search_data.vpn_index = __connman_gateway_get_vpn_index(
++							search_data.index4);
++		if (search_data.vpn_index < 0)
++			search_data.vpn_index =
++					__connman_gateway_get_vpn_index(
++							search_data.index6);
++
++		if (search_data.index4 == search_data.index6)
++			index = search_data.index4;
++		else
++			index = search_data.index6; // Prefer IPv6, as usual.
++	}
++
++	if (current_default_index != index) {
++		err = resolved_set_default_route(current_default_index, false);
++		if (err && err != -ENODEV)
++			DBG("failed to unset %d as default",
++							current_default_index);
++
++		current_default_index = -1;
++
++		err = resolved_set_default_route(index, true);
++		if (err && err != -ENODEV)
++			DBG("failed to set %d as default", index);
++		else
++			current_default_index = index;
++	}
++
++	search_data.enable = true;
++	g_hash_table_foreach(interface_hash, check_interface, &search_data);
++
++	resolved_flush_cache();
++}
++
++static void resolved_service_state_changed(struct connman_service *service,
++			enum connman_service_state state)
++{
++	struct connman_ipconfig *ipconfig;
++	struct interface_search_data search_data = { 0 };
++	int index;
++	int err;
++
++	index = __connman_service_get_index(service);
++	DBG("service %p interface %d state %d", service, index, state);
++
++	switch (state) {
++	case CONNMAN_SERVICE_STATE_DISCONNECT:
++	case CONNMAN_SERVICE_STATE_IDLE:
++	case CONNMAN_SERVICE_STATE_FAILURE:
++	case CONNMAN_SERVICE_STATE_UNKNOWN:
++		DBG("disable interface %d", index);
++		break;
++	case CONNMAN_SERVICE_STATE_ASSOCIATION:
++	case CONNMAN_SERVICE_STATE_CONFIGURATION:
++	case CONNMAN_SERVICE_STATE_ONLINE:
++	case CONNMAN_SERVICE_STATE_READY:
++		DBG("connecting/connected mode, skip interface %d", index);
++		return;
++	}
++
++	ipconfig = __connman_service_get_ip4config(service);
++	search_data.index4 = __connman_ipconfig_get_index(ipconfig);
++
++	ipconfig = __connman_service_get_ip6config(service);
++	search_data.index6 = __connman_ipconfig_get_index(ipconfig);
++
++	if (current_default_index == search_data.index4)
++		index = search_data.index4;
++	else if (current_default_index == search_data.index6)
++		index = search_data.index6;
++	else
++		index = -1;
++
++	if (index != -1) {
++		err = resolved_set_default_route(index, false);
++		if (err && err != -ENODEV)
++			DBG("failed to unset %d as default route", index);
++
++		current_default_index = -1;
++		resolved_flush_cache(); // Do when index is unset
++	}
++
++	/*
++	 * Disable DNS servers when the service is not connected and clear the
++	 * domains and servers. Use both indexes as service can have two
++	 * separate interfaces, both of which can be registered to resolved.
++	 */
++	search_data.enable = false;
++	search_data.disconnected = true;
++
++	g_hash_table_foreach(interface_hash, check_interface, &search_data);
++
++	if (!update_interfaces_source)
++		update_interfaces_source = g_idle_add(update_systemd_resolved,
++									NULL);
++}
++
++static struct connman_notifier resolved_notifier = {
++	.name			= "systemd-resolved",
++	.default_changed	= resolved_default_changed,
++	.offline_mode		= resolved_offline_mode,
++	.service_state_changed	= resolved_service_state_changed,
++};
++
+ int __connman_dnsproxy_init(void)
+ {
+ 	int ret;
+@@ -451,6 +779,10 @@ int __connman_dnsproxy_init(void)
+ 	if (!interface_hash)
+ 		return -ENOMEM;
+ 
++	ret = connman_notifier_register(&resolved_notifier);
++	if (ret < 0)
++		DBG("cannot register notifier");
++
+ 	return 0;
+ }
+ 
+@@ -458,6 +790,8 @@ void __connman_dnsproxy_cleanup(void)
+ {
+ 	DBG("");
+ 
++	connman_notifier_unregister(&resolved_notifier);
++
+ 	if (update_interfaces_source) {
+ 		/*
+ 		 * It might be that we don't get to an idle loop anymore, so
 -- 
-2.34.1
+2.47.3
 
