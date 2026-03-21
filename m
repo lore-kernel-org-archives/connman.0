@@ -1,167 +1,142 @@
-Received: from CWXP265CU009.outbound.protection.outlook.com (mail-ukwestazon11021107.outbound.protection.outlook.com [52.101.100.107])
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2A2D2DAFDA
-	for <connman@lists.linux.dev>; Thu, 12 Mar 2026 15:15:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.100.107
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773328516; cv=fail; b=KI3hb7ENLqehOHvod0f1Wio4Et7OzFSjYIT0GCz9Yp9g2m7kvZEC/IY4NmkvDQe2hAIuUofy78c4dtmGPfFKvvvNVr/ApcpISywI6V0b42mYgzhxMjSKDBrSE45OX+OmEvQkErcd/pOih4BN7j3Sqk7MWGD7rvUUKwggMsiD9Xw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773328516; c=relaxed/simple;
-	bh=KOoh5DB6xTj8OCTU5bEOZ93641InG1iEG1le0in6FkQ=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=QSU5+kkZnf1awXcfChBWJt6404/vrCkU1HReLMGBND/WTVog2r9aSJ7iTJonBYfXmnFwCzql7E/vXbHizAmeNVDvondHVnpZ3NN17OLqe2fJ8pzCbdECvPLB9D10/bk9g2gkQGTUQWPXiq2hI6KrkJcVcsqCAItinJX0FeArlFc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=tewke.com; spf=pass smtp.mailfrom=tewke.com; dkim=pass (1024-bit key) header.d=tewke.com header.i=@tewke.com header.b=VSLRwMdj; arc=fail smtp.client-ip=52.101.100.107
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=tewke.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tewke.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95090296BD3
+	for <connman@lists.linux.dev>; Sat, 21 Mar 2026 12:07:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.15
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774094839; cv=none; b=TTkGl9KXbkmm9gjmkEp+TeRIgDsdAbqT1TIASX/6A7V0nqJGVKWyFDWJghBVOeGOmQ7DoBOZzN+f8g/SI9CZ54QpuOG3WKgPet514TKcUoL8ru25Tejmsx+JqM7imeTkQkiTUovbfygqy/Dk1RJ3Sln8cOr6AewlhyhoqLXOEt0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774094839; c=relaxed/simple;
+	bh=3ZaHvZQH2HOEIiWTVuI5UYyo+m8qzc52lG3WgGnJSTI=;
+	h=Message-ID:Date:MIME-Version:To:From:Subject:Content-Type; b=ki1a9xUkSyDk46+d+WT+fOkDsWj/659HTv6bBP3Ka33k+2hJzMqd++hnaj3z8PE8a29RQsYnmk9PHosmN4orvkqWz9jWkHW9gJLTyAF3FoaqOWKVmpKptLDxWBFc79oN8Nq2Y0HRp1DnL3igerZaF58kStxtlywEHlOggSgp0mk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.at; spf=pass smtp.mailfrom=gmx.at; dkim=pass (2048-bit key) header.d=gmx.at header.i=mds@gmx.at header.b=hvyuL0qx; arc=none smtp.client-ip=212.227.15.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.at
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.at
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=tewke.com header.i=@tewke.com header.b="VSLRwMdj"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=IfNhhjQgXrr5ImgiB0hM8vsmsCiASmkegKnLLpjb9GFXromisXFqiP/DrgGAj7jRz/YFX4WVsE4swobBGdNGAAqzVnrIAii+rQ6SfHbd6nLSLPw9Ocx9/jmwp6gC7xGLwLu56BeSrjuGI6LVIaXOV4VMvljLElEVFyHIGM9B+hqjZbtdxn/R/skKvBtj3jdWHPZn2fo+Y5W+Bi3VE6/JOqUPWmx+u2pIPa8ZMFwsZMurja+pkEx0VIleBtjilshRnRhsl1vx4NiMDxRCe0cPkxfXa0cBsR6TDzUjh81XVy8DkZRLzmBHBQECMJdAF9PWNkgwuG1C7lWHDo75hsoNrw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=zlO9O9ljLe2IJZ4fZ3i+cd9ODZWZUjS1h/wcbkk2Zq4=;
- b=fIHfpYI/XjYQxJEyMJkECtLWl7u9a6hXOFQNOyvMJnwFsAHLbQzmr9Pr3bbZq3E+WaAdTN5bce7N/ushPXgKUYikO2Kt5sFz4oBqo4Gc6wLI8iKMz3hlFC7z41AiTByipkCW6nYDuw6mWcT58xian9BFLvwD+FnGhAvJqAuqoQFZTSlO+hRB4c5XPMIqrfHWWpYpTbaIBEV7eh9ahMikxnfJAVjHtH78dhXupdtgeRpzoCXM+qywq0L3jivT/5hjhoOmo543yDQCoO/8fivWqZusN7hvasNtSl5jbDsza5b3neZI7AfKS6/HiZMMBZKD3Mjahp9VW6SALBQxWEtHrw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=tewke.com; dmarc=pass action=none header.from=tewke.com;
- dkim=pass header.d=tewke.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tewke.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=zlO9O9ljLe2IJZ4fZ3i+cd9ODZWZUjS1h/wcbkk2Zq4=;
- b=VSLRwMdjBse7DU08rrh8CUrmlLW3zckH7nRpjkN9CFjSlRZJ3LBU5czfT84zi90sdkCveK7A+19bHOBgT4fFvYVlJv2iBApzv7EC0HlUVZ1T/HXMUnjgURWc8rDVij5U8sKpuVvuxkDv9UqT0+gTc5i9wbXsl9kKVhUE1xNyZxE=
-Received: from LO0P123MB7137.GBRP123.PROD.OUTLOOK.COM (2603:10a6:600:333::7)
- by CWXP123MB3591.GBRP123.PROD.OUTLOOK.COM (2603:10a6:400:4f::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9700.15; Thu, 12 Mar
- 2026 15:15:11 +0000
-Received: from LO0P123MB7137.GBRP123.PROD.OUTLOOK.COM
- ([fe80::9638:76cf:42ee:60a4]) by LO0P123MB7137.GBRP123.PROD.OUTLOOK.COM
- ([fe80::9638:76cf:42ee:60a4%3]) with mapi id 15.20.9700.013; Thu, 12 Mar 2026
- 15:15:02 +0000
-From: Ed Rose | Tewke <ed@tewke.com>
-To: "connman@lists.linux.dev" <connman@lists.linux.dev>
-CC: Ed Rose | Tewke <ed@tewke.com>
-Subject: [PATCH 2/2] dhcp: Ignore empty DHCP Option 252
-Thread-Topic: [PATCH 2/2] dhcp: Ignore empty DHCP Option 252
-Thread-Index: AQHcsjL/2n6CXvHmEkWUuhT+C3unKw==
-Date: Thu, 12 Mar 2026 15:15:02 +0000
-Message-ID: <20260312151445.720413-6-ed@tewke.com>
-References: <20260312151445.720413-2-ed@tewke.com>
-In-Reply-To: <20260312151445.720413-2-ed@tewke.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=tewke.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: LO0P123MB7137:EE_|CWXP123MB3591:EE_
-x-ms-office365-filtering-correlation-id: 712db701-4c0d-4046-b313-08de804a227c
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|1800799024|366016|376014|56012099003|22082099003|18002099003|38070700021;
-x-microsoft-antispam-message-info:
- rdwR9VmNKGK3ca4NXniOnzALgkSnzZhTZoaXWlADnNXQnVPgiqL7ES4LIe4KyI6fDD+lpWEMZECYXLO8JQ0KzFcDnx8vic6dmgbsmQqxU/0719uIv3zAeZDRl3u6aUCCdqstnI6Vx5bkm1OBxOZqXX4wkyMv6EtYLp7d3ao/zyMApNpqaEPoes9vyBCYOG59/oIhFdWnaKK2rMy5wUL6Dzqa5j1vFNLhIJFiXOMBElfAFY5tODLkaF/Gdx3G9OxpYk/jXiMvPw2TaH5C1MRRsQ5ovoYeIPHMEMKbFFwixiX33y+/KrWjVtKL1d7cC01osVvSknQ/KijlFuHEQiPiUl321fuU9tC8RwaKz0uUTGGgVaQeuFCWSnGuHH7yOA8euZF63KLtckuqH1sRUPbOvsZBfMQLJfnP+cU+3R/Qu1tT8l0V6gyL8Fr9xSWjRSTe64gZJVaypvDdFzLgrhLAoWLjUnfRUACEQGLzCk9bqhr4kNOu/sVE8VAr6FDkqdydwO2HnkKW2GUpjhcNtceFsSTEjeKwLOY+WRY6h9BGB6bcNObgZiL8tBVmQLK+CVDSvjGFVWEhXzo9IOZyqI6kOK9uqvol04fDaIwaXB8uS/pdVUFaEOxBR/QWorWqwRxjUV3hIpJqt+pqOEERNAn2ebJKpU5fGxLhUEn2uvwrBbhQgJaVTdQWbn4h0SziQ6NTtIklqEgZ1iZmWx/bTM6cJX+5AoIk/+PTGqgIwlKA5VS29CL6kDntfvGYNUYstsueWmB8wSZYYn0ytf5kFgBGVSrXk5QvW+sqbGIf0blLHHQ=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LO0P123MB7137.GBRP123.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(56012099003)(22082099003)(18002099003)(38070700021);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?iso-8859-1?Q?sXONlnBIi2+S4BNT4He2y/KwNet5t+0Q+DIb2piVBQWbKCoqavLI7wQqQ0?=
- =?iso-8859-1?Q?aoswqsUDWbcamwpvZE+9dFRHAYT++R39sXqr1uZbZ7GgHucsRu2U9YZbm3?=
- =?iso-8859-1?Q?jjYXu3TvgR405+Z05FkwI6qFiUWX5Y9SsKppUyNYFCFaU+jW6tiVi/SAM8?=
- =?iso-8859-1?Q?Jn4OTbONLcWJBBCEUbjnF2Tde7MkCT/HwMSJCyIfVP6fdNBK6X+pPLEzEy?=
- =?iso-8859-1?Q?iAq0mHxeCBFnwT/OUSYjqPVa2zArACJ0xJ9LTeAd527ADy4T41HNq6E1BY?=
- =?iso-8859-1?Q?KHAGNM2ZTmrZpBybm+mkJwJ+vizOYRKl3Eamatl/ogdXmgxGYB4vxST/6L?=
- =?iso-8859-1?Q?WxeShx/MmSo1vPjRkZ6n1dGvvSMWH59/SY1p0Rr/Cl5DBxYqEfFfJAalwj?=
- =?iso-8859-1?Q?BCkrUJjHcOImmNm4S7TqAZAic/4TOphMtugALhr//nMHHeFG3nyjnfNito?=
- =?iso-8859-1?Q?jqe4JEKBy/RGtGgRMC2zR6zOLl+fqpkyAnK0HCc4aInCFm6Kw3r+2P19jj?=
- =?iso-8859-1?Q?mN+61Ll1AB3gVhOItyzge8RokP6OOKTAV86/nzeY4T1NpBON7+3Be5QEzw?=
- =?iso-8859-1?Q?7y9hJ/in9p/XH+lRwzDhNp2ZH4TKS3TWCRpAXY2IxOypZUoDBGwQKQ/frc?=
- =?iso-8859-1?Q?6xzwppocWSmNjz5QKXaWFruvouZB0d0Cib5R3aEif7dHXF4dLm92SlGXQG?=
- =?iso-8859-1?Q?qwEE8kgSra856H4LUhij9FJ9MNlIrvOsWIopZ01wy59eFKK7OYVZzUO7GI?=
- =?iso-8859-1?Q?Wi0TbeJYvVqON5js8o92v3N8n+74LXEz3eGUUoyIz2I7NUASVk5edmcGnU?=
- =?iso-8859-1?Q?WLD7Wgdog2YKIB9P/gSOoViFuX/+R8MDIEQBhHENy2nnB6eddvdm3E3eWp?=
- =?iso-8859-1?Q?G7f4Jc/zA3eMXqB9KsnAp85332Tk9ePoDIzUqA66o9I9gh0MY1zZbnP9aQ?=
- =?iso-8859-1?Q?zeJuFD6dMbpaXl9E0PJHmc3gQ1fDVqsir9OwLr1yQIFXEa0zBCKNvGMdzB?=
- =?iso-8859-1?Q?RxlVeBBBgafQipKMC1xYYrHlX42VoTVJKbm0A6fTG9YETjxzSFeOOje4PY?=
- =?iso-8859-1?Q?S73oObvaHxtOJE7qo7peH51Z3ds3uY1PasY+uw5ynRL53LZ/tWvWqfDpKZ?=
- =?iso-8859-1?Q?VPNTp0CZLuUJj8x0cbuFWqDfIsRj99qAVDJ5H7ImSCeH2Pkti2C78L9Z6N?=
- =?iso-8859-1?Q?FNJk6IH7t7s+HDCoilFdpF5uKHt9+Uc5fbE1Ig6ftxRJxPGl8Edynd3psb?=
- =?iso-8859-1?Q?4Jt396+5CliwA0SkZPm+9OIBF9s8h9EpSoM58TPKwGP5p/oureIb5zp0uN?=
- =?iso-8859-1?Q?rYUTO5RmYilL0l9PDieVTtwpw/Grz9vcPKlOngsSLTloKoINimHybWtI3z?=
- =?iso-8859-1?Q?zYGEfOv6JqwdyZQ2AObAOfmBCBDIiqSLmFVPAwB+WqnZ6tOk597DA+RNfJ?=
- =?iso-8859-1?Q?M//V6yZ7DCU9YoYfw6jsrNPlGEOAKWYKpO3wqSYV6Vy8PY+PLyJUTXkKaV?=
- =?iso-8859-1?Q?yQ0TxAblpJ7cvrr3DSr40RHHOfb2ScPrmPhc1HDiwCQN39SuyObKdyfgEM?=
- =?iso-8859-1?Q?nP02cXwkCALXJmKlw7Q8dpFhK77h2HW8azzh/5Uk83tEE36/77a09e22yl?=
- =?iso-8859-1?Q?XBv77EX/dHYda+HP2+8hofJGj/jQDK0T+suxgxXIen8g8U9iJE1IJdtcnj?=
- =?iso-8859-1?Q?54B/snev391XVBHDS76R/1u4l0/dD7BCSS4DFGUr8pfwe3hgwFTSEenKY5?=
- =?iso-8859-1?Q?fNp86jPOSzJbrALKswfx5ogiw=3D?=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=gmx.at header.i=mds@gmx.at header.b="hvyuL0qx"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.at;
+	s=s31663417; t=1774094835; x=1774699635; i=mds@gmx.at;
+	bh=3ZaHvZQH2HOEIiWTVuI5UYyo+m8qzc52lG3WgGnJSTI=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Reply-To:To:From:
+	 Subject:Content-Type:Content-Transfer-Encoding:cc:
+	 content-transfer-encoding:content-type:date:from:message-id:
+	 mime-version:reply-to:subject:to;
+	b=hvyuL0qxjbPN/7Gv9w8rsJElnKRRf95Z9UaJjiCImbirJRy8VAlhIdAPIj0E1ehi
+	 uYbpI0PxSBn6HTuUrP3eRBbqthAqpVtey1kPA3l0ZbhLx7pj5lu9RU//CQvmgAxQh
+	 olAE7iqQ3G7uxPRH91bbpqE4hCz5IvnjLpKzcRRlMVnawpEJ8bWFi/Vi4y2T6skbM
+	 A9gM5TiU1l+1abmj7oytfhb2zVn9Q7eWMvD8GxLefYYsY17cZ2oeSnTAWkE8Ux3YW
+	 aYDgO0PDDb0ufozuQ+Auy8uEBY1brF8/avTP2Bpe4Bz+DOuURAHR2QxoPmFaHaiak
+	 kxfVs5qGQnmwG4M+yQ==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from client.hidden.invalid by mail.gmx.net (mrgmx005
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MIMfW-1vpg19229E-005hku for
+ <connman@lists.linux.dev>; Sat, 21 Mar 2026 13:07:15 +0100
+Message-ID: <5b1c4d26-2c60-4a06-86bb-722a943181f1@gmx.at>
+Date: Sat, 21 Mar 2026 13:07:15 +0100
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-OriginatorOrg: tewke.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: LO0P123MB7137.GBRP123.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: 712db701-4c0d-4046-b313-08de804a227c
-X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Mar 2026 15:15:02.7168
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 6ded34c4-07b4-4d4d-97eb-db680cc7886a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 8UzxjlYQIyYgxpOTqiRUrzrlCGr0Y6VRm7U5UXhW8CbEsn/AxvAiHIwUiKjt6orS
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CWXP123MB3591
+User-Agent: Mozilla Thunderbird
+Reply-To: mds@gmx.at
+Content-Language: de-AT
+To: connman@lists.linux.dev
+From: mds@gmx.at
+Subject: ConnMan is missing a proper GUI, please take CMST under your wings
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Provags-ID: V03:K1:iXdu8sbu+mZsrWp8srJ6T/lDLTcsZts+hkVZJo0GoPHoLtpOtWR
+ /mF39a7v+VQNflnK+ym2YhkgvJUFf4aPjX72SPfNvVBcPghUOzJ+GircKO1JKWCRLlpqlaV
+ KcP3RgI3Z37o5KfqSX9mg52aWDlLQl2xgARjfnywloqdZlthLcm2VmUSBbRSK9Ps2nvRGpt
+ /0AKyBj0LWnEWvsNpJzQQ==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:wEFZ6vDGJ60=;YgUncRyZrwloZuSaDIEPXjvqkNk
+ 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
 
-Some routers, notably Asus, intentionally send a DHCP option 252=0A=
-(proxy autoconfiguration) with a payload of '\n'. This seems to be to=0A=
-workaround an overly chatty windows service and improve performance.=0A=
-=0A=
-Connman would check the length of the string and then strip it before=0A=
-using the value. This changes the order so the string is stripped first,=0A=
-then the length is checked to allow us to ignore values that contain=0A=
-only whitespace.=0A=
----=0A=
- src/dhcp.c | 7 +++++--=0A=
- 1 file changed, 5 insertions(+), 2 deletions(-)=0A=
-=0A=
-diff --git a/src/dhcp.c b/src/dhcp.c=0A=
-index c84f1de4..163a347f 100644=0A=
---- a/src/dhcp.c=0A=
-+++ b/src/dhcp.c=0A=
-@@ -352,7 +352,7 @@ static bool apply_lease_available_on_network(GDHCPClien=
-t *dhcp_client,=0A=
-=0A=
- 	option =3D g_dhcp_client_get_option(dhcp_client, 252);=0A=
- 	if (option)=0A=
--		pac =3D g_strdup(option->data);=0A=
-+		pac =3D g_strstrip(g_strdup(option->data));=0A=
-=0A=
- 	option =3D g_dhcp_client_get_option(dhcp_client, G_DHCP_DNS_SERVER);=0A=
- 	ns_entries =3D g_list_length(option);=0A=
-@@ -418,11 +418,14 @@ static bool apply_lease_available_on_network(GDHCPCli=
-ent *dhcp_client,=0A=
- 		g_strfreev(timeservers);=0A=
- 	}=0A=
-=0A=
--	if (g_strcmp0(pac, dhcp->pac) !=3D 0) {=0A=
-+	if (pac && strlen(pac) && g_strcmp0(pac, dhcp->pac) !=3D 0) {=0A=
- 		g_free(dhcp->pac);=0A=
- 		dhcp->pac =3D pac;=0A=
-=0A=
- 		__connman_service_set_proxy_autoconfig(service, dhcp->pac);=0A=
-+	} else if (pac) {=0A=
-+		g_free(pac);=0A=
-+		pac =3D NULL;=0A=
- 	}=0A=
-=0A=
- 	if (connman_setting_get_bool("Enable6to4"))=0A=
---=0A=
-2.43.0=0A=
-=0A=
+Hello,
+
+ConnMan in combination with IWD is an excellent network manager.
+However, I don't like configuring everything through the shell, and the other people I want to install ConnMan for can't simply do that.
+
+For this, a simple GUI would be needed, which was previously available in the form of CMST (https://github.com/andrew-bibb/cmst).
+CMST was quite simple and clear and offered all the functions that are normally needed.
+Unfortunately, the original maintainer suffered a tragic event and was no longer able to continue development.
+Meanwhile, the Wi-Fi handling doesn't work properly anymore.
+
+I think it would be great if this GUI were continued within the ConnMan project; I believe it would also contribute to the spread of ConnMan.
+
+Regards,
+Robert
