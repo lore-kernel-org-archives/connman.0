@@ -1,106 +1,114 @@
-Received: from fhigh-a4-smtp.messagingengine.com (fhigh-a4-smtp.messagingengine.com [103.168.172.155])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF3961A6811
-	for <connman@lists.linux.dev>; Wed, 25 Mar 2026 00:57:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.155
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1A053B3BED
+	for <connman@lists.linux.dev>; Wed,  8 Apr 2026 10:20:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774400279; cv=none; b=MZhZSpc/DmZE8bU0TCxNWggbiYUKJdvV6C2J+pxbRQmrpcUAsA9m49ub+XcqJn7vbOzxzbge3qJrlx9KtjVSTiyYaN+uM3D5uEnCs9MqBlG3xKrHgN+R0ISisgvkhfTUho8G107IchO8TrHL2OJCTEl07Ld2FQEFQuqcHWZd3Bk=
+	t=1775643612; cv=none; b=CQWykLaLFoPEizqSsRqDFVNz22wvY3Rs/EiMgACp1CmgxKkaT9D3m5A9LAIilPtbgGMJBhNHdz8jr2Crcyr0ii0P0+87g8dqd6L5gaou+o7bM78NQwW8Woh+PfkQ9amZSTfNZJaX1uS9jxAtZNA++FA41iB1vWfH2x7CvrkVdsw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774400279; c=relaxed/simple;
-	bh=FNyixndDxADTw0JP/tC38iQVFIQ68/oC2Eqwk904umA=;
-	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IFOtN0SQspu5cBin5j5bYptrnAt8zo0IAP/sUU6xd75y1HL0RIFpO6nPVdhFdXZMC5/CGAaeTK+q0Zs2z8CWhTNKbXhx16X+f3NE0PzwbsAh0GGD1A3gkt7OQmQtCb4qPRbqWbPZ7M/GDdB7Vrcj2KRCoYB+79tJHCprk2MGJY0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cold-front.org; spf=pass smtp.mailfrom=cold-front.org; dkim=pass (2048-bit key) header.d=cold-front.org header.i=@cold-front.org header.b=CYChQLhF; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=Kb9nTrPb; arc=none smtp.client-ip=103.168.172.155
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cold-front.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cold-front.org
+	s=arc-20240116; t=1775643612; c=relaxed/simple;
+	bh=Qo1pbqNW4eAymg58L4eJuTjXwgkuUQwxXD/uXIGD9fk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=tabsnRiMsCd9n2HTxP0uauLmY40bPzI6rpFn8bccv1JYyejXd/nEKOaPNkBJrCE6HTDElO2I/xgTpcrVlxdNp+3aZAvpfFHwbaondFxb42HPEZldQg+2FSIhG4GDDyEvhDWmel8HCQIYudCWFPyza4pE5LwFgAB5xdMRwFLZK3Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IJG8Lm/7; arc=none smtp.client-ip=209.85.167.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cold-front.org header.i=@cold-front.org header.b="CYChQLhF";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="Kb9nTrPb"
-Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id F0E491400074
-	for <connman@lists.linux.dev>; Tue, 24 Mar 2026 20:57:56 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-01.internal (MEProxy); Tue, 24 Mar 2026 20:57:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cold-front.org;
-	 h=cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm3; t=1774400276; x=1774486676; bh=++BGWUrfLd
-	0FQnagsWFo+5Bol+waTXInrd3Bv4vkVH8=; b=CYChQLhF5Gog0dRGcSD67YcuwY
-	907HogCY40igcRQZQRZwbb3m30NBwkt1gckgryNKfvVmbORejeYttcaKzcTK8FxS
-	Z5R0zOGRcWgI+oqfVTs+w12xMNbITthSNqCrQd11BH8dq0/2JBdXUVabM9MMJHzq
-	wqLPREaEmxxcE8WstpbR2x8FxO1OOwwX1bxOJiQvoGw/Su8JosRWlRSg1Trdn5bQ
-	JY1uEiSVj014XVn9xKCt1zmk5xRz6U1RIwaXAVzvXcqgFfhL9oR4g0sWJJlkgolH
-	8CSG+p2W5wopTPK3zjBcRWlKsF92rpQe38v69oekD8NQxEcOcvZuex3ve++Q==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
-	1774400276; x=1774486676; bh=++BGWUrfLd0FQnagsWFo+5Bol+waTXInrd3
-	Bv4vkVH8=; b=Kb9nTrPb8ft2+P6kevhDUlr+zuEOEJMG0ih5watbQmWUSsPc+yn
-	+UU9A38U04XyzU4ONScmrh7QeExWw09bX82U+mAKMcNc198s9Ti3xC3OlP3H7O70
-	ZGjNc2nVXU398ozO2uQsoFAhDQSDSoj/2FirHnffjusNaY5N3p1bAamyoe8XUZG1
-	syQKXS32v5jMYg2es5T+v0YhEFaFDqWXbuwP8KyQVxHfKbtERhqrCtGTJSnXexFr
-	1WZggfudWWLrbJOXtKOH2NFzlP4wXrPqmh6H31s8agLpCXEF2w8s0lFgAmdj4ijd
-	PBeOgI+Uwmr2Z3Q8lGQVk41dx37M+CenTxA==
-X-ME-Sender: <xms:FDPDaW6N1AANFPjHIWW1Lp-hBMWpHHQWi4K67UpxCVe5Ip7t4isQTA>
-    <xme:FDPDaW0gmb1OcxY-8ud3HaCZynjLMnNbF6QezJcPg0T11tdjMhnAHIicVfZ7T19EA
-    ge-ENyTYW_UaaPu77EU1BTau_vRCrhq44jCI_a51wRwasga53Tr0g>
-X-ME-Received: <xmr:FDPDabEn8zPPuiC5GCOf1gZHFg9_IZkiSLDjR-nMokvNFlKC5WBI0t2KqHICj8FuWme7lnGZx6cWXS_7wXX4foSe>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdefvdeftdekucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucenucfjughrpeffhffvuffkfhggtggujgesthdtredttd
-    dtvdenucfhrhhomheplfhushhtihhnuceurhhonhguvghruceojhhssghrohhnuggvrhes
-    tgholhguqdhfrhhonhhtrdhorhhgqeenucggtffrrghtthgvrhhnpeegfeegffethfegtd
-    fhhfduiedtgfffjedtffduvdfhgfefgfegkeehieduffegudenucffohhmrghinhepghhn
-    uhdrohhrghenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
-    hmpehjshgsrhhonhguvghrsegtohhlugdqfhhrohhnthdrohhrghdpnhgspghrtghpthht
-    ohepuddpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtoheptghonhhnmhgrnheslhhish
-    htshdrlhhinhhugidruggvvh
-X-ME-Proxy: <xmx:FDPDaYRt0hEhDxVr8ISoaDASeEVI2bLFvIec89o4fuFZdGWwie3ghA>
-    <xmx:FDPDaaAu0rP6nB0y8spNCWUvz6kphbP7nufn1kBG0TYI_dF30ro40Q>
-    <xmx:FDPDaQ2HjOOXXS3yxiElGuNNulkuJD_jQ3B-i512sKbo_YEDtM377w>
-    <xmx:FDPDaQU4JvkTkXGg6mYvLBTpUPWoK-Pw-McRAn_RB8AuEhLw0ITFFA>
-    <xmx:FDPDafYlDa2_P--trenAjWMnfLNXGFSInBefyOE_6GQyErbjCvpexnpq>
-Feedback-ID: iea0042cb:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA for
- <connman@lists.linux.dev>; Tue, 24 Mar 2026 20:57:56 -0400 (EDT)
-Date: Tue, 24 Mar 2026 20:57:56 -0400
-From: Justin Bronder <jsbronder@cold-front.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IJG8Lm/7"
+Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-5a3d2824e4bso5225713e87.3
+        for <connman@lists.linux.dev>; Wed, 08 Apr 2026 03:20:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1775643596; x=1776248396; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=XydEMi+P/vb4iyOcn0KbKQclF8c2GQRUhbbptXdYFls=;
+        b=IJG8Lm/71HkuoCajD12TDOWXqZZusNufBln6ScWp6IqC+ImW2hvdsV4z4NsR5nKFUc
+         eMUzHRW7pyhbY6vtGH2mjHInVut8GqB9SMkzhj6y18j0MfbXzg73cMDpDCN3m4uoSLuJ
+         0XaGkpKaOL3ghLp2DPZzC+3SNSZDXeo1tx5u7bGzY0aQSvICVSXFojXtQS8n9ELKLwFO
+         gl2Y4Ep7627EOiRh3yh27dQR1tlAiB5x0T0phOECp7ZXGrSE7tJthIAbUKg/0roSrT7S
+         tdR/6vsQ3L01769jmKc+AO/PLm9WHKvENsqzkeXAXRUAq6ArY2joRrkJjD+OzxzA7peE
+         PIpQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775643596; x=1776248396;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=XydEMi+P/vb4iyOcn0KbKQclF8c2GQRUhbbptXdYFls=;
+        b=G0aLmSPzd8wf5Xz5KLZKUei5hQ0KD1gb4gCmMr0QWej3ZgmJ5eLH4SY6s0f97QoUro
+         4arxGwLkgarJzSmtcTaw22FTmv6juPIXN+nZriAslCZrCiZbKv4zZR0a5O3EDGPR6dtK
+         fYMcX7cqB0d9vxpK1FGYTYmKvx1AARX4dlih6XxLjgG/LPkfaaYGqwoxtKkVC0bjl1cu
+         c9wySv3ezVVWg8NGmL5TLbOpfIU2mKBg9/yxTD5VMuV5SWlMkYHIE+NbezQg9SOMFFi4
+         1Q5GG3NIwDl0e68Oh8zWdFr6EQQrZ0+4mdgcAnduYWV7XgDOvsTpdbvgQN+ITnB3DQJf
+         A5lA==
+X-Gm-Message-State: AOJu0Yxc6Cibw5pNu4HQY2AYKKwkH/WlhXfWT2s9l9fQX6HK1S3Krcc+
+	bUNZb6dKjB29OCNIMsKLovcDR+oqz2kdBFT/rnOdtaF8Kpkj/kd+NK2SL2F46Fv0fRk=
+X-Gm-Gg: AeBDiesHYaedtu4ucZ8rjaqKNW1y6tgETrlb32L1O5ZPIUDE8mrt+o/9/WzbWNluwKC
+	t2cb5d53afZdHxFf7ncpmPsBDKy+uYUwGZK2hsl6LuMamvF6Yiep+Rsj3DsOps+XiBB1kZFgqUF
+	Dyrezl+mnWj7IkL9vcsY6KHBhaZ9mzxlqxa3zf+KbDyMIyLsGWlEU6EZHjCW2fOQfYQHCCeEfwf
+	7pSzmmm9jPBpJ2KGJ/56NdFO9+zablBz24XX3+w8/fUinNz0yQhbskx2BUh1VnTD+nIN4S2DNBf
+	CyePeu9tp6ZFmWSuAeT10TbnDwtCnT3CfetRNo3bWPXhPYWWKMasXHPtTvYaReE2lGMP8FLi0dU
+	qLzMVSRhJ9TTJ0fThPurSnMzPf1QfQi8TeiN63kKqdn0NqDp7nK/bfFBTqwgQZpy4Wy4yaJibrc
+	6B8J8uBIHIBB5NxFpnkLspzM/3UG1cZfGhUBW51hOdxJiY5WuGI8z0B3hZoGT2mbSQtXjyBfn0B
+	X69H6zDEnnkqAMRVHuUJJCEb8WugjzQQr60hg==
+X-Received: by 2002:a05:6512:3f02:b0:5a2:bcbd:579c with SMTP id 2adb3069b0e04-5a3375832aemr6165729e87.28.1775643596406;
+        Wed, 08 Apr 2026 03:19:56 -0700 (PDT)
+Received: from nucken2.localdomain ([2001:9b0:25f:c800:cac3:52:5400:da8f])
+        by smtp.googlemail.com with ESMTPSA id 2adb3069b0e04-5a2c6cccc83sm4657629e87.65.2026.04.08.03.19.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 08 Apr 2026 03:19:55 -0700 (PDT)
+From: "=?UTF-8?q?Richard=20R=C3=B6jfors?=" <richard.rojfors@gmail.com>
+X-Google-Original-From: =?UTF-8?q?Richard=20R=C3=B6jfors?= <richard@puffinpack.se>
 To: connman@lists.linux.dev
-Subject: Re: client: set rl_prompt after saving
-Message-ID: <acMzFAxE0MEtgW2p@ravine.members.linode.com>
-References: <20251018212411.181909-1-jsbronder@cold-front.org>
+Cc: =?UTF-8?q?Richard=20R=C3=B6jfors?= <richard@puffinpack.se>
+Subject: [PATCH] gweb: Ignore debug calls in case web is NULL
+Date: Wed,  8 Apr 2026 12:19:50 +0200
+Message-ID: <20260408101950.1768872-1-richard@puffinpack.se>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251018212411.181909-1-jsbronder@cold-front.org>
+Content-Transfer-Encoding: 8bit
 
-On 18/10/25 17:24 -0400, Justin Bronder wrote:
-> Readline 8.3 crashes when rl_save_prompt() is called without
-> rl_set_prompt() being called first [1].  This means that interactive
-> connmanctl immediately crashes upon invocation. As we're about to clear
-> the line anyways, we can just set the buffer to an empty string as well.
-> 
-> Alternatively, I believe that both rl_set_prompt() and rl_replace_line()
-> could be replaced by a call to rl_message("") but I don't want to
-> expand the scope of this patch.
-> 
-> 1. https://lists.gnu.org/archive/html/bug-readline/2025-07/msg00007.html
+In case of URL parse error, free_session is called
+before web is assigned to the session. free_session
+makes a call to _debug, which did dereffed web and crashed.
 
-Hi,
+So simply return from _debug in case web is NULL.
+---
+ gweb/gweb.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-Just checking in on if this patch is appropriate for merging or if outside contributions are not accepted?  I assumed that connmanctl immediately segfaulting with readline 8.3 would be something that would be fixed on a bit shorter of a timeline.
-
-I'm sitting on changes that I'd like to push up to openSUSE, but if this project isn't supported there, I can just drop them.
-
-Best,
-
+diff --git a/gweb/gweb.c b/gweb/gweb.c
+index 0a87da64..b9778ec6 100644
+--- a/gweb/gweb.c
++++ b/gweb/gweb.c
+@@ -177,7 +177,7 @@ static void _debug(GWeb *web, const char *file, const char *caller,
+ 	va_list ap;
+ 	int len;
+ 
+-	if (!web->debug_func)
++	if (!web || !web->debug_func)
+ 		return;
+ 
+ 	va_start(ap, format);
+@@ -458,11 +458,11 @@ static void free_session(struct web_session *session)
+ 	if (!session)
+ 		return;
+ 
+-	debug(session->web, "session %p", session);
++	web = session->web;
+ 
+-	g_free(session->request);
++	debug(web, "session %p", session);
+ 
+-	web = session->web;
++	g_free(session->request);
+ 
+ 	if (session->address_action > 0)
+ 		g_source_remove(session->address_action);
 -- 
-Justin Bronder
+2.51.0
+
