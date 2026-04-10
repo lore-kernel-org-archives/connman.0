@@ -1,69 +1,44 @@
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.kapsi.fi (mail-auth.kapsi.fi [91.232.154.24])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1A053B3BED
-	for <connman@lists.linux.dev>; Wed,  8 Apr 2026 10:20:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A30736BCDA
+	for <connman@lists.linux.dev>; Fri, 10 Apr 2026 10:57:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.232.154.24
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775643612; cv=none; b=CQWykLaLFoPEizqSsRqDFVNz22wvY3Rs/EiMgACp1CmgxKkaT9D3m5A9LAIilPtbgGMJBhNHdz8jr2Crcyr0ii0P0+87g8dqd6L5gaou+o7bM78NQwW8Woh+PfkQ9amZSTfNZJaX1uS9jxAtZNA++FA41iB1vWfH2x7CvrkVdsw=
+	t=1775818624; cv=none; b=DJelhAsK/0e99WWC6zY4vfglX6jNY3VpWOiNWy22ON3T4LF5YIPliY7Il6KW51caqKRWxm4QirAq3d2Ths/YG2N15BWVFFdkDyAIUFzHTevpgRyGDJj9soEHseAdttGxMi8+H+8Jfp16yMmsq5564amXEakNCWwAnyS0N7QgmkY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775643612; c=relaxed/simple;
-	bh=Qo1pbqNW4eAymg58L4eJuTjXwgkuUQwxXD/uXIGD9fk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=tabsnRiMsCd9n2HTxP0uauLmY40bPzI6rpFn8bccv1JYyejXd/nEKOaPNkBJrCE6HTDElO2I/xgTpcrVlxdNp+3aZAvpfFHwbaondFxb42HPEZldQg+2FSIhG4GDDyEvhDWmel8HCQIYudCWFPyza4pE5LwFgAB5xdMRwFLZK3Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IJG8Lm/7; arc=none smtp.client-ip=209.85.167.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1775818624; c=relaxed/simple;
+	bh=YIho7ZBZSVJs3woUTig5jf8m1z0Rk1npFGhDw3CMI7Y=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version; b=ojm0Gr6ozdugPney19BROoJKKhJN0yNgsy7l7GLn3PAmXYBIQ/XxJDw6HzVaUR7tXJJCrUNO6RfzUXVj/t9hhbjoT/8xGS1OhZBrnUmqj+TN9opWJloSsOFiOzQ1yGLeoDTuL3K61FtKUQS75SceIZaC7rS72RrGROpgcWEM0Mc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=jolla.com; spf=pass smtp.mailfrom=kapsi.fi; dkim=pass (2048-bit key) header.d=kapsi.fi header.i=@kapsi.fi header.b=iZWf8GWS; arc=none smtp.client-ip=91.232.154.24
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=jolla.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kapsi.fi
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IJG8Lm/7"
-Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-5a3d2824e4bso5225713e87.3
-        for <connman@lists.linux.dev>; Wed, 08 Apr 2026 03:20:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775643596; x=1776248396; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=XydEMi+P/vb4iyOcn0KbKQclF8c2GQRUhbbptXdYFls=;
-        b=IJG8Lm/71HkuoCajD12TDOWXqZZusNufBln6ScWp6IqC+ImW2hvdsV4z4NsR5nKFUc
-         eMUzHRW7pyhbY6vtGH2mjHInVut8GqB9SMkzhj6y18j0MfbXzg73cMDpDCN3m4uoSLuJ
-         0XaGkpKaOL3ghLp2DPZzC+3SNSZDXeo1tx5u7bGzY0aQSvICVSXFojXtQS8n9ELKLwFO
-         gl2Y4Ep7627EOiRh3yh27dQR1tlAiB5x0T0phOECp7ZXGrSE7tJthIAbUKg/0roSrT7S
-         tdR/6vsQ3L01769jmKc+AO/PLm9WHKvENsqzkeXAXRUAq6ArY2joRrkJjD+OzxzA7peE
-         PIpQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775643596; x=1776248396;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=XydEMi+P/vb4iyOcn0KbKQclF8c2GQRUhbbptXdYFls=;
-        b=G0aLmSPzd8wf5Xz5KLZKUei5hQ0KD1gb4gCmMr0QWej3ZgmJ5eLH4SY6s0f97QoUro
-         4arxGwLkgarJzSmtcTaw22FTmv6juPIXN+nZriAslCZrCiZbKv4zZR0a5O3EDGPR6dtK
-         fYMcX7cqB0d9vxpK1FGYTYmKvx1AARX4dlih6XxLjgG/LPkfaaYGqwoxtKkVC0bjl1cu
-         c9wySv3ezVVWg8NGmL5TLbOpfIU2mKBg9/yxTD5VMuV5SWlMkYHIE+NbezQg9SOMFFi4
-         1Q5GG3NIwDl0e68Oh8zWdFr6EQQrZ0+4mdgcAnduYWV7XgDOvsTpdbvgQN+ITnB3DQJf
-         A5lA==
-X-Gm-Message-State: AOJu0Yxc6Cibw5pNu4HQY2AYKKwkH/WlhXfWT2s9l9fQX6HK1S3Krcc+
-	bUNZb6dKjB29OCNIMsKLovcDR+oqz2kdBFT/rnOdtaF8Kpkj/kd+NK2SL2F46Fv0fRk=
-X-Gm-Gg: AeBDiesHYaedtu4ucZ8rjaqKNW1y6tgETrlb32L1O5ZPIUDE8mrt+o/9/WzbWNluwKC
-	t2cb5d53afZdHxFf7ncpmPsBDKy+uYUwGZK2hsl6LuMamvF6Yiep+Rsj3DsOps+XiBB1kZFgqUF
-	Dyrezl+mnWj7IkL9vcsY6KHBhaZ9mzxlqxa3zf+KbDyMIyLsGWlEU6EZHjCW2fOQfYQHCCeEfwf
-	7pSzmmm9jPBpJ2KGJ/56NdFO9+zablBz24XX3+w8/fUinNz0yQhbskx2BUh1VnTD+nIN4S2DNBf
-	CyePeu9tp6ZFmWSuAeT10TbnDwtCnT3CfetRNo3bWPXhPYWWKMasXHPtTvYaReE2lGMP8FLi0dU
-	qLzMVSRhJ9TTJ0fThPurSnMzPf1QfQi8TeiN63kKqdn0NqDp7nK/bfFBTqwgQZpy4Wy4yaJibrc
-	6B8J8uBIHIBB5NxFpnkLspzM/3UG1cZfGhUBW51hOdxJiY5WuGI8z0B3hZoGT2mbSQtXjyBfn0B
-	X69H6zDEnnkqAMRVHuUJJCEb8WugjzQQr60hg==
-X-Received: by 2002:a05:6512:3f02:b0:5a2:bcbd:579c with SMTP id 2adb3069b0e04-5a3375832aemr6165729e87.28.1775643596406;
-        Wed, 08 Apr 2026 03:19:56 -0700 (PDT)
-Received: from nucken2.localdomain ([2001:9b0:25f:c800:cac3:52:5400:da8f])
-        by smtp.googlemail.com with ESMTPSA id 2adb3069b0e04-5a2c6cccc83sm4657629e87.65.2026.04.08.03.19.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Apr 2026 03:19:55 -0700 (PDT)
-From: "=?UTF-8?q?Richard=20R=C3=B6jfors?=" <richard.rojfors@gmail.com>
-X-Google-Original-From: =?UTF-8?q?Richard=20R=C3=B6jfors?= <richard@puffinpack.se>
+	dkim=pass (2048-bit key) header.d=kapsi.fi header.i=@kapsi.fi header.b="iZWf8GWS"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
+	s=20161220; h=Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:
+	To:From:Sender:Reply-To:Cc:Content-Type:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	List-Post:List-Owner:List-Archive;
+	bh=ptuByUjnZ4UlMKZAyX8da0wvfmpSLp5rKCXVej1yks4=; b=iZWf8GWSWsYRVFHjWdwBLogZ5A
+	D1VJL22w/gNzhVN0L7rNoIHAUuh9w+cCAx41j61E+YUL80Re+bBufTiFbf0CiSZVjqfv6aHcKDr1Y
+	ph9Gi69T6c2edUTL1593FDwbJv3HFfP8PdRpbtHOc4FAbqh9CKwLqnxVulpI16J+812KDSTjMYqge
+	Lt7SFUkZrCL6lRKrfMbwXGHT8Bu9lLT/3W1l4Kf5OAZDDokU4QjXTZ37HsdjpVIP/rp/7I7ukr1Tj
+	swvvs3UTdRRyd9B/9eeEM8yDnopEfUCS9+dSYnl4LyGsQcYcwv3TMs1z6XArkNk3BgXrcEF9DcRNb
+	r0vcIxOQ==;
+Received: from [2a10:a5c0:37:6500:bc58:5597:ebe9:bd51] (helo=jl-x230.local)
+	by mail.kapsi.fi with esmtpsa (Exim 4.96)
+	(envelope-from <jussi.laakkonen@jolla.com>)
+		id 1wB9Xm-00FWHv-0a
+	for connman@lists.linux.dev;
+	Fri, 10 Apr 2026 13:56:58 +0300
+From: Jussi Laakkonen <jussi.laakkonen@jolla.com>
 To: connman@lists.linux.dev
-Cc: =?UTF-8?q?Richard=20R=C3=B6jfors?= <richard@puffinpack.se>
-Subject: [PATCH] gweb: Ignore debug calls in case web is NULL
-Date: Wed,  8 Apr 2026 12:19:50 +0200
-Message-ID: <20260408101950.1768872-1-richard@puffinpack.se>
-X-Mailer: git-send-email 2.51.0
+Subject: [PATCH] iptables: Allocate the struct option for iptables 1.8.11 and above
+Date: Fri, 10 Apr 2026 13:56:33 +0300
+Message-ID: <20260410105648.1521565-1-jussi.laakkonen@jolla.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
@@ -71,44 +46,156 @@ List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Rspam-Score: -1.6 (-)
+X-Rspam-Report: Action: no action
+ Symbol: RCVD_TLS_ALL(0.00)
+ Symbol: FROM_HAS_DN(0.00)
+ Symbol: FROM_EQ_ENVFROM(0.00)
+ Symbol: MID_CONTAINS_FROM(1.00)
+ Symbol: LOCAL_OUTBOUND(0.00)
+ Symbol: TO_DN_NONE(0.00)
+ Symbol: TO_MATCH_ENVRCPT_ALL(0.00)
+ Symbol: MIME_GOOD(-0.10)
+ Symbol: NEURAL_HAM(0.00)
+ Symbol: BAYES_HAM(-3.00)
+ Symbol: FUZZY_RATELIMITED(0.00)
+ Symbol: RCVD_VIA_SMTP_AUTH(0.00)
+ Symbol: ARC_NA(0.00)
+ Symbol: ASN(0.00)
+ Symbol: RCVD_COUNT_ONE(0.00)
+ Symbol: MIME_TRACE(0.00)
+ Symbol: RCPT_COUNT_ONE(0.00)
+ Symbol: R_MISSING_CHARSET(0.50)
+ Message-ID: 20260410105648.1521565-1-jussi.laakkonen@jolla.com
 
-In case of URL parse error, free_session is called
-before web is assigned to the session. free_session
-makes a call to _debug, which did dereffed web and crashed.
+In iptables 1.8.11 (XTABLES_VERSION_CODE 12) the memory leaks were fixed
+by always freeing and allocating a new option struct. This changes the
+default behavior when using iptables via libxtables to requiring that
+the opts need to be allocated before passing it to
+xtables_merge_options() (xtables_options_xfrm() calls this).
 
-So simply return from _debug in case web is NULL.
+This adds version checks for the XTABLES_VERSION_CODE to allocate and
+accordingly free the struct option passed as opts to libxtables only
+with versions 1.8.11 and above.
 ---
- gweb/gweb.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ src/iptables.c | 54 ++++++++++++++++++++++++++++++++++++++++++++++----
+ 1 file changed, 50 insertions(+), 4 deletions(-)
 
-diff --git a/gweb/gweb.c b/gweb/gweb.c
-index 0a87da64..b9778ec6 100644
---- a/gweb/gweb.c
-+++ b/gweb/gweb.c
-@@ -177,7 +177,7 @@ static void _debug(GWeb *web, const char *file, const char *caller,
- 	va_list ap;
- 	int len;
+diff --git a/src/iptables.c b/src/iptables.c
+index a81a0779..964bbbf9 100644
+--- a/src/iptables.c
++++ b/src/iptables.c
+@@ -1951,7 +1951,7 @@ static void dump_target(struct connman_iptables_entry *entry)
+ 	}
  
--	if (!web->debug_func)
-+	if (!web || !web->debug_func)
+ 	if (xt_t == xt_t->next)
+-		free(xt_t);
++		g_free(xt_t);
+ }
+ 
+ static void dump_match(struct connman_iptables_entry *entry)
+@@ -2005,7 +2005,7 @@ static void dump_match(struct connman_iptables_entry *entry)
  		return;
+ 	}
+ 	if (xt_m == xt_m->next)
+-		free(xt_m);
++		g_free(xt_m);
  
- 	va_start(ap, format);
-@@ -458,11 +458,11 @@ static void free_session(struct web_session *session)
- 	if (!session)
- 		return;
+ out:
+ 	DBG("\tmatch %s", match->u.user.name);
+@@ -2587,6 +2587,38 @@ static struct option iptables_opts[] = {
+ 	{NULL},
+ };
  
--	debug(session->web, "session %p", session);
-+	web = session->web;
++#if XTABLES_VERSION_CODE > 11
++static struct option *iptables_option_alloc(struct option *orig)
++{
++	struct option *copy;
++	size_t count = 0;
++	size_t i;
++
++	if (!orig)
++		return NULL;
++
++	/* Count entries (including terminating zero entry) */
++	while (orig[count].name)
++		count++;
++
++	/* Include the terminating NULL entry */
++	count++;
++
++	copy = g_malloc0(count * sizeof(struct option));
++	if (!copy)
++		return NULL;
++
++	for (i = 0; i < count; i++) {
++		copy[i] = orig[i];
++		copy[i].name = orig[i].name;
++		copy[i].has_arg = orig[i].has_arg;
++		copy[i].val = orig[i].val;
++	}
++
++	return copy;
++}
++#endif
++
+ void iptables_exit(enum xtables_exittype status, const char *msg, ...)
+ 			__attribute__((noreturn, format(printf,2,3)));
  
--	g_free(session->request);
-+	debug(web, "session %p", session);
+@@ -2862,7 +2894,7 @@ static struct xtables_match *prepare_matches(struct connman_iptables *table,
+ 			g_free(xt_m->m);
  
--	web = session->web;
-+	g_free(session->request);
+ 			if (xt_m == xt_m->next)
+-				free(xt_m);
++				g_free(xt_m);
  
- 	if (session->address_action > 0)
- 		g_source_remove(session->address_action);
+ 			xt_m = NULL;
+ 		}
+@@ -2888,7 +2920,7 @@ static struct xtables_match *prepare_matches(struct connman_iptables *table,
+ 			g_free(xt_m->m);
+ 
+ 			if (xt_m == xt_m->next)
+-				free(xt_m);
++				g_free(xt_m);
+ 
+ 			xt_m = NULL;
+ 		}
+@@ -3569,7 +3601,11 @@ static void reset_xtables(void)
+ 	 */
+ 	if (xt_params->opts != xt_params->orig_opts) {
+ 		g_free(xt_params->opts);
++#if XTABLES_VERSION_CODE > 11
++		xt_params->opts = iptables_option_alloc(xt_params->orig_opts);
++#else
+ 		xt_params->opts = xt_params->orig_opts;
++#endif
+ 	}
+ 	xt_params->option_offset = 0;
+ }
+@@ -4061,6 +4097,11 @@ int __connman_iptables_init(void)
+ 	table_hash_ipv6 = g_hash_table_new_full(g_str_hash, g_str_equal,
+ 						NULL, remove_table);
+ 
++#if XTABLES_VERSION_CODE > 11
++	iptables_globals.opts = iptables_option_alloc(iptables_opts);
++	ip6tables_globals.opts = iptables_option_alloc(iptables_opts);
++#endif
++
+ 	return 0;
+ }
+ 
+@@ -4068,6 +4109,11 @@ void __connman_iptables_cleanup(void)
+ {
+ 	DBG("");
+ 
++#if XTABLES_VERSION_CODE > 11
++	g_free(iptables_globals.opts);
++	g_free(ip6tables_globals.opts);
++#endif
++
+ 	g_hash_table_destroy(table_hash);
+ 	g_hash_table_destroy(table_hash_ipv6);
+ }
 -- 
-2.51.0
+2.47.3
 
