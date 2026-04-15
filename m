@@ -1,73 +1,69 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EA53212548
-	for <connman@lists.linux.dev>; Wed, 15 Apr 2026 10:15:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E7802F6577
+	for <connman@lists.linux.dev>; Wed, 15 Apr 2026 11:23:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776248141; cv=none; b=cKV02XlJ8i06LxAa/6YnA3EsSKdXJKm+ix8201YBQ60l66ddvaC1i3dwSJklw+Y1rwj8iPYIOyo8miammtDUrSi4rxfRMKlWjnxtS4ltSFLBgk3V0C40RUvXMEVqgMw+nR27UmE9QMoNOmUmHZBGm38FLuBtYm/J0tmrXGiJG9o=
+	t=1776252213; cv=none; b=YZ8FkySFhiRxHYVzBfAAQ/4ZRiZIplhORzvtA19Y59VSkhzKOwxOU9zeRUeaePlKpdv9gbBku7+NniHIN6asFJP41+zhVddy4+c4WNsP/8Rd8P9u7OOynQaKyIbrN3zf/ND0WFmb71x2T7RzdHoJL4sNUQ4s1S3WwKAtG/ig/jw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776248141; c=relaxed/simple;
-	bh=c6ikiZoIf2JTepaxmNtpvmF6568iBJqLgdcm3aOgRZg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Xg+Gjt/pSkRRwKhcfRE7QjsEITdDVQK5B8pmwfI2dqCwAb9O3kosJiS1QvSr2AwGTBz2hLsNsVoDpf79oY6vLpR+kD0TYiXEb8X1sM5K6OyUvFJ79f2cKWCFK1lr67qigS5G0uRn5W/hrtN9ssuRJZBLcQqAxwEfr/Cqn6ZwgTU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=dividat.com; spf=pass smtp.mailfrom=dividat.ch; dkim=pass (2048-bit key) header.d=dividat-ch.20251104.gappssmtp.com header.i=@dividat-ch.20251104.gappssmtp.com header.b=Ch1G9RFD; arc=none smtp.client-ip=209.85.128.47
+	s=arc-20240116; t=1776252213; c=relaxed/simple;
+	bh=6oSV+I/KhzbJdaEknQt1rLkNLlMLpMWqBAArtSg4o84=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=lwFbs+HT2LMIXu1LTAy2JDHIJgZ3ym/Um9bHgFsUmFHArBCS6GJBxaR8LGmw1O7r6UGaKpo3Mshq5zJWaqB7gpUr9b5zlZJxUn8U5hczk5Nk0eedDo8FZEKK0GGCR0bLU4QkNWmHpdns/WwupOjLKbhKFb0DjqBNtr81ME/RFOQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=dividat.com; spf=pass smtp.mailfrom=dividat.ch; dkim=pass (2048-bit key) header.d=dividat-ch.20251104.gappssmtp.com header.i=@dividat-ch.20251104.gappssmtp.com header.b=dg9QMQqr; arc=none smtp.client-ip=209.85.221.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=dividat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dividat.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=dividat-ch.20251104.gappssmtp.com header.i=@dividat-ch.20251104.gappssmtp.com header.b="Ch1G9RFD"
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-488d2079582so60658395e9.2
-        for <connman@lists.linux.dev>; Wed, 15 Apr 2026 03:15:39 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=dividat-ch.20251104.gappssmtp.com header.i=@dividat-ch.20251104.gappssmtp.com header.b="dg9QMQqr"
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-43d70b3e159so1589776f8f.0
+        for <connman@lists.linux.dev>; Wed, 15 Apr 2026 04:23:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dividat-ch.20251104.gappssmtp.com; s=20251104; t=1776248138; x=1776852938; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=oectx4WZQh/0YJ/A9qcopcAFwocPIQdTs1LgDmOdXkM=;
-        b=Ch1G9RFDwTiLJIzTx59PVZWRfyGxW5AbexUdTK9QfrHQQ/jA1TqzHnb9ZWs94Zf7Yb
-         pKONjtObuqNsN2ZPsU6Jan8pKOpxp+jtq5QFSSls6eEELEIY8ks40h6chMOfs5x8uzF6
-         naUYlF5cD2MT7k5M8/VVBwH8iR6pEod3Dl8OhNbmSNQkDn5LPcRj5Y+O7yaC3/ptLYUc
-         FyPb1p9kKhK+FR+iSKgvAaGQT59+x84lB6YR4a4t/Sks5AgPu1mPGkdgOuFzHPW1vCl/
-         ++ptFgVxhjPDjfbe3v9PGAWbH+CAVNZFeJj0RKc73C0izBDKhfu+iXy7GFFziehS/rna
-         fhLw==
+        d=dividat-ch.20251104.gappssmtp.com; s=20251104; t=1776252210; x=1776857010; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=SivvhjKqyci/V3TV7M6dFbA19EgmzRxvfeL2A9RXxC4=;
+        b=dg9QMQqrcS6BjxspnTlM7f9biBQUJ5KurbLg7bSWYcKhMWhrNhe/tJEF2EaxvscaBc
+         7VBUjCDVGrgMDbRSsIDusiVh3CS1RcyFbDAB5GEPDio3xjGzP9B0Jc9a221l/cIW3UPe
+         XB0Zo0F1akeKLsdHoNsq9Wo+BHSes1L+lnx1wHlKPVR0z+9SmV07QLF7E/lWQg7YY34w
+         3wN52/KyqOoDqohOuUhos7/ZWN9LJf27aur4GHJisASTbJsFdE12rTNePA8lhd6bYAo9
+         9APsDu3VpYUZshKUhk10/LSBmTm9qrLS0lB71Q58Ojn1XwaIO5YMHPZNZC9jihTGX8wm
+         7d2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776248138; x=1776852938;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=oectx4WZQh/0YJ/A9qcopcAFwocPIQdTs1LgDmOdXkM=;
-        b=tKRO1w1bVR6u/EAhqI7tHjVSjaV/fpHmbsWM/nB5i0nsce7oY8NlcV5p17RE+8Rxiq
-         P7J96W/u45ViZ7b7icFR2/abF7ToJIi5wYh9o7KKONg6PgD3Z+Al+xZN1FteE++K1m7/
-         RoseY3B0xK6646+4HHJJYwgG8d5y/YlAYBj/8+qXTrBLaKHt0j6uSCG2P4PdH0ToUlnj
-         67hhxECfE/WisJDxP3VUAMGbL+q9Mz7sJcOvBwg8IA4IGnMomnrT+Xb6lmQz1fVn6fHe
-         Egx6oVAaDHWyRQEo7DTZITTdEFycBz7xRvNjb53ujGe2bFnHgDbDTRXLevKuH10E3sv1
-         eaJg==
-X-Gm-Message-State: AOJu0Yz5ba1ZjKaVdgqL8J1dRQTKH3tWf+K3p5nmZ7rhMGMdAxgLOtxH
-	bJujBIvp+wHOoe+4+3Ske7OjGWQSdZS9xwG7ecVt0DVyoTDrbinqj7lJdmn2+Xy96Fk9JHV1lkX
-	W3w0T
-X-Gm-Gg: AeBDieuaVPwuvEyRK+74sHp5rHR8R8HKEDavO2VYqt3mWSQyi35j8RuNttqy8h55f+g
-	x62c09rEnajt6PD3H7D/M69NUnN3JK8+xsjvltJNpq8s7ZtEWQLFC1FyfGWYfOtS9vCBujIw4aV
-	pcNzch6/ZGSt5CQxin/k3RP7/VAgdHL/Z2DhCoPVL7AKA5cvQGD8MbQPbHLn5vYXOkyqH2dWVLn
-	WKZsAU0VOcYskbzikCxHR6cO2EwvLpi4GEWHpNmtoN+zCsNN3giMxwg8QcX6BEUQx6Z/knXZS5F
-	j7w1yAwECWqBugJAt82Vc9Wk9ogDXApwedbZK5QhgNcYufEr6I/UL4/1YfRgPz43OY5chUgbbHh
-	9XuLlzT3Xe2Fmw6nb/kAbb6L77rONpM4pyp0/FsRRg6cMHdDdPrE3SNKX2mXrkme/fqeAU56qT3
-	8YoLghZSAOZJASlRM0WG3hqpgt3HJnrLWInWd3YPGvxEB3y+lyEVOhuzkk1luvTwZcCMCO98so6
-	7+a+wEZTSftaD5BVD59AfZstz40/OU9W/K0EMCk8DYbCai/AHr7lKc7JK6rBqctdHooM5M7Xg==
-X-Received: by 2002:a05:600c:5298:b0:485:3ee1:eba5 with SMTP id 5b1f17b1804b1-488d68820abmr305951855e9.27.1776248138004;
-        Wed, 15 Apr 2026 03:15:38 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1776252210; x=1776857010;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=SivvhjKqyci/V3TV7M6dFbA19EgmzRxvfeL2A9RXxC4=;
+        b=ENX4DdJvn6IejA2g+nijKEnhlCackoU1MB2h+WfbJ+Z0I9n4Uo4PdnplPr1O2x3uGa
+         LUWu2EIxuHj8jjlICORH21Y1wD108Bc/WB6Lpe9w11Uoff/jkCX1zxKLZolRegXGGoZY
+         IL7HS9rTVT/RCOBo4U7tYjdOcIB1Wccu+qEAYHCvHupT6q91Sk2pic6+Aw4qfPkp1qJB
+         Oq6z8kH/vJPqQiwfM0eyvO7eOgT1Xfet4CgjAV4WPzTBko3gSnisISmrDwcfc70wdTDD
+         BLO0VP6ebifxi+AESC3Vj92Y3mPuWKTfAJtwuUm0uHbY0WyBz7txEhFvXfwWEdP25Y3B
+         nU8w==
+X-Gm-Message-State: AOJu0YwqpPJ0RxhMJA9Nz2ahEgaDHOwS5n96iou3uQHR0yK56vlwaiPF
+	mTbNn28SX5yrrg81ZADx2nov6yzZV+rbUwE9DMJ/idJIk8J4Raakaacgs7GnMW1QMs6CG4jZIcw
+	BQstk
+X-Gm-Gg: AeBDievBQHxGQYwbsVDLE4GNbOH0Y7mglXiWfk65xuvQOb8gOVacO15Veov5rkuLgLV
+	1VsceRIphK84yXnp4st2JsqOaB1c0yJHOkqK8QLijsStk3vwii6BmZK2Q/tDKrqEVYBhvDp6uoO
+	B8+EoiFUFuqNGboAZ2Nc5L/VrLGb2jFNHuVI9aWchBwax3ASvSmm+dvDd6X2JQNoPwPdOs+Sk6r
+	OBRNEGUJr+Vno0kW33URiRcu8t0pANRi5KlbBypkzHTpzKU4teHJ2z3a/d1SkvlUaoDyBTLH7Xk
+	UdgvO6cAMHFrCm+AT35gOJHKYl4Lft0PzSAOsnTgZXGEUPhTsv1+masm5Cdx9cQzgmLDXLCPJZC
+	gAUiXVKfUJc3BiA0lmDggeREFvrCnI2pKr86SDVaX/2oePDDwPelnJuh+2CA/374MpizgA6U4dN
+	mf3KHc8FlITdEJ4HHsCc74LFXpjirVsfvZtgkmPiYmKFqCyTV25jd2KKGq33nvPQOc0d+I7yXgL
+	7foydqyrWuWhFblEdrGhEfeEK4pI+7v4yoApMBdY6A9fwF5+aXvGMoJc6IvBErHTT//EPchoQ==
+X-Received: by 2002:a05:600c:800f:b0:47e:e2eb:bc22 with SMTP id 5b1f17b1804b1-488d67b8d81mr288512955e9.5.1776252210284;
+        Wed, 15 Apr 2026 04:23:30 -0700 (PDT)
 Received: from sugar.fritz.box ([77.21.195.152])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488ede1513csm131435235e9.2.2026.04.15.03.15.37
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488f208451bsm37915065e9.14.2026.04.15.04.23.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Apr 2026 03:15:37 -0700 (PDT)
+        Wed, 15 Apr 2026 04:23:29 -0700 (PDT)
 From: Johannes Emerich <johannes@dividat.com>
 To: connman@lists.linux.dev
 Cc: Johannes Emerich <johannes@dividat.com>
-Subject: [PATCH 3/3] wifi: Allow retries for more assoc failure cases
-Date: Wed, 15 Apr 2026 12:15:01 +0200
-Message-ID: <20260415101501.1048919-4-johannes@dividat.com>
+Subject: [PATCH 0/1] service: Prevent link-local default routes
+Date: Wed, 15 Apr 2026 13:22:57 +0200
+Message-ID: <20260415112258.1076252-1-johannes@dividat.com>
 X-Mailer: git-send-email 2.51.2
-In-Reply-To: <20260415101501.1048919-1-johannes@dividat.com>
-References: <20260415101501.1048919-1-johannes@dividat.com>
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
@@ -76,52 +72,30 @@ List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Previously only one specific type of disconnect during association was
-deemed retryable -- but a disconnect may happen even due to errors
-unrelated to association. Here we widen to allow for more association
-errors and allow retry if failure was completely unrelated.
----
- plugins/wifi.c | 17 ++++++++++++++++-
- 1 file changed, 16 insertions(+), 1 deletion(-)
+Our kiosk system built with ConnMan typically uses two simultaneous
+Ethernet connections, one to an input device using a link-local address,
+one to some network providing Internet access. In most cases ConnMan
+reliably uses the Internet-bound network as the default service, but if
+the network is slow to respond to DHCP requests for some reason, both
+Ethernet services end up with link-local addresses initially. In this
+case, ConnMan may choose the local-only connection as default service
+and stick with that choice even when the other service receives a good
+IP and gateway via DHCP later. In such cases, the device will never
+configure a usable default route.
 
-diff --git a/plugins/wifi.c b/plugins/wifi.c
-index 3463fc33..d3a2340e 100644
---- a/plugins/wifi.c
-+++ b/plugins/wifi.c
-@@ -75,6 +75,7 @@
- #define P2P_LISTEN_PERIOD 500
- #define P2P_LISTEN_INTERVAL 2000
- 
-+#define ASSOC_STATUS_OUT_OF_SEQUENCE 14
- #define ASSOC_STATUS_AUTH_TIMEOUT 16
- #define ASSOC_STATUS_NO_CLIENT 17
- #define LOAD_SHAPING_MAX_RETRIES 3
-@@ -2499,10 +2500,24 @@ static bool handle_assoc_status_code(GSupplicantInterface *interface,
- 	return FALSE;
- }
- 
-+/*
-+ * Checks whether the wifi has possibly transient failure in association.
-+ *
-+ * The following cases are seen as indicative of transient failure:
-+ *
-+ * - Association code is initial value, meaning there was no explicit
-+ *   association-related failure. This could mean a deauth occurred during the
-+ *   association phase.
-+ * - Authentication rejected due to timeout
-+ * - Authentication transaction sequence number out of expected sequence
-+ *
-+ */
- static bool has_transient_assoc_failure(struct wifi_data *wifi)
- {
- 	return ((wifi->state == G_SUPPLICANT_STATE_ASSOCIATING) &&
--			wifi->assoc_code == ASSOC_STATUS_AUTH_TIMEOUT);
-+			(!wifi->assoc_code ||
-+				wifi->assoc_code == ASSOC_STATUS_OUT_OF_SEQUENCE ||
-+				wifi->assoc_code == ASSOC_STATUS_AUTH_TIMEOUT));
- }
- 
- /*
+We have been running a similar patch on top of ConnMan 1.42 with
+hundreds of customer installations without issue.
+
+After porting the patch to ConnMan 2.0, we ran our VM-based automated
+tests to verify that late configured services are chosen as default
+service over link-local services, and they also pass for 2.0.
+
+Johannes Emerich (1):
+  service: Demote IPv4 link-local services
+
+ src/service.c | 31 +++++++++++++++++++++++++++++++
+ 1 file changed, 31 insertions(+)
+
 -- 
 2.51.2
 
