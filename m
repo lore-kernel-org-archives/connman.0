@@ -1,44 +1,44 @@
 Received: from mail.kapsi.fi (mail-auth.kapsi.fi [91.232.154.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1ED273D6471
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EB9D3D47C6
 	for <connman@lists.linux.dev>; Fri,  8 May 2026 16:06:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.232.154.24
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778256398; cv=none; b=cwcj6ZbbD6fqUUZVHdKbVTUluEGZocsZ0MO3rskuXE1Zuy97pBMflqh1c47AhB7oOZylsp8sL40+0x22ByhlTUQjluXZigvQhXIOWbjXIC/zb5JJFBNEqEUm3+Sea8Nb2dy7FIP8hwwsva8ESMdH8NNr7KKdBgM5ON0ZzoHzCrE=
+	t=1778256399; cv=none; b=dKlk3slXNZHqAUPs8bbOzQbUokDed6nKVdCan1j7fJj0llXaIisgYvYLqq8zU/vCJOayBDbqcLGrEs9HyeryyWYXFG33NASHV7ONDmxwicldnH5/rA9HrXA2mK/PX5+Z2pg8ZM940eLxYn2khIeOa7rp6jW9gystvYH+XzUNWB4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778256398; c=relaxed/simple;
-	bh=7Ml9tAuu/82Q6cNp0I8um5Xbi8ier7lldqZO/sE4LLY=;
+	s=arc-20240116; t=1778256399; c=relaxed/simple;
+	bh=nu+YxrJ/2VEPWUzskqkHoz0NuikQPpRlUCnk2K9Rk5k=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=WjsbqhLi0r3JZZbZbHRZ/HtnZXO/DO47SlZ85oEesY+KXMGJW05PiqACcEknFaHSfGWkNadC8e3whZe3h8ufl8T+/eLoRNwui9XyKn1mJJhU9sHkLDDZsUtUyU5+7MJ71dHnOqXGzemeZMPoox2g5lNfJPnRKeqrrx8PK9M+H6Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=jolla.com; spf=pass smtp.mailfrom=kapsi.fi; dkim=pass (2048-bit key) header.d=kapsi.fi header.i=@kapsi.fi header.b=YkzG+ZDb; arc=none smtp.client-ip=91.232.154.24
+	 MIME-Version; b=MkwcaDETUMG+gOK4OwTyEatUD3BXzpt+lH/A95s55/yafWqIcsAyAwwNDoehM/7Kgo4S6z7aCjssfGp1+9kSE0l9cbLKjaGgWJFauNQmmZywu//TVQoXvkV3+rL5uEYVKIMnTrMpKcUW9GQv5M6FuQ5U0bJcECvXpae85+G6y8M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=jolla.com; spf=pass smtp.mailfrom=kapsi.fi; dkim=pass (2048-bit key) header.d=kapsi.fi header.i=@kapsi.fi header.b=B5o1vRzV; arc=none smtp.client-ip=91.232.154.24
 Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=jolla.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kapsi.fi
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kapsi.fi header.i=@kapsi.fi header.b="YkzG+ZDb"
+	dkim=pass (2048-bit key) header.d=kapsi.fi header.i=@kapsi.fi header.b="B5o1vRzV"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
 	s=20161220; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
 	Message-ID:Date:Subject:To:From:Sender:Reply-To:Cc:Content-Type:Content-ID:
 	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
 	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
 	List-Post:List-Owner:List-Archive;
-	bh=pMQkv/J/jJGmWixp2BuuVyY2EKU8AlfUF65oFE1OUhQ=; b=YkzG+ZDb7jOoa6LfaUvCPHBnf+
-	TX9LeHfNsOvpAwTq8iKD1aeEUSCYkaIUdB9annmbOaH0a9YR4aTsHe73Eoi0n5I3pQVaR+Rj3dpph
-	XIjQJJOo5RZ6jNj/nj3zw5CTOymxMJDiwtRP26UiBdSolagj64bJIkIk/RNsUHI2fJwT6zdF/oLtr
-	sWJH2SNgHQ+VXo+47WVc9agIHzFtJM8WO9NRHmIkKETgF+HNEYSsIkDrCKIBvXk1R4Hk2T/E1ADRM
-	ab28Dq1lx+OdZFaCgirvQcu3Up8pwKSbdiDXHdU/Dbm9ICSBUb6R2H5yxxOX69IVTPkPYhSbAgQVA
-	9nBDZA3A==;
+	bh=A2lzzlyS0jPq7BSvJ56WZdZe0om3jo6uzcP0YdNpwgg=; b=B5o1vRzVeLvfB8EwXIM1DIZVe5
+	3lMY+pax5iDh1mK+u4DT9pSgBLL0J+NvBUmyafnOOxzkNDl4gc0jLLsK6W3/1JtCLcDYmaHpYtTB9
+	EIp6KUu73Y9VuHv31yMDGo3WmS1idExBJK7W7r2yOh25IPSC7f+LMAjuNesyKhN0/8cQhPm4kQG2w
+	Rzq2p34tumtdmsnWDjpqpN2NvX+UBttaJNAhJXaWRKxTampgsotFUpGKqinT1D+6Igu53wXFBeYBu
+	ZpeHhDH13U9LWCBwQkKUWfxBACFD72/eit4rW2wXTACH55LUXtelLwmcwM0RGhsaiQ5AXnENPDAJ4
+	QOP/z4Gg==;
 Received: from [2a10:a5c0:37:6500:11f6:3d14:7c4:afac] (helo=jl-x230.local)
 	by mail.kapsi.fi with esmtpsa (Exim 4.96)
 	(envelope-from <jussi.laakkonen@jolla.com>)
-		id 1wLNie-00CcPv-30
+		id 1wLNie-00CcPv-2a
 	for connman@lists.linux.dev;
-	Fri, 08 May 2026 19:06:29 +0300
+	Fri, 08 May 2026 19:06:28 +0300
 From: Jussi Laakkonen <jussi.laakkonen@jolla.com>
 To: connman@lists.linux.dev
-Subject: [PATCH 4/5] dns: Use compile time defined DNS for listener
-Date: Fri,  8 May 2026 19:05:38 +0300
-Message-ID: <20260508160620.214218-5-jussi.laakkonen@jolla.com>
+Subject: [PATCH 3/5] build: Define DNS server addresses in Makefile.
+Date: Fri,  8 May 2026 19:05:37 +0300
+Message-ID: <20260508160620.214218-4-jussi.laakkonen@jolla.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20260508160620.214218-1-jussi.laakkonen@jolla.com>
 References: <20260508160620.214218-1-jussi.laakkonen@jolla.com>
@@ -69,57 +69,61 @@ X-Rspam-Report: Action: no action
  Symbol: MIME_TRACE(0.00)
  Symbol: RCPT_COUNT_ONE(0.00)
  Symbol: R_MISSING_CHARSET(0.50)
- Message-ID: 20260508160620.214218-5-jussi.laakkonen@jolla.com
+ Message-ID: 20260508160620.214218-4-jussi.laakkonen@jolla.com
 
-Drop use of hardcoded DNSs with listener and use ones defined in
-compile time to fully work with systemd-resolved.
+Add DNS servers for IPv4 and v6 in Makefile. Use only one for
+systemd-resolved.
 ---
- src/shared/dns.c | 22 ++++++++++++++++++----
- 1 file changed, 18 insertions(+), 4 deletions(-)
+ Makefile.am | 22 ++++++++++++++++++++++
+ 1 file changed, 22 insertions(+)
 
-diff --git a/src/shared/dns.c b/src/shared/dns.c
-index 930234fc..8f806536 100644
---- a/src/shared/dns.c
-+++ b/src/shared/dns.c
-@@ -2336,11 +2336,20 @@ static int create_listener(struct dns_listener_data *ifdata,
+diff --git a/Makefile.am b/Makefile.am
+index fd636d5b..88100968 100644
+--- a/Makefile.am
++++ b/Makefile.am
+@@ -246,6 +246,12 @@ AM_CFLAGS = @DBUS_CFLAGS@ @GLIB_CFLAGS@ \
+ 				-DRUNSTATEDIR=\""$(runstatedir)"\" \
+ 				-DCONFIGDIR=\""$(configdir)\""
  
- 	index = connman_inet_ifindex("lo");
- 	if (ifdata->index == index && !ifdata->lo_exclude) {
-+#ifdef SYSTEMD_RESOLVED_DNS_BACKEND
-+		if (((err & IPv6_FAILED) != IPv6_FAILED) ||
-+					((err & IPv4_FAILED) != IPv4_FAILED))
-+			__connman_resolvfile_append(index, NULL,
-+								DNS_BACKEND_V4);
-+#else
- 		if ((err & IPv6_FAILED) != IPv6_FAILED)
--			__connman_resolvfile_append(index, NULL, "::1");
-+			__connman_resolvfile_append(index, NULL,
-+								DNS_BACKEND_V6);
- 
- 		if ((err & IPv4_FAILED) != IPv4_FAILED)
--			__connman_resolvfile_append(index, NULL, "127.0.0.1");
-+			__connman_resolvfile_append(index, NULL,
-+								DNS_BACKEND_V4);
-+#endif
- 	}
- 
- 	return 0;
-@@ -2351,8 +2360,13 @@ static void destroy_listener(struct dns_listener_data *ifdata)
- 	int index = connman_inet_ifindex("lo");
- 
- 	if (ifdata->index == index && !ifdata->lo_exclude) {
--		__connman_resolvfile_remove(index, NULL, "127.0.0.1");
--		__connman_resolvfile_remove(index, NULL, "::1");
++if SYSTEMD_RESOLVED_DNS_BACKEND
++AM_CFLAGS += -DSYSTEMD_RESOLVED_DNS_BACKEND -DDNS_BACKEND_V4=\""127.0.0.53"\"
++else
++AM_CFLAGS += -DDNS_BACKEND_V4=\""127.0.0.1"\" -DDNS_BACKEND_V6=\""::1"\"
++endif
 +
-+		__connman_resolvfile_remove(index, NULL, DNS_BACKEND_V4);
-+
-+// With internal DNS this is defined, with systemd-resolved it is not.
-+#ifndef SYSTEMD_RESOLVED_DNS_BACKEND
-+		__connman_resolvfile_remove(index, NULL, DNS_BACKEND_V6);
-+#endif
- 	}
+ if VPN
+ AM_CPPFLAGS = -I$(builddir)/include -I$(srcdir)/gdbus
+ else
+@@ -263,6 +269,14 @@ src_connmand_CFLAGS = @DBUS_CFLAGS@ @GLIB_CFLAGS@ \
+ 				-DCONFIGDIR=\""$(configdir)\"" \
+ 				-I$(builddir)/src
  
- 	for (GSList *list = request_list; list; list = list->next) {
++if SYSTEMD_RESOLVED_DNS_BACKEND
++src_connmand_CFLAGS += -DSYSTEMD_RESOLVED_DNS_BACKEND \
++				-DDNS_BACKEND_V4=\""127.0.0.53"\"
++else
++src_connmand_CFLAGS += -DDNS_BACKEND_V4=\""127.0.0.1"\" \
++				-DDNS_BACKEND_V6=\""::1"\"
++endif
++
+ EXTRA_DIST = src/genbuiltin src/connman-dbus.conf src/connman-polkit.conf \
+ 				plugins/connman-nmcompat.conf \
+ 				$(service_files_sources) scripts/connman.in
+@@ -280,6 +294,14 @@ vpn_connman_vpnd_CFLAGS = @DBUS_CFLAGS@ @GLIB_CFLAGS@ \
+ 				-DCONFIGDIR=\""$(configdir)\"" \
+ 				-I$(builddir)/vpn
+ 
++if SYSTEMD_RESOLVED_DNS_BACKEND
++vpn_connman_vpnd_CFLAGS += -DSYSTEMD_RESOLVED_DNS_BACKEND \
++				-DDNS_BACKEND_V4=\""127.0.0.53"\"
++else
++vpn_connman_vpnd_CFLAGS += -DDNS_BACKEND_V4=\""127.0.0.1"\" \
++				-DDNS_BACKEND_V6=\""::1"\"
++endif
++
+ endif
+ 
+ if XTABLES
 -- 
 2.47.3
 
