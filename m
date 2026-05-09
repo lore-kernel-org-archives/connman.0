@@ -1,47 +1,44 @@
 Received: from mail.kapsi.fi (mail-auth.kapsi.fi [91.232.154.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A81562571C7
-	for <connman@lists.linux.dev>; Sat,  9 May 2026 13:48:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3378A33F59B
+	for <connman@lists.linux.dev>; Sat,  9 May 2026 13:48:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.232.154.24
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778334515; cv=none; b=ZwDVdeiUhek1GNBVOvu6Dd8kzh0SJ6pyPxLfCQxwqFpImTuz16Tu1eGSrdhX8MhKW73QzyTPo6rMbWiXCjo2hcHWhnDKvEF6duqoKcUbch1aQcaIUQmDI7UBJmWMc3FtjM+7M9BT6hbYuGqqrC4UT/AuIJV+7TIm6c6zHW7mYpw=
+	t=1778334516; cv=none; b=ux8b1nmsV20DSrU5i43gZCll9BvlPBD3PQkreBQkDlnMNjDFbdBtOYfTIgLXKoU3gYQHfZ4QCKoRA9CqC3BZUqm7WcBfZRXndL7WKBZxpGzBDwOXx3uivg+c7EF3CyXJp/DShnpLAjUpaitQOFHW1id+QKTbJq2Af9vExBc4Pjc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778334515; c=relaxed/simple;
-	bh=yyqjSSHVbtrrd1mlqBLG4LKtlmxKmzU5BlPijENins8=;
-	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=VArQ7/k+JuxubW42yY6OFxnHWuEWIE19pyhwdNSeNjdP/fCzDu7mHFTfpGM7y5e69fCMul1m432OXW3yFCjEKHMXvnD4Lt+OT9XLQTHkFUYWGnDs78bixf5j+9zl2mz+MJrt9eEKFpQbZmKRor1lTDIHeXaJvI6BJo70HYOx6qc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=jolla.com; spf=pass smtp.mailfrom=kapsi.fi; dkim=pass (2048-bit key) header.d=kapsi.fi header.i=@kapsi.fi header.b=cCmakLjl; arc=none smtp.client-ip=91.232.154.24
+	s=arc-20240116; t=1778334516; c=relaxed/simple;
+	bh=qpN44g0rkQMbvK5oLhzidhcsmJGVejXdgwJHzeKpI3Q=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version; b=EmDbC4heXAtCPo/H4oqwYVd5ZAdrcPtWSQxf6R8gp6blZA783PeeKZL8NpqnqOPAYWIyKiVcAmikLIY3TrZkGTKwDGu2H+JuWKnxhp/3YRm79isAB8X5zzjw5/se51T+osNwSt3tXR5rOzJWokW++YtINt6Pw5Ti3/MOY2yg9Ys=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=jolla.com; spf=pass smtp.mailfrom=kapsi.fi; dkim=pass (2048-bit key) header.d=kapsi.fi header.i=@kapsi.fi header.b=rWDtvr49; arc=none smtp.client-ip=91.232.154.24
 Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=jolla.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kapsi.fi
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kapsi.fi header.i=@kapsi.fi header.b="cCmakLjl"
+	dkim=pass (2048-bit key) header.d=kapsi.fi header.i=@kapsi.fi header.b="rWDtvr49"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
-	s=20161220; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
-	Message-ID:Date:Subject:To:From:Sender:Reply-To:Cc:Content-Type:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	s=20161220; h=Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:
+	To:From:Sender:Reply-To:Cc:Content-Type:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
 	List-Post:List-Owner:List-Archive;
-	bh=6NicGEF6z8S+XLK8MNGr2oZodFLGo3LdAhtZzVaVsDI=; b=cCmakLjlhM6G9QPFXcR24BxLL2
-	Wmvu4QzLFv1Y7FgeN0u7u8vF4HgVC6AYQLPw+5qiAv714biFthbTwzzb8HXvPL3RGANbLY7skDvlS
-	q+qb7Oe5B2ZHIUIBVmTpUPKaqXY+QD0x3KqFZn2O7m0ZD3BeVqBnbV3jjamAH8LQKTzDLntWDWZDy
-	eLjCN+S6+l5suQpUTkWyoObpVAza04ugFm5x6LdHRgRBMU1egLwhqF3DLCBd1Emu06yo19nhqqxks
-	CcDE+1txi5HIh6U31BDueX8kB35KLANP49+3r6V68VUxG9abj48jGBWDvzIOzPm7FnzAIus2UBSVc
-	hqz8KQCw==;
+	bh=uGzJci3msq34ayjKSrttxT0sASLwfniVOlJ/FwIlGQ4=; b=rWDtvr49jOkSGGv/pBiGIl4YiK
+	GXjkvhlJiOY0zhuxjFfUvJm1UgKb3xUHKvDpjr66qBhh5+QeXraSwfoYFDBLbKHZ2ExH/lqrI7vgC
+	6dTRyS+pcO0sCuYkp3N87IVHXg/beACbkFa89FFXS1XSn7NEfY1XXG2vA3ltt0nVbQ1Iqy89ZC1bR
+	BOY7ZlDNun2QHRVddDPvsD9wub3WfAAFDS/dzd9WxcqAGq35FIM6AKpAWcgXnECz6Unwg61gxepG5
+	spfelTZafzgNxZjAMUCkJtDkhiPTrnMBfQ7Qd4yFCW/RIFPzcMZy/Iu2mE7DyGOavFqR081tmEhAI
+	CtaYdUfA==;
 Received: from [2a10:a5c0:37:6500:41d2:24bc:9d82:eda4] (helo=jl-x230.local)
 	by mail.kapsi.fi with esmtpsa (Exim 4.96)
 	(envelope-from <jussi.laakkonen@jolla.com>)
-		id 1wLi2i-00H1Hp-0w
+		id 1wLi2g-00H1Hp-2g
 	for connman@lists.linux.dev;
-	Sat, 09 May 2026 16:48:32 +0300
+	Sat, 09 May 2026 16:48:31 +0300
 From: Jussi Laakkonen <jussi.laakkonen@jolla.com>
 To: connman@lists.linux.dev
-Subject: [PATCH v2 5/5] systemd-resolved: Proxy tethering client DNS requests to resolved
-Date: Sat,  9 May 2026 16:47:38 +0300
-Message-ID: <20260509134822.343265-6-jussi.laakkonen@jolla.com>
+Subject: [PATCH v2 0/5] Split DNS code and fix systemd-resolved tethering
+Date: Sat,  9 May 2026 16:47:33 +0300
+Message-ID: <20260509134822.343265-1-jussi.laakkonen@jolla.com>
 X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260509134822.343265-1-jussi.laakkonen@jolla.com>
-References: <20260509134822.343265-1-jussi.laakkonen@jolla.com>
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
@@ -69,88 +66,56 @@ X-Rspam-Report: Action: no action
  Symbol: MIME_TRACE(0.00)
  Symbol: RCPT_COUNT_ONE(0.00)
  Symbol: R_MISSING_CHARSET(0.50)
- Message-ID: 20260509134822.343265-6-jussi.laakkonen@jolla.com
+ Message-ID: 20260509134822.343265-1-jussi.laakkonen@jolla.com
 
-Proxy the DNS requests from tethering clients to resolved using the
-dns.c functionality. Add an UDP listener for the tethering interface to
-serve the requests from that interface and use the shared/dns.c with the
-default systemd-resolved server 127.0.0.53 by binding the socket to
-localhost interface. This ensures that the limitations set in the
-systemd-resolved (by allowing only localhost to connect to the server)
-can be circumvented by making the packets to originate from localhost
-and not getting dropped as martians or by the server itself.
----
+This set of patches splits the DNS code into shared/dns.c from dnsproxy.c to be
+used also by dns-systemd-resolved.c. Only the caching of dnsproxy.c is kept and
+callbacks are utilized to use caching from shared/dns.c. The splitting of the
+DNS code is done to avoid code duplication and to make both work in similar
+fashion regarding DNS requests for all uses.
+
+The splitting of the DNS code was imperative to make dns-systemd-resolved.c to
+work with tethering clients. By design systemd-resolved does not allow the DNS
+requests from anywhere else than localhost and requests originating from any
+other sources are treated as martians. To solve this dns-systemd-resolved.c 
+roxying the DNS requests similarly to what dnsproxy.c is doing. The tethering
+interface is listened for DNS requests and they are then proxied to the
+systemd-resolved server (using the same code dnsproxy.c did already use to
+this) to make the requests look like coming from the local machine.
+
+The changes related to dns-systemd-resolved.c have been use in Sailfish OS for
+over a year in internal use and are included in the next, upcoming 5.1 release,
+which is now in public beta testing. These changes have been also tested with
+ConnMan 2.0 using latest AntiX (for regression testing, as AntiX uses no
+systemd) and Debian stable (with and without systemd-resolved) - no new issues
+were found and tethering worked on both internal and systemd-resolved DNS.
+
+The work for making these patches available for ConnMan upstream has been
+funded by NLnet foundation grant. The changes are also available at
+https://github.com/LaakkonenJussi/connman_ng/pull/1
+
+Jussi Laakkonen (5):
+  dns: Split generic DNS functionality with cache cb support
+  build: Define DNS server addresses in Makefile.
+  dns: Use compile time defined DNS for listener
+  gresolv: Use compile time defined DNS with lookup + UDP connect
+  systemd-resolved: Proxy tethering client DNS requests to resolved
+
 Changes since v2:
- - Use the build-time DNS_BACKEND_V4 as systemd-resolved server address
- 
- src/dns-systemd-resolved.c | 29 +++++++++++++++++++++++++++--
- 1 file changed, 27 insertions(+), 2 deletions(-)
+ - Use the build-time DNS_BACKEND_V4 in dns-systemd-resolved.c
+ - Reorder patches, so sending this as a complete v2
 
-diff --git a/src/dns-systemd-resolved.c b/src/dns-systemd-resolved.c
-index 9dd0328c..6d46de49 100644
---- a/src/dns-systemd-resolved.c
-+++ b/src/dns-systemd-resolved.c
-@@ -31,6 +31,7 @@
- #include <glib.h>
- #include <connman/dbus.h>
- 
-+#include "shared/dns.h"
- #include "connman.h"
- 
- #define SYSTEMD_RESOLVED_SERVICE "org.freedesktop.resolve1"
-@@ -375,14 +376,32 @@ int __connman_dnsproxy_append(int index, const char *domain,
- 
- int __connman_dnsproxy_add_listener(int index)
- {
--	DBG("");
-+	int lo_index;
-+	int err;
-+
-+	DBG("index %d", index);
-+
-+	err = dns_add_listener(index, DNS_IPPROTO_UDP, true);
-+	if (err)
-+		return err;
-+
-+	lo_index = connman_inet_ifindex("lo");
-+	err = dns_create_server(lo_index, "local", DNS_BACKEND_V4, IPPROTO_UDP);
-+	if (err)
-+		return err;
-+
-+	err = dns_enable_server(lo_index, DNS_BACKEND_V4, IPPROTO_UDP, true);
-+	if (err)
-+		return err;
- 
--	return -ENXIO;
-+	return 0;
- }
- 
- void __connman_dnsproxy_remove_listener(int index)
- {
- 	DBG("");
-+
-+	dns_remove_listener(index);
- }
- 
- static int setup_resolved(void)
-@@ -779,6 +798,10 @@ int __connman_dnsproxy_init(void)
- 	if (!interface_hash)
- 		return -ENOMEM;
- 
-+	ret = dns_init(NULL);
-+	if (ret)
-+		return ret;
-+
- 	ret = connman_notifier_register(&resolved_notifier);
- 	if (ret < 0)
- 		DBG("cannot register notifier");
-@@ -821,4 +844,6 @@ void __connman_dnsproxy_cleanup(void)
- 		dbus_connection_unref(connection);
- 		connection = NULL;
- 	}
-+
-+	dns_cleanup();
- }
+ Makefile.am                 |   27 +-
+ gweb/gresolv.c              |   11 +-
+ src/dns-systemd-resolved.c  |   29 +-
+ src/dnsproxy.c              | 3010 +++--------------------------------
+ src/shared/dns.c            | 2570 ++++++++++++++++++++++++++++++
+ src/shared/dns.h            |  232 +++
+ tools/dnsproxy-standalone.c |    1 +
+ 7 files changed, 3099 insertions(+), 2781 deletions(-)
+ create mode 100644 src/shared/dns.c
+ create mode 100644 src/shared/dns.h
+
 -- 
 2.47.3
 
