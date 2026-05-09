@@ -1,44 +1,47 @@
 Received: from mail.kapsi.fi (mail-auth.kapsi.fi [91.232.154.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3378A33F59B
-	for <connman@lists.linux.dev>; Sat,  9 May 2026 13:48:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B1CF361DBF
+	for <connman@lists.linux.dev>; Sat,  9 May 2026 13:48:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.232.154.24
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778334516; cv=none; b=ux8b1nmsV20DSrU5i43gZCll9BvlPBD3PQkreBQkDlnMNjDFbdBtOYfTIgLXKoU3gYQHfZ4QCKoRA9CqC3BZUqm7WcBfZRXndL7WKBZxpGzBDwOXx3uivg+c7EF3CyXJp/DShnpLAjUpaitQOFHW1id+QKTbJq2Af9vExBc4Pjc=
+	t=1778334516; cv=none; b=Wd6F1KwbUFouOJKgrRWOmWXbdMoEHgzd+ms1NOCytLLDqKE/NgKH3+o/M4Fk7FMPXjMiJeMX3wImXQFTDrrKiJCIiWV5AI5qy+dua2DCKwI7pCC9FVwNa3ACSemr3agJ77CKPjS6ySK9mlJCqqUIUL2KrV7zyiTghRkzOx3yvyQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1778334516; c=relaxed/simple;
-	bh=qpN44g0rkQMbvK5oLhzidhcsmJGVejXdgwJHzeKpI3Q=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version; b=EmDbC4heXAtCPo/H4oqwYVd5ZAdrcPtWSQxf6R8gp6blZA783PeeKZL8NpqnqOPAYWIyKiVcAmikLIY3TrZkGTKwDGu2H+JuWKnxhp/3YRm79isAB8X5zzjw5/se51T+osNwSt3tXR5rOzJWokW++YtINt6Pw5Ti3/MOY2yg9Ys=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=jolla.com; spf=pass smtp.mailfrom=kapsi.fi; dkim=pass (2048-bit key) header.d=kapsi.fi header.i=@kapsi.fi header.b=rWDtvr49; arc=none smtp.client-ip=91.232.154.24
+	bh=7Ml9tAuu/82Q6cNp0I8um5Xbi8ier7lldqZO/sE4LLY=;
+	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=st+gXR9J+8/9fY61IW2+SKtV1CflH6sUuGq83PG0FaSJLc/xSfueYc26dv2KA0y5goPJWGIJgKBjTopZSdFxq13uZBmqe6WAyZHe9DwJVgzK9pdaXRLANTuFuXPQJ5qebsuhWdyTN8sB9hWV34gdu30wk0eL8As5xqRgV/Cz9Po=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=jolla.com; spf=pass smtp.mailfrom=kapsi.fi; dkim=pass (2048-bit key) header.d=kapsi.fi header.i=@kapsi.fi header.b=xAOZpgFC; arc=none smtp.client-ip=91.232.154.24
 Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=jolla.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kapsi.fi
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kapsi.fi header.i=@kapsi.fi header.b="rWDtvr49"
+	dkim=pass (2048-bit key) header.d=kapsi.fi header.i=@kapsi.fi header.b="xAOZpgFC"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
-	s=20161220; h=Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:
-	To:From:Sender:Reply-To:Cc:Content-Type:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	s=20161220; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
+	Message-ID:Date:Subject:To:From:Sender:Reply-To:Cc:Content-Type:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
 	List-Post:List-Owner:List-Archive;
-	bh=uGzJci3msq34ayjKSrttxT0sASLwfniVOlJ/FwIlGQ4=; b=rWDtvr49jOkSGGv/pBiGIl4YiK
-	GXjkvhlJiOY0zhuxjFfUvJm1UgKb3xUHKvDpjr66qBhh5+QeXraSwfoYFDBLbKHZ2ExH/lqrI7vgC
-	6dTRyS+pcO0sCuYkp3N87IVHXg/beACbkFa89FFXS1XSn7NEfY1XXG2vA3ltt0nVbQ1Iqy89ZC1bR
-	BOY7ZlDNun2QHRVddDPvsD9wub3WfAAFDS/dzd9WxcqAGq35FIM6AKpAWcgXnECz6Unwg61gxepG5
-	spfelTZafzgNxZjAMUCkJtDkhiPTrnMBfQ7Qd4yFCW/RIFPzcMZy/Iu2mE7DyGOavFqR081tmEhAI
-	CtaYdUfA==;
+	bh=pMQkv/J/jJGmWixp2BuuVyY2EKU8AlfUF65oFE1OUhQ=; b=xAOZpgFCOwLr8cRsZY42DBSc89
+	aqtSGwXck77CJPeXESwQp2/CM4d2NJzFS0TnVXC/Y0u4wiDcM2PKqmsYcgRDH4SaERghBuZGNiFg9
+	QGvRZ+j8nYvsVi7ytxS/lXG8vpeyP9MzUotdYUhOE+wHttggSXdwuz4qJGOANdE58onySMeuBHSvk
+	UZd3hXZqjMvXddEuZA8PL3Z93pUk7SXI1Bb3jSNrdq+z82+Q0ROjGYQbnjFDVowlyjfRvocmDA8Df
+	8B8qAnBwWTDzfY6gXRSbzNQ9978HQ1+VCcMFSZ0JgQrESOQSlBvaiF4mXWovUyp5TTVUJCyEwl5je
+	uRLYfrBQ==;
 Received: from [2a10:a5c0:37:6500:41d2:24bc:9d82:eda4] (helo=jl-x230.local)
 	by mail.kapsi.fi with esmtpsa (Exim 4.96)
 	(envelope-from <jussi.laakkonen@jolla.com>)
-		id 1wLi2g-00H1Hp-2g
+		id 1wLi2h-00H1Hp-2O
 	for connman@lists.linux.dev;
 	Sat, 09 May 2026 16:48:31 +0300
 From: Jussi Laakkonen <jussi.laakkonen@jolla.com>
 To: connman@lists.linux.dev
-Subject: [PATCH v2 0/5] Split DNS code and fix systemd-resolved tethering
-Date: Sat,  9 May 2026 16:47:33 +0300
-Message-ID: <20260509134822.343265-1-jussi.laakkonen@jolla.com>
+Subject: [PATCH v2 3/5] dns: Use compile time defined DNS for listener
+Date: Sat,  9 May 2026 16:47:36 +0300
+Message-ID: <20260509134822.343265-4-jussi.laakkonen@jolla.com>
 X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20260509134822.343265-1-jussi.laakkonen@jolla.com>
+References: <20260509134822.343265-1-jussi.laakkonen@jolla.com>
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
@@ -57,7 +60,7 @@ X-Rspam-Report: Action: no action
  Symbol: TO_MATCH_ENVRCPT_ALL(0.00)
  Symbol: MIME_GOOD(-0.10)
  Symbol: NEURAL_HAM(0.00)
- Symbol: BAYES_HAM(-3.00)
+ Symbol: BAYES_HAM(-2.99)
  Symbol: FUZZY_RATELIMITED(0.00)
  Symbol: RCVD_VIA_SMTP_AUTH(0.00)
  Symbol: ARC_NA(0.00)
@@ -66,56 +69,57 @@ X-Rspam-Report: Action: no action
  Symbol: MIME_TRACE(0.00)
  Symbol: RCPT_COUNT_ONE(0.00)
  Symbol: R_MISSING_CHARSET(0.50)
- Message-ID: 20260509134822.343265-1-jussi.laakkonen@jolla.com
+ Message-ID: 20260509134822.343265-4-jussi.laakkonen@jolla.com
 
-This set of patches splits the DNS code into shared/dns.c from dnsproxy.c to be
-used also by dns-systemd-resolved.c. Only the caching of dnsproxy.c is kept and
-callbacks are utilized to use caching from shared/dns.c. The splitting of the
-DNS code is done to avoid code duplication and to make both work in similar
-fashion regarding DNS requests for all uses.
+Drop use of hardcoded DNSs with listener and use ones defined in
+compile time to fully work with systemd-resolved.
+---
+ src/shared/dns.c | 22 ++++++++++++++++++----
+ 1 file changed, 18 insertions(+), 4 deletions(-)
 
-The splitting of the DNS code was imperative to make dns-systemd-resolved.c to
-work with tethering clients. By design systemd-resolved does not allow the DNS
-requests from anywhere else than localhost and requests originating from any
-other sources are treated as martians. To solve this dns-systemd-resolved.c 
-roxying the DNS requests similarly to what dnsproxy.c is doing. The tethering
-interface is listened for DNS requests and they are then proxied to the
-systemd-resolved server (using the same code dnsproxy.c did already use to
-this) to make the requests look like coming from the local machine.
-
-The changes related to dns-systemd-resolved.c have been use in Sailfish OS for
-over a year in internal use and are included in the next, upcoming 5.1 release,
-which is now in public beta testing. These changes have been also tested with
-ConnMan 2.0 using latest AntiX (for regression testing, as AntiX uses no
-systemd) and Debian stable (with and without systemd-resolved) - no new issues
-were found and tethering worked on both internal and systemd-resolved DNS.
-
-The work for making these patches available for ConnMan upstream has been
-funded by NLnet foundation grant. The changes are also available at
-https://github.com/LaakkonenJussi/connman_ng/pull/1
-
-Jussi Laakkonen (5):
-  dns: Split generic DNS functionality with cache cb support
-  build: Define DNS server addresses in Makefile.
-  dns: Use compile time defined DNS for listener
-  gresolv: Use compile time defined DNS with lookup + UDP connect
-  systemd-resolved: Proxy tethering client DNS requests to resolved
-
-Changes since v2:
- - Use the build-time DNS_BACKEND_V4 in dns-systemd-resolved.c
- - Reorder patches, so sending this as a complete v2
-
- Makefile.am                 |   27 +-
- gweb/gresolv.c              |   11 +-
- src/dns-systemd-resolved.c  |   29 +-
- src/dnsproxy.c              | 3010 +++--------------------------------
- src/shared/dns.c            | 2570 ++++++++++++++++++++++++++++++
- src/shared/dns.h            |  232 +++
- tools/dnsproxy-standalone.c |    1 +
- 7 files changed, 3099 insertions(+), 2781 deletions(-)
- create mode 100644 src/shared/dns.c
- create mode 100644 src/shared/dns.h
-
+diff --git a/src/shared/dns.c b/src/shared/dns.c
+index 930234fc..8f806536 100644
+--- a/src/shared/dns.c
++++ b/src/shared/dns.c
+@@ -2336,11 +2336,20 @@ static int create_listener(struct dns_listener_data *ifdata,
+ 
+ 	index = connman_inet_ifindex("lo");
+ 	if (ifdata->index == index && !ifdata->lo_exclude) {
++#ifdef SYSTEMD_RESOLVED_DNS_BACKEND
++		if (((err & IPv6_FAILED) != IPv6_FAILED) ||
++					((err & IPv4_FAILED) != IPv4_FAILED))
++			__connman_resolvfile_append(index, NULL,
++								DNS_BACKEND_V4);
++#else
+ 		if ((err & IPv6_FAILED) != IPv6_FAILED)
+-			__connman_resolvfile_append(index, NULL, "::1");
++			__connman_resolvfile_append(index, NULL,
++								DNS_BACKEND_V6);
+ 
+ 		if ((err & IPv4_FAILED) != IPv4_FAILED)
+-			__connman_resolvfile_append(index, NULL, "127.0.0.1");
++			__connman_resolvfile_append(index, NULL,
++								DNS_BACKEND_V4);
++#endif
+ 	}
+ 
+ 	return 0;
+@@ -2351,8 +2360,13 @@ static void destroy_listener(struct dns_listener_data *ifdata)
+ 	int index = connman_inet_ifindex("lo");
+ 
+ 	if (ifdata->index == index && !ifdata->lo_exclude) {
+-		__connman_resolvfile_remove(index, NULL, "127.0.0.1");
+-		__connman_resolvfile_remove(index, NULL, "::1");
++
++		__connman_resolvfile_remove(index, NULL, DNS_BACKEND_V4);
++
++// With internal DNS this is defined, with systemd-resolved it is not.
++#ifndef SYSTEMD_RESOLVED_DNS_BACKEND
++		__connman_resolvfile_remove(index, NULL, DNS_BACKEND_V6);
++#endif
+ 	}
+ 
+ 	for (GSList *list = request_list; list; list = list->next) {
 -- 
 2.47.3
 
