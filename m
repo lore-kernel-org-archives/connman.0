@@ -1,162 +1,143 @@
-Received: from lgeamrelo11.lge.com (lgeamrelo11.lge.com [156.147.23.51])
+Received: from smtp2-g21.free.fr (smtp2-g21.free.fr [212.27.42.2])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A526D3B9DA7
-	for <connman@lists.linux.dev>; Mon, 11 May 2026 08:30:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=156.147.23.51
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778488225; cv=fail; b=tdfdsZJfgx1jYXREtQyeuDPrPtw/GHr0AWS+aPudjiCaL712YSK6PfbyNEE+RqmD9pXJ6ZPeu0tB7UG7JhbPeTALL8ZjsbdDCxjy/QYOpCl1RhSwXADiIOuXCj7HLnyDKAxKm3D9oU9TyXnsoGJutFZHJAo/hqEyzepZp6Fcc7I=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778488225; c=relaxed/simple;
-	bh=ZjKXmGXS6+uul0aWuXSDFKhmF3gXyyEKIGZSM7WgMXo=;
-	h=From:To:Subject:Date:Message-ID:Content-Type:MIME-Version; b=FPNh3XsVmM+UlH0Cx1j5okFwCiI2afYDB0NZVxAb1AMpSG/pAM8LWqpvdFUBsd6or/tfPGuvSL4ub/j5tlr/tnEZBztjiIwAiBwZWgtVGm8wMlQEptxaX8YH72UH2qNSLmH8UcNccuNRRMdonTT+1Fv1O7StDlP4ve2CqZLk3no=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lge.com; spf=pass smtp.mailfrom=lge.com; arc=fail smtp.client-ip=156.147.23.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lge.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lge.com
-Received: from unknown (HELO lgeamrelo04.lge.com) (156.147.1.127)
-	by 156.147.23.51 with ESMTP; 11 May 2026 17:30:04 +0900
-X-Original-SENDERIP: 156.147.1.127
-X-Original-MAILFROM: shailesh.rathod@lge.com
-Received: from unknown (HELO sniperexo1.lge.com) (165.244.147.11)
-	by 156.147.1.127 with ESMTP; 11 May 2026 17:30:04 +0900
-X-Original-SENDERIP: 165.244.147.11
-X-Original-MAILFROM: shailesh.rathod@lge.com
-Received: from unknown (HELO SEVP216CU002.outbound.protection.outlook.com) (40.93.138.52)
-	by 165.244.147.11 with ESMTP; 11 May 2026 17:30:04 +0900
-X-Original-SENDERIP: 40.93.138.52
-X-Original-SENDERCOUNTRY: unknown
-X-Original-MAILFROM: shailesh.rathod@lge.com
-X-Original-RCPTTO: connman@lists.linux.dev
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=lwQ4vy/JCGfXJZ8GBReEVx+7eIvi0eWxzfnw4MuBh4rRRAUn1dOmOnB0bQ/pq8jO+qCcTbQF9UNrOO/8vEcRS/LYXtFW8KFVNJKRpwasAh06HuTcZDpphGKyUCWhVTmOLxvVDB5RU3G6bh62aPl3uBA/L4Gwc5v5ZsjMfzNSXLv++E8wMbsBdJ9tNEiNz5FnN1WGnLEJ5AJXkdqg6W5foGt4tY17ELcq4U9knOl1Og5U8hMBZEzKXJmg4LpNd5HXwT5L0WyCR1XWJwXGJRNzwavr2YsIokUHBC1O47JkCy4T/WF6VrSrnWwDJCrw9VSVs/XpI2e4o0BRHSx5Pzvx9g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=zV9fGBL+Rj+QehRGdvzgrfiS3b3VlWUJ5ZslEiTIhsY=;
- b=tUa3aLZplXSBuClyELl9bGr66bk05Uw9RPz25uqFb7QWsoLQQBBI6m93LQg4sv6q6s5eLkCXPM37yLjM07OWNg7sxOMW3W3y+eKezMheOkcZaW55KbgdDcchH/tr5oU1juO5V86FO+Adec2zrD56s2WsOddL7QQ8olDyZYhzwWeM4sbjuOS4iYJNWW4+3VezlqF78itQcg1T/fB7IsiVFDF2GFKT/xIxrIsB7TQP91aJMs57OBn5HJFeieAirrfiYEYBRXWhtqRfW3jfTdrjWfBCrXXFVZxgprvglewSP65COi7XBig3o9Xe+LqgrEQZZUNsZFlydAqpUuJ+v87yZA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=lge.com; dmarc=pass action=none header.from=lge.com; dkim=pass
- header.d=lge.com; arc=none
-Received: from SE1P216MB2647.KORP216.PROD.OUTLOOK.COM (2603:1096:101:1d1::7)
- by PUVP216MB3228.KORP216.PROD.OUTLOOK.COM (2603:1096:301:168::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9891.22; Mon, 11 May
- 2026 08:30:03 +0000
-Received: from SE1P216MB2647.KORP216.PROD.OUTLOOK.COM
- ([fe80::e5bd:8928:464c:62c2]) by SE1P216MB2647.KORP216.PROD.OUTLOOK.COM
- ([fe80::e5bd:8928:464c:62c2%3]) with mapi id 15.20.9891.021; Mon, 11 May 2026
- 08:30:03 +0000
-From: Shailesh Rathod/LGSI Secure & Connected Task <shailesh.rathod@lge.com>
-To: "connman@lists.linux.dev" <connman@lists.linux.dev>
-Subject: [PATCH] gsupplicant: Fix SIGSEGV in p2p_stop_find on NULL interface
-Thread-Topic: [PATCH] gsupplicant: Fix SIGSEGV in p2p_stop_find on NULL
- interface
-Thread-Index: AQHc4R/4qkf+Agp8lUCotCaWWTzzlQ==
-Date: Mon, 11 May 2026 08:30:03 +0000
-Message-ID:
- <SE1P216MB26472F81214100EA481E66BCF0382@SE1P216MB2647.KORP216.PROD.OUTLOOK.COM>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-msip_labels:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=lge.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SE1P216MB2647:EE_|PUVP216MB3228:EE_
-x-ms-office365-filtering-correlation-id: 472d2ae5-62e1-446e-e5c8-08deaf377fb8
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|366016|376014|1800799024|18002099003|38070700021|56012099003;
-x-microsoft-antispam-message-info:
- oe0Pk0BBUMwAEfp2UaSP1GYlYBHdy0D3FifyVW3JUvAZ7D8nHFZB1OoYiXeZ5Fkzn47eDEaG4drXuWDVHHodK+/PC8DJnzuWx42aqXyJsA0zoYLe7+b9UI0mFUnGn4bs3K3fL5kNU6RVdvQePgQNwYXCCl7xcjnBSHXfVG7dRdtXa0bUarK5amRaIm1kJ+J+SeqoKezxdHMUL1S2JFlsKISPJfC20pD0toh4vP82gT5QURC0KenuWaTKECkWHtBPPRcWTfeGyFfXz/37ay0/7QvSFvFUPD+OpjUjdtAeekXuk9+wBUsY0+QZrT6Rti+UAO0asDgVCFAW2MaWqDlltaiRrqXnKfSPi2Y74f5UmG/URmoU1Blz5uw7Z9I5f2Y5n6cTk7vBjqlDTITtRW3917ju3mvQLyfwo3LdH6Mum4/smZU2gbsDn701zQ55sUpgVF1SICLklBqJ0XC5zTrHGmrC+KouSO+ON5Ho04VlmsxhlZVMEOFaBuDTCnqknBlSbPYX2TgGosxEhZBb81qOTejTxQcuUxgPZE+EgFwLdAZO4uBJ27EqyHWYeVOqPXavpoiLUGMAyeBNEey8arOlw06+TXrWrcDEC/LsIAlpCwWZ+PlVuy5JHRvWUmmNxl23OIxVBp8kKgzfS1ZttlZKjZIuDOYl3Nq5OwQVPZpK9GYuvTi228BfTL3d3dauR9aNa0AEe9v1GFSSQ4ztsYyGw7EZ784mPvFOj8nIJdlE9i3QlTbtXebtLgeQ0NvK7rvK
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SE1P216MB2647.KORP216.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(18002099003)(38070700021)(56012099003);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?iso-8859-1?Q?LV98guQ+J+MRaVrUGolL2E07WQMpBXI503HytlgDMG8UN0mwXSuh7Tay4D?=
- =?iso-8859-1?Q?5eaGlwXxiB682wNu1PMuOfPlxL5b52dTUzG6yxZRK8UdDBQBxUhlpG3PDL?=
- =?iso-8859-1?Q?+UwP+o4J/+TC1Khb9tgEHEU+nUqX4lZ/KTf+o40EeCQJtzNPa4zsAxGpki?=
- =?iso-8859-1?Q?CG173x7DJS07rsN9Jdvae9TxSPrJZeru0pSDngi1zUix2MLJpQCiGqdz9O?=
- =?iso-8859-1?Q?HkVF1neSh1jhlEW6f6dUA72T5UgXkbEGTCpvoCe5Wscsp69AXcB/dGYDhl?=
- =?iso-8859-1?Q?U0cjg9KIDG7DjwBu8mi7FXlGKHzZjgAo3zM4td/UkNJBj7eUsaSf9x2kbS?=
- =?iso-8859-1?Q?UIGcTi9z7mglwqdfV/55S+Za8bFzpNNmnI+tPP975MZfsbWMFHr+Fp98Xg?=
- =?iso-8859-1?Q?43g0mJEmPDM6VhxQoHpR8sZeZa6hBUvYt6u8saTAU1fiXKFKAouQV06mKM?=
- =?iso-8859-1?Q?8LlBJ2USsl5hW70noGDNwL/lfYb5uzQ9CnE/4+xXc4+aUklYFUA+YvW+bO?=
- =?iso-8859-1?Q?+ONgN05mZ9bduZdpcbxEgpHJdHP7c48AUJHKqRgNy5UOtgoMPYk3PXO4Ab?=
- =?iso-8859-1?Q?uBSkELtPoOF8gdJReJQGVX1LbwqgOzjx82lVdTKl/0XpHS0IFW46s1AOWe?=
- =?iso-8859-1?Q?0V+ZF1gT7Q9Xra/AVmxuLowO0wwvtSnNOd889IkqgOhvZqtottuDS8c9uv?=
- =?iso-8859-1?Q?3yqd3aNKpvzXEW8EPRHNrxePs30cHF9p1/PDAnq5itgHB1d/lKnHyYisUO?=
- =?iso-8859-1?Q?opd7XpwHgMDTFtRC18lf3/F/HqI2/kfc563WldnkBe0B3+4qhHf7/jdVwe?=
- =?iso-8859-1?Q?+C0V10qK/pjNMteoxCuRDzj7LDJP1vlamftLtJYqxlUKKpfHCBoLwR/6IH?=
- =?iso-8859-1?Q?kCOlssyAi6By2b+QTUsTR5qfelIAQ/Hi4JFeIrqNWl9f5We7tHZkcZVVXI?=
- =?iso-8859-1?Q?4p0qNDB4v2eNX9POu7HXN0GfRjcIYs0tghRtGZphuRy28UoiWeQTSNpNw5?=
- =?iso-8859-1?Q?wRxLOB3451iqWwyvUfrpjZxwL/xbXX+CN2MlsR7FkFrHvrzXDD0pugpXdf?=
- =?iso-8859-1?Q?V6jG4/iOQ+KvT4SBgWgJ1WtJjVeAo1XdURyVwfdmgiFhWMGr0VxpXK/wLo?=
- =?iso-8859-1?Q?oB2izil8nZSbLL+wJFGfRvBQ5TtrNCHR0cphXaLIJW+jvAoWN5v/KB/ykJ?=
- =?iso-8859-1?Q?hq5AlnsZvsILsEb04IUvg+5FnIyXPfAPs19z+PbyxUDl5P4meSUDKfxlPM?=
- =?iso-8859-1?Q?aQLmoTq3gtj98gamZtehrEizv/2GV22EQztMjMnt5GwBnlC4y8GKwNTsYL?=
- =?iso-8859-1?Q?Cm7PAGo835ufHJheAuw+SpUnAflUdJy/Ucs5pSDh0HROd3t+/18stRvmmY?=
- =?iso-8859-1?Q?G1KmvwanlW+iy273gablIrJuiF1VpvYz9GzSzjQzDjqPqRJvalDmflAKIo?=
- =?iso-8859-1?Q?i31KT4H44x1udAt63Jmy9Wn/9n4D0Zk2Yt74HDgcy/G+5Np145ZCEz91bD?=
- =?iso-8859-1?Q?rTjSYPjaG400fGTwPigHCBtL3sdKm8b/Ont2DktbZJEfMksbSAuW4BkaoA?=
- =?iso-8859-1?Q?pGtHlWlBRiDd0T1gK64ELbRadEhG9XMFrlc5jlC/vnWmLNhV+6lqBcsuXe?=
- =?iso-8859-1?Q?1JebiSW+E+uU29/x3ewZYZk4PTgjINRl2S0UtKro36YvQ9I873f+FIZJCs?=
- =?iso-8859-1?Q?zCYm7onjYOgdQToWU7pB9t9IWvcDXNlzBLB24W+rM6itox+YHvyQyL+o9f?=
- =?iso-8859-1?Q?8dwlVx6Pl9BOmljAOsEhzcF0j8IXpUdDFtrtNTUzNvTLZMLwxFYLkVzBKa?=
- =?iso-8859-1?Q?pm55nE9GnA=3D=3D?=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 294AC388E40
+	for <connman@lists.linux.dev>; Tue, 12 May 2026 09:10:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.27.42.2
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778577040; cv=none; b=BdO6FEjmHHqb2vNeP4rtRwZIhELhFtGzmujADZzJkSkC49Q5EC1QVigodvENGOVkdx/TmzcRtoYqvVlAPyFC7Br7WR9utjKUpqv0nPVvI5PcxjGogP9S+1GsFUduwXF0tWIJJxBC8ZTlvRBxwRPwVUgV2bBAIouCQvrh3P7siPE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778577040; c=relaxed/simple;
+	bh=UBd+eiuoGRVUuzj8rheOMiiEWXKjyqJgTNcBzz78MyI=;
+	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=OA8Blao/ZjBHp6isOf5KajeAVJjpHWMX9mqB6lkwMABojw9EbkSeBryGQ2HiVeb4KAezcDYRBCD3sDX5zG/89VunSsz+nhWuKZzxlNjFm6oQQkew9air+HqGtVLYYuZgggOr3ppAIgl70g+rXE/aSOhDOgW5mHHH58MKq1cDrXQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=free.fr; spf=pass smtp.mailfrom=free.fr; dkim=pass (2048-bit key) header.d=free.fr header.i=@free.fr header.b=Dhaqw1vV; arc=none smtp.client-ip=212.27.42.2
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=free.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=free.fr
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=free.fr header.i=@free.fr header.b="Dhaqw1vV"
+Received: from [IPV6:2a02:8428:e480:3f01:98de:b597:d87e:64d] (unknown [IPv6:2a02:8428:e480:3f01:98de:b597:d87e:64d])
+	(Authenticated sender: fgalea@free.fr)
+	by smtp2-g21.free.fr (Postfix) with ESMTPSA id 617A120039C;
+	Tue, 12 May 2026 11:10:35 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=free.fr;
+	s=smtp-20201208; t=1778577036;
+	bh=UBd+eiuoGRVUuzj8rheOMiiEWXKjyqJgTNcBzz78MyI=;
+	h=Date:To:Cc:From:Subject:From;
+	b=Dhaqw1vVJ6YPDnJm6bRNueR8FbI1Qtmj5IHOpvsZyWH5Hra980SJ59icSjgFvuRP3
+	 iAfkMMZY5T7Abs36WKHZzLwP9CTc2xDPl0zBw6SnJCDlV1+0z431wToUbeNG/aYdtZ
+	 W5zqZSRWCZS0JLwAYhytwU/1lpTqZqo1I7oh6HCGSwt8ly9GuKrMrrDNDrU1SatiLr
+	 i1Yx3/RE6CuS49BrSc7FgWNdjuGrNdIl0vG63tFRnlH2tdKRbX7vs9pA+6taM9IWkV
+	 OwJo8iQCTHMV2JMZD9BpX6b86puq2ppNhW4YTn9VuLPl4lAOy2iqWNNT4tN1FG3YZL
+	 qMtLGyCyQhLtQ==
+Message-ID: <9ad68361-98cd-42d1-80b0-7f7cbe6b73cf@free.fr>
+Date: Tue, 12 May 2026 11:10:35 +0200
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Exchange-RoutingPolicyChecked:
-	k4R9uPm2CCI7W0EvURKWKR9nwCYB7jlw4MouenUt77mGu0IrfQd4ot+Is/yfBEz+GCae/yZb3us3qSK2la9cJdy7U3LAwjkHlycuKxgnZ1lu1cTeI5qo2P3mHxMT54W/lJd6uliZRH7k9k2Bxkj5crHCnGfw1k431pFziZze5cIlmxZSvAChr+QAMOLfcI7g5FbxjSFrP8hjaiwz2JaWY1vQ6o4n5HPAL4SLLFDF86mbCW+zm7/m0kz3VS1MylQ8DaHoI4Q3Tsh/gYlEC2WPowPDCBvL3na2Fa/DbTOC+lgcTZZYtzBbdoH9qW6SSZHsYLqAq2noOJvwZg23irGFsQ==
-X-OriginatorOrg: lge.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SE1P216MB2647.KORP216.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: 472d2ae5-62e1-446e-e5c8-08deaf377fb8
-X-MS-Exchange-CrossTenant-originalarrivaltime: 11 May 2026 08:30:03.4049
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 5069cde4-642a-45c0-8094-d0c2dec10be3
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 5P2jIcE3LGhktCRauyHolp+Y4MU+TI7f//uUqZKujJMKchyn/84rMA0twPsIMdd5DrTkMi94ddBZSnPEBE9RYg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PUVP216MB3228
+User-Agent: Mozilla Thunderbird
+Content-Language: fr
+To: connman@lists.linux.dev
+Cc: wbx@openadk.org
+From: =?UTF-8?Q?Fran=C3=A7ois_Galea?= <fgalea@free.fr>
+Subject: Connection to a WPA2 Wi-Fi router fails
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-From: shailesh <shailesh.rathod@lge.com>=0A=
-Date: Mon, 11 May 2026 08:01:32 +0000=0A=
-Subject: [PATCH] gsupplicant: Fix SIGSEGV in p2p_stop_find on NULL interfac=
-e=0A=
-=0A=
-Add a NULL check for the interface pointer in=0A=
-g_supplicant_interface_p2p_stop_find() to prevent a crash when=0A=
-called from trigger_auto_scan() in wifi.c where the interface=0A=
-may not be initialized.=0A=
-=0A=
-Signed-off-by: shailesh <shailesh.rathod@lge.com>=0A=
----=0A=
-=A0gsupplicant/supplicant.c | 2 +-=0A=
-=A01 file changed, 1 insertion(+), 1 deletion(-)=0A=
-=0A=
-diff --git a/gsupplicant/supplicant.c b/gsupplicant/supplicant.c=0A=
-index 5e289953..a50d61db 100644=0A=
---- a/gsupplicant/supplicant.c=0A=
-+++ b/gsupplicant/supplicant.c=0A=
-@@ -5442,7 +5442,7 @@ bool g_supplicant_interface_is_p2p_finding(GSupplican=
-tInterface *interface)=0A=
-=A0=0A=
-=A0int g_supplicant_interface_p2p_stop_find(GSupplicantInterface *interface=
-)=0A=
-=A0{=0A=
--	if (!interface->p2p_finding)=0A=
-+	if (!interface || !interface->p2p_finding)=0A=
-=A0 =A0return 0;=0A=
-=A0=0A=
-=A0	SUPPLICANT_DBG("");=0A=
---=0A=
-2.34.1=
+Hello,
+
+This was tested on a Zynq (Cortex-A9) and a RPi4, on a 32-bit Arm 
+Buildroot Linux system.
+
+The Wi-Fi router uses WPA2 Personnal authentication.
+
+Problem starts from buildroot releases including connman 1.45. Previous 
+releases using connman 1.44 and prior are working fine. Also switching 
+from 1.45 to 1.44 in a buildroot version that includes connman 1.45 works.
+
+
+If a connection was previously successfully set up, for instance from 
+connman 1.44 or older, `/var/log/messages` contains:
+
+Jan  1 00:00:11 zest daemon.info connmand[141]: Adding interface wlan0 [ 
+wifi ]
+Jan  1 00:00:11 zest daemon.info connmand[141]: eth0 {update} flags 
+36867 <UP>
+Jan  1 00:00:11 zest daemon.info connmand[141]: eth0 {newlink} index 2 
+address 9A:8F:85:81:67:B4 mtu 1500
+Jan  1 00:00:11 zest daemon.info connmand[141]: eth0 {newlink} index 2 
+operstate 2 <DOWN>
+Jan  1 00:00:11 zest daemon.info dbus-daemon[120]: [system] Successfully 
+activated service 'fi.w1.wpa_supplicant1'
+Jan  1 00:00:11 zest daemon.info connmand[141]: wlan0 {update} flags 
+36931 <UP,RUNNING>
+Jan  1 00:00:11 zest daemon.info connmand[141]: wlan0 {newlink} index 4 
+address 8C:3D:16:20:0E:4A mtu 1500
+Jan  1 00:00:11 zest daemon.info connmand[141]: wlan0 {newlink} index 4 
+operstate 0 <UNKNOWN>
+Jan  1 00:00:11 zest daemon.info connmand[141]: wlan0 {update} flags 
+36867 <UP>
+Jan  1 00:00:11 zest daemon.info connmand[141]: wlan0 {newlink} index 4 
+address 8C:3D:16:20:0E:4A mtu 1500
+Jan  1 00:00:11 zest daemon.info connmand[141]: wlan0 {newlink} index 4 
+operstate 2 <DOWN>
+Jan  1 00:00:11 zest daemon.info connmand[141]: wlan0 {newlink} index 4 
+address 8C:3D:16:20:0E:4A mtu 1500
+Jan  1 00:00:11 zest daemon.info connmand[141]: wlan0 {newlink} index 4 
+operstate 2 <DOWN>
+Jan  1 00:00:11 zest daemon.info connmand[141]: Interface wlan0 [ wifi ] 
+state is association
+Jan  1 00:00:11 zest daemon.warn connmand[141]: Interface wlan0 [ wifi ] 
+error "invalid-key"
+Jan  1 00:00:11 zest daemon.info connmand[141]: Interface wlan0 [ wifi ] 
+state is failure
+
+
+Otherwise, when creating a new connection:
+
+# connmanctl
+Error getting VPN connections: The name net.connman.vpn was not provided 
+by any .service files
+connmanctl> services
+
+connmanctl> enable wifi
+Enabled wifi
+connmanctl> scan wifi
+Scan completed for wifi
+connmanctl> services
+     Kamoulox             wifi_8c3d16200e4a_4b616d6f756c6f78_managed_psk
+     Livebox-D050 
+wifi_8c3d16200e4a_4c697665626f782d44303530_managed_psk
+     Freebox-3B4B3C 
+wifi_8c3d16200e4a_46726565626f782d334234423343_managed_psk
+     patetalex            wifi_8c3d16200e4a_7061746574616c6578_managed_psk
+     DRAME                wifi_8c3d16200e4a_4452414d45_managed_psk
+connmanctl> agent on
+Agent registered
+connmanctl> connect wifi_8c3d16200e4a_4b616d6f756c6f78_managed_psk
+Agent RequestInput wifi_8c3d16200e4a_4b616d6f756c6f78_managed_psk
+   Passphrase = [ Type=psk, Requirement=mandatory, Alternates=[ WPS ] ]
+   WPS = [ Type=wpspin, Requirement=alternate ]
+Passphrase? my_wifi_passphrase
+Agent ReportError wifi_8c3d16200e4a_4b616d6f756c6f78_managed_psk
+   invalid-key
+connmanctl> Retry (yes/no)? no
+Error 
+/net/connman/service/wifi_8c3d16200e4a_4b616d6f756c6f78_managed_psk: 
+Input/output error
+connmanctl>
+
+
+ From both situations it appears the wifi passphrase is not accepted.
+
+wbx (as CC of this email) noticed that reverting commit 
+5e73b55e00b97e1867397258b72f0d6e5ad7d31d allows connections to work again.
+
+Is it a known situation? Is there a patch available?
+
+Best,
+
+François
+
