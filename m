@@ -1,253 +1,579 @@
-Received: from mail.kapsi.fi (mail-auth.kapsi.fi [91.232.154.24])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dl1-f52.google.com (mail-dl1-f52.google.com [74.125.82.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5989F3C2B81
-	for <connman@lists.linux.dev>; Tue, 12 May 2026 15:36:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.232.154.24
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778600212; cv=none; b=bpP1geDSu/+FMqlslXbR+TqOP2v0duxAtJ0zD8G6qwGlAO3KZFdXZ3o5NBB1e1npnT19OnunX21Fjhfg6xKezcIVUWZ4lHPKuakhC82OtO/x0exsroHObcz9k3zd6+oB97maz3ZIb7N0tn6vBppKA/mXkCD27ITBCTQ+4qBfiYk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778600212; c=relaxed/simple;
-	bh=A8rKYPTesDMvpG3IpgjS9Zkb4zvGPI79Xu38lZ6lOEg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=la7nw/5V4s7ZjnJi6J/XH0mVIZ3iSEe0WpKbpHPJ6CpD1Qa7mTm1MY66Iz6zGq22rn9Hv7r+LBPrrrS9U4hJtcHpxOWBxHcTCQP2SabtXEwSv9OHZpdlD40aepN3arJlDR7dWm5oDX4ZtY4mj6R92rIFoenMaQkNjWb/7e+jkhQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=jolla.com; spf=pass smtp.mailfrom=kapsi.fi; dkim=pass (2048-bit key) header.d=kapsi.fi header.i=@kapsi.fi header.b=MVGztH+e; arc=none smtp.client-ip=91.232.154.24
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=jolla.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kapsi.fi
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC40C4534B9
+	for <connman@lists.linux.dev>; Wed, 13 May 2026 14:59:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.52
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778684380; cv=pass; b=LUV2BjIs0jvZtKpSh3WKIJrTMuqAQETaGmIWN9xNeOJlUnT7YGQyTYu1ddO7oavSiD6hHJWPRC10wHJfLZr+iLNEcdAjT1xrQ5DNGA99fKy8KOsQLmnkri15unKrHttrPKqfEllnqz8kffrUmplcFsjgPGG+L8XpD66/VC6h0PU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778684380; c=relaxed/simple;
+	bh=8Ar2xlwacTip0UKAe1lxt0nWNyXZ0xJvFKgve4PJmH0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=VaH18BDEPaCQw1zZwBlp7xOKyjqyjLIQ8IfGqLZXdfhExW+2EjXVzBWqNchQRILw+J2rezk/wXqkR7xdog4wCOm86XRn86MHPNl/CK6HDm5LnBCpUUCOZs9jrZiaHgUK8i1NLbHuSBuguIEi+vT9MtIMafkX2YbqnIWE6kO/YSA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=amarulasolutions.com; spf=pass smtp.mailfrom=amarulasolutions.com; dkim=pass (1024-bit key) header.d=amarulasolutions.com header.i=@amarulasolutions.com header.b=pDPdlHGF; arc=pass smtp.client-ip=74.125.82.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=amarulasolutions.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amarulasolutions.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kapsi.fi header.i=@kapsi.fi header.b="MVGztH+e"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
-	s=20161220; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
-	Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-	List-Post:List-Owner:List-Archive;
-	bh=3HW9KEvOaqrnKxm/vN0C8DQQXhi7i2zDjXjkxg4AJeA=; b=MVGztH+eKmi288wK62NCkP+eAg
-	NKGOZXXjn3KUBGuwnK33QzBLinNVU61MOhk11BJNWWs1zc+xf2TJz9TA5xY7N1W4fvM72FOEEJ+KL
-	B/DIav3DLXiAGxkPv2xv0ExQHzhw7muaWOKBETlf8BHdicQK/cHulHyvCI2YEN0iFW4yXnCsXx8A7
-	ohLHCxs+OlIgLnbhTfNTMre1weiwwKVZfd5X0DJS75G0b2cRPmEVrF8Mr/XQLZ8aKapGsg72mvG65
-	25YOPeTzOzoyWXljOtnjW86O7lR1bEj26aAbP/t2snMuxtB0pjwkenlhMrC2zTsinJlG8MbSj2xnX
-	Y8oksk2Q==;
-Received: from [2a10:a5c0:37:6500:9c0c:5ab0:fb2a:7a98] (helo=jl-x230.local)
-	by mail.kapsi.fi with esmtpsa (Exim 4.96)
-	(envelope-from <jussi.laakkonen@jolla.com>)
-		id 1wMpA0-00EZ9d-3C;
-	Tue, 12 May 2026 18:36:41 +0300
-From: Jussi Laakkonen <jussi.laakkonen@jolla.com>
-To: connman@lists.linux.dev
-Cc: Simo Piiroinen <simo.piiroinen@jollamobile.com>
-Subject: [PATCH 3/3] rtnl: Use FallbackDeviceTypes configuration option
-Date: Tue, 12 May 2026 18:36:24 +0300
-Message-ID: <20260512153627.443352-4-jussi.laakkonen@jolla.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260512153627.443352-1-jussi.laakkonen@jolla.com>
-References: <20260512153627.443352-1-jussi.laakkonen@jolla.com>
+	dkim=pass (1024-bit key) header.d=amarulasolutions.com header.i=@amarulasolutions.com header.b="pDPdlHGF"
+Received: by mail-dl1-f52.google.com with SMTP id a92af1059eb24-13354eb66baso2959609c88.1
+        for <connman@lists.linux.dev>; Wed, 13 May 2026 07:59:31 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1778684368; cv=none;
+        d=google.com; s=arc-20240605;
+        b=AObFdfaf8FsBmDUS4T5RpiT5pY487hhVV79tiOxxGQmJsXcl0LEUR3UY7PMRrd0sJw
+         rrNKgFGjgpaBSMD1gqzRNVFmQB/8c2UDtVEYtBHi+1tE46GdKyyrQ8z0AmnGGcu8j7gA
+         L/rPpYFtE4bk2liq8sAFMDw6+HvZZ9pPsf7biSK4pC3iZnRKKOnH+EQYBf/n2z9L+zyx
+         sA1LxXtke7U2XYmDOoDa9IdVkTTnEGQmvBYzAOVIh3oALU+Kn155K+owPyNfVrHVd4tF
+         BE285MuxPbhYUcfpblyR4/ijQg8o3L9HlGJw4OVqTNuAiv0djG/8uBL1IPkLJpQ4XlYP
+         pU6A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=2tu74nuJyOgNVNKyX6jUPsrFUvAn9LaXJUct2Rm/djE=;
+        fh=C+Xd2gaSNHr1eaav0Ua51+D1ZgfnsMm1vNHCiQBKCfA=;
+        b=dV+xGZt6j4ATaZYZGwfOdgAcVqEzY3MF176kaQWcwRtWxTleOp5THucZJlkjQ6uUsh
+         43mN9sdULNR8tZRslj/EkD6qN3POmDnzcRowBbqzkMbZTCJmOtAijjE9fWW8n8e8A6Bb
+         i+OGxGRQT4ck8nTQbHv3gH+PEOKj0AVGD6XIpOorDGJTXTlgkrXjENWUOf+pc/ofjEh8
+         ATS2PMuUQzdsogueFwq6vLAQrr8sCYT33uuz5t9PahR11N7MJBUDiZnKHrjZqDiCnF6G
+         wf7jUtSJ4e07PtfNey2BbY71Pk0NTiG2FiGwX7C3HHExlduvonKrzvaXxluLjfqwHvF9
+         Gu6Q==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=amarulasolutions.com; s=google; t=1778684368; x=1779289168; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=2tu74nuJyOgNVNKyX6jUPsrFUvAn9LaXJUct2Rm/djE=;
+        b=pDPdlHGFx1jLOBSWJVbPyuNCsaNxzCuw7TpygP5jdkJ5q3iZgMdS/EcsVn0uV1wyyd
+         lIoUVGvnFCU8a7m5/z1Ec1zxwZPjLTWVRkyex5PlXn5unNAJcmyaoJNxL7mvvN53ZI8h
+         xEUVXXhHD5bx4KT0p/qoQ/pR6tHE7LM+2Uxw8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778684368; x=1779289168;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=2tu74nuJyOgNVNKyX6jUPsrFUvAn9LaXJUct2Rm/djE=;
+        b=mL1nuZeNspOLE9jB0zaj+hnUwUv3FDA91s74hkXplDCZ9kJbRFtoPeBGOSD8rZC7yk
+         EP0nBr5RfBFxhE8tbB4hkgwN5gMqKs15n1veb7Ugg5qFnybpk6Tc/FcMGX0b1zPl3GdS
+         Q5QWcS66okGHpr+DZptNBvdtMWA+r4867MoLQFO3SqX1NOyy5i7N/JA0jCmy7Vd4xE0c
+         md25b2ji2deNXnX1R9qdm1FFw2TILUlIEgL7w1Y/8PA01OeRui6EQC8fedl3qckTp/M5
+         FrsckI4c6ks9CHZVlAeb5/5i7TxlcIpuh24nE706KMJdijaUe/Yp4gEKGlryb3tPEJ9Q
+         ELIQ==
+X-Gm-Message-State: AOJu0Yw19MdICHGDoVNmi8JP0tE0ncM+++uVfEDSINz3Kz75oQ/V/qVn
+	vRsggJmLd/dDWJwDLXu17Dkd+8cVNtZmuAE40nJigWwhODAmsAc1fY0pCp10glEIDj6tZVXYAf+
+	9WcRWCmgI657seMHpCds9Kn09RYw3w0QTO+eavNj4Ew==
+X-Gm-Gg: Acq92OFIfrE2iDja8fRIqxEMkDEcdb1ZhnTnkrRjWw+43fGM4eTekNvoWeOsP+Gm8hc
+	VYcm8Xa5xSM0YPbZU7Yi84OGTfNCawDmGSo4myZ3mMxYZ4m5nDIxpdPbZjRQoXgcKptxnjm8Rz+
+	XMeoKKDgk83fOjpWLUUDTJSi2MIrWO83V4MHsaEy1ZzRapZMhTjyEH5TTIgzALF1kuEMTLABNbO
+	qpBcYO0IwRB+matEIvcrepNcuwlKxMD/G5eGTpTYNvX7S9aksJgM1tE/gD1aWQQxl/g4e0l9/vM
+	V7PcQM88Qj2XGv/FosNxmAvI9J4N0Xzd2/GnjrX7sGbkcbo1Jg==
+X-Received: by 2002:a05:7022:b84:b0:130:68a1:a234 with SMTP id
+ a92af1059eb24-13436bb228bmr2074410c88.40.1778684367916; Wed, 13 May 2026
+ 07:59:27 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Rspam-Score: -1.6 (-)
-X-Rspam-Report: Action: no action
- Symbol: RCVD_TLS_ALL(0.00)
- Symbol: FROM_HAS_DN(0.00)
- Symbol: FROM_EQ_ENVFROM(0.00)
- Symbol: MID_CONTAINS_FROM(1.00)
- Symbol: LOCAL_OUTBOUND(0.00)
- Symbol: TO_MATCH_ENVRCPT_ALL(0.00)
- Symbol: BAYES_HAM(-3.00)
- Symbol: MIME_GOOD(-0.10)
- Symbol: NEURAL_HAM(0.00)
- Symbol: RCPT_COUNT_TWO(0.00)
- Symbol: RCVD_VIA_SMTP_AUTH(0.00)
- Symbol: ARC_NA(0.00)
- Symbol: ASN(0.00)
- Symbol: RCVD_COUNT_ONE(0.00)
- Symbol: TO_DN_SOME(0.00)
- Symbol: MIME_TRACE(0.00)
- Symbol: R_MISSING_CHARSET(0.50)
- Message-ID: 20260512153627.443352-4-jussi.laakkonen@jolla.com
+References: <SE1P216MB2647222FA0265D346F4C13C1F062A@SE1P216MB2647.KORP216.PROD.OUTLOOK.COM>
+ <CAOf5uwnBz5gC8+u2PBJAmqa0NnBkww_oG41O=91K4zbcTuTUkg@mail.gmail.com>
+In-Reply-To: <CAOf5uwnBz5gC8+u2PBJAmqa0NnBkww_oG41O=91K4zbcTuTUkg@mail.gmail.com>
+From: Michael Nazzareno Trimarchi <michael@amarulasolutions.com>
+Date: Wed, 13 May 2026 16:59:15 +0200
+X-Gm-Features: AVHnY4L-JcYXrOKIKIOOstK6M_NDR8hyiECFDl2nEqWNdwLisMV0I7bFVrNxxRo
+Message-ID: <CAOf5uwkCGjmrBM8SfLnFv6rLj5daUO7Pja2a75_Z48nq-Lzo3A@mail.gmail.com>
+Subject: Re: [PATCH] connman : Introduce softap with ip feature to connman
+To: "Shailesh Rathod/LGSI GPOS Dev" <shailesh.rathod@lge.com>
+Cc: "connman@lists.linux.dev" <connman@lists.linux.dev>, 
+	"Vasu Kantubukta/LGSI Connectivity Team" <vasu.kantubukta@lge.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Simo Piiroinen <simo.piiroinen@jollamobile.com>
+Hi all
 
-If /sys/class/net/<interface>/uevent file exists but does not specify
-DEVTYPE, check whether fallback device type has been defined in main
-configuration.
+I will test those patcheset and review it
 
-Co-authored-by: Jussi Laakkonen <jussi.laakkonen@jolla.com>
----
- src/rtnl.c | 123 +++++++++++++++++++++++++++++++----------------------
- 1 file changed, 72 insertions(+), 51 deletions(-)
+Michael
 
-diff --git a/src/rtnl.c b/src/rtnl.c
-index d49ea4d4..0e556a3a 100644
---- a/src/rtnl.c
-+++ b/src/rtnl.c
-@@ -116,90 +116,111 @@ static bool wext_interface(char *ifname)
- 	return true;
- }
- 
--static void read_uevent(struct interface_data *interface)
-+static bool read_devtype(const char *filename, char **devtype)
- {
--	char *filename, *name, line[128];
--	bool found_devtype;
--	FILE *f;
-+	FILE *file;
-+	char buf[128];
- 
--	name = connman_inet_ifname(interface->index);
-+	*devtype = NULL;
- 
--	if (ether_blacklisted(name)) {
--		interface->service_type = CONNMAN_SERVICE_TYPE_UNKNOWN;
--		interface->device_type = CONNMAN_DEVICE_TYPE_UNKNOWN;
--		goto out;
--	} else {
--		interface->service_type = CONNMAN_SERVICE_TYPE_ETHERNET;
--		interface->device_type = CONNMAN_DEVICE_TYPE_ETHERNET;
-+	if (!(file = fopen(filename, "re")))
-+		return false;
-+
-+	while (fgets(buf, sizeof(buf), file)) {
-+		static const char key[] = "DEVTYPE=";
-+		const char *val;
-+
-+		if (strncmp(buf, key, sizeof(key) - 1))
-+			continue;
-+
-+		val = buf + sizeof(key) - 1;
-+		*devtype = g_strndup(val, strcspn(val, "\r\n"));
-+
-+		break;
- 	}
- 
--	filename = g_strdup_printf("/sys/class/net/%s/uevent", name);
-+	fclose(file);
- 
--	f = fopen(filename, "re");
-+	return true;
-+}
- 
--	g_free(filename);
-+static void read_uevent(struct interface_data *interface)
-+{
-+	char *name;
-+	char *filename = NULL;
-+	char *devtype = NULL;
-+
-+	interface->service_type = CONNMAN_SERVICE_TYPE_UNKNOWN;
-+	interface->device_type = CONNMAN_DEVICE_TYPE_UNKNOWN;
- 
--	if (!f) {
--		interface->service_type = CONNMAN_SERVICE_TYPE_UNKNOWN;
--		interface->device_type = CONNMAN_DEVICE_TYPE_UNKNOWN;
-+	name = connman_inet_ifname(interface->index);
-+
-+	if (ether_blacklisted(name))
- 		goto out;
--	}
- 
--	found_devtype = false;
--	while (fgets(line, sizeof(line), f)) {
--		char *pos;
-+	filename = g_strdup_printf("/sys/class/net/%s/uevent", name);
- 
--		pos = strchr(line, '\n');
--		if (!pos)
--			continue;
--		pos[0] = '\0';
-+	if (!read_devtype(filename, &devtype))
-+		goto out;
- 
--		if (strncmp(line, "DEVTYPE=", 8) != 0)
--			continue;
-+	if (!devtype) {
-+		const char *fallback =
-+			__connman_setting_get_fallback_device_type(name);
- 
--		found_devtype = true;
-+		if (fallback) {
-+			connman_warn("%s no DEVTYPE, using fallback: %s",
-+					name, fallback);
-+			devtype = g_strdup(fallback);
-+		}
-+	}
- 
--		if (strcmp(line + 8, "wlan") == 0) {
-+	if (devtype) {
-+		if (strcmp(devtype, "wlan") == 0) {
- 			interface->service_type = CONNMAN_SERVICE_TYPE_WIFI;
- 			interface->device_type = CONNMAN_DEVICE_TYPE_WIFI;
--		} else if (strcmp(line + 8, "wwan") == 0) {
-+		} else if (strcmp(devtype, "wwan") == 0) {
- 			interface->service_type = CONNMAN_SERVICE_TYPE_CELLULAR;
- 			interface->device_type = CONNMAN_DEVICE_TYPE_CELLULAR;
--		} else if (strcmp(line + 8, "bluetooth") == 0) {
-+		} else if (strcmp(devtype, "bluetooth") == 0) {
- 			interface->service_type = CONNMAN_SERVICE_TYPE_BLUETOOTH;
- 			interface->device_type = CONNMAN_DEVICE_TYPE_BLUETOOTH;
--		} else if (strcmp(line + 8, "gadget") == 0) {
-+		} else if (strcmp(devtype, "gadget") == 0) {
- 			interface->service_type = CONNMAN_SERVICE_TYPE_GADGET;
- 			interface->device_type = CONNMAN_DEVICE_TYPE_GADGET;
--		} else if (strcmp(line + 8, "vlan") == 0) {
-+		} else if (strcmp(devtype, "vlan") == 0) {
- 			interface->service_type = CONNMAN_SERVICE_TYPE_ETHERNET;
- 			interface->device_type = CONNMAN_DEVICE_TYPE_ETHERNET;
--		} else if (strcmp(line + 8, "bond") == 0) {
-+		} else if (strcmp(devtype, "bond") == 0) {
- 			interface->service_type = CONNMAN_SERVICE_TYPE_ETHERNET;
- 			interface->device_type = CONNMAN_DEVICE_TYPE_ETHERNET;
--		} else if (strcmp(line + 8, "dsa") == 0) {
-+		} else if (strcmp(devtype, "dsa") == 0) {
- 			interface->service_type = CONNMAN_SERVICE_TYPE_ETHERNET;
- 			interface->device_type = CONNMAN_DEVICE_TYPE_ETHERNET;
- 		} else {
--			interface->service_type = CONNMAN_SERVICE_TYPE_UNKNOWN;
--			interface->device_type = CONNMAN_DEVICE_TYPE_UNKNOWN;
-+			connman_warn("%s DEVTYPE=%s not supported, ignoring",
-+					name, devtype);
-+		}
-+	} else {
-+		/*
-+		 * We haven't got a DEVTYPE, let's check if it's a wireless
-+		 * device
-+		 */
-+		if (wext_interface(name)) {
-+			interface->service_type = CONNMAN_SERVICE_TYPE_WIFI;
-+			interface->device_type = CONNMAN_DEVICE_TYPE_WIFI;
-+			connman_error("%s runs an unsupported 802.11 driver",
-+					name);
-+		} else {
-+			interface->service_type = CONNMAN_SERVICE_TYPE_ETHERNET;
-+			interface->device_type = CONNMAN_DEVICE_TYPE_ETHERNET;
-+			connman_warn("%s no DEVTYPE, defaulting to ethernet",
-+					name);
- 		}
--	}
--
--	fclose(f);
--
--	if (found_devtype)
--		goto out;
--
--	/* We haven't got a DEVTYPE, let's check if it's a wireless device */
--	if (wext_interface(name)) {
--		interface->service_type = CONNMAN_SERVICE_TYPE_WIFI;
--		interface->device_type = CONNMAN_DEVICE_TYPE_WIFI;
--
--		connman_error("%s runs an unsupported 802.11 driver", name);
- 	}
- 
- out:
-+	g_free(devtype);
-+	g_free(filename);
- 	g_free(name);
- }
- 
--- 
-2.47.3
+On Mon, Jun 2, 2025 at 9:40=E2=80=AFAM Michael Nazzareno Trimarchi
+<michael@amarulasolutions.com> wrote:
+>
+> Hi
+>
+> On Mon, Jun 2, 2025 at 8:33=E2=80=AFAM Shailesh Rathod/LGSI GPOS Dev
+> <shailesh.rathod@lge.com> wrote:
+> >
+> > From: Shailesh Rathod<shailesh.rathod@lge.com>
+> > Date: Mon, 21 Apr 2025 18:16:09 +0900
+> >
+> > Introduce softap with ip feature to connman
+> >
+> > By default, ConnMan supports tethering with a passphrase.
+> > However, it does not support configuring tethering with a
+> > specific IP address and channel.For certain applications
+> >  it is essential to set a specific IP address for the SoftAP.
+> >
+> > To enable support for specifying the IP address
+> > and channel, new properties TetheringIPAddress and
+> > TetheringChannel should be added.
+> >
+> > Signed-off-by: Shailesh Rathod<shailesh.rathod@lge.com>
+> > ---
+> >  src/connman.h    |  15 ++++++
+> >  src/technology.c | 122 +++++++++++++++++++++++++++++++++++++++---
+> >  src/tethering.c  | 136 +++++++++++++++++++++++++++++++++++++++++++++++
+> >  3 files changed, 267 insertions(+), 6 deletions(-)
+> >
+> > diff --git a/src/connman.h b/src/connman.h
+> > index 32ba559..4241a58 100644
+> > --- a/src/connman.h
+> > +++ b/src/connman.h
+> > @@ -676,9 +676,24 @@ bool __connman_config_address_provisioned(const ch=
+ar *address,
+> >
+> >  #include <connman/tethering.h>
+> >
+> > +struct connman_station_info {
+> > +        bool is_connected;
+> > +        char *path;
+> > +        char *type;
+> > +        char ip[64];
+> > +        char mac[32];
+> > +        char hostname[64];
+> > +};
+> > +
+> > +
+>
+> Can you drop this extra blank line?
+>
+> Anyway how is different from the one sent by Roman some time ago?
+>
+> Michael
+>
+>
+> >  int __connman_tethering_init(void);
+> >  void __connman_tethering_cleanup(void);
+> >
+> > +GHashTable *__connman_tethering_get_sta_hash();
+> > +
+> > +void __connman_tethering_list_clients(DBusMessageIter *array);
+> > +int __connman_tethering_set_enabled_with_ip(const char *ip);
+> > +
+> >  const char *__connman_tethering_get_bridge(void);
+> >  int __connman_tethering_set_enabled(void);
+> >  void __connman_tethering_set_disabled(void);
+> > diff --git a/src/technology.c b/src/technology.c
+> > index 270d83d..719c680 100644
+> > --- a/src/technology.c
+> > +++ b/src/technology.c
+> > @@ -69,6 +69,8 @@ struct connman_technology {
+> >         char *tethering_ident;
+> >         char *tethering_passphrase;
+> >         int tethering_freq;
+> > +       char *tethering_ipaddress;
+> > +    unsigned int tethering_channel;
+> >
+> >         bool enable_persistent; /* Save the tech state */
+> >
+> > @@ -195,6 +197,16 @@ static void technology_save(struct connman_technol=
+ogy *technology)
+> >                 g_free(enc);
+> >         }
+> >
+> > +       if (technology->tethering_channel)
+> > +                g_key_file_set_integer(keyfile, identifier,
+> > +                                    "Tethering.Channel",
+> > +                                    technology->tethering_channel);
+> > +
+> > +    if (technology->tethering_ipaddress)
+> > +                g_key_file_set_string(keyfile, identifier,
+> > +                                    "Tethering.IP",
+> > +                                     technology->tethering_ipaddress);
+> > +
+> >         if (technology->tethering_freq =3D=3D 0)
+> >                 technology->tethering_freq =3D 2412;
+> >
+> > @@ -225,18 +237,25 @@ int connman_technology_tethering_notify(struct co=
+nnman_technology *technology,
+> >                                                         bool enabled)
+> >  {
+> >         int err;
+> > +       const char *ip;
+> >
+> >         DBG("technology %p enabled %u", technology, enabled);
+> >
+> >         if (technology->tethering =3D=3D enabled)
+> >                 return -EALREADY;
+> >
+> > -       if (enabled) {
+> > -               err =3D __connman_tethering_set_enabled();
+> > -               if (err < 0)
+> > -                       return err;
+> > -       } else
+> > -               __connman_tethering_set_disabled();
+> > +       ip =3D technology->tethering_ipaddress;
+> > +
+> > +    if (enabled) {
+> > +        if (!ip || strlen(ip) =3D=3D 0)
+> > +            err =3D __connman_tethering_set_enabled();
+> > +        else
+> > +            err =3D __connman_tethering_set_enabled_with_ip(ip);
+> > +
+> > +        if (err < 0)
+> > +            return err;
+> > +    } else
+> > +        __connman_tethering_set_disabled();
+> >
+> >         technology->tethering =3D enabled;
+> >         tethering_changed(technology);
+> > @@ -417,6 +436,17 @@ bool connman_technology_get_wifi_tethering(const s=
+truct connman_technology *tech
+> >         return true;
+> >  }
+> >
+> > +unsigned int connman_technology_get_wifi_tethering_channel(void)
+> > +{
+> > +        struct connman_technology *technology;
+> > +
+> > +        technology =3D technology_find(CONNMAN_SERVICE_TYPE_WIFI);
+> > +        if (!technology)
+> > +                return 0;
+> > +
+> > +        return technology->tethering_channel;
+> > +}
+> > +
+> >  static void free_rfkill(gpointer data)
+> >  {
+> >         struct connman_rfkill *rfkill =3D data;
+> > @@ -479,6 +509,12 @@ static void technology_load(struct connman_technol=
+ogy *technology)
+> >
+> >         enc =3D g_key_file_get_string(keyfile,
+> >                                 identifier, "Tethering.Passphrase", NUL=
+L);
+> > +
+> > +       technology->tethering_channel =3D g_key_file_get_integer(keyfil=
+e,
+> > +                identifier, "Tethering.Channel", NULL);
+> > +
+> > +    technology->tethering_ipaddress =3D g_key_file_get_string(keyfile,
+> > +                identifier, "Tethering.IP", NULL);
+> >         if (enc) {
+> >                 technology->tethering_passphrase =3D g_strcompress(enc)=
+;
+> >                 g_free(enc);
+> > @@ -597,6 +633,15 @@ static void append_properties(DBusMessageIter *ite=
+r,
+> >                 connman_dbus_dict_append_basic(&dict, "TetheringPassphr=
+ase",
+> >                                         DBUS_TYPE_STRING,
+> >                                         &technology->tethering_passphra=
+se);
+> > +       if (technology->tethering_ipaddress)
+> > +        connman_dbus_dict_append_basic(&dict, "TetheringIPAddress",
+> > +                    DBUS_TYPE_STRING,
+> > +                    &technology->tethering_ipaddress);
+> > +
+> > +    if (technology->tethering_channel)
+> > +        connman_dbus_dict_append_basic(&dict, "TetheringChannel",
+> > +                    DBUS_TYPE_UINT32,
+> > +                    &technology->tethering_channel);
+> >
+> >         connman_dbus_dict_append_basic(&dict, "TetheringFreq",
+> >                                 DBUS_TYPE_INT32,
+> > @@ -1016,6 +1061,55 @@ static DBusMessage *set_property(DBusConnection =
+*conn,
+> >                                         DBUS_TYPE_STRING,
+> >                                         &technology->tethering_passphra=
+se);
+> >                 }
+> > +       } else if (g_str_equal(name, "TetheringChannel")) {
+> > +                dbus_uint32_t channel;
+> > +
+> > +                if (type !=3D DBUS_TYPE_UINT32)
+> > +                        return __connman_error_invalid_arguments(msg);
+> > +
+> > +                dbus_message_iter_get_basic(&value, &channel);
+> > +
+> > +                if (technology->type !=3D CONNMAN_SERVICE_TYPE_WIFI)
+> > +                        return __connman_error_not_supported(msg);
+> > +
+> > +                if (channel =3D=3D 0 || channel > 13)
+> > +                        return __connman_error_invalid_arguments(msg);
+> > +
+> > +                if (technology->tethering_channel !=3D channel) {
+> > +
+> > +                        technology->tethering_channel =3D channel;
+> > +                        technology_save(technology);
+> > +
+> > +                        connman_dbus_property_changed_basic(technology=
+->path,
+> > +                                        CONNMAN_TECHNOLOGY_INTERFACE,
+> > +                                        "TetheringChannel",
+> > +                                        DBUS_TYPE_UINT32,
+> > +                                        &technology->tethering_channel=
+);
+> > +                }
+> > +        } else if (g_str_equal(name, "TetheringIPAddress")) {
+> > +                const char *str =3D NULL;
+> > +
+> > +                dbus_message_iter_get_basic(&value, &str);
+> > +
+> > +                if (technology->type !=3D CONNMAN_SERVICE_TYPE_WIFI)
+> > +                        return __connman_error_not_supported(msg);
+> > +
+> > +                if (!str || strlen(str) =3D=3D 0) {
+> > +                        g_free(technology->tethering_ipaddress);
+> > +                        technology->tethering_ipaddress =3D NULL;
+> > +                        return __connman_error_invalid_arguments(msg);
+> > +                }
+> > +                if (g_strcmp0(technology->tethering_ipaddress, str) !=
+=3D 0) {
+> > +                        g_free(technology->tethering_ipaddress);
+> > +                        technology->tethering_ipaddress =3D g_strdup(s=
+tr);
+> > +                        technology_save(technology);
+> > +
+> > +                        connman_dbus_property_changed_basic(technology=
+->path,
+> > +                                        CONNMAN_TECHNOLOGY_INTERFACE,
+> > +                                        "TetheringIPAddress",
+> > +                                        DBUS_TYPE_STRING,
+> > +                                        &technology->tethering_ipaddre=
+ss);
+> > +                }
+> >         } else if (g_str_equal(name, "TetheringFreq")) {
+> >                 dbus_int32_t freq;
+> >
+> > @@ -1257,6 +1351,7 @@ static void technology_put(struct connman_technol=
+ogy *technology)
+> >         g_free(technology->regdom);
+> >         g_free(technology->tethering_ident);
+> >         g_free(technology->tethering_passphrase);
+> > +       g_free(technology->tethering_ipaddress);
+> >         g_free(technology);
+> >  }
+> >
+> > @@ -1935,3 +2030,18 @@ void __connman_technology_cleanup(void)
+> >
+> >         g_free(global_regdom);
+> >  }
+> > +
+> > +void __connman_technology_sta_count_changed(enum connman_service_type =
+type, int stacount)
+> > +{
+> > +        struct connman_technology *technology;
+> > +
+> > +        technology =3D technology_find(type);
+> > +        if (technology =3D=3D NULL)
+> > +                return;
+> > +
+> > +        connman_dbus_property_changed_basic(technology->path,
+> > +                                        CONNMAN_TECHNOLOGY_INTERFACE, =
+"StaCount",
+> > +                                        DBUS_TYPE_INT32, &stacount);
+> > +
+> > +
+> > +}
+> > \ No newline at end of file
+> > diff --git a/src/tethering.c b/src/tethering.c
+> > index f930a26..7039037 100644
+> > --- a/src/tethering.c
+> > +++ b/src/tethering.c
+> > @@ -49,6 +49,7 @@
+> >  #endif
+> >
+> >  #define BRIDGE_NAME "tether"
+> > +#define SUBNET_MASK_24 "255.255.255.0"
+> >
+> >  #define DEFAULT_MTU    1500
+> >
+> > @@ -200,6 +201,7 @@ static void unregister_all_clients(void)
+> >         g_hash_table_foreach(clients_table, unregister_client, NULL);
+> >  }
+> >
+> > +
+> >  int __connman_tethering_set_enabled(void)
+> >  {
+> >         int index;
+> > @@ -363,6 +365,140 @@ void __connman_tethering_list_clients(DBusMessage=
+Iter *array)
+> >         g_hash_table_foreach(clients_table, append_client, array);
+> >  }
+> >
+> > +static char *get_ip(uint32_t ip)
+> > +{
+> > +        struct in_addr addr;
+> > +
+> > +        addr.s_addr =3D htonl(ip);
+> > +
+> > +        return g_strdup(inet_ntoa(addr));
+> > +}
+> > +
+> > +int __connman_tethering_set_enabled_with_ip(const char *ip)
+> > +{
+> > +        int index;
+> > +        int err;
+> > +        const char *gateway;
+> > +        const char *broadcast;
+> > +        const char *subnet_mask;
+> > +        const char *start_ip;
+> > +        const char *end_ip;
+> > +        const char *dns;
+> > +        unsigned char prefixlen;
+> > +        char **ns;
+> > +
+> > +        DBG("enabled %d", tethering_enabled + 1);
+> > +
+> > +        if (__sync_fetch_and_add(&tethering_enabled, 1) !=3D 0)
+> > +                return 0;
+> > +
+> > +        err =3D __connman_bridge_create(BRIDGE_NAME);
+> > +        if (err < 0) {
+> > +                __sync_fetch_and_sub(&tethering_enabled, 1);
+> > +                return 0;
+> > +        }
+> > +
+> > +        index =3D connman_inet_ifindex(BRIDGE_NAME);
+> > +
+> > +        __connman_ippool_newaddr(index, ip, 24);
+> > +
+> > +        struct in_addr inp;
+> > +        uint32_t start, mask;
+> > +
+> > +        if (inet_aton(ip, &inp) =3D=3D 0)
+> > +                return 0;
+> > +
+> > +        start =3D ntohl(inp.s_addr);
+> > +        mask =3D ~(0xffffffff >> 24);
+> > +
+> > +        start =3D start & mask;
+> > +
+> > +        gateway =3D ip;
+> > +        broadcast =3D get_ip(start + 255);
+> > +        subnet_mask =3D SUBNET_MASK_24;
+> > +        start_ip =3D get_ip(start + 2);
+> > +        end_ip =3D get_ip(start + 254);
+> > +
+> > +        err =3D __connman_bridge_enable(BRIDGE_NAME, gateway,
+> > +                        connman_ipaddress_calc_netmask_len(subnet_mask=
+),
+> > +                        broadcast);
+> > +        if (err < 0 && err !=3D -EALREADY) {
+> > +                __connman_ippool_free(dhcp_ippool);
+> > +                __connman_ippool_deladdr(index, ip, 24);
+> > +                __connman_bridge_remove(BRIDGE_NAME);
+> > +                __sync_fetch_and_sub(&tethering_enabled, 1);
+> > +                err =3D -EADDRNOTAVAIL;
+> > +                goto clean;
+> > +        }
+> > +
+> > +        ns =3D connman_setting_get_string_list("FallbackNameservers");
+> > +        if (ns) {
+> > +                if (ns[0]) {
+> > +                        g_free(private_network_primary_dns);
+> > +                        private_network_primary_dns =3D g_strdup(ns[0]=
+);
+> > +                }
+> > +                if (ns[1]) {
+> > +                        g_free(private_network_secondary_dns);
+> > +                        private_network_secondary_dns =3D g_strdup(ns[=
+1]);
+> > +                }
+> > +
+> > +                DBG("Fallback ns primary %s secondary %s",
+> > +                        private_network_primary_dns,
+> > +                        private_network_secondary_dns);
+> > +        }
+> > +
+> > +        dns =3D gateway;
+> > +        if (__connman_dnsproxy_add_listener(index) < 0) {
+> > +                connman_error("Can't add listener %s to DNS proxy",
+> > +                                                                BRIDGE=
+_NAME);
+> > +                dns =3D private_network_primary_dns;
+> > +                DBG("Serving %s nameserver to clients", dns);
+> > +        }
+> > +
+> > +        tethering_dhcp_server =3D dhcp_server_start(BRIDGE_NAME,
+> > +                                                gateway, subnet_mask,
+> > +                                                start_ip, end_ip,
+> > +                                                24 * 3600, dns);
+> > +        if (!tethering_dhcp_server) {
+> > +                __connman_bridge_disable(BRIDGE_NAME);
+> > +                __connman_ippool_free(dhcp_ippool);
+> > +                __connman_ippool_deladdr(index, ip, 24);
+> > +                __connman_bridge_remove(BRIDGE_NAME);
+> > +                __sync_fetch_and_sub(&tethering_enabled, 1);
+> > +                err =3D -EOPNOTSUPP;
+> > +                goto clean;
+> > +        }
+> > +
+> > +        prefixlen =3D connman_ipaddress_calc_netmask_len(subnet_mask);
+> > +        err =3D __connman_nat_enable(BRIDGE_NAME, start_ip, prefixlen)=
+;
+> > +        if (err < 0) {
+> > +                connman_error("Cannot enable NAT %d/%s", err, strerror=
+(-err));
+> > +                dhcp_server_stop(tethering_dhcp_server);
+> > +                __connman_bridge_disable(BRIDGE_NAME);
+> > +                __connman_ippool_free(dhcp_ippool);
+> > +                __connman_ippool_deladdr(index, ip, 24);
+> > +                __connman_bridge_remove(BRIDGE_NAME);
+> > +                __sync_fetch_and_sub(&tethering_enabled, 1);
+> > +                err =3D -EOPNOTSUPP;
+> > +                goto clean;
+> > +        }
+> > +
+> > +        err =3D __connman_ipv6pd_setup(BRIDGE_NAME);
+> > +        if (err < 0 && err !=3D -EINPROGRESS)
+> > +                DBG("Cannot setup IPv6 prefix delegation %d/%s", err,
+> > +                        strerror(-err));
+> > +clean:
+> > +        g_free(broadcast);
+> > +        g_free(start_ip);
+> > +        g_free(end_ip);
+> > +        if ((err =3D=3D -EOPNOTSUPP) || (err =3D=3D -EADDRNOTAVAIL)){
+> > +                return err;
+> > +        } else {
+> > +                DBG("tethering started");
+> > +                return 0;
+> > +        }
+> > +}
+> > +
+> >  static void setup_tun_interface(unsigned int flags, unsigned change,
+> >                 void *data)
+> >  {
+> >
+> >
+>
+>
+> --
+> Michael Nazzareno Trimarchi
+> Co-Founder & Chief Executive Officer
+> M. +39 347 913 2170
+> michael@amarulasolutions.com
+> __________________________________
+>
+> Amarula Solutions BV
+> Joop Geesinkweg 125, 1114 AB, Amsterdam, NL
+> T. +31 (0)85 111 9172
+> info@amarulasolutions.com
+> www.amarulasolutions.com
 
+
+
+--=20
+Michael Nazzareno Trimarchi
+Co-Founder & Chief Executive Officer
+M. +39 347 913 2170
+michael@amarulasolutions.com
+__________________________________
+
+Amarula Solutions BV
+Joop Geesinkweg 125, 1114 AB, Amsterdam, NL
+T. +31 (0)85 111 9172
+info@amarulasolutions.com
+www.amarulasolutions.com
