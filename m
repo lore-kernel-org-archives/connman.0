@@ -1,232 +1,279 @@
-Received: from DUZPR83CU001.outbound.protection.outlook.com (mail-northeuropeazon11012039.outbound.protection.outlook.com [52.101.66.39])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy1-f169.google.com (mail-dy1-f169.google.com [74.125.82.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDFC235201A
-	for <connman@lists.linux.dev>; Tue, 19 May 2026 14:16:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.66.39
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 985223ED3D7
+	for <connman@lists.linux.dev>; Tue, 19 May 2026 14:20:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.169
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779200170; cv=fail; b=iVfv0WWu0ynbdPQ8a17nsmPMgpg2Xt1AcmKu/oDJps39YRfCrraxYeX6P4W/4JoB4yQb3FSRZXyS778h/DtBD6BzHNxfrvlauVQvq65ApztDFD2Nxfs7PpRw7mZCsovBfppZUtNo0LH/slxsWDHssT5Ie7jspToUmdW7/a0qLug=
+	t=1779200450; cv=pass; b=BBuG1lpHEBb3PU9suKLY1cxoYKlUkw/V38I/GZ4+jTxKvKGB+z/qYqDWaIRBDxwq2B2voEWvKUqHvM5g12LIV+9uG1Z643iJj7VtY6nMNsbgwNzxaWTKwMCNSo9OfnT+ct/sFczPx9R78x91s8bpI96ILjNoR66iPJvdo95KiAg=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779200170; c=relaxed/simple;
-	bh=i8c12uOoxQsY/iChct1dAQrGvJQl0jLKBDLMl0tzqD8=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=Htq+S7TGA9gNv/dNy1WhZQ9B1PykKBoCoC+ntOYkD1bDI8HJRF0p1qt4JloS0vIfRb79ps3jGvp/hRMbWUbsi8jXcaEWHGgU2gRQNNAClLl7kZj/ktO3e0jPD2aG+3hBfwrkYAMGhr4BXv3aUbuhVkrZQLlvoroAuX1rrbX6Dr0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bshg.com; spf=pass smtp.mailfrom=bshg.com; dkim=pass (2048-bit key) header.d=bshg.com header.i=@bshg.com header.b=QWzbvBU+; arc=fail smtp.client-ip=52.101.66.39
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bshg.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bshg.com
+	s=arc-20240116; t=1779200450; c=relaxed/simple;
+	bh=vsmrjXekYc/a25jEfmPG+BVCoqfEblJ38rpZ/+Qktcw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=TvdlF02XrLl4b67sMs5499Lww6TWjDYpzj+eFLuQsCRebak55dYd1Wr7gw5VplCYQydyHcSGeq/uyjviSUr33b/h5BpjobJ1TYjjgAKFv4iOGc0NqLAIjeYcdufF9u47KfLpWCdb6V6FC8QOYa+dnHkzBeaAET8XsOUkjhftBMs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=amarulasolutions.com; spf=pass smtp.mailfrom=amarulasolutions.com; dkim=pass (1024-bit key) header.d=amarulasolutions.com header.i=@amarulasolutions.com header.b=XLMYh2xF; arc=pass smtp.client-ip=74.125.82.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=amarulasolutions.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amarulasolutions.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bshg.com header.i=@bshg.com header.b="QWzbvBU+"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=oDqHBDnZ7bnwE8RBdwi33jWItinZmMlIRc134PU7UNTXTDN9LP1GOTlsudzGDMqNoak/wjJ9dkOBspbCPc+aNsnjMCDOIl18SXxfKhG4d9OAXmefNOc6VcpRStwesK46TGSLkO2P1pAKmAYVksKnsVnMuRu5CuTJOFoJ4qkQnx7/XsEIXOpo4Thvg/ZegR7bUdgWQ4Zvzbm07H7rBSYWhWXEkdXVVXtE6/rpl94vBE++0sibNa9chSYQXCrlgVc/oNVcAsKmFh0291kcyJo0EYA5fPAtw2A/4V6doesMgG/6rmHV3bMTilCIQ9vZc/TNp2Ge6t6J3/5nN2BiEQRAcw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=i8c12uOoxQsY/iChct1dAQrGvJQl0jLKBDLMl0tzqD8=;
- b=TD4lW1EOJR5/JiXH3LZz1aF/pPjER0t5dddcbt0ssrLNRvS5pli07/Ohr10EAKvillV1AUYnQ7uG5iplHhQBh1c6dpKQ9300PPbqp6+AHbaHquNLVVr6iterl2lu+F74x0CAV9i/NF718QxjpVlLG2X2BuxnlnW0mbXoGGmoOkkd9VwWLC2evXFaKeQPdoJdBvH6Ubcnw8MroAs0XvpRgPpWq/oR6eLBd5owgqK4lfBAXUc5YWGIeKNnuVaLgW3bH5fp5XFPmW+C+4NYnNYu5sP4TZz0i7dYB7th44HIdb5STOPyMSp2X28MavuIjYVuRyLeVHCV9OEctINnDaE9sA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bshg.com; dmarc=pass action=none header.from=bshg.com;
- dkim=pass header.d=bshg.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bshg.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=i8c12uOoxQsY/iChct1dAQrGvJQl0jLKBDLMl0tzqD8=;
- b=QWzbvBU+NzxB9e7v1/gShN/RpfW4VwhJAdKOUy2V8bNyW5otbViF0XmHbyg/+Mun26VBtu2TRUw830onEhyVBNLEJo+uhXt87vAstp+rXCORva4W5kWT4yyXS2xxHjOlyu0hE4kvcH34WtBaN4xV75jUxQmoIar0HoTdqww7vr+JWk2ExQsJbw/aOREQD+ZMrdHFqWYX9/Vydo3byu+7GjgtVZMS+DB21GcSgsUjWW2m9Euy87WkliQL9ZkW0GXUpRiSwO7w2HxgOVtwSGUH346AzBn1cTTUA6f62yUmqsNSDVxVPoM0/C+dBi4ReNOuLCIWpX4v7IS2j+ugrMBh3A==
-Received: from VI0PR10MB8908.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:800:213::13)
- by PA2PR10MB8912.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:102:41b::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.25.23; Tue, 19 May
- 2026 14:16:04 +0000
-Received: from VI0PR10MB8908.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::c595:d36a:295f:156d]) by VI0PR10MB8908.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::c595:d36a:295f:156d%5]) with mapi id 15.21.0025.022; Tue, 19 May 2026
- 14:16:02 +0000
-From: "Dembianny Sven (BSH GDE-EDSD7)" <sven.dembianny@bshg.com>
-To: Michael Nazzareno Trimarchi <michael@amarulasolutions.com>,
-	=?utf-8?B?RnJhbsOnb2lzIEdhbGVh?= <fgalea@free.fr>
-CC: "connman@lists.linux.dev" <connman@lists.linux.dev>, "wbx@openadk.org"
-	<wbx@openadk.org>
-Subject: RE: Connection to a WPA2 Wi-Fi router fails
-Thread-Topic: Connection to a WPA2 Wi-Fi router fails
-Thread-Index: AQHc4e+1v6y0J6G1nEqVaCo5rDvA+rYKIKiAgAnZqhA=
-Date: Tue, 19 May 2026 14:16:01 +0000
-Message-ID:
- <VI0PR10MB8908DC25598F38832175F6D6F4002@VI0PR10MB8908.EURPRD10.PROD.OUTLOOK.COM>
-References: <9ad68361-98cd-42d1-80b0-7f7cbe6b73cf@free.fr>
- <CAOf5uwm2wBF=rLBus_epmRg+MgXVrHQzFAq8Y3bGWmJPPiDUnw@mail.gmail.com>
-In-Reply-To:
- <CAOf5uwm2wBF=rLBus_epmRg+MgXVrHQzFAq8Y3bGWmJPPiDUnw@mail.gmail.com>
-Accept-Language: de-DE, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bshg.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: VI0PR10MB8908:EE_|PA2PR10MB8912:EE_
-x-ms-office365-filtering-correlation-id: d189c69e-6bd4-45b0-d56e-08deb5b12822
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|376014|19092799006|1800799024|366016|22082099003|4143699003|4133799003|3023799003|56012099003|18002099003|11063799006|38070700021|20052099010|15866825006|41080700001;
-x-microsoft-antispam-message-info:
- w2Caf6gfmsmcsTBihS5bQPUrsuhMuVHzGeHRe7rr4qnQsFDraNdxEowbblCpTRRJ7/T3VGWYGlsehM+rRJjjWCe2Bsypa6HGt4UzgvhmwamfKUfiUWm7Ou35I7xzk2YInl3nbjd1Z4+TarmaCWEu4uKLJim/Mr/9PZsdc5YD1GnJ+Qq+YmDTcwPA6TqVmb1N1HiBnhSrauhiWWb9tVS3f4j/qBdDOx7cbxYHpCTzkq7sJW/MhbxbsUHyxsOupDOdri2OlJTC4YjhUSlo19ctM685fXfoeduDbvdRS1cD31Ri8b8xMQQ3BREcw8yFgcW1aNfoYvjbXWhH9jZL20kXqhHuPz8uv5H82KDaCZTTwU/wXYuog5THdI1SVy1puq4J0LKjObCAFGxuoxxUFCeZcsKQ82MN78SZt3z1tBVPpaCYtkVeZRq/sXdilQ9pAxDzr1JBtOR1oTKs+04AvVBB9YAsY1YF6Vgop2BgPaItjlVTBHkrEIkZLauH1HY4Aq5usZtf2i5PLJ6TcUKqFNa5l0ZhaG2Nv5KMMoe+QFNeRsp/S1E1ieMfBLl3tf3+PnqstD476BKp9C4uByuT6ZN3Br5sCumRo8KOMzwNhzCXgxZLTBWaeP88I6dkSvB8Mv3sbm2krjcTeRHls3wyJAUVAb6WYkAG1L2FXgCEbL9Wo1hCUn3HwpRnXLW85jck3IKN1g+K/GLV8NNGMX873uLaAj1UxNwCCX0bROywb3urSZ1V77V0wxWilMrDKr5lqZvB
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VI0PR10MB8908.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(19092799006)(1800799024)(366016)(22082099003)(4143699003)(4133799003)(3023799003)(56012099003)(18002099003)(11063799006)(38070700021)(20052099010)(15866825006)(41080700001);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?utf-8?B?YXVSR251OWh1MUladDRieU5jUTRHelhyakp0Uy9UUWZ6Sm1ZVmZOeU9mR21W?=
- =?utf-8?B?cm1TY0hjeGpURGhxR2tlU0FVU0k3NFdnMGFvZE43eTl6Yzc5THRybGNqMW5o?=
- =?utf-8?B?dDdYNXdnUzYreE5scGxpZC9CU2VKYzcwend2TjlheGxaWnJQVzB6UitjRW5G?=
- =?utf-8?B?M3RJMWpzTGZRUUdvdWdIeHRia0I4bjZiRjdMSG1tM2w2WDNBU0R5VnJoT3Iy?=
- =?utf-8?B?WWxTNUpTa0RRQVNpZHJwQU5lc2g1U2ZTaTA0WFY3VnEvNjR0RHg4MFdXbFNp?=
- =?utf-8?B?K25SZWhxK2hIY3YzLzl5elR5cTBzSWNjVWR2OXRSeUtpMzh0UXY0Y0Y4SUJn?=
- =?utf-8?B?djhEN1NjdndKNHUvTzJOZHlSM04xVkkyVFY5SWFDaW53Ymx1Ly8rbitWSjRT?=
- =?utf-8?B?Q1k2aVlEWTRuOXZNTXpMckJPeFpOSVpxckVCazdwSEhiT0RvVVBPVjJmUWNo?=
- =?utf-8?B?QjlweWY0dWc1Nzl5S0ptNzFEUWRpYzNVbUNjMjVIbXdBcUY0V2RSemlDZ1FK?=
- =?utf-8?B?VEVBanJsb2p2QnRNenVXSjVxOUZzWlJXUmlTOWlmRUZ3eTdCZlJ0QWp2Sjk1?=
- =?utf-8?B?VjNZTzBQSUFsYkhjNGhLdTRyWWEyaXo0TDRScjdRaXY0bm4xV08wTjVudlQ2?=
- =?utf-8?B?YnJ6WUlWRWN2ZWR5RTZDMUVOeU8yVE5jVmt2NG1oZTV0RWRVcDJKQ29wVFow?=
- =?utf-8?B?WmNxclA0WGszS3dXOTRQQi83RGNMYjdkczhENG9uRzkwV1pMTTFkalNQRUo2?=
- =?utf-8?B?MTRNUVhLUVhINWxRUVVjdkhxRWU5RmxDUERsckxQVWFiSFpZcjZORjAySDRj?=
- =?utf-8?B?NEVHOVBuU2J4N01YTjlub09PTnhidURTa2hCb0ttejZEQm1VNDBPTGhORjd3?=
- =?utf-8?B?eGk2TjFXUEQwazdKNHV1MFdPVEt2eEdDTG1IRkdqemtwMlVVd2JzTjlCRldu?=
- =?utf-8?B?R3A1c3NHajRQb3JkL0dhcTZ3YVNyK3p0SC9ONHdKNDFDRmJWS1EvckZkT2Yy?=
- =?utf-8?B?K05aVmFvRmlqOW5Zemd3VFM5a1pmQThUZzVITkd4d2UvREpPdklteDBQTnFS?=
- =?utf-8?B?QzJKK3luZkVKbWFiQ0JlazBnZnYrVnAzcjEvNEIzZXdpSVBQU0FmdUhsYmo1?=
- =?utf-8?B?V29mTmF3OHRPTElYOWFCN3JRUDkxTC9lQjA4eEVvRzRsRnNSMnpKM0w5VFFs?=
- =?utf-8?B?cnZkbkJsM0QwbTB1R082NFZ5OG9xZm4yUHFvVVdWc09FRzZEOUQ3YWxVc05T?=
- =?utf-8?B?YURuRTRlVmtKMGFYZ0RpaUd2QzVQWVJaZGZRVEl1bWdPcC9UWDNKQTlzTCs1?=
- =?utf-8?B?bmtqVGVrSzJyNzI5Vjc1amhqTEdKMzdNOUFqU2tLMzcrZ0t6eVlpZTA0cmpG?=
- =?utf-8?B?WjE4bHZ0VjRhTHQwWTQ3N2EwK05obW83aU9jdmxPbmtzZ0x3SWpuOEpIaHNa?=
- =?utf-8?B?RnJ3RkdIbkpuRzV4UityZEZIajBtVjFMejIvY0JDVWZBUm5mS2h1YmtnWms4?=
- =?utf-8?B?dEVkbFRoM2VudHhBTXhuYlVraGFNQ0IzYTE5MlV4M2RGQ2E1cWlLWVV3R0NQ?=
- =?utf-8?B?K1dJV09uZkxQYWoyRHJUL2ZHd2hJYlNxNEtkaHZNUks5dUVQczRhRjlQZTYx?=
- =?utf-8?B?TzIxdS9MS0tEUWxhd3JkQWV4cThNS0VTZnpvejUvc3JKb05ROUh0SmtLUS9R?=
- =?utf-8?B?UnFIZE9tRmdzQjJGWGhCVU4yTVdybXhUK2JKS2RXbVFuYjJoc0NVQlBUb3Vl?=
- =?utf-8?B?VVhRN3E4Z25SS25YYWlpNzd4dm40TlVlcFZ5bi8xNE1oWTQrK2NJcGZiTEsw?=
- =?utf-8?B?bklQUE1mM29xODVGcjRCTyt5bGhUTkNDcWNzSzY1NkkyNDJXMm9qN05zQ2Zx?=
- =?utf-8?B?cDVzNk9wT1NpM1RTMWhqaHEwNDBYQTEwTTJacW0yNmI0M0o0Z3hyblBmQW1r?=
- =?utf-8?B?eENVM3pLOTlpeis4enN0ejNMZUhXb05NdmF1a0JKY0RLL09KY295eXNMUkdi?=
- =?utf-8?B?YVBKL0pRbUpRQ2l5TWcvcDM5cFBpMG5RYnB5ek03a1NzVlBkMkJBeUFHNXZ3?=
- =?utf-8?B?Q3NqZVRtWk5MeDBoYWVNQzBHOEJlZUhRSU5nYWdaeHpGZUV0UkZOdEFySmgw?=
- =?utf-8?B?K1dod0tpUmVzeHBuelBtU3NHQWlGM01GZStsQzZuMXQrNFdCUVExcU1aUlZV?=
- =?utf-8?B?MjZKRXQ5NitQeHh3UEJZemNGUDNXdUpHVTFuaXBzT3ZSQi9jblZWWFhXSW9j?=
- =?utf-8?B?RERBcTErNDBHTFBhMDJkc0x1L2orTlgxSHJSMnRMRndiVmpKYnpkdk10UHpU?=
- =?utf-8?Q?dJRXKCzqf2VQV9dM0/?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	dkim=pass (1024-bit key) header.d=amarulasolutions.com header.i=@amarulasolutions.com header.b="XLMYh2xF"
+Received: by mail-dy1-f169.google.com with SMTP id 5a478bee46e88-2f68f3b075fso12999699eec.0
+        for <connman@lists.linux.dev>; Tue, 19 May 2026 07:20:48 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1779200448; cv=none;
+        d=google.com; s=arc-20240605;
+        b=jcBRGmhdc+fELtI9nKAz5x+4LZYmTH700jYA1CfioxtwDG1Pf7ECA789XF+Ja50xCx
+         9sAUZ4yMY1Wu+3ooDGZslbB7GH6LHFtSo9W+c1AiT/xyp/FQ7WM+uCqGE6UcU/H1JDB/
+         HJ0sthOUSuLgX6zUgYDuaC5pNfzC9YFlHmmV9vxA/TT5LFnFy4w5EAECnOb40Ti00Z7P
+         +Y4wGamxXsfgah9L7+Z7kiMJy0p7fGw4WJvLiv5BV2FeMGCBjbVRUPjHanyEevtlzP+y
+         2g2A1/GnX7eLe04iINVCWU6cAHdMR7WISYXshIcYCqpopxqjD7noRygW+6K1XUKwZSc/
+         R20g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=gsva1EEMt/o2x/L6+xa/dK4fmYC76yYidFVbGTbRTWQ=;
+        fh=5FSF13PSDtv/j5g7WJv7RLjJEjnhZyIqOJsmA2gH2js=;
+        b=aECrwGUa/nSS2I6eZcYQc19ceEvWy6UPnxvmwNJLkxB6GQK5W23usQJQweH5mPCpgs
+         rJpLIfg5j/ewlswO6jk3M0lFVvHjWdLxIi67jCum76C2DQDo0634IhsExInDSk/whQKY
+         61U4ecuEriPCnlk8w/A+/2K9+v5PjgLbX+sYZYyyT1gHj8FOG+tvxpfychXZMxYvQtJP
+         pS+5/Pge6v7Sp4K/wY1nGEo47w/mxn6XTVMFpise7sAW9XMkUQndDJDt/cckiQEnET+7
+         EsqVpO16+/oQDwjvW/6fA9KrPGdxjmFmkcXOTd/xyiwvPNZwCbMKQ63bfdXFNZ4ngJBW
+         ZUkg==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=amarulasolutions.com; s=google; t=1779200448; x=1779805248; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=gsva1EEMt/o2x/L6+xa/dK4fmYC76yYidFVbGTbRTWQ=;
+        b=XLMYh2xFYwzTGpu6H+0lhi07po0zwsmNms3JDIcw3dHmHeB/pqs45yZV3uLVa0JZsv
+         IjyFH6ihgWVTPW3TVpxR3SKWLVEZ3MOe6U5T0I3o2qpFEGIANwegE0x4fh0GarqFvW0x
+         jKgv3aFC9xyR8MOc7/o4mItheQyGbPHI9zsWU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779200448; x=1779805248;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=gsva1EEMt/o2x/L6+xa/dK4fmYC76yYidFVbGTbRTWQ=;
+        b=OiKd2KsNIWLdL9wfE2OoAzPOBI/nG+wiRwhd2rLk4oYlyMQB3We53KvTZ9GqZvCNPT
+         4asnf7qMhxaGCs5twYCp84tzvKHBKiU8P4CSLatxybIN62275jBkwh7Dtf5pmbXCVhD3
+         k91qN46h+P2a4/aCL8cmVeLYwMO19YuQOh1sWDvuMleje0FcKhcALFW0FQVTbd6/eKp1
+         gJJlIEc5+KwscXv97ronxiMs6XVa6TiVlKoDkL/wvCdHkjQFhjj2HH8npeQ93lJGhN7H
+         ZQMw5soWwsfpPkG0TZpz+7vD9ntiECcvVBIL2VBOTX/7kwO0YuD/35EIQQZmzrZDIrkh
+         IgTQ==
+X-Forwarded-Encrypted: i=1; AFNElJ8PSCxxxkrb7bZ3EYyYiFVFHiIlQ4a0ACG+HvI4/dIWKETtd28Q85dHcGb+b8rHQ5jg6RjEr9AD@lists.linux.dev
+X-Gm-Message-State: AOJu0YzPa8+GBrRHthcDPp9by9wFp9KuR1OA/NmYi7U3RB3kUgOiax+2
+	YfkbbavAyB/YxKnTvUh0Isn2n4CINcjlFAR+tKsAQ388qAWc34QeHCEFKFGSVD0toh6iel/8RIG
+	GhZz8c5sCj/V2zdT2Uui0Vj8g9r0H6MjwAL4MiCO1kg==
+X-Gm-Gg: Acq92OEqsVEUUXXxGU0EvyNLnkYjLHLiymW1dktsKlSbFYOBARw0e6Vav9W/Axn0rTT
+	ZpU2NGt4AeRNvEyUT9EmUvqsAoBdPFtIJyLM9s6bR/QWj3RKClRY9qsYvrG5It1PZ5EqcQ2lX/J
+	f5Gzz+WczdS1lt/aLKIGT0HnXP6fFPRX1BrvULffZcO8L5oFkj20Tw3OAUBs8+e2Ket2J4ItYtS
+	grKPNwQP+wcRcGceBWCnCK6K+d4ToFOFBf83rxI6MLy0+oySkStu2LbPUThY+zKeqmr/o89dTBO
+	c3uAypFqBQs+f8flg9+yDrMqi9iuv/5GJJs=
+X-Received: by 2002:a05:693c:3009:b0:2f2:5c68:5075 with SMTP id
+ 5a478bee46e88-30398183994mr9589047eec.14.1779200447644; Tue, 19 May 2026
+ 07:20:47 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-OriginatorOrg: bshg.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: VI0PR10MB8908.EURPRD10.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: d189c69e-6bd4-45b0-d56e-08deb5b12822
-X-MS-Exchange-CrossTenant-originalarrivaltime: 19 May 2026 14:16:01.9456
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 0ae51e19-07c8-4e4b-bb6d-648ee58410f4
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 2JapIG+qnO0Y1AyR7UxezAWc8WThjEJDX2thc+sLrjPtEZ8CAGdiM1bEhwm7GT0+JWV/kQdW5x1M8OSLxuIMYQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA2PR10MB8912
+References: <9ad68361-98cd-42d1-80b0-7f7cbe6b73cf@free.fr> <CAOf5uwm2wBF=rLBus_epmRg+MgXVrHQzFAq8Y3bGWmJPPiDUnw@mail.gmail.com>
+ <VI0PR10MB8908DC25598F38832175F6D6F4002@VI0PR10MB8908.EURPRD10.PROD.OUTLOOK.COM>
+In-Reply-To: <VI0PR10MB8908DC25598F38832175F6D6F4002@VI0PR10MB8908.EURPRD10.PROD.OUTLOOK.COM>
+From: Michael Nazzareno Trimarchi <michael@amarulasolutions.com>
+Date: Tue, 19 May 2026 16:20:36 +0200
+X-Gm-Features: AVHnY4KSeyU5JSPO9lhmSHuQXN1vp66V--LmMAeUdgtFjH2THJlpsGyaFORnTb4
+Message-ID: <CAOf5uwkXQpASagj=-E8qau1kk7YvBUquwgKqwUybzCkQa2s-Rw@mail.gmail.com>
+Subject: Re: Connection to a WPA2 Wi-Fi router fails
+To: "Dembianny Sven (BSH GDE-EDSD7)" <sven.dembianny@bshg.com>
+Cc: =?UTF-8?Q?Fran=C3=A7ois_Galea?= <fgalea@free.fr>, 
+	"connman@lists.linux.dev" <connman@lists.linux.dev>, "wbx@openadk.org" <wbx@openadk.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-SGkgTWljaGFlbCwNCg0KSSBkb24ndCB0aGluayBzbywgZS5nLiwgaWYgQVAgZG9lcyBub3Qgc3Vw
-cG9ydCBTQUUgYnV0IHJlcGVhdGVyIGRvZXMsIHJvYW1pbmcgd2lsbCBmYWlsLg0KVGhpcyB3aWxs
-IGFsc28gYnJlYWsgY2VydGlmaWNhdGlvbiB0ZXN0cy4NCg0KQCBGcmFuw6dvaXMgZG8geW91IGhh
-dmUgbW9yZSBpbmZvIGFib3V0IHlvdXIgc2V0dXAsIGUuZy4gTUZQIHNldHRpbmcgb24gQVAvd3Bh
-X3N1cHBsaWNhbnQgY29uZmlnL1dQQS1QU0stU0hBMjU2IGluc3RlYWQgb2YgV1BBLVBTSz8NCg0K
-QmVzdCByZWdhcmRzLCBTdmVuDQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJv
-bTogTWljaGFlbCBOYXp6YXJlbm8gVHJpbWFyY2hpIDxtaWNoYWVsQGFtYXJ1bGFzb2x1dGlvbnMu
-Y29tPg0KPiBTZW50OiBEaWVuc3RhZywgMTIuIE1haSAyMDI2IDExOjMzDQo+IFRvOiBGcmFuw6dv
-aXMgR2FsZWEgPGZnYWxlYUBmcmVlLmZyPjsgRGVtYmlhbm55IFN2ZW4gKEJTSCBHREUtRURTRDcp
-IDxzdmVuLmRlbWJpYW5ueUBic2hnLmNvbT4NCj4gQ2M6IGNvbm5tYW5AbGlzdHMubGludXguZGV2
-OyB3YnhAb3BlbmFkay5vcmcNCj4gU3ViamVjdDogUmU6IENvbm5lY3Rpb24gdG8gYSBXUEEyIFdp
-LUZpIHJvdXRlciBmYWlscw0KPg0KPiBIaQ0KPg0KPiBPbiBUdWUsIE1heSAxMiwgMjAyNiBhdCAx
-MToxNOKAr0FNIEZyYW7Dp29pcyBHYWxlYSA8ZmdhbGVhQGZyZWUuZnI+IHdyb3RlOg0KPiA+DQo+
-ID4gSGVsbG8sDQo+ID4NCj4gPiBUaGlzIHdhcyB0ZXN0ZWQgb24gYSBaeW5xIChDb3J0ZXgtQTkp
-IGFuZCBhIFJQaTQsIG9uIGEgMzItYml0IEFybQ0KPiA+IEJ1aWxkcm9vdCBMaW51eCBzeXN0ZW0u
-DQo+ID4NCj4gPiBUaGUgV2ktRmkgcm91dGVyIHVzZXMgV1BBMiBQZXJzb25uYWwgYXV0aGVudGlj
-YXRpb24uDQo+ID4NCj4gPiBQcm9ibGVtIHN0YXJ0cyBmcm9tIGJ1aWxkcm9vdCByZWxlYXNlcyBp
-bmNsdWRpbmcgY29ubm1hbiAxLjQ1Lg0KPiA+IFByZXZpb3VzIHJlbGVhc2VzIHVzaW5nIGNvbm5t
-YW4gMS40NCBhbmQgcHJpb3IgYXJlIHdvcmtpbmcgZmluZS4gQWxzbw0KPiA+IHN3aXRjaGluZyBm
-cm9tIDEuNDUgdG8gMS40NCBpbiBhIGJ1aWxkcm9vdCB2ZXJzaW9uIHRoYXQgaW5jbHVkZXMgY29u
-bm1hbiAxLjQ1IHdvcmtzLg0KPiA+DQo+ID4NCj4gPiBJZiBhIGNvbm5lY3Rpb24gd2FzIHByZXZp
-b3VzbHkgc3VjY2Vzc2Z1bGx5IHNldCB1cCwgZm9yIGluc3RhbmNlIGZyb20NCj4gPiBjb25ubWFu
-IDEuNDQgb3Igb2xkZXIsIGAvdmFyL2xvZy9tZXNzYWdlc2AgY29udGFpbnM6DQo+ID4NCj4gPiBK
-YW4gIDEgMDA6MDA6MTEgemVzdCBkYWVtb24uaW5mbyBjb25ubWFuZFsxNDFdOiBBZGRpbmcgaW50
-ZXJmYWNlIHdsYW4wDQo+ID4gWyB3aWZpIF0gSmFuICAxIDAwOjAwOjExIHplc3QgZGFlbW9uLmlu
-Zm8gY29ubm1hbmRbMTQxXTogZXRoMCB7dXBkYXRlfQ0KPiA+IGZsYWdzDQo+ID4gMzY4NjcgPFVQ
-Pg0KPiA+IEphbiAgMSAwMDowMDoxMSB6ZXN0IGRhZW1vbi5pbmZvIGNvbm5tYW5kWzE0MV06IGV0
-aDAge25ld2xpbmt9IGluZGV4IDINCj4gPiBhZGRyZXNzIDlBOjhGOjg1OjgxOjY3OkI0IG10dSAx
-NTAwIEphbiAgMSAwMDowMDoxMSB6ZXN0IGRhZW1vbi5pbmZvDQo+ID4gY29ubm1hbmRbMTQxXTog
-ZXRoMCB7bmV3bGlua30gaW5kZXggMiBvcGVyc3RhdGUgMiA8RE9XTj4gSmFuICAxDQo+ID4gMDA6
-MDA6MTEgemVzdCBkYWVtb24uaW5mbyBkYnVzLWRhZW1vblsxMjBdOiBbc3lzdGVtXSBTdWNjZXNz
-ZnVsbHkNCj4gPiBhY3RpdmF0ZWQgc2VydmljZSAnZmkudzEud3BhX3N1cHBsaWNhbnQxJw0KPiA+
-IEphbiAgMSAwMDowMDoxMSB6ZXN0IGRhZW1vbi5pbmZvIGNvbm5tYW5kWzE0MV06IHdsYW4wIHt1
-cGRhdGV9IGZsYWdzDQo+ID4gMzY5MzEgPFVQLFJVTk5JTkc+DQo+ID4gSmFuICAxIDAwOjAwOjEx
-IHplc3QgZGFlbW9uLmluZm8gY29ubm1hbmRbMTQxXTogd2xhbjAge25ld2xpbmt9IGluZGV4DQo+
-ID4gNCBhZGRyZXNzIDhDOjNEOjE2OjIwOjBFOjRBIG10dSAxNTAwIEphbiAgMSAwMDowMDoxMSB6
-ZXN0IGRhZW1vbi5pbmZvDQo+ID4gY29ubm1hbmRbMTQxXTogd2xhbjAge25ld2xpbmt9IGluZGV4
-IDQgb3BlcnN0YXRlIDAgPFVOS05PV04+IEphbiAgMQ0KPiA+IDAwOjAwOjExIHplc3QgZGFlbW9u
-LmluZm8gY29ubm1hbmRbMTQxXTogd2xhbjAge3VwZGF0ZX0gZmxhZ3MNCj4gPiAzNjg2NyA8VVA+
-DQo+ID4gSmFuICAxIDAwOjAwOjExIHplc3QgZGFlbW9uLmluZm8gY29ubm1hbmRbMTQxXTogd2xh
-bjAge25ld2xpbmt9IGluZGV4DQo+ID4gNCBhZGRyZXNzIDhDOjNEOjE2OjIwOjBFOjRBIG10dSAx
-NTAwIEphbiAgMSAwMDowMDoxMSB6ZXN0IGRhZW1vbi5pbmZvDQo+ID4gY29ubm1hbmRbMTQxXTog
-d2xhbjAge25ld2xpbmt9IGluZGV4IDQgb3BlcnN0YXRlIDIgPERPV04+IEphbiAgMQ0KPiA+IDAw
-OjAwOjExIHplc3QgZGFlbW9uLmluZm8gY29ubm1hbmRbMTQxXTogd2xhbjAge25ld2xpbmt9IGlu
-ZGV4IDQNCj4gPiBhZGRyZXNzIDhDOjNEOjE2OjIwOjBFOjRBIG10dSAxNTAwIEphbiAgMSAwMDow
-MDoxMSB6ZXN0IGRhZW1vbi5pbmZvDQo+ID4gY29ubm1hbmRbMTQxXTogd2xhbjAge25ld2xpbmt9
-IGluZGV4IDQgb3BlcnN0YXRlIDIgPERPV04+IEphbiAgMQ0KPiA+IDAwOjAwOjExIHplc3QgZGFl
-bW9uLmluZm8gY29ubm1hbmRbMTQxXTogSW50ZXJmYWNlIHdsYW4wIFsgd2lmaSBdDQo+ID4gc3Rh
-dGUgaXMgYXNzb2NpYXRpb24gSmFuICAxIDAwOjAwOjExIHplc3QgZGFlbW9uLndhcm4gY29ubm1h
-bmRbMTQxXToNCj4gPiBJbnRlcmZhY2Ugd2xhbjAgWyB3aWZpIF0gZXJyb3IgImludmFsaWQta2V5
-Ig0KPiA+IEphbiAgMSAwMDowMDoxMSB6ZXN0IGRhZW1vbi5pbmZvIGNvbm5tYW5kWzE0MV06IElu
-dGVyZmFjZSB3bGFuMCBbIHdpZmkNCj4gPiBdIHN0YXRlIGlzIGZhaWx1cmUNCj4gPg0KPiA+DQo+
-ID4gT3RoZXJ3aXNlLCB3aGVuIGNyZWF0aW5nIGEgbmV3IGNvbm5lY3Rpb246DQo+ID4NCj4gPiAj
-IGNvbm5tYW5jdGwNCj4gPiBFcnJvciBnZXR0aW5nIFZQTiBjb25uZWN0aW9uczogVGhlIG5hbWUg
-bmV0LmNvbm5tYW4udnBuIHdhcyBub3QNCj4gPiBwcm92aWRlZCBieSBhbnkgLnNlcnZpY2UgZmls
-ZXMNCj4gPiBjb25ubWFuY3RsPiBzZXJ2aWNlcw0KPiA+DQo+ID4gY29ubm1hbmN0bD4gZW5hYmxl
-IHdpZmkNCj4gPiBFbmFibGVkIHdpZmkNCj4gPiBjb25ubWFuY3RsPiBzY2FuIHdpZmkNCj4gPiBT
-Y2FuIGNvbXBsZXRlZCBmb3Igd2lmaQ0KPiA+IGNvbm5tYW5jdGw+IHNlcnZpY2VzDQo+ID4gICAg
-ICBLYW1vdWxveCAgICAgICAgICAgICB3aWZpXzhjM2QxNjIwMGU0YV80YjYxNmQ2Zjc1NmM2Zjc4
-X21hbmFnZWRfcHNrDQo+ID4gICAgICBMaXZlYm94LUQwNTANCj4gPiB3aWZpXzhjM2QxNjIwMGU0
-YV80YzY5NzY2NTYyNmY3ODJkNDQzMDM1MzBfbWFuYWdlZF9wc2sNCj4gPiAgICAgIEZyZWVib3gt
-M0I0QjNDDQo+ID4gd2lmaV84YzNkMTYyMDBlNGFfNDY3MjY1NjU2MjZmNzgyZDMzNDIzNDQyMzM0
-M19tYW5hZ2VkX3Bzaw0KPiA+ICAgICAgcGF0ZXRhbGV4ICAgICAgICAgICAgd2lmaV84YzNkMTYy
-MDBlNGFfNzA2MTc0NjU3NDYxNmM2NTc4X21hbmFnZWRfcHNrDQo+ID4gICAgICBEUkFNRSAgICAg
-ICAgICAgICAgICB3aWZpXzhjM2QxNjIwMGU0YV80NDUyNDE0ZDQ1X21hbmFnZWRfcHNrDQo+ID4g
-Y29ubm1hbmN0bD4gYWdlbnQgb24NCj4gPiBBZ2VudCByZWdpc3RlcmVkDQo+ID4gY29ubm1hbmN0
-bD4gY29ubmVjdCB3aWZpXzhjM2QxNjIwMGU0YV80YjYxNmQ2Zjc1NmM2Zjc4X21hbmFnZWRfcHNr
-DQo+ID4gQWdlbnQgUmVxdWVzdElucHV0IHdpZmlfOGMzZDE2MjAwZTRhXzRiNjE2ZDZmNzU2YzZm
-NzhfbWFuYWdlZF9wc2sNCj4gPiAgICBQYXNzcGhyYXNlID0gWyBUeXBlPXBzaywgUmVxdWlyZW1l
-bnQ9bWFuZGF0b3J5LCBBbHRlcm5hdGVzPVsgV1BTIF0gXQ0KPiA+ICAgIFdQUyA9IFsgVHlwZT13
-cHNwaW4sIFJlcXVpcmVtZW50PWFsdGVybmF0ZSBdIFBhc3NwaHJhc2U/DQo+ID4gbXlfd2lmaV9w
-YXNzcGhyYXNlIEFnZW50IFJlcG9ydEVycm9yDQo+ID4gd2lmaV84YzNkMTYyMDBlNGFfNGI2MTZk
-NmY3NTZjNmY3OF9tYW5hZ2VkX3Bzaw0KPiA+ICAgIGludmFsaWQta2V5DQo+ID4gY29ubm1hbmN0
-bD4gUmV0cnkgKHllcy9ubyk/IG5vDQo+ID4gRXJyb3INCj4gPiAvbmV0L2Nvbm5tYW4vc2Vydmlj
-ZS93aWZpXzhjM2QxNjIwMGU0YV80YjYxNmQ2Zjc1NmM2Zjc4X21hbmFnZWRfcHNrOg0KPiA+IElu
-cHV0L291dHB1dCBlcnJvcg0KPiA+IGNvbm5tYW5jdGw+DQo+DQo+DQo+IEkgdGhpbmsgdGhhdCBj
-aGFuZ2Ugb25seSBhc2tzIHRoZSBhZ2VudCB3aG8gZXN0YWJsaXNoZWQgdGhlIGNvbm5lY3Rpb24g
-dG8gdHJ5IHRoZSB2YXJpb3VzIG1ldGhvZC4gSXMNCj4gdGhlIHBhdGNoIGluIGF0dGFjaCB3b3Jr
-Pw0KPiAqIHN2ZW4gKjogRG9lcyBpdCBjb3ZlciB5b3VyIHVzZSBjYXNlIHRvbz8NCj4NCj4gTWlj
-aGFlbA0KPg0KPg0KPiA+DQo+ID4NCj4gPg0KPiA+ICBGcm9tIGJvdGggc2l0dWF0aW9ucyBpdCBh
-cHBlYXJzIHRoZSB3aWZpIHBhc3NwaHJhc2UgaXMgbm90IGFjY2VwdGVkLg0KPiA+DQo+ID4gd2J4
-IChhcyBDQyBvZiB0aGlzIGVtYWlsKSBub3RpY2VkIHRoYXQgcmV2ZXJ0aW5nIGNvbW1pdA0KPiA+
-IDVlNzNiNTVlMDBiOTdlMTg2NzM5NzI1OGI3MmYwZDZlNWFkN2QzMWQgYWxsb3dzIGNvbm5lY3Rp
-b25zIHRvIHdvcmsgYWdhaW4uDQo+ID4NCj4gPiBJcyBpdCBhIGtub3duIHNpdHVhdGlvbj/igK9J
-cyB0aGVyZSBhIHBhdGNoIGF2YWlsYWJsZT8NCj4gPg0KPiA+IEJlc3QsDQo+ID4NCj4gPiBGcmFu
-w6dvaXMNCj4gPg0KPiA+DQo+DQo+DQo+IC0tDQo+IE1pY2hhZWwgTmF6emFyZW5vIFRyaW1hcmNo
-aQ0KPiBDby1Gb3VuZGVyICYgQ2hpZWYgRXhlY3V0aXZlIE9mZmljZXINCj4gTS4gKzM5IDM0NyA5
-MTMgMjE3MA0KPiBtaWNoYWVsQGFtYXJ1bGFzb2x1dGlvbnMuY29tDQo+IF9fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX18NCj4NCj4gQW1hcnVsYSBTb2x1dGlvbnMgQlYNCj4gSm9vcCBH
-ZWVzaW5rd2VnIDEyNSwgMTExNCBBQiwgQW1zdGVyZGFtLCBOTCBULiArMzEgKDApODUgMTExIDkx
-NzIgaW5mb0BhbWFydWxhc29sdXRpb25zLmNvbQ0KPiBodHRwOi8vd3d3LmFtYXJ1bGFzb2x1dGlv
-bnMuY29tLw0KPiAmZGF0YT0wNSU3QzAyJTdDc3Zlbi5kZW1iaWFubnklNDBic2hnLmNvbSU3Q2Y0
-YWE2MThlMjgwZTQ1YzNkNzZlMDhkZWIwMDk2ZjU3JTdDMGFlNQ0KPiAxZTE5MDdjODRlNGJiYjZk
-NjQ4ZWU1ODQxMGY0JTdDMCU3QzAlN0M2MzkxNDE3NTE3NTg2NDc5MzUlN0NVbmtub3duJTdDVFdG
-cGJHWnNiMw0KPiBkOGV5SkZiWEIwZVUxaGNHa2lPblJ5ZFdVc0lsWWlPaUl3TGpBdU1EQXdNQ0lz
-SWxBaU9pSlhhVzR6TWlJc0lrRk9Jam9pVFdGcGJDSXNJbGRVSWpveWZRDQo+ICUzRCUzRCU3QzAl
-N0MlN0MlN0Mmc2RhdGE9OHREN0ttQVFTUHhnJTJCUloweUI3TVlCZVdWdWRDanZ3NFQ0TUpoT0h5
-MyUyRmslM0QNCj4gJnJlc2VydmVkPTANCg==
+Hi Sven
+
+On Tue, May 19, 2026 at 4:16=E2=80=AFPM Dembianny Sven (BSH GDE-EDSD7)
+<sven.dembianny@bshg.com> wrote:
+>
+> Hi Michael,
+>
+> I don't think so, e.g., if AP does not support SAE but repeater does, roa=
+ming will fail.
+> This will also break certification tests.
+>
+
+Ok I was thinking about it but at the same time we should have access
+point / wifi driver that fails in this connection case.  This patch
+was only ment to understand where the problem sit
+
+> @ Fran=C3=A7ois do you have more info about your setup, e.g. MFP setting =
+on AP/wpa_supplicant config/WPA-PSK-SHA256 instead of WPA-PSK?
+>
+
+Michael
+
+> Best regards, Sven
+>
+> > -----Original Message-----
+> > From: Michael Nazzareno Trimarchi <michael@amarulasolutions.com>
+> > Sent: Dienstag, 12. Mai 2026 11:33
+> > To: Fran=C3=A7ois Galea <fgalea@free.fr>; Dembianny Sven (BSH GDE-EDSD7=
+) <sven.dembianny@bshg.com>
+> > Cc: connman@lists.linux.dev; wbx@openadk.org
+> > Subject: Re: Connection to a WPA2 Wi-Fi router fails
+> >
+> > Hi
+> >
+> > On Tue, May 12, 2026 at 11:14=E2=80=AFAM Fran=C3=A7ois Galea <fgalea@fr=
+ee.fr> wrote:
+> > >
+> > > Hello,
+> > >
+> > > This was tested on a Zynq (Cortex-A9) and a RPi4, on a 32-bit Arm
+> > > Buildroot Linux system.
+> > >
+> > > The Wi-Fi router uses WPA2 Personnal authentication.
+> > >
+> > > Problem starts from buildroot releases including connman 1.45.
+> > > Previous releases using connman 1.44 and prior are working fine. Also
+> > > switching from 1.45 to 1.44 in a buildroot version that includes conn=
+man 1.45 works.
+> > >
+> > >
+> > > If a connection was previously successfully set up, for instance from
+> > > connman 1.44 or older, `/var/log/messages` contains:
+> > >
+> > > Jan  1 00:00:11 zest daemon.info connmand[141]: Adding interface wlan=
+0
+> > > [ wifi ] Jan  1 00:00:11 zest daemon.info connmand[141]: eth0 {update=
+}
+> > > flags
+> > > 36867 <UP>
+> > > Jan  1 00:00:11 zest daemon.info connmand[141]: eth0 {newlink} index =
+2
+> > > address 9A:8F:85:81:67:B4 mtu 1500 Jan  1 00:00:11 zest daemon.info
+> > > connmand[141]: eth0 {newlink} index 2 operstate 2 <DOWN> Jan  1
+> > > 00:00:11 zest daemon.info dbus-daemon[120]: [system] Successfully
+> > > activated service 'fi.w1.wpa_supplicant1'
+> > > Jan  1 00:00:11 zest daemon.info connmand[141]: wlan0 {update} flags
+> > > 36931 <UP,RUNNING>
+> > > Jan  1 00:00:11 zest daemon.info connmand[141]: wlan0 {newlink} index
+> > > 4 address 8C:3D:16:20:0E:4A mtu 1500 Jan  1 00:00:11 zest daemon.info
+> > > connmand[141]: wlan0 {newlink} index 4 operstate 0 <UNKNOWN> Jan  1
+> > > 00:00:11 zest daemon.info connmand[141]: wlan0 {update} flags
+> > > 36867 <UP>
+> > > Jan  1 00:00:11 zest daemon.info connmand[141]: wlan0 {newlink} index
+> > > 4 address 8C:3D:16:20:0E:4A mtu 1500 Jan  1 00:00:11 zest daemon.info
+> > > connmand[141]: wlan0 {newlink} index 4 operstate 2 <DOWN> Jan  1
+> > > 00:00:11 zest daemon.info connmand[141]: wlan0 {newlink} index 4
+> > > address 8C:3D:16:20:0E:4A mtu 1500 Jan  1 00:00:11 zest daemon.info
+> > > connmand[141]: wlan0 {newlink} index 4 operstate 2 <DOWN> Jan  1
+> > > 00:00:11 zest daemon.info connmand[141]: Interface wlan0 [ wifi ]
+> > > state is association Jan  1 00:00:11 zest daemon.warn connmand[141]:
+> > > Interface wlan0 [ wifi ] error "invalid-key"
+> > > Jan  1 00:00:11 zest daemon.info connmand[141]: Interface wlan0 [ wif=
+i
+> > > ] state is failure
+> > >
+> > >
+> > > Otherwise, when creating a new connection:
+> > >
+> > > # connmanctl
+> > > Error getting VPN connections: The name net.connman.vpn was not
+> > > provided by any .service files
+> > > connmanctl> services
+> > >
+> > > connmanctl> enable wifi
+> > > Enabled wifi
+> > > connmanctl> scan wifi
+> > > Scan completed for wifi
+> > > connmanctl> services
+> > >      Kamoulox             wifi_8c3d16200e4a_4b616d6f756c6f78_managed_=
+psk
+> > >      Livebox-D050
+> > > wifi_8c3d16200e4a_4c697665626f782d44303530_managed_psk
+> > >      Freebox-3B4B3C
+> > > wifi_8c3d16200e4a_46726565626f782d334234423343_managed_psk
+> > >      patetalex            wifi_8c3d16200e4a_7061746574616c6578_manage=
+d_psk
+> > >      DRAME                wifi_8c3d16200e4a_4452414d45_managed_psk
+> > > connmanctl> agent on
+> > > Agent registered
+> > > connmanctl> connect wifi_8c3d16200e4a_4b616d6f756c6f78_managed_psk
+> > > Agent RequestInput wifi_8c3d16200e4a_4b616d6f756c6f78_managed_psk
+> > >    Passphrase =3D [ Type=3Dpsk, Requirement=3Dmandatory, Alternates=
+=3D[ WPS ] ]
+> > >    WPS =3D [ Type=3Dwpspin, Requirement=3Dalternate ] Passphrase?
+> > > my_wifi_passphrase Agent ReportError
+> > > wifi_8c3d16200e4a_4b616d6f756c6f78_managed_psk
+> > >    invalid-key
+> > > connmanctl> Retry (yes/no)? no
+> > > Error
+> > > /net/connman/service/wifi_8c3d16200e4a_4b616d6f756c6f78_managed_psk:
+> > > Input/output error
+> > > connmanctl>
+> >
+> >
+> > I think that change only asks the agent who established the connection =
+to try the various method. Is
+> > the patch in attach work?
+> > * sven *: Does it cover your use case too?
+> >
+> > Michael
+> >
+> >
+> > >
+> > >
+> > >
+> > >  From both situations it appears the wifi passphrase is not accepted.
+> > >
+> > > wbx (as CC of this email) noticed that reverting commit
+> > > 5e73b55e00b97e1867397258b72f0d6e5ad7d31d allows connections to work a=
+gain.
+> > >
+> > > Is it a known situation?=E2=80=AFIs there a patch available?
+> > >
+> > > Best,
+> > >
+> > > Fran=C3=A7ois
+> > >
+> > >
+> >
+> >
+> > --
+> > Michael Nazzareno Trimarchi
+> > Co-Founder & Chief Executive Officer
+> > M. +39 347 913 2170
+> > michael@amarulasolutions.com
+> > __________________________________
+> >
+> > Amarula Solutions BV
+> > Joop Geesinkweg 125, 1114 AB, Amsterdam, NL T. +31 (0)85 111 9172 info@=
+amarulasolutions.com
+> > http://www.amarulasolutions.com/
+> > &data=3D05%7C02%7Csven.dembianny%40bshg.com%7Cf4aa618e280e45c3d76e08deb=
+0096f57%7C0ae5
+> > 1e1907c84e4bbb6d648ee58410f4%7C0%7C0%7C639141751758647935%7CUnknown%7CT=
+WFpbGZsb3
+> > d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiT=
+WFpbCIsIldUIjoyfQ
+> > %3D%3D%7C0%7C%7C%7C&sdata=3D8tD7KmAQSPxg%2BRZ0yB7MYBeWVudCjvw4T4MJhOHy3=
+%2Fk%3D
+> > &reserved=3D0
+
+
+
+--=20
+Michael Nazzareno Trimarchi
+Co-Founder & Chief Executive Officer
+M. +39 347 913 2170
+michael@amarulasolutions.com
+__________________________________
+
+Amarula Solutions BV
+Joop Geesinkweg 125, 1114 AB, Amsterdam, NL
+T. +31 (0)85 111 9172
+info@amarulasolutions.com
+www.amarulasolutions.com
