@@ -1,44 +1,44 @@
 Received: from mail.kapsi.fi (mail-auth.kapsi.fi [91.232.154.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7D583E2ADB
-	for <connman@lists.linux.dev>; Wed, 20 May 2026 14:08:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2166D3E9C1C
+	for <connman@lists.linux.dev>; Wed, 20 May 2026 14:27:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.232.154.24
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779286143; cv=none; b=LfoADO+SAbfDM4wEJnrE85HKJUR+SbDOESCiCYQexAyVO8fFdD8YzqixqYzhnJig8eKN7ZjVnKOfzcXQKCrpMXaJXY39ioRAnbGHbU/6h7BlF7t72HQqWHP8ghIeMgplvoObe+09r1YZF+Gb0zLyxdnyYdn1m/8PyX9Tf5TFLV4=
+	t=1779287256; cv=none; b=tBgx7L4VhOhz4JTi1brDrpNghsKX5+HBcWBQkNwbJBKqflo38QRzNZ4r8a3DI6JIxcFQ0aiNQljKsxdNj07jLgEKEZ782HSen4AKRbbDb6ReHnnVop/DR2QKqDw4INAYnLjbmecfjpReCYBt0LDyCuJcA6IAesToJSR66O6oXoI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779286143; c=relaxed/simple;
-	bh=DxNuuKpdBiCVCHFD3/OffJIG6ZMWiw9mRKUiKkWGaOg=;
+	s=arc-20240116; t=1779287256; c=relaxed/simple;
+	bh=7xm5QGT5399XurYpUs2EMgoUpnoBAb0nIvYT3uoKA3s=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=hVQXky+TToqeGR00IZ6wc3H9eSdzIvs0zfcj1/OfQE/k9gtHbUuPNWyN3rII/SS4iyVBwUx6wf8J5XBcnZ+fo5grHHHL1a3Diqg+ZmjR6Lr4DonGTr4EC0nr8RTdrQ0XGCuetYoXFoKdkfzvXrZrEnLA4QsuygSsb+rRIBYz7Zc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=jolla.com; spf=pass smtp.mailfrom=kapsi.fi; dkim=pass (2048-bit key) header.d=kapsi.fi header.i=@kapsi.fi header.b=xlBlnFLE; arc=none smtp.client-ip=91.232.154.24
+	 MIME-Version; b=XxdcZEwiVN5+vjVXhpTVzlCOQ9FnCsfkWFpaOJ12y6wbFFDTjBWd7cG2dAduI7T+jiYPZX+FDHXZo1I97SPiOdFzX3UUZFFLpY8P+v2KbkmApr6URv8FB4lVRmA5Ed1GV2PtNEpNp8/Uom8oOZ0bDSVQfvflVQuMXKYsy1Y2wx8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=jolla.com; spf=pass smtp.mailfrom=kapsi.fi; dkim=pass (2048-bit key) header.d=kapsi.fi header.i=@kapsi.fi header.b=Wi1hpJdZ; arc=none smtp.client-ip=91.232.154.24
 Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=jolla.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kapsi.fi
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kapsi.fi header.i=@kapsi.fi header.b="xlBlnFLE"
+	dkim=pass (2048-bit key) header.d=kapsi.fi header.i=@kapsi.fi header.b="Wi1hpJdZ"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
 	s=20161220; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
 	Message-ID:Date:Subject:To:From:Sender:Reply-To:Cc:Content-Type:Content-ID:
 	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
 	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
 	List-Post:List-Owner:List-Archive;
-	bh=IwY8zupsJs8bkvQIf0q6YOw/wE+JKqh7xzv1zPywzsc=; b=xlBlnFLEB8dh8gc+U5BYhX/c3q
-	edbWwN3/9VD/WNBhx1+JQfu2AwVK7kEZCGdTiD1TAsTuEPbJ0XNGik1GMa5hbnqotDN2Ufxyls2Eu
-	kxfSh2mPKyCICJetSr2AIzZN7oM9hN7XqI+RSHAP2EuMkiHY94CEmmSEilQg6U1qaIaK4+n4aSCvI
-	5NPGjgmRy+yqtd/UzBCLENJNFaBkOHj9XflVD54jU8AdUdSHYDyoI3581vpnEHfJdvetaPz9cV6lq
-	PZDQSRMyKgQfhpJGLqQVgHCuxjzOJZyJ8ri2jMTfcZL4sXT1SpQdkd+1VTHScyumMts1nX/NB2swb
-	Q0hMPv9Q==;
+	bh=K3jIW32fSJ67r/E1wcr8CqO/b/E9J8yJAmIU2l9u0sA=; b=Wi1hpJdZTJ6g5CqK0nBP75GqNQ
+	7jbf8u1K10fhoIQ1TNElywja8wlUVCCiqcvlg8LkmjO/S+lyVnsaUw5jjIZ7jGzE/kukTGL5S3UuJ
+	Q5MUGj6sw86dczim5KNsHdXswcYZ7QAUhYW7eU2icefNbK6YqgseSfLgx2+sZOMK8I4eRJ/oYz0IP
+	fSMJFjXbVcfGwcZ6Uzg6JtJPppN8ZF80bwfkKdv+2Rz+m83/K/0uc1168ZiWt0CQhDU5sXJYPGFVR
+	qlyVcEwsiKTwmdW/KURDC1VToB7JvtzuXH3Q0Skw3fqEUdnRXua8qJhYlsRTuW/1DIMwL2pb+eFhA
+	YCqSbd0Q==;
 Received: from [2a10:a5c0:37:6500:de2b:9403:4cd1:218c] (helo=jl-x230.local)
 	by mail.kapsi.fi with esmtpsa (Exim 4.96)
 	(envelope-from <jussi.laakkonen@jolla.com>)
-		id 1wPhGi-002WBi-1x
+		id 1wPhGj-002WBi-1E
 	for connman@lists.linux.dev;
-	Wed, 20 May 2026 16:47:28 +0300
+	Wed, 20 May 2026 16:47:29 +0300
 From: Jussi Laakkonen <jussi.laakkonen@jolla.com>
 To: connman@lists.linux.dev
-Subject: [PATCH 1/9] util: Add conf.d support for connmand and vpnd
-Date: Wed, 20 May 2026 16:47:05 +0300
-Message-ID: <20260520134720.981315-2-jussi.laakkonen@jolla.com>
+Subject: [PATCH 3/9] vpn-settings: Add callback for processing configs, support conf.d
+Date: Wed, 20 May 2026 16:47:07 +0300
+Message-ID: <20260520134720.981315-4-jussi.laakkonen@jolla.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20260520134720.981315-1-jussi.laakkonen@jolla.com>
 References: <20260520134720.981315-1-jussi.laakkonen@jolla.com>
@@ -77,7 +77,7 @@ X-Rspam-Report: Action: no action
  X-Symbol: TO_DN_NONE(0.00); None of the recipients have display names
  X-Symbol: TO_MATCH_ENVRCPT_ALL(0.00); All of the recipients match the envelope
  X-Symbol: MIME_GOOD(-0.10); Known content-type [text/plain]
- X-Symbol: NEURAL_HAM(0.00); Neural network HAM [-0.945]
+ X-Symbol: NEURAL_HAM(0.00); Neural network HAM [-0.952]
  X-Symbol: BAYES_HAM(-3.00); Message probably ham, probability:  [100.00%]
  X-Symbol: FUZZY_RATELIMITED(0.00); Fuzzy rate limit is reached [rspamd.com]
  X-Symbol: RCVD_VIA_SMTP_AUTH(0.00); Authenticated hand-off was seen in Received headers
@@ -87,249 +87,220 @@ X-Rspam-Report: Action: no action
  X-Symbol: MIME_TRACE(0.00) [0:+]
  X-Symbol: RCPT_COUNT_ONE(0.00); One recipient [1]
  X-Symbol: R_MISSING_CHARSET(0.50); Charset header is missing
- Message-ID: 20260520134720.981315-2-jussi.laakkonen@jolla.com
+ Message-ID: 20260520134720.981315-4-jussi.laakkonen@jolla.com
  X-Milter-Del: X-Spam
 
-Add support for reading and processing of additional configuration
-files. Util is best suited for both daemons to avoid adding more
-internal dependencies to vpnd.
+Reformat init to allow processing of separate config files with a
+separate callback for the conf.d support.
 
-The files are saved into the list with the full path if it is given as a
-parameter. Callback can be omitted for only getting the list of
-configuration files with the desired suffix in the given directory.
-Callback gets the full path of the config file for convenience.
+Cleanup conf loading.
 
-Add a Glib file error converter to utils. Map the errors in G_FILE_ERROR
-domain to matching errnos. Return -EBADMSG if error is NULL and -ENOTSUP
-when domain is not G_FILE_ERROR.
+Support conf.d style setting override by freeing the old ones first.
 ---
- src/shared/util.c | 179 ++++++++++++++++++++++++++++++++++++++++++++++
- src/shared/util.h |   7 ++
- 2 files changed, 186 insertions(+)
+ vpn/main.c         |  5 +--
+ vpn/vpn-settings.c | 83 ++++++++++++++++++++++++++++++++--------------
+ vpn/vpn.h          |  4 ++-
+ 3 files changed, 64 insertions(+), 28 deletions(-)
 
-diff --git a/src/shared/util.c b/src/shared/util.c
-index bda2d2b3..fa42e1c9 100644
---- a/src/shared/util.c
-+++ b/src/shared/util.c
+diff --git a/vpn/main.c b/vpn/main.c
+index 92c63e20..1965c34b 100644
+--- a/vpn/main.c
++++ b/vpn/main.c
 @@ -3,6 +3,7 @@
-  *  Connection Manager
+  *  ConnMan VPN daemon
   *
-  *  Copyright (C) 2012  Intel Corporation. All rights reserved.
+  *  Copyright (C) 2012-2013  Intel Corporation. All rights reserved.
 + *  Copyright (C) 2025  Jolla Mobile Ltd. All right reserved.
   *
+  *  This program is free software; you can redistribute it and/or modify
+  *  it under the terms of the GNU General Public License version 2 as
+@@ -250,9 +251,9 @@ int main(int argc, char *argv[])
+ 	__connman_dbus_init(conn);
+ 
+ 	if (!option_config)
+-		__vpn_settings_init(CONFIGMAINFILE);
++		__vpn_settings_init(CONFIGMAINFILE, CONFIGDIR);
+ 	else
+-		__vpn_settings_init(option_config);
++		__vpn_settings_init(option_config, CONFIGDIR);
+ 
+ 	__connman_inotify_init();
+ 	__connman_agent_init();
+diff --git a/vpn/vpn-settings.c b/vpn/vpn-settings.c
+index e78e5019..78a1bfb2 100644
+--- a/vpn/vpn-settings.c
++++ b/vpn/vpn-settings.c
+@@ -3,6 +3,7 @@
   *
-  *  This library is free software; you can redistribute it and/or
-@@ -29,6 +30,11 @@
- #include <ctype.h>
- #include <stdarg.h>
- #include <string.h>
-+#include <fcntl.h>
-+#include <unistd.h>
-+#include <stdbool.h>
+  *  Copyright (C) 2012-2013  Intel Corporation. All rights reserved.
+  *  Copyright (C) 2018-2020 Jolla Ltd. All rights reserved.
++ *  Copyright (C) 2025  Jolla Mobile Ltd. All right reserved.
+  *  Contact: jussi.laakkonen@jolla.com
+  *
+  *  This program is free software; you can redistribute it and/or modify
+@@ -41,13 +42,7 @@ static struct {
+ 	char *binary_group;
+ 	char **binary_supplementary_groups;
+ 	char **system_binary_users;
+-} connman_vpn_settings  = {
+-	.timeout_inputreq		= DEFAULT_INPUT_REQUEST_TIMEOUT,
+-	.binary_user			= NULL,
+-	.binary_group			= NULL,
+-	.binary_supplementary_groups	= NULL,
+-	.system_binary_users		= NULL,
+-};
++} connman_vpn_settings = { 0 };
+ 
+ struct vpn_plugin_data {
+ 	char *binary_user;
+@@ -56,6 +51,7 @@ struct vpn_plugin_data {
+ };
+ 
+ GHashTable *plugin_hash = NULL;
++static char *configdir = NULL;
+ 
+ bool vpn_settings_is_system_user(const char *user)
+ {
+@@ -164,6 +160,8 @@ static char **get_string_list(GKeyFile *config, const char *group,
+ static void parse_config(GKeyFile *config, const char *file)
+ {
+ 	const char *group = "General";
++	char **str_list = NULL;
++	char *str = NULL;
+ 	GError *error = NULL;
+ 	int timeout;
+ 
+@@ -179,16 +177,29 @@ static void parse_config(GKeyFile *config, const char *file)
+ 
+ 	g_clear_error(&error);
+ 
+-	connman_vpn_settings.binary_user = get_string(config, VPN_GROUP,
+-						"User");
+-	connman_vpn_settings.binary_group = get_string(config, VPN_GROUP,
+-						"Group");
+-	connman_vpn_settings.binary_supplementary_groups = get_string_list(
+-						config, VPN_GROUP,
+-						"SupplementaryGroups");
+-	connman_vpn_settings.system_binary_users = get_string_list(
+-						config, VPN_GROUP,
+-						"SystemBinaryUsers");
++	str = get_string(config, VPN_GROUP, "User");
++	if (str) {
++		g_free(connman_vpn_settings.binary_user);
++		connman_vpn_settings.binary_user = str;
++	}
 +
-+#include <connman/log.h>
- 
- #include "src/shared/util.h"
- 
-@@ -128,3 +134,176 @@ char *util_timeval_to_iso8601(struct timeval *time)
- 
- 	return g_strdup(buf);
++	str = get_string(config, VPN_GROUP, "Group");
++	if (str) {
++		g_free(connman_vpn_settings.binary_group);
++		connman_vpn_settings.binary_group = str;
++	}
++
++	str_list = get_string_list(config, VPN_GROUP, "SupplementaryGroups");
++	if (str_list) {
++		g_strfreev(connman_vpn_settings.binary_supplementary_groups);
++		connman_vpn_settings.binary_supplementary_groups = str_list;
++	}
++
++	str_list = get_string_list(config, VPN_GROUP, "SystemBinaryUsers");
++	if (str_list) {
++		g_strfreev(connman_vpn_settings.system_binary_users);
++		connman_vpn_settings.system_binary_users = str_list;
++	}
  }
+ 
+ struct vpn_plugin_data *vpn_settings_get_vpn_plugin_config(const char *name)
+@@ -275,31 +286,50 @@ GKeyFile *__vpn_settings_load_config(const char *file)
+ 	g_key_file_set_list_separator(keyfile, ',');
+ 
+ 	if (!g_key_file_load_from_file(keyfile, file, 0, &err)) {
+-		if (err->code != G_FILE_ERROR_NOENT) {
++		if (err->code != G_FILE_ERROR_NOENT)
+ 			connman_error("Parsing %s failed: %s", file,
+ 								err->message);
+-		}
+ 
+-		g_error_free(err);
+ 		g_key_file_unref(keyfile);
+-		return NULL;
++		keyfile = NULL;
+ 	}
+ 
++	g_clear_error(&err);
 +
-+static bool is_file_symlink(const char *filename)
-+{
-+	int fd;
-+
-+	fd = open(filename, O_WRONLY | O_NOFOLLOW | O_CLOEXEC);
-+	if (fd == -1 && errno == ELOOP)
-+		return true;
-+
-+	if (fd >= 0)
-+		close(fd);
-+
-+	return false;
-+}
-+
-+int util_g_file_error_to_errno(GError *error)
-+{
-+	if (!error)
-+		return -EBADMSG;
-+
-+	if (error->domain != G_FILE_ERROR)
-+		return -ENOTSUP;
-+
-+	switch (error->code) {
-+	case G_FILE_ERROR_EXIST:
-+		return -EEXIST;
-+	case G_FILE_ERROR_ISDIR:
-+		return -EISDIR;
-+	case G_FILE_ERROR_ACCES:
-+		return -EACCES;
-+	case G_FILE_ERROR_NAMETOOLONG:
-+		return -ENAMETOOLONG;
-+	case G_FILE_ERROR_NOENT:
-+		return -ENOENT;
-+	case G_FILE_ERROR_NOTDIR:
-+		return -ENOTDIR;
-+	case G_FILE_ERROR_NXIO:
-+		return -ENXIO;
-+	case G_FILE_ERROR_NODEV:
-+		return -ENODEV;
-+	case G_FILE_ERROR_ROFS:
-+		return -EROFS;
-+	case G_FILE_ERROR_TXTBSY:
-+		return -ETXTBSY;
-+	case G_FILE_ERROR_FAULT:
-+		return -EFAULT;
-+	case G_FILE_ERROR_LOOP:
-+		return -ELOOP;
-+	case G_FILE_ERROR_NOSPC:
-+		return -ENOSPC;
-+	case G_FILE_ERROR_NOMEM:
-+		return -ENOMEM;
-+	case G_FILE_ERROR_MFILE:
-+		return -EMFILE;
-+	case G_FILE_ERROR_NFILE:
-+		return -ENFILE;
-+	case G_FILE_ERROR_BADF:
-+		return EBADF;
-+	case G_FILE_ERROR_INVAL:
-+		return -EINVAL;
-+	case G_FILE_ERROR_PIPE:
-+		return -EPIPE;
-+	case G_FILE_ERROR_AGAIN:
-+		return -EAGAIN;
-+	case G_FILE_ERROR_INTR:
-+		return -EINTR;
-+	case G_FILE_ERROR_IO:
-+		return -EIO;
-+	case G_FILE_ERROR_PERM:
-+		return -EPERM;
-+	case G_FILE_ERROR_NOSYS:
-+		return -ENOSYS;
-+	case G_FILE_ERROR_FAILED:
-+		return -EINVAL;
-+	}
-+
-+	return -EINVAL;
-+}
-+
-+int util_read_config_files_from(const char *path, const char *suffix,
-+					GList **conffiles, config_callback cb)
-+{
-+	GList *files = NULL;
-+	GList *iter;
-+	GError *error = NULL;
-+	GDir *dir;
-+	const char *filename = NULL;
-+	int err = 0;
-+
-+	if (!path || !suffix)
+ 	return keyfile;
+ }
+ 
+-int __vpn_settings_init(const char *file)
++int __vpn_settings_process_config(const char *configfile)
+ {
+ 	GKeyFile *config;
+ 
+-	config = __vpn_settings_load_config(file);
+-	parse_config(config, file);
+-	if (config)
++	if (!configfile)
 +		return -EINVAL;
 +
-+	if (!g_file_test(path, G_FILE_TEST_IS_DIR))
-+		return -ENOTDIR;
++	DBG("%s", configfile);
 +
-+	dir = g_dir_open(path, 0, &error);
-+	if (!dir) {
-+		if (error) {
-+			connman_warn("cannot open dir %s, error: %s", path,
-+								error->message);
-+			err = util_g_file_error_to_errno(error);
-+		} else {
-+			err = -ENOMEM;
-+		}
++	config = __vpn_settings_load_config(configfile);
++	if (config) {
++		parse_config(config, configfile);
+ 		g_key_file_unref(config);
 +	}
+ 
+ 	return 0;
+ }
+ 
++int __vpn_settings_init(const char *file, const char *dir)
++{
++	if (!file || !dir)
++		return -EINVAL;
 +
-+	g_clear_error(&error);
++	memset(&connman_vpn_settings, 0, sizeof(connman_vpn_settings));
++	connman_vpn_settings.timeout_inputreq = DEFAULT_INPUT_REQUEST_TIMEOUT;
 +
-+	if (err)
-+		return err;
++	configdir = g_build_filename(dir, PLUGIN_CONFIGDIR, NULL);
 +
-+	/*
-+	 * Ordering of files is not guaranteed with g_dir_open(). Read
-+	 * the filenames into list to be sorted after.
-+	 */
-+	while ((filename = g_dir_read_name(dir))) {
-+		char *filepath;
-+
-+		/* Read configs that have the requested conf suffix */
-+		if (!g_str_has_suffix(filename, suffix)) {
-+			connman_warn("suffix mismatch in %s required: %s",
-+							filename, suffix);
-+			continue;
-+		}
-+
-+		filepath = g_build_filename(path, filename, NULL);
-+
-+		/* Allow only regular files */
-+		if (!g_file_test(filepath, G_FILE_TEST_IS_REGULAR)) {
-+			connman_warn("invalid non-regular file %s", filepath);
-+			g_free(filepath);
-+			continue;
-+		}
-+
-+		/* Do not allow symlinks */
-+		if (is_file_symlink(filepath)) {
-+			connman_warn("config %s is a symlink, ignore",
-+							filepath);
-+			g_free(filepath);
-+			continue;
-+		}
-+
-+		/*
-+		 * Prepend read files into list of configuration
-+		 * files to be used in checks when new configurations
-+		 * are added to avoid unnecessary reads of already read
-+		 * configurations. Sort list after all are added.
-+		 */
-+		files = g_list_prepend(files, filepath);
-+	}
-+
-+	g_dir_close(dir);
-+
-+	files = g_list_sort(files, (GCompareFunc)g_strcmp0);
-+
-+	if (cb) {
-+		for (iter = files; iter; iter = iter->next) {
-+			filename = iter->data;
-+
-+			err = cb(filename);
-+			if (err)
-+				connman_warn("cannot process config %s: %d",
-+								filename, err);
-+		}
-+	}
-+
-+	if (conffiles)
-+		*conffiles = files;
-+	else
-+		g_list_free_full(files, g_free);
-+
-+	return 0;
++	return __vpn_settings_process_config(file);
 +}
-diff --git a/src/shared/util.h b/src/shared/util.h
-index 430b821f..39fcdeb7 100644
---- a/src/shared/util.h
-+++ b/src/shared/util.h
++
+ void __vpn_settings_cleanup()
+ {
+ 	g_free(connman_vpn_settings.binary_user);
+@@ -307,6 +337,9 @@ void __vpn_settings_cleanup()
+ 	g_strfreev(connman_vpn_settings.binary_supplementary_groups);
+ 	g_strfreev(connman_vpn_settings.system_binary_users);
+ 
++	g_free(configdir);
++	configdir = NULL;
++
+ 	if (plugin_hash) {
+ 		g_hash_table_destroy(plugin_hash);
+ 		plugin_hash = NULL;
+diff --git a/vpn/vpn.h b/vpn/vpn.h
+index 1f8c8fcd..5e30ea36 100644
+--- a/vpn/vpn.h
++++ b/vpn/vpn.h
 @@ -3,6 +3,7 @@
-  *  Connection Manager
+  *  ConnMan VPN daemon
   *
-  *  Copyright (C) 2012  Intel Corporation. All rights reserved.
+  *  Copyright (C) 2012-2013  Intel Corporation. All rights reserved.
 + *  Copyright (C) 2025  Jolla Mobile Ltd. All right reserved.
   *
-  *
-  *  This library is free software; you can redistribute it and/or
-@@ -53,3 +54,9 @@ static inline struct cb_data *cb_data_new(void *cb, void *user_data)
+  *  This program is free software; you can redistribute it and/or modify
+  *  it under the terms of the GNU General Public License version 2 as
+@@ -114,7 +115,8 @@ char **__vpn_config_get_string_list(GKeyFile *key_file, const char *group_name,
+ bool __vpn_config_get_boolean(GKeyFile *key_file, const char *group_name,
+ 			const char *key, bool default_value);
  
- void util_iso8601_to_timeval(char *str, struct timeval *time);
- char *util_timeval_to_iso8601(struct timeval *time);
-+
-+typedef int (*config_callback) (const char *filepath);
-+/* Returns -ENOTSUP for non G_FILE_ERROR in error */
-+int util_g_file_error_to_errno(GError *error);
-+int util_read_config_files_from(const char *path, const char *suffix,
-+					GList **conffiles, config_callback cb);
+-int __vpn_settings_init(const char *file);
++int __vpn_settings_init(const char *file, const char *dir);
++int __vpn_settings_process_config(const char *configfile);
+ void __vpn_settings_cleanup(void);
+ GKeyFile *__vpn_settings_load_config(const char *file);
+ unsigned int __vpn_settings_get_timeout_inputreq(void);
 -- 
 2.47.3
 
