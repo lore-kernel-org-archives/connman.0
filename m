@@ -1,279 +1,335 @@
-Received: from mail-dy1-f169.google.com (mail-dy1-f169.google.com [74.125.82.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.kapsi.fi (mail-auth.kapsi.fi [91.232.154.24])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 985223ED3D7
-	for <connman@lists.linux.dev>; Tue, 19 May 2026 14:20:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.169
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779200450; cv=pass; b=BBuG1lpHEBb3PU9suKLY1cxoYKlUkw/V38I/GZ4+jTxKvKGB+z/qYqDWaIRBDxwq2B2voEWvKUqHvM5g12LIV+9uG1Z643iJj7VtY6nMNsbgwNzxaWTKwMCNSo9OfnT+ct/sFczPx9R78x91s8bpI96ILjNoR66iPJvdo95KiAg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779200450; c=relaxed/simple;
-	bh=vsmrjXekYc/a25jEfmPG+BVCoqfEblJ38rpZ/+Qktcw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=TvdlF02XrLl4b67sMs5499Lww6TWjDYpzj+eFLuQsCRebak55dYd1Wr7gw5VplCYQydyHcSGeq/uyjviSUr33b/h5BpjobJ1TYjjgAKFv4iOGc0NqLAIjeYcdufF9u47KfLpWCdb6V6FC8QOYa+dnHkzBeaAET8XsOUkjhftBMs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=amarulasolutions.com; spf=pass smtp.mailfrom=amarulasolutions.com; dkim=pass (1024-bit key) header.d=amarulasolutions.com header.i=@amarulasolutions.com header.b=XLMYh2xF; arc=pass smtp.client-ip=74.125.82.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=amarulasolutions.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amarulasolutions.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7D583E2ADB
+	for <connman@lists.linux.dev>; Wed, 20 May 2026 14:08:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.232.154.24
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779286143; cv=none; b=LfoADO+SAbfDM4wEJnrE85HKJUR+SbDOESCiCYQexAyVO8fFdD8YzqixqYzhnJig8eKN7ZjVnKOfzcXQKCrpMXaJXY39ioRAnbGHbU/6h7BlF7t72HQqWHP8ghIeMgplvoObe+09r1YZF+Gb0zLyxdnyYdn1m/8PyX9Tf5TFLV4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779286143; c=relaxed/simple;
+	bh=DxNuuKpdBiCVCHFD3/OffJIG6ZMWiw9mRKUiKkWGaOg=;
+	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=hVQXky+TToqeGR00IZ6wc3H9eSdzIvs0zfcj1/OfQE/k9gtHbUuPNWyN3rII/SS4iyVBwUx6wf8J5XBcnZ+fo5grHHHL1a3Diqg+ZmjR6Lr4DonGTr4EC0nr8RTdrQ0XGCuetYoXFoKdkfzvXrZrEnLA4QsuygSsb+rRIBYz7Zc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=jolla.com; spf=pass smtp.mailfrom=kapsi.fi; dkim=pass (2048-bit key) header.d=kapsi.fi header.i=@kapsi.fi header.b=xlBlnFLE; arc=none smtp.client-ip=91.232.154.24
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=jolla.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kapsi.fi
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amarulasolutions.com header.i=@amarulasolutions.com header.b="XLMYh2xF"
-Received: by mail-dy1-f169.google.com with SMTP id 5a478bee46e88-2f68f3b075fso12999699eec.0
-        for <connman@lists.linux.dev>; Tue, 19 May 2026 07:20:48 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1779200448; cv=none;
-        d=google.com; s=arc-20240605;
-        b=jcBRGmhdc+fELtI9nKAz5x+4LZYmTH700jYA1CfioxtwDG1Pf7ECA789XF+Ja50xCx
-         9sAUZ4yMY1Wu+3ooDGZslbB7GH6LHFtSo9W+c1AiT/xyp/FQ7WM+uCqGE6UcU/H1JDB/
-         HJ0sthOUSuLgX6zUgYDuaC5pNfzC9YFlHmmV9vxA/TT5LFnFy4w5EAECnOb40Ti00Z7P
-         +Y4wGamxXsfgah9L7+Z7kiMJy0p7fGw4WJvLiv5BV2FeMGCBjbVRUPjHanyEevtlzP+y
-         2g2A1/GnX7eLe04iINVCWU6cAHdMR7WISYXshIcYCqpopxqjD7noRygW+6K1XUKwZSc/
-         R20g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=gsva1EEMt/o2x/L6+xa/dK4fmYC76yYidFVbGTbRTWQ=;
-        fh=5FSF13PSDtv/j5g7WJv7RLjJEjnhZyIqOJsmA2gH2js=;
-        b=aECrwGUa/nSS2I6eZcYQc19ceEvWy6UPnxvmwNJLkxB6GQK5W23usQJQweH5mPCpgs
-         rJpLIfg5j/ewlswO6jk3M0lFVvHjWdLxIi67jCum76C2DQDo0634IhsExInDSk/whQKY
-         61U4ecuEriPCnlk8w/A+/2K9+v5PjgLbX+sYZYyyT1gHj8FOG+tvxpfychXZMxYvQtJP
-         pS+5/Pge6v7Sp4K/wY1nGEo47w/mxn6XTVMFpise7sAW9XMkUQndDJDt/cckiQEnET+7
-         EsqVpO16+/oQDwjvW/6fA9KrPGdxjmFmkcXOTd/xyiwvPNZwCbMKQ63bfdXFNZ4ngJBW
-         ZUkg==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amarulasolutions.com; s=google; t=1779200448; x=1779805248; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=gsva1EEMt/o2x/L6+xa/dK4fmYC76yYidFVbGTbRTWQ=;
-        b=XLMYh2xFYwzTGpu6H+0lhi07po0zwsmNms3JDIcw3dHmHeB/pqs45yZV3uLVa0JZsv
-         IjyFH6ihgWVTPW3TVpxR3SKWLVEZ3MOe6U5T0I3o2qpFEGIANwegE0x4fh0GarqFvW0x
-         jKgv3aFC9xyR8MOc7/o4mItheQyGbPHI9zsWU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779200448; x=1779805248;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=gsva1EEMt/o2x/L6+xa/dK4fmYC76yYidFVbGTbRTWQ=;
-        b=OiKd2KsNIWLdL9wfE2OoAzPOBI/nG+wiRwhd2rLk4oYlyMQB3We53KvTZ9GqZvCNPT
-         4asnf7qMhxaGCs5twYCp84tzvKHBKiU8P4CSLatxybIN62275jBkwh7Dtf5pmbXCVhD3
-         k91qN46h+P2a4/aCL8cmVeLYwMO19YuQOh1sWDvuMleje0FcKhcALFW0FQVTbd6/eKp1
-         gJJlIEc5+KwscXv97ronxiMs6XVa6TiVlKoDkL/wvCdHkjQFhjj2HH8npeQ93lJGhN7H
-         ZQMw5soWwsfpPkG0TZpz+7vD9ntiECcvVBIL2VBOTX/7kwO0YuD/35EIQQZmzrZDIrkh
-         IgTQ==
-X-Forwarded-Encrypted: i=1; AFNElJ8PSCxxxkrb7bZ3EYyYiFVFHiIlQ4a0ACG+HvI4/dIWKETtd28Q85dHcGb+b8rHQ5jg6RjEr9AD@lists.linux.dev
-X-Gm-Message-State: AOJu0YzPa8+GBrRHthcDPp9by9wFp9KuR1OA/NmYi7U3RB3kUgOiax+2
-	YfkbbavAyB/YxKnTvUh0Isn2n4CINcjlFAR+tKsAQ388qAWc34QeHCEFKFGSVD0toh6iel/8RIG
-	GhZz8c5sCj/V2zdT2Uui0Vj8g9r0H6MjwAL4MiCO1kg==
-X-Gm-Gg: Acq92OEqsVEUUXXxGU0EvyNLnkYjLHLiymW1dktsKlSbFYOBARw0e6Vav9W/Axn0rTT
-	ZpU2NGt4AeRNvEyUT9EmUvqsAoBdPFtIJyLM9s6bR/QWj3RKClRY9qsYvrG5It1PZ5EqcQ2lX/J
-	f5Gzz+WczdS1lt/aLKIGT0HnXP6fFPRX1BrvULffZcO8L5oFkj20Tw3OAUBs8+e2Ket2J4ItYtS
-	grKPNwQP+wcRcGceBWCnCK6K+d4ToFOFBf83rxI6MLy0+oySkStu2LbPUThY+zKeqmr/o89dTBO
-	c3uAypFqBQs+f8flg9+yDrMqi9iuv/5GJJs=
-X-Received: by 2002:a05:693c:3009:b0:2f2:5c68:5075 with SMTP id
- 5a478bee46e88-30398183994mr9589047eec.14.1779200447644; Tue, 19 May 2026
- 07:20:47 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kapsi.fi header.i=@kapsi.fi header.b="xlBlnFLE"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
+	s=20161220; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
+	Message-ID:Date:Subject:To:From:Sender:Reply-To:Cc:Content-Type:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	List-Post:List-Owner:List-Archive;
+	bh=IwY8zupsJs8bkvQIf0q6YOw/wE+JKqh7xzv1zPywzsc=; b=xlBlnFLEB8dh8gc+U5BYhX/c3q
+	edbWwN3/9VD/WNBhx1+JQfu2AwVK7kEZCGdTiD1TAsTuEPbJ0XNGik1GMa5hbnqotDN2Ufxyls2Eu
+	kxfSh2mPKyCICJetSr2AIzZN7oM9hN7XqI+RSHAP2EuMkiHY94CEmmSEilQg6U1qaIaK4+n4aSCvI
+	5NPGjgmRy+yqtd/UzBCLENJNFaBkOHj9XflVD54jU8AdUdSHYDyoI3581vpnEHfJdvetaPz9cV6lq
+	PZDQSRMyKgQfhpJGLqQVgHCuxjzOJZyJ8ri2jMTfcZL4sXT1SpQdkd+1VTHScyumMts1nX/NB2swb
+	Q0hMPv9Q==;
+Received: from [2a10:a5c0:37:6500:de2b:9403:4cd1:218c] (helo=jl-x230.local)
+	by mail.kapsi.fi with esmtpsa (Exim 4.96)
+	(envelope-from <jussi.laakkonen@jolla.com>)
+		id 1wPhGi-002WBi-1x
+	for connman@lists.linux.dev;
+	Wed, 20 May 2026 16:47:28 +0300
+From: Jussi Laakkonen <jussi.laakkonen@jolla.com>
+To: connman@lists.linux.dev
+Subject: [PATCH 1/9] util: Add conf.d support for connmand and vpnd
+Date: Wed, 20 May 2026 16:47:05 +0300
+Message-ID: <20260520134720.981315-2-jussi.laakkonen@jolla.com>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20260520134720.981315-1-jussi.laakkonen@jolla.com>
+References: <20260520134720.981315-1-jussi.laakkonen@jolla.com>
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <9ad68361-98cd-42d1-80b0-7f7cbe6b73cf@free.fr> <CAOf5uwm2wBF=rLBus_epmRg+MgXVrHQzFAq8Y3bGWmJPPiDUnw@mail.gmail.com>
- <VI0PR10MB8908DC25598F38832175F6D6F4002@VI0PR10MB8908.EURPRD10.PROD.OUTLOOK.COM>
-In-Reply-To: <VI0PR10MB8908DC25598F38832175F6D6F4002@VI0PR10MB8908.EURPRD10.PROD.OUTLOOK.COM>
-From: Michael Nazzareno Trimarchi <michael@amarulasolutions.com>
-Date: Tue, 19 May 2026 16:20:36 +0200
-X-Gm-Features: AVHnY4KSeyU5JSPO9lhmSHuQXN1vp66V--LmMAeUdgtFjH2THJlpsGyaFORnTb4
-Message-ID: <CAOf5uwkXQpASagj=-E8qau1kk7YvBUquwgKqwUybzCkQa2s-Rw@mail.gmail.com>
-Subject: Re: Connection to a WPA2 Wi-Fi router fails
-To: "Dembianny Sven (BSH GDE-EDSD7)" <sven.dembianny@bshg.com>
-Cc: =?UTF-8?Q?Fran=C3=A7ois_Galea?= <fgalea@free.fr>, 
-	"connman@lists.linux.dev" <connman@lists.linux.dev>, "wbx@openadk.org" <wbx@openadk.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-Rspam-Score: -1.6 (-)
+X-Rspam-Report: Action: no action
+ Symbol: RCVD_TLS_ALL(0.00)
+ Symbol: FROM_HAS_DN(0.00)
+ Symbol: FROM_EQ_ENVFROM(0.00)
+ Symbol: MID_CONTAINS_FROM(1.00)
+ Symbol: LOCAL_OUTBOUND(0.00)
+ Symbol: TO_DN_NONE(0.00)
+ Symbol: TO_MATCH_ENVRCPT_ALL(0.00)
+ Symbol: MIME_GOOD(-0.10)
+ Symbol: NEURAL_HAM(0.00)
+ Symbol: BAYES_HAM(-3.00)
+ Symbol: FUZZY_RATELIMITED(0.00)
+ Symbol: RCVD_VIA_SMTP_AUTH(0.00)
+ Symbol: ARC_NA(0.00)
+ Symbol: ASN(0.00)
+ Symbol: RCVD_COUNT_ONE(0.00)
+ Symbol: MIME_TRACE(0.00)
+ Symbol: RCPT_COUNT_ONE(0.00)
+ Symbol: R_MISSING_CHARSET(0.50)
+ X-Symbol: RCVD_TLS_ALL(0.00); All hops used encrypted transports
+ X-Symbol: FROM_HAS_DN(0.00); From header has a display name
+ X-Symbol: FROM_EQ_ENVFROM(0.00); From address is the same as the envelope
+ X-Symbol: MID_CONTAINS_FROM(1.00); Message-ID contains From address
+ X-Symbol: LOCAL_OUTBOUND(0.00); Mail from local to external domain
+ X-Symbol: TO_DN_NONE(0.00); None of the recipients have display names
+ X-Symbol: TO_MATCH_ENVRCPT_ALL(0.00); All of the recipients match the envelope
+ X-Symbol: MIME_GOOD(-0.10); Known content-type [text/plain]
+ X-Symbol: NEURAL_HAM(0.00); Neural network HAM [-0.945]
+ X-Symbol: BAYES_HAM(-3.00); Message probably ham, probability:  [100.00%]
+ X-Symbol: FUZZY_RATELIMITED(0.00); Fuzzy rate limit is reached [rspamd.com]
+ X-Symbol: RCVD_VIA_SMTP_AUTH(0.00); Authenticated hand-off was seen in Received headers
+ X-Symbol: ARC_NA(0.00); ARC signature absent
+ X-Symbol: ASN(0.00) [asn:202246, ipnet:2a10:a5c0::/36, country:FI]
+ X-Symbol: RCVD_COUNT_ONE(0.00); Message has one Received header [1]
+ X-Symbol: MIME_TRACE(0.00) [0:+]
+ X-Symbol: RCPT_COUNT_ONE(0.00); One recipient [1]
+ X-Symbol: R_MISSING_CHARSET(0.50); Charset header is missing
+ Message-ID: 20260520134720.981315-2-jussi.laakkonen@jolla.com
+ X-Milter-Del: X-Spam
 
-Hi Sven
+Add support for reading and processing of additional configuration
+files. Util is best suited for both daemons to avoid adding more
+internal dependencies to vpnd.
 
-On Tue, May 19, 2026 at 4:16=E2=80=AFPM Dembianny Sven (BSH GDE-EDSD7)
-<sven.dembianny@bshg.com> wrote:
->
-> Hi Michael,
->
-> I don't think so, e.g., if AP does not support SAE but repeater does, roa=
-ming will fail.
-> This will also break certification tests.
->
+The files are saved into the list with the full path if it is given as a
+parameter. Callback can be omitted for only getting the list of
+configuration files with the desired suffix in the given directory.
+Callback gets the full path of the config file for convenience.
 
-Ok I was thinking about it but at the same time we should have access
-point / wifi driver that fails in this connection case.  This patch
-was only ment to understand where the problem sit
+Add a Glib file error converter to utils. Map the errors in G_FILE_ERROR
+domain to matching errnos. Return -EBADMSG if error is NULL and -ENOTSUP
+when domain is not G_FILE_ERROR.
+---
+ src/shared/util.c | 179 ++++++++++++++++++++++++++++++++++++++++++++++
+ src/shared/util.h |   7 ++
+ 2 files changed, 186 insertions(+)
 
-> @ Fran=C3=A7ois do you have more info about your setup, e.g. MFP setting =
-on AP/wpa_supplicant config/WPA-PSK-SHA256 instead of WPA-PSK?
->
+diff --git a/src/shared/util.c b/src/shared/util.c
+index bda2d2b3..fa42e1c9 100644
+--- a/src/shared/util.c
++++ b/src/shared/util.c
+@@ -3,6 +3,7 @@
+  *  Connection Manager
+  *
+  *  Copyright (C) 2012  Intel Corporation. All rights reserved.
++ *  Copyright (C) 2025  Jolla Mobile Ltd. All right reserved.
+  *
+  *
+  *  This library is free software; you can redistribute it and/or
+@@ -29,6 +30,11 @@
+ #include <ctype.h>
+ #include <stdarg.h>
+ #include <string.h>
++#include <fcntl.h>
++#include <unistd.h>
++#include <stdbool.h>
++
++#include <connman/log.h>
+ 
+ #include "src/shared/util.h"
+ 
+@@ -128,3 +134,176 @@ char *util_timeval_to_iso8601(struct timeval *time)
+ 
+ 	return g_strdup(buf);
+ }
++
++static bool is_file_symlink(const char *filename)
++{
++	int fd;
++
++	fd = open(filename, O_WRONLY | O_NOFOLLOW | O_CLOEXEC);
++	if (fd == -1 && errno == ELOOP)
++		return true;
++
++	if (fd >= 0)
++		close(fd);
++
++	return false;
++}
++
++int util_g_file_error_to_errno(GError *error)
++{
++	if (!error)
++		return -EBADMSG;
++
++	if (error->domain != G_FILE_ERROR)
++		return -ENOTSUP;
++
++	switch (error->code) {
++	case G_FILE_ERROR_EXIST:
++		return -EEXIST;
++	case G_FILE_ERROR_ISDIR:
++		return -EISDIR;
++	case G_FILE_ERROR_ACCES:
++		return -EACCES;
++	case G_FILE_ERROR_NAMETOOLONG:
++		return -ENAMETOOLONG;
++	case G_FILE_ERROR_NOENT:
++		return -ENOENT;
++	case G_FILE_ERROR_NOTDIR:
++		return -ENOTDIR;
++	case G_FILE_ERROR_NXIO:
++		return -ENXIO;
++	case G_FILE_ERROR_NODEV:
++		return -ENODEV;
++	case G_FILE_ERROR_ROFS:
++		return -EROFS;
++	case G_FILE_ERROR_TXTBSY:
++		return -ETXTBSY;
++	case G_FILE_ERROR_FAULT:
++		return -EFAULT;
++	case G_FILE_ERROR_LOOP:
++		return -ELOOP;
++	case G_FILE_ERROR_NOSPC:
++		return -ENOSPC;
++	case G_FILE_ERROR_NOMEM:
++		return -ENOMEM;
++	case G_FILE_ERROR_MFILE:
++		return -EMFILE;
++	case G_FILE_ERROR_NFILE:
++		return -ENFILE;
++	case G_FILE_ERROR_BADF:
++		return EBADF;
++	case G_FILE_ERROR_INVAL:
++		return -EINVAL;
++	case G_FILE_ERROR_PIPE:
++		return -EPIPE;
++	case G_FILE_ERROR_AGAIN:
++		return -EAGAIN;
++	case G_FILE_ERROR_INTR:
++		return -EINTR;
++	case G_FILE_ERROR_IO:
++		return -EIO;
++	case G_FILE_ERROR_PERM:
++		return -EPERM;
++	case G_FILE_ERROR_NOSYS:
++		return -ENOSYS;
++	case G_FILE_ERROR_FAILED:
++		return -EINVAL;
++	}
++
++	return -EINVAL;
++}
++
++int util_read_config_files_from(const char *path, const char *suffix,
++					GList **conffiles, config_callback cb)
++{
++	GList *files = NULL;
++	GList *iter;
++	GError *error = NULL;
++	GDir *dir;
++	const char *filename = NULL;
++	int err = 0;
++
++	if (!path || !suffix)
++		return -EINVAL;
++
++	if (!g_file_test(path, G_FILE_TEST_IS_DIR))
++		return -ENOTDIR;
++
++	dir = g_dir_open(path, 0, &error);
++	if (!dir) {
++		if (error) {
++			connman_warn("cannot open dir %s, error: %s", path,
++								error->message);
++			err = util_g_file_error_to_errno(error);
++		} else {
++			err = -ENOMEM;
++		}
++	}
++
++	g_clear_error(&error);
++
++	if (err)
++		return err;
++
++	/*
++	 * Ordering of files is not guaranteed with g_dir_open(). Read
++	 * the filenames into list to be sorted after.
++	 */
++	while ((filename = g_dir_read_name(dir))) {
++		char *filepath;
++
++		/* Read configs that have the requested conf suffix */
++		if (!g_str_has_suffix(filename, suffix)) {
++			connman_warn("suffix mismatch in %s required: %s",
++							filename, suffix);
++			continue;
++		}
++
++		filepath = g_build_filename(path, filename, NULL);
++
++		/* Allow only regular files */
++		if (!g_file_test(filepath, G_FILE_TEST_IS_REGULAR)) {
++			connman_warn("invalid non-regular file %s", filepath);
++			g_free(filepath);
++			continue;
++		}
++
++		/* Do not allow symlinks */
++		if (is_file_symlink(filepath)) {
++			connman_warn("config %s is a symlink, ignore",
++							filepath);
++			g_free(filepath);
++			continue;
++		}
++
++		/*
++		 * Prepend read files into list of configuration
++		 * files to be used in checks when new configurations
++		 * are added to avoid unnecessary reads of already read
++		 * configurations. Sort list after all are added.
++		 */
++		files = g_list_prepend(files, filepath);
++	}
++
++	g_dir_close(dir);
++
++	files = g_list_sort(files, (GCompareFunc)g_strcmp0);
++
++	if (cb) {
++		for (iter = files; iter; iter = iter->next) {
++			filename = iter->data;
++
++			err = cb(filename);
++			if (err)
++				connman_warn("cannot process config %s: %d",
++								filename, err);
++		}
++	}
++
++	if (conffiles)
++		*conffiles = files;
++	else
++		g_list_free_full(files, g_free);
++
++	return 0;
++}
+diff --git a/src/shared/util.h b/src/shared/util.h
+index 430b821f..39fcdeb7 100644
+--- a/src/shared/util.h
++++ b/src/shared/util.h
+@@ -3,6 +3,7 @@
+  *  Connection Manager
+  *
+  *  Copyright (C) 2012  Intel Corporation. All rights reserved.
++ *  Copyright (C) 2025  Jolla Mobile Ltd. All right reserved.
+  *
+  *
+  *  This library is free software; you can redistribute it and/or
+@@ -53,3 +54,9 @@ static inline struct cb_data *cb_data_new(void *cb, void *user_data)
+ 
+ void util_iso8601_to_timeval(char *str, struct timeval *time);
+ char *util_timeval_to_iso8601(struct timeval *time);
++
++typedef int (*config_callback) (const char *filepath);
++/* Returns -ENOTSUP for non G_FILE_ERROR in error */
++int util_g_file_error_to_errno(GError *error);
++int util_read_config_files_from(const char *path, const char *suffix,
++					GList **conffiles, config_callback cb);
+-- 
+2.47.3
 
-Michael
-
-> Best regards, Sven
->
-> > -----Original Message-----
-> > From: Michael Nazzareno Trimarchi <michael@amarulasolutions.com>
-> > Sent: Dienstag, 12. Mai 2026 11:33
-> > To: Fran=C3=A7ois Galea <fgalea@free.fr>; Dembianny Sven (BSH GDE-EDSD7=
-) <sven.dembianny@bshg.com>
-> > Cc: connman@lists.linux.dev; wbx@openadk.org
-> > Subject: Re: Connection to a WPA2 Wi-Fi router fails
-> >
-> > Hi
-> >
-> > On Tue, May 12, 2026 at 11:14=E2=80=AFAM Fran=C3=A7ois Galea <fgalea@fr=
-ee.fr> wrote:
-> > >
-> > > Hello,
-> > >
-> > > This was tested on a Zynq (Cortex-A9) and a RPi4, on a 32-bit Arm
-> > > Buildroot Linux system.
-> > >
-> > > The Wi-Fi router uses WPA2 Personnal authentication.
-> > >
-> > > Problem starts from buildroot releases including connman 1.45.
-> > > Previous releases using connman 1.44 and prior are working fine. Also
-> > > switching from 1.45 to 1.44 in a buildroot version that includes conn=
-man 1.45 works.
-> > >
-> > >
-> > > If a connection was previously successfully set up, for instance from
-> > > connman 1.44 or older, `/var/log/messages` contains:
-> > >
-> > > Jan  1 00:00:11 zest daemon.info connmand[141]: Adding interface wlan=
-0
-> > > [ wifi ] Jan  1 00:00:11 zest daemon.info connmand[141]: eth0 {update=
-}
-> > > flags
-> > > 36867 <UP>
-> > > Jan  1 00:00:11 zest daemon.info connmand[141]: eth0 {newlink} index =
-2
-> > > address 9A:8F:85:81:67:B4 mtu 1500 Jan  1 00:00:11 zest daemon.info
-> > > connmand[141]: eth0 {newlink} index 2 operstate 2 <DOWN> Jan  1
-> > > 00:00:11 zest daemon.info dbus-daemon[120]: [system] Successfully
-> > > activated service 'fi.w1.wpa_supplicant1'
-> > > Jan  1 00:00:11 zest daemon.info connmand[141]: wlan0 {update} flags
-> > > 36931 <UP,RUNNING>
-> > > Jan  1 00:00:11 zest daemon.info connmand[141]: wlan0 {newlink} index
-> > > 4 address 8C:3D:16:20:0E:4A mtu 1500 Jan  1 00:00:11 zest daemon.info
-> > > connmand[141]: wlan0 {newlink} index 4 operstate 0 <UNKNOWN> Jan  1
-> > > 00:00:11 zest daemon.info connmand[141]: wlan0 {update} flags
-> > > 36867 <UP>
-> > > Jan  1 00:00:11 zest daemon.info connmand[141]: wlan0 {newlink} index
-> > > 4 address 8C:3D:16:20:0E:4A mtu 1500 Jan  1 00:00:11 zest daemon.info
-> > > connmand[141]: wlan0 {newlink} index 4 operstate 2 <DOWN> Jan  1
-> > > 00:00:11 zest daemon.info connmand[141]: wlan0 {newlink} index 4
-> > > address 8C:3D:16:20:0E:4A mtu 1500 Jan  1 00:00:11 zest daemon.info
-> > > connmand[141]: wlan0 {newlink} index 4 operstate 2 <DOWN> Jan  1
-> > > 00:00:11 zest daemon.info connmand[141]: Interface wlan0 [ wifi ]
-> > > state is association Jan  1 00:00:11 zest daemon.warn connmand[141]:
-> > > Interface wlan0 [ wifi ] error "invalid-key"
-> > > Jan  1 00:00:11 zest daemon.info connmand[141]: Interface wlan0 [ wif=
-i
-> > > ] state is failure
-> > >
-> > >
-> > > Otherwise, when creating a new connection:
-> > >
-> > > # connmanctl
-> > > Error getting VPN connections: The name net.connman.vpn was not
-> > > provided by any .service files
-> > > connmanctl> services
-> > >
-> > > connmanctl> enable wifi
-> > > Enabled wifi
-> > > connmanctl> scan wifi
-> > > Scan completed for wifi
-> > > connmanctl> services
-> > >      Kamoulox             wifi_8c3d16200e4a_4b616d6f756c6f78_managed_=
-psk
-> > >      Livebox-D050
-> > > wifi_8c3d16200e4a_4c697665626f782d44303530_managed_psk
-> > >      Freebox-3B4B3C
-> > > wifi_8c3d16200e4a_46726565626f782d334234423343_managed_psk
-> > >      patetalex            wifi_8c3d16200e4a_7061746574616c6578_manage=
-d_psk
-> > >      DRAME                wifi_8c3d16200e4a_4452414d45_managed_psk
-> > > connmanctl> agent on
-> > > Agent registered
-> > > connmanctl> connect wifi_8c3d16200e4a_4b616d6f756c6f78_managed_psk
-> > > Agent RequestInput wifi_8c3d16200e4a_4b616d6f756c6f78_managed_psk
-> > >    Passphrase =3D [ Type=3Dpsk, Requirement=3Dmandatory, Alternates=
-=3D[ WPS ] ]
-> > >    WPS =3D [ Type=3Dwpspin, Requirement=3Dalternate ] Passphrase?
-> > > my_wifi_passphrase Agent ReportError
-> > > wifi_8c3d16200e4a_4b616d6f756c6f78_managed_psk
-> > >    invalid-key
-> > > connmanctl> Retry (yes/no)? no
-> > > Error
-> > > /net/connman/service/wifi_8c3d16200e4a_4b616d6f756c6f78_managed_psk:
-> > > Input/output error
-> > > connmanctl>
-> >
-> >
-> > I think that change only asks the agent who established the connection =
-to try the various method. Is
-> > the patch in attach work?
-> > * sven *: Does it cover your use case too?
-> >
-> > Michael
-> >
-> >
-> > >
-> > >
-> > >
-> > >  From both situations it appears the wifi passphrase is not accepted.
-> > >
-> > > wbx (as CC of this email) noticed that reverting commit
-> > > 5e73b55e00b97e1867397258b72f0d6e5ad7d31d allows connections to work a=
-gain.
-> > >
-> > > Is it a known situation?=E2=80=AFIs there a patch available?
-> > >
-> > > Best,
-> > >
-> > > Fran=C3=A7ois
-> > >
-> > >
-> >
-> >
-> > --
-> > Michael Nazzareno Trimarchi
-> > Co-Founder & Chief Executive Officer
-> > M. +39 347 913 2170
-> > michael@amarulasolutions.com
-> > __________________________________
-> >
-> > Amarula Solutions BV
-> > Joop Geesinkweg 125, 1114 AB, Amsterdam, NL T. +31 (0)85 111 9172 info@=
-amarulasolutions.com
-> > http://www.amarulasolutions.com/
-> > &data=3D05%7C02%7Csven.dembianny%40bshg.com%7Cf4aa618e280e45c3d76e08deb=
-0096f57%7C0ae5
-> > 1e1907c84e4bbb6d648ee58410f4%7C0%7C0%7C639141751758647935%7CUnknown%7CT=
-WFpbGZsb3
-> > d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiT=
-WFpbCIsIldUIjoyfQ
-> > %3D%3D%7C0%7C%7C%7C&sdata=3D8tD7KmAQSPxg%2BRZ0yB7MYBeWVudCjvw4T4MJhOHy3=
-%2Fk%3D
-> > &reserved=3D0
-
-
-
---=20
-Michael Nazzareno Trimarchi
-Co-Founder & Chief Executive Officer
-M. +39 347 913 2170
-michael@amarulasolutions.com
-__________________________________
-
-Amarula Solutions BV
-Joop Geesinkweg 125, 1114 AB, Amsterdam, NL
-T. +31 (0)85 111 9172
-info@amarulasolutions.com
-www.amarulasolutions.com
