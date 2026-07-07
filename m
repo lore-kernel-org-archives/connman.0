@@ -1,68 +1,68 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBFFA2874F5
-	for <connman@lists.linux.dev>; Tue,  7 Jul 2026 09:17:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78EE7310777
+	for <connman@lists.linux.dev>; Tue,  7 Jul 2026 09:17:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783415830; cv=none; b=qz+QkNsJ7kpHXCF4bweBFsx82GIlLJknuwiR2/NhYTSr+sHNdiMlZCN8GaQB7WBcs4AcFTfy4XjhnNCz6cmKrwaOxpZw67PpDR7t4vbOzhToR4aR993s0HnNM2dp8jy/VZi/Zp1OFcjYrGK5ee+nG8jGdf55JgBkbdFilfNyvUM=
+	t=1783415831; cv=none; b=HfAErA1GnA87o2BSm3f3QrG3sFOH730UCcbX3WpFvq0bWVSHsSlzNdehREWW6abKixcVVnzrm9QDSLPOTEWzDBsdDVLzOrfXT0q7mp1e8DmMtHDHCtjdjuZkUIV6uqdreyrb6aNr8Bim/KBzbESoKWmtjq5VxKVIS++9zI7g2lA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783415830; c=relaxed/simple;
-	bh=I8Cvj2FtXLU3nHcCmNuHY/NHAuLQ/vAnQ0jdGKmGd8g=;
+	s=arc-20240116; t=1783415831; c=relaxed/simple;
+	bh=yIYx05WB19/2aIGvgASCm1RETVyY63PI9rbKK9d+L2M=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=u2erTMz+Iyse1MvMUlMkhFCq7CGFVqUmQcXKvBcxIYbi9un8PMqGenYhnXevL8NggKshDxgJ3RlkMK56Qtkd12nn06KiIUM2o4gQRqCvc7mThnLpRjM7qfV2nsCqJugyTbu56dYyWZpa8T4moQylr2ZXJG+dVDiLyqrTs8savzQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZYvQs7H0; arc=none smtp.client-ip=209.85.128.49
+	 MIME-Version; b=LOBPDSuJaabLRCRXXEepFKYq6EtGKJn/a5HFrOw145S41FXzmgmHvOYrkIzFdldIlL2wNIu89YDantivg1RIhZ9H9O6wLAxhbu3GzIiOTh7Mc7FUqFscjVDebOIMMQYq7Pkrv2x1T/beaF54c3N+SbbRaCai86xMl4yxtlYYbwg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jE/8ZhUY; arc=none smtp.client-ip=209.85.128.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZYvQs7H0"
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-493b786d6c0so21089745e9.2
-        for <connman@lists.linux.dev>; Tue, 07 Jul 2026 02:17:08 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jE/8ZhUY"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-493c52cde9eso39738495e9.3
+        for <connman@lists.linux.dev>; Tue, 07 Jul 2026 02:17:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783415827; x=1784020627; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1783415828; x=1784020628; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=hRPP1eumBJJG5aZTm1HUbyPxMOVqROZ9Nhxk7uhDzBk=;
-        b=ZYvQs7H0cZVADHXTuXbrQ52P2FWgV0SBsS63iiGyqyGkqDZByrE6AHchmDymnF1R/0
-         TlGsi2DDIOH3TlR5iQadCFYacV9jbiTOacwSEnZwqLqJIvcBEQ+bGtEWGYaBzRVXp8S8
-         Zxipu7d9ZM8BQWQJ7GGpEtZpXmY1+6TjnNiRjcZDZ/LjbhhDJPL1f1/x+6HbCwKwmobb
-         lz6PZKfr4W/xTeegnMs/73pj8wj8+UPFwu/jWhVYwNNxfEVYX76j1Cdbly1wXGopDUtA
-         9H1i8EBSfw5BISpng2FyRdOGdELI5/s66J4vZjCJHnvEEstoXO7GnVMXUauRfFOwIbIG
-         BfhA==
+         :message-id:reply-to;
+        bh=76U+mFP4VsODonMpVnZmhABElVKZzqguB8sJsE4w0Ug=;
+        b=jE/8ZhUYMLmlS4pcqXkcsBoHaTTknunnQI0uEVRLQnBslAy84DIGUh9s4bzgFxujG2
+         eikWG1ZGlrjUIRJumvLQA8y0WkJrkPshq+x+DDks0Fqor8u4xB0VlXOCytaPgZTz/FuI
+         4ptmaZbU82FvPx1ZKEpJXWUoa73LcOvYlzTtQ9W7M2uDknEs3ehDBOVkc05NWQqPAaJl
+         AUNNAiyI//8EO/JKc5rubWRd44L67IENrU8kAoCtbyrAU8AOzQFZnNiju7oZ40CscQ/0
+         o8jZPwQPVZrigz4FrK+5cYFHiCuzQ3FwFfF37v5ZLAzXUBtwgde+7zFV5bdEnJQ8ODQU
+         eMqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783415827; x=1784020627;
+        d=1e100.net; s=20251104; t=1783415828; x=1784020628;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=hRPP1eumBJJG5aZTm1HUbyPxMOVqROZ9Nhxk7uhDzBk=;
-        b=DjQehE6AjmvTIfvdzyOr6hNhpVSklvEQgeT03C9BOqn9J7aEJVClQ1evO0azn9jPZg
-         g+PR/DIOhyi7r2kbsFjxnmNDpoli1Ky4kVRPOHql1nsuWk2CdsA928of7RdbkiQtD7TL
-         5X4qQn2LDHVjI2jELd3nCd0b8RtOEy/GZ4YFEGxWfa7t+vXsh9bu5/E09gXyH3zvKJ7Y
-         8/ZyMigkJO1zzYUwZZKm7Hi9D2Rd9kBA4gtKDlIGwo5WIlfCcFxCDV3p08YsG9efNPpf
-         tkd14PSCy9r7Jk8aExOtyJCWNQmaHyZrn3T3+FXdcjcYFEf7KJnBHkq4irLBVLnZOJeo
-         ypDw==
-X-Gm-Message-State: AOJu0YywbIeNw3pedTuSxBjZ8wwhAmRJOGilPU7TZdb+fF/rY+hlvxUU
-	PUTSUvHBdEdjekNMF2fw8x4vo3rMs8nJTgmbodW9Ub2tDIEjzsmoU00mkOltQwoXCM0=
-X-Gm-Gg: AfdE7clTbWAuiYPHhsA7N66t8B8/yQNnDBQaXh/SP7bIPRPk6m2yXXTKIDH0L/mLu3m
-	4HBNIzmOlQ4TvRjUVGipBhn1X9P3GX7owQ0dV/a4gFdDmeUebphC5qe14Is9h1ONu6MZG0uQX0n
-	ciwroS5XrcxBwf/G5WeWB30AbAXAIgEvikVDYrN/cVm4oBRnh7DwqjzUF4J24RYkHjGCDTlQBgY
-	NrZV0fgX+oRwLNRoLnWHOgUBHIvVjTErIm9xDPIlRHpsmNUpXr26wtiuf9i+16bzsQm74/ip9y3
-	/GytQYl5v3EQvp47S82LwdFzF+C0CnZClYZJb1BjvKKRmYf9MgOBrbT1LFX4tuZmOb82gTwNNE4
-	zH2Kdo77GgHmy0ZeQJNx+2L9XRjuTwlOS340XjRgJXbuHYH5VuQTmUc9WRcT4jxsEpjJ711rWiS
-	UK8RTrJNQNotz+ucBPk9prK+3/bxdnGQXfvPTW0dX+WGvosB1HbPbT556j1w==
-X-Received: by 2002:a05:600c:8a1b:20b0:493:bb23:152a with SMTP id 5b1f17b1804b1-493df09c27dmr36225655e9.34.1783415827153;
+         :to:cc:subject:date:message-id:reply-to;
+        bh=76U+mFP4VsODonMpVnZmhABElVKZzqguB8sJsE4w0Ug=;
+        b=iM4EEPNl/0RUpSBbjrbCif6462pv5Om/oacwRoTExgohXhKd1UxKo76Uaq9fvfvvSk
+         jp4cwoxagNRKvF4Y+cXfBJgjhraqYvSoaCfkJI5M3MHTWYlXKD5D35CK0M+BnRoNxtYm
+         1xK6hsUXQC09cZa/lz2S+Gbq1luWwd9QbCH5XmZVqKkNFip5Ddj3KKUmWMMoALFFKc0u
+         dtIjFNLusQXi9m8e/8SN1YRg9BlV7GFuBM6R8TVXlc3BmoKDAgeg+9HEJXVjnAfM3fQW
+         zRNUXrRs/ib8NLsMOldrFmPlTnIHIjuKxt2cfo7BQyOvo9FOpG7ulynJZ5o4+Y24RfSy
+         mBOA==
+X-Gm-Message-State: AOJu0YxhN3RI3xrbEpOQaTvBSHadclArhkmwPC+4omvOV9dnNyjoAooK
+	t7WrL8zyQF6nL4dTv4R1tCD8veUyd3KAeS0myI6NxF3Apm47Np4xQFwikuJLO3f6zSc=
+X-Gm-Gg: AfdE7cl5fXWr1hCmN4UhXuzDEghQ+mXiY2iwU+dieXTu4NxEsfW9TtTqxeyBSTpXnV2
+	JuKYrfnz71yDEBY33dcm8PdfpV+qKEB/kmMjUC/9v/hdnWfwVlYPONPDdpaUpcFrqeEn1ChFCJU
+	mB0Ea3Rkca01E4nU4R8wgBkpUVdDE973gj+SwsqpCM/DAzUiKHFEq4wMkzoAb6+bJ4x53recF8K
+	SHu/ioxYmtDiiMMgXcYDXWBonbjogljpKbCiOCVZQ6N/+r/FU/HcktiMb40hcFLaBVewiz9n8Vk
+	oiEsm04S2LcmfIkFgPXwO0TFrVAe6MpGxQUA5gWoQgJ81BzwmDFgesA2l2s51s33mNIlIbfeN5I
+	V30vkYVIFr9rmlnrT2eAmv2HfUA5gLlB5b0NfazwrYe99vJOzHKx4anv0JNGo1+tPyd1WbcYcoq
+	HtJY/w+LyDx5M4clcIDviSA+ck+L4htMdkdqPntNo4oFDLE34Vyo07fVHnng==
+X-Received: by 2002:a05:600c:5895:b0:493:c0c1:3930 with SMTP id 5b1f17b1804b1-493df062b8bmr33273785e9.1.1783415827659;
         Tue, 07 Jul 2026 02:17:07 -0700 (PDT)
 Received: from Mac.degu-bleak.ts.net ([2a07:7e81:8205:0:90ff:59e6:6895:a56c])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-493e0f5b811sm63406665e9.13.2026.07.07.02.17.06
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-493e0f5b811sm63406665e9.13.2026.07.07.02.17.07
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Tue, 07 Jul 2026 02:17:06 -0700 (PDT)
+        Tue, 07 Jul 2026 02:17:07 -0700 (PDT)
 From: Giuseppe Eletto <giuseppe.eletto98@gmail.com>
 To: connman@lists.linux.dev
 Cc: Giuseppe Eletto <giuseppe.eletto98@gmail.com>
-Subject: [PATCH 1/2] gweb: Normalize received HTTP header field names to lowercase
-Date: Tue,  7 Jul 2026 11:16:44 +0200
-Message-ID: <20260707091645.90508-2-giuseppe.eletto98@gmail.com>
+Subject: [PATCH 2/2] wispr: Use lowercase header field names in g_web_result_get_header calls
+Date: Tue,  7 Jul 2026 11:16:45 +0200
+Message-ID: <20260707091645.90508-3-giuseppe.eletto98@gmail.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20260707091645.90508-1-giuseppe.eletto98@gmail.com>
 References: <20260707091645.90508-1-giuseppe.eletto98@gmail.com>
@@ -74,84 +74,88 @@ List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Modern HTTP servers, including HTTP/2 and HTTP/3 backends acting
-as proxies, commonly send header field names in lowercase. While
-RFC 9110 Section 5.1 defines field names as case-insensitive,
-connman was performing case-sensitive hash table lookups against
-fixed mixed-case strings, causing lookups to silently fail when
-the server used lowercase names.
+Following the normalization of received header field names to
+lowercase in gweb, update all g_web_result_get_header call sites
+in src/wispr.c and tools/wispr.c to pass lowercase names.
 
-Normalize incoming response header field names to lowercase at
-parse time so that lookups succeed regardless of the case used
-by the server.
-
-- add_header_field: use g_ascii_strdown() instead of g_strdup()
-  to normalize the key before inserting it into the hash table
-- received_data_continue: look up "transfer-encoding" in lowercase
-  to match the normalized store
-- g_web_result_get_header: scan the caller-supplied name for
-  uppercase characters and normalize with g_ascii_strdown() only
-  when needed
-
-Outgoing request headers are left in mixed case. HTTP/1.1
-requires that servers recognize header field names regardless
-of case, so no change is needed on the sending side.
+This avoids the allocation inside g_web_result_get_header
+on the common path, and keeps call sites consistent with the
+normalized store.
 
 Signed-off-by: Giuseppe Eletto <giuseppe.eletto98@gmail.com>
 ---
- gweb/gweb.c | 19 ++++++++++++++++---
- 1 file changed, 16 insertions(+), 3 deletions(-)
+ src/wispr.c   | 12 ++++++------
+ tools/wispr.c |  4 ++--
+ 2 files changed, 8 insertions(+), 8 deletions(-)
 
-diff --git a/gweb/gweb.c b/gweb/gweb.c
-index 0a87da64..26d18544 100644
---- a/gweb/gweb.c
-+++ b/gweb/gweb.c
-@@ -1201,7 +1201,7 @@ static void add_header_field(struct web_session *session)
- 		*pos = '\0';
- 		pos++;
+diff --git a/src/wispr.c b/src/wispr.c
+index a40cf353..f7da6426 100644
+--- a/src/wispr.c
++++ b/src/wispr.c
+@@ -708,19 +708,19 @@ static void portal_manage_success_status(GWebResult *result,
+ 	DBG("");
  
--		key = g_strdup(str);
-+		key = g_ascii_strdown(str, -1);
+ 	/* We currently don't do anything with this info */
+-	if (g_web_result_get_header(result, "X-ConnMan-Client-IP",
++	if (g_web_result_get_header(result, "x-connman-client-ip",
+ 				&str))
+ 		connman_info("Client-IP: %s", str);
  
- 		/* remove preceding white spaces */
- 		while (*pos == ' ')
-@@ -1390,7 +1390,7 @@ static bool received_data_continue(struct web_session *session,
- 			session->header_done = true;
+-	if (g_web_result_get_header(result, "X-ConnMan-Client-Country",
++	if (g_web_result_get_header(result, "x-connman-client-country",
+ 				&str))
+ 		connman_info("Client-Country: %s", str);
  
- 			val = g_hash_table_lookup(session->result.headers,
--							"Transfer-Encoding");
-+							"transfer-encoding");
- 			if (val) {
- 				val = g_strrstr(val, "chunked");
- 				if (val) {
-@@ -2789,13 +2789,26 @@ bool g_web_result_get_chunk(GWebResult *result,
- bool g_web_result_get_header(GWebResult *result,
- 				const char *header, const char **value)
- {
-+	const char *p;
-+	gchar *lower = NULL;
-+
- 	if (!result)
- 		return false;
+-	if (g_web_result_get_header(result, "X-ConnMan-Client-Region",
++	if (g_web_result_get_header(result, "x-connman-client-region",
+ 				&str))
+ 		connman_info("Client-Region: %s", str);
  
- 	if (!value)
- 		return false;
+-	if (g_web_result_get_header(result, "X-ConnMan-Client-Timezone",
++	if (g_web_result_get_header(result, "x-connman-client-timezone",
+ 				&str))
+ 		connman_info("Client-Timezone: %s", str);
  
--	*value = g_hash_table_lookup(result->headers, header);
-+	p = header;
-+	while (*p && !g_ascii_isupper(*p))
-+		p++;
-+
-+	if (!*p) {
-+		*value = g_hash_table_lookup(result->headers, header);
-+	} else {
-+		lower = g_ascii_strdown(header, -1);
-+		*value = g_hash_table_lookup(result->headers, lower);
-+		g_free(lower);
-+	}
+@@ -1081,7 +1081,7 @@ static void wispr_portal_web_result_success(GWebResult *result,
+ 		if (wp_context->wispr_msg.message_type >= 0)
+ 			break;
  
- 	if (!*value)
- 		return false;
+-		if (g_web_result_get_header(result, "X-ConnMan-Status",
++		if (g_web_result_get_header(result, "x-connman-status",
+ 						&str)) {
+ 			portal_manage_success_status(result, wp_context);
+ 		} else {
+@@ -1099,7 +1099,7 @@ static void wispr_portal_web_result_success(GWebResult *result,
+ 	case GWEB_HTTP_STATUS_CODE_TEMPORARY_REDIRECT:
+ 	case GWEB_HTTP_STATUS_CODE_PERMANENT_REDIRECT:
+ 		if (!g_web_supports_tls() ||
+-			!g_web_result_get_header(result, "Location",
++			!g_web_result_get_header(result, "location",
+ 							&redirect)) {
+ 
+ 			wispr_portal_context_ref(wp_context);
+diff --git a/tools/wispr.c b/tools/wispr.c
+index 0c794ccb..810958e8 100644
+--- a/tools/wispr.c
++++ b/tools/wispr.c
+@@ -524,7 +524,7 @@ static bool wispr_result(const GError *error, GWebResult *result, gpointer user_
+ 		if (status != 302)
+ 			goto done;
+ 
+-		if (!g_web_result_get_header(result, "Location", &redirect))
++		if (!g_web_result_get_header(result, "location", &redirect))
+ 			goto done;
+ 
+ 		printf("Redirect URL: %s\n", redirect);
+@@ -583,7 +583,7 @@ static bool wispr_result(const GError *error, GWebResult *result, gpointer user_
+ 	if (status == 302) {
+ 		const char *redirect;
+ 
+-		if (!g_web_result_get_header(result, "Location", &redirect))
++		if (!g_web_result_get_header(result, "location", &redirect))
+ 			goto done;
+ 
+ 		printf("\n");
 -- 
 2.50.1
 
