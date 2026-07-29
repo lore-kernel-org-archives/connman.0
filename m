@@ -1,47 +1,47 @@
 Received: from mail.kapsi.fi (mail-auth.kapsi.fi [91.232.154.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 910D929DB6C
-	for <connman@lists.linux.dev>; Wed, 29 Jul 2026 12:48:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB78919DF62
+	for <connman@lists.linux.dev>; Wed, 29 Jul 2026 12:48:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.232.154.24
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785329292; cv=none; b=cMszlQglCFotLKwPd5Kih/kB449CNv0EXQ696z/KJPvMx/2ShNHtJhCpr6cgNKkrwviCtzsZtB5VOoa8OUDIKg58OTdGjsry+8/RJClsSKb69xcZdGOA96vykt0/P/tn/68bw+ulrsZ76Hz4Im+Z8oRoo5/qs8G+WjjIsUaoYj4=
+	t=1785329329; cv=none; b=R4evnrbJkH/YUwsu+5DuvgMnJLEUQMU2w3C+Oh9y+rj4LIUcJNlzhi9NK5TUs7Ib7A1N/bCst6rM4qm8Kkxmed8Te+5r6hXwxf9o97hmMl4mhOGtfAtWv8pAQwJ/omNA3RS8BxqY3B5/qYFgJ6lX1Vn6J998yozeug1rGyMi7bw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785329292; c=relaxed/simple;
-	bh=oO/P8/UJuu5Vb+os4xyHrKurXcSafTiz7hscOp2sXHw=;
+	s=arc-20240116; t=1785329329; c=relaxed/simple;
+	bh=Frxa8/dKFq0zYexN+z6Numwcfwk5c63CIhg7llcPe8I=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=duvTJDEpyIYdTMUDcSMjEye7BXscMJRXcAwpHzHYqh2OKvxHyXvdFSOZP3jPUrRCvuLhLhNmM4nK0r43QMISr94WFZdsw4Bkfd/YUrYlGJOP4nK8Yy0XuzhkaH8MgtGBmTftqfDsz2cYCjfXMZn16o/rIcM07is6IS1lV7xxpJ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=jolla.com; spf=pass smtp.mailfrom=kapsi.fi; dkim=pass (2048-bit key) header.d=kapsi.fi header.i=@kapsi.fi header.b=T+8JvYzT; arc=none smtp.client-ip=91.232.154.24
+	 MIME-Version; b=obO/dt3ARW3yhjg4ReE6NlyaVDBS9xkBm3GDZzcoAtE5QaVAezpS1xcPZxW8/3rVk++tsf42ROGTGbN1ZQ9YBRzzYSiwonsGQAU6caUaCgqfexhNc+96K0afOv05chZOfZSIg66Uk99xO7H3L9myczkIylMiV1j6LtGrbyvVinA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=jolla.com; spf=pass smtp.mailfrom=kapsi.fi; dkim=pass (2048-bit key) header.d=kapsi.fi header.i=@kapsi.fi header.b=IsDaowIM; arc=none smtp.client-ip=91.232.154.24
 Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=jolla.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kapsi.fi
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kapsi.fi header.i=@kapsi.fi header.b="T+8JvYzT"
+	dkim=pass (2048-bit key) header.d=kapsi.fi header.i=@kapsi.fi header.b="IsDaowIM"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
 	s=20161220; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
 	Message-ID:Date:Subject:To:From:Sender:Reply-To:Cc:Content-Type:Content-ID:
 	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
 	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
 	List-Post:List-Owner:List-Archive;
-	bh=Fg3xwcrsdowNO4bQC9F+6SLfzLdyT2XJpn6AjqGLH78=; b=T+8JvYzTSPFCY0JBAAZC0NbngJ
-	VJeMEiFras5yVf3QioVIbuGv8xFmXhfggQQZAdybcF97lB0QTMw8bPUjR0eiLQAXzR813iJrygvNU
-	jnbA+M9hcJB5r3TDGKTdurRmIKSVHKlTVy1+zBHXLGDxNFQcN0fWTBuPFePzZngmy2Jkg3XxYGf3R
-	di4cpgS/lMEuDcxsOC0f9Zm/quaeqbq7MsqyEmszcZTqGTa0luMnTcq/6+A19TtMTOiHJxdGfNJq/
-	rOgilic+NzqIBzrQENMKJpg8f8qNAL83WrOgld6VPXdSyEo5gJPWuDNpIoSSaw9UqiEGNC36RC5TW
-	9Ipe5PYw==;
+	bh=WPRPfvQG6ypSGOYqEDbWxIl9mjC9zWWZheu5ejJRLY0=; b=IsDaowIMb7fV/f2C46F67Q4gLW
+	qjnT76yeGQHSPW/K6e0nQ/0NgVN/SqpCF10F3P0PUZrjXj0wOfP1JaNGCSv3ZEQBzbhYappXVbVNq
+	hKNeEHy8f75iuDagHXsIdpMfJfTBJzjTLXQ4n7MIldBpN4Dpb9P+Z9yOsIGoo9MhhqYxIoiUQ3lPo
+	T/qBr/kBgZNtN/Urdc6CAgNYnb8ssH+tRcdZjHWdLRaG5DNgy0BJ1axDr5daopfpEGYJq0Chi24Qs
+	5xe7/2hxYjj+2SCyOcVBBcUl6wgZiUZNGSlghbUWuRyyjDR136KVyZ8KR0YLC7fUkV/3vQMQZYVzP
+	CTo9SGNw==;
 Received: from 109-204-176-126.cust.valoonet.fi ([109.204.176.126] helo=jl-x230.local)
 	by mail.kapsi.fi with esmtpsa (Exim 4.96)
 	(envelope-from <jussi.laakkonen@jolla.com>)
-		id 1wp3hY-00BKxT-2C
+		id 1wp3iC-00BL5u-1C
 	for connman@lists.linux.dev;
-	Wed, 29 Jul 2026 15:48:04 +0300
+	Wed, 29 Jul 2026 15:48:44 +0300
 From: Jussi Laakkonen <jussi.laakkonen@jolla.com>
 To: connman@lists.linux.dev
-Subject: [PATCHv2 8/9] unit: Add basic unit test for setting
-Date: Wed, 29 Jul 2026 15:47:34 +0300
-Message-ID: <20260729124753.74642-1-jussi.laakkonen@jolla.com>
+Subject: [PATCHv2 0/9] Add conf.d support and restructure settings
+Date: Wed, 29 Jul 2026 15:48:14 +0300
+Message-ID: <20260729124833.74681-1-jussi.laakkonen@jolla.com>
 X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260520134720.981315-9-jussi.laakkonen@jolla.com>
-References: <20260520134720.981315-9-jussi.laakkonen@jolla.com>
+In-Reply-To: <20260520134720.981315-1-jussi.laakkonen@jolla.com>
+References: <20260520134720.981315-1-jussi.laakkonen@jolla.com>
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
@@ -83,1194 +83,130 @@ X-Rspam-Report: Action: no action
  X-Symbol: MIME_TRACE(0.00) [0:+]
  X-Symbol: RCPT_COUNT_ONE(0.00); One recipient [1]
  X-Symbol: R_MISSING_CHARSET(0.50); Charset header is missing
- Message-ID: 20260729124753.74642-1-jussi.laakkonen@jolla.com
+ Message-ID: 20260729124833.74681-1-jussi.laakkonen@jolla.com
  X-Milter-Del: X-Spam
 
-Test the loading of configuration, conf.d support, default values,
-"wifi" option and error cases.
+This set of patches brings conf.d support to ConnMan so main.conf can be
+overridden fully or partially by adding new configuration files under
+main.conf.d. The files are processed in alphabetical order and the last value
+is dominant, following the common approach with conf.d support in general.
 
----
+This patch set requires the other, previously sent set named as
+"[PATCH 0/3] Allow to specify a type for devices that have no uevent file/info"
+as a pre-requisite. A full set of patches can be also sent containing both
+changes.
+
+Both connmand and vpnd use the same approach for reading configuration files.
+The basic version of this has been in Sailfish OS in use for over an year, also
+in production release (5.0). The hash table addition to make things cleaner and
+easier to add new options is a newer feature backed up with the unit test to
+ensure there is no regression.
+
+In order to achieve this, and to make the code reusable, all settings are
+moved to setting.c, which has same getters as in main.c had before. The setting
+system has been completely reworked and adding of new configuration file
+options happens now through a struct in which the name, type and callbacks etc.
+can be defined. For example, for BackgroundScanning the entry is:
+	{
+		.opt_key = CONF_BG_SCAN,
+		.opt_value = CONF_BG_SCAN_VAL,
+		.opt_type = CONF_TYPE_BOOL,
+		.opt_return_type = CONF_TYPE_BOOL,
+		.default_val.bool_val = true,
+		.error_cb = NULL,
+		.multiplier = 0
+	},
+
+The key needs to be added to setting.h, the value needs to be added to the
+setting.c option_val enum. The fields are detailed as follows:
+
+opt_key			Option name, used for searching in getters
+opt_value		enum value for the option
+opt_type		Option type, see enum option_type
+opt_return_type		The type of this option returns, supported: str -> uint
+default_val		Default value as union option, must match opt_type
+parser			Union for parser callbacks, contains:
+	parse_str_cb		Check string value: CONF_TYPE_STR
+	parse_list_cb		Parse a string list: CONF_TYPE_STRARR
+	parse_uint_list_cb	Parse int list: CONF_TYPE_UINTARR
+	parse_hashtable_cb	Parse a hash table: CONF_TYPE_HASHTABLE
+error_cb		Error callback when check_str_cb fails
+multiplier		For CONF_TYPE_UINT and CONF_TYPE_DOUBLE for correlation
+
+The types that are currently supported for settings are: uint (CONF_TYPE_UINT),
+uint* (CONF_TYPE_UINTARR), char* (CONF_TYPE_STR), char** (CONF_TYPE_STRARR),
+bool (CONF_TYPE_BOOL), double/real (CONF_TYPE_DOUBLE) and GHashTable
+(CONF_TYPE_HASHTABLE). The types, except uint* and GHashTable, are read with
+their corresponding reading functions - the GHashTable and uint* are parsed
+from char** with the defined callbacks (parse_hashtable_cb, parse_list_uint_cb).
+If parse_list_strs_cb is missing the string list is saved as is to
+configuration. The error_cb is useful in cases where the value needs a
+complicated setup, e.g, with online check mode.
+
+The alternative return type, opt_return_type, can be used to define a
+conversion type value for a string. Currently accepted conversions are STR ->
+UINT and DOUBLE -> UINT only.
+
+The default_val can be used to define the config option default value. All
+regular values (BOOL, INT, DOUBLE) will get the value copied to current_val.
+STR will get copied only when it is converted to INT at return. Any INTARR,
+STRARR or HASHTABLE opt_type needs to be initialized in
+initialize_default_values(), and free'd in __connman_settings_cleanup().
+
+The work for making these patches available for ConnMan upstream has been
+funded by NLnet foundation grant NGI0 Commons Fund:
+https://nlnet.nl/commonsfund.
+
+The NLnet project website is available at:
+https://nlnet.nl/project/ConnMan/.
+
+The changes are also available at:
+ v1 the original: https://github.com/LaakkonenJussi/connman_ng/pull/4
+ v2 additions: https://github.com/LaakkonenJussi/connman_ng/pull/5
+
 Changes in v2:
- - Added invalid config test for checking lists with invalid separators.
+ Patch 0:
+    - Updated the description after changes.
+ Patch 6: setting.c
+    - Moved all parser callbacks into an union, a new opt needs to define
+      only one cb. Dropped the list item callback.
+    - Fixed memory usage issues potentially causing leaked memory.
+      Allocating options is now more consistent and less complex.
+   - Fixed the service type and nameserver list parsing to not to clear
+     the list if the new list read from config is invalid.
+   - Removed the unnecessary enum for each config option.
+   - Improved the commit message.
+ Patch 8: test-setting.c
+   - Added invalid config test for checking lists with invalid separators.
 
- Makefile.am         |    9 +
- unit/test-setting.c | 1147 +++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 1156 insertions(+)
+Jussi Laakkonen (9):
+  util: Add conf.d support for connmand and vpnd
+  main: Support main.conf.d/ files for overriding configs
+  vpn-settings: Add callback for processing configs, support conf.d
+  vpn: Use util conf.d to read additional configs
+  main: Reformat processing of configuration values
+  setting: Move settings from main to setting with hash table support
+  wispr: Change online check urls to const char*
+  unit: Add basic unit test for setting
+  doc: Document conf.d support
+
+ Makefile.am           |   14 +-
+ doc/connman.conf.5.in |    7 +
+ include/setting.h     |   45 +-
+ src/connman.h         |    7 +
+ src/main.c            | 1031 ++-----------------------------
+ src/setting.c         | 1339 +++++++++++++++++++++++++++++++++++++++++
+ src/shared/util.c     |  179 ++++++
+ src/shared/util.h     |    7 +
+ src/wispr.c           |    4 +-
+ unit/test-setting.c   | 1147 +++++++++++++++++++++++++++++++++++
+ vpn/main.c            |   15 +-
+ vpn/vpn-settings.c    |   83 ++-
+ vpn/vpn.h             |    4 +-
+ 13 files changed, 2860 insertions(+), 1022 deletions(-)
+ create mode 100644 src/setting.c
  create mode 100644 unit/test-setting.c
 
-diff --git a/Makefile.am b/Makefile.am
-index 89348872..137059dc 100644
---- a/Makefile.am
-+++ b/Makefile.am
-@@ -453,6 +453,15 @@ tools_dnsproxy_standalone_LDFLAGS = $(src_connmand_LDFLAGS) -Wl,-zmuldefs
- noinst_PROGRAMS += tools/dnsproxy-standalone
- endif
- 
-+noinst_PROGRAMS += unit/test-setting
-+
-+unit_test_setting_CFLAGS = $(COVERAGE_OPT) $(AM_CFLAGS)
-+unit_test_setting_SOURCES = unit/test-setting.c $(backtrace_sources) \
-+				src/connman.h src/log.c src/setting.c src/config.c
-+unit_test_setting_LDADD = @GLIB_LIBS@ -ldl
-+
-+TESTS += unit/test-setting
-+
- endif
- 
- EXTRA_DIST += $(test_scripts)
-diff --git a/unit/test-setting.c b/unit/test-setting.c
-new file mode 100644
-index 00000000..0beb55e7
---- /dev/null
-+++ b/unit/test-setting.c
-@@ -0,0 +1,1147 @@
-+/*
-+ *  ConnMan setting unit tests
-+ *
-+ *  Copyright (C) 2025-2026 Jolla Mobile Ltd. All rights reserved.
-+ *
-+ *  Contact: jussi.laakkonen@jolla.com
-+ *
-+ *  This program is free software; you can redistribute it and/or modify
-+ *  it under the terms of the GNU General Public License version 2 as
-+ *  published by the Free Software Foundation.
-+ *
-+ *  This program is distributed in the hope that it will be useful,
-+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+ *  GNU General Public License for more details.
-+ */
-+
-+#ifdef HAVE_CONFIG_H
-+#include <config.h>
-+#endif
-+
-+#include <glib.h>
-+
-+#include "src/connman.h"
-+#include <connman/setting.h>
-+
-+int __connman_device_request_scan(enum connman_service_type type)
-+{
-+	return 0;
-+}
-+
-+int __connman_ipconfig_ipv6_set_privacy(struct connman_ipconfig *ipconfig,
-+		const char *value)
-+{
-+	return 0;
-+}
-+
-+
-+void __connman_iptables_validate_init(void)
-+{
-+	return;
-+}
-+
-+void __connman_service_auto_connect(enum connman_service_connect_reason reason)
-+{
-+	return;
-+}
-+
-+int __connman_service_connect(struct connman_service *service,
-+		enum connman_service_connect_reason reason)
-+{
-+	return 0;
-+}
-+
-+int __connman_service_disconnect(struct connman_service *service)
-+{
-+	return 0;
-+}
-+
-+struct connman_ipconfig *__connman_service_get_ip6config(
-+		struct connman_service *service)
-+{
-+	return NULL;
-+}
-+
-+struct connman_network *__connman_service_get_network(struct connman_service *service)
-+{
-+	return NULL;
-+}
-+
-+int __connman_service_load_modifiable(struct connman_service *service)
-+{
-+	return 0;
-+}
-+
-+void __connman_service_mark_dirty()
-+{
-+	return;
-+}
-+
-+int __connman_service_nameserver_append(struct connman_service *service,
-+		const char *nameserver, bool is_auto)
-+{
-+	return 0;
-+}
-+
-+void __connman_service_nameserver_clear(struct connman_service *service)
-+{
-+	return;
-+}
-+
-+int __connman_service_provision_changed(const char *ident)
-+{
-+	return 0;
-+}
-+
-+bool __connman_service_remove(struct connman_service *service)
-+{
-+	return true;
-+}
-+
-+int __connman_service_reset_ipconfig(struct connman_service *service,
-+		enum connman_ipconfig_type type, DBusMessageIter *array,
-+		enum connman_service_state *new_state)
-+{
-+	return 0;
-+}
-+
-+void __connman_service_set_config(struct connman_service *service,
-+		const char *file_id, const char *section)
-+{
-+	return;
-+}
-+
-+void __connman_service_set_domainname(struct connman_service *service,
-+		const char *domainname)
-+{
-+	return;
-+}
-+
-+int __connman_service_set_favorite_delayed(struct connman_service *service,
-+		bool favorite,
-+		bool delay_ordering)
-+{
-+	return 0;
-+}
-+
-+void __connman_service_set_hidden(struct connman_service *service)
-+{
-+	return;
-+}
-+
-+int __connman_service_set_ignore(struct connman_service *service,
-+		bool ignore)
-+{
-+	return 0;
-+}
-+
-+int __connman_service_set_immutable(struct connman_service *service,
-+		bool immutable)
-+{
-+	return 0;
-+}
-+
-+int __connman_service_set_mdns(struct connman_service *service,
-+		bool enabled)
-+{
-+	return 0;
-+}
-+
-+void __connman_service_set_search_domains(struct connman_service *service,
-+		char **domains)
-+{
-+	return;
-+}
-+
-+void __connman_service_set_string(struct connman_service *service,
-+		const char *key, const char *value)
-+{
-+	return;
-+}
-+
-+void __connman_service_set_timeservers(struct connman_service *service,
-+		char **timeservers)
-+{
-+	return;
-+}
-+
-+enum connman_service_security __connman_service_string2security(const char *str)
-+{
-+	return 0;
-+}
-+
-+enum connman_service_type __connman_service_string2type(const char *str)
-+{
-+	if (!str)
-+		return CONNMAN_SERVICE_TYPE_UNKNOWN;
-+
-+	if (strcmp(str, "ethernet") == 0)
-+		return CONNMAN_SERVICE_TYPE_ETHERNET;
-+	if (strcmp(str, "gadget") == 0)
-+		return CONNMAN_SERVICE_TYPE_GADGET;
-+	if (strcmp(str, "wifi") == 0)
-+		return CONNMAN_SERVICE_TYPE_WIFI;
-+	if (strcmp(str, "cellular") == 0)
-+		return CONNMAN_SERVICE_TYPE_CELLULAR;
-+	if (strcmp(str, "bluetooth") == 0)
-+		return CONNMAN_SERVICE_TYPE_BLUETOOTH;
-+	if (strcmp(str, "vpn") == 0)
-+		return CONNMAN_SERVICE_TYPE_VPN;
-+	if (strcmp(str, "gps") == 0)
-+		return CONNMAN_SERVICE_TYPE_GPS;
-+	if (strcmp(str, "system") == 0)
-+		return CONNMAN_SERVICE_TYPE_SYSTEM;
-+	if (strcmp(str, "p2p") == 0)
-+		return CONNMAN_SERVICE_TYPE_P2P;
-+
-+	return CONNMAN_SERVICE_TYPE_UNKNOWN;
-+}
-+
-+const char *__connman_service_online_check_mode2string(
-+				enum service_online_check_mode mode)
-+{
-+	switch (mode) {
-+	case CONNMAN_SERVICE_ONLINE_CHECK_MODE_UNKNOWN:
-+		break;
-+	case CONNMAN_SERVICE_ONLINE_CHECK_MODE_NONE:
-+		return "none";
-+	case CONNMAN_SERVICE_ONLINE_CHECK_MODE_ONE_SHOT:
-+		return "one-shot";
-+	case CONNMAN_SERVICE_ONLINE_CHECK_MODE_CONTINUOUS:
-+		return "continuous";
-+	default:
-+		break;
-+	}
-+
-+	return NULL;
-+}
-+
-+enum service_online_check_mode __connman_service_online_check_string2mode(
-+				const char *mode)
-+{
-+	if (!mode)
-+		return CONNMAN_SERVICE_ONLINE_CHECK_MODE_UNKNOWN;
-+
-+	if (g_strcmp0(mode, "none") == 0)
-+		return CONNMAN_SERVICE_ONLINE_CHECK_MODE_NONE;
-+	else if (g_strcmp0(mode, "one-shot") == 0)
-+		return CONNMAN_SERVICE_ONLINE_CHECK_MODE_ONE_SHOT;
-+	else if (g_strcmp0(mode, "continuous") == 0)
-+		return CONNMAN_SERVICE_ONLINE_CHECK_MODE_CONTINUOUS;
-+
-+	return CONNMAN_SERVICE_ONLINE_CHECK_MODE_UNKNOWN;
-+}
-+
-+GKeyFile *__connman_storage_load_config(const char *ident)
-+{
-+	return NULL;
-+}
-+
-+bool __connman_storage_remove_service(const char *service_id)
-+{
-+	return true;
-+}
-+
-+int __connman_util_get_random(uint64_t *val)
-+{
-+	return 0;
-+}
-+
-+const char *connman_device_get_string(struct connman_device *device,
-+		const char *key)
-+{
-+	return NULL;
-+}
-+
-+enum connman_device_type __connman_device_string2type(const char *str)
-+{
-+	if (!g_strcmp0(str,"ethernet"))
-+		return CONNMAN_DEVICE_TYPE_ETHERNET;
-+	if (!g_strcmp0(str,"wifi"))
-+		return CONNMAN_DEVICE_TYPE_WIFI;
-+	if (!g_strcmp0(str,"bluetooth"))
-+		return CONNMAN_DEVICE_TYPE_BLUETOOTH;
-+	if (!g_strcmp0(str,"gps"))
-+		return CONNMAN_DEVICE_TYPE_GPS;
-+	if (!g_strcmp0(str,"cellular"))
-+		return CONNMAN_DEVICE_TYPE_CELLULAR;
-+	if (!g_strcmp0(str,"gadget"))
-+		return CONNMAN_DEVICE_TYPE_GADGET;
-+
-+	return CONNMAN_DEVICE_TYPE_UNKNOWN;
-+}
-+
-+int connman_inet_check_ipaddress(const char *host)
-+{
-+	size_t len;
-+	int last;
-+
-+	if (!host)
-+		return -1;
-+
-+	len = strlen(host);
-+	if (len < 7)
-+		return -1;
-+
-+	last = atoi(host+(len-1));
-+
-+	if (g_str_has_prefix(host, "127.0.0.") && last > 0 && last < 9)
-+		return 1;
-+
-+	return 0;
-+}
-+
-+int connman_inotify_register(const char *path, inotify_event_cb callback)
-+{
-+	return 0;
-+}
-+
-+void connman_inotify_unregister(const char *path, inotify_event_cb callback)
-+{
-+	return;
-+}
-+
-+struct connman_ipaddress *connman_ipaddress_alloc(int family)
-+{
-+	return NULL;
-+}
-+
-+void connman_ipaddress_free(struct connman_ipaddress *ipaddress)
-+{
-+	return;
-+}
-+
-+int connman_ipaddress_set_ipv4(struct connman_ipaddress *ipaddress,
-+		const char *address, const char *netmask,
-+		const char *gateway)
-+{
-+	return 0;
-+}
-+
-+int connman_ipaddress_set_ipv6(struct connman_ipaddress *ipaddress,
-+		const char *address,
-+		unsigned char prefix_length,
-+		const char *gateway)
-+{
-+	return 0;
-+}
-+
-+const void *connman_network_get_blob(struct connman_network *network,
-+		const char *key, unsigned int *size)
-+{
-+	return NULL;
-+}
-+
-+struct connman_device *connman_network_get_device(struct connman_network *network)
-+{
-+	return NULL;
-+}
-+
-+const char *connman_network_get_identifier(
-+				const struct connman_network *network)
-+{
-+	return NULL;
-+}
-+
-+const char *connman_network_get_string(struct connman_network *network,
-+		const char *key)
-+{
-+	return NULL;
-+}
-+
-+int connman_network_set_ipaddress(struct connman_network *network,
-+		struct connman_ipaddress *ipaddress)
-+{
-+	return 0;
-+}
-+
-+void connman_network_set_ipv4_method(struct connman_network *network,
-+		enum connman_ipconfig_method method)
-+{
-+	return;
-+}
-+
-+void connman_network_set_ipv6_method(struct connman_network *network,
-+		enum connman_ipconfig_method method)
-+{
-+	return;
-+}
-+
-+int connman_notifier_register(const struct connman_notifier *notifier)
-+{
-+	return 0;
-+}
-+
-+void connman_notifier_unregister(const struct connman_notifier *notifier)
-+{
-+	return;
-+}
-+
-+const char *connman_service_get_identifier(
-+					const struct connman_service *service)
-+{
-+	return NULL;
-+}
-+
-+enum connman_service_type connman_service_get_type(
-+					const struct connman_service *service)
-+{
-+	return 0;
-+}
-+
-+struct connman_service *connman_service_lookup_from_identifier(const char* identifier)
-+{
-+	return NULL;
-+}
-+
-+const char *connman_storage_dir(void)
-+{
-+	return NULL;
-+}
-+
-+const char *connman_storage_user_dir(void)
-+{
-+	return NULL;
-+}
-+
-+
-+static char *config_empty[] = {
-+	"",
-+	NULL
-+};
-+
-+static char *config_ok[] = {
-+	"[General]",
-+	"BackgroundScanning = true",
-+	"FallbackTimeservers = 127.0.0.1,127.0.0.2",
-+	"DefaultAutoConnectTechnologies = ethernet,wifi",
-+	"DefaultFavoriteTechnologies = wifi",
-+	"AlwaysConnectedTechnologies = ethernet,cellular",
-+	"PreferredTechnologies = ethernet,wifi",
-+	"FallbackNameservers = 127.0.0.3",
-+	"InputRequestTimeout = 10",
-+	"BrowserLaunchTimeout = 15",
-+	"NetworkInterfaceBlacklist = p2p,usb",
-+	"AllowHostnameUpdates = true",
-+	"AllowDomainnameUpdates = true",
-+	"SingleConnectedTechnology = true",
-+	"TetheringTechnologies = wifi",
-+	"PersistentTetheringMode = true",
-+	"Enable6to4 = true",
-+	"VendorClassID = id123",
-+	"EnableOnlineCheck = true",
-+	"EnableOnlineToReadyTransition = true",
-+	"OnlineCheckMode = continuous",
-+	"OnlineCheckIPv4URL = http://url.something/204",
-+	"OnlineCheckIPv6URL = http://url6.something/204",
-+	"OnlineCheckConnectTimeout = 100.00",
-+	"OnlineCheckInitialInterval = 10",
-+	"OnlineCheckMaxInterval = 50",
-+	"OnlineCheckFailuresThreshold = 3",
-+	"OnlineCheckSuccessesThreshold = 5",
-+	"OnlineCheckIntervalStyle = fibonacci",
-+	"AutoConnectRoamingServices = true",
-+	"AddressConflictDetection = true",
-+	"UseGatewaysAsTimeservers = true",
-+	"Localtime = /var/local/lib/localtime",
-+	"RegdomFollowsTimezone = true",
-+	"ResolvConf = /usr/etc/resolv.conf",
-+	"FallbackDeviceTypes = rndis0:gadget,usb0:ethernet",
-+	NULL
-+};
-+
-+static GKeyFile* load_config_data(char **data)
-+{
-+	GKeyFile *config;
-+	GError *error = NULL;
-+	char *conf_data;
-+
-+	config = g_key_file_new();
-+	g_assert(config);
-+
-+	conf_data = g_strjoinv("\n", data);
-+
-+	g_key_file_set_list_separator(config, ',');
-+	g_assert_true(g_key_file_load_from_data(config, conf_data, -1,
-+						G_KEY_FILE_NONE, &error));
-+	g_assert_null(error);
-+
-+	g_clear_error(&error);
-+	g_free(conf_data);
-+
-+	return config;
-+}
-+
-+static bool do_init = true;
-+static bool do_cleanup = true;
-+static bool do_load = true;
-+static bool do_main = true;
-+
-+static void setting_test_basic0(void)
-+{
-+	GKeyFile *config = NULL;
-+	char **str_list;
-+	unsigned int *int_values;
-+
-+	if (do_init)
-+		__connman_setting_init();
-+
-+	if (do_load) {
-+		config = load_config_data(config_ok);
-+		__connman_setting_read_config_values(config, do_main, false);
-+	}
-+
-+	g_assert_true(connman_setting_get_bool(CONF_BG_SCAN));
-+
-+	str_list = connman_setting_get_string_list(CONF_PREF_TIMESERVERS);
-+	g_assert(str_list);
-+	g_assert_cmpuint(g_strv_length(str_list), ==, 2);
-+	g_assert_cmpstr(str_list[0], ==, "127.0.0.1");
-+	g_assert_cmpstr(str_list[1], ==, "127.0.0.2");
-+
-+	int_values = connman_setting_get_uint_list(CONF_AUTO_CONNECT_TECHS);
-+	g_assert(int_values);
-+	g_assert_cmpuint(int_values[0], ==, CONNMAN_SERVICE_TYPE_ETHERNET);
-+	g_assert_cmpuint(int_values[1], ==, CONNMAN_SERVICE_TYPE_WIFI);
-+	g_assert_cmpuint(int_values[2], ==, CONNMAN_SERVICE_TYPE_UNKNOWN);
-+
-+	int_values = connman_setting_get_uint_list(CONF_FAVORITE_TECHS);
-+	g_assert(int_values);
-+	g_assert_cmpuint(int_values[0], ==, CONNMAN_SERVICE_TYPE_WIFI);
-+	g_assert_cmpuint(int_values[1], ==, CONNMAN_SERVICE_TYPE_UNKNOWN);
-+
-+	int_values = connman_setting_get_uint_list(CONF_PREFERRED_TECHS);
-+	g_assert(int_values);
-+	g_assert_cmpuint(int_values[0], ==, CONNMAN_SERVICE_TYPE_ETHERNET);
-+	g_assert_cmpuint(int_values[1], ==, CONNMAN_SERVICE_TYPE_WIFI);
-+	g_assert_cmpuint(int_values[2], ==, CONNMAN_SERVICE_TYPE_UNKNOWN);
-+
-+	int_values = connman_setting_get_uint_list(CONF_ALWAYS_CONNECTED_TECHS);
-+	g_assert(int_values);
-+	g_assert_cmpuint(int_values[0], ==, CONNMAN_SERVICE_TYPE_ETHERNET);
-+	g_assert_cmpuint(int_values[1], ==, CONNMAN_SERVICE_TYPE_CELLULAR);
-+	g_assert_cmpuint(int_values[2], ==, CONNMAN_SERVICE_TYPE_UNKNOWN);
-+
-+	str_list = connman_setting_get_string_list(CONF_FALLBACK_NAMESERVERS);
-+	g_assert(str_list);
-+	g_assert_cmpuint(g_strv_length(str_list), ==, 1);
-+	g_assert_cmpstr(str_list[0], ==, "127.0.0.3");
-+
-+	g_assert_cmpuint(connman_timeout_input_request(), ==, 10*1000);
-+	g_assert_cmpuint(connman_timeout_browser_launch(), ==, 15*1000);
-+
-+	str_list = connman_setting_get_string_list(CONF_BLACKLISTED_INTERFACES);
-+	g_assert(str_list);
-+	g_assert_cmpuint(g_strv_length(str_list), ==, 2);
-+	g_assert_cmpstr(str_list[0], ==, "p2p");
-+	g_assert_cmpstr(str_list[1], ==, "usb");
-+
-+	g_assert_true(connman_setting_get_bool(CONF_ALLOW_HOSTNAME_UPDATES));
-+	g_assert_true(connman_setting_get_bool(CONF_ALLOW_DOMAINNAME_UPDATES));
-+	g_assert_true(connman_setting_get_bool(CONF_SINGLE_TECH));
-+
-+	str_list = connman_setting_get_string_list(CONF_TETHERING_TECHNOLOGIES);
-+	g_assert(str_list);
-+	g_assert_cmpuint(g_strv_length(str_list), ==, 1);
-+	g_assert_cmpstr(str_list[0], ==, "wifi");
-+
-+	g_assert_true(connman_setting_get_bool(CONF_PERSISTENT_TETHERING_MODE));
-+
-+	g_assert_true(connman_setting_get_bool(CONF_ENABLE_6TO4));
-+
-+	g_assert_cmpstr(connman_setting_get_string(CONF_VENDOR_CLASS_ID), ==,
-+				"id123");
-+
-+	g_assert_true(connman_setting_get_bool(CONF_ENABLE_ONLINE_CHECK));
-+	g_assert_true(connman_setting_get_bool(
-+				CONF_ENABLE_ONLINE_TO_READY_TRANSITION));
-+	g_assert_cmpuint(connman_setting_get_uint(CONF_ONLINE_CHECK_MODE), ==,
-+				CONNMAN_SERVICE_ONLINE_CHECK_MODE_CONTINUOUS);
-+	g_assert_cmpstr(connman_setting_get_string(CONF_ONLINE_CHECK_IPV4_URL),
-+				==, "http://url.something/204");
-+	g_assert_cmpstr(connman_setting_get_string(CONF_ONLINE_CHECK_IPV6_URL), ==,
-+				"http://url6.something/204");
-+	g_assert_cmpuint(connman_setting_get_uint(
-+				CONF_ONLINE_CHECK_CONNECT_TIMEOUT), ==, 100 * 1000);
-+	g_assert_cmpuint(connman_setting_get_uint(
-+				CONF_ONLINE_CHECK_INITIAL_INTERVAL), ==, 10);
-+	g_assert_cmpuint(connman_setting_get_uint(
-+				CONF_ONLINE_CHECK_MAX_INTERVAL), ==, 50);
-+	g_assert_cmpuint(connman_setting_get_uint(
-+				CONF_ONLINE_CHECK_FAILURES_THRESHOLD), ==, 3);
-+	g_assert_cmpuint(connman_setting_get_uint(
-+				CONF_ONLINE_CHECK_SUCCESSES_THRESHOLD), ==, 5);
-+	g_assert_cmpstr(connman_setting_get_string(
-+				CONF_ONLINE_CHECK_INTERVAL_STYLE), ==,
-+				"fibonacci");
-+
-+	g_assert_true(connman_setting_get_bool(
-+				CONF_AUTO_CONNECT_ROAMING_SERVICES));
-+
-+	g_assert_true(connman_setting_get_bool(CONF_ACD));
-+
-+	g_assert_true(connman_setting_get_bool(
-+				CONF_USE_GATEWAYS_AS_TIMESERVERS));
-+
-+	g_assert_cmpstr(connman_setting_get_string(CONF_LOCALTIME), ==,
-+				"/var/local/lib/localtime");
-+
-+	g_assert_true(connman_setting_get_bool(CONF_REGDOM_FOLLOWS_TIMEZONE));
-+
-+	g_assert_cmpstr(connman_setting_get_string(CONF_RESOLV_CONF), ==,
-+				"/usr/etc/resolv.conf");
-+
-+	g_assert_cmpstr(__connman_setting_get_fallback_device_type("rndis0"),
-+				==, "gadget");
-+	g_assert_cmpstr(__connman_setting_get_fallback_device_type("usb0"),
-+				==, "ethernet");
-+
-+
-+	if (do_cleanup)
-+		__connman_setting_cleanup();
-+
-+	if (config)
-+		g_key_file_unref(config);
-+}
-+
-+static void setting_test_basic1(void)
-+{
-+	char **str_list;
-+	unsigned int *int_values;
-+
-+	do_init = do_load = do_main = true;
-+	do_cleanup = false;
-+
-+	/*
-+	 * Load first with defined names then read the same with the strings
-+	 * to make sure these are not changed as in code these are mostly used
-+	 */
-+	setting_test_basic0();
-+
-+	g_assert_true(connman_setting_get_bool(CONF_BG_SCAN));
-+
-+	str_list = connman_setting_get_string_list(CONF_PREF_TIMESERVERS);
-+	g_assert(str_list);
-+	g_assert_cmpuint(g_strv_length(str_list), ==, 2);
-+	g_assert_cmpstr(str_list[0], ==, "127.0.0.1");
-+	g_assert_cmpstr(str_list[1], ==, "127.0.0.2");
-+
-+	int_values = connman_setting_get_uint_list(CONF_AUTO_CONNECT_TECHS);
-+	g_assert(int_values);
-+	g_assert_cmpuint(int_values[0], ==, CONNMAN_SERVICE_TYPE_ETHERNET);
-+	g_assert_cmpuint(int_values[1], ==, CONNMAN_SERVICE_TYPE_WIFI);
-+	g_assert_cmpuint(int_values[2], ==, CONNMAN_SERVICE_TYPE_UNKNOWN);
-+
-+	int_values = connman_setting_get_uint_list(CONF_FAVORITE_TECHS);
-+	g_assert(int_values);
-+	g_assert_cmpuint(int_values[0], ==, CONNMAN_SERVICE_TYPE_WIFI);
-+	g_assert_cmpuint(int_values[1], ==, CONNMAN_SERVICE_TYPE_UNKNOWN);
-+
-+	int_values = connman_setting_get_uint_list(CONF_PREFERRED_TECHS);
-+	g_assert(int_values);
-+	g_assert_cmpuint(int_values[0], ==, CONNMAN_SERVICE_TYPE_ETHERNET);
-+	g_assert_cmpuint(int_values[1], ==, CONNMAN_SERVICE_TYPE_WIFI);
-+	g_assert_cmpuint(int_values[2], ==, CONNMAN_SERVICE_TYPE_UNKNOWN);
-+
-+	int_values = connman_setting_get_uint_list(CONF_ALWAYS_CONNECTED_TECHS);
-+	g_assert(int_values);
-+	g_assert_cmpuint(int_values[0], ==, CONNMAN_SERVICE_TYPE_ETHERNET);
-+	g_assert_cmpuint(int_values[1], ==, CONNMAN_SERVICE_TYPE_CELLULAR);
-+	g_assert_cmpuint(int_values[2], ==, CONNMAN_SERVICE_TYPE_UNKNOWN);
-+
-+	str_list = connman_setting_get_string_list(CONF_FALLBACK_NAMESERVERS);
-+	g_assert(str_list);
-+	g_assert_cmpuint(g_strv_length(str_list), ==, 1);
-+	g_assert_cmpstr(str_list[0], ==, "127.0.0.3");
-+
-+	g_assert_cmpuint(connman_timeout_input_request(), ==, 10*1000);
-+	g_assert_cmpuint(connman_timeout_browser_launch(), ==, 15*1000);
-+
-+	str_list = connman_setting_get_string_list(CONF_BLACKLISTED_INTERFACES);
-+	g_assert(str_list);
-+	g_assert_cmpuint(g_strv_length(str_list), ==, 2);
-+	g_assert_cmpstr(str_list[0], ==, "p2p");
-+	g_assert_cmpstr(str_list[1], ==, "usb");
-+
-+	g_assert_true(connman_setting_get_bool(CONF_ALLOW_HOSTNAME_UPDATES));
-+	g_assert_true(connman_setting_get_bool(CONF_ALLOW_DOMAINNAME_UPDATES));
-+	g_assert_true(connman_setting_get_bool(CONF_SINGLE_TECH));
-+
-+	str_list = connman_setting_get_string_list(CONF_TETHERING_TECHNOLOGIES);
-+	g_assert(str_list);
-+	g_assert_cmpuint(g_strv_length(str_list), ==, 1);
-+	g_assert_cmpstr(str_list[0], ==, "wifi");
-+
-+	g_assert_true(connman_setting_get_bool(CONF_PERSISTENT_TETHERING_MODE));
-+
-+	g_assert_true(connman_setting_get_bool(CONF_ENABLE_6TO4));
-+
-+	g_assert_cmpstr(connman_setting_get_string(CONF_VENDOR_CLASS_ID), ==,
-+				"id123");
-+
-+	g_assert_true(connman_setting_get_bool(CONF_ENABLE_ONLINE_CHECK));
-+	g_assert_true(connman_setting_get_bool(
-+				CONF_ENABLE_ONLINE_TO_READY_TRANSITION));
-+	g_assert_cmpuint(connman_setting_get_uint(CONF_ONLINE_CHECK_MODE), ==,
-+				CONNMAN_SERVICE_ONLINE_CHECK_MODE_CONTINUOUS);
-+	g_assert_cmpstr(connman_setting_get_string(CONF_ONLINE_CHECK_IPV4_URL),
-+				==, "http://url.something/204");
-+	g_assert_cmpstr(connman_setting_get_string(CONF_ONLINE_CHECK_IPV6_URL),
-+				==, "http://url6.something/204");
-+	g_assert_cmpuint(connman_setting_get_uint(
-+				CONF_ONLINE_CHECK_CONNECT_TIMEOUT), ==, 100 * 1000);
-+	g_assert_cmpuint(connman_setting_get_uint(
-+				CONF_ONLINE_CHECK_INITIAL_INTERVAL), ==, 10);
-+	g_assert_cmpuint(connman_setting_get_uint(
-+				CONF_ONLINE_CHECK_MAX_INTERVAL), ==, 50);
-+	g_assert_cmpuint(connman_setting_get_uint(
-+				CONF_ONLINE_CHECK_FAILURES_THRESHOLD), ==, 3);
-+	g_assert_cmpuint(connman_setting_get_uint(
-+				CONF_ONLINE_CHECK_SUCCESSES_THRESHOLD), ==, 5);
-+	g_assert_cmpstr(connman_setting_get_string(
-+				CONF_ONLINE_CHECK_INTERVAL_STYLE), ==,
-+				"fibonacci");
-+
-+	g_assert_true(connman_setting_get_bool(
-+				CONF_AUTO_CONNECT_ROAMING_SERVICES));
-+
-+	g_assert_true(connman_setting_get_bool(CONF_ACD));
-+
-+	g_assert_true(connman_setting_get_bool(
-+				CONF_USE_GATEWAYS_AS_TIMESERVERS));
-+
-+	g_assert_cmpstr(connman_setting_get_string(CONF_LOCALTIME), ==,
-+				"/var/local/lib/localtime");
-+
-+	g_assert_true(connman_setting_get_bool(CONF_REGDOM_FOLLOWS_TIMEZONE));
-+
-+	g_assert_cmpstr(connman_setting_get_string(CONF_RESOLV_CONF), ==,
-+				"/usr/etc/resolv.conf");
-+
-+	g_assert_cmpstr(__connman_setting_get_fallback_device_type("rndis0"),
-+				==, "gadget");
-+	g_assert_cmpstr(__connman_setting_get_fallback_device_type("usb0"),
-+				==, "ethernet");
-+
-+	__connman_setting_cleanup();
-+
-+	do_cleanup = true;
-+}
-+
-+static void setting_test_defaults0(void)
-+{
-+	GKeyFile *config = NULL;
-+	char **str_list;
-+	unsigned int *int_values;
-+
-+	if (do_init)
-+		__connman_setting_init();
-+
-+	if (do_load) {
-+		config = load_config_data(config_empty);
-+		__connman_setting_read_config_values(config, do_main, false);
-+	}
-+
-+	g_assert_true(connman_setting_get_bool(CONF_BG_SCAN));
-+
-+	str_list = connman_setting_get_string_list(CONF_PREF_TIMESERVERS);
-+	g_assert_null(str_list);
-+
-+	int_values = connman_setting_get_uint_list(CONF_AUTO_CONNECT_TECHS);
-+	g_assert(int_values);
-+	g_assert_cmpuint(int_values[0], ==, CONNMAN_SERVICE_TYPE_WIFI);
-+	g_assert_cmpuint(int_values[1], ==, CONNMAN_SERVICE_TYPE_ETHERNET);
-+	g_assert_cmpuint(int_values[2], ==, CONNMAN_SERVICE_TYPE_CELLULAR);
-+
-+	int_values = connman_setting_get_uint_list(CONF_FAVORITE_TECHS);
-+	g_assert(int_values);
-+	g_assert_cmpuint(int_values[0], ==, CONNMAN_SERVICE_TYPE_ETHERNET);
-+
-+	int_values = connman_setting_get_uint_list(CONF_PREFERRED_TECHS);
-+	g_assert_null(int_values);
-+
-+	int_values = connman_setting_get_uint_list(CONF_ALWAYS_CONNECTED_TECHS);
-+	g_assert_null(int_values);
-+
-+	str_list = connman_setting_get_string_list(CONF_FALLBACK_NAMESERVERS);
-+	g_assert_null(str_list);
-+
-+	g_assert_cmpuint(connman_timeout_input_request(), ==, 120*1000);
-+	g_assert_cmpuint(connman_timeout_browser_launch(), ==, 300*1000);
-+
-+	str_list = connman_setting_get_string_list(CONF_BLACKLISTED_INTERFACES);
-+	g_assert(str_list);
-+	g_assert_cmpuint(g_strv_length(str_list), ==, 8);
-+	g_assert_cmpstr(str_list[0], ==, "vmnet");
-+	g_assert_cmpstr(str_list[1], ==, "vboxnet");
-+	g_assert_cmpstr(str_list[2], ==, "virbr");
-+	g_assert_cmpstr(str_list[3], ==, "ifb");
-+	g_assert_cmpstr(str_list[4], ==, "ve-");
-+	g_assert_cmpstr(str_list[5], ==, "vb-");
-+	g_assert_cmpstr(str_list[6], ==, "ham");
-+	g_assert_cmpstr(str_list[7], ==, "veth");
-+
-+	g_assert_true(connman_setting_get_bool(CONF_ALLOW_HOSTNAME_UPDATES));
-+	g_assert_true(connman_setting_get_bool(CONF_ALLOW_DOMAINNAME_UPDATES));
-+	g_assert_false(connman_setting_get_bool(CONF_SINGLE_TECH));
-+
-+	str_list = connman_setting_get_string_list(CONF_TETHERING_TECHNOLOGIES);
-+	g_assert_null(str_list);
-+
-+	g_assert_false(connman_setting_get_bool(CONF_PERSISTENT_TETHERING_MODE));
-+
-+	g_assert_false(connman_setting_get_bool(CONF_ENABLE_6TO4));
-+
-+	g_assert_null(connman_setting_get_string(CONF_VENDOR_CLASS_ID));
-+
-+	g_assert_true(connman_setting_get_bool(CONF_ENABLE_ONLINE_CHECK));
-+	g_assert_false(connman_setting_get_bool(
-+				CONF_ENABLE_ONLINE_TO_READY_TRANSITION));
-+	g_assert_cmpuint(connman_setting_get_uint(CONF_ONLINE_CHECK_MODE), ==,
-+				CONNMAN_SERVICE_ONLINE_CHECK_MODE_ONE_SHOT);
-+	g_assert_cmpstr(connman_setting_get_string(CONF_ONLINE_CHECK_IPV4_URL),
-+				==, "http://ipv4.connman.net/online/status.html");
-+	g_assert_cmpstr(connman_setting_get_string(CONF_ONLINE_CHECK_IPV6_URL),
-+				==, "http://ipv6.connman.net/online/status.html");
-+	g_assert_cmpuint(connman_setting_get_uint(
-+				CONF_ONLINE_CHECK_CONNECT_TIMEOUT), ==, 0);
-+	g_assert_cmpuint(connman_setting_get_uint(
-+				CONF_ONLINE_CHECK_INITIAL_INTERVAL), ==, 1);
-+	g_assert_cmpuint(connman_setting_get_uint(
-+				CONF_ONLINE_CHECK_MAX_INTERVAL), ==, 12);
-+	g_assert_cmpuint(connman_setting_get_uint(
-+				CONF_ONLINE_CHECK_FAILURES_THRESHOLD), ==, 6);
-+	g_assert_cmpuint(connman_setting_get_uint(
-+				CONF_ONLINE_CHECK_SUCCESSES_THRESHOLD), ==, 6);
-+	g_assert_cmpstr(connman_setting_get_string(
-+				CONF_ONLINE_CHECK_INTERVAL_STYLE), ==,
-+				"geometric");
-+
-+	g_assert_false(connman_setting_get_bool(
-+					CONF_AUTO_CONNECT_ROAMING_SERVICES));
-+	g_assert_false(connman_setting_get_bool(CONF_ACD));
-+	g_assert_false(connman_setting_get_bool(
-+					CONF_USE_GATEWAYS_AS_TIMESERVERS));
-+
-+	g_assert_null(__connman_setting_get_fallback_device_type("rndis0"));
-+	g_assert_null(__connman_setting_get_fallback_device_type("usb0"));
-+
-+	g_assert_cmpstr(connman_setting_get_string(CONF_LOCALTIME), ==,
-+				"/etc/localtime");
-+
-+	g_assert_false(connman_setting_get_bool(CONF_REGDOM_FOLLOWS_TIMEZONE));
-+
-+	g_assert_null(connman_setting_get_string(CONF_RESOLV_CONF));
-+
-+	if (do_cleanup)
-+		__connman_setting_cleanup();
-+
-+	if (config)
-+		g_key_file_unref(config);
-+}
-+
-+static void setting_test_load_confd0(void)
-+{
-+	do_init = do_cleanup = false;
-+
-+	__connman_setting_init();
-+
-+	/* Load empty config and then new config as additional one*/
-+	setting_test_defaults0();
-+	do_main = false;
-+	setting_test_basic0();
-+
-+	__connman_setting_cleanup();
-+
-+	do_init = do_cleanup = do_main = true;
-+}
-+
-+static char *conf0[] = {
-+	"[General]",
-+	NULL
-+};
-+
-+static char *conf_bool[] = {
-+	"[General]",
-+	"BackgroundScanning = false",
-+	NULL
-+};
-+
-+static char *conf_uint[] = {
-+	"[General]",
-+	"InputRequestTimeout = 5",
-+	NULL
-+};
-+
-+static char *conf_uint_list[] = {
-+	"[General]",
-+	"DefaultAutoConnectTechnologies = cellular,wifi,usb",
-+	NULL
-+};
-+
-+static char *conf_str[] = {
-+	"[General]",
-+	"OnlineCheckIPv4URL = http://url.to/checkv4",
-+	NULL
-+};
-+
-+static char *conf_str_list[] = {
-+	"[General]",
-+	"NetworkInterfaceBlacklist = eth,wlan",
-+	NULL
-+};
-+
-+static void setting_test_load_confd1(void)
-+{
-+	GKeyFile *config;
-+	char **str_list;
-+	unsigned int *int_values;
-+
-+	do_init = do_cleanup = false;
-+
-+	__connman_setting_init();
-+
-+	/* Load empty config with defaults*/
-+	setting_test_defaults0();
-+
-+	/* Then empty config and check default values*/
-+	config = load_config_data(conf0);
-+	__connman_setting_read_config_values(config, false, false);
-+	g_key_file_unref(config);
-+
-+	do_load = do_main = false;
-+	setting_test_defaults0();
-+
-+	/* Load configs with one change and check each */
-+	config = load_config_data(conf_bool);
-+	__connman_setting_read_config_values(config, false, false);
-+	g_key_file_unref(config);
-+
-+	g_assert_false(connman_setting_get_bool(CONF_BG_SCAN));
-+
-+	config = load_config_data(conf_uint);
-+	__connman_setting_read_config_values(config, false, false);
-+	g_key_file_unref(config);
-+
-+	g_assert_cmpint(connman_timeout_input_request(), ==, 5*1000);
-+
-+	config = load_config_data(conf_uint_list);
-+	__connman_setting_read_config_values(config, false, false);
-+	g_key_file_unref(config);
-+
-+	int_values = connman_setting_get_uint_list(CONF_AUTO_CONNECT_TECHS);
-+	g_assert(int_values);
-+	g_assert_cmpuint(int_values[0], ==, CONNMAN_SERVICE_TYPE_CELLULAR);
-+	g_assert_cmpuint(int_values[1], ==, CONNMAN_SERVICE_TYPE_WIFI);
-+	/* Usb is not known */
-+	g_assert_cmpuint(int_values[2], ==, CONNMAN_SERVICE_TYPE_UNKNOWN);
-+
-+
-+	config = load_config_data(conf_str);
-+	__connman_setting_read_config_values(config, false, false);
-+	g_key_file_unref(config);
-+
-+	g_assert_cmpstr(connman_setting_get_string(CONF_ONLINE_CHECK_IPV4_URL),
-+						==, "http://url.to/checkv4");
-+
-+	config = load_config_data(conf_str_list);
-+	__connman_setting_read_config_values(config, false, false);
-+	g_key_file_unref(config);
-+
-+	str_list = connman_setting_get_string_list(CONF_BLACKLISTED_INTERFACES);
-+	g_assert(str_list);
-+	g_assert_cmpuint(g_strv_length(str_list), ==, 2);
-+	g_assert_cmpstr(str_list[0], ==, "eth");
-+	g_assert_cmpstr(str_list[1], ==, "wlan");
-+
-+	/* Then load the big config and check values */
-+	do_load = true;
-+	do_main = false;
-+	setting_test_basic0();
-+
-+	__connman_setting_cleanup();
-+
-+	do_init = do_cleanup = do_main = true;
-+}
-+
-+static void setting_test_options0(void)
-+{
-+	const char *key = CONF_OPTION_WIFI;
-+
-+	__connman_setting_init();
-+
-+	g_assert_cmpstr(connman_setting_get_string(key), ==, "nl80211,wext");
-+	__connman_setting_set_option(key, "wext");
-+	g_assert_cmpstr(connman_setting_get_string(key), ==, "wext");
-+	__connman_setting_set_option(key, "nl80211");
-+	g_assert_cmpstr(connman_setting_get_string(key), ==, "nl80211");
-+	g_assert_cmpstr(connman_setting_get_string("wifi"), ==, "nl80211");
-+
-+	__connman_setting_cleanup();
-+}
-+
-+static void setting_test_error0(void)
-+{
-+	__connman_setting_init();
-+
-+	__connman_setting_read_config_values(NULL, true, false);
-+
-+	g_assert_false(__connman_setting_is_supported_option(NULL));
-+	g_assert_false(__connman_setting_is_supported_option(""));
-+	g_assert_false(__connman_setting_is_supported_option("NotAKey"));
-+
-+	g_assert_false(connman_setting_get_bool(NULL));
-+	g_assert_false(connman_setting_get_bool(""));
-+	g_assert_false(connman_setting_get_bool("NotAKey"));
-+
-+	g_assert_cmpint(connman_setting_get_uint(NULL), ==, 0);
-+	g_assert_cmpint(connman_setting_get_uint(""), ==, 0);
-+	g_assert_cmpint(connman_setting_get_uint("NotAKey"), ==, 0);
-+
-+	g_assert_null(connman_setting_get_uint_list(NULL));
-+	g_assert_null(connman_setting_get_uint_list(""));
-+	g_assert_null(connman_setting_get_uint_list("NotAKey"));
-+
-+	g_assert_null(connman_setting_get_string(NULL));
-+	g_assert_null(connman_setting_get_string(""));
-+	g_assert_null(connman_setting_get_string("NotAKey"));
-+
-+	g_assert_null(connman_setting_get_string_list(NULL));
-+	g_assert_null(connman_setting_get_string_list(""));
-+	g_assert_null(connman_setting_get_string_list("NotAKey"));
-+
-+	g_assert_null(__connman_setting_get_fallback_device_type(NULL));
-+	g_assert_null(__connman_setting_get_fallback_device_type(""));
-+	g_assert_null(__connman_setting_get_fallback_device_type("NotAKey"));
-+
-+	__connman_setting_set_option(NULL, NULL);
-+	__connman_setting_set_option(NULL, "");
-+	__connman_setting_set_option(NULL, "none");
-+	__connman_setting_set_option("", NULL);
-+	__connman_setting_set_option("", "");
-+	__connman_setting_set_option("", "none");
-+	__connman_setting_set_option("option", NULL);
-+	__connman_setting_set_option("option", "");
-+	__connman_setting_set_option("option", "none");
-+
-+	__connman_setting_cleanup();
-+}
-+
-+static char *config_invalid0[] = {
-+	"[General]",
-+	"TetheringSubnetBlock = a.b.c.d",
-+	"DefaultAutoConnectTechnologies = ethernet-wifi",
-+	"DefaultFavoriteTechnologies = wifi/cellular",
-+	"AlwaysConnectedTechnologies = ethernet_cellular",
-+	"PreferredTechnologies = ethernet+wifi",
-+	"FallbackNameservers = unknown-url",
-+	"StorageRootPermissions = none",
-+	"StorageDirPermissions = none",
-+	"StorageFilePermissions = none",
-+	"Umask = some",
-+	"FallbackDeviceTypes = rndis0-gadget,usb0=ethernet",
-+	NULL
-+};
-+
-+static void setting_test_error1(void)
-+{
-+	GKeyFile *config;
-+
-+	do_init = do_cleanup = false;
-+
-+	__connman_setting_init();
-+
-+	/* Load empty config with defaults*/
-+	setting_test_defaults0();
-+
-+	/* Load the invalid config. */
-+	config = load_config_data(config_invalid0);
-+	__connman_setting_read_config_values(config, false, false);
-+	g_key_file_unref(config);
-+
-+	/* Test that defaults are not changed */
-+	do_load = do_main = false;
-+	setting_test_defaults0();
-+
-+	__connman_setting_cleanup();
-+
-+	do_init = do_cleanup = do_main = true;
-+}
-+
-+
-+static gchar *option_debug = NULL;
-+
-+static bool parse_debug(const char *key, const char *value,
-+					gpointer user_data, GError **error)
-+{
-+	if (value)
-+		option_debug = g_strdup(value);
-+	else
-+		option_debug = g_strdup("*");
-+
-+	return true;
-+}
-+
-+static GOptionEntry options[] = {
-+	{ "debug", 'd', G_OPTION_FLAG_OPTIONAL_ARG,
-+				G_OPTION_ARG_CALLBACK, parse_debug,
-+				"Specify debug options to enable", "DEBUG" },
-+	{ NULL },
-+};
-+
-+int main (int argc, char *argv[])
-+{
-+	GOptionContext *context;
-+	GError *error = NULL;
-+	int err;
-+
-+	g_test_init(&argc, &argv, NULL);
-+
-+	context = g_option_context_new(NULL);
-+	g_option_context_add_main_entries(context, options, NULL);
-+
-+	if (!g_option_context_parse(context, &argc, &argv, &error)) {
-+		if (error) {
-+			g_printerr("%s\n", error->message);
-+			g_error_free(error);
-+		} else
-+			g_printerr("An unknown error occurred\n");
-+		return 1;
-+	}
-+
-+	g_option_context_free(context);
-+
-+	__connman_log_init(argv[0], option_debug, false, false,
-+			"Unit Tests Connection Manager", VERSION);
-+	__connman_iptables_validate_init();
-+
-+	g_test_add_func("/setting/test_basic0", setting_test_basic0);
-+	g_test_add_func("/setting/test_basic1", setting_test_basic1);
-+
-+	g_test_add_func("/setting/test_defaults0", setting_test_defaults0);
-+
-+	g_test_add_func("/setting/test_load_config0", setting_test_load_confd0);
-+	g_test_add_func("/setting/test_load_config1", setting_test_load_confd1);
-+
-+	g_test_add_func("/setting/test_options0", setting_test_options0);
-+
-+	g_test_add_func("/setting/test_error0", setting_test_error0);
-+	g_test_add_func("/setting/test_error1", setting_test_error1);
-+
-+
-+	err = g_test_run();
-+
-+	__connman_log_cleanup(false);
-+	g_free(option_debug);
-+
-+	return err;
-+}
-+
-+/*
-+ * Local Variables:
-+ * mode: C
-+ * c-basic-offset: 8
-+ * indent-tabs-mode: t
-+ * End:
-+ */
 -- 
 2.47.3
 
