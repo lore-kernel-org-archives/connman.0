@@ -1,204 +1,264 @@
-Received: from helium.openadk.org (helium.openadk.org [89.238.66.15])
+Received: from AM0PR02CU008.outbound.protection.outlook.com (mail-westeuropeazon11013056.outbound.protection.outlook.com [52.101.72.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69E0A35836E
-	for <connman@lists.linux.dev>; Sun,  9 Aug 2026 06:41:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=89.238.66.15
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786257686; cv=none; b=i9Awk7EMr6J+dkabwjl8mLz2GDF1ivw9lm9Y9r6qDxQyjrSeT9t39+ZiCy57lU5PHgN91aB0AYUYoGJbQ1Q8LpLgjQUiKoI1CEK08Ed9/SoV9vQ6ya58MiRd9HJSzEoDT/jKz2QoM5TyJTW+Xsga6az0+IZYBbQD1iEsUxV4s/c=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786257686; c=relaxed/simple;
-	bh=AdzP3ApDfFAuLr0mcl8c5sc/ZDeVtV9Mg67tsL83PHQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LrvWZGz0maOKeLCJy6TZqLaTo2PKDE8ypX5towiomlKZVaBnmxESmMaWfJYCxjekMmSV/8r9Q/blZRX/R1w8gd423wnJRQqz1Ejd0g635jA2m82Q7ksYNsZxOa2YdxIEs9pyP6J/sswZtxqG4keeA3Wy4Zmdb8Eb6fdBsBIWYz4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=openadk.org; spf=pass smtp.mailfrom=openadk.org; dkim=fail (0-bit key) header.d=openadk.org header.i=@openadk.org header.b=w4YRfVbG reason="key not found in DNS"; arc=none smtp.client-ip=89.238.66.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=openadk.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=openadk.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF6363644CA
+	for <connman@lists.linux.dev>; Mon, 10 Aug 2026 06:28:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.72.56
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786343297; cv=fail; b=C4RjRDcyZPbc7W6KEtshh3cnJkG9PwxJg0mZOEMLavkuN1dDm/rF0ZiZoQsYAmj0OcMp1O5dcABvKIQqct0OVyddrjmU8k7dl/P1P5wpRhl9x3SmqoP2MaG7FnlRPX+tH4h2j5tTbDCrSCU6GyFv/bUpGT28nVvSpi55dd17WdI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786343297; c=relaxed/simple;
+	bh=s5uFEDFM+JWxISLuhyv2baCxLpG3lzdTyMAG5qJ5m28=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=E71Qynf/RQtvpR/dTUUrIcEbQ10yj+isDG/HAcssAj3T7sJR1i/eUZZXpb5unkyzN7m4Fd1yCpyOaqu4q/TkgtxURTeyhmGuww8NfWLqTY9okHGD5Xf64pBJEsgxK3+2Bg8dQfEMiTci+jLRdMNLbf7htMszdQndZSx1xF1RY/Y=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bshg.com; spf=pass smtp.mailfrom=bshg.com; dkim=pass (2048-bit key) header.d=bshg.com header.i=@bshg.com header.b=RlYCCgyl; arc=fail smtp.client-ip=52.101.72.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bshg.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bshg.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="key not found in DNS" (0-bit key) header.d=openadk.org header.i=@openadk.org header.b="w4YRfVbG"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=openadk.org; s=2022;
-	t=1786257682; bh=AdzP3ApDfFAuLr0mcl8c5sc/ZDeVtV9Mg67tsL83PHQ=;
-	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-	b=w4YRfVbGshlakbZhKHDMEeZxenDvsqJ830RIBYvGTNW2IRFlAAnBRmZDUEMONqVTb
-	 das+W54+Ppf2BEs7SLHDzmBHYi6U2zwxw2KqMPCoJ1fmIYrovEW6/S/d1RrIZS6qqE
-	 LNrGeU3dtcEk91iGCnfRS2LnJb7ikqPyO1sWglGATDJYTlPz3bzQS5yRGghPkGbWtt
-	 3T7ZVyda3URWqnScXjrWfleEmnaLKtLRqz4O948Pl3hWoiM8QDk1NKiyfIv1apuQT5
-	 JR1aIMl3GWQMXwOoHNt7x+Dij23wZKFhAfIb1YV7Oa9mANxXGAsq4dnpVh0JPqXLro
-	 iQN00d16g9Mew==
-Received: by helium.openadk.org (Postfix, from userid 1000)
-	id 65E3B31E08DA; Sun, 09 Aug 2026 08:41:21 +0200 (CEST)
-Date: Sun, 9 Aug 2026 08:41:21 +0200
-From: Waldemar Brodkorb <wbx@openadk.org>
-To: "Dembianny Sven (BSH GDE-EDSD7)" <sven.dembianny@bshg.com>
-Cc: Michael Nazzareno Trimarchi <michael@amarulasolutions.com>,
-	=?utf-8?B?RnJhbsOnb2lz?= Galea <fgalea@free.fr>,
-	"connman@lists.linux.dev" <connman@lists.linux.dev>,
-	"wbx@openadk.org" <wbx@openadk.org>
-Subject: Re: Connection to a WPA2 Wi-Fi router fails
-Message-ID: <anghETbH2WzsZIJ9@waldemar-brodkorb.de>
-Reply-To: Waldemar Brodkorb <mail@waldemar-brodkorb.de>
+	dkim=pass (2048-bit key) header.d=bshg.com header.i=@bshg.com header.b="RlYCCgyl"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=PgYjG5rcfx0ahHu5dKq3b2NcNfoFrif9yyF3bEUuJnPtPS65Q/OGOKps4zq4DV6q+q1nUZ+0KFwAyvtzHEjdULTZ3axzZjqFegQdWy2/TByysHEywNWSRmPHVW8xvtOIFUsB41fhBaLj86K68/VKNay324OEJMD2U3FOC9kgulYTHnnWOQg0XZKRpMqzTu9obEbBke+y1FHM21NB4D9yomD9LiQLXZkLYxXQF3PU7krxghk6cZ2AxgCo7B3cHP2A7kkH/4dtJdsB2vyakwIAgpeHuQReMMmdIVpZ4qEmnEqHVsu45e+HkGeH5UKsYQAlwxPxd9releHgsnHWh70Img==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=s5uFEDFM+JWxISLuhyv2baCxLpG3lzdTyMAG5qJ5m28=;
+ b=vuGbcsJggqgtB8rWJfB9nnKE0ePAM96C2sgwdKTAPfdPd2jRngVYbNB5hNQNmunJxgB7rYC0O9R2j9qpF2Nta45XQ2OEzB07LzgMjKE5NATpTjIlJtpbtSXH54DvndqI1Sc/x1A5XpOMTZ+V9GUFPh+NF5FayzjhMPl8sSsbMZl/q5s/zVa8omoXphM0UhF6b/9c3I1vz3/qVD9Oaz6KCCQxP+1PocP13Bs7iNEmjVxax96Dt7QWgruwoB0jwtaKNa8xBOKAz8QlfdYm5rsVpmGKKdyToM4TvQiGCEzMRWSJmgymQKyCce2kaMmCDmuc0zUC6o+r/jFJA1jbqsbXag==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bshg.com; dmarc=pass action=none header.from=bshg.com;
+ dkim=pass header.d=bshg.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bshg.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=s5uFEDFM+JWxISLuhyv2baCxLpG3lzdTyMAG5qJ5m28=;
+ b=RlYCCgyllhRBho5esZxEPgjiqa1Jq6kgsmZUrikSRsbxWgVjD7M4jgDQst3tQRHAfnerj17xMSStTFpn6yvftd5lRKXFYMWFS3+orPVP5I1SiQ8/uCCbP4rhSlxIArnhC57g8tpbR2b8RZEBN3OCQ+GuTrbBjczPREPhaXnT2TLZar3Ej8hDSb51eWNxIFb8I2+h5acqkAmqlka099EUemBflHKv5n1xxkdxACNwBNDA9diNY1frN6HHKEhW9MEwtdRpRFaP8ivylUvBNxnqRU9n1HNPYRH6TRLUm4UyzLw5GADagvJj+oOFA1Aq/WuAPrISkzpIYaR+Bm043dOQng==
+Received: from VI0PR10MB8908.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:800:213::13)
+ by DU0PR10MB6366.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:40e::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.292.25; Mon, 10 Aug
+ 2026 06:28:11 +0000
+Received: from VI0PR10MB8908.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::c595:d36a:295f:156d]) by VI0PR10MB8908.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::c595:d36a:295f:156d%5]) with mapi id 15.21.0292.024; Mon, 10 Aug 2026
+ 06:28:11 +0000
+From: "Dembianny Sven (BSH GDE-EDSD7)" <sven.dembianny@bshg.com>
+To: Waldemar Brodkorb <mail@waldemar-brodkorb.de>
+CC: Michael Nazzareno Trimarchi <michael@amarulasolutions.com>,
+	=?utf-8?B?RnJhbsOnb2lzIEdhbGVh?= <fgalea@free.fr>, "connman@lists.linux.dev"
+	<connman@lists.linux.dev>, "wbx@openadk.org" <wbx@openadk.org>
+Subject: RE: Connection to a WPA2 Wi-Fi router fails
+Thread-Topic: Connection to a WPA2 Wi-Fi router fails
+Thread-Index: AQHc4e+1v6y0J6G1nEqVaCo5rDvA+rYKIKiAgAnZqhCAgdX8gIABh6ow
+Date: Mon, 10 Aug 2026 06:28:11 +0000
+Message-ID:
+ <VI0PR10MB8908D439894A87FDC9341D6EF4DE2@VI0PR10MB8908.EURPRD10.PROD.OUTLOOK.COM>
 References: <9ad68361-98cd-42d1-80b0-7f7cbe6b73cf@free.fr>
  <CAOf5uwm2wBF=rLBus_epmRg+MgXVrHQzFAq8Y3bGWmJPPiDUnw@mail.gmail.com>
  <VI0PR10MB8908DC25598F38832175F6D6F4002@VI0PR10MB8908.EURPRD10.PROD.OUTLOOK.COM>
+ <anghETbH2WzsZIJ9@waldemar-brodkorb.de>
+In-Reply-To: <anghETbH2WzsZIJ9@waldemar-brodkorb.de>
+Accept-Language: en-US, de-DE
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bshg.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: VI0PR10MB8908:EE_|DU0PR10MB6366:EE_
+x-ms-office365-filtering-correlation-id: a7e95e5e-208b-421e-6936-08def6a88ccf
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|23010399003|1800799024|19092799006|376014|366016|18002099003|22082099003|11063799006|4143699003|56012099006|4133799003|3023799007|10067099003|20052099010|38070700021|41080700001|15866825006;
+x-microsoft-antispam-message-info:
+ Nj/asqSIAAuhdptIz76l/ksPp0P5f3K4/lHronyCx7GGtsAPvPJkyz66OhBa7ep/1nQppT8QE1vOu3fVd8g7gnk7dDveW8PN71GFEBY2C+W+BPDTj1Q7ZRLPRo0+YSdhRwOGhmIYUcKIAozrOuKII5G03awy/TZeM1kSW9I9KHVz2H5q6s2AoA5CsfFn1WYb6MgW4Kz5C1eX65lNxbLTk5m2Y2LiD+b+Vvh1SZm5G/6TlP8YCzkhk+GzvumUoFZ/pVyueSPLu1XSPixTi06QB5yO0y2A/hgFG+UbIwlMnfqJU4cmO/4oz1EobzZtfC4VatK2JFJabz2LtmLDfZHp6r3RmgQ/cfntX+a+KSjklSaytec4ZgtVSr4mcZZytnygXFCcv3nkCv4i35LWeh7jnxR4s1A6skOWgSWuQn0PLwBB5b18lc2auJUycO+cG69zzFheaC+LaJVEuDoNZB1U+koFWk64hBaDgqr0fltsmTIamp5O4+bDr6S9JqcXcNGL4QxC7r105/ZHSHdPBas/YLgvFb/SXRTLch2AaexBKjQ7RiE196ubWiGoDofBvTCdrlV8ejPLSWDB15Xe/rA10b+4vIm47a/9Untq60zyhLp2XUyJHKhcqE69rI5KOefzfRq4QLlEkpRqCkQam6aWdUq6qzjxVeD82ANBNzJK2uU4nS6RVq+J/1nEsEjVuHz+/POBre9pXOKGobsJaS2bFuabFs0wFGaM9GXykdH+KCvfYD55tZiP5jcgMK7AGqI2oW8J4LQQI5BQUnECP1iQyLwurv6axtJMecCUfIY73Ek=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VI0PR10MB8908.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(1800799024)(19092799006)(376014)(366016)(18002099003)(22082099003)(11063799006)(4143699003)(56012099006)(4133799003)(3023799007)(10067099003)(20052099010)(38070700021)(41080700001)(15866825006);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?utf-8?B?QzlVaFFSdTg4bXk2YUVVMEcwd3JpT0V3RXRrbXlubC9ZbzVBWjIzck85d3Ir?=
+ =?utf-8?B?MVk0VEU2ZjVCRTE3YU5OVFhLaDg0YW1TQWpveVVDTCtYNEJnMElTcVNLWGY5?=
+ =?utf-8?B?RkFGRUoyNWtlUVQybUM1eUZCM3NzUTNHQXZ5T1ltaEE4V3BiaENBdVFrTm9S?=
+ =?utf-8?B?Yk12NUtoWUpCMkNVbXkxRFpRSVFtbHdWNXNKOWZoMStMWWczQ1VkZE9kMk5q?=
+ =?utf-8?B?T2FmcGsybjBJemNFSWpyTWZ2dXhGaDNFcnpxLzJJU2I4Mk9pQnEvdGNKbWJz?=
+ =?utf-8?B?OUpqaHU1ODF2b3krZGM2blpFNGREVE56ZHRZYkt1RFNheC9pYXN4bFJwaktE?=
+ =?utf-8?B?Q1lGc2NSNVhwNkJCQWljV1QzTS91MmkzMmZvVU1semFvTVBUVjIrRkFwdFJp?=
+ =?utf-8?B?SXVweUloRXB2ZVk5LzRmeWNMWXhtT2M0NHJNYXhEemYxeVRwbXoxMU0ydHF3?=
+ =?utf-8?B?c0h6QU0zYXpJeUxDaGozSEVOeVpZRnVZMG1iRy90a0pYWWdpSmF0Y0ZyN2g0?=
+ =?utf-8?B?R2d3WGNZOEpvVkoxTDVPdWtBL1c5Wm9udXpFRFd5VXVWTndiejVwWGtVb20r?=
+ =?utf-8?B?eFFMMHN5c05kQmdmTmNkSWVFelBoRU9IUitNZXllS2RPdWZsR1lIellsMkN1?=
+ =?utf-8?B?SC96TS9pU2hRM0MwTmQwajNnZS9uUDZsREFwVVRSeit6OUN6YXI5bmF2MWxL?=
+ =?utf-8?B?bmp3NnV2YkpkdS8zT3d4YU1sTFJUTXdUMWhGYlBEU09PRk53ZU5wRFNCMGZT?=
+ =?utf-8?B?WlN4SEFXWGlaMEd5VzlJZUdCaGZXaFdOcGZ4Y0c2bVlJSlZIV0szTDVYUWhV?=
+ =?utf-8?B?UnRaTmlYMWFGL1ZwTzBkSG80V0M5RUtITkJvV1loVHpCakFxR29jSE5HczRX?=
+ =?utf-8?B?bjVwWUUySmsvZTV2Vmo0VnBES2Jza0dQc3ZRK2NwTzNIUDI2V25Oa1dJRnlD?=
+ =?utf-8?B?TVBJbUtxamFBSERKNUNWMnd1TE4wUU9MdVV4QWVCaVBqaHl4TUlIdm1MTW1i?=
+ =?utf-8?B?Nkc4a3JHOGRCN01jdWNUbkRmQVlRemZ3VzgwQ2w0S1NDNTBlUWRvS1JWRS9W?=
+ =?utf-8?B?S3pLaDF3a2M0MjA3cThyR0xwdmlnYmJMMnBxa1BETEhMODc5TFRHRGcrU3Qy?=
+ =?utf-8?B?VlBNdkY4YkdBY0hqaUFaclFpRE5SWVlYbGJEQmc2SEZqTERQOFIwUjM0ZUd0?=
+ =?utf-8?B?OTN5dXo2UkdCVVYzVkVrNmF1dkVUVDdKVjh3ZkV0eGpGMG9KNkFpa3VXM3pX?=
+ =?utf-8?B?UjdTYlh0UkpqUmxvbTJPMmZyMkwyTU5OWm5mNnlLR3lKNmxJa1FqRFo0cUE1?=
+ =?utf-8?B?QU91UHlCZmJuM21EYStpdkhWZytSbE4rTm5SRjNrR0NUZWxldTl2c0FFdzBq?=
+ =?utf-8?B?ZjRLK0FOZ3M2NGQyOW9UdXlIZEI4TnFHWjBYU0ZvZ2VHVDdZS3FKamJTMFdH?=
+ =?utf-8?B?OVI0cTZvYUtER1dxY1E3V3UrTWZWUVplb0tiTCtCZmhzbHRZb1dXWmN4cmpN?=
+ =?utf-8?B?NktVbUFBU3hlZ3hOcC9ZTkkwaWpBMGNFS0lXdUk2K3FiMVZMaEgrVzhOU2dn?=
+ =?utf-8?B?djBTZ1hvZEdnQ25KcjhUTXhIZnVLUS9ReUxCdUFHUmpvZUVXZ2pSdVdhdVVU?=
+ =?utf-8?B?OGVpSGNyOS9ZdVR2Vk15OExkMjZIYXp1c0tEWkhLNDJpR0MyU2RVU1BMTnJV?=
+ =?utf-8?B?RXdKTlhHK3lmL3ltN0Q2S1NZbmdVdFozSUhoN2FMc1o1TXYxbzc5UXRyWG14?=
+ =?utf-8?B?bUh3cEg5NHZ0MVZTR2tFQ1Q3akwwVVpkdWlBTGFLb1ZDajV3RFRtMjVXOHM2?=
+ =?utf-8?B?VFNabG9YY0E4b2ZJTWkvNm5jcnNOVjhleFFxNk1VcllHSWFFaXFERlhPWnhN?=
+ =?utf-8?B?QnpjZDlYcXJ1cHFpblRnbVFxYlo0RW81YVo3MlZIMWNkcWUrQmV4Rm5wL3p6?=
+ =?utf-8?B?Q0lnM0Q2RjV3VUtmN2lMTzZrQ0JMejZwK1VIZ1NZVEFjaHRmTmlReGFrOUw5?=
+ =?utf-8?B?ZVBUOXZDTjMyTFB0RmUvUTM4VG9wMG1UdHIxdUlpMmpZRDFsdTNxenZSU0dj?=
+ =?utf-8?B?MENGWXd2VnpOaW1PNUU2VUxPSDFhbTQ5OFFoMDBFSXcybVp1aXZPQUMwbURF?=
+ =?utf-8?B?cFFTNGhXV0RBc2JFTXpYd0wxdUpXZ2laRlBFejE3L052VUoyelg4bFZIaWdZ?=
+ =?utf-8?B?SWdlRzFPb2JrMll0Wng3dUZhakVPNW5Dd2JoVlYyeXpNK05KdnVySU1vZERq?=
+ =?utf-8?B?K0ZVNUtvbzhoOTN5QjBlSk8rdUNuUGRkZjhnQ1NycmNHZ1U2WEt3L0tsZHNa?=
+ =?utf-8?Q?GKMKisba6AzbemgrVK?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <VI0PR10MB8908DC25598F38832175F6D6F4002@VI0PR10MB8908.EURPRD10.PROD.OUTLOOK.COM>
-X-Operating-System: Linux 6.12.96+deb13-amd64 x86_64
+X-OriginatorOrg: bshg.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: VI0PR10MB8908.EURPRD10.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: a7e95e5e-208b-421e-6936-08def6a88ccf
+X-MS-Exchange-CrossTenant-originalarrivaltime: 10 Aug 2026 06:28:11.0363
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 0ae51e19-07c8-4e4b-bb6d-648ee58410f4
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: p0Il8xrCDPsYkjQE85HcDoKYBo7euMdWQCv3xOeP57y10sTonqlgXoqdYmeseC5vJ9kfqLSAmgOVUI2CBvlMOA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0PR10MB6366
 
-Hi Sven,
-Dembianny Sven (BSH GDE-EDSD7) wrote,
-
-> Hi Michael,
-> 
-> I don't think so, e.g., if AP does not support SAE but repeater does, roaming will fail.
-> This will also break certification tests.
-> 
-> @ François do you have more info about your setup, e.g. MFP setting on AP/wpa_supplicant config/WPA-PSK-SHA256 instead of WPA-PSK?
-
-Sorry for the late reply. Francois seems not to answered your
-question and I see no fixes for this problem in GIT master either.
-
-My AP is a standard Vodafone AP with WPA2.
-How can I give you better information about the details of this AP?
-
-best regards
- Waldemar
- 
-> Best regards, Sven
-> 
-> > -----Original Message-----
-> > From: Michael Nazzareno Trimarchi <michael@amarulasolutions.com>
-> > Sent: Dienstag, 12. Mai 2026 11:33
-> > To: François Galea <fgalea@free.fr>; Dembianny Sven (BSH GDE-EDSD7) <sven.dembianny@bshg.com>
-> > Cc: connman@lists.linux.dev; wbx@openadk.org
-> > Subject: Re: Connection to a WPA2 Wi-Fi router fails
-> >
-> > Hi
-> >
-> > On Tue, May 12, 2026 at 11:14 AM François Galea <fgalea@free.fr> wrote:
-> > >
-> > > Hello,
-> > >
-> > > This was tested on a Zynq (Cortex-A9) and a RPi4, on a 32-bit Arm
-> > > Buildroot Linux system.
-> > >
-> > > The Wi-Fi router uses WPA2 Personnal authentication.
-> > >
-> > > Problem starts from buildroot releases including connman 1.45.
-> > > Previous releases using connman 1.44 and prior are working fine. Also
-> > > switching from 1.45 to 1.44 in a buildroot version that includes connman 1.45 works.
-> > >
-> > >
-> > > If a connection was previously successfully set up, for instance from
-> > > connman 1.44 or older, `/var/log/messages` contains:
-> > >
-> > > Jan  1 00:00:11 zest daemon.info connmand[141]: Adding interface wlan0
-> > > [ wifi ] Jan  1 00:00:11 zest daemon.info connmand[141]: eth0 {update}
-> > > flags
-> > > 36867 <UP>
-> > > Jan  1 00:00:11 zest daemon.info connmand[141]: eth0 {newlink} index 2
-> > > address 9A:8F:85:81:67:B4 mtu 1500 Jan  1 00:00:11 zest daemon.info
-> > > connmand[141]: eth0 {newlink} index 2 operstate 2 <DOWN> Jan  1
-> > > 00:00:11 zest daemon.info dbus-daemon[120]: [system] Successfully
-> > > activated service 'fi.w1.wpa_supplicant1'
-> > > Jan  1 00:00:11 zest daemon.info connmand[141]: wlan0 {update} flags
-> > > 36931 <UP,RUNNING>
-> > > Jan  1 00:00:11 zest daemon.info connmand[141]: wlan0 {newlink} index
-> > > 4 address 8C:3D:16:20:0E:4A mtu 1500 Jan  1 00:00:11 zest daemon.info
-> > > connmand[141]: wlan0 {newlink} index 4 operstate 0 <UNKNOWN> Jan  1
-> > > 00:00:11 zest daemon.info connmand[141]: wlan0 {update} flags
-> > > 36867 <UP>
-> > > Jan  1 00:00:11 zest daemon.info connmand[141]: wlan0 {newlink} index
-> > > 4 address 8C:3D:16:20:0E:4A mtu 1500 Jan  1 00:00:11 zest daemon.info
-> > > connmand[141]: wlan0 {newlink} index 4 operstate 2 <DOWN> Jan  1
-> > > 00:00:11 zest daemon.info connmand[141]: wlan0 {newlink} index 4
-> > > address 8C:3D:16:20:0E:4A mtu 1500 Jan  1 00:00:11 zest daemon.info
-> > > connmand[141]: wlan0 {newlink} index 4 operstate 2 <DOWN> Jan  1
-> > > 00:00:11 zest daemon.info connmand[141]: Interface wlan0 [ wifi ]
-> > > state is association Jan  1 00:00:11 zest daemon.warn connmand[141]:
-> > > Interface wlan0 [ wifi ] error "invalid-key"
-> > > Jan  1 00:00:11 zest daemon.info connmand[141]: Interface wlan0 [ wifi
-> > > ] state is failure
-> > >
-> > >
-> > > Otherwise, when creating a new connection:
-> > >
-> > > # connmanctl
-> > > Error getting VPN connections: The name net.connman.vpn was not
-> > > provided by any .service files
-> > > connmanctl> services
-> > >
-> > > connmanctl> enable wifi
-> > > Enabled wifi
-> > > connmanctl> scan wifi
-> > > Scan completed for wifi
-> > > connmanctl> services
-> > >      Kamoulox             wifi_8c3d16200e4a_4b616d6f756c6f78_managed_psk
-> > >      Livebox-D050
-> > > wifi_8c3d16200e4a_4c697665626f782d44303530_managed_psk
-> > >      Freebox-3B4B3C
-> > > wifi_8c3d16200e4a_46726565626f782d334234423343_managed_psk
-> > >      patetalex            wifi_8c3d16200e4a_7061746574616c6578_managed_psk
-> > >      DRAME                wifi_8c3d16200e4a_4452414d45_managed_psk
-> > > connmanctl> agent on
-> > > Agent registered
-> > > connmanctl> connect wifi_8c3d16200e4a_4b616d6f756c6f78_managed_psk
-> > > Agent RequestInput wifi_8c3d16200e4a_4b616d6f756c6f78_managed_psk
-> > >    Passphrase = [ Type=psk, Requirement=mandatory, Alternates=[ WPS ] ]
-> > >    WPS = [ Type=wpspin, Requirement=alternate ] Passphrase?
-> > > my_wifi_passphrase Agent ReportError
-> > > wifi_8c3d16200e4a_4b616d6f756c6f78_managed_psk
-> > >    invalid-key
-> > > connmanctl> Retry (yes/no)? no
-> > > Error
-> > > /net/connman/service/wifi_8c3d16200e4a_4b616d6f756c6f78_managed_psk:
-> > > Input/output error
-> > > connmanctl>
-> >
-> >
-> > I think that change only asks the agent who established the connection to try the various method. Is
-> > the patch in attach work?
-> > * sven *: Does it cover your use case too?
-> >
-> > Michael
-> >
-> >
-> > >
-> > >
-> > >
-> > >  From both situations it appears the wifi passphrase is not accepted.
-> > >
-> > > wbx (as CC of this email) noticed that reverting commit
-> > > 5e73b55e00b97e1867397258b72f0d6e5ad7d31d allows connections to work again.
-> > >
-> > > Is it a known situation? Is there a patch available?
-> > >
-> > > Best,
-> > >
-> > > François
-> > >
-> > >
-> >
-> >
-> > --
-> > Michael Nazzareno Trimarchi
-> > Co-Founder & Chief Executive Officer
-> > M. +39 347 913 2170
-> > michael@amarulasolutions.com
-> > __________________________________
-> >
-> > Amarula Solutions BV
-> > Joop Geesinkweg 125, 1114 AB, Amsterdam, NL T. +31 (0)85 111 9172 info@amarulasolutions.com
-> > http://www.amarulasolutions.com/
-> > &data=05%7C02%7Csven.dembianny%40bshg.com%7Cf4aa618e280e45c3d76e08deb0096f57%7C0ae5
-> > 1e1907c84e4bbb6d648ee58410f4%7C0%7C0%7C639141751758647935%7CUnknown%7CTWFpbGZsb3
-> > d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ
-> > %3D%3D%7C0%7C%7C%7C&sdata=8tD7KmAQSPxg%2BRZ0yB7MYBeWVudCjvw4T4MJhOHy3%2Fk%3D
-> > &reserved=0
+SGkgV2FsZGVtYXIsDQo+IA0KPiBIaSBTdmVuLA0KPiBEZW1iaWFubnkgU3ZlbiAoQlNIIEdERS1F
+RFNENykgd3JvdGUsDQo+IA0KPiA+IEhpIE1pY2hhZWwsDQo+ID4NCj4gPiBJIGRvbid0IHRoaW5r
+IHNvLCBlLmcuLCBpZiBBUCBkb2VzIG5vdCBzdXBwb3J0IFNBRSBidXQgcmVwZWF0ZXIgZG9lcywg
+cm9hbWluZyB3aWxsIGZhaWwuDQo+ID4gVGhpcyB3aWxsIGFsc28gYnJlYWsgY2VydGlmaWNhdGlv
+biB0ZXN0cy4NCj4gPg0KPiA+IEAgRnJhbsOnb2lzIGRvIHlvdSBoYXZlIG1vcmUgaW5mbyBhYm91
+dCB5b3VyIHNldHVwLCBlLmcuIE1GUCBzZXR0aW5nIG9uIEFQL3dwYV9zdXBwbGljYW50DQo+IGNv
+bmZpZy9XUEEtUFNLLVNIQTI1NiBpbnN0ZWFkIG9mIFdQQS1QU0s/DQo+IA0KPiBTb3JyeSBmb3Ig
+dGhlIGxhdGUgcmVwbHkuIEZyYW5jb2lzIHNlZW1zIG5vdCB0byBhbnN3ZXJlZCB5b3VyIHF1ZXN0
+aW9uIGFuZCBJIHNlZSBubyBmaXhlcyBmb3IgdGhpcw0KPiBwcm9ibGVtIGluIEdJVCBtYXN0ZXIg
+ZWl0aGVyLg0KPiANCj4gTXkgQVAgaXMgYSBzdGFuZGFyZCBWb2RhZm9uZSBBUCB3aXRoIFdQQTIu
+DQo+IEhvdyBjYW4gSSBnaXZlIHlvdSBiZXR0ZXIgaW5mb3JtYXRpb24gYWJvdXQgdGhlIGRldGFp
+bHMgb2YgdGhpcyBBUD8NCldoYXQgbW9kZWwgaXMgYmVpbmcgdXNlZD8NCkl0IGlzIHBvc3NpYmxl
+IHRoYXQgTUZQIGlzIGFkZGl0aW9uYWxseSBjb25maWd1cmVkIGFzIG9wdGlvbmFsLiBDb3VsZCB5
+b3UgcGxlYXNlIGNoZWNrIHRoZSBBUCBzZXR0aW5ncyBvciB0aGUgYmVhY29uIGZyYW1lcz8NCg0K
+QWxzbywgd2hhdCBmaXJtd2FyZSB2ZXJzaW9uIGlzIHJ1bm5pbmcgb24gdGhlIFJhc3BiZXJyeSBQ
+aSA0PyBUaGUgZmlybXdhcmUgZmlsZXMgc2hvdWxkIGJlIGxvY2F0ZWQgdW5kZXI6DQovbGliL2Zp
+cm13YXJlLw0KDQpCZXN0IHJlZ2FyZHMsICBTdmVuDQo+IGJlc3QgcmVnYXJkcw0KPiAgV2FsZGVt
+YXINCj4gDQo+ID4gQmVzdCByZWdhcmRzLCBTdmVuDQo+ID4NCj4gPiA+IC0tLS0tT3JpZ2luYWwg
+TWVzc2FnZS0tLS0tDQo+ID4gPiBGcm9tOiBNaWNoYWVsIE5henphcmVubyBUcmltYXJjaGkgPG1p
+Y2hhZWxAYW1hcnVsYXNvbHV0aW9ucy5jb20+DQo+ID4gPiBTZW50OiBEaWVuc3RhZywgMTIuIE1h
+aSAyMDI2IDExOjMzDQo+ID4gPiBUbzogRnJhbsOnb2lzIEdhbGVhIDxmZ2FsZWFAZnJlZS5mcj47
+IERlbWJpYW5ueSBTdmVuIChCU0ggR0RFLUVEU0Q3KQ0KPiA+ID4gPHN2ZW4uZGVtYmlhbm55QGJz
+aGcuY29tPg0KPiA+ID4gQ2M6IGNvbm5tYW5AbGlzdHMubGludXguZGV2OyB3YnhAb3BlbmFkay5v
+cmcNCj4gPiA+IFN1YmplY3Q6IFJlOiBDb25uZWN0aW9uIHRvIGEgV1BBMiBXaS1GaSByb3V0ZXIg
+ZmFpbHMNCj4gPiA+DQo+ID4gPiBIaQ0KPiA+ID4NCj4gPiA+IE9uIFR1ZSwgTWF5IDEyLCAyMDI2
+IGF0IDExOjE04oCvQU0gRnJhbsOnb2lzIEdhbGVhIDxmZ2FsZWFAZnJlZS5mcj4gd3JvdGU6DQo+
+ID4gPiA+DQo+ID4gPiA+IEhlbGxvLA0KPiA+ID4gPg0KPiA+ID4gPiBUaGlzIHdhcyB0ZXN0ZWQg
+b24gYSBaeW5xIChDb3J0ZXgtQTkpIGFuZCBhIFJQaTQsIG9uIGEgMzItYml0IEFybQ0KPiA+ID4g
+PiBCdWlsZHJvb3QgTGludXggc3lzdGVtLg0KPiA+ID4gPg0KPiA+ID4gPiBUaGUgV2ktRmkgcm91
+dGVyIHVzZXMgV1BBMiBQZXJzb25uYWwgYXV0aGVudGljYXRpb24uDQo+ID4gPiA+DQo+ID4gPiA+
+IFByb2JsZW0gc3RhcnRzIGZyb20gYnVpbGRyb290IHJlbGVhc2VzIGluY2x1ZGluZyBjb25ubWFu
+IDEuNDUuDQo+ID4gPiA+IFByZXZpb3VzIHJlbGVhc2VzIHVzaW5nIGNvbm5tYW4gMS40NCBhbmQg
+cHJpb3IgYXJlIHdvcmtpbmcgZmluZS4NCj4gPiA+ID4gQWxzbyBzd2l0Y2hpbmcgZnJvbSAxLjQ1
+IHRvIDEuNDQgaW4gYSBidWlsZHJvb3QgdmVyc2lvbiB0aGF0IGluY2x1ZGVzIGNvbm5tYW4gMS40
+NSB3b3Jrcy4NCj4gPiA+ID4NCj4gPiA+ID4NCj4gPiA+ID4gSWYgYSBjb25uZWN0aW9uIHdhcyBw
+cmV2aW91c2x5IHN1Y2Nlc3NmdWxseSBzZXQgdXAsIGZvciBpbnN0YW5jZQ0KPiA+ID4gPiBmcm9t
+IGNvbm5tYW4gMS40NCBvciBvbGRlciwgYC92YXIvbG9nL21lc3NhZ2VzYCBjb250YWluczoNCj4g
+PiA+ID4NCj4gPiA+ID4gSmFuICAxIDAwOjAwOjExIHplc3QgZGFlbW9uLmluZm8gY29ubm1hbmRb
+MTQxXTogQWRkaW5nIGludGVyZmFjZQ0KPiA+ID4gPiB3bGFuMCBbIHdpZmkgXSBKYW4gIDEgMDA6
+MDA6MTEgemVzdCBkYWVtb24uaW5mbyBjb25ubWFuZFsxNDFdOg0KPiA+ID4gPiBldGgwIHt1cGRh
+dGV9IGZsYWdzDQo+ID4gPiA+IDM2ODY3IDxVUD4NCj4gPiA+ID4gSmFuICAxIDAwOjAwOjExIHpl
+c3QgZGFlbW9uLmluZm8gY29ubm1hbmRbMTQxXTogZXRoMCB7bmV3bGlua30NCj4gPiA+ID4gaW5k
+ZXggMiBhZGRyZXNzIDlBOjhGOjg1OjgxOjY3OkI0IG10dSAxNTAwIEphbiAgMSAwMDowMDoxMSB6
+ZXN0DQo+ID4gPiA+IGRhZW1vbi5pbmZvDQo+ID4gPiA+IGNvbm5tYW5kWzE0MV06IGV0aDAge25l
+d2xpbmt9IGluZGV4IDIgb3BlcnN0YXRlIDIgPERPV04+IEphbiAgMQ0KPiA+ID4gPiAwMDowMDox
+MSB6ZXN0IGRhZW1vbi5pbmZvIGRidXMtZGFlbW9uWzEyMF06IFtzeXN0ZW1dIFN1Y2Nlc3NmdWxs
+eQ0KPiA+ID4gPiBhY3RpdmF0ZWQgc2VydmljZSAnZmkudzEud3BhX3N1cHBsaWNhbnQxJw0KPiA+
+ID4gPiBKYW4gIDEgMDA6MDA6MTEgemVzdCBkYWVtb24uaW5mbyBjb25ubWFuZFsxNDFdOiB3bGFu
+MCB7dXBkYXRlfQ0KPiA+ID4gPiBmbGFncw0KPiA+ID4gPiAzNjkzMSA8VVAsUlVOTklORz4NCj4g
+PiA+ID4gSmFuICAxIDAwOjAwOjExIHplc3QgZGFlbW9uLmluZm8gY29ubm1hbmRbMTQxXTogd2xh
+bjAge25ld2xpbmt9DQo+ID4gPiA+IGluZGV4DQo+ID4gPiA+IDQgYWRkcmVzcyA4QzozRDoxNjoy
+MDowRTo0QSBtdHUgMTUwMCBKYW4gIDEgMDA6MDA6MTEgemVzdA0KPiA+ID4gPiBkYWVtb24uaW5m
+bw0KPiA+ID4gPiBjb25ubWFuZFsxNDFdOiB3bGFuMCB7bmV3bGlua30gaW5kZXggNCBvcGVyc3Rh
+dGUgMCA8VU5LTk9XTj4gSmFuDQo+ID4gPiA+IDENCj4gPiA+ID4gMDA6MDA6MTEgemVzdCBkYWVt
+b24uaW5mbyBjb25ubWFuZFsxNDFdOiB3bGFuMCB7dXBkYXRlfSBmbGFncw0KPiA+ID4gPiAzNjg2
+NyA8VVA+DQo+ID4gPiA+IEphbiAgMSAwMDowMDoxMSB6ZXN0IGRhZW1vbi5pbmZvIGNvbm5tYW5k
+WzE0MV06IHdsYW4wIHtuZXdsaW5rfQ0KPiA+ID4gPiBpbmRleA0KPiA+ID4gPiA0IGFkZHJlc3Mg
+OEM6M0Q6MTY6MjA6MEU6NEEgbXR1IDE1MDAgSmFuICAxIDAwOjAwOjExIHplc3QNCj4gPiA+ID4g
+ZGFlbW9uLmluZm8NCj4gPiA+ID4gY29ubm1hbmRbMTQxXTogd2xhbjAge25ld2xpbmt9IGluZGV4
+IDQgb3BlcnN0YXRlIDIgPERPV04+IEphbiAgMQ0KPiA+ID4gPiAwMDowMDoxMSB6ZXN0IGRhZW1v
+bi5pbmZvIGNvbm5tYW5kWzE0MV06IHdsYW4wIHtuZXdsaW5rfSBpbmRleCA0DQo+ID4gPiA+IGFk
+ZHJlc3MgOEM6M0Q6MTY6MjA6MEU6NEEgbXR1IDE1MDAgSmFuICAxIDAwOjAwOjExIHplc3QNCj4g
+PiA+ID4gZGFlbW9uLmluZm8NCj4gPiA+ID4gY29ubm1hbmRbMTQxXTogd2xhbjAge25ld2xpbmt9
+IGluZGV4IDQgb3BlcnN0YXRlIDIgPERPV04+IEphbiAgMQ0KPiA+ID4gPiAwMDowMDoxMSB6ZXN0
+IGRhZW1vbi5pbmZvIGNvbm5tYW5kWzE0MV06IEludGVyZmFjZSB3bGFuMCBbIHdpZmkgXQ0KPiA+
+ID4gPiBzdGF0ZSBpcyBhc3NvY2lhdGlvbiBKYW4gIDEgMDA6MDA6MTEgemVzdCBkYWVtb24ud2Fy
+biBjb25ubWFuZFsxNDFdOg0KPiA+ID4gPiBJbnRlcmZhY2Ugd2xhbjAgWyB3aWZpIF0gZXJyb3Ig
+ImludmFsaWQta2V5Ig0KPiA+ID4gPiBKYW4gIDEgMDA6MDA6MTEgemVzdCBkYWVtb24uaW5mbyBj
+b25ubWFuZFsxNDFdOiBJbnRlcmZhY2Ugd2xhbjAgWw0KPiA+ID4gPiB3aWZpIF0gc3RhdGUgaXMg
+ZmFpbHVyZQ0KPiA+ID4gPg0KPiA+ID4gPg0KPiA+ID4gPiBPdGhlcndpc2UsIHdoZW4gY3JlYXRp
+bmcgYSBuZXcgY29ubmVjdGlvbjoNCj4gPiA+ID4NCj4gPiA+ID4gIyBjb25ubWFuY3RsDQo+ID4g
+PiA+IEVycm9yIGdldHRpbmcgVlBOIGNvbm5lY3Rpb25zOiBUaGUgbmFtZSBuZXQuY29ubm1hbi52
+cG4gd2FzIG5vdA0KPiA+ID4gPiBwcm92aWRlZCBieSBhbnkgLnNlcnZpY2UgZmlsZXMNCj4gPiA+
+ID4gY29ubm1hbmN0bD4gc2VydmljZXMNCj4gPiA+ID4NCj4gPiA+ID4gY29ubm1hbmN0bD4gZW5h
+YmxlIHdpZmkNCj4gPiA+ID4gRW5hYmxlZCB3aWZpDQo+ID4gPiA+IGNvbm5tYW5jdGw+IHNjYW4g
+d2lmaQ0KPiA+ID4gPiBTY2FuIGNvbXBsZXRlZCBmb3Igd2lmaQ0KPiA+ID4gPiBjb25ubWFuY3Rs
+PiBzZXJ2aWNlcw0KPiA+ID4gPiAgICAgIEthbW91bG94ICAgICAgICAgICAgIHdpZmlfOGMzZDE2
+MjAwZTRhXzRiNjE2ZDZmNzU2YzZmNzhfbWFuYWdlZF9wc2sNCj4gPiA+ID4gICAgICBMaXZlYm94
+LUQwNTANCj4gPiA+ID4gd2lmaV84YzNkMTYyMDBlNGFfNGM2OTc2NjU2MjZmNzgyZDQ0MzAzNTMw
+X21hbmFnZWRfcHNrDQo+ID4gPiA+ICAgICAgRnJlZWJveC0zQjRCM0MNCj4gPiA+ID4gd2lmaV84
+YzNkMTYyMDBlNGFfNDY3MjY1NjU2MjZmNzgyZDMzNDIzNDQyMzM0M19tYW5hZ2VkX3Bzaw0KPiA+
+ID4gPiAgICAgIHBhdGV0YWxleCAgICAgICAgICAgIHdpZmlfOGMzZDE2MjAwZTRhXzcwNjE3NDY1
+NzQ2MTZjNjU3OF9tYW5hZ2VkX3Bzaw0KPiA+ID4gPiAgICAgIERSQU1FICAgICAgICAgICAgICAg
+IHdpZmlfOGMzZDE2MjAwZTRhXzQ0NTI0MTRkNDVfbWFuYWdlZF9wc2sNCj4gPiA+ID4gY29ubm1h
+bmN0bD4gYWdlbnQgb24NCj4gPiA+ID4gQWdlbnQgcmVnaXN0ZXJlZA0KPiA+ID4gPiBjb25ubWFu
+Y3RsPiBjb25uZWN0IHdpZmlfOGMzZDE2MjAwZTRhXzRiNjE2ZDZmNzU2YzZmNzhfbWFuYWdlZF9w
+c2sNCj4gPiA+ID4gQWdlbnQgUmVxdWVzdElucHV0IHdpZmlfOGMzZDE2MjAwZTRhXzRiNjE2ZDZm
+NzU2YzZmNzhfbWFuYWdlZF9wc2sNCj4gPiA+ID4gICAgUGFzc3BocmFzZSA9IFsgVHlwZT1wc2ss
+IFJlcXVpcmVtZW50PW1hbmRhdG9yeSwgQWx0ZXJuYXRlcz1bIFdQUyBdIF0NCj4gPiA+ID4gICAg
+V1BTID0gWyBUeXBlPXdwc3BpbiwgUmVxdWlyZW1lbnQ9YWx0ZXJuYXRlIF0gUGFzc3BocmFzZT8N
+Cj4gPiA+ID4gbXlfd2lmaV9wYXNzcGhyYXNlIEFnZW50IFJlcG9ydEVycm9yDQo+ID4gPiA+IHdp
+ZmlfOGMzZDE2MjAwZTRhXzRiNjE2ZDZmNzU2YzZmNzhfbWFuYWdlZF9wc2sNCj4gPiA+ID4gICAg
+aW52YWxpZC1rZXkNCj4gPiA+ID4gY29ubm1hbmN0bD4gUmV0cnkgKHllcy9ubyk/IG5vDQo+ID4g
+PiA+IEVycm9yDQo+ID4gPiA+IC9uZXQvY29ubm1hbi9zZXJ2aWNlL3dpZmlfOGMzZDE2MjAwZTRh
+XzRiNjE2ZDZmNzU2YzZmNzhfbWFuYWdlZF9wc2s6DQo+ID4gPiA+IElucHV0L291dHB1dCBlcnJv
+cg0KPiA+ID4gPiBjb25ubWFuY3RsPg0KPiA+ID4NCj4gPiA+DQo+ID4gPiBJIHRoaW5rIHRoYXQg
+Y2hhbmdlIG9ubHkgYXNrcyB0aGUgYWdlbnQgd2hvIGVzdGFibGlzaGVkIHRoZQ0KPiA+ID4gY29u
+bmVjdGlvbiB0byB0cnkgdGhlIHZhcmlvdXMgbWV0aG9kLiBJcyB0aGUgcGF0Y2ggaW4gYXR0YWNo
+IHdvcms/DQo+ID4gPiAqIHN2ZW4gKjogRG9lcyBpdCBjb3ZlciB5b3VyIHVzZSBjYXNlIHRvbz8N
+Cj4gPiA+DQo+ID4gPiBNaWNoYWVsDQo+ID4gPg0KPiA+ID4NCj4gPiA+ID4NCj4gPiA+ID4NCj4g
+PiA+ID4NCj4gPiA+ID4gIEZyb20gYm90aCBzaXR1YXRpb25zIGl0IGFwcGVhcnMgdGhlIHdpZmkg
+cGFzc3BocmFzZSBpcyBub3QgYWNjZXB0ZWQuDQo+ID4gPiA+DQo+ID4gPiA+IHdieCAoYXMgQ0Mg
+b2YgdGhpcyBlbWFpbCkgbm90aWNlZCB0aGF0IHJldmVydGluZyBjb21taXQNCj4gPiA+ID4gNWU3
+M2I1NWUwMGI5N2UxODY3Mzk3MjU4YjcyZjBkNmU1YWQ3ZDMxZCBhbGxvd3MgY29ubmVjdGlvbnMg
+dG8gd29yayBhZ2Fpbi4NCj4gPiA+ID4NCj4gPiA+ID4gSXMgaXQgYSBrbm93biBzaXR1YXRpb24/
+4oCvSXMgdGhlcmUgYSBwYXRjaCBhdmFpbGFibGU/DQo+ID4gPiA+DQo+ID4gPiA+IEJlc3QsDQo+
+ID4gPiA+DQo+ID4gPiA+IEZyYW7Dp29pcw0KPiA+ID4gPg0KPiA+ID4gPg0KPiA+ID4NCj4gPiA+
+DQo+ID4gPiAtLQ0KPiA+ID4gTWljaGFlbCBOYXp6YXJlbm8gVHJpbWFyY2hpDQo+ID4gPiBDby1G
+b3VuZGVyICYgQ2hpZWYgRXhlY3V0aXZlIE9mZmljZXIgTS4gKzM5IDM0NyA5MTMgMjE3MA0KPiA+
+ID4gbWljaGFlbEBhbWFydWxhc29sdXRpb25zLmNvbSBfX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fDQo+ID4gPg0KPiA+ID4gQW1hcnVsYSBTb2x1dGlvbnMgQlYNCj4gPiA+IEpvb3Ag
+R2Vlc2lua3dlZyAxMjUsIDExMTQgQUIsIEFtc3RlcmRhbSwgTkwgVC4gKzMxICgwKTg1IDExMSA5
+MTcyDQo+ID4gPiBpbmZvQGFtYXJ1bGFzb2x1dGlvbnMuY29tDQo+ID4gPiBodHRwczovL2V1cjAz
+LnNhZmVsaW5rcy5wcm90ZWN0aW9uLm91dGxvb2suY29tLz91cmw9aHR0cCUzQSUyRiUyRnd3dw0K
+PiA+ID4gLmFtYXJ1bGFzb2x1dGlvbnMuY29tJTJGJmRhdGE9MDUlN0MwMiU3Q3N2ZW4uZGVtYmlh
+bm55JTQwYnNoZy5jb20lN0MNCj4gPiA+IDAwYTJiZDE0YzJkNzRmMzJmMmMyMDhkZWY1ZTEzZTM2
+JTdDMGFlNTFlMTkwN2M4NGU0YmJiNmQ2NDhlZTU4NDEwZjQlDQo+ID4gPiA3QzAlN0MwJTdDNjM5
+MjE4NTQ0OTE4MDY5NDE2JTdDVW5rbm93biU3Q1RXRnBiR1pzYjNkOGV5SkZiWEIwZVUxaGNHaw0K
+PiA+ID4gaU9uUnlkV1VzSWxZaU9pSXdMakF1TURBd01DSXNJbEFpT2lKWGFXNHpNaUlzSWtGT0lq
+b2lUV0ZwYkNJc0lsZFVJam8NCj4gPiA+IHlmUSUzRCUzRCU3QzAlN0MlN0MlN0Mmc2RhdGE9a3hM
+NlA3U1JyaWNyQmdMZVM0VTE4eEF3UDI1MEhNZldTM3VEb3dRDQo+ID4gPiBaRGFBJTNEJnJlc2Vy
+dmVkPTANCj4gPiA+ICZkYXRhPTA1JTdDMDIlN0NzdmVuLmRlbWJpYW5ueSU0MGJzaGcuY29tJTdD
+ZjRhYTYxOGUyODBlNDVjM2Q3NmUwOGRlDQo+ID4gPiBiMDA5NmY1NyU3QzBhZTUNCj4gPiA+IDFl
+MTkwN2M4NGU0YmJiNmQ2NDhlZTU4NDEwZjQlN0MwJTdDMCU3QzYzOTE0MTc1MTc1ODY0NzkzNSU3
+Q1Vua25vd24lDQo+ID4gPiA3Q1RXRnBiR1pzYjMNCj4gPiA+IGQ4ZXlKRmJYQjBlVTFoY0draU9u
+UnlkV1VzSWxZaU9pSXdMakF1TURBd01DSXNJbEFpT2lKWGFXNHpNaUlzSWtGT0lqDQo+ID4gPiBv
+aVRXRnBiQ0lzSWxkVUlqb3lmUQ0KPiA+ID4gJTNEJTNEJTdDMCU3QyU3QyU3QyZzZGF0YT04dEQ3
+S21BUVNQeGclMkJSWjB5QjdNWUJlV1Z1ZENqdnc0VDRNSmhPSHkNCj4gPiA+IDMlMkZrJTNEDQo+
+ID4gPiAmcmVzZXJ2ZWQ9MA0KDQo=
