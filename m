@@ -1,176 +1,115 @@
-Received: from helium.openadk.org (helium.openadk.org [89.238.66.15])
+Received: from mx1.riseup.net (mx1.riseup.net [198.252.153.129])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AED8328CF4A
-	for <connman@lists.linux.dev>; Tue, 11 Aug 2026 17:30:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=89.238.66.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC5A3435508
+	for <connman@lists.linux.dev>; Wed, 12 Aug 2026 14:36:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.252.153.129
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786469411; cv=none; b=UuPeZ/uA/oRn3IWFY0S0Kw39LtAoqwLQ1uJNIaQfuku+6VcQ7XIA8gUnbxyVbSRjw4fULIpdxVTovFJ+gl1tzoDJtHN1H5kxCP6au1e/1M8QwSzQhX4IyRWB4eceQGZ3mL4RO5QfK+WS/y67aagZfXqb7c6EluJOVoBOup6RezQ=
+	t=1786545384; cv=none; b=QaLDoXW6ahgBwjV49DVbmFB5kyKVqdsG4qR/AAk7BSu4v4ANHKdxIoACgl+/VijFOQTPZpgQ8vyDNw0/PQTWLbha7xXCEKHMzkvkSRBfx5fezDBwSnQSGoppK9nbILbcAp9dYect6z+CjhmWrU2UjMN79YbN/Sk8ELUKbJtlgjM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786469411; c=relaxed/simple;
-	bh=YVn3G9yQ84FXubCUrQ4OcEbkFPnGjCjB0Sg+a2l4aw0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HnqzDYdo1HRepR26vG0NF7K19E0zv0y5CMWcEC2YaYbR7Ql0bUfkKRBWCx6HE25myw5wELPhxvGgFVm7PULtjYKudDDnvjYGiLRtsXL1HJ8BxxNTZZiOt94tEV/CvPOUo2w6lf87DMQ67RF5PrdEXeVashBdHpIMbDAMdgIMRqI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=openadk.org; spf=pass smtp.mailfrom=openadk.org; dkim=fail (0-bit key) header.d=openadk.org header.i=@openadk.org header.b=DpHIojte reason="key not found in DNS"; arc=none smtp.client-ip=89.238.66.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=openadk.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=openadk.org
+	s=arc-20240116; t=1786545384; c=relaxed/simple;
+	bh=e6y0oPS9vWZuXAz9mr25al73RJRg/DP3rWYecKxh+W4=;
+	h=MIME-Version:Date:From:To:Subject:Message-ID:Content-Type; b=UsFoUFw6/AuijwkgDceDT3NuYkBd5SRN8HwdO1cPS1hY4Wdhk5ybCC7jphp9fMv1n6U4ctUa5tC9x3pQU1AqiJUPQ5e0ec7XZHNcff6aQUxIkoWbG8FvQdVsHL1EhS62QNbqr9wLqHS9cXNRwq1qL0DfNpLzJeeGwynWLQiIFOU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=riseup.net; spf=pass smtp.mailfrom=riseup.net; dkim=pass (1024-bit key) header.d=riseup.net header.i=@riseup.net header.b=MO8oV0eo; arc=none smtp.client-ip=198.252.153.129
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=riseup.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=riseup.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="key not found in DNS" (0-bit key) header.d=openadk.org header.i=@openadk.org header.b="DpHIojte"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=openadk.org; s=2022;
-	t=1786469401; bh=YVn3G9yQ84FXubCUrQ4OcEbkFPnGjCjB0Sg+a2l4aw0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=DpHIojtejDwUJbEgjIf2qdLeBeT6I4i1udtoz/zuQPKwKW4FxwwNoY8AJX2U0gPTs
-	 aKtBwCBI5WQW3/JKldPJ+eSwUmI7eHC3KclrPNgjuo7i/JqtLXHcaNQJUiQ5yLaAi+
-	 dybP0TXmBzNtxbqeH7kUy45KCPwnbZJBPtkqeVGASwNYi9lPGKUuAxTs+5ydd78bXp
-	 DXypPt1qi97LgUP4UbFlYI58Z6eJLB5qlxS0ADCEK48+9V/1rd1xGxXA2AVEY5TjAR
-	 0v1okCnQLVF1IbCGspMHoisL1btvMwf3xfs9pwmDIs5cmnDXuOhcz+Byw2KBvnhyoL
-	 q8GHnPFijUI0w==
-Received: by helium.openadk.org (Postfix, from userid 1000)
-	id BC49931E0C1E; Tue, 11 Aug 2026 19:30:01 +0200 (CEST)
-Date: Tue, 11 Aug 2026 19:30:01 +0200
-From: Waldemar Brodkorb <wbx@openadk.org>
-To: "Dembianny Sven (BSH GDE-EDSD7)" <sven.dembianny@bshg.com>
-Cc: Michael Nazzareno Trimarchi <michael@amarulasolutions.com>,
-	=?utf-8?B?RnJhbsOnb2lz?= Galea <fgalea@free.fr>,
-	"connman@lists.linux.dev" <connman@lists.linux.dev>,
-	"wbx@openadk.org" <wbx@openadk.org>
-Subject: Re: Connection to a WPA2 Wi-Fi router fails
-Message-ID: <antcGRBvImhKFSyu@waldemar-brodkorb.de>
-References: <9ad68361-98cd-42d1-80b0-7f7cbe6b73cf@free.fr>
- <CAOf5uwm2wBF=rLBus_epmRg+MgXVrHQzFAq8Y3bGWmJPPiDUnw@mail.gmail.com>
- <VI0PR10MB8908DC25598F38832175F6D6F4002@VI0PR10MB8908.EURPRD10.PROD.OUTLOOK.COM>
- <anghETbH2WzsZIJ9@waldemar-brodkorb.de>
- <VI0PR10MB8908D439894A87FDC9341D6EF4DE2@VI0PR10MB8908.EURPRD10.PROD.OUTLOOK.COM>
+	dkim=pass (1024-bit key) header.d=riseup.net header.i=@riseup.net header.b="MO8oV0eo"
+Received: from fews04-sea.riseup.net (fews04-sea-pn.riseup.net [10.0.1.154])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx1.riseup.net (Postfix) with ESMTPS id 4hKrdr16xlzDqKW
+	for <connman@lists.linux.dev>; Wed, 12 Aug 2026 14:36:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=riseup.net; s=squak;
+	t=1786545376; bh=e6y0oPS9vWZuXAz9mr25al73RJRg/DP3rWYecKxh+W4=;
+	h=Date:From:To:Subject:From;
+	b=MO8oV0eopHpjn7G2mKcLMRMUjspyHktVHMTGPm/pMeb/sFl2DynllsE2NkqICCJD3
+	 Ywy6MIMVfmqxgRyvOK1oHkL0r3LG+WALDncU9Wfv41lvvkOsAiHVpJiF5vfrQBDs1Y
+	 ho+f501McFeTSa7YVivqQFDj79Ei9Vs3jNwGB7qI=
+X-Riseup-User-ID: 01A970679D893371A40ACC67BE16AA23F1AB386C267F0623E49EF3DF1F5DC575
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	 by fews04-sea.riseup.net (Postfix) with ESMTPSA id 4hKrdq6yc2z5vN2
+	for <connman@lists.linux.dev>; Wed, 12 Aug 2026 14:36:15 +0000 (UTC)
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Date: Wed, 12 Aug 2026 14:36:15 +0000
+From: kasuta@riseup.net
+To: connman@lists.linux.dev
+Subject: [BUG UPDATE] Wi-Fi vs Ethernet behavior isolated on WireGuard (wg0)
+ disconnect leak
+Message-ID: <43dd58a734ea77cdbcc6e87003032a11@riseup.net>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <VI0PR10MB8908D439894A87FDC9341D6EF4DE2@VI0PR10MB8908.EURPRD10.PROD.OUTLOOK.COM>
-X-Operating-System: Linux 6.12.96+deb13-amd64 x86_64
 
-Hi Sven,
-Dembianny Sven (BSH GDE-EDSD7) wrote,
+Hello ConnMan Developers,
 
-> Hi Waldemar,
-> > 
-> > Hi Sven,
-> > Dembianny Sven (BSH GDE-EDSD7) wrote,
-> > 
-> > > Hi Michael,
-> > >
-> > > I don't think so, e.g., if AP does not support SAE but repeater does, roaming will fail.
-> > > This will also break certification tests.
-> > >
-> > > @ François do you have more info about your setup, e.g. MFP setting on AP/wpa_supplicant
-> > config/WPA-PSK-SHA256 instead of WPA-PSK?
-> > 
-> > Sorry for the late reply. Francois seems not to answered your question and I see no fixes for this
-> > problem in GIT master either.
-> > 
-> > My AP is a standard Vodafone AP with WPA2.
-> > How can I give you better information about the details of this AP?
-> What model is being used?
+I am writing to provide critical new diagnostic data regarding the file
+descriptor resource leak when paired with out-of-band virtual interfaces
+(kernel-space WireGuard wg0 tunnel).
 
-Vodafone Wifi 6.
-It is this one:
-https://www.vodafone.de/downloadarea/CGA6444VF-DMS3-CTC-25-593_v2.0_German_public_20210511.pdf
+After conducting exhaustive monitoring across multiple devices and
+builds (including LibreELEC 12/13 running on x86_64 and Raspberry Pi
+3/4/5), I have successfully isolated a massive behavioral divergence
+between Ethernet and Wi-Fi connections.
 
-> It is possible that MFP is additionally configured as optional. Could you please check the AP settings or the beacon frames?
+### New Discovery: Wi-Fi vs. Ethernet Behavior
+1. Ethernet (Stable with Mitigations): When cycling the WireGuard (wg0)
+virtual tunnel while connected via a hardwired Ethernet (eth0)
+interface, connmand resource tracking remains entirely flat and stable
+once the `--nodnsproxy` flag is applied.
 
-It seems not.
-See:
-sudo iw dev wlan0 scan | grep -A20 -B2 'Vodafone-C30C'
-	last seen: 84 ms ago
-	Information elements from Probe Response frame:
-	SSID: Vodafone-C30C
-	Supported rates: 1.0* 2.0* 5.5* 11.0* 18.0 24.0 36.0 54.0
-	DS Parameter set: channel 11
-	Country: DE	Environment: Indoor/Outdoor
-		Channels [1 - 13] @ 20 dBm
-	TPC report: TX power: 18 dBm
-	ERP: Barker_Preamble_Mode
-	Extended supported rates: 6.0 9.0 12.0 48.0
-	RSN:	 * Version: 1
-		 * Group cipher: CCMP
-		 * Pairwise ciphers: CCMP
-		 * Authentication suites: PSK
-		 * Capabilities: 16-PTKSA-RC 1-GTKSA-RC (0x000c)
-	BSS Load:
-		 * station count: 2
-		 * channel utilisation: 31/255
-		 * available admission capacity: 0 [*32us]
-	RM enabled capabilities:
-		Capabilities: 0x72 0x00 0x00 0x00 0x00
-			Neighbor Report
-			Beacon Passive Measurement
---
-	signal: -72.00 dBm
-	last seen: 3208 ms ago
-	SSID: Vodafone-C30C
-	Supported rates: 6.0* 9.0 12.0* 18.0 24.0* 36.0 48.0 54.0
-	TIM: DTIM Count 0 DTIM Period 1 Bitmap Control 0x0 Bitmap[0] 0x0
-	Country: DE	Environment: Indoor/Outdoor
-		Channels [36 - 64] @ 23 dBm
-		Channels [100 - 140] @ 30 dBm
-	Power constraint: 0 dB
-	TPC report: TX power: 23 dBm
-	RSN:	 * Version: 1
-		 * Group cipher: CCMP
-		 * Pairwise ciphers: CCMP
-		 * Authentication suites: PSK
-		 * Capabilities: 16-PTKSA-RC 1-GTKSA-RC (0x000c)
-	BSS Load:
-		 * station count: 6
-		 * channel utilisation: 6/255
-		 * available admission capacity: 0 [*32us]
-	RM enabled capabilities:
-		Capabilities: 0x72 0x00 0x00 0x00 0x00
-			Neighbor Report
-			Beacon Passive Measurement
+2. Wi-Fi (Aggressive Persistent Leak): When operating over a wireless
+connection (wlan0), disconnecting the exact same WireGuard tunnel causes
+an immediate, massive surge in file descriptors within the Main Daemon
+(connmand). This resource leak persistently accumulates on Wi-Fi even
+with modifications active.
 
- 
-> Also, what firmware version is running on the Raspberry Pi 4? The firmware files should be located under:
-> /lib/firmware/
+Live Telemetry Capture (Wireless Environment):
+* VPN Connected (Baseline): Main Daemon (connmand) File Descriptors = 19
+* VPN Disconnected (Single Trigger Event): Main Daemon (connmand) File
+Descriptors = 91
 
-That is the dmesg output after loading the Wifi driver in Buildroot:
-[  249.369934] brcmfmac: F1 signature read @0x18000000=0x15264345
-[  249.373427] brcmfmac: brcmf_fw_alloc_request: using brcm/brcmfmac43455-sdio for chip BCM4345/6
-[  249.382449] usbcore: registered new interface driver brcmfmac
-[  249.618723] brcmfmac: brcmf_c_process_txcap_blob: no txcap_blob available (err=-2)
-[  249.626771] brcmfmac: brcmf_c_preinit_dcmds: Firmware: BCM4345/6 wl0: Aug 29 2023 01:47:08 version 7.45.265 (28bca26 CY) FWID 01-b677b91b
+ConnMan instantly leaked 72 file descriptors in a single disconnect
+action on Wi-Fi. It appears that when operating over wireless layers,
+ConnMan’s active link/BSSID scanning routines or netlink interface
+listeners (nl80211) completely fail to execute proper close() system
+calls on tracking handles when a concurrent virtual routing interface
+drops out-of-band.
 
-But at the moment I am fighting with connmanctl, it seems I cannot
-scan wifi anymore:
-# connmanctl scan wifi
-Error /net/connman/technology/wifi: Not supported
-# connmanctl enable wifi
-wifi is already enabled
-# connmanctl scan wifi
-Error /net/connman/technology/wifi: Not supported
-# connmanctl technologies
-/net/connman/technology/ethernet
-  Name = Wired
-  Type = ethernet
-  Powered = True
-  Connected = False
-  Tethering = False
-  TetheringFreq = 2412
-/net/connman/technology/wifi
-  Name = WiFi
-  Type = wifi
-  Powered = True
-  Connected = False
-  Tethering = False
-  TetheringFreq = 2412
+### Deployed Workaround for Embedded Environments (LibreELEC)
+For users running this in read-only appliance platforms, I have
+implemented a systemd service override drop-in alongside a custom
+configuration:
 
-I can scan wifi with iw on the RPI4.
+/storage/.config/connman_main.conf:
+[General]
+OnlineCheckMode=none
+OnlineCheckURL=
+OnlineCheckInterval=0
 
-best regards
- Waldemar
+Systemd override block:
+[Service]
+ExecStart=
+ExecStart=/usr/sbin/connmand -n
+--config=/storage/.config/connman_main.conf --nodnsproxy
+LimitNOFILE=4096
+LogRateLimitIntervalSec=0
 
+By forcing `OnlineCheckMode=none` and `--nodnsproxy`, we stabilize
+Ethernet. However, because the count continuously climbs on Wi-Fi due to
+the underlying wireless link tracking leak, capping `LimitNOFILE=4096`
+ensures systemd will cleanly terminate and respawn connmand to reclaim
+leaked file descriptors before it exhausts the global operating system
+limit (1024), preventing total host networking freezes.
 
+This narrows down the root cause to missing resource garbage collection
+inside the wireless tracking state machines or netlink route management
+loops during out-of-band virtual interface teardowns.
+
+Best regards,
+Doemela
