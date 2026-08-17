@@ -1,56 +1,41 @@
-Received: from AM0PR83CU005.outbound.protection.outlook.com (mail-westeuropeazon11010003.outbound.protection.outlook.com [52.101.69.3])
+Received: from helium.openadk.org (helium.openadk.org [89.238.66.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A3603AEF3B
-	for <connman@lists.linux.dev>; Mon, 17 Aug 2026 06:17:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.69.3
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786947478; cv=fail; b=OKHu/z580eZx9qwdRISS6KgnStmIodihyU+BSxIc3Djjij53XbUSyc0XVUKNirLQPCGn0MhFAEwhQNf+0RelsP+6VLNm5awFaJIryv2yQwIx4mz72AVNdFzYD8FJB9V34ntHfHn5j6fuYGE+cc+tIexv6gw7Xz/4MiE59g2/JUE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786947478; c=relaxed/simple;
-	bh=ccs+iOnnG6/Q/lc5BMcDHCQxdfGysIsrjUtebHccH4g=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=V+1QN4OXVHu5n88f0lgKtrnPOC5ht3HdSg124AiqRPZeYRb/JFMGqksmRWs55KZ0Zt1jm+grY5TH9A3x0V9BTSKxGkXhthTWEjCp2vpftRrJ7VC6QGwhHwF3Aj5vp0GVjDqR17jlyER87NvMfXPuCcq0SBVNUP1WZbw+JTnOOlQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bshg.com; spf=pass smtp.mailfrom=bshg.com; dkim=pass (2048-bit key) header.d=bshg.com header.i=@bshg.com header.b=2Oiu6PKR; arc=fail smtp.client-ip=52.101.69.3
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bshg.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bshg.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4D1832B989
+	for <connman@lists.linux.dev>; Mon, 17 Aug 2026 07:18:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=89.238.66.15
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786951130; cv=none; b=p1uG2MlVPSJh3CdOPndFKqSCctfUA0cOoxuGKiDvP51Ot4CZBuh/AQocACmbvqNbYLf4ikVsgMRpoqZPyAFxVzu9iU3fTMK3M9PRPH+nPFWR3Z48HsfEnrpK5ni5JNn6FToSArhE2PMRLsZhwOuJDQcyfJiKkOEA3609RAuEftU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786951130; c=relaxed/simple;
+	bh=1VBw8l3U6bVc1aGKzwEzA5hA1p7gGEQAmwcpGd8w4xw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Qm6bmcZWV9XBJ+uE1cm7cXpo+DMTUKKAbedN5NJEmkr59kCsfuvVpbFz1gSDgi7gk2WpZIrm/0jC6U0RiUpyQelSVk7/QBFuBS+tauY7s9skjbl614jOx2/qSX7iitA87tFKoI7c7LG9UMfHoBe8JGV4Q6nOI+YxPNgB6QNt8H4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=openadk.org; spf=pass smtp.mailfrom=openadk.org; dkim=fail (0-bit key) header.d=openadk.org header.i=@openadk.org header.b=l1OMNNLs reason="key not found in DNS"; arc=none smtp.client-ip=89.238.66.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=openadk.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=openadk.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bshg.com header.i=@bshg.com header.b="2Oiu6PKR"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=FtfqS389ghwLNgSBqqVay2nnnuK4es31YHuKq7+fBjjUbNG8N4sdK2FEzqa6NBGp+O6RQAmGjYcKoxusnabJXjLd9u5sJY0LDc+lMu4DxeATk7BB948jlf5F0UagPcIb8d68hvKqwAxBIeZ7QhYQIN9sFEXFanJevHMppSuaF1pqdS7Y0Om6qRSzWBxv9LFNMkCg+DpwnlcQbUFcRgjQmtq8K+XH4X2YDQ1HMjDv9kXBhCa3A9tE7pTZoTZdg6rCo/JpiBmdygInBrbzo8cIBCOBNNIqDUUl1O+UQu+HVOAdEV+3WVgF5I94q2Re3sOnxmFOLxZ5eEY/Ua74qSHIFg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=+uQfrwU8egMvui8c1mRiG67hJoioYqkegRBW3LUKSKg=;
- b=PGXv+LEp05UxktoJmTUr8r0TgYwA3WL6ImCWQrQXC8VWTqeCqIB9o4VmHJolVV9l/4RTxSTrJ7gJcVj5ESyN7WGGp4cwWq4zsOx/G/F7qNmvQU4Gdk46UeTMxhDEWYmvaCypj91+G9Y29eI8g8CF1htfG4CrI9IeGnjQbq63wzAnwNJ01G1rXYha+2tgziAelecctq5w3W7n9l6mja1iw4FzHDaQ0Z533Pwv6pEGHp97LTwiC/O8UirIDEtr4kNWtArB3CnS8rPKQrKd983iEao26UmT3qS2qIgZgLWSmd7I+rTuoPq6mQxMZkz2wmMdRrFAMK49oPwP+tT6lKII3Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bshg.com; dmarc=pass action=none header.from=bshg.com;
- dkim=pass header.d=bshg.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bshg.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+uQfrwU8egMvui8c1mRiG67hJoioYqkegRBW3LUKSKg=;
- b=2Oiu6PKRd87hKODh5BjSqBe7xSZVdV+QFgmtu33Y6OXq4EvoA+I7BYlUjXIczihcwym18aMPfUXDZu1nQVdbzHxE3x3ml2arhEqv0fxghH2fRa1+KKs3xh2nkbeZ3V/7rrv6KhK/jZXsG7rBO/YdOt+IKNJXpmk6eZAY4xxlMCkgAmbMvhB2tYzaLyDWK/StGKRDCZChc9s1I+UbGSCT6Wh0NODfVTFdGpCY5sCScq7zY5VzrPfF5DV/mSs0wvnDLNZuq2BFjjWilkZEDWNBHkau05AfHcmVpbIzRx+aGvBeld/sWi9tyM0A7+1PsYwBDdDP2u+OnVpRYxARp+EIPQ==
-Received: from VI0PR10MB8908.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:800:213::13)
- by PAVPR10MB7355.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:102:31e::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.315.17; Mon, 17 Aug
- 2026 06:17:50 +0000
-Received: from VI0PR10MB8908.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::c595:d36a:295f:156d]) by VI0PR10MB8908.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::c595:d36a:295f:156d%6]) with mapi id 15.21.0315.016; Mon, 17 Aug 2026
- 06:17:50 +0000
-From: "Dembianny Sven (BSH GDE-EDSD7)" <sven.dembianny@bshg.com>
-To: Waldemar Brodkorb <wbx@openadk.org>
-CC: Michael Nazzareno Trimarchi <michael@amarulasolutions.com>,
-	=?iso-8859-1?Q?Fran=E7ois_Galea?= <fgalea@free.fr>, "connman@lists.linux.dev"
-	<connman@lists.linux.dev>
-Subject: RE: Connection to a WPA2 Wi-Fi router fails
-Thread-Topic: Connection to a WPA2 Wi-Fi router fails
-Thread-Index:
- AQHc4e+1v6y0J6G1nEqVaCo5rDvA+rYKIKiAgAnZqhCAgdX8gIABh6owgAJSPICAAnUskIADFvwAgAMlORA=
-Date: Mon, 17 Aug 2026 06:17:50 +0000
-Message-ID:
- <VI0PR10MB89081958F1C9D72759AEEC8DF4A72@VI0PR10MB8908.EURPRD10.PROD.OUTLOOK.COM>
+	dkim=fail reason="key not found in DNS" (0-bit key) header.d=openadk.org header.i=@openadk.org header.b="l1OMNNLs"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=openadk.org; s=2022;
+	t=1786951116; bh=1VBw8l3U6bVc1aGKzwEzA5hA1p7gGEQAmwcpGd8w4xw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=l1OMNNLsx6d/jiJDsrcoEUA4vWh2ArwknXNxVH0YPj/vdToQZ7y7y5OPbDv2QGRIF
+	 VTZqSNw/V9UIRTeANOV/9oPdKqJ1nMP2+butNkxn2g1ZckaPwLAt37FmN3x99PQKda
+	 eu42GQ1y7fAIwuO0ApsealBnYWxe4Dg401Xx1bwJj+pb0ogbWZqfjRIle0Fz69iYAN
+	 6S+mTBo06kPcFZRn8Vzd605hI9xA24JMJlYXGzx8WrousAlCb0av5QKA67eTWtAEn/
+	 5lJ88556N3VgEDNb8wfUilPIExJjkNI5/KZ0raNIoJS2hdk3GxQ/LuCGSgOiqKQQqR
+	 PNGPGX+IwJTXg==
+Received: by helium.openadk.org (Postfix, from userid 1000)
+	id 6705C31E0AFD; Mon, 17 Aug 2026 09:18:36 +0200 (CEST)
+Date: Mon, 17 Aug 2026 09:18:36 +0200
+From: Waldemar Brodkorb <wbx@openadk.org>
+To: "Dembianny Sven (BSH GDE-EDSD7)" <sven.dembianny@bshg.com>
+Cc: Waldemar Brodkorb <wbx@openadk.org>,
+	Michael Nazzareno Trimarchi <michael@amarulasolutions.com>,
+	=?utf-8?B?RnJhbsOnb2lz?= Galea <fgalea@free.fr>,
+	"connman@lists.linux.dev" <connman@lists.linux.dev>
+Subject: Re: Connection to a WPA2 Wi-Fi router fails
+Message-ID: <aoK1zI10OTh5TX7r@waldemar-brodkorb.de>
 References: <9ad68361-98cd-42d1-80b0-7f7cbe6b73cf@free.fr>
  <CAOf5uwm2wBF=rLBus_epmRg+MgXVrHQzFAq8Y3bGWmJPPiDUnw@mail.gmail.com>
  <VI0PR10MB8908DC25598F38832175F6D6F4002@VI0PR10MB8908.EURPRD10.PROD.OUTLOOK.COM>
@@ -59,317 +44,1196 @@ References: <9ad68361-98cd-42d1-80b0-7f7cbe6b73cf@free.fr>
  <antcGRBvImhKFSyu@waldemar-brodkorb.de>
  <VI0PR10MB8908254CA2980FEFA0F4A905F4DB2@VI0PR10MB8908.EURPRD10.PROD.OUTLOOK.COM>
  <aoADapzQ-roTDzSP@waldemar-brodkorb.de>
-In-Reply-To: <aoADapzQ-roTDzSP@waldemar-brodkorb.de>
-Accept-Language: en-US, de-DE
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bshg.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: VI0PR10MB8908:EE_|PAVPR10MB7355:EE_
-x-ms-office365-filtering-correlation-id: c07bebb7-1618-4123-7040-08defc2743bd
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|23010399003|366016|1800799024|19092799006|376014|10067099003|56012099006|4133799003|6133799003|3023799007|18002099003|22082099003|11063799006|4143699003|38070700021|15866825006|41080700001;
-x-microsoft-antispam-message-info:
- p0N+/Dzt/yzcRXmhGaWHzSr7i3mNbSbYxo4JjHaiP5DlrFoSG+xgflxQmljFLpIBH4tbDmMPv6Qv+yZ9jz8K2fjchjy+PS91/NcHFP8mZbdIZXG7VSrjcfX4xdP+ydpUZ33MrhOemY0/zbw9K+yiN4AX+c34xjggCrPlb951Q/LniqokCQSFM8U/A3znGxtsertt6mbwPBOiuKN6Ny9jaRtTIIjL3m/0324m2/4wPjJiXWXZZttFT5pliulqBszgzGiT+VhJRg/nLS7Uj2HpHhnusuBQGRSHmZLuTNhB8OrifmM3Xl6cYptyjB2v5KQM2zDlCqQZ5Ad3U362kBG3yxdruvlBQy4sjWPeom0ZQMpY0puJrZ9XkjLH7weGeHW4xI6bi/Fm+eTPP01RYSYhqKQ20RjzLltMSj3A99hNJVArjRYCB9wo86bLS6sJemomhkKL3p4sCLDmiRbxLq5W7drGqGN5SLIKcQX0ureRF4+8eNNvn0IYGitdP4GvViUh6W84LY68E4udtmYFtFuZ2l1dXTU4JFInoB7atLvC+cC3CV8cYODo5KcabOj9okEOzFGKkxyXBLIztxV5fvhCIUAl2Z36MJXHtVjOQDwrT+b5T1R6GivHqGWKHjGW/7qdNwGmZ9TKYlOLYi8i8E9d3PPsMQ/seXXQ2UJZmydLRHR2b27TuycGO0JExDlY1fzu4pbRmeBn6IhuG2WgFqoG7ECKWVMHTCbIgAU5ox2o5gxZhMpUsDJiMFrNpx4mNutzJYUd0BEguuL2sFJnGS02NhfmuGzctjczlxHXsuwK/iE=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VI0PR10MB8908.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(366016)(1800799024)(19092799006)(376014)(10067099003)(56012099006)(4133799003)(6133799003)(3023799007)(18002099003)(22082099003)(11063799006)(4143699003)(38070700021)(15866825006)(41080700001);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?iso-8859-1?Q?HfGY2B0oAqOFDD9Vi3Isw09qk0pB2DZNUZ/CtAvwyCiP2xVTWElbu4FkBs?=
- =?iso-8859-1?Q?uzrenSGIj/tVGasBXrUwIR4r3yKjOAGaicJEfzrjnXUzbeqI3CgElV4lfr?=
- =?iso-8859-1?Q?ABQ9yDua9YaJONB96R5ZE6yV6Pg6OyZQAjk6EXgF1zvi4cXm5C7fqa2EFx?=
- =?iso-8859-1?Q?1Pyg+lvlkInO4W0ZkzPieZwQqFozIzBtF9x2XQTLyWK0NTzFOOjpMhElzk?=
- =?iso-8859-1?Q?oLQ5wQZ2bVO3jGsD/AwFWtpvLu/aH926xsJDImwa0xbdlA9zM1WYoT5qCa?=
- =?iso-8859-1?Q?CwQsMAs1IgmV4veNEU7kxjE20cMJ50vY+zOA0JGoIm6/lSq2yKysgne/Y/?=
- =?iso-8859-1?Q?y6f2Y58QX6HGSC2ieYmE27i4sbdZ7uMWAoGSPppbOO9+uEmbDUahmh0Fv/?=
- =?iso-8859-1?Q?1+lHDcfhgHWWLj3LSvjzdlsc0j3mV4RNlzw/vyiLxClJtqdcZKLJeGAvVG?=
- =?iso-8859-1?Q?1xftBvqCb/I8PVDWvrTuymq00zizMougOMEkgACTScvLsBCtajumFEaH/J?=
- =?iso-8859-1?Q?kFCJcnW+kvth5LhuG/s6DC05PRcPRWyHcssstnQMqLUBzPB8/TfLLiIvxP?=
- =?iso-8859-1?Q?hCKGqiZYm/qWB/C57DpjdzAN9DBrjwT3fuP02i/GYv9Y3cEWkJA1HXmLnX?=
- =?iso-8859-1?Q?sHFbbbepxcDmoKxlB6LwA3im2VgI/JrWNvdDs/MeHpZEy+2j5ZJAeYhGKj?=
- =?iso-8859-1?Q?QNw+iv7KtV8GSLWrEbwoFgy8YghzqtJqWpaFun5ysb19PKrwYka5GZzRlH?=
- =?iso-8859-1?Q?7RufWGgDVs3DdcCF0BcY02xDKUCC0oM58nNV265EF56ADW7n7IN//KnGp0?=
- =?iso-8859-1?Q?1NYIfJXvHSqrP4YZL+3IcHPFC4raf0XQevL7LiD9Yl+MA1omliE+/Lfn2t?=
- =?iso-8859-1?Q?Kltdc9sQdB7lQkeXY40MJuZzNIfepkv37uAOn6gx3hhBfoQcRfu1QY0n9b?=
- =?iso-8859-1?Q?mABucgGMriQyqo9oMhURk17tUNFUk8HqxtNm+NtgOgdW5V7V+uZG3gkjFg?=
- =?iso-8859-1?Q?kElrWrZCClMZXabhOMAL9GRCuAJDrXzqc2LMNUCjd+IrbiOF64+pvBkSh/?=
- =?iso-8859-1?Q?wsxFer0fn/XQyjisLTokviIS/LhaL99Im1AiOBntff5g7MxxMBarf0R5Bs?=
- =?iso-8859-1?Q?/vBZ8q4J9zFvR/VsFBqotiNmt4eNGZlDaDBM6kB7/pgjE4q7ME88Rvp/oA?=
- =?iso-8859-1?Q?FRQISWNP/2drqnIpYe8nP9h89lZAz8UYrMJN5OUh6Wok5SpukMCN3X4iYL?=
- =?iso-8859-1?Q?Z3L4IOPmHWtLTj7mLgefiNuThUgAE3tpmTI09aBcyO0R4zoYBc54JCYL0Z?=
- =?iso-8859-1?Q?moBDLuSTWV6dTCZlCEepUpgvFoJV3s3V8Iu7aPSu6r5VeZYj8Q80KpdK+O?=
- =?iso-8859-1?Q?Mgv83kvf3HgsYkbXb6ICUqcliu+AONn2GYeDcSaQLSV5Lg6s9TPnZHXd4p?=
- =?iso-8859-1?Q?QK+/caE40086olZ8Lv5OH7wgc6ogbmFI5LXuIa17Qcw+q1Qj3ut+qIR/Nb?=
- =?iso-8859-1?Q?xxQ4fwBxMrCxZfUYu2MvRt1wkFdGMTik4R+3hzImHqvo5APMlmNNkgKcKl?=
- =?iso-8859-1?Q?11KLuMmuByhWQbz/CZKXWL6oPXmtqpLH3C/pClLlKOkyCE5TdnBDBDgVmd?=
- =?iso-8859-1?Q?ryKqbmTpJXdXYtzyM0P3+GSg99Qufg5rDTRLknddGK0vKOZ1VSTE1zXsCC?=
- =?iso-8859-1?Q?vsgiV16Qo+gkfTbL12u8e+LscCcPkkKfdJu2X9ENQpG7sv/aH38qwKzbR8?=
- =?iso-8859-1?Q?oO/+yB4PxAjurNB8HbaMTMrKjiKprY/gafqJYMRu7JLlza?=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+ <VI0PR10MB89081958F1C9D72759AEEC8DF4A72@VI0PR10MB8908.EURPRD10.PROD.OUTLOOK.COM>
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-OriginatorOrg: bshg.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: VI0PR10MB8908.EURPRD10.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: c07bebb7-1618-4123-7040-08defc2743bd
-X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Aug 2026 06:17:50.3288
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 0ae51e19-07c8-4e4b-bb6d-648ee58410f4
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 9JMf5DxmhfkDK9IxjAnL6GhlFQU1xr6vqIJx8lYeWRGEy8d+PzTtv6n8GK9TB+Ofc/r1rCqpHukID8jJFLb+aw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAVPR10MB7355
+Content-Type: multipart/mixed; boundary="Jvn6ICSDNBtJcp7x"
+Content-Disposition: inline
+In-Reply-To: <VI0PR10MB89081958F1C9D72759AEEC8DF4A72@VI0PR10MB8908.EURPRD10.PROD.OUTLOOK.COM>
+X-Operating-System: Linux 6.12.96+deb13-amd64 x86_64
 
-Hi Waldemar,
 
-no idea at the moment, but this looks like a different issue, potentially a=
-n initialization-related topic.
+--Jvn6ICSDNBtJcp7x
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-Best regards,  Sven
-> -----Original Message-----
-> From: Waldemar Brodkorb <wbx@openadk.org>
-> Sent: Samstag, 15. August 2026 08:13
-> To: Dembianny Sven (BSH GDE-EDSD7) <sven.dembianny@bshg.com>
-> Cc: Waldemar Brodkorb <wbx@openadk.org>; Michael Nazzareno Trimarchi
-> <michael@amarulasolutions.com>; Fran=E7ois Galea <fgalea@free.fr>; connma=
-n@lists.linux.dev
-> Subject: Re: Connection to a WPA2 Wi-Fi router fails
->=20
-> Hi Sven,
->=20
-> but without even the possibility to scan I am not able to reproduce the i=
-nitial bug anymore. Do you
-> have an idea why connmanctl scan wifi fails for me?
->=20
-> I use Buildroot master (tried arm and aarch64), enable the wifi firmware =
-and connman. After booting
-> with the SD card I stop connmand /etc/init.d/S45connman stop modprobe brc=
-mfmac
-> /etc/init.d/S45connman start connmanctl enable wifi connmanctl scan wifi
->=20
-> Error /net/connman/technology/wifi: Not supported
->=20
-> When I add -d for debug information before I start connmand, I see in the=
- log that wlan0 is recognized:
-> Jan  1 00:01:11 buildroot daemon.info connmand[232]: Adding interface eth=
-0 [ ethernet ] Jan  1
-> 00:01:11 buildroot daemon.debug connmand[232]: src/technology.c:technolog=
-y_find() type 2 Jan  1
-> 00:01:11 buildroot daemon.debug connmand[232]: src/rtnl.c:rtnl_message() =
-NEWLINK len 1476 type
-> 16 flags 0x0002 seq 0 pid 232 Jan  1 00:01:11 buildroot daemon.debug conn=
-mand[232]:
-> src/ipconfig.c:__connman_ipconfig_newlink() index 3 Jan  1 00:01:11 build=
-root daemon.info
-> connmand[232]: wlan0 {create} index 3 type 1 <ETHER> Jan  1 00:01:11 buil=
-droot daemon.info
-> connmand[232]: wlan0 {update} flags 4098 <DOWN> Jan  1 00:01:11 buildroot=
- daemon.info
-> connmand[232]: wlan0 {newlink} index 3 address E4:5F:01:16:5A:26 mtu 1500=
- Jan  1 00:01:11 buildroot
-> daemon.info connmand[232]: wlan0 {newlink} index 3 operstate 2 <DOWN> Jan=
-  1 00:01:11 buildroot
-> daemon.debug connmand[232]: src/detect.c:detect_newlink() type 1 index 3 =
-Jan  1 00:01:11 buildroot
-> daemon.debug connmand[232]: src/device.c:connman_device_create() node e45=
-f01165a26 type 2 Jan
-> 1 00:01:11 buildroot daemon.debug connmand[232]: src/device.c:connman_dev=
-ice_create() device
-> 0x5599d3a8f0 Jan  1 00:01:11 buildroot daemon.debug connmand[232]:
-> src/device.c:connman_device_set_string() device 0x5599d3a8f0 key Address =
-value E4:5F:01:16:5A:26
-> Jan  1 00:01:11 buildroot daemon.debug connmand[232]: src/device.c:connma=
-n_device_register()
-> device 0x5599d3a8f0 name Wireless Jan  1 00:01:11 buildroot daemon.info c=
-onnmand[232]: Adding
-> interface wlan0 [ wifi ] Jan  1 00:01:11 buildroot daemon.debug connmand[=
-232]:
-> src/technology.c:technology_find() type 3
->=20
->=20
-> Any idea?
->=20
-> best regards
->  Waldemar
->=20
-> Dembianny Sven (BSH GDE-EDSD7) wrote,
->=20
-> > Hi Waldemar,
-> >
-> > yes, that seems reasonable. We need additional information to better un=
-derstand what is happening.
-> > Could you please provide a wpa_supplicant log with debug logging enable=
-d?
-> >
-> > Best regards, Sven
-> > > -----Original Message-----
-> > > From: Waldemar Brodkorb <wbx@openadk.org>
-> > > Sent: Dienstag, 11. August 2026 19:30
-> > > To: Dembianny Sven (BSH GDE-EDSD7) <sven.dembianny@bshg.com>
-> > > Cc: Michael Nazzareno Trimarchi <michael@amarulasolutions.com>;
-> > > Fran=E7ois Galea <fgalea@free.fr>; connman@lists.linux.dev;
-> > > wbx@openadk.org
-> > > Subject: Re: Connection to a WPA2 Wi-Fi router fails
-> > >
-> > > Hi Sven,
-> > > Dembianny Sven (BSH GDE-EDSD7) wrote,
-> > >
-> > > > Hi Waldemar,
-> > > > >
-> > > > > Hi Sven,
-> > > > > Dembianny Sven (BSH GDE-EDSD7) wrote,
-> > > > >
-> > > > > > Hi Michael,
-> > > > > >
-> > > > > > I don't think so, e.g., if AP does not support SAE but repeater=
- does, roaming will fail.
-> > > > > > This will also break certification tests.
-> > > > > >
-> > > > > > @ Fran=E7ois do you have more info about your setup, e.g. MFP
-> > > > > > setting on AP/wpa_supplicant
-> > > > > config/WPA-PSK-SHA256 instead of WPA-PSK?
-> > > > >
-> > > > > Sorry for the late reply. Francois seems not to answered your
-> > > > > question and I see no fixes for this problem in GIT master either=
-.
-> > > > >
-> > > > > My AP is a standard Vodafone AP with WPA2.
-> > > > > How can I give you better information about the details of this A=
-P?
-> > > > What model is being used?
-> > >
-> > > Vodafone Wifi 6.
-> > > It is this one:
-> > > https://eur03.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fw=
-w
-> > > w.vodafone.de%2Fdownload&data=3D05%7C02%7Csven.dembianny%40bshg.com%7=
-C
-> > > 28ff4dffa49c488a7b4e08defa9441af%7C0ae51e1907c84e4bbb6d648ee58410f4%
-> > > 7C0%7C0%7C639223711836903590%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGk
-> > > iOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjo
-> > > yfQ%3D%3D%7C0%7C%7C%7C&sdata=3D%2BG4XESNZmUWwrlifdv2Xda4fX8gZbVaDGCKf=
-F
-> > > 09Bu88%3D&reserved=3D0
-> > > area%2FCGA6444VF-DMS3-CTC-25-
-> > > 593_v2.0_German_public_20210511.pdf&data=3D05%7C02%7Csven.dembianny%4=
-0
-> > > bshg.com%7C59663c
-> > > 7c2d2d49ac217508def7ce2d13%7C0ae51e1907c84e4bbb6d648ee58410f4%7C0%7C
-> > > 0%7C63922066219
-> > > 4440574%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAu
-> > > MDAwMCIsIlAiOiJ
-> > > XaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=3DycBjQx=
-m
-> > > EPcxuLgXBXIMrjCg
-> > > OsU9mHQ%2B%2B%2B%2BOcVwvkfTg%3D&reserved=3D0
-> > >
-> > > > It is possible that MFP is additionally configured as optional.
-> > > > Could you please check the AP settings
-> > > or the beacon frames?
-> > >
-> > > It seems not.
-> > > See:
-> > > sudo iw dev wlan0 scan | grep -A20 -B2 'Vodafone-C30C'
-> > >       last seen: 84 ms ago
-> > >       Information elements from Probe Response frame:
-> > >       SSID: Vodafone-C30C
-> > >       Supported rates: 1.0* 2.0* 5.5* 11.0* 18.0 24.0 36.0 54.0
-> > >       DS Parameter set: channel 11
-> > >       Country: DE     Environment: Indoor/Outdoor
-> > >               Channels [1 - 13] @ 20 dBm
-> > >       TPC report: TX power: 18 dBm
-> > >       ERP: Barker_Preamble_Mode
-> > >       Extended supported rates: 6.0 9.0 12.0 48.0
-> > >       RSN:     * Version: 1
-> > >                * Group cipher: CCMP
-> > >                * Pairwise ciphers: CCMP
-> > >                * Authentication suites: PSK
-> > >                * Capabilities: 16-PTKSA-RC 1-GTKSA-RC (0x000c)
-> > >       BSS Load:
-> > >                * station count: 2
-> > >                * channel utilisation: 31/255
-> > >                * available admission capacity: 0 [*32us]
-> > >       RM enabled capabilities:
-> > >               Capabilities: 0x72 0x00 0x00 0x00 0x00
-> > >                       Neighbor Report
-> > >                       Beacon Passive Measurement
-> > > --
-> > >       signal: -72.00 dBm
-> > >       last seen: 3208 ms ago
-> > >       SSID: Vodafone-C30C
-> > >       Supported rates: 6.0* 9.0 12.0* 18.0 24.0* 36.0 48.0 54.0
-> > >       TIM: DTIM Count 0 DTIM Period 1 Bitmap Control 0x0 Bitmap[0] 0x=
-0
-> > >       Country: DE     Environment: Indoor/Outdoor
-> > >               Channels [36 - 64] @ 23 dBm
-> > >               Channels [100 - 140] @ 30 dBm
-> > >       Power constraint: 0 dB
-> > >       TPC report: TX power: 23 dBm
-> > >       RSN:     * Version: 1
-> > >                * Group cipher: CCMP
-> > >                * Pairwise ciphers: CCMP
-> > >                * Authentication suites: PSK
-> > >                * Capabilities: 16-PTKSA-RC 1-GTKSA-RC (0x000c)
-> > >       BSS Load:
-> > >                * station count: 6
-> > >                * channel utilisation: 6/255
-> > >                * available admission capacity: 0 [*32us]
-> > >       RM enabled capabilities:
-> > >               Capabilities: 0x72 0x00 0x00 0x00 0x00
-> > >                       Neighbor Report
-> > >                       Beacon Passive Measurement
-> > >
-> > >
-> > > > Also, what firmware version is running on the Raspberry Pi 4? The
-> > > > firmware files should be located
-> > > under:
-> > > > /lib/firmware/
-> > >
-> > > That is the dmesg output after loading the Wifi driver in Buildroot:
-> > > [  249.369934] brcmfmac: F1 signature read @0x18000000=3D0x15264345 [=
-  249.373427] brcmfmac:
-> > > brcmf_fw_alloc_request: using brcm/brcmfmac43455-sdio for chip BCM434=
-5/6 [  249.382449]
-> usbcore:
-> > > registered new interface driver brcmfmac [  249.618723] brcmfmac:
-> > > brcmf_c_process_txcap_blob: no txcap_blob available (err=3D-2) [
-> > > 249.626771] brcmfmac: brcmf_c_preinit_dcmds: Firmware: BCM4345/6
-> > > wl0: Aug 29 2023 01:47:08 version 7.45.265 (28bca26 CY) FWID
-> > > 01-b677b91b
-> > >
-> > > But at the moment I am fighting with connmanctl, it seems I cannot sc=
-an wifi anymore:
-> > > # connmanctl scan wifi
-> > > Error /net/connman/technology/wifi: Not supported # connmanctl
-> > > enable wifi wifi is already enabled # connmanctl scan wifi Error
-> > > /net/connman/technology/wifi: Not supported # connmanctl technologies
-> /net/connman/technology/ethernet
-> > >   Name =3D Wired
-> > >   Type =3D ethernet
-> > >   Powered =3D True
-> > >   Connected =3D False
-> > >   Tethering =3D False
-> > >   TetheringFreq =3D 2412
-> > > /net/connman/technology/wifi
-> > >   Name =3D WiFi
-> > >   Type =3D wifi
-> > >   Powered =3D True
-> > >   Connected =3D False
-> > >   Tethering =3D False
-> > >   TetheringFreq =3D 2412
-> > >
-> > > I can scan wifi with iw on the RPI4.
-> > >
-> > > best regards
-> > >  Waldemar
-> > >
-> >
+Hi Sven,
+
+Dembianny Sven (BSH GDE-EDSD7) wrote,
+
+> Hi Waldemar,
+> 
+> no idea at the moment, but this looks like a different issue, potentially an initialization-related topic.
+
+Fair enough. In the meanwhile I switched from Buildroot to OpenADK
+(my own embedded system buildsystem) and with that I can reproduce
+the original failure. I will investigate the Buildroot error later.
+
+Attached is the output of wpa_supplicant on the console, when I try to
+connect to my WPA2 WLAN router. wlan0 is the interface.
+
+Any idea for the original issue?
+
+The only error I see is:
+Line 0: invalid key_mgmt 'SAE'
+
+best regards
+ Waldemar
+
+
+--Jvn6ICSDNBtJcp7x
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: attachment; filename="wpa.log"
+
+root@openadk:~ # wpa_supplicant -d -u                                                                                                                               
+wpa_supplicant v2.12
+random: Trying to read entropy from /dev/random
+dbus: Register D-Bus object '/fi/w1/wpa_supplicant1'
+Providing DBus service 'fi.w1.wpa_supplicant1'.
+Successfully initialized wpa_supplicant
+random: Got 20/20 bytes from /dev/random
+Initializing interface 'wlan0' conf 'N/A' driver 'nl80211,wext' ctrl_interface 'N/A' bridge 'N/A'
+nl80211: Kernel version: Linux 6.18.38-1 (#1 SMP PREEMPT Thu Aug 13 20:32:40 CEST 2026; aarch64)
+nl80211: Maximum supported attribute ID: 345
+nl80211: Initialize interface wlan0 (driver: brcmfmac)
+nl80211: wlan0 wdev_id=0x1
+nl80211: Using driver-based roaming
+nl80211: TDLS supported
+nl80211: Supported cipher 00-0f-ac:1
+nl80211: Supported cipher 00-0f-ac:5
+nl80211: Supported cipher 00-0f-ac:2
+nl80211: Supported cipher 00-0f-ac:4
+nl80211: Supported cipher 00-0f-ac:6
+nl80211: Using driver-based off-channel TX
+nl80211: Supported vendor command: vendor_id=0x1018 subcmd=1
+nl80211: Use separate P2P group interface (driver advertised support)
+nl80211: Enable multi-channel concurrent (driver advertised support)
+nl80211: use P2P_DEVICE support
+nl80211: key_mgmt=0x40d0f enc=0x10f auth=0x7 flags=0x2000000380cfacc flags2=0x20000 rrm_flags=0x0 probe_resp_offloads=0x0 max_stations=0 max_remain_on_chan=5000 max_scan_ssids=10
+nl80211: interface wlan0 in phy phy0
+nl80211: Set mode ifindex 35 iftype 2 (STATION)
+nl80211: Subscribe to mgmt frames with non-AP handle 0x6c5ade0
+nl80211: Register frame type=0xd0 (WLAN_FC_STYPE_ACTION) nl_handle=0x6c5ade0 match=0801 multicast=0
+nl80211: Register frame type=0xd0 (WLAN_FC_STYPE_ACTION) nl_handle=0x6c5ade0 match=06 multicast=0
+nl80211: Register frame type=0xd0 (WLAN_FC_STYPE_ACTION) nl_handle=0x6c5ade0 match=0a07 multicast=0
+nl80211: Register frame type=0xd0 (WLAN_FC_STYPE_ACTION) nl_handle=0x6c5ade0 match=0a11 multicast=0
+nl80211: Register frame type=0xd0 (WLAN_FC_STYPE_ACTION) nl_handle=0x6c5ade0 match=1101 multicast=0
+nl80211: Register frame type=0xd0 (WLAN_FC_STYPE_ACTION) nl_handle=0x6c5ade0 match=1102 multicast=0
+nl80211: Register frame type=0xd0 (WLAN_FC_STYPE_ACTION) nl_handle=0x6c5ade0 match=0505 multicast=0
+nl80211: Register frame type=0xd0 (WLAN_FC_STYPE_ACTION) nl_handle=0x6c5ade0 match=0500 multicast=0
+nl80211: Register frame type=0xd0 (WLAN_FC_STYPE_ACTION) nl_handle=0x6c5ade0 match=1301 multicast=0
+nl80211: Register frame type=0xd0 (WLAN_FC_STYPE_ACTION) nl_handle=0x6c5ade0 match=1305 multicast=0
+nl80211: Register frame type=0xd0 (WLAN_FC_STYPE_ACTION) nl_handle=0x6c5ade0 match=7e506f9a1a multicast=0
+rfkill: initial event: idx=0 type=1 op=0 soft=0 hard=0
+netlink: Operstate: ifindex=35 linkmode=1 (userspace-control), operstate=5 (IF_OPER_DORMANT)
+Add interface wlan0 to a new radio phy0
+nl80211: Regulatory information - country=00
+nl80211: 2402-2472 @ 40 MHz 20 mBm
+nl80211: 2457-2482 @ 20 MHz 20 mBm (no IR)
+nl80211: 2474-2494 @ 20 MHz 20 mBm (no OFDM) (no IR)
+nl80211: 5170-5250 @ 80 MHz 20 mBm (no IR)
+nl80211: 5250-5330 @ 80 MHz 20 mBm (DFS) (no IR)
+nl80211: 5490-5730 @ 160 MHz 20 mBm (DFS) (no IR)
+nl80211: 5735-5835 @ 80 MHz 20 mBm (no IR)
+nl80211: 57240-63720 @ 2160 MHz 0 mBm
+nl80211: Added 802.11b mode based on 802.11g information
+nl80211: Mode IEEE 802.11g: 2412 2417 2422 2427 2432 2437 2442 2447 2452 2457 2462 2467 2472 2484
+nl80211: Mode IEEE 802.11a: 5170 5180 5190 5200 5210 5220 5230 5240 5260 5280 5300 5320 5500 5520 5540 5560 5580 5600 5620 5640 5660 5680 5700 5720 5745 5765 5785 5805 5825
+nl80211: Mode IEEE 802.11b: 2412 2417 2422 2427 2432 2437 2442 2447 2452 2457 2462 2467 2472 2484
+Device country code set to '00' from hw feature data at init
+wlan0: Own MAC address: e4:5f:01:16:5a:26
+wpa_driver_nl80211_set_key: ifindex=35 (wlan0) alg=0 addr=(nil) key_idx=0 set_tx=0 seq_len=0 key_len=0 key_flag=0x10 link_id=-1
+nl80211: DEL_KEY
+   broadcast key
+wpa_driver_nl80211_set_key: ifindex=35 (wlan0) alg=0 addr=(nil) key_idx=1 set_tx=0 seq_len=0 key_len=0 key_flag=0x10 link_id=-1
+nl80211: DEL_KEY
+   broadcast key
+wpa_driver_nl80211_set_key: ifindex=35 (wlan0) alg=0 addr=(nil) key_idx=2 set_tx=0 seq_len=0 key_len=0 key_flag=0x10 link_id=-1
+nl80211: DEL_KEY
+   broadcast key
+wpa_driver_nl80211_set_key: ifindex=35 (wlan0) alg=0 addr=(nil) key_idx=3 set_tx=0 seq_len=0 key_len=0 key_flag=0x10 link_id=-1
+nl80211: DEL_KEY
+   broadcast key
+wpa_driver_nl80211_set_key: ifindex=35 (wlan0) alg=0 addr=(nil) key_idx=4 set_tx=0 seq_len=0 key_len=0 key_flag=0x10 link_id=-1
+nl80211: DEL_KEY
+   broadcast key
+wpa_driver_nl80211_set_key: ifindex=35 (wlan0) alg=0 addr=(nil) key_idx=5 set_tx=0 seq_len=0 key_len=0 key_flag=0x10 link_id=-1
+nl80211: DEL_KEY
+   broadcast key
+wlan0: RSN: flushing PMKID list in the driver
+nl80211: Flush PMKIDs
+wlan0: State: DISCONNECTED -> INACTIVE
+EAPOL: SUPP_PAE entering state DISCONNECTED
+EAPOL: Supplicant port status: Unauthorized
+nl80211: Skip set_supp_port(unauthorized) while not associated
+EAPOL: KEY_RX entering state NO_KEY_RECEIVE
+EAPOL: SUPP_BE entering state INITIALIZE
+EAP: EAP entering state DISABLED
+PR: Driver does not support Proximity Ranging - PR disabled
+dbus: Register interface object '/fi/w1/wpa_supplicant1/Interfaces/0'
+wlan0: Added interface wlan0
+wlan0: State: INACTIVE -> DISCONNECTED
+nl80211: Set wlan0 operstate 0->0 (DORMANT)
+netlink: Operstate: ifindex=35 linkmode=-1 (no change), operstate=5 (IF_OPER_DORMANT)
+Initializing interface 'wlan1' conf 'N/A' driver 'nl80211,wext' ctrl_interface 'N/A' bridge 'N/A'
+nl80211: Initialize interface wlan1 (driver: mac80211_hwsim)
+nl80211: wlan1 wdev_id=0x100000001
+nl80211: TDLS supported
+nl80211: TDLS external setup
+nl80211: Supported cipher 00-0f-ac:1
+nl80211: Supported cipher 00-0f-ac:5
+nl80211: Supported cipher 00-0f-ac:2
+nl80211: Supported cipher 00-0f-ac:4
+nl80211: Supported cipher 00-0f-ac:10
+nl80211: Supported cipher 00-0f-ac:8
+nl80211: Supported cipher 00-0f-ac:9
+nl80211: Supported cipher 00-0f-ac:6
+nl80211: Supported cipher 00-0f-ac:13
+nl80211: Supported cipher 00-0f-ac:11
+nl80211: Supported cipher 00-0f-ac:12
+nl80211: Using driver-based off-channel TX
+nl80211: Driver-advertised extended capabilities (default) - hexdump(len=8): 04 00 40 00 00 00 00 40
+nl80211: Driver-advertised extended capabilities mask (default) - hexdump(len=8): 04 00 40 00 00 00 00 40
+nl80211: Supported vendor command: vendor_id=0x1374 subcmd=1
+nl80211: Supported vendor event: vendor_id=0x1374 subcmd=1
+mbssid: max interfaces 8, max profile periodicity 3
+nl80211: Use separate P2P group interface (driver advertised support)
+nl80211: use P2P_DEVICE support
+nl80211: key_mgmt=0x105ff0f enc=0xfef auth=0x7 flags=0xe5000d31fb5bfbe0 flags2=0x8f008103 rrm_flags=0x10 probe_resp_offloads=0x0 max_stations=0 max_remain_on_chan=5000 max_scan_ssids=4
+nl80211: interface wlan1 in phy phy1
+nl80211: Set mode ifindex 44 iftype 2 (STATION)
+nl80211: Subscribe to mgmt frames with non-AP handle 0x6c5dfb0
+nl80211: Register frame type=0xd0 (WLAN_FC_STYPE_ACTION) nl_handle=0x6c5dfb0 match=0801 multicast=0
+nl80211: Register frame type=0xd0 (WLAN_FC_STYPE_ACTION) nl_handle=0x6c5dfb0 match=06 multicast=0
+nl80211: Register frame type=0xd0 (WLAN_FC_STYPE_ACTION) nl_handle=0x6c5dfb0 match=0a07 multicast=0
+nl80211: Register frame type=0xd0 (WLAN_FC_STYPE_ACTION) nl_handle=0x6c5dfb0 match=0a11 multicast=0
+nl80211: Register frame type=0xd0 (WLAN_FC_STYPE_ACTION) nl_handle=0x6c5dfb0 match=1101 multicast=0
+nl80211: Register frame type=0xd0 (WLAN_FC_STYPE_ACTION) nl_handle=0x6c5dfb0 match=1102 multicast=0
+nl80211: Register frame type=0xd0 (WLAN_FC_STYPE_ACTION) nl_handle=0x6c5dfb0 match=0505 multicast=0
+nl80211: Register frame type=0xd0 (WLAN_FC_STYPE_ACTION) nl_handle=0x6c5dfb0 match=0500 multicast=0
+nl80211: Register frame type=0xd0 (WLAN_FC_STYPE_ACTION) nl_handle=0x6c5dfb0 match=1301 multicast=0
+nl80211: Register frame type=0xd0 (WLAN_FC_STYPE_ACTION) nl_handle=0x6c5dfb0 match=1305 multicast=0
+nl80211: Register frame type=0xd0 (WLAN_FC_STYPE_ACTION) nl_handle=0x6c5dfb0 match=7e506f9a1a multicast=0
+rfkill: initial event: idx=1 type=1 op=0 soft=0 hard=0
+netlink: Operstate: ifindex=44 linkmode=1 (userspace-control), operstate=5 (IF_OPER_DORMANT)
+Add interface wlan1 to a new radio phy1
+nl80211: No channel number found for frequency 5900 MHz
+nl80211: No channel number found for frequency 5905 MHz
+nl80211: No channel number found for frequency 5910 MHz
+nl80211: No channel number found for frequency 5915 MHz
+nl80211: No channel number found for frequency 5920 MHz
+nl80211: No channel number found for frequency 5925 MHz
+nl80211: No channel number found for frequency 902 MHz
+nl80211: No channel number found for frequency 903 MHz
+nl80211: No channel number found for frequency 903 MHz
+nl80211: No channel number found for frequency 904 MHz
+nl80211: No channel number found for frequency 904 MHz
+nl80211: No channel number found for frequency 905 MHz
+nl80211: No channel number found for frequency 905 MHz
+nl80211: No channel number found for frequency 906 MHz
+nl80211: No channel number found for frequency 906 MHz
+nl80211: No channel number found for frequency 907 MHz
+nl80211: No channel number found for frequency 907 MHz
+nl80211: No channel number found for frequency 908 MHz
+nl80211: No channel number found for frequency 908 MHz
+nl80211: No channel number found for frequency 909 MHz
+nl80211: No channel number found for frequency 909 MHz
+nl80211: No channel number found for frequency 910 MHz
+nl80211: No channel number found for frequency 910 MHz
+nl80211: No channel number found for frequency 911 MHz
+nl80211: No channel number found for frequency 911 MHz
+nl80211: No channel number found for frequency 912 MHz
+nl80211: No channel number found for frequency 912 MHz
+nl80211: No channel number found for frequency 913 MHz
+nl80211: No channel number found for frequency 913 MHz
+nl80211: No channel number found for frequency 914 MHz
+nl80211: No channel number found for frequency 914 MHz
+nl80211: No channel number found for frequency 915 MHz
+nl80211: No channel number found for frequency 915 MHz
+nl80211: No channel number found for frequency 916 MHz
+nl80211: No channel number found for frequency 916 MHz
+nl80211: No channel number found for frequency 917 MHz
+nl80211: No channel number found for frequency 917 MHz
+nl80211: No channel number found for frequency 918 MHz
+nl80211: No channel number found for frequency 918 MHz
+nl80211: No channel number found for frequency 919 MHz
+nl80211: No channel number found for frequency 919 MHz
+nl80211: No channel number found for frequency 920 MHz
+nl80211: No channel number found for frequency 920 MHz
+nl80211: No channel number found for frequency 921 MHz
+nl80211: No channel number found for frequency 921 MHz
+nl80211: No channel number found for frequency 922 MHz
+nl80211: No channel number found for frequency 922 MHz
+nl80211: No channel number found for frequency 923 MHz
+nl80211: No channel number found for frequency 923 MHz
+nl80211: No channel number found for frequency 924 MHz
+nl80211: No channel number found for frequency 924 MHz
+nl80211: No channel number found for frequency 925 MHz
+nl80211: No channel number found for frequency 925 MHz
+nl80211: No channel number found for frequency 926 MHz
+nl80211: No channel number found for frequency 926 MHz
+nl80211: No channel number found for frequency 927 MHz
+nl80211: No channel number found for frequency 927 MHz
+nl80211: Regulatory information - country=00
+nl80211: 2402-2472 @ 40 MHz 20 mBm
+nl80211: 2457-2482 @ 20 MHz 20 mBm (no IR)
+nl80211: 2474-2494 @ 20 MHz 20 mBm (no OFDM) (no IR)
+nl80211: 5170-5250 @ 80 MHz 20 mBm (no IR)
+nl80211: 5250-5330 @ 80 MHz 20 mBm (DFS) (no IR)
+nl80211: 5490-5730 @ 160 MHz 20 mBm (DFS) (no IR)
+nl80211: 5735-5835 @ 80 MHz 20 mBm (no IR)
+nl80211: 57240-63720 @ 2160 MHz 0 mBm
+nl80211: Remove unsupported mode
+nl80211: Added 802.11b mode based on 802.11g information
+nl80211: Mode IEEE 802.11g: 2412 2417 2422 2427 2432 2437 2442 2447 2452 2457 2462 2467[NO_IR] 2472[NO_IR] 2484[NO_IR]
+nl80211: Mode IEEE 802.11a: 5180[NO_IR] 5200[NO_IR] 5220[NO_IR] 5240[NO_IR] 5260[NO_IR][RADAR] 5280[NO_IR][RADAR] 5300[NO_IR][RADAR] 5320[NO_IR][RADAR] 5500[NO_IR][RADAR] 5520[NO_IR][RADAR] 5540[NO_IR][RADAR] 5560[NO_IR][RADAR] 5580[NO_IR][RADAR] 5600[NO_IR][RADAR] 5620[NO_IR][RADAR] 5640[NO_IR][RADAR] 5660[NO_IR][RADAR] 5680[NO_IR][RADAR] 5700[NO_IR][RADAR] 5745[NO_IR] 5765[NO_IR] 5785[NO_IR] 5805[NO_IR] 5825[NO_IR] 5845[DISABLED] 5855[DISABLED] 5860[DISABLED] 5865[DISABLED] 5870[DISABLED] 5875[DISABLED] 5880[DISABLED] 5885[DISABLED] 5890[DISABLED] 5895[DISABLED] 5900[DISABLED] 5905[DISABLED] 5910[DISABLED] 5915[DISABLED] 5920[DISABLED] 5925[DISABLED]
+nl80211: Mode IEEE 802.11a: 5955[DISABLED] 5975[DISABLED] 5995[DISABLED] 6015[DISABLED] 6035[DISABLED] 6055[DISABLED] 6075[DISABLED] 6095[DISABLED] 6115[DISABLED] 6135[DISABLED] 6155[DISABLED] 6175[DISABLED] 6195[DISABLED] 6215[DISABLED] 6235[DISABLED] 6255[DISABLED] 6275[DISABLED] 6295[DISABLED] 6315[DISABLED] 6335[DISABLED] 6355[DISABLED] 6375[DISABLED] 6395[DISABLED] 6415[DISABLED] 6435[DISABLED] 6455[DISABLED] 6475[DISABLED] 6495[DISABLED] 6515[DISABLED] 6535[DISABLED] 6555[DISABLED] 6575[DISABLED] 6595[DISABLED] 6615[DISABLED] 6635[DISABLED] 6655[DISABLED] 6675[DISABLED] 6695[DISABLED] 6715[DISABLED] 6735[DISABLED] 6755[DISABLED] 6775[DISABLED] 6795[DISABLED] 6815[DISABLED] 6835[DISABLED] 6855[DISABLED] 6875[DISABLED] 6895[DISABLED] 6915[DISABLED] 6935[DISABLED] 6955[DISABLED] 6975[DISABLED] 6995[DISABLED] 7015[DISABLED] 7035[DISABLED] 7055[DISABLED] 7075[DISABLED] 7095[DISABLED] 7115[DISABLED]
+nl80211: Mode IEEE 802.11b: 2412 2417 2422 2427 2432 2437 2442 2447 2452 2457 2462 2467[NO_IR] 2472[NO_IR] 2484[NO_IR]
+Device country code set to '00' from hw feature data at init
+wlan1: Own MAC address: 02:00:00:00:00:00
+wpa_driver_nl80211_set_key: ifindex=44 (wlan1) alg=0 addr=(nil) key_idx=0 set_tx=0 seq_len=0 key_len=0 key_flag=0x10 link_id=-1
+nl80211: DEL_KEY
+   broadcast key
+wpa_driver_nl80211_set_key: ifindex=44 (wlan1) alg=0 addr=(nil) key_idx=1 set_tx=0 seq_len=0 key_len=0 key_flag=0x10 link_id=-1
+nl80211: DEL_KEY
+   broadcast key
+wpa_driver_nl80211_set_key: ifindex=44 (wlan1) alg=0 addr=(nil) key_idx=2 set_tx=0 seq_len=0 key_len=0 key_flag=0x10 link_id=-1
+nl80211: DEL_KEY
+   broadcast key
+wpa_driver_nl80211_set_key: ifindex=44 (wlan1) alg=0 addr=(nil) key_idx=3 set_tx=0 seq_len=0 key_len=0 key_flag=0x10 link_id=-1
+nl80211: DEL_KEY
+   broadcast key
+wpa_driver_nl80211_set_key: ifindex=44 (wlan1) alg=0 addr=(nil) key_idx=4 set_tx=0 seq_len=0 key_len=0 key_flag=0x10 link_id=-1
+nl80211: DEL_KEY
+   broadcast key
+wpa_driver_nl80211_set_key: ifindex=44 (wlan1) alg=0 addr=(nil) key_idx=5 set_tx=0 seq_len=0 key_len=0 key_flag=0x10 link_id=-1
+nl80211: DEL_KEY
+   broadcast key
+wlan1: RSN: flushing PMKID list in the driver
+nl80211: Flush PMKIDs
+wlan1: State: DISCONNECTED -> INACTIVE
+EAPOL: SUPP_PAE entering state DISCONNECTED
+EAPOL: Supplicant port status: Unauthorized
+nl80211: Skip set_supp_port(unauthorized) while not associated
+EAPOL: KEY_RX entering state NO_KEY_RECEIVE
+EAPOL: SUPP_BE entering state INITIALIZE
+EAP: EAP entering state DISABLED
+PR: Driver does not support Proximity Ranging - PR disabled
+dbus: Register interface object '/fi/w1/wpa_supplicant1/Interfaces/1'
+wlan1: Added interface wlan1
+wlan1: State: INACTIVE -> DISCONNECTED
+nl80211: Set wlan1 operstate 0->0 (DORMANT)
+netlink: Operstate: ifindex=44 linkmode=-1 (no change), operstate=5 (IF_OPER_DORMANT)
+Initializing interface 'wlan2' conf 'N/A' driver 'nl80211,wext' ctrl_interface 'N/A' bridge 'N/A'
+nl80211: Initialize interface wlan2 (driver: mac80211_hwsim)
+nl80211: wlan2 wdev_id=0x200000001
+nl80211: TDLS supported
+nl80211: TDLS external setup
+nl80211: Supported cipher 00-0f-ac:1
+nl80211: Supported cipher 00-0f-ac:5
+nl80211: Supported cipher 00-0f-ac:2
+nl80211: Supported cipher 00-0f-ac:4
+nl80211: Supported cipher 00-0f-ac:10
+nl80211: Supported cipher 00-0f-ac:8
+nl80211: Supported cipher 00-0f-ac:9
+nl80211: Supported cipher 00-0f-ac:6
+nl80211: Supported cipher 00-0f-ac:13
+nl80211: Supported cipher 00-0f-ac:11
+nl80211: Supported cipher 00-0f-ac:12
+nl80211: Using driver-based off-channel TX
+nl80211: Driver-advertised extended capabilities (default) - hexdump(len=8): 04 00 40 00 00 00 00 40
+nl80211: Driver-advertised extended capabilities mask (default) - hexdump(len=8): 04 00 40 00 00 00 00 40
+nl80211: Supported vendor command: vendor_id=0x1374 subcmd=1
+nl80211: Supported vendor event: vendor_id=0x1374 subcmd=1
+mbssid: max interfaces 8, max profile periodicity 3
+nl80211: Use separate P2P group interface (driver advertised support)
+nl80211: use P2P_DEVICE support
+nl80211: key_mgmt=0x105ff0f enc=0xfef auth=0x7 flags=0xe5000d31fb5bfbe0 flags2=0x8f008103 rrm_flags=0x10 probe_resp_offloads=0x0 max_stations=0 max_remain_on_chan=5000 max_scan_ssids=4
+nl80211: interface wlan2 in phy phy2
+nl80211: Set mode ifindex 45 iftype 2 (STATION)
+nl80211: Subscribe to mgmt frames with non-AP handle 0x6c623c0
+nl80211: Register frame type=0xd0 (WLAN_FC_STYPE_ACTION) nl_handle=0x6c623c0 match=0801 multicast=0
+nl80211: Register frame type=0xd0 (WLAN_FC_STYPE_ACTION) nl_handle=0x6c623c0 match=06 multicast=0
+nl80211: Register frame type=0xd0 (WLAN_FC_STYPE_ACTION) nl_handle=0x6c623c0 match=0a07 multicast=0
+nl80211: Register frame type=0xd0 (WLAN_FC_STYPE_ACTION) nl_handle=0x6c623c0 match=0a11 multicast=0
+nl80211: Register frame type=0xd0 (WLAN_FC_STYPE_ACTION) nl_handle=0x6c623c0 match=1101 multicast=0
+nl80211: Register frame type=0xd0 (WLAN_FC_STYPE_ACTION) nl_handle=0x6c623c0 match=1102 multicast=0
+nl80211: Register frame type=0xd0 (WLAN_FC_STYPE_ACTION) nl_handle=0x6c623c0 match=0505 multicast=0
+nl80211: Register frame type=0xd0 (WLAN_FC_STYPE_ACTION) nl_handle=0x6c623c0 match=0500 multicast=0
+nl80211: Register frame type=0xd0 (WLAN_FC_STYPE_ACTION) nl_handle=0x6c623c0 match=1301 multicast=0
+nl80211: Register frame type=0xd0 (WLAN_FC_STYPE_ACTION) nl_handle=0x6c623c0 match=1305 multicast=0
+nl80211: Register frame type=0xd0 (WLAN_FC_STYPE_ACTION) nl_handle=0x6c623c0 match=7e506f9a1a multicast=0
+rfkill: initial event: idx=2 type=1 op=0 soft=0 hard=0
+netlink: Operstate: ifindex=45 linkmode=1 (userspace-control), operstate=5 (IF_OPER_DORMANT)
+Add interface wlan2 to a new radio phy2
+nl80211: No channel number found for frequency 5900 MHz
+nl80211: No channel number found for frequency 5905 MHz
+nl80211: No channel number found for frequency 5910 MHz
+nl80211: No channel number found for frequency 5915 MHz
+nl80211: No channel number found for frequency 5920 MHz
+nl80211: No channel number found for frequency 5925 MHz
+nl80211: No channel number found for frequency 902 MHz
+nl80211: No channel number found for frequency 903 MHz
+nl80211: No channel number found for frequency 903 MHz
+nl80211: No channel number found for frequency 904 MHz
+nl80211: No channel number found for frequency 904 MHz
+nl80211: No channel number found for frequency 905 MHz
+nl80211: No channel number found for frequency 905 MHz
+nl80211: No channel number found for frequency 906 MHz
+nl80211: No channel number found for frequency 906 MHz
+nl80211: No channel number found for frequency 907 MHz
+nl80211: No channel number found for frequency 907 MHz
+nl80211: No channel number found for frequency 908 MHz
+nl80211: No channel number found for frequency 908 MHz
+nl80211: No channel number found for frequency 909 MHz
+nl80211: No channel number found for frequency 909 MHz
+nl80211: No channel number found for frequency 910 MHz
+nl80211: No channel number found for frequency 910 MHz
+nl80211: No channel number found for frequency 911 MHz
+nl80211: No channel number found for frequency 911 MHz
+nl80211: No channel number found for frequency 912 MHz
+nl80211: No channel number found for frequency 912 MHz
+nl80211: No channel number found for frequency 913 MHz
+nl80211: No channel number found for frequency 913 MHz
+nl80211: No channel number found for frequency 914 MHz
+nl80211: No channel number found for frequency 914 MHz
+nl80211: No channel number found for frequency 915 MHz
+nl80211: No channel number found for frequency 915 MHz
+nl80211: No channel number found for frequency 916 MHz
+nl80211: No channel number found for frequency 916 MHz
+nl80211: No channel number found for frequency 917 MHz
+nl80211: No channel number found for frequency 917 MHz
+nl80211: No channel number found for frequency 918 MHz
+nl80211: No channel number found for frequency 918 MHz
+nl80211: No channel number found for frequency 919 MHz
+nl80211: No channel number found for frequency 919 MHz
+nl80211: No channel number found for frequency 920 MHz
+nl80211: No channel number found for frequency 920 MHz
+nl80211: No channel number found for frequency 921 MHz
+nl80211: No channel number found for frequency 921 MHz
+nl80211: No channel number found for frequency 922 MHz
+nl80211: No channel number found for frequency 922 MHz
+nl80211: No channel number found for frequency 923 MHz
+nl80211: No channel number found for frequency 923 MHz
+nl80211: No channel number found for frequency 924 MHz
+nl80211: No channel number found for frequency 924 MHz
+nl80211: No channel number found for frequency 925 MHz
+nl80211: No channel number found for frequency 925 MHz
+nl80211: No channel number found for frequency 926 MHz
+nl80211: No channel number found for frequency 926 MHz
+nl80211: No channel number found for frequency 927 MHz
+nl80211: No channel number found for frequency 927 MHz
+nl80211: Regulatory information - country=00
+nl80211: 2402-2472 @ 40 MHz 20 mBm
+nl80211: 2457-2482 @ 20 MHz 20 mBm (no IR)
+nl80211: 2474-2494 @ 20 MHz 20 mBm (no OFDM) (no IR)
+nl80211: 5170-5250 @ 80 MHz 20 mBm (no IR)
+nl80211: 5250-5330 @ 80 MHz 20 mBm (DFS) (no IR)
+nl80211: 5490-5730 @ 160 MHz 20 mBm (DFS) (no IR)
+nl80211: 5735-5835 @ 80 MHz 20 mBm (no IR)
+nl80211: 57240-63720 @ 2160 MHz 0 mBm
+nl80211: Remove unsupported mode
+nl80211: Added 802.11b mode based on 802.11g information
+nl80211: Mode IEEE 802.11g: 2412 2417 2422 2427 2432 2437 2442 2447 2452 2457 2462 2467[NO_IR] 2472[NO_IR] 2484[NO_IR]
+nl80211: Mode IEEE 802.11a: 5180[NO_IR] 5200[NO_IR] 5220[NO_IR] 5240[NO_IR] 5260[NO_IR][RADAR] 5280[NO_IR][RADAR] 5300[NO_IR][RADAR] 5320[NO_IR][RADAR] 5500[NO_IR][RADAR] 5520[NO_IR][RADAR] 5540[NO_IR][RADAR] 5560[NO_IR][RADAR] 5580[NO_IR][RADAR] 5600[NO_IR][RADAR] 5620[NO_IR][RADAR] 5640[NO_IR][RADAR] 5660[NO_IR][RADAR] 5680[NO_IR][RADAR] 5700[NO_IR][RADAR] 5745[NO_IR] 5765[NO_IR] 5785[NO_IR] 5805[NO_IR] 5825[NO_IR] 5845[DISABLED] 5855[DISABLED] 5860[DISABLED] 5865[DISABLED] 5870[DISABLED] 5875[DISABLED] 5880[DISABLED] 5885[DISABLED] 5890[DISABLED] 5895[DISABLED] 5900[DISABLED] 5905[DISABLED] 5910[DISABLED] 5915[DISABLED] 5920[DISABLED] 5925[DISABLED]
+nl80211: Mode IEEE 802.11a: 5955[DISABLED] 5975[DISABLED] 5995[DISABLED] 6015[DISABLED] 6035[DISABLED] 6055[DISABLED] 6075[DISABLED] 6095[DISABLED] 6115[DISABLED] 6135[DISABLED] 6155[DISABLED] 6175[DISABLED] 6195[DISABLED] 6215[DISABLED] 6235[DISABLED] 6255[DISABLED] 6275[DISABLED] 6295[DISABLED] 6315[DISABLED] 6335[DISABLED] 6355[DISABLED] 6375[DISABLED] 6395[DISABLED] 6415[DISABLED] 6435[DISABLED] 6455[DISABLED] 6475[DISABLED] 6495[DISABLED] 6515[DISABLED] 6535[DISABLED] 6555[DISABLED] 6575[DISABLED] 6595[DISABLED] 6615[DISABLED] 6635[DISABLED] 6655[DISABLED] 6675[DISABLED] 6695[DISABLED] 6715[DISABLED] 6735[DISABLED] 6755[DISABLED] 6775[DISABLED] 6795[DISABLED] 6815[DISABLED] 6835[DISABLED] 6855[DISABLED] 6875[DISABLED] 6895[DISABLED] 6915[DISABLED] 6935[DISABLED] 6955[DISABLED] 6975[DISABLED] 6995[DISABLED] 7015[DISABLED] 7035[DISABLED] 7055[DISABLED] 7075[DISABLED] 7095[DISABLED] 7115[DISABLED]
+nl80211: Mode IEEE 802.11b: 2412 2417 2422 2427 2432 2437 2442 2447 2452 2457 2462 2467[NO_IR] 2472[NO_IR] 2484[NO_IR]
+Device country code set to '00' from hw feature data at init
+wlan2: Own MAC address: 02:00:00:00:01:00
+wpa_driver_nl80211_set_key: ifindex=45 (wlan2) alg=0 addr=(nil) key_idx=0 set_tx=0 seq_len=0 key_len=0 key_flag=0x10 link_id=-1
+nl80211: DEL_KEY
+   broadcast key
+wpa_driver_nl80211_set_key: ifindex=45 (wlan2) alg=0 addr=(nil) key_idx=1 set_tx=0 seq_len=0 key_len=0 key_flag=0x10 link_id=-1
+nl80211: DEL_KEY
+   broadcast key
+wpa_driver_nl80211_set_key: ifindex=45 (wlan2) alg=0 addr=(nil) key_idx=2 set_tx=0 seq_len=0 key_len=0 key_flag=0x10 link_id=-1
+nl80211: DEL_KEY
+   broadcast key
+wpa_driver_nl80211_set_key: ifindex=45 (wlan2) alg=0 addr=(nil) key_idx=3 set_tx=0 seq_len=0 key_len=0 key_flag=0x10 link_id=-1
+nl80211: DEL_KEY
+   broadcast key
+wpa_driver_nl80211_set_key: ifindex=45 (wlan2) alg=0 addr=(nil) key_idx=4 set_tx=0 seq_len=0 key_len=0 key_flag=0x10 link_id=-1
+nl80211: DEL_KEY
+   broadcast key
+wpa_driver_nl80211_set_key: ifindex=45 (wlan2) alg=0 addr=(nil) key_idx=5 set_tx=0 seq_len=0 key_len=0 key_flag=0x10 link_id=-1
+nl80211: DEL_KEY
+   broadcast key
+wlan2: RSN: flushing PMKID list in the driver
+nl80211: Flush PMKIDs
+wlan2: State: DISCONNECTED -> INACTIVE
+EAPOL: SUPP_PAE entering state DISCONNECTED
+EAPOL: Supplicant port status: Unauthorized
+nl80211: Skip set_supp_port(unauthorized) while not associated
+EAPOL: KEY_RX entering state NO_KEY_RECEIVE
+EAPOL: SUPP_BE entering state INITIALIZE
+EAP: EAP entering state DISABLED
+PR: Driver does not support Proximity Ranging - PR disabled
+dbus: Register interface object '/fi/w1/wpa_supplicant1/Interfaces/2'
+wlan2: Added interface wlan2
+wlan2: State: INACTIVE -> DISCONNECTED
+nl80211: Set wlan2 operstate 0->0 (DORMANT)
+netlink: Operstate: ifindex=45 linkmode=-1 (no change), operstate=5 (IF_OPER_DORMANT)
+RTM_NEWLINK: ifi_index=35 ifname=wlan0 operstate=2 linkmode=1 ifi_family=0 ifi_flags=0x9003 ([UP])
+RTM_NEWLINK: ifi_index=44 ifname=wlan1 operstate=2 linkmode=1 ifi_family=0 ifi_flags=0x9003 ([UP])
+RTM_NEWLINK: ifi_index=45 ifname=wlan2 operstate=5 linkmode=0 ifi_family=0 ifi_flags=0x9003 ([UP])
+RTM_NEWLINK: ifi_index=45 ifname=wlan2 operstate=5 linkmode=1 ifi_family=0 ifi_flags=0x9003 ([UP])
+wlan0: Setting scan request: 0.000000 sec
+wlan0: State: DISCONNECTED -> SCANNING
+wlan0: Starting AP scan for wildcard SSID
+wlan0: Add radio work 'scan'@0x6c53d60
+wlan0: First radio work item in the queue - schedule start immediately
+wlan0: Setting bss expiration age: 310 sec
+wlan0: Starting radio work 'scan'@0x6c53d60 after 0.000272 second wait
+wlan0: nl80211: scan request
+nl80211: Scan co-located APs on 6 GHz
+Scan requested (ret=0) - scan timeout 10 seconds
+no property handler for fi.w1.wpa_supplicant1.Interface.P2PDevice.P2PDeviceConfig on /fi/w1/wpa_supplicant1/Interfaces/0
+nl80211: Drv Event 33 (NL80211_CMD_TRIGGER_SCAN) received for wlan0
+wlan0: nl80211: Scan trigger
+wlan0: Event SCAN_STARTED (47) received
+wlan0: Own scan request started a scan in 0.000675 seconds
+wlan1: Setting scan request: 0.000000 sec
+wlan1: Setting bss expiration age: 310 sec
+no property handler for fi.w1.wpa_supplicant1.Interface.P2PDevice.P2PDeviceConfig on /fi/w1/wpa_supplicant1/Interfaces/1
+wlan1: State: DISCONNECTED -> SCANNING
+wlan1: Starting AP scan for wildcard SSID
+wlan1: Add radio work 'scan'@0x6c76130
+wlan1: First radio work item in the queue - schedule start immediately
+wlan1: Starting radio work 'scan'@0x6c76130 after 0.000027 second wait
+wlan1: nl80211: scan request
+nl80211: Scan co-located APs on 6 GHz
+Scan requested (ret=0) - scan timeout 20 seconds
+nl80211: Drv Event 33 (NL80211_CMD_TRIGGER_SCAN) received for wlan1
+wlan1: nl80211: Scan trigger
+wlan1: Event SCAN_STARTED (47) received
+wlan1: Own scan request started a scan in 0.000090 seconds
+wlan2: Setting scan request: 0.000000 sec
+wlan2: Setting bss expiration age: 310 sec
+no property handler for fi.w1.wpa_supplicant1.Interface.P2PDevice.P2PDeviceConfig on /fi/w1/wpa_supplicant1/Interfaces/2
+wlan2: State: DISCONNECTED -> SCANNING
+wlan2: Starting AP scan for wildcard SSID
+wlan2: Add radio work 'scan'@0x6c53d00
+wlan2: First radio work item in the queue - schedule start immediately
+wlan2: Starting radio work 'scan'@0x6c53d00 after 0.000309 second wait
+wlan2: nl80211: scan request
+nl80211: Scan co-located APs on 6 GHz
+Scan requested (ret=0) - scan timeout 20 seconds
+nl80211: Drv Event 33 (NL80211_CMD_TRIGGER_SCAN) received for wlan2
+wlan2: nl80211: Scan trigger
+wlan2: Event SCAN_STARTED (47) received
+wlan2: Own scan request started a scan in 0.000149 seconds
+RTM_NEWLINK: ifi_index=45 ifname=wlan2 operstate=2 linkmode=1 ifi_family=0 ifi_flags=0x9003 ([UP])
+EAPOL: disable timer tick
+EAPOL: disable timer tick
+EAPOL: disable timer tick
+nl80211: Drv Event 42 (NL80211_CMD_REG_BEACON_HINT) received for wlan2
+nl80211: Regulatory beacon hint
+nl80211: Channel (before): freq=5500 max_tx_power=2000 no-IR radar
+nl80211: Channel (after): freq=5500 max_tx_power=2000 radar
+wlan2: Event CHANNEL_LIST_CHANGED (27) received
+wlan2: CTRL-EVENT-REGDOM-CHANGE init=BEACON_HINT type=UNKNOWN
+wlan2: CTRL-EVENT-REGDOM-BEACON-HINT before freq=5500 max_tx_power=2000 no_ir=1 radar=1
+wlan2: CTRL-EVENT-REGDOM-BEACON-HINT after freq=5500 max_tx_power=2000 radar=1
+wlan2: Updating hw mode
+nl80211: No channel number found for frequency 5900 MHz
+nl80211: No channel number found for frequency 5905 MHz
+nl80211: No channel number found for frequency 5910 MHz
+nl80211: No channel number found for frequency 5915 MHz
+nl80211: No channel number found for frequency 5920 MHz
+nl80211: No channel number found for frequency 5925 MHz
+nl80211: No channel number found for frequency 902 MHz
+nl80211: No channel number found for frequency 903 MHz
+nl80211: No channel number found for frequency 903 MHz
+nl80211: No channel number found for frequency 904 MHz
+nl80211: No channel number found for frequency 904 MHz
+nl80211: No channel number found for frequency 905 MHz
+nl80211: No channel number found for frequency 905 MHz
+nl80211: No channel number found for frequency 906 MHz
+nl80211: No channel number found for frequency 906 MHz
+nl80211: No channel number found for frequency 907 MHz
+nl80211: No channel number found for frequency 907 MHz
+nl80211: No channel number found for frequency 908 MHz
+nl80211: No channel number found for frequency 908 MHz
+nl80211: No channel number found for frequency 909 MHz
+nl80211: No channel number found for frequency 909 MHz
+nl80211: No channel number found for frequency 910 MHz
+nl80211: No channel number found for frequency 910 MHz
+nl80211: No channel number found for frequency 911 MHz
+nl80211: No channel number found for frequency 911 MHz
+nl80211: No channel number found for frequency 912 MHz
+nl80211: No channel number found for frequency 912 MHz
+nl80211: No channel number found for frequency 913 MHz
+nl80211: No channel number found for frequency 913 MHz
+nl80211: No channel number found for frequency 914 MHz
+nl80211: No channel number found for frequency 914 MHz
+nl80211: No channel number found for frequency 915 MHz
+nl80211: No channel number found for frequency 915 MHz
+nl80211: No channel number found for frequency 916 MHz
+nl80211: No channel number found for frequency 916 MHz
+nl80211: No channel number found for frequency 917 MHz
+nl80211: No channel number found for frequency 917 MHz
+nl80211: No channel number found for frequency 918 MHz
+nl80211: No channel number found for frequency 918 MHz
+nl80211: No channel number found for frequency 919 MHz
+nl80211: No channel number found for frequency 919 MHz
+nl80211: No channel number found for frequency 920 MHz
+nl80211: No channel number found for frequency 920 MHz
+nl80211: No channel number found for frequency 921 MHz
+nl80211: No channel number found for frequency 921 MHz
+nl80211: No channel number found for frequency 922 MHz
+nl80211: No channel number found for frequency 922 MHz
+nl80211: No channel number found for frequency 923 MHz
+nl80211: No channel number found for frequency 923 MHz
+nl80211: No channel number found for frequency 924 MHz
+nl80211: No channel number found for frequency 924 MHz
+nl80211: No channel number found for frequency 925 MHz
+nl80211: No channel number found for frequency 925 MHz
+nl80211: No channel number found for frequency 926 MHz
+nl80211: No channel number found for frequency 926 MHz
+nl80211: No channel number found for frequency 927 MHz
+nl80211: No channel number found for frequency 927 MHz
+nl80211: Regulatory information - country=00
+nl80211: 2402-2472 @ 40 MHz 20 mBm
+nl80211: 2457-2482 @ 20 MHz 20 mBm (no IR)
+nl80211: 2474-2494 @ 20 MHz 20 mBm (no OFDM) (no IR)
+nl80211: 5170-5250 @ 80 MHz 20 mBm (no IR)
+nl80211: 5250-5330 @ 80 MHz 20 mBm (DFS) (no IR)
+nl80211: 5490-5730 @ 160 MHz 20 mBm (DFS) (no IR)
+nl80211: 5735-5835 @ 80 MHz 20 mBm (no IR)
+nl80211: 57240-63720 @ 2160 MHz 0 mBm
+nl80211: Remove unsupported mode
+nl80211: Added 802.11b mode based on 802.11g information
+nl80211: Mode IEEE 802.11g: 2412 2417 2422 2427 2432 2437 2442 2447 2452 2457 2462 2467[NO_IR] 2472[NO_IR] 2484[NO_IR]
+nl80211: Mode IEEE 802.11a: 5180[NO_IR] 5200[NO_IR] 5220[NO_IR] 5240[NO_IR] 5260[NO_IR][RADAR] 5280[NO_IR][RADAR] 5300[NO_IR][RADAR] 5320[NO_IR][RADAR] 5500[RADAR] 5520[NO_IR][RADAR] 5540[NO_IR][RADAR] 5560[NO_IR][RADAR] 5580[NO_IR][RADAR] 5600[NO_IR][RADAR] 5620[NO_IR][RADAR] 5640[NO_IR][RADAR] 5660[NO_IR][RADAR] 5680[NO_IR][RADAR] 5700[NO_IR][RADAR] 5745[NO_IR] 5765[NO_IR] 5785[NO_IR] 5805[NO_IR] 5825[NO_IR] 5845[DISABLED] 5855[DISABLED] 5860[DISABLED] 5865[DISABLED] 5870[DISABLED] 5875[DISABLED] 5880[DISABLED] 5885[DISABLED] 5890[DISABLED] 5895[DISABLED] 5900[DISABLED] 5905[DISABLED] 5910[DISABLED] 5915[DISABLED] 5920[DISABLED] 5925[DISABLED]
+nl80211: Mode IEEE 802.11a: 5955[DISABLED] 5975[DISABLED] 5995[DISABLED] 6015[DISABLED] 6035[DISABLED] 6055[DISABLED] 6075[DISABLED] 6095[DISABLED] 6115[DISABLED] 6135[DISABLED] 6155[DISABLED] 6175[DISABLED] 6195[DISABLED] 6215[DISABLED] 6235[DISABLED] 6255[DISABLED] 6275[DISABLED] 6295[DISABLED] 6315[DISABLED] 6335[DISABLED] 6355[DISABLED] 6375[DISABLED] 6395[DISABLED] 6415[DISABLED] 6435[DISABLED] 6455[DISABLED] 6475[DISABLED] 6495[DISABLED] 6515[DISABLED] 6535[DISABLED] 6555[DISABLED] 6575[DISABLED] 6595[DISABLED] 6615[DISABLED] 6635[DISABLED] 6655[DISABLED] 6675[DISABLED] 6695[DISABLED] 6715[DISABLED] 6735[DISABLED] 6755[DISABLED] 6775[DISABLED] 6795[DISABLED] 6815[DISABLED] 6835[DISABLED] 6855[DISABLED] 6875[DISABLED] 6895[DISABLED] 6915[DISABLED] 6935[DISABLED] 6955[DISABLED] 6975[DISABLED] 6995[DISABLED] 7015[DISABLED] 7035[DISABLED] 7055[DISABLED] 7075[DISABLED] 7095[DISABLED] 7115[DISABLED]
+nl80211: Mode IEEE 802.11b: 2412 2417 2422 2427 2432 2437 2442 2447 2452 2457 2462 2467[NO_IR] 2472[NO_IR] 2484[NO_IR]
+RTM_NEWLINK: ifi_index=35 ifname=wlan0 wext ifi_family=0 ifi_flags=0x9003 ([UP])
+nl80211: Drv Event 42 (NL80211_CMD_REG_BEACON_HINT) received for wlan1
+nl80211: Regulatory beacon hint
+nl80211: Channel (before): freq=5500 max_tx_power=2000 no-IR radar
+nl80211: Channel (after): freq=5500 max_tx_power=2000 radar
+wlan1: Event CHANNEL_LIST_CHANGED (27) received
+wlan1: CTRL-EVENT-REGDOM-CHANGE init=BEACON_HINT type=UNKNOWN
+wlan1: CTRL-EVENT-REGDOM-BEACON-HINT before freq=5500 max_tx_power=2000 no_ir=1 radar=1
+wlan1: CTRL-EVENT-REGDOM-BEACON-HINT after freq=5500 max_tx_power=2000 radar=1
+wlan1: Updating hw mode
+nl80211: No channel number found for frequency 5900 MHz
+nl80211: No channel number found for frequency 5905 MHz
+nl80211: No channel number found for frequency 5910 MHz
+nl80211: No channel number found for frequency 5915 MHz
+nl80211: No channel number found for frequency 5920 MHz
+nl80211: No channel number found for frequency 5925 MHz
+nl80211: No channel number found for frequency 902 MHz
+nl80211: No channel number found for frequency 903 MHz
+nl80211: No channel number found for frequency 903 MHz
+nl80211: No channel number found for frequency 904 MHz
+nl80211: No channel number found for frequency 904 MHz
+nl80211: No channel number found for frequency 905 MHz
+nl80211: No channel number found for frequency 905 MHz
+nl80211: No channel number found for frequency 906 MHz
+nl80211: No channel number found for frequency 906 MHz
+nl80211: No channel number found for frequency 907 MHz
+nl80211: No channel number found for frequency 907 MHz
+nl80211: No channel number found for frequency 908 MHz
+nl80211: No channel number found for frequency 908 MHz
+nl80211: No channel number found for frequency 909 MHz
+nl80211: No channel number found for frequency 909 MHz
+nl80211: No channel number found for frequency 910 MHz
+nl80211: No channel number found for frequency 910 MHz
+nl80211: No channel number found for frequency 911 MHz
+nl80211: No channel number found for frequency 911 MHz
+nl80211: No channel number found for frequency 912 MHz
+nl80211: No channel number found for frequency 912 MHz
+nl80211: No channel number found for frequency 913 MHz
+nl80211: No channel number found for frequency 913 MHz
+nl80211: No channel number found for frequency 914 MHz
+nl80211: No channel number found for frequency 914 MHz
+nl80211: No channel number found for frequency 915 MHz
+nl80211: No channel number found for frequency 915 MHz
+nl80211: No channel number found for frequency 916 MHz
+nl80211: No channel number found for frequency 916 MHz
+nl80211: No channel number found for frequency 917 MHz
+nl80211: No channel number found for frequency 917 MHz
+nl80211: No channel number found for frequency 918 MHz
+nl80211: No channel number found for frequency 918 MHz
+nl80211: No channel number found for frequency 919 MHz
+nl80211: No channel number found for frequency 919 MHz
+nl80211: No channel number found for frequency 920 MHz
+nl80211: No channel number found for frequency 920 MHz
+nl80211: No channel number found for frequency 921 MHz
+nl80211: No channel number found for frequency 921 MHz
+nl80211: No channel number found for frequency 922 MHz
+nl80211: No channel number found for frequency 922 MHz
+nl80211: No channel number found for frequency 923 MHz
+nl80211: No channel number found for frequency 923 MHz
+nl80211: No channel number found for frequency 924 MHz
+nl80211: No channel number found for frequency 924 MHz
+nl80211: No channel number found for frequency 925 MHz
+nl80211: No channel number found for frequency 925 MHz
+nl80211: No channel number found for frequency 926 MHz
+nl80211: No channel number found for frequency 926 MHz
+nl80211: No channel number found for frequency 927 MHz
+nl80211: No channel number found for frequency 927 MHz
+nl80211: Regulatory information - country=00
+nl80211: 2402-2472 @ 40 MHz 20 mBm
+nl80211: 2457-2482 @ 20 MHz 20 mBm (no IR)
+nl80211: 2474-2494 @ 20 MHz 20 mBm (no OFDM) (no IR)
+nl80211: 5170-5250 @ 80 MHz 20 mBm (no IR)
+nl80211: 5250-5330 @ 80 MHz 20 mBm (DFS) (no IR)
+nl80211: 5490-5730 @ 160 MHz 20 mBm (DFS) (no IR)
+nl80211: 5735-5835 @ 80 MHz 20 mBm (no IR)
+nl80211: 57240-63720 @ 2160 MHz 0 mBm
+nl80211: Remove unsupported mode
+nl80211: Added 802.11b mode based on 802.11g information
+nl80211: Mode IEEE 802.11g: 2412 2417 2422 2427 2432 2437 2442 2447 2452 2457 2462 2467[NO_IR] 2472[NO_IR] 2484[NO_IR]
+nl80211: Mode IEEE 802.11a: 5180[NO_IR] 5200[NO_IR] 5220[NO_IR] 5240[NO_IR] 5260[NO_IR][RADAR] 5280[NO_IR][RADAR] 5300[NO_IR][RADAR] 5320[NO_IR][RADAR] 5500[RADAR] 5520[NO_IR][RADAR] 5540[NO_IR][RADAR] 5560[NO_IR][RADAR] 5580[NO_IR][RADAR] 5600[NO_IR][RADAR] 5620[NO_IR][RADAR] 5640[NO_IR][RADAR] 5660[NO_IR][RADAR] 5680[NO_IR][RADAR] 5700[NO_IR][RADAR] 5745[NO_IR] 5765[NO_IR] 5785[NO_IR] 5805[NO_IR] 5825[NO_IR] 5845[DISABLED] 5855[DISABLED] 5860[DISABLED] 5865[DISABLED] 5870[DISABLED] 5875[DISABLED] 5880[DISABLED] 5885[DISABLED] 5890[DISABLED] 5895[DISABLED] 5900[DISABLED] 5905[DISABLED] 5910[DISABLED] 5915[DISABLED] 5920[DISABLED] 5925[DISABLED]
+nl80211: Mode IEEE 802.11a: 5955[DISABLED] 5975[DISABLED] 5995[DISABLED] 6015[DISABLED] 6035[DISABLED] 6055[DISABLED] 6075[DISABLED] 6095[DISABLED] 6115[DISABLED] 6135[DISABLED] 6155[DISABLED] 6175[DISABLED] 6195[DISABLED] 6215[DISABLED] 6235[DISABLED] 6255[DISABLED] 6275[DISABLED] 6295[DISABLED] 6315[DISABLED] 6335[DISABLED] 6355[DISABLED] 6375[DISABLED] 6395[DISABLED] 6415[DISABLED] 6435[DISABLED] 6455[DISABLED] 6475[DISABLED] 6495[DISABLED] 6515[DISABLED] 6535[DISABLED] 6555[DISABLED] 6575[DISABLED] 6595[DISABLED] 6615[DISABLED] 6635[DISABLED] 6655[DISABLED] 6675[DISABLED] 6695[DISABLED] 6715[DISABLED] 6735[DISABLED] 6755[DISABLED] 6775[DISABLED] 6795[DISABLED] 6815[DISABLED] 6835[DISABLED] 6855[DISABLED] 6875[DISABLED] 6895[DISABLED] 6915[DISABLED] 6935[DISABLED] 6955[DISABLED] 6975[DISABLED] 6995[DISABLED] 7015[DISABLED] 7035[DISABLED] 7055[DISABLED] 7075[DISABLED] 7095[DISABLED] 7115[DISABLED]
+nl80211: Mode IEEE 802.11b: 2412 2417 2422 2427 2432 2437 2442 2447 2452 2457 2462 2467[NO_IR] 2472[NO_IR] 2484[NO_IR]
+nl80211: Drv Event 34 (NL80211_CMD_NEW_SCAN_RESULTS) received for wlan0
+wlan0: nl80211: New scan results available
+nl80211: Scan probed for SSID ''
+nl80211: Scan included frequencies: 2412 2417 2422 2427 2432 2437 2442 2447 2452 2457 2462 2467 2472 2484 5170 5180 5190 5200 5210 5220 5230 5240 5260 5280 5300 5320 5500 5520 5540 5560 5580 5600 5620 5640 5660 5680 5700 5720 5745 5765 5785 5805 5825
+wlan0: Event SCAN_RESULTS (3) received
+wlan0: Scan completed in 2.736258 seconds
+nl80211: Received scan results (9 BSSes)
+wlan0: BSS: Start scan result update 1
+wlan0: MLD: No Multi-Link element
+wlan0: BSS: Add new id 0 BSSID 3c:82:c0:79:c3:10 SSID 'Vodafone-C30C' freq 2437
+dbus: Register BSS object '/fi/w1/wpa_supplicant1/Interfaces/0/BSSs/0'
+wlan0: MLD: No Multi-Link element
+wlan0: BSS: Add new id 1 BSSID 3c:82:c0:79:c3:18 SSID 'Vodafone-C30C' freq 5500
+dbus: Register BSS object '/fi/w1/wpa_supplicant1/Interfaces/0/BSSs/1'
+wlan0: MLD: No Multi-Link element
+wlan0: BSS: Add new id 2 BSSID 1c:9e:cc:c1:be:a0 SSID 'Vodafone-BE9C' freq 2462
+dbus: Register BSS object '/fi/w1/wpa_supplicant1/Interfaces/0/BSSs/2'
+wlan0: MLD: No Multi-Link element
+wlan0: BSS: Add new id 3 BSSID 90:93:5a:0d:b3:b3 SSID 'Vodafone-5152' freq 2437
+dbus: Register BSS object '/fi/w1/wpa_supplicant1/Interfaces/0/BSSs/3'
+wlan0: MLD: No Multi-Link element
+wlan0: BSS: Add new id 4 BSSID 20:4e:7f:c6:f7:f0 SSID 'NETGEAR' freq 2437
+dbus: Register BSS object '/fi/w1/wpa_supplicant1/Interfaces/0/BSSs/4'
+wlan0: MLD: No Multi-Link element
+wlan0: BSS: Add new id 5 BSSID f0:4b:8a:8b:18:f6 SSID 'Vodafone-AEFE' freq 2437
+dbus: Register BSS object '/fi/w1/wpa_supplicant1/Interfaces/0/BSSs/5'
+wlan0: MLD: No Multi-Link element
+wlan0: BSS: Add new id 6 BSSID 1c:9e:cc:c1:be:a8 SSID 'Vodafone-BE9C' freq 5500
+dbus: Register BSS object '/fi/w1/wpa_supplicant1/Interfaces/0/BSSs/6'
+wlan0: MLD: No Multi-Link element
+wlan0: BSS: Add new id 7 BSSID 60:a4:b7:fe:2e:0f SSID 'Vodafone-AEFE_EXT' freq 2437
+dbus: Register BSS object '/fi/w1/wpa_supplicant1/Interfaces/0/BSSs/7'
+wlan0: MLD: No Multi-Link element
+wlan0: BSS: Add new id 8 BSSID fa:8f:ca:3f:2e:d3 SSID '' freq 5500
+dbus: Register BSS object '/fi/w1/wpa_supplicant1/Interfaces/0/BSSs/8'
+BSS: last_scan_res_used=9/32
+wlan0: New scan results available (own=1 ext=0)
+wlan0: Radio work 'scan'@0x6c53d60 done in 6.353031 seconds
+wlan0: radio_work_free('scan'@0x6c53d60): num_active_works --> 0
+wlan0: No suitable network found
+wlan0: Use normal scan instead of sched_scan for initial scans (normal_scans=1)
+wlan0: Short-circuit new scan request since there are no enabled networks
+wlan0: State: SCANNING -> INACTIVE
+RTM_NEWLINK: ifi_index=45 ifname=wlan2 wext ifi_family=0 ifi_flags=0x9003 ([UP])
+RTM_NEWLINK: ifi_index=44 ifname=wlan1 wext ifi_family=0 ifi_flags=0x9003 ([UP])
+nl80211: Drv Event 34 (NL80211_CMD_NEW_SCAN_RESULTS) received for wlan2
+wlan2: nl80211: New scan results available
+nl80211: Scan probed for SSID ''
+nl80211: Scan included frequencies: 2412 2417 2422 2427 2432 2437 2442 2447 2452 2457 2462 2467 2472 2484 5180 5200 5220 5240 5260 5280 5300 5320 5500 5520 5540 5560 5580 5600 5620 5640 5660 5680 5700 5745 5765 5785 5805 5825
+wlan2: Event SCAN_RESULTS (3) received
+wlan2: Scan completed in 6.349989 seconds
+nl80211: Received scan results (0 BSSes)
+wlan2: BSS: Start scan result update 1
+BSS: last_scan_res_used=0/0
+wlan2: New scan results available (own=1 ext=0)
+wlan2: Radio work 'scan'@0x6c53d00 done in 6.351105 seconds
+wlan2: radio_work_free('scan'@0x6c53d00): num_active_works --> 0
+wlan2: No suitable network found
+wlan2: Short-circuit new scan request since there are no enabled networks
+wlan2: State: SCANNING -> INACTIVE
+nl80211: Drv Event 34 (NL80211_CMD_NEW_SCAN_RESULTS) received for wlan1
+wlan1: nl80211: New scan results available
+nl80211: Scan probed for SSID ''
+nl80211: Scan included frequencies: 2412 2417 2422 2427 2432 2437 2442 2447 2452 2457 2462 2467 2472 2484 5180 5200 5220 5240 5260 5280 5300 5320 5500 5520 5540 5560 5580 5600 5620 5640 5660 5680 5700 5745 5765 5785 5805 5825
+wlan1: Event SCAN_RESULTS (3) received
+wlan1: Scan completed in 6.352661 seconds
+nl80211: Received scan results (0 BSSes)
+wlan1: BSS: Start scan result update 1
+BSS: last_scan_res_used=0/0
+wlan1: New scan results available (own=1 ext=0)
+wlan1: Radio work 'scan'@0x6c76130 done in 6.353405 seconds
+wlan1: radio_work_free('scan'@0x6c76130): num_active_works --> 0
+wlan1: No suitable network found
+wlan1: Short-circuit new scan request since there are no enabled networks
+wlan1: State: SCANNING -> INACTIVE
+wlan0: Setting scan request: 0.000000 sec
+wlan1: Setting scan request: 0.000000 sec
+wlan2: Setting scan request: 0.000000 sec
+wlan0: State: INACTIVE -> SCANNING
+wlan0: Starting AP scan for wildcard SSID
+wlan0: Add radio work 'scan'@0x6c552f0
+wlan0: First radio work item in the queue - schedule start immediately
+wlan1: State: INACTIVE -> SCANNING
+wlan1: Starting AP scan for wildcard SSID
+wlan1: Add radio work 'scan'@0x6c6e9f0
+wlan1: First radio work item in the queue - schedule start immediately
+wlan2: State: INACTIVE -> SCANNING
+wlan2: Starting AP scan for wildcard SSID
+wlan2: Add radio work 'scan'@0x6c76130
+wlan2: First radio work item in the queue - schedule start immediately
+wlan0: Starting radio work 'scan'@0x6c552f0 after 0.000410 second wait
+wlan0: nl80211: scan request
+nl80211: Scan co-located APs on 6 GHz
+Scan requested (ret=0) - scan timeout 30 seconds
+wlan1: Starting radio work 'scan'@0x6c6e9f0 after 0.023581 second wait
+wlan1: nl80211: scan request
+nl80211: Scan co-located APs on 6 GHz
+Scan requested (ret=0) - scan timeout 30 seconds
+nl80211: Drv Event 33 (NL80211_CMD_TRIGGER_SCAN) received for wlan0
+wlan0: nl80211: Scan trigger
+wlan0: Event SCAN_STARTED (47) received
+wlan0: Own scan request started a scan in 0.000443 seconds
+wlan2: Starting radio work 'scan'@0x6c76130 after 0.023883 second wait
+wlan2: nl80211: scan request
+nl80211: Scan co-located APs on 6 GHz
+Scan requested (ret=0) - scan timeout 30 seconds
+nl80211: Drv Event 33 (NL80211_CMD_TRIGGER_SCAN) received for wlan1
+wlan1: nl80211: Scan trigger
+wlan1: Event SCAN_STARTED (47) received
+wlan1: Own scan request started a scan in 0.000577 seconds
+nl80211: Drv Event 33 (NL80211_CMD_TRIGGER_SCAN) received for wlan2
+wlan2: nl80211: Scan trigger
+wlan2: Event SCAN_STARTED (47) received
+wlan2: Own scan request started a scan in 0.000593 seconds
+nl80211: Drv Event 42 (NL80211_CMD_REG_BEACON_HINT) received for wlan2
+nl80211: Regulatory beacon hint
+nl80211: Channel (before): freq=5200 max_tx_power=2000 no-IR
+nl80211: Channel (after): freq=5200 max_tx_power=2000
+wlan2: Event CHANNEL_LIST_CHANGED (27) received
+wlan2: CTRL-EVENT-REGDOM-CHANGE init=BEACON_HINT type=UNKNOWN
+wlan2: CTRL-EVENT-REGDOM-BEACON-HINT before freq=5200 max_tx_power=2000 no_ir=1
+wlan2: CTRL-EVENT-REGDOM-BEACON-HINT after freq=5200 max_tx_power=2000
+wlan2: Updating hw mode
+nl80211: No channel number found for frequency 5900 MHz
+nl80211: No channel number found for frequency 5905 MHz
+nl80211: No channel number found for frequency 5910 MHz
+nl80211: No channel number found for frequency 5915 MHz
+nl80211: No channel number found for frequency 5920 MHz
+nl80211: No channel number found for frequency 5925 MHz
+nl80211: No channel number found for frequency 902 MHz
+nl80211: No channel number found for frequency 903 MHz
+nl80211: No channel number found for frequency 903 MHz
+nl80211: No channel number found for frequency 904 MHz
+nl80211: No channel number found for frequency 904 MHz
+nl80211: No channel number found for frequency 905 MHz
+nl80211: No channel number found for frequency 905 MHz
+nl80211: No channel number found for frequency 906 MHz
+nl80211: No channel number found for frequency 906 MHz
+nl80211: No channel number found for frequency 907 MHz
+nl80211: No channel number found for frequency 907 MHz
+nl80211: No channel number found for frequency 908 MHz
+nl80211: No channel number found for frequency 908 MHz
+nl80211: No channel number found for frequency 909 MHz
+nl80211: No channel number found for frequency 909 MHz
+nl80211: No channel number found for frequency 910 MHz
+nl80211: No channel number found for frequency 910 MHz
+nl80211: No channel number found for frequency 911 MHz
+nl80211: No channel number found for frequency 911 MHz
+nl80211: No channel number found for frequency 912 MHz
+nl80211: No channel number found for frequency 912 MHz
+nl80211: No channel number found for frequency 913 MHz
+nl80211: No channel number found for frequency 913 MHz
+nl80211: No channel number found for frequency 914 MHz
+nl80211: No channel number found for frequency 914 MHz
+nl80211: No channel number found for frequency 915 MHz
+nl80211: No channel number found for frequency 915 MHz
+nl80211: No channel number found for frequency 916 MHz
+nl80211: No channel number found for frequency 916 MHz
+nl80211: No channel number found for frequency 917 MHz
+nl80211: No channel number found for frequency 917 MHz
+nl80211: No channel number found for frequency 918 MHz
+nl80211: No channel number found for frequency 918 MHz
+nl80211: No channel number found for frequency 919 MHz
+nl80211: No channel number found for frequency 919 MHz
+nl80211: No channel number found for frequency 920 MHz
+nl80211: No channel number found for frequency 920 MHz
+nl80211: No channel number found for frequency 921 MHz
+nl80211: No channel number found for frequency 921 MHz
+nl80211: No channel number found for frequency 922 MHz
+nl80211: No channel number found for frequency 922 MHz
+nl80211: No channel number found for frequency 923 MHz
+nl80211: No channel number found for frequency 923 MHz
+nl80211: No channel number found for frequency 924 MHz
+nl80211: No channel number found for frequency 924 MHz
+nl80211: No channel number found for frequency 925 MHz
+nl80211: No channel number found for frequency 925 MHz
+nl80211: No channel number found for frequency 926 MHz
+nl80211: No channel number found for frequency 926 MHz
+nl80211: No channel number found for frequency 927 MHz
+nl80211: No channel number found for frequency 927 MHz
+nl80211: Regulatory information - country=00
+nl80211: 2402-2472 @ 40 MHz 20 mBm
+nl80211: 2457-2482 @ 20 MHz 20 mBm (no IR)
+nl80211: 2474-2494 @ 20 MHz 20 mBm (no OFDM) (no IR)
+nl80211: 5170-5250 @ 80 MHz 20 mBm (no IR)
+nl80211: 5250-5330 @ 80 MHz 20 mBm (DFS) (no IR)
+nl80211: 5490-5730 @ 160 MHz 20 mBm (DFS) (no IR)
+nl80211: 5735-5835 @ 80 MHz 20 mBm (no IR)
+nl80211: 57240-63720 @ 2160 MHz 0 mBm
+nl80211: Remove unsupported mode
+nl80211: Added 802.11b mode based on 802.11g information
+nl80211: Mode IEEE 802.11g: 2412 2417 2422 2427 2432 2437 2442 2447 2452 2457 2462 2467[NO_IR] 2472[NO_IR] 2484[NO_IR]
+nl80211: Mode IEEE 802.11a: 5180[NO_IR] 5200 5220[NO_IR] 5240[NO_IR] 5260[NO_IR][RADAR] 5280[NO_IR][RADAR] 5300[NO_IR][RADAR] 5320[NO_IR][RADAR] 5500[RADAR] 5520[NO_IR][RADAR] 5540[NO_IR][RADAR] 5560[NO_IR][RADAR] 5580[NO_IR][RADAR] 5600[NO_IR][RADAR] 5620[NO_IR][RADAR] 5640[NO_IR][RADAR] 5660[NO_IR][RADAR] 5680[NO_IR][RADAR] 5700[NO_IR][RADAR] 5745[NO_IR] 5765[NO_IR] 5785[NO_IR] 5805[NO_IR] 5825[NO_IR] 5845[DISABLED] 5855[DISABLED] 5860[DISABLED] 5865[DISABLED] 5870[DISABLED] 5875[DISABLED] 5880[DISABLED] 5885[DISABLED] 5890[DISABLED] 5895[DISABLED] 5900[DISABLED] 5905[DISABLED] 5910[DISABLED] 5915[DISABLED] 5920[DISABLED] 5925[DISABLED]
+nl80211: Mode IEEE 802.11a: 5955[DISABLED] 5975[DISABLED] 5995[DISABLED] 6015[DISABLED] 6035[DISABLED] 6055[DISABLED] 6075[DISABLED] 6095[DISABLED] 6115[DISABLED] 6135[DISABLED] 6155[DISABLED] 6175[DISABLED] 6195[DISABLED] 6215[DISABLED] 6235[DISABLED] 6255[DISABLED] 6275[DISABLED] 6295[DISABLED] 6315[DISABLED] 6335[DISABLED] 6355[DISABLED] 6375[DISABLED] 6395[DISABLED] 6415[DISABLED] 6435[DISABLED] 6455[DISABLED] 6475[DISABLED] 6495[DISABLED] 6515[DISABLED] 6535[DISABLED] 6555[DISABLED] 6575[DISABLED] 6595[DISABLED] 6615[DISABLED] 6635[DISABLED] 6655[DISABLED] 6675[DISABLED] 6695[DISABLED] 6715[DISABLED] 6735[DISABLED] 6755[DISABLED] 6775[DISABLED] 6795[DISABLED] 6815[DISABLED] 6835[DISABLED] 6855[DISABLED] 6875[DISABLED] 6895[DISABLED] 6915[DISABLED] 6935[DISABLED] 6955[DISABLED] 6975[DISABLED] 6995[DISABLED] 7015[DISABLED] 7035[DISABLED] 7055[DISABLED] 7075[DISABLED] 7095[DISABLED] 7115[DISABLED]
+nl80211: Mode IEEE 802.11b: 2412 2417 2422 2427 2432 2437 2442 2447 2452 2457 2462 2467[NO_IR] 2472[NO_IR] 2484[NO_IR]
+RTM_NEWLINK: ifi_index=35 ifname=wlan0 wext ifi_family=0 ifi_flags=0x9003 ([UP])
+nl80211: Drv Event 42 (NL80211_CMD_REG_BEACON_HINT) received for wlan1
+nl80211: Regulatory beacon hint
+nl80211: Channel (before): freq=5200 max_tx_power=2000 no-IR
+nl80211: Channel (after): freq=5200 max_tx_power=2000
+wlan1: Event CHANNEL_LIST_CHANGED (27) received
+wlan1: CTRL-EVENT-REGDOM-CHANGE init=BEACON_HINT type=UNKNOWN
+wlan1: CTRL-EVENT-REGDOM-BEACON-HINT before freq=5200 max_tx_power=2000 no_ir=1
+wlan1: CTRL-EVENT-REGDOM-BEACON-HINT after freq=5200 max_tx_power=2000
+wlan1: Updating hw mode
+nl80211: No channel number found for frequency 5900 MHz
+nl80211: No channel number found for frequency 5905 MHz
+nl80211: No channel number found for frequency 5910 MHz
+nl80211: No channel number found for frequency 5915 MHz
+nl80211: No channel number found for frequency 5920 MHz
+nl80211: No channel number found for frequency 5925 MHz
+nl80211: No channel number found for frequency 902 MHz
+nl80211: No channel number found for frequency 903 MHz
+nl80211: No channel number found for frequency 903 MHz
+nl80211: No channel number found for frequency 904 MHz
+nl80211: No channel number found for frequency 904 MHz
+nl80211: No channel number found for frequency 905 MHz
+nl80211: No channel number found for frequency 905 MHz
+nl80211: No channel number found for frequency 906 MHz
+nl80211: No channel number found for frequency 906 MHz
+nl80211: No channel number found for frequency 907 MHz
+nl80211: No channel number found for frequency 907 MHz
+nl80211: No channel number found for frequency 908 MHz
+nl80211: No channel number found for frequency 908 MHz
+nl80211: No channel number found for frequency 909 MHz
+nl80211: No channel number found for frequency 909 MHz
+nl80211: No channel number found for frequency 910 MHz
+nl80211: No channel number found for frequency 910 MHz
+nl80211: No channel number found for frequency 911 MHz
+nl80211: No channel number found for frequency 911 MHz
+nl80211: No channel number found for frequency 912 MHz
+nl80211: No channel number found for frequency 912 MHz
+nl80211: No channel number found for frequency 913 MHz
+nl80211: No channel number found for frequency 913 MHz
+nl80211: No channel number found for frequency 914 MHz
+nl80211: No channel number found for frequency 914 MHz
+nl80211: No channel number found for frequency 915 MHz
+nl80211: No channel number found for frequency 915 MHz
+nl80211: No channel number found for frequency 916 MHz
+nl80211: No channel number found for frequency 916 MHz
+nl80211: No channel number found for frequency 917 MHz
+nl80211: No channel number found for frequency 917 MHz
+nl80211: No channel number found for frequency 918 MHz
+nl80211: No channel number found for frequency 918 MHz
+nl80211: No channel number found for frequency 919 MHz
+nl80211: No channel number found for frequency 919 MHz
+nl80211: No channel number found for frequency 920 MHz
+nl80211: No channel number found for frequency 920 MHz
+nl80211: No channel number found for frequency 921 MHz
+nl80211: No channel number found for frequency 921 MHz
+nl80211: No channel number found for frequency 922 MHz
+nl80211: No channel number found for frequency 922 MHz
+nl80211: No channel number found for frequency 923 MHz
+nl80211: No channel number found for frequency 923 MHz
+nl80211: No channel number found for frequency 924 MHz
+nl80211: No channel number found for frequency 924 MHz
+nl80211: No channel number found for frequency 925 MHz
+nl80211: No channel number found for frequency 925 MHz
+nl80211: No channel number found for frequency 926 MHz
+nl80211: No channel number found for frequency 926 MHz
+nl80211: No channel number found for frequency 927 MHz
+nl80211: No channel number found for frequency 927 MHz
+nl80211: Regulatory information - country=00
+nl80211: 2402-2472 @ 40 MHz 20 mBm
+nl80211: 2457-2482 @ 20 MHz 20 mBm (no IR)
+nl80211: 2474-2494 @ 20 MHz 20 mBm (no OFDM) (no IR)
+nl80211: 5170-5250 @ 80 MHz 20 mBm (no IR)
+nl80211: 5250-5330 @ 80 MHz 20 mBm (DFS) (no IR)
+nl80211: 5490-5730 @ 160 MHz 20 mBm (DFS) (no IR)
+nl80211: 5735-5835 @ 80 MHz 20 mBm (no IR)
+nl80211: 57240-63720 @ 2160 MHz 0 mBm
+nl80211: Remove unsupported mode
+nl80211: Added 802.11b mode based on 802.11g information
+nl80211: Mode IEEE 802.11g: 2412 2417 2422 2427 2432 2437 2442 2447 2452 2457 2462 2467[NO_IR] 2472[NO_IR] 2484[NO_IR]
+nl80211: Mode IEEE 802.11a: 5180[NO_IR] 5200 5220[NO_IR] 5240[NO_IR] 5260[NO_IR][RADAR] 5280[NO_IR][RADAR] 5300[NO_IR][RADAR] 5320[NO_IR][RADAR] 5500[RADAR] 5520[NO_IR][RADAR] 5540[NO_IR][RADAR] 5560[NO_IR][RADAR] 5580[NO_IR][RADAR] 5600[NO_IR][RADAR] 5620[NO_IR][RADAR] 5640[NO_IR][RADAR] 5660[NO_IR][RADAR] 5680[NO_IR][RADAR] 5700[NO_IR][RADAR] 5745[NO_IR] 5765[NO_IR] 5785[NO_IR] 5805[NO_IR] 5825[NO_IR] 5845[DISABLED] 5855[DISABLED] 5860[DISABLED] 5865[DISABLED] 5870[DISABLED] 5875[DISABLED] 5880[DISABLED] 5885[DISABLED] 5890[DISABLED] 5895[DISABLED] 5900[DISABLED] 5905[DISABLED] 5910[DISABLED] 5915[DISABLED] 5920[DISABLED] 5925[DISABLED]
+nl80211: Mode IEEE 802.11a: 5955[DISABLED] 5975[DISABLED] 5995[DISABLED] 6015[DISABLED] 6035[DISABLED] 6055[DISABLED] 6075[DISABLED] 6095[DISABLED] 6115[DISABLED] 6135[DISABLED] 6155[DISABLED] 6175[DISABLED] 6195[DISABLED] 6215[DISABLED] 6235[DISABLED] 6255[DISABLED] 6275[DISABLED] 6295[DISABLED] 6315[DISABLED] 6335[DISABLED] 6355[DISABLED] 6375[DISABLED] 6395[DISABLED] 6415[DISABLED] 6435[DISABLED] 6455[DISABLED] 6475[DISABLED] 6495[DISABLED] 6515[DISABLED] 6535[DISABLED] 6555[DISABLED] 6575[DISABLED] 6595[DISABLED] 6615[DISABLED] 6635[DISABLED] 6655[DISABLED] 6675[DISABLED] 6695[DISABLED] 6715[DISABLED] 6735[DISABLED] 6755[DISABLED] 6775[DISABLED] 6795[DISABLED] 6815[DISABLED] 6835[DISABLED] 6855[DISABLED] 6875[DISABLED] 6895[DISABLED] 6915[DISABLED] 6935[DISABLED] 6955[DISABLED] 6975[DISABLED] 6995[DISABLED] 7015[DISABLED] 7035[DISABLED] 7055[DISABLED] 7075[DISABLED] 7095[DISABLED] 7115[DISABLED]
+nl80211: Mode IEEE 802.11b: 2412 2417 2422 2427 2432 2437 2442 2447 2452 2457 2462 2467[NO_IR] 2472[NO_IR] 2484[NO_IR]
+nl80211: Drv Event 34 (NL80211_CMD_NEW_SCAN_RESULTS) received for wlan0
+wlan0: nl80211: New scan results available
+nl80211: Scan probed for SSID ''
+nl80211: Scan included frequencies: 2412 2417 2422 2427 2432 2437 2442 2447 2452 2457 2462 2467 2472 2484 5170 5180 5190 5200 5210 5220 5230 5240 5260 5280 5300 5320 5500 5520 5540 5560 5580 5600 5620 5640 5660 5680 5700 5720 5745 5765 5785 5805 5825
+wlan0: Event SCAN_RESULTS (3) received
+wlan0: Scan completed in 2.769238 seconds
+nl80211: Received scan results (12 BSSes)
+wlan0: BSS: Start scan result update 2
+wlan0: MLD: No Multi-Link element
+wlan0: MLD: No Multi-Link element
+wlan0: MLD: No Multi-Link element
+wlan0: MLD: No Multi-Link element
+wlan0: MLD: No Multi-Link element
+wlan0: BSS: Add new id 9 BSSID 90:93:5a:0d:b3:b4 SSID 'Vodafone-5152' freq 5200
+dbus: Register BSS object '/fi/w1/wpa_supplicant1/Interfaces/0/BSSs/9'
+wlan0: MLD: No Multi-Link element
+wlan0: MLD: No Multi-Link element
+wlan0: BSS: Add new id 10 BSSID 24:99:00:b6:d4:65 SSID 'FRITZ!Box 6670 UC' freq 2462
+dbus: Register BSS object '/fi/w1/wpa_supplicant1/Interfaces/0/BSSs/10'
+wlan0: MLD: No Multi-Link element
+wlan0: BSS: Add new id 11 BSSID f0:4b:8a:f3:83:16 SSID 'Vodafone-6D9F' freq 2462
+dbus: Register BSS object '/fi/w1/wpa_supplicant1/Interfaces/0/BSSs/11'
+BSS: last_scan_res_used=12/32
+wlan0: New scan results available (own=1 ext=0)
+wlan0: Radio work 'scan'@0x6c552f0 done in 6.442236 seconds
+wlan0: radio_work_free('scan'@0x6c552f0): num_active_works --> 0
+wlan0: No suitable network found
+wlan0: Use normal scan instead of sched_scan for initial scans (normal_scans=2)
+wlan0: Short-circuit new scan request since there are no enabled networks
+wlan0: State: SCANNING -> INACTIVE
+RTM_NEWLINK: ifi_index=45 ifname=wlan2 wext ifi_family=0 ifi_flags=0x9003 ([UP])
+RTM_NEWLINK: ifi_index=44 ifname=wlan1 wext ifi_family=0 ifi_flags=0x9003 ([UP])
+nl80211: Drv Event 34 (NL80211_CMD_NEW_SCAN_RESULTS) received for wlan1
+wlan1: nl80211: New scan results available
+nl80211: Scan probed for SSID ''
+nl80211: Scan included frequencies: 2412 2417 2422 2427 2432 2437 2442 2447 2452 2457 2462 2467 2472 2484 5180 5200 5220 5240 5260 5280 5300 5320 5500 5520 5540 5560 5580 5600 5620 5640 5660 5680 5700 5745 5765 5785 5805 5825
+wlan1: Event SCAN_RESULTS (3) received
+wlan1: Scan completed in 6.419524 seconds
+nl80211: Received scan results (0 BSSes)
+wlan1: BSS: Start scan result update 2
+BSS: last_scan_res_used=0/0
+wlan1: New scan results available (own=1 ext=0)
+wlan1: Radio work 'scan'@0x6c6e9f0 done in 6.421109 seconds
+wlan1: radio_work_free('scan'@0x6c6e9f0): num_active_works --> 0
+wlan1: No suitable network found
+wlan1: Short-circuit new scan request since there are no enabled networks
+wlan1: State: SCANNING -> INACTIVE
+nl80211: Drv Event 34 (NL80211_CMD_NEW_SCAN_RESULTS) received for wlan2
+wlan2: nl80211: New scan results available
+nl80211: Scan probed for SSID ''
+nl80211: Scan included frequencies: 2412 2417 2422 2427 2432 2437 2442 2447 2452 2457 2462 2467 2472 2484 5180 5200 5220 5240 5260 5280 5300 5320 5500 5520 5540 5560 5580 5600 5620 5640 5660 5680 5700 5745 5765 5785 5805 5825
+wlan2: Event SCAN_RESULTS (3) received
+wlan2: Scan completed in 6.420879 seconds
+nl80211: Received scan results (0 BSSes)
+wlan2: BSS: Start scan result update 2
+BSS: last_scan_res_used=0/0
+wlan2: New scan results available (own=1 ext=0)
+wlan2: Radio work 'scan'@0x6c76130 done in 6.422422 seconds
+wlan2: radio_work_free('scan'@0x6c76130): num_active_works --> 0
+wlan2: No suitable network found
+wlan2: Short-circuit new scan request since there are no enabled networks
+wlan2: State: SCANNING -> INACTIVE
+wlan0: Setting scan request: 0.000000 sec
+wlan0: State: INACTIVE -> SCANNING
+wlan0: Starting AP scan for wildcard SSID
+wlan0: Add radio work 'scan'@0x6c76130
+wlan0: First radio work item in the queue - schedule start immediately
+wlan1: Setting scan request: 0.000000 sec
+wlan2: Setting scan request: 0.000000 sec
+wlan0: Starting radio work 'scan'@0x6c76130 after 0.001351 second wait
+wlan0: nl80211: scan request
+nl80211: Scan co-located APs on 6 GHz
+Scan requested (ret=0) - scan timeout 30 seconds
+wlan1: State: INACTIVE -> SCANNING
+wlan1: Starting AP scan for wildcard SSID
+wlan1: Add radio work 'scan'@0x6c6ac90
+wlan1: First radio work item in the queue - schedule start immediately
+nl80211: Drv Event 33 (NL80211_CMD_TRIGGER_SCAN) received for wlan0
+wlan0: nl80211: Scan trigger
+wlan0: Event SCAN_STARTED (47) received
+wlan0: Own scan request started a scan in 0.000382 seconds
+wlan2: State: INACTIVE -> SCANNING
+wlan2: Starting AP scan for wildcard SSID
+wlan2: Add radio work 'scan'@0x6c6e510
+wlan2: First radio work item in the queue - schedule start immediately
+wlan1: Starting radio work 'scan'@0x6c6ac90 after 0.000722 second wait
+wlan1: nl80211: scan request
+nl80211: Scan co-located APs on 6 GHz
+Scan requested (ret=0) - scan timeout 30 seconds
+wlan2: Starting radio work 'scan'@0x6c6e510 after 0.000684 second wait
+wlan2: nl80211: scan request
+nl80211: Scan co-located APs on 6 GHz
+Scan requested (ret=0) - scan timeout 30 seconds
+nl80211: Drv Event 33 (NL80211_CMD_TRIGGER_SCAN) received for wlan1
+wlan1: nl80211: Scan trigger
+wlan1: Event SCAN_STARTED (47) received
+wlan1: Own scan request started a scan in 0.000503 seconds
+nl80211: Drv Event 33 (NL80211_CMD_TRIGGER_SCAN) received for wlan2
+wlan2: nl80211: Scan trigger
+wlan2: Event SCAN_STARTED (47) received
+wlan2: Own scan request started a scan in 0.000419 seconds
+RTM_NEWLINK: ifi_index=35 ifname=wlan0 wext ifi_family=0 ifi_flags=0x9003 ([UP])
+nl80211: Drv Event 34 (NL80211_CMD_NEW_SCAN_RESULTS) received for wlan0
+wlan0: nl80211: New scan results available
+nl80211: Scan probed for SSID ''
+nl80211: Scan included frequencies: 2412 2417 2422 2427 2432 2437 2442 2447 2452 2457 2462 2467 2472 2484 5170 5180 5190 5200 5210 5220 5230 5240 5260 5280 5300 5320 5500 5520 5540 5560 5580 5600 5620 5640 5660 5680 5700 5720 5745 5765 5785 5805 5825
+wlan0: Event SCAN_RESULTS (3) received
+wlan0: Scan completed in 2.783517 seconds
+nl80211: Received scan results (11 BSSes)
+wlan0: BSS: Start scan result update 3
+wlan0: MLD: No Multi-Link element
+wlan0: MLD: No Multi-Link element
+wlan0: MLD: No Multi-Link element
+wlan0: MLD: No Multi-Link element
+BSS: last_scan_res_used=11/32
+wlan0: New scan results available (own=1 ext=0)
+wlan0: Radio work 'scan'@0x6c76130 done in 6.428612 seconds
+wlan0: radio_work_free('scan'@0x6c76130): num_active_works --> 0
+wlan0: No suitable network found
+wlan0: Beginning of SSID list
+wlan0: Starting sched scan after 0 seconds (no timeout)
+wlan0: nl80211: sched_scan request
+nl80211: Passive scan requested
+nl80211: Sched scan start failed: ret=-22 (Invalid argument)
+wlan0: Failed to initiate sched scan
+wlan0: Short-circuit new scan request since there are no enabled networks
+wlan0: State: SCANNING -> INACTIVE
+RTM_NEWLINK: ifi_index=44 ifname=wlan1 wext ifi_family=0 ifi_flags=0x9003 ([UP])
+RTM_NEWLINK: ifi_index=45 ifname=wlan2 wext ifi_family=0 ifi_flags=0x9003 ([UP])
+nl80211: Drv Event 34 (NL80211_CMD_NEW_SCAN_RESULTS) received for wlan2
+wlan2: nl80211: New scan results available
+nl80211: Scan probed for SSID ''
+nl80211: Scan included frequencies: 2412 2417 2422 2427 2432 2437 2442 2447 2452 2457 2462 2467 2472 2484 5180 5200 5220 5240 5260 5280 5300 5320 5500 5520 5540 5560 5580 5600 5620 5640 5660 5680 5700 5745 5765 5785 5805 5825
+wlan2: Event SCAN_RESULTS (3) received
+wlan2: Scan completed in 6.404854 seconds
+nl80211: Received scan results (0 BSSes)
+wlan2: BSS: Start scan result update 3
+BSS: last_scan_res_used=0/0
+wlan2: New scan results available (own=1 ext=0)
+wlan2: Radio work 'scan'@0x6c6e510 done in 6.406259 seconds
+wlan2: radio_work_free('scan'@0x6c6e510): num_active_works --> 0
+wlan2: No suitable network found
+wlan2: Short-circuit new scan request since there are no enabled networks
+wlan2: State: SCANNING -> INACTIVE
+nl80211: Drv Event 34 (NL80211_CMD_NEW_SCAN_RESULTS) received for wlan1
+wlan1: nl80211: New scan results available
+nl80211: Scan probed for SSID ''
+nl80211: Scan included frequencies: 2412 2417 2422 2427 2432 2437 2442 2447 2452 2457 2462 2467 2472 2484 5180 5200 5220 5240 5260 5280 5300 5320 5500 5520 5540 5560 5580 5600 5620 5640 5660 5680 5700 5745 5765 5785 5805 5825
+wlan1: Event SCAN_RESULTS (3) received
+wlan1: Scan completed in 6.410232 seconds
+nl80211: Received scan results (0 BSSes)
+wlan1: BSS: Start scan result update 3
+BSS: last_scan_res_used=0/0
+wlan1: New scan results available (own=1 ext=0)
+wlan1: Radio work 'scan'@0x6c6ac90 done in 6.411778 seconds
+wlan1: radio_work_free('scan'@0x6c6ac90): num_active_works --> 0
+wlan1: No suitable network found
+wlan1: Short-circuit new scan request since there are no enabled networks
+wlan1: State: SCANNING -> INACTIVE
+dbus: Register network object '/fi/w1/wpa_supplicant1/Interfaces/0/Networks/0'
+Line 0: invalid key_mgmt 'SAE'
+wpas_dbus_handler_add_network[dbus]: control interface couldn't set network properties
+dbus: Unregister network object '/fi/w1/wpa_supplicant1/Interfaces/0/Networks/0'
+^Cwlan2: Removing interface wlan2
+nl80211: Getting wowlan status
+nl80211: Getting wowlan status failed
+wlan2: Request to deauthenticate - bssid=00:00:00:00:00:00 pending_bssid=00:00:00:00:00:00 reason=3 (DEAUTH_LEAVING) state=INACTIVE valid_links=0x0 ap_mld_addr=00:00:00:00:00:00
+wlan2: State: INACTIVE -> DISCONNECTED
+nl80211: Set wlan2 operstate 0->0 (DORMANT)
+netlink: Operstate: ifindex=45 linkmode=-1 (no change), operstate=5 (IF_OPER_DORMANT)
+EAPOL: External notification - portEnabled=0
+EAPOL: External notification - portValid=0
+QM: Clear all active DSCP policies
+wlan2: CTRL-EVENT-DSCP-POLICY clear_all
+wlan2: WPA: Clear old PMK and PTK
+wlan2: Cancelling scan request
+wlan2: Cancelling authentication timeout
+nl80211: Data frame filter flags=0x0
+QM: Clear all active DSCP policies
+wlan2: CTRL-EVENT-DSCP-POLICY clear_all
+Remove interface wlan2 from radio phy2
+Remove radio phy2
+nl80211: deinit ifname=wlan2 disabled_11b_rates=0
+netlink: Operstate: ifindex=45 linkmode=0 (kernel-control), operstate=6 (IF_OPER_UP)
+nl80211: Set mode ifindex 45 iftype 2 (STATION)
+nl80211: Unsubscribe mgmt frames handle 0x888888888e4eab49 (mode change)
+dbus: Unregister interface object '/fi/w1/wpa_supplicant1/Interfaces/2'
+wlan2: CTRL-EVENT-TERMINATING 
+wlan1: Removing interface wlan1
+nl80211: Getting wowlan status
+nl80211: Getting wowlan status failed
+wlan1: Request to deauthenticate - bssid=00:00:00:00:00:00 pending_bssid=00:00:00:00:00:00 reason=3 (DEAUTH_LEAVING) state=INACTIVE valid_links=0x0 ap_mld_addr=00:00:00:00:00:00
+wlan1: State: INACTIVE -> DISCONNECTED
+nl80211: Set wlan1 operstate 0->0 (DORMANT)
+netlink: Operstate: ifindex=44 linkmode=-1 (no change), operstate=5 (IF_OPER_DORMANT)
+EAPOL: External notification - portEnabled=0
+EAPOL: External notification - portValid=0
+QM: Clear all active DSCP policies
+wlan1: CTRL-EVENT-DSCP-POLICY clear_all
+wlan1: WPA: Clear old PMK and PTK
+wlan1: Cancelling scan request
+wlan1: Cancelling authentication timeout
+nl80211: Data frame filter flags=0x0
+QM: Clear all active DSCP policies
+wlan1: CTRL-EVENT-DSCP-POLICY clear_all
+Remove interface wlan1 from radio phy1
+Remove radio phy1
+nl80211: deinit ifname=wlan1 disabled_11b_rates=0
+netlink: Operstate: ifindex=44 linkmode=0 (kernel-control), operstate=6 (IF_OPER_UP)
+nl80211: Set mode ifindex 44 iftype 2 (STATION)
+nl80211: Unsubscribe mgmt frames handle 0x888888888e4d5739 (mode change)
+dbus: Unregister interface object '/fi/w1/wpa_supplicant1/Interfaces/1'
+wlan1: CTRL-EVENT-TERMINATING 
+wlan0: Removing interface wlan0
+nl80211: Getting wowlan status
+nl80211: Getting wowlan status failed
+wlan0: Request to deauthenticate - bssid=00:00:00:00:00:00 pending_bssid=00:00:00:00:00:00 reason=3 (DEAUTH_LEAVING) state=INACTIVE valid_links=0x0 ap_mld_addr=00:00:00:00:00:00
+wlan0: State: INACTIVE -> DISCONNECTED
+nl80211: Set wlan0 operstate 0->0 (DORMANT)
+netlink: Operstate: ifindex=35 linkmode=-1 (no change), operstate=5 (IF_OPER_DORMANT)
+EAPOL: External notification - portEnabled=0
+EAPOL: External notification - portValid=0
+QM: Clear all active DSCP policies
+wlan0: CTRL-EVENT-DSCP-POLICY clear_all
+wlan0: WPA: Clear old PMK and PTK
+wlan0: BSS: Remove id 7 BSSID 60:a4:b7:fe:2e:0f SSID 'Vodafone-AEFE_EXT' due to wpa_bss_flush
+dbus: Unregister BSS object '/fi/w1/wpa_supplicant1/Interfaces/0/BSSs/7'
+wlan0: BSS: Remove id 9 BSSID 90:93:5a:0d:b3:b4 SSID 'Vodafone-5152' due to wpa_bss_flush
+dbus: Unregister BSS object '/fi/w1/wpa_supplicant1/Interfaces/0/BSSs/9'
+wlan0: BSS: Remove id 0 BSSID 3c:82:c0:79:c3:10 SSID 'Vodafone-C30C' due to wpa_bss_flush
+dbus: Unregister BSS object '/fi/w1/wpa_supplicant1/Interfaces/0/BSSs/0'
+wlan0: BSS: Remove id 1 BSSID 3c:82:c0:79:c3:18 SSID 'Vodafone-C30C' due to wpa_bss_flush
+dbus: Unregister BSS object '/fi/w1/wpa_supplicant1/Interfaces/0/BSSs/1'
+wlan0: BSS: Remove id 2 BSSID 1c:9e:cc:c1:be:a0 SSID 'Vodafone-BE9C' due to wpa_bss_flush
+dbus: Unregister BSS object '/fi/w1/wpa_supplicant1/Interfaces/0/BSSs/2'
+wlan0: BSS: Remove id 3 BSSID 90:93:5a:0d:b3:b3 SSID 'Vodafone-5152' due to wpa_bss_flush
+dbus: Unregister BSS object '/fi/w1/wpa_supplicant1/Interfaces/0/BSSs/3'
+wlan0: BSS: Remove id 4 BSSID 20:4e:7f:c6:f7:f0 SSID 'NETGEAR' due to wpa_bss_flush
+dbus: Unregister BSS object '/fi/w1/wpa_supplicant1/Interfaces/0/BSSs/4'
+wlan0: BSS: Remove id 6 BSSID 1c:9e:cc:c1:be:a8 SSID 'Vodafone-BE9C' due to wpa_bss_flush
+dbus: Unregister BSS object '/fi/w1/wpa_supplicant1/Interfaces/0/BSSs/6'
+wlan0: BSS: Remove id 5 BSSID f0:4b:8a:8b:18:f6 SSID 'Vodafone-AEFE' due to wpa_bss_flush
+dbus: Unregister BSS object '/fi/w1/wpa_supplicant1/Interfaces/0/BSSs/5'
+wlan0: BSS: Remove id 11 BSSID f0:4b:8a:f3:83:16 SSID 'Vodafone-6D9F' due to wpa_bss_flush
+dbus: Unregister BSS object '/fi/w1/wpa_supplicant1/Interfaces/0/BSSs/11'
+wlan0: BSS: Remove id 10 BSSID 24:99:00:b6:d4:65 SSID 'FRITZ!Box 6670 UC' due to wpa_bss_flush
+dbus: Unregister BSS object '/fi/w1/wpa_supplicant1/Interfaces/0/BSSs/10'
+wlan0: BSS: Remove id 8 BSSID fa:8f:ca:3f:2e:d3 SSID '' due to wpa_bss_flush
+dbus: Unregister BSS object '/fi/w1/wpa_supplicant1/Interfaces/0/BSSs/8'
+wlan0: Cancelling delayed sched scan
+wlan0: Cancelling scan request
+wlan0: Cancelling authentication timeout
+nl80211: Data frame filter flags=0x0
+QM: Clear all active DSCP policies
+wlan0: CTRL-EVENT-DSCP-POLICY clear_all
+Remove interface wlan0 from radio phy0
+Remove radio phy0
+nl80211: deinit ifname=wlan0 disabled_11b_rates=0
+netlink: Operstate: ifindex=35 linkmode=0 (kernel-control), operstate=6 (IF_OPER_UP)
+nl80211: Set mode ifindex 35 iftype 2 (STATION)
+nl80211: Unsubscribe mgmt frames handle 0x888888888e4d2569 (mode change)
+dbus: Unregister interface object '/fi/w1/wpa_supplicant1/Interfaces/0'
+wlan0: CTRL-EVENT-TERMINATING 
+dbus: Unregister D-Bus object '/fi/w1/wpa_supplicant1'
+
+
+--Jvn6ICSDNBtJcp7x--
