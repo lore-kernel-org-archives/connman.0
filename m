@@ -1,383 +1,145 @@
-Received: from mail.kapsi.fi (mail-auth.kapsi.fi [91.232.154.24])
+Received: from GVXPR05CU001.outbound.protection.outlook.com (mail-swedencentralazon11023091.outbound.protection.outlook.com [52.101.83.91])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74C3448F826
-	for <connman@lists.linux.dev>; Fri, 21 Aug 2026 16:13:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.232.154.24
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787328809; cv=none; b=TB854Rb2xq2CSrAEHatnes0wGs3GALUqHeA4XZY3wkL52nwQptTkTpHnCieupHPTn+ban+fG4IRBjSr5IdMG+cKhRdkaK1G6DImWe81L+MQLHIaa7DhDpe7C33whW+WmRapa3bbVlFVQMNh9PhjVJiypj3iCUKkyN+TizNxDHQI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787328809; c=relaxed/simple;
-	bh=0tBI499yOLAigTswTtNtFu1g8P64KGvbnmFMtsRuP2U=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=b1WwE6ir6Ut2vgY36Om+XbEIE853nqBS8tx9jEd1BtleYk7vWGzQIy1Hik5Fx+2uUTbdIiHwByobqWCTVp0K7Ll4SMTQWhI88VeEIjAZMfmJ7KycqJm05PsqPLcsuUU7v79cF1p1wZBpS1IhthpSILBO2FdTUQh7uIDm5KzoVuw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=jolla.com; spf=pass smtp.mailfrom=kapsi.fi; dkim=pass (2048-bit key) header.d=kapsi.fi header.i=@kapsi.fi header.b=lpz521xc; arc=none smtp.client-ip=91.232.154.24
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=jolla.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kapsi.fi
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07335472549
+	for <connman@lists.linux.dev>; Fri, 21 Aug 2026 16:18:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.83.91
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787329118; cv=fail; b=AG5u8Mp2Lx4d46bhqcLq4XKfXw+ZMpjCXJRz0UAp6QYaSeTHGuWpR2F6IQY337aNFa3kGIr/Qsg8nMizy/AW2zxrQkQ0iN2oqLJJLW/xvebE1eKcurK2x9Q8GTDXIYmC1m2bz9FmFoAgJVfzCVBGFefnDzjl9S/CipqnOj+Je7s=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787329118; c=relaxed/simple;
+	bh=0HytQb0htexOkXUqrG1c+oXTvscN5hTe62CvmX7P454=;
+	h=Message-ID:Date:Subject:From:To:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=TOzqGt6/Wbm5oxjGSCdV1k1v+l+tBcoAwE3A0OXLyHYIx70UAxHsxCtEDuG0lxZ6c4KHkVemZzo2JEv+e+TE1oX5zxGmppTtLS9Q0QfA6ABnKjj2DxlJcpMqvE13VFQqBxmNotNOONQH1N8ZJuTS+er05zYW6uyXXlaCux+TlOo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=jolla.com; spf=pass smtp.mailfrom=jolla.com; dkim=pass (2048-bit key) header.d=jolla.com header.i=@jolla.com header.b=RKjersKJ; arc=fail smtp.client-ip=52.101.83.91
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=jolla.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jolla.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kapsi.fi header.i=@kapsi.fi header.b="lpz521xc"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
-	s=20161220; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
-	Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-	List-Post:List-Owner:List-Archive;
-	bh=B1RQr+Xp5nl8GADosdmLvBSibEj0BQvZIFJvAY+6Dys=; b=lpz521xcScC8EN0A0TeCWF0pRg
-	kgU6hKFe2cG4ZJOx226Eq6/QhZqRhegyRUqTqO2CWY0Xi7I115cvUSQf9HUI5wv+WgadgDT3vStB2
-	0IcoWwyzS+jreqU0jY3qwfzJjSMAX8+GBlCsy1CuE/4puw4icfMKhXIyw6u+w0O4mY0W7tVa2PQEb
-	mclk3Bb+apAFoT2l/4CwriSmisDEFZ4tR4Jl8XtQz2YMQWFOdaEQwROuv9q/QRNwBAMMKTiTdRgoY
-	3muFple+FUtagAkV8wfGpxgOmmQZkK30K8VUVQz07VELW6DHPPPIPFBxp4Jvf8aoEWvQMGtWsQzvu
-	iGNu+v2Q==;
-Received: from [2a10:a5c0:37:6501:3a8:42b5:e757:c455] (helo=jl-x230.local)
-	by mail.kapsi.fi with esmtpsa (Exim 4.96)
-	(envelope-from <jussi.laakkonen@jolla.com>)
-		id 1wxRrs-00AHmh-2E;
-	Fri, 21 Aug 2026 19:13:24 +0300
+	dkim=pass (2048-bit key) header.d=jolla.com header.i=@jolla.com header.b="RKjersKJ"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=cx/PTk5YG6NnjqelnP9f+nC8PTsxP3DIYTdqfxxJDJCISLdrKuVYg2QyBRZSpy5eEHnZAdKNqe5TVzbjQ8ng2BLJLXNjPutQRB47uToZ599oRz8Ap4vamq2GL2FlFDcX2gBPQUhKrseygH3dA5oxwBRAsnDaDLvm4h+p4GTeuNs4Aoui+la6jwORYt27LFs28MwtC/4hCdiA5RSps9+wSVFtaw6M2Q1ftg+nS5rvopOLIqhmGGA4I8pAdl3TpswQXxzptGBGGyznJYRbJ+3NsNiTGOzriYK8ZmPxFnT5LIOZXcGUOTc6mTXqoKEY0rIjkFtt4iz7kn62LbmU/eH0mA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=25w645v1WoqYv8uQPrxgGylOgnaXwM1xISbMKgJI+Ng=;
+ b=hO3GP8tL4si8jN9HuGkM9qRnLHCUWDcZEaX7OBtGCmzXCzHfsGyyZmW/d1Me8poE8ghaYeGoXj7eVDuU5bDItz9xv79/duvJhkobk8AGmxMytyO6lrhx3z3StqQ1mKqKdgpg7PX08eZQ7kdACSRoq5a9fm8zfxVJ6BcRWFQEq674D95bfCsgs5QTnxnSDyJJA57elZd4czWqRYYyNCglGChfcJZAIY11DS8sia9SlPbAwB6foDHCHJWaxyINCk1Z0E93hjuEAy5pudEZgj2M1T5a3fi+Co78z+Z5fz+BhxkEbk5ng1HJiLVWBFO+sptJOE+qPH5XLjrfH2v0EUvkLg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=jolla.com; dmarc=pass action=none header.from=jolla.com;
+ dkim=pass header.d=jolla.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jolla.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=25w645v1WoqYv8uQPrxgGylOgnaXwM1xISbMKgJI+Ng=;
+ b=RKjersKJKFpysJkw8oP5xvO1Jg694SuJgvrmjnq92+ov0yf+ixgD6RwO5WMYaeIRv9GbbhimUE5x8JTo9oRA2zGNEV2OI3wl6CWfNs4Cb/N8M61vjA9CSITvD/YsXF9ELir2LQ/LEkqFLQHFwybrnF4vr4ZAvjB3WacccjdFFc1yvZoXcqpdOPPoMPJLEWtFXALK9KwM3myEdiMbWVC7gb6sXolEls86QdiTNnr4NaG879RhJJiW5DlMTts+2ge9A0OCnMUUSfOnNYEMrTJCrgNyWgulwHVS47VaDz1m+oKCFBcGu3lW61rwuSa9RLah/SBSZEQHo6wYMUiL36iL7Q==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=jolla.com;
+Received: from PAXPR06MB8174.eurprd06.prod.outlook.com (2603:10a6:102:1aa::5)
+ by DBAPR06MB6869.eurprd06.prod.outlook.com (2603:10a6:10:1a5::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.339.11; Fri, 21 Aug
+ 2026 16:18:32 +0000
+Received: from PAXPR06MB8174.eurprd06.prod.outlook.com
+ ([fe80::6b12:6b0b:77d0:c3bf]) by PAXPR06MB8174.eurprd06.prod.outlook.com
+ ([fe80::6b12:6b0b:77d0:c3bf%3]) with mapi id 15.21.0339.008; Fri, 21 Aug 2026
+ 16:18:32 +0000
+Message-ID: <b5b6a302-8849-4fb0-8169-2ecf122127bf@jolla.com>
+Date: Fri, 21 Aug 2026 19:18:31 +0300
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/3] Implement D-Bus API for toggling debug on/off at
+ run-time
 From: Jussi Laakkonen <jussi.laakkonen@jolla.com>
 To: connman@lists.linux.dev
-Cc: Slava Monich <slava.monich@jolla.com>
-Subject: [PATCH 3/3] logcontrol: Implement net.connman.DebugLog interface as a plugin
-Date: Fri, 21 Aug 2026 19:12:53 +0300
-Message-ID: <20260821161304.386852-1-jussi.laakkonen@jolla.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260821160921.386690-1-jussi.laakkonen@jolla.com>
 References: <20260821160921.386690-1-jussi.laakkonen@jolla.com>
+Content-Language: en-US
+In-Reply-To: <20260821160921.386690-1-jussi.laakkonen@jolla.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: AS4P251CA0011.EURP251.PROD.OUTLOOK.COM
+ (2603:10a6:20b:5d2::7) To PAXPR06MB8174.eurprd06.prod.outlook.com
+ (2603:10a6:102:1aa::5)
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Rspam-Score: -1.6 (-)
-X-Rspam-Report: Action: no action
- Symbol: RCVD_TLS_ALL(0.00)
- Symbol: FROM_HAS_DN(0.00)
- Symbol: FROM_EQ_ENVFROM(0.00)
- Symbol: MID_CONTAINS_FROM(1.00)
- Symbol: LOCAL_OUTBOUND(0.00)
- Symbol: TO_MATCH_ENVRCPT_ALL(0.00)
- Symbol: BAYES_HAM(-3.00)
- Symbol: MIME_GOOD(-0.10)
- Symbol: RCPT_COUNT_TWO(0.00)
- Symbol: RCVD_VIA_SMTP_AUTH(0.00)
- Symbol: ARC_NA(0.00)
- Symbol: ASN(0.00)
- Symbol: RCVD_COUNT_ONE(0.00)
- Symbol: MIME_TRACE(0.00)
- Symbol: TO_DN_SOME(0.00)
- Symbol: R_MISSING_CHARSET(0.50)
- X-Symbol: RCVD_TLS_ALL(0.00); All hops used encrypted transports
- X-Symbol: FROM_HAS_DN(0.00); From header has a display name
- X-Symbol: FROM_EQ_ENVFROM(0.00); From address is the same as the envelope
- X-Symbol: MID_CONTAINS_FROM(1.00); Message-ID contains From address
- X-Symbol: LOCAL_OUTBOUND(0.00); Mail from local to external domain
- X-Symbol: TO_MATCH_ENVRCPT_ALL(0.00); All of the recipients match the envelope
- X-Symbol: BAYES_HAM(-3.00); Message probably ham, probability:  [100.00%]
- X-Symbol: MIME_GOOD(-0.10); Known content-type [text/plain]
- X-Symbol: RCPT_COUNT_TWO(0.00); Two recipients [2]
- X-Symbol: RCVD_VIA_SMTP_AUTH(0.00); Authenticated hand-off was seen in Received headers
- X-Symbol: ARC_NA(0.00); ARC signature absent
- X-Symbol: ASN(0.00) [asn:202246, ipnet:2a10:a5c0::/36, country:FI]
- X-Symbol: RCVD_COUNT_ONE(0.00); Message has one Received header [1]
- X-Symbol: MIME_TRACE(0.00) [0:+]
- X-Symbol: TO_DN_SOME(0.00); Some of the recipients have display names
- X-Symbol: R_MISSING_CHARSET(0.50); Charset header is missing
- Message-ID: 20260821161304.386852-1-jussi.laakkonen@jolla.com
- X-Milter-Del: X-Spam
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PAXPR06MB8174:EE_|DBAPR06MB6869:EE_
+X-MS-Office365-Filtering-Correlation-Id: fd9aee03-9241-444a-0d72-08deff9fd82c
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|10070799003|366016|23010399003|376014|1800799024|10067099003|56012099006|22082099003|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	lEGAWwAoClFLBnfx22YgB/p3tgck1nZwuEpqdNH3vPHCrzkb4HZbU37Atl7IszIWkav8g2hPrY26JF4xg/mJdvRz+KyQFA40aExnFMdSfqWeAhhLjv2lfkfLrTEraSXx0HsikAa6+jEuTud0e8fH1NbxpInWBAtefFYuxf+QNW+ryPGIwppp9mMuGY7FDEXe3Nxngl+ZhE8/yXfNCmPZGBAzUqUl4Ld3cdEfKC+62NzbZbCOm3BYqn1B+Eu1+8Up3mnCAtF2CG46lMivC1YCkKDgCubQ86XX1ape491K4Ikpha7qtBSDcA9bDh24Og81kJQfQkIw3oP4ek6nKx8hw3ytR0a78/5pOxHakvLjeoKNB4x2CcMB/48GB2Z7b0MHvMRtdalyTR/lO3FhH7Mql4xEnShNi1L9GlMv6MXkcG2SzQ6RYGKWNDgDc4FQOUobzKxHBAESrBx8TcGjdfaFTRdp/AeHwUHGXOzSXJNxZSKNUzDShjy3zNxlLigp9ZVIuF+uGPjt6ruH6vPqNSQiA8wUnOfI7ZxQ6ExizIyE8+PQUX3fr83dd62WbfA0/g/zklqjpevs+DX7rz0+Fi/VmkXRdCNx09Zu53ut5SUAi5JDtCvoCpuXeYYgInGjUmjpLccksIn5DOOoP5+oMOnNxAV/vaCF1tsHifk7IzFlKqc=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR06MB8174.eurprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(10070799003)(366016)(23010399003)(376014)(1800799024)(10067099003)(56012099006)(22082099003)(18002099003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?UDViMGprSVNoTURSb2lUVkhGZGhhMHVZTUJreXRyM2h2cnBISG5RaTAwMEtk?=
+ =?utf-8?B?R3plcnZnWlE3U2p6UWRPci8xMW5VRGE3by94Uk1JU3lqb3RRLzBDQkZOVWE5?=
+ =?utf-8?B?K3lSeW0zSlJSWnlUTFNUZkJVOEFDcyt6QkhPUmptTkJGaGdPb2VIamJEL0dr?=
+ =?utf-8?B?eExoMHRYUVloQjAwbUdocEtLVlM4enRPZ0pKOFBXa2RVWkE0aWhWUER6UWZC?=
+ =?utf-8?B?QytZYlFUTWZHMndrWHNNbEtxMWFPUDN2bzFYaVFDdHJRRXd0ZHU0S1RIRFFy?=
+ =?utf-8?B?RWNvZUNibTdUckNDN3NYUjNZYzVUa1RwWkdDc0lXOXk3QkxYdGxncnZnSXZL?=
+ =?utf-8?B?aDM3aVZYV0ltL05KVDcwb1BRL3JCdUQ2SjhFNGcrazJ3bEN0TDVIc0d6cWNs?=
+ =?utf-8?B?MU92U0JuUHJYTmF2aSswVmtnRFAxS0xHbDM3SVZhdWJhWVhpZUkwVFhOS1FC?=
+ =?utf-8?B?OTMycXFXQXI3MlFtWGtJNUJyM0V5RlNybVFWZm1KamgxMDdudXFWdFNxM1lS?=
+ =?utf-8?B?U1ZDcE5OQVVDd2VQcGk0L0hFdlFjcThwRGtKRi9CVEk2OE9pbm94R2N0OVk3?=
+ =?utf-8?B?aGJHME1Va0NnaVNvVEpxUUVUbElvZUhRblBrdUFuLzNjUmZDaURlY1NXRms0?=
+ =?utf-8?B?ZEo1MGgrQWlVdDFOdmw3OElHQklBdzRoemtZaW0xajZZQ2Rqdm5JYW94eUtZ?=
+ =?utf-8?B?eFpJWHhKS1VxTzAyK25vdVZoMWY4enArVlNnVktZYVpId2xCckpuR1l0WFMx?=
+ =?utf-8?B?MzZ6Y3h1TDV2UGxrcWkwOVhEanZ6ZkxuQXdxVk5yOTJyWHZIdkNvRGhkUExH?=
+ =?utf-8?B?RWRKbGgyOTFCQ3pIekpiOGtVNXdaMEVubmxjY3dkZVFmS3JtL2JWV3VETTIv?=
+ =?utf-8?B?d0w5b1ZvOHZtakdmdUhJa1cvZm5JVTdKTE1HMHMzbC94bE9idmhXRVVna2tK?=
+ =?utf-8?B?TklQMWdKb0ltY29vSGE1SnVndkZzUTZNc25nazVWTEJ3Z2pIUGpOSnIvOG1q?=
+ =?utf-8?B?OTBwalZuUlhqRWlwVDJTeEtUZDR4clBzZXNCNktnYkNrdy9NdjhlaTFUYXA4?=
+ =?utf-8?B?ZUhqeXFOTWQ2UExRS0hjYVRsL3pvc2h3WDRqSm9heHlyRjRnTWczbnp0TW9y?=
+ =?utf-8?B?bmEwQU02eTRWQ1VJVUJqcUZBQjRtM3dSNjF6eG5Wa0NVazYvZCtBY05wbTJL?=
+ =?utf-8?B?WXFEdVBvQVdINTM5Tmd1MEhXUDFVQkc1dHhrbElVcHdmWTdNRXpNNHhzek5N?=
+ =?utf-8?B?S2owU2dLSUJMNjdMNTNFb0pvM05tRGw1aG12OG1RY3dMK2dPMVAzZHNqc3BF?=
+ =?utf-8?B?OTJ2MENFTGd0a1dSaHZ6ZnpFN2JKUDVUZXBOZ0trSmx2ZXhCcjE3MXdRV2xp?=
+ =?utf-8?B?UlJXSE9oVmw0WHBZSTVDVEZaa0o0eFNTcDI4NWROb29yWnY5cVYza2Rib2FJ?=
+ =?utf-8?B?Y09FRXl3VW1wSXhMb0RSU1NvRzhKQm9mN3hpL2FxQkgxR1FrdDdsK2hzUnho?=
+ =?utf-8?B?RU52VkRVUXgvenJ1OWp3NHR3ZjZicFh1aFlRZ2h5RXQvOXh5U1QzSG82V05w?=
+ =?utf-8?B?YWwzUkpyd0t6VlBqcVhBcUFLUzJFRlZNNHE1YTVVSmhYd2NxVmpkcEUyWWlT?=
+ =?utf-8?B?MjJYN21iMm5zOTZsdlpJRmRETTZ0YWNLaGo3MzRJa2lERUF1Wk5LWjB6QlVx?=
+ =?utf-8?B?OEZCeS9NMkt0cm9YZy83eE9lOEhaVDlYNjJyeCthSWdKdGZ0VnI4dzc4NWli?=
+ =?utf-8?B?bC9ZZ2RQR3pJL01BemdJNkV4WkRYY1VkWFBRWHRrNExaZU03T3lRS2VNRWlz?=
+ =?utf-8?B?U05hNUF6YStQcWRxYTVHV3QwYW1TUWdRejhTUkVwNHR1TXN6b0FpYnNaZUh2?=
+ =?utf-8?B?YThjalArdmx4L1dJWC91RjBvdFhRcGR1L2F5ZFVlM0NxU3dvd0Q2SmVEZ0s0?=
+ =?utf-8?B?RVdEZmhYT01pcFpPYTYwcG9qWm9UcU90NmVWUVNueG5YUVNwMjRSbHgyUjg4?=
+ =?utf-8?B?aktTTFNaVmdrTnJORUE0cTliTjVxYVQwV0M4WUtUY3pwVXF1OFJnZEl2Z01X?=
+ =?utf-8?B?Vitqck1pbk44NnkvN0dSOU4yS2phVGZWU2xYUGc1dkZ6am1neXFiMWozZHZ1?=
+ =?utf-8?B?R3VmR2RXOHpDaE1zZTJoOXJQSzlTd2YxdjR0UU9TSGFmOVNpOUN1V0t0WFdT?=
+ =?utf-8?B?US8yUzFRbzZmWWw5OEVnSXF4c21tbEtIRW80KzRLZEhrNU80WVZLTkZDNHF1?=
+ =?utf-8?B?YzJBMiszczhkOE5ZZlg4YmVTQ0pRV0lWY0o3Q0dSQkxySjlEV2RnVmhMM1VO?=
+ =?utf-8?B?M0hZbTIrVmdjeCtPWTJsTll4WWxrTGV6eEdOMVZQZkpIV0RxZC9pTlVhRHJq?=
+ =?utf-8?Q?lJ2zWojPzcD72eZbnO0/d2EeRo8c33V+DuAW8cWqkyTTz?=
+X-MS-Exchange-AntiSpam-MessageData-1: n8tmO60W2QF0SQ==
+X-OriginatorOrg: jolla.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: fd9aee03-9241-444a-0d72-08deff9fd82c
+X-MS-Exchange-CrossTenant-AuthSource: PAXPR06MB8174.eurprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Aug 2026 16:18:32.7326
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: b6cd1562-9512-488f-a364-34d46554c96a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 3QtqErwTch03ikA8FKGiRYcoCG05Mv8i89FttWr++NSKt6oM8FYDHLZiK0WzWvkBNKKbyTH6AZK9hkBxKoZkk4CZ03aHJ33NgRbh0uODPJU=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBAPR06MB6869
 
-This adds a simple interface to control debugging on run-time. Logs can
-be enabled per source file using the exact file name or a pattern, for
-example, "*ip*" pattern would enable all files having this in their
-name: iptables.c ip6tables.c ipaddress.c etc.. The interface provides
-the following methods:
+Hello all,
 
-  array{string, boolean} List()
-  void Enable(string pattern)
-  void Disable(string pattern)
+Sorry, a bit of Friday night brainfog:
 
-Enable and Disable methods allow to modify connman logging settings
-without restarting it. The List method returns the list of files for
-which logging can be changed at runtime including their logging enabled
-or disabled status as a boolean.
+On 8/21/26 7:09 PM, Jussi Laakkonen wrote:
+> This patch set contains a new D-Bus API, net.connman.DebugLog, for toggling
+> debug on/off during run-time. The API itself is implemented as a plugin an can
+> be enabled by building ConnMan with --enable-debuglog. The aim is to help in
+The last line should have been:
 
-API documentation is available at doc/logcontrol-api.txt.
+"be enabled by building ConnMan with --enable-logcontrol"
 
-This plugin can be enabled by --enable-logcontrol configuration option.
-
-Co-Authored-by: Slava Monich <slava.monich@jolla.com>
----
- Makefile.plugins       |   5 ++
- configure.ac           |   5 ++
- doc/logcontrol-api.txt |  38 +++++++++
- plugins/logcontrol.c   | 181 +++++++++++++++++++++++++++++++++++++++++
- 4 files changed, 229 insertions(+)
- create mode 100644 doc/logcontrol-api.txt
- create mode 100644 plugins/logcontrol.c
-
-diff --git a/Makefile.plugins b/Makefile.plugins
-index bd5049ec..99915b01 100644
---- a/Makefile.plugins
-+++ b/Makefile.plugins
-@@ -58,6 +58,11 @@ builtin_modules += dundee
- builtin_sources += plugins/dundee.c
- endif
- 
-+if LOGCONTROL
-+builtin_modules += logcontrol
-+builtin_sources += plugins/logcontrol.c
-+endif
-+
- if VPN
- builtin_modules += vpn
- builtin_sources += plugins/vpn.c
-diff --git a/configure.ac b/configure.ac
-index dc52cf7e..9a8c7cd7 100644
---- a/configure.ac
-+++ b/configure.ac
-@@ -477,6 +477,11 @@ AC_ARG_ENABLE(stats, AS_HELP_STRING([--disable-stats],
- 					[enable_stats=${enableval}])
- AM_CONDITIONAL(STATS, test "${enable_stats}" != "no")
- 
-+AC_ARG_ENABLE(logcontrol,
-+	AC_HELP_STRING([--enable-logcontrol], [enable log control plugin]),
-+			[enable_logcontrol=${enableval}], [enable_logcontrol="no"])
-+AM_CONDITIONAL(LOGCONTROL, test "${enable_logcontrol}" != "no")
-+
- if (test "${enable_tools}" != "no"); then
- 	AC_PATH_PROGS(IPTABLES_SAVE, [iptables-save], [],
- 						$PATH:/sbin:/usr/sbin)
-diff --git a/doc/logcontrol-api.txt b/doc/logcontrol-api.txt
-new file mode 100644
-index 00000000..171453a4
---- /dev/null
-+++ b/doc/logcontrol-api.txt
-@@ -0,0 +1,38 @@
-+Debug log control
-+=================
-+
-+Service	net.connman
-+Interface	net.connman.DebugLog
-+Object path	/
-+
-+Methods	void Enable(string pattern)
-+
-+			Enables all debug logs on files during run-time that
-+			match the pattern.
-+
-+			Pattern matching uses GLib g_pattern_match_simple()
-+			semantics (shell-style globs: '*', '?', '[]').
-+
-+			Possible Errors: [service].Error.InvalidArguments
-+
-+		void Disable(string pattern)
-+
-+			Disables all debug logs on files during run-time that
-+			match the pattern.
-+
-+			Pattern matching is same as for Enable().
-+
-+			Possible Errors: [service].Error.InvalidArguments
-+
-+		array{string, boolean} List()
-+
-+			Returns all available debug file names together with
-+			with their current enabled state.
-+
-+			The boolean is true if debug logging is currently
-+			enabled for the corresponding descriptor.
-+
-+			In order for Enable or Disable call to have any effect,
-+			the pattern must match one or more of these strings.
-+
-+			Possible Errors: none.
-diff --git a/plugins/logcontrol.c b/plugins/logcontrol.c
-new file mode 100644
-index 00000000..c9f1b8fe
---- /dev/null
-+++ b/plugins/logcontrol.c
-@@ -0,0 +1,181 @@
-+/*
-+ *
-+ *  Connection Manager
-+ *
-+ *  Copyright (C) 2015, 2026 Jolla Ltd. All rights reserved.
-+ *
-+ *  This program is free software; you can redistribute it and/or modify
-+ *  it under the terms of the GNU General Public License version 2 as
-+ *  published by the Free Software Foundation.
-+ *
-+ *  This program is distributed in the hope that it will be useful,
-+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+ *  GNU General Public License for more details.
-+ *
-+ *  You should have received a copy of the GNU General Public License
-+ *  along with this program; if not, write to the Free Software
-+ *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-+ *
-+ */
-+
-+#ifdef HAVE_CONFIG_H
-+#include <config.h>
-+#endif
-+
-+#include <gdbus.h>
-+
-+#define CONNMAN_API_SUBJECT_TO_CHANGE
-+#include <connman/plugin.h>
-+#include <connman/log.h>
-+#include <connman.h>
-+
-+#define LOG_INTERFACE  CONNMAN_SERVICE ".DebugLog"
-+#define LOG_PATH       "/"
-+
-+static DBusConnection *connection = NULL;
-+
-+static DBusMessage *logcontrol_dbusmsg(DBusConnection *conn, DBusMessage *msg,
-+			unsigned int set_flags, unsigned int clear_flags)
-+{
-+	const char *pattern;
-+
-+	if (dbus_message_get_args(msg, NULL, DBUS_TYPE_STRING, &pattern,
-+							DBUS_TYPE_INVALID)) {
-+		connman_log_update_builtin(pattern, set_flags, clear_flags);
-+		connman_plugin_log_update(pattern, set_flags, clear_flags);
-+		return g_dbus_create_reply(msg, DBUS_TYPE_INVALID);
-+	}
-+
-+	return __connman_error_invalid_arguments(msg);
-+}
-+
-+static DBusMessage *logcontrol_enable(DBusConnection *conn,
-+					DBusMessage *msg, void *data)
-+{
-+	return logcontrol_dbusmsg(conn, msg, CONNMAN_DEBUG_FLAG_PRINT, 0);
-+}
-+
-+static DBusMessage *logcontrol_disable(DBusConnection *conn,
-+					DBusMessage *msg, void *data)
-+{
-+	return logcontrol_dbusmsg(conn, msg, 0, CONNMAN_DEBUG_FLAG_PRINT);
-+}
-+
-+static gint logcontrol_list_compare(gconstpointer a, gconstpointer b)
-+{
-+	return strcmp((const char *)a, (const char *)b);
-+}
-+
-+struct logcontrol_list_data {
-+	GHashTable *hash;
-+	DBusMessageIter *array;
-+};
-+
-+static void logcontrol_list_append(gpointer name, gpointer user_data)
-+{
-+	struct logcontrol_list_data *data = user_data;
-+	struct connman_debug_desc *desc;
-+	DBusMessageIter *array = data->array;
-+	DBusMessageIter iter;
-+	const char *name_str = name;
-+	dbus_bool_t enabled;
-+
-+	desc = g_hash_table_lookup(data->hash, name);
-+	if (!desc)
-+		return;
-+
-+	enabled = connman_log_is_enabled(desc);
-+
-+	dbus_message_iter_open_container(array, DBUS_TYPE_STRUCT, NULL, &iter);
-+
-+	dbus_message_iter_append_basic(&iter, DBUS_TYPE_STRING, &name_str);
-+	dbus_message_iter_append_basic(&iter, DBUS_TYPE_BOOLEAN, &enabled);
-+
-+	dbus_message_iter_close_container(array, &iter);
-+}
-+
-+static DBusMessage *logcontrol_list(DBusConnection *conn,
-+					DBusMessage *msg, void *data)
-+{
-+	DBusMessage *reply;
-+	DBusMessageIter iter, array;
-+	GHashTable *hash;
-+	GList *names;
-+	struct logcontrol_list_data list_data;
-+
-+	reply = dbus_message_new_method_return(msg);
-+	if (!reply)
-+		return NULL;
-+
-+	hash = g_hash_table_new(g_str_hash, g_str_equal);
-+
-+	connman_log_list_builtin(hash);
-+	connman_plugin_log_list(hash);
-+
-+	names = g_list_sort(g_hash_table_get_keys(hash),
-+						logcontrol_list_compare);
-+
-+	dbus_message_iter_init_append(reply, &iter);
-+
-+	dbus_message_iter_open_container(&iter, DBUS_TYPE_ARRAY,
-+			DBUS_STRUCT_BEGIN_CHAR_AS_STRING
-+			DBUS_TYPE_STRING_AS_STRING
-+			DBUS_TYPE_BOOLEAN_AS_STRING
-+			DBUS_STRUCT_END_CHAR_AS_STRING,
-+			&array);
-+
-+	list_data.hash = hash;
-+	list_data.array = &array;
-+	g_list_foreach(names, logcontrol_list_append, &list_data);
-+
-+	dbus_message_iter_close_container(&iter, &array);
-+
-+	g_list_free(names);
-+	g_hash_table_destroy(hash);
-+
-+	return reply;
-+}
-+
-+static const GDBusMethodTable methods[] = {
-+	{ GDBUS_METHOD("Enable", GDBUS_ARGS({ "pattern", "s" }), NULL,
-+							logcontrol_enable) },
-+	{ GDBUS_METHOD("Disable", GDBUS_ARGS({ "pattern", "s" }), NULL,
-+							logcontrol_disable) },
-+	{ GDBUS_METHOD("List", NULL, GDBUS_ARGS({ "names", "a(sb)" }),
-+							logcontrol_list) },
-+	{ },
-+};
-+
-+static int logcontrol_init(void)
-+{
-+	DBG("");
-+
-+	connection = connman_dbus_get_connection();
-+	if (!connection)
-+		return -1;
-+
-+	if (!g_dbus_register_interface(connection, LOG_PATH, LOG_INTERFACE,
-+					methods, NULL, NULL, NULL, NULL)) {
-+		connman_error("logcontrol: failed to register " LOG_INTERFACE);
-+		return -1;
-+	}
-+
-+	return 0;
-+}
-+
-+static void logcontrol_exit(void)
-+{
-+	DBG("");
-+
-+	if (connection) {
-+		g_dbus_unregister_interface(connection, LOG_PATH,
-+								LOG_INTERFACE);
-+		dbus_connection_unref(connection);
-+		connection = NULL;
-+	}
-+}
-+
-+CONNMAN_PLUGIN_DEFINE(logcontrol, "Debug log control interface",
-+			VERSION, CONNMAN_PLUGIN_PRIORITY_DEFAULT,
-+			logcontrol_init, logcontrol_exit)
--- 
-2.47.3
-
+BR,
+  - Jussi Laakkonen
