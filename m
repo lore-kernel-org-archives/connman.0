@@ -1,234 +1,309 @@
-Received: from mail-ej2-f43.google.com (mail-ej2-f43.google.com [74.125.228.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.kapsi.fi (mail-auth.kapsi.fi [91.232.154.24])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 146771BD9C9
-	for <connman@lists.linux.dev>; Thu, 24 Sep 2026 20:50:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0B7F391E6D
+	for <connman@lists.linux.dev>; Sat, 17 Oct 2026 16:35:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.232.154.24
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790283029; cv=none; b=P5JpxBKRNWeyVPr6Co2scL2VcyE66Zr4HCmJjr+lneGYAmdddpzYyrgN0P/ZezgOOrfCJe93Xq726qVpvfs8/r2kkq5BA7Mm842Cj7oioXdgY0USb61v22AheVBkWm/dq3yCO3/uOLEjgKM388PGXpmL8xbfWHpcJL6Rxhj3Z9U=
+	t=1792254938; cv=none; b=QB8ghMJIWaT3bzRirxQAgmMNJVzKb7LMyWnup8a5pxIeFxqGql6guIrkJGYSPk+jH5k9LAFW2lSjpUuvI+tzULb7ZEAOlJa6YjvqAL6HjbsGMh/nyzP9wS3yVS1bQ+oFDtiOwjAmUEWxwPi2yKalLoEwGj1sCckmqNXceKSe6+o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790283029; c=relaxed/simple;
-	bh=ToL/LujvptJqNdWanadA2ggtUTqQBtYF0TXJ6lcbGj8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=on1tuwowr+wL6SaX2pGlLJl9rFfEllQ6IPXVsYsE2RcMjsR3bDzCmVpGU2M6mg6tTE0Cc15cH5GuhbpTaGYcivrwJlyh4Ao4Gm8Uth7O0KoL2ZDObhnFaOU6jpRzgQ0Hsffz+ZMG0AAIJHkWh6s4aLlQtzQJBCAhWYaxEQ4TjaA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jT/e1eVI; arc=none smtp.client-ip=74.125.228.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1792254938; c=relaxed/simple;
+	bh=GvTHbEwd+pXyUO7RWRbMPpZCFRlwIGHpP7ElkeJGkGo=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=iE474IJlx6qRFZ/imy0UZAZpbAvenM+8G5eIQFegKiFqF4lU/7jvZeEwCGRaey+r4KcFAtb/UiOGHbcFe5xle8vfsuXMJXsLAUIJyvGQB80CYkP62/x7O0QOQslZMSPTlCdLn8BZSHijup6BDlcRC3CsMyTdE5VZBM5V/JdZLNE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=jolla.com; spf=pass smtp.mailfrom=kapsi.fi; dkim=pass (2048-bit key) header.d=kapsi.fi header.i=@kapsi.fi header.b=JH7wNa/u; arc=none smtp.client-ip=91.232.154.24
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=jolla.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kapsi.fi
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jT/e1eVI"
-Received: by mail-ej2-f43.google.com with SMTP id a640c23a62f3a-c2a1f611461so13189366b.1
-        for <connman@lists.linux.dev>; Thu, 24 Sep 2026 13:50:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790283026; x=1790887826; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=cRdYX5GAbWKSPeRZEXRiFuadMNoLyisCdAF1J3LeFHI=;
-        b=jT/e1eVIiePeIUAli7E+o7tlJFBNGKOpWpUAVSwSkYvroKwHA9/73FYIiB6yKC9Iso
-         JxC9Xf9V8x1F5CkXiYk9WPRXPy9AWH7KVapQzfGo3Q1p1oQI1tilbAbp3ZQPmSOgGXiY
-         qa+B/m9BY9hwWiKpdNWsS7R047/2so4sc61MtQWXNhu7PBfzzHz+wmNkxLhc3mY7OeOm
-         RDumQgLhtBV8taaX9FmOlN7fAKpO58h3SYUqg4il9i/wmDFIW72+hhl1Wm4ZqedMrFW8
-         4nD8UO0F7boZ8LHyidSRO0aqdOdk/QugpJUh1R2BSwq25cM4uJtMsiSz2w589Gt6WROK
-         Y9VA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790283026; x=1790887826;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=cRdYX5GAbWKSPeRZEXRiFuadMNoLyisCdAF1J3LeFHI=;
-        b=mN7rSpZ96F1xeKbAQbIDNo8erMKmPIoDMUC6nPGPshZcvODlNn/Lnj/yi053pw0odo
-         M2qQICjWApc5gDY9ADlguMflu625dPL+SqdZDALDuswIZSo/2XtBB8KaOHXHS5ww0vqQ
-         Hm9yBiaPdEnX9XPxOo3ktNbZFnwOdXAvITH5zKCWILT8PzjXdZqYvKYEb2f5Fi+U14VP
-         l8GAi4w7rdV53TZi0ZMdffTJuJ5CMCZBr9zCvm3fvUAoiTIiGakrmsB3sZ5pUCu4Rlkd
-         4QSSuott8PWyPQp0YXVJ1ZuWG6vhmOVc/HlmFRXMgwBHxh85EONyAkpC+x2wxZ5eqM0e
-         X3wA==
-X-Gm-Message-State: AFuF++lMRFhNSj0RcZhqPEkb7LVxOkCxZEnXaSXOS7nR8J04VZ1vjwn3
-	ANZOkfbDBITxMSNuO6jQVqfpt5dnzlsyGZI+D/Mmdq8w2rtkcyBftjIWbmZzGeJq
-X-Gm-Gg: AYBFou3mJ3gnz0HVbqios6FN4fTWzMGj1NmO06DP0j/JH6ZW4g1V+ztJ/SYS/BdfOvL
-	LSuPIvRVNe3rSZkYihKITbrdyKNYWyR/K1dfNeeLbs1DjPPyN13+onnngodGNPjO+KKejA5KnGU
-	NLWL2paAbLVxj75L3xDdhYVd6h0VfwjUnK4FD0tmSO2h2Xhwt1aBCpoAcV6Z+ZOwVO0cyOdw+1R
-	Xv6jUqTjJYIwXhePQJO9x3/OJZa+umk8WY/cqk3BjpaOJOMU8rj6d3WYWuq3kKoPj5YoM3aqZYR
-	g0aQeT3WbqRtM4gulKFjfM5W2laWO8PgiVsCuJSVkLQWTv+brHQejSCT34Keei660UMIFsw7LHQ
-	OKOlVB/29TZHiN9/fjk7lw964+m7pYZ63eC3Y28IcNxUvznd+eczK44zFQzu7G4xjPtacKDW7WJ
-	dDoaF2VH4HQrvzJCAc9KRn3wh+mfJkJzHvB2PtEw95VnvIN700dFHqDWiKfwlqeBKYapIdRmmaR
-	M289i1VwgkWhlSCo0gb1D0t//RJZ0wDUDFQRYtxxHXhhB4ipG7ydvQWiVe+4RT9aS/cpIbwmmUR
-	4GfkM6yywpMp
-X-Received: by 2002:a17:906:9fce:b0:c29:d0a8:79d3 with SMTP id a640c23a62f3a-c2ac2334081mr340091366b.14.1790283025888;
-        Thu, 24 Sep 2026 13:50:25 -0700 (PDT)
-Received: from ?IPV6:2a02:a466:68ed:1:f9f:8b99:f50:b966? (2a02-a466-68ed-1-f9f-8b99-f50-b966.fixed6.kpn.net. [2a02:a466:68ed:1:f9f:8b99:f50:b966])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c2ae7358f29sm13144366b.20.2026.09.24.13.50.25
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 24 Sep 2026 13:50:25 -0700 (PDT)
-Message-ID: <a2f87a14-ebf1-4e9c-9d08-f4d58b9ed9b0@gmail.com>
-Date: Thu, 24 Sep 2026 22:50:20 +0200
+	dkim=pass (2048-bit key) header.d=kapsi.fi header.i=@kapsi.fi header.b="JH7wNa/u"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
+	s=20161220; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
+	Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	List-Post:List-Owner:List-Archive;
+	bh=QUEJyzvLqjC4LzDGzDHYWc4pol2qW2fKHCOQdtEdQ8k=; b=JH7wNa/u6fhRgffSTPuH37VPHk
+	Iz8FD3q1w6ZSnyG1V1O4WxEzPE2/VJAOI+WDpX8+OTYy9g/5UmTtC1C29koyp53NKJCw2phkzez9D
+	X/rqCD9UmRN20mAbsvFAMoYMbjfEGT+4w8VAdrGuLJdC0+W2izwu+Vq5bfngDv5wJQC+BKKIVTdch
+	symrihorbb6n+5dM7d+TTDt4tnhRljUnUY/3L5jfljxfC/1WS57XR75OsxMA/6baf8byORXML0Frm
+	4/T+vRC7Sax6/YuoKUUFYAFf/EF5RUkGb45aQ/Z+Zww9p1sqm5mDicplb594KqM144m7w34BlRAc1
+	Os2s1NAw==;
+Received: from [2a10:a5c0:37:6500:692b:4032:511f:1a05] (helo=jl-x230.local)
+	by mail.kapsi.fi with esmtpsa (Exim 4.96)
+	(envelope-from <jussi.laakkonen@jolla.com>)
+		id 1xI7NX-00GTaE-0W;
+	Sat, 17 Oct 2026 19:35:31 +0300
+From: Jussi Laakkonen <jussi.laakkonen@jolla.com>
+To: connman@lists.linux.dev
+Cc: Hannu Mallat <hannu.mallat@jollamobile.com>
+Subject: [PATCH 2/2] inotify: Use only one instance and refcount struct accordingly
+Date: Sat, 17 Oct 2026 19:34:35 +0300
+Message-ID: <20261017163501.480955-3-jussi.laakkonen@jolla.com>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20261017163501.480955-1-jussi.laakkonen@jolla.com>
+References: <20261017163501.480955-1-jussi.laakkonen@jolla.com>
 Precedence: bulk
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: Connection to a WPA2 Wi-Fi router fails
-To: "Dembianny Sven (BSH GDE-EDSD7)" <sven.dembianny@bshg.com>,
- Michael Nazzareno Trimarchi <michael@amarulasolutions.com>,
- =?UTF-8?Q?Fran=C3=A7ois_Galea?= <fgalea@free.fr>
-Cc: "connman@lists.linux.dev" <connman@lists.linux.dev>,
- "wbx@openadk.org" <wbx@openadk.org>
-References: <9ad68361-98cd-42d1-80b0-7f7cbe6b73cf@free.fr>
- <CAOf5uwm2wBF=rLBus_epmRg+MgXVrHQzFAq8Y3bGWmJPPiDUnw@mail.gmail.com>
- <VI0PR10MB8908DC25598F38832175F6D6F4002@VI0PR10MB8908.EURPRD10.PROD.OUTLOOK.COM>
-Content-Language: en-US
-From: Ferry Toth <fntoth@gmail.com>
-In-Reply-To: <VI0PR10MB8908DC25598F38832175F6D6F4002@VI0PR10MB8908.EURPRD10.PROD.OUTLOOK.COM>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Rspam-Score: -1.6 (-)
+X-Rspam-Report: Action: no action
+ Symbol: RCVD_TLS_ALL(0.00)
+ Symbol: FROM_HAS_DN(0.00)
+ Symbol: FROM_EQ_ENVFROM(0.00)
+ Symbol: MID_CONTAINS_FROM(1.00)
+ Symbol: LOCAL_OUTBOUND(0.00)
+ Symbol: TO_MATCH_ENVRCPT_ALL(0.00)
+ Symbol: BAYES_HAM(-3.00)
+ Symbol: MIME_GOOD(-0.10)
+ Symbol: RCPT_COUNT_TWO(0.00)
+ Symbol: RCVD_VIA_SMTP_AUTH(0.00)
+ Symbol: ARC_NA(0.00)
+ Symbol: ASN(0.00)
+ Symbol: RCVD_COUNT_ONE(0.00)
+ Symbol: MIME_TRACE(0.00)
+ Symbol: TO_DN_SOME(0.00)
+ Symbol: R_MISSING_CHARSET(0.50)
+ X-Symbol: RCVD_TLS_ALL(0.00); All hops used encrypted transports
+ X-Symbol: FROM_HAS_DN(0.00); From header has a display name
+ X-Symbol: FROM_EQ_ENVFROM(0.00); From address is the same as the envelope
+ X-Symbol: MID_CONTAINS_FROM(1.00); Message-ID contains From address
+ X-Symbol: LOCAL_OUTBOUND(0.00); Mail from local to external domain
+ X-Symbol: TO_MATCH_ENVRCPT_ALL(0.00); All of the recipients match the envelope
+ X-Symbol: BAYES_HAM(-3.00); Message probably ham, probability:  [100.00%]
+ X-Symbol: MIME_GOOD(-0.10); Known content-type [text/plain]
+ X-Symbol: RCPT_COUNT_TWO(0.00); Two recipients [2]
+ X-Symbol: RCVD_VIA_SMTP_AUTH(0.00); Authenticated hand-off was seen in Received headers
+ X-Symbol: ARC_NA(0.00); ARC signature absent
+ X-Symbol: ASN(0.00) [asn:202246, ipnet:2a10:a5c0::/36, country:FI]
+ X-Symbol: RCVD_COUNT_ONE(0.00); Message has one Received header [1]
+ X-Symbol: MIME_TRACE(0.00) [0:+]
+ X-Symbol: TO_DN_SOME(0.00); Some of the recipients have display names
+ X-Symbol: R_MISSING_CHARSET(0.50); Charset header is missing
+ Message-ID: 20261017163501.480955-3-jussi.laakkonen@jolla.com
+ X-Milter-Del: X-Spam
 
-Hi,
+From: Hannu Mallat <hannu.mallat@jollamobile.com>
 
-Op 19-05-2026 om 16:16 schreef Dembianny Sven (BSH GDE-EDSD7):
-> Hi Michael,
-> 
-> I don't think so, e.g., if AP does not support SAE but repeater does, roaming will fail.
-> This will also break certification tests.
-> 
-> @ François do you have more info about your setup, e.g. MFP setting on AP/wpa_supplicant config/WPA-PSK-SHA256 instead of WPA-PSK?
+The number of inotify instances available per user is limited.
 
-I may have the same problem. I first detected on 1.43 now on 2.0 (Yocto) 
-and no change.
-But it may also be caused by my 2 different fritz boxes in a mesh. One 
-is a slave (7581) of the other (7590 AX).
-Can connect by pressing WPS.>
-> Best regards, Sven
-> 
->> -----Original Message-----
->> From: Michael Nazzareno Trimarchi <michael@amarulasolutions.com>
->> Sent: Dienstag, 12. Mai 2026 11:33
->> To: François Galea <fgalea@free.fr>; Dembianny Sven (BSH GDE-EDSD7) <sven.dembianny@bshg.com>
->> Cc: connman@lists.linux.dev; wbx@openadk.org
->> Subject: Re: Connection to a WPA2 Wi-Fi router fails
->>
->> Hi
->>
->> On Tue, May 12, 2026 at 11:14 AM François Galea <fgalea@free.fr> wrote:
->>>
->>> Hello,
->>>
->>> This was tested on a Zynq (Cortex-A9) and a RPi4, on a 32-bit Arm
->>> Buildroot Linux system.
->>>
->>> The Wi-Fi router uses WPA2 Personnal authentication.
->>>
->>> Problem starts from buildroot releases including connman 1.45.
->>> Previous releases using connman 1.44 and prior are working fine. Also
->>> switching from 1.45 to 1.44 in a buildroot version that includes connman 1.45 works.
->>>
->>>
->>> If a connection was previously successfully set up, for instance from
->>> connman 1.44 or older, `/var/log/messages` contains:
->>>
->>> Jan  1 00:00:11 zest daemon.info connmand[141]: Adding interface wlan0
->>> [ wifi ] Jan  1 00:00:11 zest daemon.info connmand[141]: eth0 {update}
->>> flags
->>> 36867 <UP>
->>> Jan  1 00:00:11 zest daemon.info connmand[141]: eth0 {newlink} index 2
->>> address 9A:8F:85:81:67:B4 mtu 1500 Jan  1 00:00:11 zest daemon.info
->>> connmand[141]: eth0 {newlink} index 2 operstate 2 <DOWN> Jan  1
->>> 00:00:11 zest daemon.info dbus-daemon[120]: [system] Successfully
->>> activated service 'fi.w1.wpa_supplicant1'
->>> Jan  1 00:00:11 zest daemon.info connmand[141]: wlan0 {update} flags
->>> 36931 <UP,RUNNING>
->>> Jan  1 00:00:11 zest daemon.info connmand[141]: wlan0 {newlink} index
->>> 4 address 8C:3D:16:20:0E:4A mtu 1500 Jan  1 00:00:11 zest daemon.info
->>> connmand[141]: wlan0 {newlink} index 4 operstate 0 <UNKNOWN> Jan  1
->>> 00:00:11 zest daemon.info connmand[141]: wlan0 {update} flags
->>> 36867 <UP>
->>> Jan  1 00:00:11 zest daemon.info connmand[141]: wlan0 {newlink} index
->>> 4 address 8C:3D:16:20:0E:4A mtu 1500 Jan  1 00:00:11 zest daemon.info
->>> connmand[141]: wlan0 {newlink} index 4 operstate 2 <DOWN> Jan  1
->>> 00:00:11 zest daemon.info connmand[141]: wlan0 {newlink} index 4
->>> address 8C:3D:16:20:0E:4A mtu 1500 Jan  1 00:00:11 zest daemon.info
->>> connmand[141]: wlan0 {newlink} index 4 operstate 2 <DOWN> Jan  1
->>> 00:00:11 zest daemon.info connmand[141]: Interface wlan0 [ wifi ]
->>> state is association Jan  1 00:00:11 zest daemon.warn connmand[141]:
->>> Interface wlan0 [ wifi ] error "invalid-key"
->>> Jan  1 00:00:11 zest daemon.info connmand[141]: Interface wlan0 [ wifi
->>> ] state is failure
->>>
->>>
->>> Otherwise, when creating a new connection:
->>>
->>> # connmanctl
->>> Error getting VPN connections: The name net.connman.vpn was not
->>> provided by any .service files
->>> connmanctl> services
->>>
->>> connmanctl> enable wifi
->>> Enabled wifi
->>> connmanctl> scan wifi
->>> Scan completed for wifi
->>> connmanctl> services
->>>       Kamoulox             wifi_8c3d16200e4a_4b616d6f756c6f78_managed_psk
->>>       Livebox-D050
->>> wifi_8c3d16200e4a_4c697665626f782d44303530_managed_psk
->>>       Freebox-3B4B3C
->>> wifi_8c3d16200e4a_46726565626f782d334234423343_managed_psk
->>>       patetalex            wifi_8c3d16200e4a_7061746574616c6578_managed_psk
->>>       DRAME                wifi_8c3d16200e4a_4452414d45_managed_psk
->>> connmanctl> agent on
->>> Agent registered
->>> connmanctl> connect wifi_8c3d16200e4a_4b616d6f756c6f78_managed_psk
->>> Agent RequestInput wifi_8c3d16200e4a_4b616d6f756c6f78_managed_psk
->>>     Passphrase = [ Type=psk, Requirement=mandatory, Alternates=[ WPS ] ]
->>>     WPS = [ Type=wpspin, Requirement=alternate ] Passphrase?
->>> my_wifi_passphrase Agent ReportError
->>> wifi_8c3d16200e4a_4b616d6f756c6f78_managed_psk
->>>     invalid-key
->>> connmanctl> Retry (yes/no)? no
->>> Error
->>> /net/connman/service/wifi_8c3d16200e4a_4b616d6f756c6f78_managed_psk:
->>> Input/output error
->>> connmanctl>
->>
->>
->> I think that change only asks the agent who established the connection to try the various method. Is
->> the patch in attach work?
->> * sven *: Does it cover your use case too?
->>
->> Michael
->>
->>
->>>
->>>
->>>
->>>   From both situations it appears the wifi passphrase is not accepted.
->>>
->>> wbx (as CC of this email) noticed that reverting commit
->>> 5e73b55e00b97e1867397258b72f0d6e5ad7d31d allows connections to work again.
->>>
->>> Is it a known situation? Is there a patch available?
->>>
->>> Best,
->>>
->>> François
->>>
->>>
->>
->>
->> --
->> Michael Nazzareno Trimarchi
->> Co-Founder & Chief Executive Officer
->> M. +39 347 913 2170
->> michael@amarulasolutions.com
->> __________________________________
->>
->> Amarula Solutions BV
->> Joop Geesinkweg 125, 1114 AB, Amsterdam, NL T. +31 (0)85 111 9172 info@amarulasolutions.com
->> http://www.amarulasolutions.com/
->> &data=05%7C02%7Csven.dembianny%40bshg.com%7Cf4aa618e280e45c3d76e08deb0096f57%7C0ae5
->> 1e1907c84e4bbb6d648ee58410f4%7C0%7C0%7C639141751758647935%7CUnknown%7CTWFpbGZsb3
->> d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ
->> %3D%3D%7C0%7C%7C%7C&sdata=8tD7KmAQSPxg%2BRZ0yB7MYBeWVudCjvw4T4MJhOHy3%2Fk%3D
->> &reserved=0
+Instead of having one inotify instance per watch, use the same instance
+for all watches and check watch ID when invoking callback functions.
+
+When processing inotify events, callbacks may unregister which can
+result in freeing the related connman_inotify struct. However that
+struct is referenced in the loop which processes the events read in.
+
+Implement reference counting to make sure the structure is available
+while events are being processed.
+---
+ src/inotify.c | 121 ++++++++++++++++++++++++++++++++------------------
+ 1 file changed, 78 insertions(+), 43 deletions(-)
+
+diff --git a/src/inotify.c b/src/inotify.c
+index db4e5967..85264832 100644
+--- a/src/inotify.c
++++ b/src/inotify.c
+@@ -50,6 +50,11 @@ struct connman_inotify {
+ 	GSList *list;
+ };
+ 
++static int inotify_fd = -1;
++static GIOChannel *inotify_channel = NULL;
++static GSList *inotify_list = NULL;
++static uint inotify_watch = 0;
++
+ static void cleanup_inotify(gpointer user_data);
+ 
+ static void connman_inotify_ref(struct connman_inotify *i)
+@@ -80,7 +85,7 @@ static gboolean inotify_data(GIOChannel *channel, GIOCondition cond,
+ 	GSList *list;
+ 
+ 	if (cond & (G_IO_NVAL | G_IO_ERR | G_IO_HUP)) {
+-		inotify->watch = 0;
++		inotify_watch = 0;
+ 		return FALSE;
+ 	}
+ 
+@@ -94,7 +99,7 @@ static gboolean inotify_data(GIOChannel *channel, GIOCondition cond,
+ 		return TRUE;
+ 	default:
+ 		connman_error("Reading from inotify channel failed");
+-		inotify->watch = 0;
++		inotify_watch = 0;
+ 		return FALSE;
+ 	}
+ 
+@@ -103,9 +108,11 @@ static gboolean inotify_data(GIOChannel *channel, GIOCondition cond,
+ 	connman_inotify_ref(inotify);
+ 
+ 	while (bytes_read > 0) {
++		struct connman_inotify *inotify = NULL;
+ 		struct inotify_event *event;
+ 		gchar *ident;
+ 		gsize len;
++		GSList *ptr;
+ 
+ 		event = (struct inotify_event *) next_event;
+ 		if (event->len)
+@@ -122,12 +129,26 @@ static gboolean inotify_data(GIOChannel *channel, GIOCondition cond,
+ 		next_event += len;
+ 		bytes_read -= len;
+ 
+-		for (list = inotify->list; list; ) {
+-			struct connman_inotify_cb *cb = list->data;
+-			GSList *next = list->next;
++		for (ptr = inotify_list; ptr; ptr = ptr->next) {
++			struct connman_inotify *data = ptr->data;
++			if (data->wd == event->wd) {
++				inotify = data;
++				break;
++			}
++		}
++
++		if (inotify) {
++			connman_inotify_ref(inotify);
++
++			for (list = inotify->list; list; ) {
++				struct connman_inotify_cb *cb = list->data;
++				GSList *next = list->next;
++
++				(cb->func)(event, ident, cb->user_data);
++				list = next;
++			}
+ 
+-			(cb->func)(event, ident, cb->user_data);
+-			list = next;
++			connman_inotify_unref(inotify);
+ 		}
+ 	}
+ 
+@@ -138,60 +159,30 @@ static gboolean inotify_data(GIOChannel *channel, GIOCondition cond,
+ 
+ static int create_watch(const char *path, struct connman_inotify *inotify)
+ {
+-	int fd;
+-
+ 	DBG("Add directory watch for %s", path);
+ 
+-	fd = inotify_init();
+-	if (fd < 0)
++	if (inotify_fd < 0)
+ 		return -EIO;
+ 
+-	inotify->wd = inotify_add_watch(fd, path,
++	inotify->wd = inotify_add_watch(inotify_fd, path,
+ 					IN_MODIFY | IN_CREATE | IN_DELETE |
+ 					IN_MOVED_TO | IN_MOVED_FROM);
+ 	if (inotify->wd < 0) {
+ 		connman_error("Creation of %s watch failed", path);
+-		close(fd);
+ 		return -EIO;
+ 	}
+ 
+-	inotify->channel = g_io_channel_unix_new(fd);
+-	if (!inotify->channel) {
+-		connman_error("Creation of inotify channel failed");
+-		inotify_rm_watch(fd, inotify->wd);
+-		inotify->wd = 0;
+-
+-		close(fd);
+-		return -EIO;
+-	}
+-
+-	g_io_channel_set_close_on_unref(inotify->channel, TRUE);
+-	g_io_channel_set_encoding(inotify->channel, NULL, NULL);
+-	g_io_channel_set_buffered(inotify->channel, FALSE);
+-
+-	inotify->watch = g_io_add_watch(inotify->channel,
+-				G_IO_IN | G_IO_HUP | G_IO_NVAL | G_IO_ERR,
+-				inotify_data, inotify);
++	inotify_list = g_slist_prepend(inotify_list, inotify);
+ 
+ 	return 0;
+ }
+ 
+ static void remove_watch(struct connman_inotify *inotify)
+ {
+-	int fd;
+-
+-	if (!inotify->channel)
+-		return;
++	if (inotify_fd >= 0 && inotify->wd >= 0)
++		inotify_rm_watch(inotify_fd, inotify->wd);
+ 
+-	if (inotify->watch > 0)
+-		g_source_remove(inotify->watch);
+-
+-	fd = g_io_channel_unix_get_fd(inotify->channel);
+-
+-	if (inotify->wd >= 0)
+-		inotify_rm_watch(fd, inotify->wd);
+-
+-	g_io_channel_unref(inotify->channel);
++	inotify_list = g_slist_remove(inotify_list, inotify);
+ }
+ 
+ int connman_inotify_register(const char *path, inotify_event_cb callback,
+@@ -279,6 +270,29 @@ int __connman_inotify_init(void)
+ {
+ 	DBG("");
+ 
++	inotify_fd = inotify_init();
++	if (inotify_fd < 0) {
++		connman_error("inotify init failed");
++		return -EIO;
++	}
++
++	inotify_channel = g_io_channel_unix_new(inotify_fd);
++	if (!inotify_channel) {
++		connman_error("Creation of inotify channel failed");
++		close(inotify_fd);
++		inotify_fd = -1;
++
++		return -EIO;
++	}
++
++	g_io_channel_set_close_on_unref(inotify_channel, FALSE);
++	g_io_channel_set_encoding(inotify_channel, NULL, NULL);
++	g_io_channel_set_buffered(inotify_channel, FALSE);
++
++	inotify_watch = g_io_add_watch(inotify_channel,
++				G_IO_IN | G_IO_HUP | G_IO_NVAL | G_IO_ERR,
++				inotify_data, NULL);
++
+ 	inotify_hash = g_hash_table_new_full(g_str_hash, g_str_equal,
+ 						g_free, connman_inotify_unref);
+ 	return 0;
+@@ -289,4 +303,25 @@ void __connman_inotify_cleanup(void)
+ 	DBG("");
+ 
+ 	g_hash_table_destroy(inotify_hash);
++
++	if (inotify_watch) {
++		g_source_remove(inotify_watch);
++		inotify_watch = 0;
++	}
++
++	if (inotify_channel) {
++		g_io_channel_unref(inotify_channel);
++		inotify_channel = NULL;
++	}
++
++	if (inotify_fd >= 0) {
++		close(inotify_fd);
++		inotify_fd = -1;
++	}
++
++	if (inotify_list) {
++		g_slist_free(inotify_list);
++		inotify_list = NULL;
++	}
++
+ }
+-- 
+2.47.3
 
