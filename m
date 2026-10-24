@@ -1,48 +1,50 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=66.39.139.36
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792752955;
-	b=gGRTkyduBafAAYZ5yvvn8bNgZ3okbfCc5OdN5c+KARJrxfID21TWK0kmsmjJIPILzq6S
-	 n5E7Ndjodg4Hf3eVqbb43cu2xQoLPBaSP1vCB63mmyyR25RDIxfiFlN0yMvq72SFMDk7U
-	 N+E9a3XeDDvYT9gl5qHpfDPT2qSJPVqVQKtCGdPDhziap+RmNg85cxN+Fg0+9k8fhq7He
-	 aFM9zRIcOTJJ6cRTPwSIkKfzKtZ15X9D0yPvTurFfqeAuznuIW2Cb63GONn0ADlIMGU5I
-	 fFS9Ed32PjFZNiVktkZrMc9ljcBc1P0P99rwPNBD8Hi8oUQZ52v7O32GIjBPPJIze/g==
+	t=1792860121;
+	b=VPe8IG8S3dDukPYnrBG6ox5cKhSCrZH4D0YL7UViQB/aPHSG+DZ5U4ZD5+83E4nNZNyJ
+	 Ot7LUd1F2om+HC9FfaLMb6I0LCVWZ1J5gAFnuOpcEpE1z2KXcjAlch2qfdR1fk2554rsC
+	 LeSofXkqd9yrKZ6qCAEXG5fgx/9gq8XDHNMA6vsjNtiuKS26xP2HXfN4/KMMFVkosqKQF
+	 fgHJJnQSwxJxnmnCnb1qs+1fpnQxlw6prdPVxgke5GrithFZaBg5jtt51kzr4veKhB53V
+	 S3N2X17ZJQjSPw21FDMOxxBAe4ZuqbtZAR98ETwOlkkXMJW3GYCikxQogx3/b05WNIg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792752955;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=qUTJByfVpLMmMOC9EN4qgnskkYo5uAd0uodW/8uJ2h0=;
-	b=huxDTgzuCPvHuMitzhXXDklvFxtN6C12BLX/dyL8MKjt3YThCtwvkI2uZq+9/m3hAwti
-	 yz02B3JZ9Lizv1owwzyz5g207lofeZNGcpvLmCbLfhOiDjnxjBwrculygBU1Kylu2YLZy
-	 rSMEPJTIeeQHez2VuZNo4pWkjpkF6OYisfph8qlPXlQTnCa7H7nnlQkP+4/XKTZY6EpdR
-	 R3Dj/vc7HY38gZhG54M0dm5pToCgkoxf8WMMQdA4EyceSmBz9Px9nBGwctR1tfWwAG7Oo
-	 5wUiwBTIfeEtD7Vt5hW00RrJgkh5bT15bbk3p2mIYGi52k/uzwz1gTqZJTUJOqt2IcQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792860121;
+	h=DMARC-Filter:Received:Received:From:Content-Type:
+	 Content-Transfer-Encoding:Mime-Version:Subject:Message-Id:Date:To:
+	 X-Mailer:DKIM-Signature:X-Scanned-By;
+	bh=iBLclvxV5Cl/Akyq3ZwV37saMPKeprSQcOZxrhNe+lQ=;
+	b=xqQDQzi2GQHNf4ZqJNsgukPigkMNrtgL1MaC1bPGR9tBlHZLdeLgWbBSKev8xdl35VD1
+	 eE5KkY3QXbJDAta5tRILckUYj9xVouzMuSTw/r5/2vmkvJ//Ziw184ZWfKUgz2DKKfgi3
+	 8nVCV9XFUGjry7NPUGSPTuO+6YUX2H071/JgkBEMAUvR8Wf95z2O4to1b0oPN+5w3G/cu
+	 2wLKjuCjyMjCXOJxb3GJjB8vvbcPeLbMwWOu9V8l8TK85aZXBd32ZruvYjABgeNsoik5M
+	 z1Ncf+AVOBnA81Cfmv67H643c7OhiiB8oWxUOiwzKA4W2gh9eOjw44gVzpLH27b41xw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=SNLii5yM;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=none header.from=nuovations.com;
+	spf=pass smtp.mailfrom=nuovations.com;
+	dkim=pass header.d=nuovations.com header.i=@nuovations.com header.a=rsa-sha256 header.s=pair-202401062137 header.b=MEK3x5Fz;
+	arc=none smtp.remote-ip=66.39.139.36
+Received: from mail5.g24.pair.com (mail5.g24.pair.com [66.39.139.36])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EA38606A31B
-	for <connman@lists.linux.dev>; Fri, 23 Oct 2026 10:55:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47C58606A31A
+	for <connman@lists.linux.dev>; Sat, 24 Oct 2026 16:42:00 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 47C58606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nuovations.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nuovations.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=SNLii5yM
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 590271F01825;
-	Fri, 23 Oct 2026 10:55:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1792752954;
-	bh=qUTJByfVpLMmMOC9EN4qgnskkYo5uAd0uodW/8uJ2h0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=SNLii5yMOyAIeEMthYLDIB4NNipK/TYuymKApMt7P3TVdXxJ6TIyKrCdlrJSplaZl
-	 9IMXj8FcuRLs6bURcBbTtMgZ2pLWyVS2/4Ia5R8JuGdOUNJl0cIAOT9teL+c0gXPBy
-	 7hHVVY6Jlx9eY4Svxc0GbwDxlfO+emR+JQCifT/0=
-Date: Fri, 23 Oct 2026 12:54:44 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Andrei Miu <andimiu@pm.me>
-Cc: connman@lists.linux.dev, cve@kernel.org
-Subject: Re: [PATCH] gdhcp: fix stack buffer overflow in get_domains()
-Message-ID: <2026102330-marxism-democrat-1d75@gregkh>
-References: <179274561161.81299.4579745057858200074@pm.me>
+	dkim=pass (2048-bit key, unprotected) header.d=nuovations.com header.i=@nuovations.com header.a=rsa-sha256 header.s=pair-202401062137 header.b=MEK3x5Fz
+Received: from mail5.g24.pair.com (localhost [127.0.0.1])
+	by mail5.g24.pair.com (Postfix) with ESMTP id A0CA91600A7
+	for <connman@lists.linux.dev>; Sat, 24 Oct 2026 12:41:53 -0400 (EDT)
+Received: from smtpclient.apple (c-73-202-172-31.hsd1.ca.comcast.net [73.202.172.31])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mail5.g24.pair.com (Postfix) with ESMTPSA id 51123124E50
+	for <connman@lists.linux.dev>; Sat, 24 Oct 2026 12:41:53 -0400 (EDT)
+From: Grant Erickson <gerickson@nuovations.com>
+Content-Type: text/plain;
+	charset=us-ascii
+Content-Transfer-Encoding: 7bit
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Post: <mailto:connman@lists.linux.dev>
@@ -51,18 +53,30 @@ List-Subscribe: <mailto:connman+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:connman+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <179274561161.81299.4579745057858200074@pm.me>
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3864.700.51.1.3\))
+Subject: Aborts on Wi-Fi Enable (Use-after-Free (UAF) of the Regulatory Domain
+ String) 
+Message-Id: <78DF2762-F6FB-4CAE-914E-22FB02E300E7@nuovations.com>
+Date: Sat, 24 Oct 2026 09:41:42 -0700
+To: connman@lists.linux.dev
+X-Mailer: Apple Mail (2.3864.700.51.1.3)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nuovations.com; h=from:content-type:content-transfer-encoding:mime-version:subject:message-id:date:to; s=pair-202401062137; bh=iBLclvxV5Cl/Akyq3ZwV37saMPKeprSQcOZxrhNe+lQ=; b=MEK3x5Fz2tmQvzmN95OhZBhqTkP1u6M5r4BYIqW2sjbqnlGSj3rS8E1L9XGUcNVwXgT/gHIDSGqrWlt+6LLyETSZ7uRzDikctO4U237/OqJzZ+odxgD8C80iY0ghZUXtRh/UTMoYBDza2pB0yqF1/h88O8cFek6dIFoMpmlKZfVD5qUMfYW3ykAxRV/Q5QvWlKjMPdyL6K4CnZu/wa0AmMCb3C6Cy2KdSgdZ5GN1a3dWA527cX0bTztT4Fcbhn57ue8YSGNvk1I4jdUctSOxOMHzqVH8qxQ0qn08gQqPV3YZNuxL0PQcXy/NNs3n5Vm7PW/l3USHlT/mjm5JSds0WQ==
+X-Scanned-By: mailmunge 3.10 on 66.39.139.36
 
-On Fri, Oct 23, 2026 at 08:53:35AM +0000, Andrei Miu wrote:
-> gdhcp: fix stack buffer overflow in get_domains()
+FYI:
 
-<formletter>
+    https://github.com/Nuovations/connman/issues/146
 
-Please see:
-        https://www.kernel.org/doc/html/latest/process/cve.html
-for how kernel CVEs are assigned.
+Patches forthcoming.
 
-</formletter>
+Best,
+
+Grant
+
+-- 
+Principal
+Nuovations
+
+gerickson@nuovations.com
+https://www.nuovations.com/
+
