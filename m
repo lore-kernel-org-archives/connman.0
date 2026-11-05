@@ -1,44 +1,44 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=46.105.34.219
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=188.165.39.164
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793883716;
-	b=YSyLS2gE2AD5j0lpL0pngzuz9wOn5Y5kg82JMI6YA3w5HVLXveQzLFWvZnLZEzAAIhFf
-	 cXk3mAIYb2ibzQ6dfcQggsKeAXFJOwB1DiyyMs3DgImZI3nsihjF2RAEs4qmBNG2jcUeO
-	 id0BZ6Gb8puVsjcAaXNLtz+h9ShgPKv59sWJ5ImzyfcImkOq7TUmGgxWCgqYAaH/KV0k3
-	 QuN5FgyDf0D+pnrTPwcQXkVGLGJHMRn/F3KQ0xYfhIrtE6kjCzv9hb64Dt3cCWp/s1qLS
-	 4XK+ZSXHZZvX7NuxjLy9DSNhlECu/939uGguVbk1d+v6tkKHntJ9yiy6MGZZ2theiWw==
+	t=1793883720;
+	b=klCn4nNI39TqTRL76Zi5XD/xb9017dwJiAKv8AJBR8egxlNlR9+B3B9lyNBc6iFh28hk
+	 IWKwoM3G5/5zBCVaTo34wDBjEuoE1vemhcCxYPCk9DLXi8WjiN0BOp6qiJHVLhR7GLFvF
+	 3Ki1X1FJ7QK1Zl5+JixiLDNrqoeLG4l5yTqdy2BpMJ6awQRoCmh7X0RDOJfyw9wdinbHP
+	 Ufx5c/3uXX9dAwQPUgk5po/YKf4k7AcUHQw8iX0GM2CMaPvlXBF/5RQ3oQOVLpadslGXu
+	 SEO4tfxfaYy5+jdX15H2pIaVbM89s9Cjt/o7UM6l3dU9BxSAuWBSE5lGtEf8n8APBXA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793883716;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793883720;
 	h=DMARC-Filter:Received:From:To:Subject:Date:Message-ID:X-Mailer:
 	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:
 	 Content-Type:X-Originating-IP:X-ClientProxiedBy:x-ovh-tracer-id:
 	 X-VR-SPAMSTATE:X-VR-SPAMSCORE:X-VR-SPAMCAUSE;
-	bh=MEmVArKaLHJyaox2JXsWQUrH7Rnz7PHoSgeiTZMN3Ag=;
-	b=vZXkuDLneeGedMmJJu+e5g8DweHxf56zsMuru6Dcy+NnrO1r/xj8tvGplfTCTZ6dER3w
-	 2djU4JrPHckwL+eYnKyvF9gWANuZ4Qtw9vzZqrAOjY4OzSS045kAgGot2cSEGOvq2EvuR
-	 mRmOG3FqTQc+lQ9fJTNZ9fVScRYjYItGsg5n/L9w/hKpibbHy3oKgCFk6lCk4SwW42t+e
-	 as058EOwQQyfPWefh2b2vwDAln8OgoLQeviyvbxeiaDCXcPAmfyhH2u4Z9TXw+eINKbKp
-	 wmOjz/iRU+5pkLbpOIlLtZvFpaiQ/etodrXOn0yTzevPW65+HB7834nV5E8svbp8qiQ==
+	bh=L0f9I4x8cl1ZrTq4pZ1bKan5FaiLIV0kuN+HhUZaQ0s=;
+	b=BvyIi5st9uIlzokY9jol/i6TcO/dbYZKITIj9PWmuVvLjvab4Bg9qOYua8n2AoWJNx83
+	 HSf+elZAAUbtk+ZmS8GmF4VAIN6JWegPT/e3mSjCUDEP5oNIwScn7o90JtY3oGo1BdoLA
+	 PkbjDKenUZOeNFaUFr82OQBtwELGoVG8bF+Bfg3XSCcyGOjHDaw+H9hq8rgGKdJHQuMWH
+	 CQ3P9xc97q23c8+YZkAyZOF1X6sMFsXiNnapKg+7I1mEHmdkrFxxjFrs8RnCAoY9bYr/8
+	 MutQygM24/3305dsUWB1bGDPQUdRTW4OGDXgdMnnUkSt1nDtKX+Oel5o+LUPA9SKmUw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=samnazarko.co.uk;
 	spf=pass smtp.mailfrom=samnazarko.co.uk;
-	arc=none smtp.remote-ip=46.105.34.219
-Received: from 15.mo23.mail-out.ovh.net (15.mo23.mail-out.ovh.net [46.105.34.219])
+	arc=none smtp.remote-ip=188.165.39.164
+Received: from 4.512.mail-out.ovh.net (4.512.mail-out.ovh.net [188.165.39.164])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94ECE606A326
-	for <connman@lists.linux.dev>; Thu,  5 Nov 2026 13:01:55 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 94ECE606A326
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53CBB606A329
+	for <connman@lists.linux.dev>; Thu,  5 Nov 2026 13:01:59 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 53CBB606A329
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=samnazarko.co.uk
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samnazarko.co.uk
-Received: from ex.mail.ovh.net (unknown [10.108.54.224])
-	by mo23.mail-out.ovh.net (Postfix) with SMTP id 4jL2Wk0vJQz7xVV
-	for <connman@lists.linux.dev>; Thu,  5 Nov 2026 13:01:54 +0000 (UTC)
+Received: from ex.mail.ovh.net (unknown [10.111.182.245])
+	by mo512.mail-out.ovh.net (Postfix) with SMTP id 4jL2Wh2BrDz69vr
+	for <connman@lists.linux.dev>; Thu,  5 Nov 2026 13:01:52 +0000 (UTC)
 From: Sam G Nazarko <email@samnazarko.co.uk>
 To: <connman@lists.linux.dev>
-Subject: [RFC PATCH 5/6] client: Add doh command
-Date: Thu, 5 Nov 2026 13:01:44 +0000
-Message-ID: <20261105130145.523935-6-email@samnazarko.co.uk>
+Subject: [RFC PATCH 1/6] dnsproxy: Pass the protocol to cache_update()
+Date: Thu, 5 Nov 2026 13:01:40 +0000
+Message-ID: <20261105130145.523935-2-email@samnazarko.co.uk>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20261105130145.523935-1-email@samnazarko.co.uk>
 References: <20261105130145.523935-1-email@samnazarko.co.uk>
@@ -55,185 +55,99 @@ Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain
 X-ClientProxiedBy: CAS10.indiv.local (172.16.1.10) To DAG16EX2.indiv.local
  (172.16.2.162)
-x-ovh-tracer-id: 9097834198231338988
+x-ovh-tracer-id: 9097271247809138668
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: 0
-X-VR-SPAMCAUSE: dmFkZTF/6WAJh3HhOrLscjSJzNvxJSRs2p5sC+dA5lquWe8u5gCjirEcWAS4wgDUeR6ys2GAtYg+lsOP5e9tReU+TK93OJ37RPu+VcwBdMCtBIHIz7fGzFqusCM4sE93KZz0q0fKNNinOjyNVPP5SdlbtvIOIvgVeKYHLfDRxb2+CnOezWsu6NXSCA77rwgmXGvYynZAdhqOfOKizRhWG0kNlaGton6Xjuq0m3VMfNEcHu0TMSudq1pevT4e6B4ll3KXABzNHWRwwWawwj0rFMw4EKwJUz5I1bZZ8cx+i5mgryCUX8NcABjWRujCinlBUb5k0iPjOonrqXS1YHcFCVHssaF4i8Mmp1wlJUlxPZ33QrGnI0u8agscv4YDQXYye91TrglDHHnkuKFATBkyQk/ucnYBNAKaeDXNaj+pfhPhqRfXq7CnX8qwcndiDycARFFTw44D/3z8sM9r7kFOVwY6DO/bI7ENgu+DxIgcDSAe9U6DI7/+DHlE4IatrxpWVrrxn2yw2pVPWGUvFeenSd6hHtpXQeqGpvK5DAp/BenbqHjRLRlb0LZRydOhOZ9icNNgGt9sRSJRiqMsZhkAoakivXXTjNHxHds9NEmE3GxGun4qGF4sgmXYUFNj3mn9VlQ1OKvZy4/zFZ2VNdtwOXib4MAVLheEARdRJEqtHj9IM4DzFw
+X-VR-SPAMCAUSE: dmFkZTFM1Gfex4DDr5KdJAbPHqToa9nfMNNiZRyNW5b79/2vj/x5Lmwg57pJqDkLFO61imTUk9xeVb6fZecuiR9+ajPf276IC2Ht7Gw3XO/kEJy9AkGZamwjbMdBKeS/m+yQ8KGnIbW6elHYd7x+FnDGY1dkplcWfpf7118IlLw9XqkgwMKKCoy2VRsMaSiFu44Q0wSZs3uRkExZES552zlQLCbrM5ThUcrTavsiuTeNmyg0fkTP4IVz7fje4HsYiONQpAoiY0ttM8aSBEm1G42eDzyBRZAhzoEiUd7oXwAKbqbq3vllwfNXja/zyNsbRDCI54KxoyaUTvRIgHrprU83K7d5JJGHTk0TZ1TPtG3UTodoaF9guM1BXmCBZXbIWeDxrmwREyWmALn0p719WqF+JNVpGlNqDI8fAscYkbMVONIEfEXVkgZjCqI7hwwwHirXbCYodIpwwTh/eZTWjUN7auBpa3/zTjErZ57CnYZSJyXMXuaXzq+/OJXhtOx5hFPOmYTJ2SSp3UUiV9CqKMOpUdLmFk+aK364PpLS7N4Aks6ujXQXigAjjwbjADfRLBi3ELFK024zSf0zFPqUw2viU2XOgJUF/oJAIN6tTyRjh/euB9fpO74gXVA48nq8buJkJGEM2NukuPUhqacQKjC7zxLd4/XMFtd52bBqahE4476W8g
 
-"doh" shows the DNS over HTTPS settings and state, "doh <mode>" sets
-the mode and "doh servers [<url> ...]" sets the servers, or restores
-the defaults when no URL is given.
+cache_update() takes the server only to look at its protocol, and
+forward_dns_reply() takes the server only to pass it on, although it
+already receives the protocol. Pass the protocol instead, so that
+replies which do not come from a server_data, such as DNS over HTTPS
+replies, can be cached and forwarded too.
 ---
- client/commands.c | 137 ++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 137 insertions(+)
+ src/dnsproxy.c | 17 +++++++++--------
+ 1 file changed, 9 insertions(+), 8 deletions(-)
 
-diff --git a/client/commands.c b/client/commands.c
-index 376ccdb5..32bca950 100644
---- a/client/commands.c
-+++ b/client/commands.c
-@@ -312,6 +312,113 @@ static int cmd_clock(char *args[], int num, struct co=
-nnman_option *options)
- 			clock_print, NULL, NULL, NULL);
+diff --git a/src/dnsproxy.c b/src/dnsproxy.c
+index 1140e2e7..9a7fe516 100644
+--- a/src/dnsproxy.c
++++ b/src/dnsproxy.c
+@@ -1533,9 +1533,9 @@ static int reply_query_type(const unsigned char *msg,=
+ int len)
+ /*
+  * update the cache with the DNS reply found in msg
+  */
+-static int cache_update(struct server_data *srv, const unsigned char *msg,=
+ size_t msg_len)
++static int cache_update(int protocol, const unsigned char *msg, size_t msg=
+_len)
+ {
+-	const size_t offset =3D protocol_offset(srv->protocol);
++	const size_t offset =3D protocol_offset(protocol);
+ 	int err, ttl =3D 0;
+ 	uint16_t *lenhdr;
+ 	size_t qlen;
+@@ -1600,7 +1600,7 @@ static int cache_update(struct server_data *srv, cons=
+t unsigned char *msg, size_
+ 				(offset ? 0 : DNS_HEADER_TCP_EXTRA_BYTES);
+ 			data->data =3D g_malloc(data->data_len);
+ 			ptr =3D data->data;
+-			if (srv->protocol =3D=3D IPPROTO_UDP) {
++			if (protocol =3D=3D IPPROTO_UDP) {
+ 				/* add the two bytes length header also for
+ 				 * UDP responses */
+ 				lenhdr =3D (void*)ptr;
+@@ -1742,7 +1742,7 @@ static int cache_update(struct server_data *srv, cons=
+t unsigned char *msg, size_
+ 		question, type, ttl,
+ 		sizeof(*entry) + sizeof(*data) + data->data_len + qlen,
+ 		data->data_len,
+-		srv->protocol =3D=3D IPPROTO_TCP ?
++		protocol =3D=3D IPPROTO_TCP ?
+ 			(unsigned int)(data->data[0] * 256 + data->data[1]) :
+ 			data->data_len);
+=20
+@@ -2329,7 +2329,7 @@ static struct request_data* lookup_request(
  }
 =20
-+static int doh_print(DBusMessageIter *iter, int errnum, const char *error,
-+		void *user_data)
-+{
-+	DBusMessageIter dict;
-+
-+	if (error) {
-+		fprintf(stderr, "Error: %s\n", error);
-+		return 0;
-+	}
-+
-+	dbus_message_iter_recurse(iter, &dict);
-+
-+	while (dbus_message_iter_get_arg_type(&dict) =3D=3D DBUS_TYPE_DICT_ENTRY)=
+ static int forward_dns_reply(char *reply, size_t reply_len, int protocol,
+-			struct server_data *data, struct request_data *req)
++						struct request_data *req)
  {
-+		DBusMessageIter entry, value, array;
-+		const char *key, *str;
-+		bool empty =3D true;
-+
-+		dbus_message_iter_recurse(&dict, &entry);
-+		dbus_message_iter_get_basic(&entry, &key);
-+		dbus_message_iter_next(&entry);
-+		dbus_message_iter_recurse(&entry, &value);
-+		dbus_message_iter_next(&dict);
-+
-+		if (strncmp(key, "DNSOverHTTPS", 12) !=3D 0)
-+			continue;
-+
-+		switch (dbus_message_iter_get_arg_type(&value)) {
-+		case DBUS_TYPE_STRING:
-+			dbus_message_iter_get_basic(&value, &str);
-+			fprintf(stdout, "  %s =3D %s\n", key, str);
-+			break;
-+		case DBUS_TYPE_ARRAY:
-+			fprintf(stdout, "  %s =3D [", key);
-+			dbus_message_iter_recurse(&value, &array);
-+			while (dbus_message_iter_get_arg_type(&array) =3D=3D
-+							DBUS_TYPE_STRING) {
-+				dbus_message_iter_get_basic(&array, &str);
-+				fprintf(stdout, " %s", str);
-+				dbus_message_iter_next(&array);
-+				empty =3D false;
-+			}
-+			fprintf(stdout, " ]%s\n", empty ? " (defaults)" : "");
-+			break;
-+		}
-+	}
-+
-+	return 0;
-+}
-+
-+static int doh_return(DBusMessageIter *iter, int errnum, const char *error=
-,
-+		void *user_data)
-+{
-+	if (error)
-+		fprintf(stderr, "Error: %s\n", error);
-+
-+	return 0;
-+}
-+
-+struct doh_servers {
-+	char **urls;
-+	int count;
-+};
-+
-+static void append_doh_servers(DBusMessageIter *iter, void *user_data)
-+{
-+	struct doh_servers *servers =3D user_data;
-+
-+	for (int i =3D 0; i < servers->count; i++)
-+		dbus_message_iter_append_basic(iter, DBUS_TYPE_STRING,
-+							&servers->urls[i]);
-+}
-+
-+static int cmd_doh(char *args[], int num, struct connman_option *options)
-+{
-+	const char *modes[] =3D { "off", "auto", "on", "strict", NULL };
-+	struct doh_servers servers;
-+
-+	if (num < 2)
-+		return __connmanctl_dbus_method_call(connection,
-+				CONNMAN_SERVICE, CONNMAN_PATH,
-+				"net.connman.Manager", "GetProperties",
-+				doh_print, NULL, NULL, NULL);
-+
-+	if (strcmp(args[1], "servers") =3D=3D 0) {
-+		servers.urls =3D &args[2];
-+		servers.count =3D num - 2;
-+
-+		return __connmanctl_dbus_set_property_array(connection,
-+				CONNMAN_PATH, "net.connman.Manager",
-+				doh_return, NULL, "DNSOverHTTPSServers",
-+				DBUS_TYPE_STRING, append_doh_servers, &servers);
-+	}
-+
-+	if (num > 2)
-+		return -E2BIG;
-+
-+	for (int i =3D 0; modes[i]; i++) {
-+		if (strcmp(args[1], modes[i]) =3D=3D 0)
-+			return __connmanctl_dbus_set_property(connection,
-+					CONNMAN_PATH, "net.connman.Manager",
-+					doh_return, NULL, "DNSOverHTTPS",
-+					DBUS_TYPE_STRING, &args[1]);
-+	}
-+
-+	return -EINVAL;
-+}
-+
- static int services_list(DBusMessageIter *iter, int errnum, const char *er=
-ror,
- 		void *user_data)
- {
-@@ -2384,6 +2491,32 @@ static char *lookup_on_off(const char *text, int sta=
-te)
- 	return NULL;
- }
+ 	const size_t offset =3D protocol_offset(protocol);
+ 	struct domain_hdr *hdr =3D (void *)(reply + offset);
+@@ -2377,7 +2377,7 @@ static int forward_dns_reply(char *reply, size_t repl=
+y_len, int protocol,
+ 		memcpy(req->resp, reply, reply_len);
+ 		req->resplen =3D reply_len;
 =20
-+static char *lookup_doh(const char *text, int state)
-+{
-+	char *words[] =3D { "off", "auto", "on", "strict", "servers", NULL };
-+	static int idx =3D 0;
-+	static int len =3D 0;
-+
-+	if (__connmanctl_input_calc_level() > 1) {
-+		__connmanctl_input_lookup_end();
-+		return NULL;
-+	}
-+
-+	if (!state) {
-+		idx =3D 0;
-+		len =3D strlen(text);
-+	}
-+
-+	while (words[idx]) {
-+		char *str =3D words[idx++];
-+
-+		if (!strncmp(text, str, len))
-+			return strdup(str);
-+	}
-+
-+	return NULL;
-+}
-+
- static char *lookup_tether(const char *text, int state)
- {
- 	int level;
-@@ -2793,6 +2926,10 @@ static const struct {
- 	  "Display technologies", NULL },
- 	{ "clock",        NULL,           NULL,            cmd_clock,
- 	  "Get System Clock Properties", NULL },
-+	{ "doh",          "[off|auto|on|strict]\n"
-+	                  "            servers [<url> ...]",
-+	                                  NULL,            cmd_doh,
-+	  "Show or set DNS over HTTPS mode and servers", lookup_doh },
- 	{ "enable",       "<technology>|offline", NULL,    cmd_enable,
- 	  "Enables given technology or offline mode",
- 	  lookup_technology_offline },
+-		cache_update(data, (unsigned char*)reply, reply_len);
++		cache_update(protocol, (unsigned char *) reply, reply_len);
+=20
+ 		g_free(new_reply);
+ 	}
+@@ -2500,7 +2500,7 @@ static gboolean udp_server_event(GIOChannel *channel,=
+ GIOCondition condition,
+ 		/* invalid / corrupt request */
+ 		return TRUE;
+=20
+-	res =3D forward_dns_reply((char*)buf, len, IPPROTO_UDP, data, req);
++	res =3D forward_dns_reply((char *) buf, len, IPPROTO_UDP, req);
+=20
+ 	/* on success or no further responses are expected, destroy the req */
+ 	if (res =3D=3D 0 || req->numresp >=3D req->numserv)
+@@ -2705,7 +2705,8 @@ hangup:
+ 			/* invalid / corrupt request */
+ 			return TRUE;
+=20
+-		res =3D forward_dns_reply((char*)reply->buf, reply->received, IPPROTO_TC=
+P, server, req);
++		res =3D forward_dns_reply((char *) reply->buf, reply->received,
++						IPPROTO_TCP, req);
+=20
+ 		g_free(reply);
+ 		server->incoming_reply =3D NULL;
 --=20
 2.34.1
 
