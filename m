@@ -1,52 +1,52 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=66.39.139.36
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794440866;
-	b=cxztRa+bvdCyrqaw+8AVZ+PY6jjStxF62mHXDuaOoO4gG056z/h6F9fxzQo3XVLaIJSX
-	 VF8xPIBrHhL7/Vyt5jJ119vGA8vluI213sdvSj1Ur+X4PTNdFLVZxoA8KNWE30y9L4hNi
-	 sjWXHoQHe0ZyeY7RgWDk2hV8JPZtp2ga9e8knyAANyXURCpZp51PWzAQ/ct3Ogivb2Jm1
-	 FyOOc1aT/EWrljXDnG0qTNt5JHFZkJG0MRRNwdON/i29j8Xwv+9SWxwRVtsyiFDpFdRdQ
-	 OpMEylaws6IcTgF6gxqS0SnBxD9H/jiirHmjEyHZC0sQaM+SiYo21TtxeJGZxu3OM6w==
+	t=1794441235;
+	b=h0cyGH7bd1KujvffqyoOtHUMS9T1M/j+pyd2eDiG5E6m3pvnLh0o0i5rtSfIYKuUyKi6
+	 gEAqu1I0meAVTnnZG0uvfXVeiYxyN3nU5il5SrfrfZkzDv3K7sWGKKctgvEWpgQWA8QsW
+	 qi+Q6K7oVIGjGr4Z/dxBR221fIOh9vBQnS7VotMw6edfLUfCdGof/Ild/CUz6KwMtfFJm
+	 4FrWo0MbNVx9jDuQdns4v2a/kckFyOi+mxZxd7RdjSeFmdUifW0Np741ze/XjiHRGb27n
+	 HEMwF2qWL55WO/qj5TBQttR5zd0riHJ2s2dGThh26QHe2UVb3LVV0gtr3NSysY/c+6w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794440866;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794441235;
 	h=DMARC-Filter:Received:Received:From:To:Subject:Date:Message-ID:
 	 X-Mailer:MIME-Version:Content-Transfer-Encoding:DKIM-Signature:
 	 X-Scanned-By;
 	bh=8g9iv7e/sjoC6oPHu3sxHYxVtw/7jcyfjsFPnPfJU3Y=;
-	b=VJfXT2vPmYWWDCE13N0JLGL8muqmZUDgK7R+dQiK72/o2iGE6Qr+Oz5Vuj8Iop2Zp8WH
-	 4wyeqFlbrdUDvH1PeFRJwWlanJ5MTiPySjbkXahyBcU4r1bd6LJFzCn6oSjoX2Fq1VAqV
-	 I27b6rMHpgek+utJ4CKt56h5w/Gjs410rEIsS1wqEETQJRWgcyWT9kTngbXzf/Ids64zD
-	 Y9/stLXi/WNGezEZXpQXuFX2MtSzicipT69xjmmiWE1MQ7IcMDegXBeyfVev/RQu5ocOl
-	 n5YWSc1Im1XDn1YjB4Ef7xgqam3/9wkqjCo3Pvx2TEt44dP79D0C48Q0qy1C6VzvMJg==
+	b=y0pPi5/8BBZfa/ht2qJb5GJpcyh2nCF5SjALmszHWart/PL0gqpJolVqD83HDHSL3RB8
+	 TMDeyVPhTONsUyu9RIDZe6Yllso5AAb1tZdsJxshTKBHMaPlQ7bfvWO63TeNyrOX5Y/Lq
+	 RJVKk53CYDq3baYZmSRGHulqN/rnMe+J0h+Eml90l/8sNCjFiDUQNB/dv9+E9090o7wkX
+	 fsKd27xzZdj2zt8IDtJouNvdFTX2V0y1F68CM4XJqxLxs7cCMOjgdLi8Fo+0HaZewGQBg
+	 CUr/jPBqpFZmN49LpojrR1umr73V6Dq9ACM1Olmp/vXPvzC5D06p1Za/lkv+qOKQ7HA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=nuovations.com;
 	spf=pass smtp.mailfrom=nuovations.com;
-	dkim=pass header.d=nuovations.com header.i=@nuovations.com header.a=rsa-sha256 header.s=pair-202401062137 header.b=FO16rc1T;
+	dkim=pass header.d=nuovations.com header.i=@nuovations.com header.a=rsa-sha256 header.s=pair-202401062137 header.b=mquYQQuk;
 	arc=none smtp.remote-ip=66.39.139.36
 Received: from mail5.g24.pair.com (mail5.g24.pair.com [66.39.139.36])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C742606A89A
-	for <connman@lists.linux.dev>; Wed, 11 Nov 2026 23:47:45 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7C742606A89A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18146606A32A
+	for <connman@lists.linux.dev>; Wed, 11 Nov 2026 23:53:54 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 18146606A32A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nuovations.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nuovations.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nuovations.com header.i=@nuovations.com header.a=rsa-sha256 header.s=pair-202401062137 header.b=FO16rc1T
+	dkim=pass (2048-bit key) header.d=nuovations.com header.i=@nuovations.com header.a=rsa-sha256 header.s=pair-202401062137 header.b=mquYQQuk
 Received: from mail5.g24.pair.com (localhost [127.0.0.1])
-	by mail5.g24.pair.com (Postfix) with ESMTP id A2C14160069;
-	Wed, 11 Nov 2026 18:47:44 -0500 (EST)
+	by mail5.g24.pair.com (Postfix) with ESMTP id 3F90A16024F;
+	Wed, 11 Nov 2026 18:53:54 -0500 (EST)
 Received: from ubuntu-aesop (c-73-202-172-31.hsd1.ca.comcast.net [73.202.172.31])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mail5.g24.pair.com (Postfix) with ESMTPSA id 4C782124C53;
-	Wed, 11 Nov 2026 18:47:44 -0500 (EST)
+	by mail5.g24.pair.com (Postfix) with ESMTPSA id D39A0124C5F;
+	Wed, 11 Nov 2026 18:53:53 -0500 (EST)
 From: Grant Erickson <gerickson@nuovations.com>
 To: connman@lists.linux.dev
 Subject: [PATCH] wispr: Fix leak of earlier redirect URLs
-Date: Wed, 11 Nov 2026 15:47:43 -0800
-Message-ID: <20261111234743.1609688-1-gerickson@nuovations.com>
+Date: Wed, 11 Nov 2026 15:53:52 -0800
+Message-ID: <20261111235352.1609830-1-gerickson@nuovations.com>
 X-Mailer: git-send-email 2.52.0
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
@@ -58,7 +58,7 @@ List-Owner: <mailto:connman+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nuovations.com; h=from:to:subject:date:message-id:mime-version:content-transfer-encoding; s=pair-202401062137; bh=8g9iv7e/sjoC6oPHu3sxHYxVtw/7jcyfjsFPnPfJU3Y=; b=FO16rc1TFJqyy6nop7oDE90D79+7Y7e/k5Ul8a/5GrNFsNTkm02ICrPro/mUNUmMXESwZCJDWD6aOx7o2QOOpJJf3f/6jJdIigcEL4H56qspt8cwY31VJyW768B7IL1Qkqx5hrdU7IOrE1dioZpyu9fEAU+v0zgF/qwazrlgTDyZrBw1ZcleNkT0sGUf85MYvPoQDl9BcYmCPKpgTfGBM01mNMa5Al2iO5gcx0FGLk4PZ3pC1chiSVXlYAF2x8uxw8EUSddORRkFSHr1gcWyfGS7frNye1kBmHg1tfKHEQtS0cmCXXhFl6rnKGlUXMoE02GrTb+9h/ZmpybgKCR/eg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nuovations.com; h=from:to:subject:date:message-id:mime-version:content-transfer-encoding; s=pair-202401062137; bh=8g9iv7e/sjoC6oPHu3sxHYxVtw/7jcyfjsFPnPfJU3Y=; b=mquYQQukY0lDL/1VHc7QVW2dS4gO1GPktGLNqCSPMEc2oKMhBm2ya65Q+78SCpGuE4qdh9Nn+TW6cRrPKJgMZGTHFIDqQwdJyRDYXr9PavJovqHKR+ALJcDTCSjyJOF8zO0gU70n8OwtJCPykuMCo89v717x0nyKrfcNN+zgUz7Fx255ymxA4+S2BV/Ju9dArw5110vVj6kEcAqy85b21ERb7PGzChbX1BRd345IS69nAasTGG3FoXuRMMMXdYjt0/80GWNukIW+/XsZ4FueYTVnMVQh5EM77yrRtYI1T8VMQ56dqgMv6R9b49M7XrY1cTYxGkhkY9Y+LWInPQ6U0A==
 X-Scanned-By: mailmunge 3.10 on 66.39.139.36
 
 When an online check response is a redirect that wispr follows,
