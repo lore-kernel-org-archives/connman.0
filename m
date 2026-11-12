@@ -1,52 +1,52 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=66.39.139.36
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794527384;
-	b=Brfi+BxUCZDYmAelaR/W2+fj8/x6Ld9R5l74AsYBdX4CIR/SKCBmqDG1fzX++oDjqO3R
-	 8fT55vIFoa3uDyAXcNFDJoss/szBK9c/aVPnrW1U3Hbu0k8L+hw0i/UtY3puFteW5KGcs
-	 xGxhoQxIXC9CsxxkwfenSxbJ+o1G65uv779RgA3ctfcRTC5/7ys0bN7kevSgWBwg0AIMi
-	 UMnzNa2AvaPi+TEqcbDL0C3zDlKTzu5lvGx2/QZr9aXLyoqIJHwxq7myY1Ua0gTxncaFs
-	 G++xSX15q7yraHGk/LQbOPFeXnTy7wliWX0RhBM6p76ZHEzjUuG4cFG2ubZugEH/HXw==
+	t=1794527588;
+	b=PXp5etSGibvDVI6S0sOTb3QNnQk7OTRKFeL679un7V+uuwv46i/W5I0G0HHNyepz+nq4
+	 uW1usc5uQxlSgaR9BTOR8HaDs1PT+nYeUT2o+oxDthvIAL7Pn4CHYfyafpLpqRB07zmOP
+	 uezZnHQDRyS9gly83a0OwU8/OsEoZs5wzIbXbSqDdOcQa018+aOH7Jgg7zE/zkAvwZx83
+	 DMx2BZWAbTVh6Z42WftjhP0BE3klMoW8tVDtZKNrljpKqAt4KXPveiGkTv7HGW0WQNMQz
+	 v/R+5xgay6WkjgevryG2AJYQrn9GNofobVep41auDLnc8PUzK3OqE4foWyVqw1oA8sQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794527384;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794527588;
 	h=DMARC-Filter:Received:Received:From:To:Subject:Date:Message-ID:
 	 X-Mailer:MIME-Version:Content-Transfer-Encoding:DKIM-Signature:
 	 X-Scanned-By;
-	bh=1FmLmxZIGHgCfjQq4eqMrw3B4lOfIDuvZ6NJ5pHRAvc=;
-	b=A0UKOO7KwWzENfi77S2+Iy71HV25bpsF1ltXMmbd4CCPXncT5Js1dWW2ne6SRU1qCzMF
-	 lpZPmigzj95i0BrNA6lg/LTGIYbGtB52xEPutMFQA2PlNQuBtCY7w41SPF983fxRQAQXy
-	 FortxppaUP0edUd8aLvDTEVrOp1tkdTrZfj6sWppNc2IzPPjGIDzHA/XK5+OFhJHZMU1X
-	 SLEgJsgkLKhkVMpmUEBxC1j5XspUlWrJGKxRYipjYcU05PLDMacc9VYmKQHgQlK7vvwRN
-	 UOWgCRih7RzJyaI1lZPjqQFuAfn6BRpJHIm4lqyxrWXcDC4cBuaPXoEEdOvjbwj9JpA==
+	bh=MGGJKHOspNJqvuV8zt1VjyhEjeo0brPMY9NzsYf6ybM=;
+	b=Z7Xo0d+BMb6lDAj5eYmeJuW+PbQiVs73SdWlev3oAYkWgm2kWQ79kU46U1lBZlgBCRqw
+	 ZE2+U3BbJROz/ebWTfDeLewRf2vI6shpOC0P6ayV8dJmJi0dI7mndFmV0tvH6IjXDO+Rw
+	 HhcPOin5W7G74QXcuL+QA31lCeLFnyrsBts2mu5wcYRlie0pHzSzAq0tlrtRzdgb3gu0C
+	 9Hy1k/9jhJkTPeBu/rFxmFULt8D/26qOA4R5feJivni36pwQWijXb3hPLZjEelaiLfKWl
+	 nhUCtlDY+RlkC7kG3GMElOIzZR8vrmeNGRqGiowlhCoNk2GGWtaNi12t2s6/DQP8Dzg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=nuovations.com;
 	spf=pass smtp.mailfrom=nuovations.com;
-	dkim=pass header.d=nuovations.com header.i=@nuovations.com header.a=rsa-sha256 header.s=pair-202401062137 header.b=QWa4K+nc;
+	dkim=pass header.d=nuovations.com header.i=@nuovations.com header.a=rsa-sha256 header.s=pair-202401062137 header.b=j0Cqe0pd;
 	arc=none smtp.remote-ip=66.39.139.36
 Received: from mail5.g24.pair.com (mail5.g24.pair.com [66.39.139.36])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72C3B606A323
-	for <connman@lists.linux.dev>; Thu, 12 Nov 2026 23:49:43 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 72C3B606A323
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C78E9606A327
+	for <connman@lists.linux.dev>; Thu, 12 Nov 2026 23:53:07 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C78E9606A327
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nuovations.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nuovations.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=nuovations.com header.i=@nuovations.com header.a=rsa-sha256 header.s=pair-202401062137 header.b=QWa4K+nc
+	dkim=pass (2048-bit key) header.d=nuovations.com header.i=@nuovations.com header.a=rsa-sha256 header.s=pair-202401062137 header.b=j0Cqe0pd
 Received: from mail5.g24.pair.com (localhost [127.0.0.1])
-	by mail5.g24.pair.com (Postfix) with ESMTP id 04717160186
-	for <connman@lists.linux.dev>; Thu, 12 Nov 2026 18:49:36 -0500 (EST)
+	by mail5.g24.pair.com (Postfix) with ESMTP id 1626E160186
+	for <connman@lists.linux.dev>; Thu, 12 Nov 2026 18:53:07 -0500 (EST)
 Received: from ubuntu-aesop (c-73-202-172-31.hsd1.ca.comcast.net [73.202.172.31])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mail5.g24.pair.com (Postfix) with ESMTPSA id B070F124B8D
-	for <connman@lists.linux.dev>; Thu, 12 Nov 2026 18:49:35 -0500 (EST)
+	by mail5.g24.pair.com (Postfix) with ESMTPSA id BE296124BEC
+	for <connman@lists.linux.dev>; Thu, 12 Nov 2026 18:53:06 -0500 (EST)
 From: Grant Erickson <gerickson@nuovations.com>
 To: connman@lists.linux.dev
-Subject: [PATCH] iptables: Make the entry offset the same type as a jump verdict.
-Date: Thu, 12 Nov 2026 15:49:34 -0800
-Message-ID: <20261112234934.1627035-1-gerickson@nuovations.com>
+Subject: [PATCH] openconnect: Fix issue with const return value from strchr
+Date: Thu, 12 Nov 2026 15:53:05 -0800
+Message-ID: <20261112235305.1627089-1-gerickson@nuovations.com>
 X-Mailer: git-send-email 2.52.0
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
@@ -58,64 +58,40 @@ List-Owner: <mailto:connman+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nuovations.com; h=from:to:subject:date:message-id:mime-version:content-transfer-encoding; s=pair-202401062137; bh=1FmLmxZIGHgCfjQq4eqMrw3B4lOfIDuvZ6NJ5pHRAvc=; b=QWa4K+ncaq+ma3syGXmM5k/D828/hwuFFoKhISoCNkBwvI0K4BhfwJhSrKL1gKwonzrURKawaGFgvNVPcDm2yo1O9TxRnpVS/ZZKcm2Q7OznGr2+4hO8mURRF5UKVLsxBtYFdTfQ4gn4Ai0Xq2iTjmlj52VugQL/oVJilY9HDp/M6gi19qwsId21Sumu3fAHS0xq9t49d81pA0Tqgk66iybX0ativef+meUuKcRDYsz2PR02GWGKhzLfKzWa394boRhupv4JnZW5CE/B/nsqxCtbNaQVeCzf2ivFu/UbXZXuYSyhfcn02i1jeZBQ53OrKPUPfjsXoSGTfXsxWwQo+w==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nuovations.com; h=from:to:subject:date:message-id:mime-version:content-transfer-encoding; s=pair-202401062137; bh=MGGJKHOspNJqvuV8zt1VjyhEjeo0brPMY9NzsYf6ybM=; b=j0Cqe0pd5Drn1zfYt+CXbepo7WaeyslXrjk0roJiDbO/mmBmpgFbSwKReTMzRsv/4MMskZ1DDK5+u52C4vZMpxaGIk4jtWr3iI3jvyAko1AdTfFaklKLwPtO1S0l9jlOIbO7ULxBaxq6Pa895UhnZP0JwbG1AdEvj0CRhB//D/3Mrs1QzAtnHP3I89yFYm4QMbqdfkRYvB03Fyb6H7T9Nr6vUYK6C8hu9VQovnT/KC6gF5ptPY9bneu2eEozM0B08NnLra4mPw+7Lj9mGLQRhlqv2VshyYLY1pjPcLu+tz0Jt56eBN7WBxOkK4ZeDyJeXZOO7BuZmW7VZCAfU1eQjg==
 X-Scanned-By: mailmunge 3.10 on 66.39.139.36
 
-This addresses -Werror=sign-compare compilation errors surfaced by
-both GCC and clang/LLVM in 'update_targets_reference' when
---enable-maintainer-mode is asserted and connman is configured with
---with-firewall=iptables:
+When compiling with recent GCC or clang/LLVM and glibc 2.43 or later,
+such as on Ubuntu 26.04 ('Resolute'), the -Wdiscarded-qualifiers
+(GCC) or -Wincompatible-pointer-types-discards-qualifiers (clang/LLVM)
+warning occurs, and is an error when --enable-maintainer-mode is
+asserted, because with ISO C23, the function strchr, which returns a
+pointer into its input array, is now defined as a macro that returns
+a pointer to a const-qualified type when the input argument is a
+pointer to a const-qualified type:
 
-    src/iptables.c:805:40: error: comparison of integer expressions
-        of different signedness: 'int' and 'unsigned int'
-        [-Werror=sign-compare]
-    src/iptables.c:808:40: error: comparison of integer expressions
-        of different signedness: 'int' and 'unsigned int'
-        [-Werror=sign-compare]
+    vpn/plugins/openconnect.c:331:29: error: assignment discards
+        'const' qualifier from pointer target type
+        [-Werror=discarded-qualifiers]
 
-The 'offset' member of 'struct connman_iptables_entry' is the
-entry's byte offset within the table, and its one purpose beyond
-bookkeeping is to be the target of a standard-target jump: it is
-written into a 'struct xt_standard_target' 'verdict', in
-'prepare_target' and for fall-through entries in
-'update_targets_reference', and it is compared against existing
-verdicts in 'update_targets_reference' to find jumps that must be
-moved when an entry is inserted or removed. The kernel ABI defines
-'verdict' as 'int', with non-negative values being jump offsets and
-negative values being standard verdicts. So, rather than casting at
-the comparisons, give 'offset' the same type as the verdicts it is
-written into and compared against.
-
-With that, the comparisons in 'update_targets_reference' are made in
-the verdict's own signed domain. Previously, the usual arithmetic
-conversions converted the verdict to 'unsigned int'. 'is_jump' does
-not exclude every negative verdict (for example, -NF_STOLEN - 1), so
-such a verdict would have compared as a very large unsigned value and
-been adjusted as though it were a jump past the modified entry; it
-now correctly compares as less than any entry offset and is left
-alone.
-
-Entry offsets are bounded by the table size, which the kernel limits
-to XT_MAX_TABLE_SIZE (512 MiB) in xt_alloc_table_info, so every valid
-offset is representable as an int, as it already must be to be
-written into a verdict.
+'sep' is only read through, so it is simply made 'const char *'.
 ---
- src/iptables.c | 2 +-
+ vpn/plugins/openconnect.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/src/iptables.c b/src/iptables.c
-index a81a07792e9f..5b1f5650a30e 100644
---- a/src/iptables.c
-+++ b/src/iptables.c
-@@ -151,7 +151,7 @@ static const char *hooknames[] = {
+diff --git a/vpn/plugins/openconnect.c b/vpn/plugins/openconnect.c
+index fb63a1a303d0..fcf384c5765c 100644
+--- a/vpn/plugins/openconnect.c
++++ b/vpn/plugins/openconnect.c
+@@ -325,7 +325,7 @@ static int oc_notify(DBusMessage *msg, struct vpn_provider *provider)
+ 			netmask = g_strdup(value);
  
- struct connman_iptables_entry {
- 	int type;
--	unsigned int offset;
-+	int offset;
- 	int builtin;
- 	int counter_idx;
+ 		if (!strcmp(key, "INTERNAL_IP6_NETMASK")) {
+-			char *sep;
++			const char *sep;
  
+ 			/* The netmask contains the address and the prefix */
+ 			sep = strchr(value, '/');
 -- 
 2.52.0
 
