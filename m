@@ -1,52 +1,52 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=66.39.139.36
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794514693;
-	b=Ft9orCv09aXOE6/0Uhbm32ez00U2Q+cZRvF4qamF1xcotWiiUPImwccB9j7H2SqrSv6u
-	 3rqxSiR80mcvd4hETTHwXOtl7Czy1GzNdf5coviq/54oS7k6GgLUDDRQVy0cpLug5uoQR
-	 M9wkFjkBO+ulbz7WVrF14FkIg6088axWTznCt+1lMn+M6JGnWZd/L66z9sGwuowG6FvR6
-	 GsB3uRxRfmNg5MMtoQtU+DKha4nOLPeTYsZ+jB6LgEqjFUW2VX3GdC5byGrbn64PxTIYR
-	 1tUOJ4RkH+nXPgUrNPAC6/BEK0wfmpXTmKz/AfsSQy9dns/ak8WCsoRr1NU1+KVz2vA==
+	t=1794527384;
+	b=Brfi+BxUCZDYmAelaR/W2+fj8/x6Ld9R5l74AsYBdX4CIR/SKCBmqDG1fzX++oDjqO3R
+	 8fT55vIFoa3uDyAXcNFDJoss/szBK9c/aVPnrW1U3Hbu0k8L+hw0i/UtY3puFteW5KGcs
+	 xGxhoQxIXC9CsxxkwfenSxbJ+o1G65uv779RgA3ctfcRTC5/7ys0bN7kevSgWBwg0AIMi
+	 UMnzNa2AvaPi+TEqcbDL0C3zDlKTzu5lvGx2/QZr9aXLyoqIJHwxq7myY1Ua0gTxncaFs
+	 G++xSX15q7yraHGk/LQbOPFeXnTy7wliWX0RhBM6p76ZHEzjUuG4cFG2ubZugEH/HXw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794514693;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794527384;
 	h=DMARC-Filter:Received:Received:From:To:Subject:Date:Message-ID:
 	 X-Mailer:MIME-Version:Content-Transfer-Encoding:DKIM-Signature:
 	 X-Scanned-By;
-	bh=T5UgmurF0qqrU/alHRg0xnUqZdUTOCSRPSCKiVIVtOQ=;
-	b=J4SpGBOL8yYkwWHAgfKMZhjjK8fBrLgLkhOAxMSzp6hW1orHUpmFqa74VKNnfX4TxBaS
-	 VtUSg96z3/S2x468Dv760uF2FhcKUERt9n7cMBdQzTD+Oq95rmPRQWLYyCffiyUwLhqAO
-	 bfTF4/yBbz21Uhe5oBqErZHBR5PSyyp8vohfWlomvt9AoOOGejMcix3MoFhDc4k6feqtY
-	 lCEgOTZo/OZJ99K5CzsjeS9S4vXYZRtUEHkhrksaSUi/uEzQ4kBp92n5KrKlhd9sI4Bzy
-	 a4mAwQgbEwgj39oYJB4jVPBw2dtZusqkOaFzAVhExm49n6QUaiqWlS83YAcWZQRVS2A==
+	bh=1FmLmxZIGHgCfjQq4eqMrw3B4lOfIDuvZ6NJ5pHRAvc=;
+	b=A0UKOO7KwWzENfi77S2+Iy71HV25bpsF1ltXMmbd4CCPXncT5Js1dWW2ne6SRU1qCzMF
+	 lpZPmigzj95i0BrNA6lg/LTGIYbGtB52xEPutMFQA2PlNQuBtCY7w41SPF983fxRQAQXy
+	 FortxppaUP0edUd8aLvDTEVrOp1tkdTrZfj6sWppNc2IzPPjGIDzHA/XK5+OFhJHZMU1X
+	 SLEgJsgkLKhkVMpmUEBxC1j5XspUlWrJGKxRYipjYcU05PLDMacc9VYmKQHgQlK7vvwRN
+	 UOWgCRih7RzJyaI1lZPjqQFuAfn6BRpJHIm4lqyxrWXcDC4cBuaPXoEEdOvjbwj9JpA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=nuovations.com;
 	spf=pass smtp.mailfrom=nuovations.com;
-	dkim=pass header.d=nuovations.com header.i=@nuovations.com header.a=rsa-sha256 header.s=pair-202401062137 header.b=dAfUY8lB;
+	dkim=pass header.d=nuovations.com header.i=@nuovations.com header.a=rsa-sha256 header.s=pair-202401062137 header.b=QWa4K+nc;
 	arc=none smtp.remote-ip=66.39.139.36
 Received: from mail5.g24.pair.com (mail5.g24.pair.com [66.39.139.36])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF749606A31C
-	for <connman@lists.linux.dev>; Thu, 12 Nov 2026 20:18:11 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DF749606A31C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72C3B606A323
+	for <connman@lists.linux.dev>; Thu, 12 Nov 2026 23:49:43 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 72C3B606A323
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nuovations.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nuovations.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=nuovations.com header.i=@nuovations.com header.a=rsa-sha256 header.s=pair-202401062137 header.b=dAfUY8lB
+	dkim=pass (2048-bit key, unprotected) header.d=nuovations.com header.i=@nuovations.com header.a=rsa-sha256 header.s=pair-202401062137 header.b=QWa4K+nc
 Received: from mail5.g24.pair.com (localhost [127.0.0.1])
-	by mail5.g24.pair.com (Postfix) with ESMTP id E610716004A
-	for <connman@lists.linux.dev>; Thu, 12 Nov 2026 15:18:10 -0500 (EST)
+	by mail5.g24.pair.com (Postfix) with ESMTP id 04717160186
+	for <connman@lists.linux.dev>; Thu, 12 Nov 2026 18:49:36 -0500 (EST)
 Received: from ubuntu-aesop (c-73-202-172-31.hsd1.ca.comcast.net [73.202.172.31])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mail5.g24.pair.com (Postfix) with ESMTPSA id 92FA2124C65
-	for <connman@lists.linux.dev>; Thu, 12 Nov 2026 15:18:10 -0500 (EST)
+	by mail5.g24.pair.com (Postfix) with ESMTPSA id B070F124B8D
+	for <connman@lists.linux.dev>; Thu, 12 Nov 2026 18:49:35 -0500 (EST)
 From: Grant Erickson <gerickson@nuovations.com>
 To: connman@lists.linux.dev
-Subject: [PATCH] iptables: Address -Werror=clobbered compilation errors.
-Date: Thu, 12 Nov 2026 12:18:09 -0800
-Message-ID: <20261112201809.1626562-1-gerickson@nuovations.com>
+Subject: [PATCH] iptables: Make the entry offset the same type as a jump verdict.
+Date: Thu, 12 Nov 2026 15:49:34 -0800
+Message-ID: <20261112234934.1627035-1-gerickson@nuovations.com>
 X-Mailer: git-send-email 2.52.0
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
@@ -58,71 +58,64 @@ List-Owner: <mailto:connman+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nuovations.com; h=from:to:subject:date:message-id:mime-version:content-transfer-encoding; s=pair-202401062137; bh=T5UgmurF0qqrU/alHRg0xnUqZdUTOCSRPSCKiVIVtOQ=; b=dAfUY8lBD6HWOAk1dJr1Rpffg8MQ+gVm/MZieMv7MI9U1VDyhc3OiOCuWF2av2few7gJwu8IVW4CuiljeKEqpnLtYBz7Wcj975lPc2xaqTT0j2ePMvfTCKfxs3EWSzwEeFfdJJS5vICVJFonCtblnEWT3lBY14nG0dhL8Vt2Zgd2iqZofRXQQeJWnXTLzWVm3YeCWZ+BgKSCQeJAgMIJwu8PcrxSJ/qjdrRFyekejrE1yPwu1/hAWsQbUtxBbm5so6ahae3NiZ+EwViFaPkNVk0C+0rFONhsu0G1kXMik5TfL9ihMACLErJAuZobPeI59IcNEk9OUGgU3ha9SWjQFw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nuovations.com; h=from:to:subject:date:message-id:mime-version:content-transfer-encoding; s=pair-202401062137; bh=1FmLmxZIGHgCfjQq4eqMrw3B4lOfIDuvZ6NJ5pHRAvc=; b=QWa4K+ncaq+ma3syGXmM5k/D828/hwuFFoKhISoCNkBwvI0K4BhfwJhSrKL1gKwonzrURKawaGFgvNVPcDm2yo1O9TxRnpVS/ZZKcm2Q7OznGr2+4hO8mURRF5UKVLsxBtYFdTfQ4gn4Ai0Xq2iTjmlj52VugQL/oVJilY9HDp/M6gi19qwsId21Sumu3fAHS0xq9t49d81pA0Tqgk66iybX0ativef+meUuKcRDYsz2PR02GWGKhzLfKzWa394boRhupv4JnZW5CE/B/nsqxCtbNaQVeCzf2ivFu/UbXZXuYSyhfcn02i1jeZBQ53OrKPUPfjsXoSGTfXsxWwQo+w==
 X-Scanned-By: mailmunge 3.10 on 66.39.139.36
 
-This addresses -Werror=clobbered compilation errors surfaced by GCC
-in 'prepare_target', 'parse_xt_modules', and 'final_check_xt_modules'
-when --enable-maintainer-mode is asserted, optimization is enabled
-(that is, --disable-optimization is not asserted), and connman is
-configured with --with-firewall=iptables:
+This addresses -Werror=sign-compare compilation errors surfaced by
+both GCC and clang/LLVM in 'update_targets_reference' when
+--enable-maintainer-mode is asserted and connman is configured with
+--with-firewall=iptables:
 
-    src/iptables.c:2666:14: error: variable 'is_builtin' might be
-        clobbered by 'longjmp' or 'vfork' [-Werror=clobbered]
-    src/iptables.c:2666:26: error: variable 'is_user_defined' might be
-        clobbered by 'longjmp' or 'vfork' [-Werror=clobbered]
-    src/iptables.c:2667:16: error: variable 'chain_head' might be
-        clobbered by 'longjmp' or 'vfork' [-Werror=clobbered]
-    src/iptables.c:3070:36: error: variable 'rm' might be clobbered by
-        'longjmp' or 'vfork' [-Werror=clobbered]
-    src/iptables.c:3170:36: error: variable 'rm' might be clobbered by
-        'longjmp' or 'vfork' [-Werror=clobbered]
+    src/iptables.c:805:40: error: comparison of integer expressions
+        of different signedness: 'int' and 'unsigned int'
+        [-Werror=sign-compare]
+    src/iptables.c:808:40: error: comparison of integer expressions
+        of different signedness: 'int' and 'unsigned int'
+        [-Werror=sign-compare]
 
-Each of these automatic variables is live across the 'setjmp' that
-guards the xtables calls, and C11 7.13.2.1 leaves non-volatile
-automatic objects indeterminate after 'longjmp' if they were modified
-after 'setjmp'. No current 'longjmp' return path reads them, so this
-is not a live defect; however, qualifying them 'volatile' is the
-idiomatic way to make that so by construction and quiets the
-diagnostic. The cost, a handful of extra loads and stores outside any
-hot path, is immaterial.
+The 'offset' member of 'struct connman_iptables_entry' is the
+entry's byte offset within the table, and its one purpose beyond
+bookkeeping is to be the target of a standard-target jump: it is
+written into a 'struct xt_standard_target' 'verdict', in
+'prepare_target' and for fall-through entries in
+'update_targets_reference', and it is compared against existing
+verdicts in 'update_targets_reference' to find jumps that must be
+moved when an entry is inserted or removed. The kernel ABI defines
+'verdict' as 'int', with non-negative values being jump offsets and
+negative values being standard verdicts. So, rather than casting at
+the comparisons, give 'offset' the same type as the verdicts it is
+written into and compared against.
+
+With that, the comparisons in 'update_targets_reference' are made in
+the verdict's own signed domain. Previously, the usual arithmetic
+conversions converted the verdict to 'unsigned int'. 'is_jump' does
+not exclude every negative verdict (for example, -NF_STOLEN - 1), so
+such a verdict would have compared as a very large unsigned value and
+been adjusted as though it were a jump past the modified entry; it
+now correctly compares as less than any entry offset and is left
+alone.
+
+Entry offsets are bounded by the table size, which the kernel limits
+to XT_MAX_TABLE_SIZE (512 MiB) in xt_alloc_table_info, so every valid
+offset is representable as an int, as it already must be to be
+written into a verdict.
 ---
- src/iptables.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ src/iptables.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/src/iptables.c b/src/iptables.c
-index a81a07792e9f..38caa4ea5b13 100644
+index a81a07792e9f..5b1f5650a30e 100644
 --- a/src/iptables.c
 +++ b/src/iptables.c
-@@ -2663,8 +2663,8 @@ static struct xtables_target *prepare_target(struct connman_iptables *table,
- 							const char *target_name)
- {
- 	struct xtables_target *xt_t = NULL;
--	bool is_builtin, is_user_defined;
--	GList *chain_head = NULL;
-+	volatile bool is_builtin, is_user_defined;
-+	GList *volatile chain_head = NULL;
- 	size_t target_size;
- 	int err;
+@@ -151,7 +151,7 @@ static const char *hooknames[] = {
  
-@@ -3067,7 +3067,7 @@ static int parse_xt_modules(int c, bool invert,
- 				struct parse_context *ctx)
- {
- 	struct xtables_match *m;
--	struct xtables_rule_match *rm;
-+	struct xtables_rule_match *volatile rm;
- 	struct ipt_entry fw;
- 	struct ip6t_entry fw6;
- 	int err;
-@@ -3167,7 +3167,7 @@ static int parse_xt_modules(int c, bool invert,
+ struct connman_iptables_entry {
+ 	int type;
+-	unsigned int offset;
++	int offset;
+ 	int builtin;
+ 	int counter_idx;
  
- static int final_check_xt_modules(struct parse_context *ctx)
- {
--	struct xtables_rule_match *rm;
-+	struct xtables_rule_match *volatile rm;
- 	int err;
- 
- 	for (rm = ctx->xt_rm; rm; rm = rm->next) {
 -- 
 2.52.0
 
