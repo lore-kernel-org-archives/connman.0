@@ -1,56 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=66.39.139.36
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
 	t=1794457555;
-	b=34hARxG9SajHXv9Ut7Dc5UNNh6NB1qPFDRE20FIRwes5Y5AJ8n8b9L7xJbg5QwRYpBhq
-	 njDGeFZy6jp1zK1UKh5CGcYNdrBBGOntU5peh7uoyjybBem1WK5qABkVuAeEkXZkeHdvb
-	 EHcoGhzq5mA5zMO9sNDfII8aO9tyy1qp8BZnUvA5BjOJuyKj8U6sLfQzMNCawnwjlYRfP
-	 J1l6ZpAEgw0UEAgMfVoW2wJsQgrAlFC/ezEs764FvmMw7Qo3DlqFHuBoqGstXzV8pQxhB
-	 C976/eax3AZ65UdiFBdaNQAxRvq8TilXSBF1YNctIGkAUIMIHZsJriUXU9eJoTKO2AQ==
+	b=mbibfGbjgGRVV8PTNM+mNV1+JPGmduCPf5TGANEGOrCd9Gc9mkx+Nivpj5qjshShrg4M
+	 vC/O2MWUS52IrKnhAvwccF6PMDkbcJWcllMqPybZHzvxvxh5M5xXV2846QId7xJkKILyK
+	 4V8TSSMoqfbDYwEkXk9UYeGinqCxnpMyLCs1eMnp/6N97QiQw4PnNjNR6PeCIjB7arGhT
+	 k7NQ5GK94uknYPVY/LBqskovCqHGQaatn1Ghflb9nm0bQlxdC2MMqU3ms79lWTxUAFbzw
+	 zn3Hmdy2QwES/aGlZX2MYeEabnaFI76+O1llyu3r5JeAhcHtoo/cldu+6/lyhV7v4Rw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
 	a=rsa-sha256; c=relaxed/relaxed; t=1794457555;
 	h=DMARC-Filter:Received:Received:From:To:Cc:Subject:Date:Message-ID:
 	 X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding:DKIM-Signature:X-Scanned-By;
-	bh=qw7r50j67qZQJ7Cg1oGbezBj9pqqYts8VVfbbpqX9S4=;
-	b=QrEbeJ0oUJps6nA++qoaUUGekoRvlRWyuGLC0LL49tq+j7y1YpulKcQvqMS7oI9QnGOH
-	 3YDWX3GuYTkOfq4z99b5eQ/cF1qFqRp7SEUA5xm61DHIWud18I9oI7WsRkJjzCkA2bBez
-	 q45NEFpuLQqOzwXGPYj6lLJaQxrABpqYAgT9YuNEYJUBIxfNzNaIWkVfXiwO+79j++P07
-	 KGwIhdMtg+lgVKJuZnrxJm9XSRMMFjhQUL5yIdbHzfk5Z/F2zpq2tdnPEk5JeiHhhOklr
-	 I0ssSdYWxV86ncUBy+aY1TRcvIaETGNitTqCQyTDmVw9kVp1qAn5tY1C6pvdl4fADbg==
+	bh=0tNhQrFVKCN0+3I1v5cFNDfVgGE9ZERdn0TbkcUbQac=;
+	b=daSYndGAu4UDUJtMKpG4ZVhN7L3BMPFFeVnN0dEMZe5jCzRpZFDgkK1G8wP+WMu3ym6P
+	 Rx3ptr8rRN6+XCu67m2pfdYydqm+W7DFCVrUMWkIkocxVfhBNowgjaSgVHnsiox1PaU7c
+	 cwPWw6XhyJTNbLtTM33pm/i9hwkpXpOVKDuFxZTuV6P7AvMsD3V0ajH5xVrvFcfuiCUGN
+	 atLZu1ax7JC6Q3ZQCt5ZlBeH6sJ7EWeHBS5H7Dcan5ZSsMeFwCBOFeVSL9fT9HGP4NxSb
+	 CQXnx9jwew+JdmFTD0a/0D43fd3H0TAMFe0NjvacyPnafaHmwD/XUl9WGaYeTWt5oxw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=nuovations.com;
 	spf=pass smtp.mailfrom=nuovations.com;
-	dkim=pass header.d=nuovations.com header.i=@nuovations.com header.a=rsa-sha256 header.s=pair-202401062137 header.b=kHyrTSVS;
+	dkim=pass header.d=nuovations.com header.i=@nuovations.com header.a=rsa-sha256 header.s=pair-202401062137 header.b=m81vHYMt;
 	arc=none smtp.remote-ip=66.39.139.36
 Received: from mail5.g24.pair.com (mail5.g24.pair.com [66.39.139.36])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2598606A321
-	for <connman@lists.linux.dev>; Thu, 12 Nov 2026 04:25:53 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E2598606A321
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74C5C606A327
+	for <connman@lists.linux.dev>; Thu, 12 Nov 2026 04:25:54 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 74C5C606A327
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nuovations.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nuovations.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=nuovations.com header.i=@nuovations.com header.a=rsa-sha256 header.s=pair-202401062137 header.b=kHyrTSVS
+	dkim=pass (2048-bit key) header.d=nuovations.com header.i=@nuovations.com header.a=rsa-sha256 header.s=pair-202401062137 header.b=m81vHYMt
 Received: from mail5.g24.pair.com (localhost [127.0.0.1])
-	by mail5.g24.pair.com (Postfix) with ESMTP id 64B9016028F;
+	by mail5.g24.pair.com (Postfix) with ESMTP id F0D6E160294;
 	Wed, 11 Nov 2026 23:25:53 -0500 (EST)
 Received: from ubuntu-aesop (c-73-202-172-31.hsd1.ca.comcast.net [73.202.172.31])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mail5.g24.pair.com (Postfix) with ESMTPSA id EFAD1124BF7;
-	Wed, 11 Nov 2026 23:25:52 -0500 (EST)
+	by mail5.g24.pair.com (Postfix) with ESMTPSA id 8773F124BF7;
+	Wed, 11 Nov 2026 23:25:53 -0500 (EST)
 From: Grant Erickson <gerickson@nuovations.com>
 To: connman@lists.linux.dev
 Cc: giuseppe.eletto98@gmail.com
-Subject: [PATCH 1/5] gweb: Report transport creation errors accurately
-Date: Wed, 11 Nov 2026 20:25:47 -0800
-Message-ID: <20261112042551.1613107-2-gerickson@nuovations.com>
+Subject: [PATCH 2/5] wispr: Fail checks ending in an unhandled response
+Date: Wed, 11 Nov 2026 20:25:48 -0800
+Message-ID: <20261112042551.1613107-3-gerickson@nuovations.com>
 X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20261112042551.1613107-1-gerickson@nuovations.com>
+In-Reply-To: <20261112042551.1613107-2-gerickson@nuovations.com>
 References: <20261112042551.1613107-1-gerickson@nuovations.com>
+ <20261112042551.1613107-2-gerickson@nuovations.com>
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Post: <mailto:connman@lists.linux.dev>
@@ -61,112 +62,124 @@ List-Owner: <mailto:connman+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nuovations.com; h=from:to:cc:subject:date:message-id:in-reply-to:references:mime-version:content-transfer-encoding; s=pair-202401062137; bh=qw7r50j67qZQJ7Cg1oGbezBj9pqqYts8VVfbbpqX9S4=; b=kHyrTSVScqSoR/sMBNw79u92sCRv2u+QWjaL67C4xqFPl29Zda23XejXMcN8XNRyvx9e6it+h5CTMJBQUBqm2XlGSdC6udHkGkBPh2htf8jpR+51/zSYfh1H+EK8JDOkuEvvj83euRkEl6tjFPJ3Qfu3K8eLTJNK6YOcvGxlNlVvKgyk6qTeisImQwIJai6xRPC0fjkjOQKcjReuIVWhgjZigwXUbAEoUJFS6bnoYMePiML7VG1Pn61enievErqFyyXDuQGAqVVMa8tsMLPAmL8+VOSkae04K+NDz8FZSQWyztaUZjhKBa+k2meRbRhXZSTTsc/HA8MgH76hpxgS9w==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nuovations.com; h=from:to:cc:subject:date:message-id:in-reply-to:references:mime-version:content-transfer-encoding; s=pair-202401062137; bh=0tNhQrFVKCN0+3I1v5cFNDfVgGE9ZERdn0TbkcUbQac=; b=m81vHYMts/lILospYeePQIcjlb3ZpgFjR1UJgJVORuLGxmyU0hI/6rtpnBbPLwzqepLgbBzZOJRuNv/4q/IjjyEogDuzNbxFBIYpu5eoqUUGLBVVlM3y40aWFg1N7BG/siI94/LqNNWdFW4WMqFzYnX6DNjCYsj9UGeHGUMsXbjO7i6szuSg5zEy+61AFS26QTTkAAQ3Sv7NvaP9SIspIfo5s5otAp/tyxlrU1tOg3ul32a4rXZYtDMNiCo2+Za1muKfrxP4ewz7rlUa7FnEx6DqKaraqU0uNbncbpQVAOnfExcvpMJcMmmQngjbISuiaKstQyqob+jb8uFR2ZZEcg==
 X-Scanned-By: mailmunge 3.10 on 66.39.139.36
 
-When the transport for a web session cannot be created,
-handle_resolved_address passes the negated POSIX error returned by
-create_transport directly to g_io_error_from_errno and g_strerror.
-Both expect a positive error, so every such failure was reported as
-G_IO_ERROR_FAILED with a message of "Unknown error -5".
+An online check completes only through its callback, which reports
+success or failure to the service. Several outcomes of
+wispr_portal_web_result_success never invoke it:
 
-In addition, connect_session_transport collapsed every socket(),
-bind and connect() failure into -EIO, discarding the actual error. A
-connect() that fails immediately because, for example, there is no
-route to the peer (ENETUNREACH) or a policy rule prohibits it
-(EACCES) was indistinguishable from any other failure.
+  * Any HTTP status that the switch does not name, such as 204, 403,
+    5xx, or 511, falls to the default case, which does nothing.
 
-Return the negated errno from each of those failure points and negate
-it again before passing it to g_io_error_from_errno and g_strerror,
-so that a failed online check is reported with, for example,
-"Network is unreachable" rather than "Unknown error -5".
+  * A 200 carrying a WISPr message that wispr_manage_message did not
+    act on breaks out of the switch without completing.
+
+  * A redirect whose follow-on request cannot be started leaves
+    request_id at zero with no result callback to come. Builds
+    without TLS support never follow redirects, so this arises only
+    with TLS support.
+
+In each case, the check never completes. Because the check is still
+active, later attempts to start one return -EALREADY. In continuous
+mode, no further check is scheduled until the default service, the
+link, or an address changes. A service that is "ready" stays "ready"
+and one that is "online" stays "online", regardless of whether the
+online check endpoint becomes reachable, or stops being reachable.
+
+This happens in practice: a home router that pauses or blocks a
+device commonly answers the online check URL itself with a block
+page or an error status.
+
+Complete each of these as a failure, with a message that names the
+reason (for example, "unexpected HTTP status 403"), so that the
+failure is logged and counted, and continuous mode reschedules the
+next check with its configured backoff.
 ---
- gweb/gweb.c | 39 ++++++++++++++++++++++++++-------------
- 1 file changed, 26 insertions(+), 13 deletions(-)
+ src/wispr.c | 48 +++++++++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 47 insertions(+), 1 deletion(-)
 
-diff --git a/gweb/gweb.c b/gweb/gweb.c
-index 0a87da648a9c..e3a2d2eecb7e 100644
---- a/gweb/gweb.c
-+++ b/gweb/gweb.c
-@@ -1587,12 +1587,15 @@ static inline int bind_socket(int sk, int index, int family)
-  *                                      network stack.
-  *
-  *  @retval  0        If successful.
-- *  @retval  -EIO     If a socket could not be created for the specified
-- *                    session address family, the socket could not be
-- *                    bound to the specified session network
-- *                    interface, or the socket could not connect to
-- *                    the specified session peer address.
-  *  @retval  -ENOMEM  If a GLib transport channel could not be created.
-+ *  @retval  -errno   The negated POSIX error from socket(), from
-+ *                    binding the socket to the specified session
-+ *                    network interface, or from connect(), if a
-+ *                    socket could not be created for the specified
-+ *                    session address family, could not be bound to
-+ *                    the specified session network interface, or
-+ *                    could not start connecting to the specified
-+ *                    session peer address, respectively.
-  *
-  *  @sa close_session_transport
-  *
-@@ -1602,18 +1605,23 @@ static int connect_session_transport(struct web_session *session,
- {
- 	GIOFlags flags;
- 	int sk;
-+	int err;
+diff --git a/src/wispr.c b/src/wispr.c
+index a40cf353b54e..47eb57f1880e 100644
+--- a/src/wispr.c
++++ b/src/wispr.c
+@@ -1065,6 +1065,7 @@ static void wispr_portal_web_result_success(GWebResult *result,
+ 	guint16 status;
+ 	const char *str = NULL;
+ 	const char *redirect = NULL;
++	g_autofree char *message = NULL;
  
- 	sk = socket(session->addr->ai_family, SOCK_STREAM | SOCK_CLOEXEC,
- 			IPPROTO_TCP);
--	if (sk < 0)
--		return -EIO;
-+	if (sk < 0) {
-+		err = -errno;
-+		debug(session->web, "socket() %s", strerror(-err));
-+		return err;
-+	}
+ 	status = g_web_result_get_status(result);
  
- 	if (session->web->index > 0) {
- 		if (bind_socket(sk, session->web->index,
- 					session->addr->ai_family) < 0) {
--			debug(session->web, "bind() %s", strerror(errno));
-+			err = -errno;
-+			debug(session->web, "bind() %s", strerror(-err));
- 			close(sk);
--			return -EIO;
-+			return err;
- 		}
+@@ -1078,8 +1079,30 @@ static void wispr_portal_web_result_success(GWebResult *result,
+ 				wp_context->status_url, wp_context);
+ 		break;
+ 	case GWEB_HTTP_STATUS_CODE_OK:
+-		if (wp_context->wispr_msg.message_type >= 0)
++		/*
++		 * A WISPr message type of zero or greater means the
++		 * response body carried a WISPr XML message. The type
++		 * starts at -1 (connman_wispr_message_init), is set only
++		 * when the body is parsed, and is reset to -1 after each
++		 * result, so here it describes this response alone.
++		 *
++		 * wispr_portal_web_result hands such a message to
++		 * wispr_manage_message first and skips this handler if
++		 * that acted on it: by requesting login credentials from
++		 * the agent (type 100), or by re-checking after a
++		 * successful login (type 120 or 140 with response code
++		 * 50). Reaching here with a type of zero or greater
++		 * therefore means it did not act: the type is one it does
++		 * not handle, the login request could not be made (for
++		 * example, with no agent registered), or the login was
++		 * rejected. Nothing else will complete this check, so
++		 * complete it as a failure.
++		 */
++		if (wp_context->wispr_msg.message_type >= 0) {
++			portal_manage_failure_status(wp_context, 0,
++				"unhandled WISPr message");
+ 			break;
++		}
+ 
+ 		if (g_web_result_get_header(result, "X-ConnMan-Status",
+ 						&str)) {
+@@ -1118,6 +1141,18 @@ static void wispr_portal_web_result_success(GWebResult *result,
+ 				redirect, wispr_portal_web_result,
+ 				wispr_route_request, wp_context, NULL);
+ 
++		/*
++		 * If the redirect request could not even be started, there
++		 * will be no result callback to complete this check, so
++		 * complete it here as a failure.
++		 */
++		if (wp_context->request_id == 0) {
++			portal_manage_failure_status(wp_context, 0,
++				"could not follow redirect");
++			wispr_portal_context_unref(wp_context);
++			break;
++		}
++
+ 		return;
+ 	case GWEB_HTTP_STATUS_CODE_BAD_REQUEST:
+ 		portal_manage_failure_status(wp_context, 0, "bad request");
+@@ -1138,6 +1173,17 @@ static void wispr_portal_web_result_success(GWebResult *result,
+ 				wp_context->status_url, wp_context);
+ 		break;
+ 	default:
++		/*
++		 * Any other status (for example, 204, 403, 5xx, or 511 from
++		 * a router or a block page answering on behalf of the
++		 * online check endpoint) cannot indicate success. Complete
++		 * the check as a failure; otherwise, it would never
++		 * complete and, in continuous mode, no further check would
++		 * be scheduled.
++		 */
++		message = g_strdup_printf("unexpected HTTP status %03u",
++					status);
++		portal_manage_failure_status(wp_context, 0, message);
+ 		break;
  	}
  
-@@ -1643,8 +1651,9 @@ static int connect_session_transport(struct web_session *session,
- 	if (connect(sk, session->addr->ai_addr,
- 			session->addr->ai_addrlen) < 0) {
- 		if (errno != EINPROGRESS) {
--			debug(session->web, "connect() %s", strerror(errno));
--			return -EIO;
-+			err = -errno;
-+			debug(session->web, "connect() %s", strerror(-err));
-+			return err;
- 		}
- 	}
- 
-@@ -2530,11 +2539,15 @@ static void handle_resolved_address(struct web_session *session)
- 
- 	call_route_func(session);
- 
-+	/*
-+	 * create_transport returns a negated POSIX error; both
-+	 * g_io_error_from_errno and g_strerror require a positive one.
-+	 */
- 	ret = create_transport(session);
- 	if (ret < 0) {
- 		local_error = g_error_new_literal(G_IO_ERROR,
--						g_io_error_from_errno(ret),
--						g_strerror(ret));
-+						g_io_error_from_errno(-ret),
-+						g_strerror(-ret));
- 
- 		call_result_func_failure(session, local_error);
- 	}
 -- 
 2.52.0
 
