@@ -1,62 +1,53 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.232.154.24
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=66.39.139.36
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794480739;
-	b=FjixT2hKODzskYpHNAWJJi5gjXnwxf4JTCoMmkCE721LSHSwsxpyIU1SmqdMyofiU63v
-	 4n7K+l4IYsOa4mNV2A1dP/fFLMSe4+3AxFxnk/40dF3NLfX1t9VAp0POlaYQTlNFlJw/b
-	 utdnVC6xn3WTVLxzTY1UQfUG9KtVNrs1zjDYSai/NJmZbDp1C4KSjdMtunJeMa7N6xWSm
-	 HDLKj/zKxdhsRBSwDOArScsbI6Qn3LvSUtgkAZLatZ74TxnE089CsgcncPfMPgSxUdbYV
-	 hkY39GeIiDr3VVa9FXHkEcCiOW7esxkQbNgpvz8QXKjyG9HvjoI1EhJxF65jGBxlxfA==
+	t=1794514693;
+	b=Ft9orCv09aXOE6/0Uhbm32ez00U2Q+cZRvF4qamF1xcotWiiUPImwccB9j7H2SqrSv6u
+	 3rqxSiR80mcvd4hETTHwXOtl7Czy1GzNdf5coviq/54oS7k6GgLUDDRQVy0cpLug5uoQR
+	 M9wkFjkBO+ulbz7WVrF14FkIg6088axWTznCt+1lMn+M6JGnWZd/L66z9sGwuowG6FvR6
+	 GsB3uRxRfmNg5MMtoQtU+DKha4nOLPeTYsZ+jB6LgEqjFUW2VX3GdC5byGrbn64PxTIYR
+	 1tUOJ4RkH+nXPgUrNPAC6/BEK0wfmpXTmKz/AfsSQy9dns/ak8WCsoRr1NU1+KVz2vA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794480739;
-	h=DMARC-Filter:DKIM-Signature:Received:From:To:Subject:Date:Message-ID:
-	 X-Mailer:MIME-Version:Content-Transfer-Encoding:X-Rspam-Score:
-	 X-Rspam-Report;
-	bh=qL5sdEK8BCI3eHVYl+Pm491w9hWYPWW79F/empgTZtg=;
-	b=Q0JXu9aNIAQ7OGJr0erFB2wDqmh6si6kUNvJ0hvOST08pyW5PPY9zCmLuJbzeowPAIYQ
-	 C33pl5hs05jeWXSd9Tuuvp2rd1DZ8sk+ouBvbLLK2XkMqBb0z1PmosH/LzioieIr1s6kB
-	 v5mPmIkDu75OYm/qh5/8tSniua1F2tZLj8zTDFNcWCXVROF/j0RK7jEWmEf+9mS+6syyH
-	 JK0ctnMgO1dl9qMLO4fi82WKRrsNmFWjwiq62bcJ+ddBbTLp2oa35xeMPmNsocmMs14i1
-	 KjZwSnXbGAfyrgd9QXKYjGn4nrZcTcZq/hz06QhwjucT0hvv8+CG7ebKM51gnr2bIGw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794514693;
+	h=DMARC-Filter:Received:Received:From:To:Subject:Date:Message-ID:
+	 X-Mailer:MIME-Version:Content-Transfer-Encoding:DKIM-Signature:
+	 X-Scanned-By;
+	bh=T5UgmurF0qqrU/alHRg0xnUqZdUTOCSRPSCKiVIVtOQ=;
+	b=J4SpGBOL8yYkwWHAgfKMZhjjK8fBrLgLkhOAxMSzp6hW1orHUpmFqa74VKNnfX4TxBaS
+	 VtUSg96z3/S2x468Dv760uF2FhcKUERt9n7cMBdQzTD+Oq95rmPRQWLYyCffiyUwLhqAO
+	 bfTF4/yBbz21Uhe5oBqErZHBR5PSyyp8vohfWlomvt9AoOOGejMcix3MoFhDc4k6feqtY
+	 lCEgOTZo/OZJ99K5CzsjeS9S4vXYZRtUEHkhrksaSUi/uEzQ4kBp92n5KrKlhd9sI4Bzy
+	 a4mAwQgbEwgj39oYJB4jVPBw2dtZusqkOaFzAVhExm49n6QUaiqWlS83YAcWZQRVS2A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=fail header.from=jolla.com;
-	spf=pass smtp.mailfrom=kapsi.fi;
-	dkim=pass header.d=kapsi.fi header.i=@kapsi.fi header.a=rsa-sha256 header.s=20161220 header.b=Oq1u0c9v;
-	arc=none smtp.remote-ip=91.232.154.24
-Received: from mail.kapsi.fi (mail-auth.kapsi.fi [91.232.154.24])
+	dmarc=none header.from=nuovations.com;
+	spf=pass smtp.mailfrom=nuovations.com;
+	dkim=pass header.d=nuovations.com header.i=@nuovations.com header.a=rsa-sha256 header.s=pair-202401062137 header.b=dAfUY8lB;
+	arc=none smtp.remote-ip=66.39.139.36
+Received: from mail5.g24.pair.com (mail5.g24.pair.com [66.39.139.36])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11E4C606A88E
-	for <connman@lists.linux.dev>; Thu, 12 Nov 2026 10:52:17 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 11E4C606A88E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=jolla.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kapsi.fi
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF749606A31C
+	for <connman@lists.linux.dev>; Thu, 12 Nov 2026 20:18:11 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DF749606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nuovations.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nuovations.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kapsi.fi header.i=@kapsi.fi header.a=rsa-sha256 header.s=20161220 header.b=Oq1u0c9v
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
-	s=20161220; h=Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:
-	To:From:Sender:Reply-To:Cc:Content-Type:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-	List-Post:List-Owner:List-Archive;
-	bh=qL5sdEK8BCI3eHVYl+Pm491w9hWYPWW79F/empgTZtg=; b=Oq1u0c9vfS3dzpiJaR1ZpE0p+T
-	ysauYMFYiS0fXSphQ5/Prn1pkVH7a9U+8Z1Yffwm9sS1GeUkJAmWboPjtIY7g2rOZGcdM9JAp8ajZ
-	l/gHWO/XGOEnsHuQr3Y3IzTfFlnQCPzAi9wFRq2pzmILLaQphBy/tsaME1YV4lLNED0TGja5cPZPz
-	e+3zQP5Nyfk3HIxkZngPs6aALoVg5q6ULB7x6tKrPpwK0tty6ggI4EsWTTo/OYVummtLL+TXwAAna
-	0DCsNrJFBXsUAiaNa+avZFLMi3qzCvymE8Y7iUXPFr19gD67X6amZfiB454on0O83BXDb0k/lhMCA
-	591DM41A==;
-Received: from [2a10:a5c0:37:6500:ca01:7f40:aaa4:8908] (helo=jl-x230.local)
-	by mail.kapsi.fi with esmtpsa (Exim 4.96)
-	(envelope-from <jussi.laakkonen@jolla.com>)
-		id 1xRSPW-004CfD-07
-	for connman@lists.linux.dev;
-	Thu, 12 Nov 2026 12:52:10 +0200
-From: Jussi Laakkonen <jussi.laakkonen@jolla.com>
+	dkim=pass (2048-bit key, unprotected) header.d=nuovations.com header.i=@nuovations.com header.a=rsa-sha256 header.s=pair-202401062137 header.b=dAfUY8lB
+Received: from mail5.g24.pair.com (localhost [127.0.0.1])
+	by mail5.g24.pair.com (Postfix) with ESMTP id E610716004A
+	for <connman@lists.linux.dev>; Thu, 12 Nov 2026 15:18:10 -0500 (EST)
+Received: from ubuntu-aesop (c-73-202-172-31.hsd1.ca.comcast.net [73.202.172.31])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mail5.g24.pair.com (Postfix) with ESMTPSA id 92FA2124C65
+	for <connman@lists.linux.dev>; Thu, 12 Nov 2026 15:18:10 -0500 (EST)
+From: Grant Erickson <gerickson@nuovations.com>
 To: connman@lists.linux.dev
-Subject: [PATCH] inet: Use in6_rtmsg instead of rtentry for IPv6 gw interface set/clear
-Date: Thu, 12 Nov 2026 12:51:53 +0200
-Message-ID: <20261112105159.163730-1-jussi.laakkonen@jolla.com>
-X-Mailer: git-send-email 2.47.3
+Subject: [PATCH] iptables: Address -Werror=clobbered compilation errors.
+Date: Thu, 12 Nov 2026 12:18:09 -0800
+Message-ID: <20261112201809.1626562-1-gerickson@nuovations.com>
+X-Mailer: git-send-email 2.52.0
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Post: <mailto:connman@lists.linux.dev>
@@ -67,178 +58,71 @@ List-Owner: <mailto:connman+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Rspam-Score: -1.6 (-)
-X-Rspam-Report: Action: no action
- Symbol: RCVD_TLS_ALL(0.00)
- Symbol: FROM_HAS_DN(0.00)
- Symbol: FROM_EQ_ENVFROM(0.00)
- Symbol: MID_CONTAINS_FROM(1.00)
- Symbol: LOCAL_OUTBOUND(0.00)
- Symbol: TO_DN_NONE(0.00)
- Symbol: TO_MATCH_ENVRCPT_ALL(0.00)
- Symbol: URIBL_BLOCKED(0.00)
- Symbol: MIME_GOOD(-0.10)
- Symbol: BAYES_HAM(-3.00)
- Symbol: RCVD_VIA_SMTP_AUTH(0.00)
- Symbol: ARC_NA(0.00)
- Symbol: ASN(0.00)
- Symbol: RCVD_COUNT_ONE(0.00)
- Symbol: MIME_TRACE(0.00)
- Symbol: RCPT_COUNT_ONE(0.00)
- Symbol: R_MISSING_CHARSET(0.50)
- X-Symbol: RCVD_TLS_ALL(0.00); All hops used encrypted transports
- X-Symbol: FROM_HAS_DN(0.00); From header has a display name
- X-Symbol: FROM_EQ_ENVFROM(0.00); From address is the same as the envelope
- X-Symbol: MID_CONTAINS_FROM(1.00); Message-ID contains From address
- X-Symbol: LOCAL_OUTBOUND(0.00); Mail from local to external domain
- X-Symbol: TO_DN_NONE(0.00); None of the recipients have display names
- X-Symbol: TO_MATCH_ENVRCPT_ALL(0.00); All of the recipients match the envelope
- X-Symbol: URIBL_BLOCKED(0.00); URIBL.com: query refused, likely due to policy/overusage [jl-x230.local:helo]
- X-Symbol: MIME_GOOD(-0.10); Known content-type [text/plain]
- X-Symbol: BAYES_HAM(-3.00); Message probably ham, probability:  [100.00%]
- X-Symbol: RCVD_VIA_SMTP_AUTH(0.00); Authenticated hand-off was seen in Received headers
- X-Symbol: ARC_NA(0.00); ARC signature absent
- X-Symbol: ASN(0.00) [asn:202246, ipnet:2a10:a5c0::/36, country:FI]
- X-Symbol: RCVD_COUNT_ONE(0.00); Message has one Received header [1]
- X-Symbol: MIME_TRACE(0.00) [0:+]
- X-Symbol: RCPT_COUNT_ONE(0.00); One recipient [1]
- X-Symbol: R_MISSING_CHARSET(0.50); Charset header is missing
- Message-ID: 20261112105159.163730-1-jussi.laakkonen@jolla.com
- X-Milter-Del: X-Spam
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nuovations.com; h=from:to:subject:date:message-id:mime-version:content-transfer-encoding; s=pair-202401062137; bh=T5UgmurF0qqrU/alHRg0xnUqZdUTOCSRPSCKiVIVtOQ=; b=dAfUY8lBD6HWOAk1dJr1Rpffg8MQ+gVm/MZieMv7MI9U1VDyhc3OiOCuWF2av2few7gJwu8IVW4CuiljeKEqpnLtYBz7Wcj975lPc2xaqTT0j2ePMvfTCKfxs3EWSzwEeFfdJJS5vICVJFonCtblnEWT3lBY14nG0dhL8Vt2Zgd2iqZofRXQQeJWnXTLzWVm3YeCWZ+BgKSCQeJAgMIJwu8PcrxSJ/qjdrRFyekejrE1yPwu1/hAWsQbUtxBbm5so6ahae3NiZ+EwViFaPkNVk0C+0rFONhsu0G1kXMik5TfL9ihMACLErJAuZobPeI59IcNEk9OUGgU3ha9SWjQFw==
+X-Scanned-By: mailmunge 3.10 on 66.39.139.36
 
-For IPv6 it is preferred to use the defined structs when communicating
-with kernel. Use the proper in6_rtmsg in both set and clear interface as
-it was already used in clear gateway address.
+This addresses -Werror=clobbered compilation errors surfaced by GCC
+in 'prepare_target', 'parse_xt_modules', and 'final_check_xt_modules'
+when --enable-maintainer-mode is asserted, optimization is enabled
+(that is, --disable-optimization is not asserted), and connman is
+configured with --with-firewall=iptables:
 
-Keep the interface name check but use connman_inet_ifname() to ensure
-that the interface is up before trying to set/clear gw route for the
-interface.
+    src/iptables.c:2666:14: error: variable 'is_builtin' might be
+        clobbered by 'longjmp' or 'vfork' [-Werror=clobbered]
+    src/iptables.c:2666:26: error: variable 'is_user_defined' might be
+        clobbered by 'longjmp' or 'vfork' [-Werror=clobbered]
+    src/iptables.c:2667:16: error: variable 'chain_head' might be
+        clobbered by 'longjmp' or 'vfork' [-Werror=clobbered]
+    src/iptables.c:3070:36: error: variable 'rm' might be clobbered by
+        'longjmp' or 'vfork' [-Werror=clobbered]
+    src/iptables.c:3170:36: error: variable 'rm' might be clobbered by
+        'longjmp' or 'vfork' [-Werror=clobbered]
+
+Each of these automatic variables is live across the 'setjmp' that
+guards the xtables calls, and C11 7.13.2.1 leaves non-volatile
+automatic objects indeterminate after 'longjmp' if they were modified
+after 'setjmp'. No current 'longjmp' return path reads them, so this
+is not a live defect; however, qualifying them 'volatile' is the
+idiomatic way to make that so by construction and quiets the
+diagnostic. The cost, a handful of extra loads and stores outside any
+hot path, is immaterial.
 ---
- src/inet.c | 76 +++++++++++++++++++++---------------------------------
- 1 file changed, 30 insertions(+), 46 deletions(-)
+ src/iptables.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/src/inet.c b/src/inet.c
-index 54c283ff..0d459ef9 100644
---- a/src/inet.c
-+++ b/src/inet.c
-@@ -2310,43 +2310,35 @@ out:
- 
- int connman_inet_set_ipv6_gateway_interface(int index)
+diff --git a/src/iptables.c b/src/iptables.c
+index a81a07792e9f..38caa4ea5b13 100644
+--- a/src/iptables.c
++++ b/src/iptables.c
+@@ -2663,8 +2663,8 @@ static struct xtables_target *prepare_target(struct connman_iptables *table,
+ 							const char *target_name)
  {
--	struct ifreq ifr;
--	struct rtentry rt;
--	struct sockaddr_in6 addr;
-+	struct in6_rtmsg rt = { 0 };
- 	const struct in6_addr any = IN6ADDR_ANY_INIT;
-+	char *ifname;
- 	int sk, err = 0;
+ 	struct xtables_target *xt_t = NULL;
+-	bool is_builtin, is_user_defined;
+-	GList *chain_head = NULL;
++	volatile bool is_builtin, is_user_defined;
++	GList *volatile chain_head = NULL;
+ 	size_t target_size;
+ 	int err;
  
- 	DBG("index %d", index);
- 
--	sk = socket(PF_INET6, SOCK_DGRAM | SOCK_CLOEXEC, 0);
--	if (sk < 0) {
-+	ifname = connman_inet_ifname(index);
-+	if (!ifname) {
- 		err = -errno;
- 		goto out;
- 	}
- 
--	memset(&ifr, 0, sizeof(ifr));
--	ifr.ifr_ifindex = index;
-+	DBG("ifname %s", ifname);
-+	g_free(ifname);
- 
--	if (ioctl(sk, SIOCGIFNAME, &ifr) < 0) {
-+	sk = socket(PF_INET6, SOCK_DGRAM | SOCK_CLOEXEC, 0);
-+	if (sk < 0) {
- 		err = -errno;
--		close(sk);
- 		goto out;
- 	}
- 
--	DBG("ifname %s", ifr.ifr_name);
--
--	memset(&rt, 0, sizeof(rt));
--	rt.rt_flags = RTF_UP;
--
--	memset(&addr, 0, sizeof(addr));
--	addr.sin6_family = AF_INET6;
--	addr.sin6_addr = any;
--
--	memcpy(&rt.rt_genmask, &addr, sizeof(rt.rt_genmask));
--	memcpy(&rt.rt_dst, &addr, sizeof(rt.rt_dst));
--	memcpy(&rt.rt_gateway, &addr, sizeof(rt.rt_gateway));
--
--	rt.rt_dev = ifr.ifr_name;
-+	rt.rtmsg_dst = any;
-+	rt.rtmsg_src = any;
-+	rt.rtmsg_gateway = any;
-+	rt.rtmsg_dst_len = 0;
-+	rt.rtmsg_src_len = 0;
-+	rt.rtmsg_flags = RTF_UP;
-+	rt.rtmsg_ifindex = index;
- 
- 	if (ioctl(sk, SIOCADDRT, &rt) < 0 && errno != EEXIST)
- 		err = -errno;
-@@ -2472,43 +2464,35 @@ out:
- 
- int connman_inet_clear_ipv6_gateway_interface(int index)
+@@ -3067,7 +3067,7 @@ static int parse_xt_modules(int c, bool invert,
+ 				struct parse_context *ctx)
  {
--	struct ifreq ifr;
--	struct rtentry rt;
--	struct sockaddr_in6 addr;
-+	struct in6_rtmsg rt = { 0 };
- 	const struct in6_addr any = IN6ADDR_ANY_INIT;
-+	char *ifname;
- 	int sk, err = 0;
+ 	struct xtables_match *m;
+-	struct xtables_rule_match *rm;
++	struct xtables_rule_match *volatile rm;
+ 	struct ipt_entry fw;
+ 	struct ip6t_entry fw6;
+ 	int err;
+@@ -3167,7 +3167,7 @@ static int parse_xt_modules(int c, bool invert,
  
- 	DBG("index %d", index);
+ static int final_check_xt_modules(struct parse_context *ctx)
+ {
+-	struct xtables_rule_match *rm;
++	struct xtables_rule_match *volatile rm;
+ 	int err;
  
--	sk = socket(PF_INET6, SOCK_DGRAM | SOCK_CLOEXEC, 0);
--	if (sk < 0) {
-+	ifname = connman_inet_ifname(index);
-+	if (!ifname) {
- 		err = -errno;
- 		goto out;
- 	}
- 
--	memset(&ifr, 0, sizeof(ifr));
--	ifr.ifr_ifindex = index;
-+	DBG("ifname %s", ifname);
-+	g_free(ifname);
- 
--	if (ioctl(sk, SIOCGIFNAME, &ifr) < 0) {
-+	sk = socket(PF_INET6, SOCK_DGRAM | SOCK_CLOEXEC, 0);
-+	if (sk < 0) {
- 		err = -errno;
--		close(sk);
- 		goto out;
- 	}
- 
--	DBG("ifname %s", ifr.ifr_name);
--
--	memset(&rt, 0, sizeof(rt));
--	rt.rt_flags = RTF_UP;
--
--	memset(&addr, 0, sizeof(addr));
--	addr.sin6_family = AF_INET6;
--	addr.sin6_addr = any;
--
--	memcpy(&rt.rt_genmask, &addr, sizeof(rt.rt_genmask));
--	memcpy(&rt.rt_dst, &addr, sizeof(rt.rt_dst));
--	memcpy(&rt.rt_gateway, &addr, sizeof(rt.rt_gateway));
--
--	rt.rt_dev = ifr.ifr_name;
-+	rt.rtmsg_dst = any;
-+	rt.rtmsg_src = any;
-+	rt.rtmsg_gateway = any;
-+	rt.rtmsg_dst_len = 0;
-+	rt.rtmsg_src_len = 0;
-+	rt.rtmsg_flags = RTF_UP;
-+	rt.rtmsg_ifindex = index;
- 
- 	if (ioctl(sk, SIOCDELRT, &rt) < 0 && errno != ESRCH)
- 		err = -errno;
+ 	for (rm = ctx->xt_rm; rm; rm = rm->next) {
 -- 
-2.47.3
+2.52.0
 
