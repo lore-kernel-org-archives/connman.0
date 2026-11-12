@@ -1,60 +1,62 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=66.39.139.36
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.232.154.24
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794457556;
-	b=JplHVJns5hOMO0/yw4n7iEjkLJljR9iuCS2F058B3G/JbXz/bBlXhGkeOuIpTI6new+q
-	 x9Fh/mkCOSN2wWlyKfntTIRy0GHUi37+zxrTLAyRf8zraA3nmuKLDptYW9JzshQcMRWkY
-	 ofHfea/oWJFQvEOubkPs9SFjvs+lA6i4vXLmJgbQnAVOqBS31z8NwkJ+s7tpDy12E7ky7
-	 bSOK0MxLCeHHhjXr2kQHzepE5i7qYoRVcKuvSSpx/1dUrcBYuG3bFfyn8p9yZwsdkSbEw
-	 ZYTYAif6WO9/m/2Wlq2lS6e17Pu/HsXPrZ73Skn0YxD7PI6NTpO6SDYkiCyYuKtPzGA==
+	t=1794480739;
+	b=FjixT2hKODzskYpHNAWJJi5gjXnwxf4JTCoMmkCE721LSHSwsxpyIU1SmqdMyofiU63v
+	 4n7K+l4IYsOa4mNV2A1dP/fFLMSe4+3AxFxnk/40dF3NLfX1t9VAp0POlaYQTlNFlJw/b
+	 utdnVC6xn3WTVLxzTY1UQfUG9KtVNrs1zjDYSai/NJmZbDp1C4KSjdMtunJeMa7N6xWSm
+	 HDLKj/zKxdhsRBSwDOArScsbI6Qn3LvSUtgkAZLatZ74TxnE089CsgcncPfMPgSxUdbYV
+	 hkY39GeIiDr3VVa9FXHkEcCiOW7esxkQbNgpvz8QXKjyG9HvjoI1EhJxF65jGBxlxfA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794457556;
-	h=DMARC-Filter:Received:Received:From:To:Cc:Subject:Date:Message-ID:
-	 X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding:DKIM-Signature:X-Scanned-By;
-	bh=SkYPi+YAGh3y+OM9CjcLiYCupfXrxe9L57CN2MLDeaY=;
-	b=UJcnzy+821kFqmEM2ZCKrBlU7eKnHqu20ry/f1UCpA/RoZZeh00wu49rJb75a7HS/VtC
-	 Zt3pFZitCqCyaMJSWzZix0NOkLEoyDIxhOwTBeXOHdvCqjQiX0w/R67ykUmfZuemODDVv
-	 VyWRu4A1nOY4DFIBC05YgwRuT5RsfpzaC7vuV6gigxVqlB5SaWyF65OoTcKQaOWEWTcyY
-	 u6FDDcwwOm30GVWBtUrTCfWOW+CbmJoKeb7CSfAyRgZrRddRE3hg+fp6dxuFk9zHIzWmz
-	 d+TGeSW3RKuMiMjphDmq60hIC9c0BH8hpRM8BhuQpxEipBf/jdMpFSQcZkKdS7eKv0w==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794480739;
+	h=DMARC-Filter:DKIM-Signature:Received:From:To:Subject:Date:Message-ID:
+	 X-Mailer:MIME-Version:Content-Transfer-Encoding:X-Rspam-Score:
+	 X-Rspam-Report;
+	bh=qL5sdEK8BCI3eHVYl+Pm491w9hWYPWW79F/empgTZtg=;
+	b=Q0JXu9aNIAQ7OGJr0erFB2wDqmh6si6kUNvJ0hvOST08pyW5PPY9zCmLuJbzeowPAIYQ
+	 C33pl5hs05jeWXSd9Tuuvp2rd1DZ8sk+ouBvbLLK2XkMqBb0z1PmosH/LzioieIr1s6kB
+	 v5mPmIkDu75OYm/qh5/8tSniua1F2tZLj8zTDFNcWCXVROF/j0RK7jEWmEf+9mS+6syyH
+	 JK0ctnMgO1dl9qMLO4fi82WKRrsNmFWjwiq62bcJ+ddBbTLp2oa35xeMPmNsocmMs14i1
+	 KjZwSnXbGAfyrgd9QXKYjGn4nrZcTcZq/hz06QhwjucT0hvv8+CG7ebKM51gnr2bIGw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=nuovations.com;
-	spf=pass smtp.mailfrom=nuovations.com;
-	dkim=pass header.d=nuovations.com header.i=@nuovations.com header.a=rsa-sha256 header.s=pair-202401062137 header.b=LjxgXhNF;
-	arc=none smtp.remote-ip=66.39.139.36
-Received: from mail5.g24.pair.com (mail5.g24.pair.com [66.39.139.36])
+	dmarc=fail header.from=jolla.com;
+	spf=pass smtp.mailfrom=kapsi.fi;
+	dkim=pass header.d=kapsi.fi header.i=@kapsi.fi header.a=rsa-sha256 header.s=20161220 header.b=Oq1u0c9v;
+	arc=none smtp.remote-ip=91.232.154.24
+Received: from mail.kapsi.fi (mail-auth.kapsi.fi [91.232.154.24])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33186606A32E
-	for <connman@lists.linux.dev>; Thu, 12 Nov 2026 04:25:56 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 33186606A32E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nuovations.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nuovations.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11E4C606A88E
+	for <connman@lists.linux.dev>; Thu, 12 Nov 2026 10:52:17 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 11E4C606A88E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=jolla.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kapsi.fi
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nuovations.com header.i=@nuovations.com header.a=rsa-sha256 header.s=pair-202401062137 header.b=LjxgXhNF
-Received: from mail5.g24.pair.com (localhost [127.0.0.1])
-	by mail5.g24.pair.com (Postfix) with ESMTP id A98F21601FB;
-	Wed, 11 Nov 2026 23:25:55 -0500 (EST)
-Received: from ubuntu-aesop (c-73-202-172-31.hsd1.ca.comcast.net [73.202.172.31])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mail5.g24.pair.com (Postfix) with ESMTPSA id 418D9124BF7;
-	Wed, 11 Nov 2026 23:25:55 -0500 (EST)
-From: Grant Erickson <gerickson@nuovations.com>
+	dkim=pass (2048-bit key, unprotected) header.d=kapsi.fi header.i=@kapsi.fi header.a=rsa-sha256 header.s=20161220 header.b=Oq1u0c9v
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
+	s=20161220; h=Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:
+	To:From:Sender:Reply-To:Cc:Content-Type:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	List-Post:List-Owner:List-Archive;
+	bh=qL5sdEK8BCI3eHVYl+Pm491w9hWYPWW79F/empgTZtg=; b=Oq1u0c9vfS3dzpiJaR1ZpE0p+T
+	ysauYMFYiS0fXSphQ5/Prn1pkVH7a9U+8Z1Yffwm9sS1GeUkJAmWboPjtIY7g2rOZGcdM9JAp8ajZ
+	l/gHWO/XGOEnsHuQr3Y3IzTfFlnQCPzAi9wFRq2pzmILLaQphBy/tsaME1YV4lLNED0TGja5cPZPz
+	e+3zQP5Nyfk3HIxkZngPs6aALoVg5q6ULB7x6tKrPpwK0tty6ggI4EsWTTo/OYVummtLL+TXwAAna
+	0DCsNrJFBXsUAiaNa+avZFLMi3qzCvymE8Y7iUXPFr19gD67X6amZfiB454on0O83BXDb0k/lhMCA
+	591DM41A==;
+Received: from [2a10:a5c0:37:6500:ca01:7f40:aaa4:8908] (helo=jl-x230.local)
+	by mail.kapsi.fi with esmtpsa (Exim 4.96)
+	(envelope-from <jussi.laakkonen@jolla.com>)
+		id 1xRSPW-004CfD-07
+	for connman@lists.linux.dev;
+	Thu, 12 Nov 2026 12:52:10 +0200
+From: Jussi Laakkonen <jussi.laakkonen@jolla.com>
 To: connman@lists.linux.dev
-Cc: giuseppe.eletto98@gmail.com
-Subject: [PATCH 5/5] wispr: Bound online check response gaps
-Date: Wed, 11 Nov 2026 20:25:51 -0800
-Message-ID: <20261112042551.1613107-6-gerickson@nuovations.com>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20261112042551.1613107-5-gerickson@nuovations.com>
-References: <20261112042551.1613107-1-gerickson@nuovations.com>
- <20261112042551.1613107-2-gerickson@nuovations.com>
- <20261112042551.1613107-3-gerickson@nuovations.com>
- <20261112042551.1613107-4-gerickson@nuovations.com>
- <20261112042551.1613107-5-gerickson@nuovations.com>
+Subject: [PATCH] inet: Use in6_rtmsg instead of rtentry for IPv6 gw interface set/clear
+Date: Thu, 12 Nov 2026 12:51:53 +0200
+Message-ID: <20261112105159.163730-1-jussi.laakkonen@jolla.com>
+X-Mailer: git-send-email 2.47.3
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Post: <mailto:connman@lists.linux.dev>
@@ -65,113 +67,178 @@ List-Owner: <mailto:connman+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nuovations.com; h=from:to:cc:subject:date:message-id:in-reply-to:references:mime-version:content-transfer-encoding; s=pair-202401062137; bh=SkYPi+YAGh3y+OM9CjcLiYCupfXrxe9L57CN2MLDeaY=; b=LjxgXhNFo3CDjhNT+tocf2kmzOfQp1jEstvwCiTALFLkXSP+E0UZ9ISXMSyLC+At9P6YESTL/WMGzpzdeXXqCAgZWnXfS6s45cGhSOZhhgeP29BrFJp8BeXdVLZe+w6VUDTuUgwDkgsE1B7ob7MNKPxY0PbT/5/oc7UUlxkU4vUYWQZzaJrcDimPjQeletN22zhzVbiD/DsVIBQh62GrHWLdybJ7Pq7VUFly/dlnwjMCYr6S8pnNVPG0lgTVz+FljzRubV5EdBXKJqWqE0RLVtYBjg7LnfIsB/1zm6adJh3Wtf5pmGjjmoaEKOsjvKMugmkUHH4QyoK9F53kcDC6pg==
-X-Scanned-By: mailmunge 3.10 on 66.39.139.36
+X-Rspam-Score: -1.6 (-)
+X-Rspam-Report: Action: no action
+ Symbol: RCVD_TLS_ALL(0.00)
+ Symbol: FROM_HAS_DN(0.00)
+ Symbol: FROM_EQ_ENVFROM(0.00)
+ Symbol: MID_CONTAINS_FROM(1.00)
+ Symbol: LOCAL_OUTBOUND(0.00)
+ Symbol: TO_DN_NONE(0.00)
+ Symbol: TO_MATCH_ENVRCPT_ALL(0.00)
+ Symbol: URIBL_BLOCKED(0.00)
+ Symbol: MIME_GOOD(-0.10)
+ Symbol: BAYES_HAM(-3.00)
+ Symbol: RCVD_VIA_SMTP_AUTH(0.00)
+ Symbol: ARC_NA(0.00)
+ Symbol: ASN(0.00)
+ Symbol: RCVD_COUNT_ONE(0.00)
+ Symbol: MIME_TRACE(0.00)
+ Symbol: RCPT_COUNT_ONE(0.00)
+ Symbol: R_MISSING_CHARSET(0.50)
+ X-Symbol: RCVD_TLS_ALL(0.00); All hops used encrypted transports
+ X-Symbol: FROM_HAS_DN(0.00); From header has a display name
+ X-Symbol: FROM_EQ_ENVFROM(0.00); From address is the same as the envelope
+ X-Symbol: MID_CONTAINS_FROM(1.00); Message-ID contains From address
+ X-Symbol: LOCAL_OUTBOUND(0.00); Mail from local to external domain
+ X-Symbol: TO_DN_NONE(0.00); None of the recipients have display names
+ X-Symbol: TO_MATCH_ENVRCPT_ALL(0.00); All of the recipients match the envelope
+ X-Symbol: URIBL_BLOCKED(0.00); URIBL.com: query refused, likely due to policy/overusage [jl-x230.local:helo]
+ X-Symbol: MIME_GOOD(-0.10); Known content-type [text/plain]
+ X-Symbol: BAYES_HAM(-3.00); Message probably ham, probability:  [100.00%]
+ X-Symbol: RCVD_VIA_SMTP_AUTH(0.00); Authenticated hand-off was seen in Received headers
+ X-Symbol: ARC_NA(0.00); ARC signature absent
+ X-Symbol: ASN(0.00) [asn:202246, ipnet:2a10:a5c0::/36, country:FI]
+ X-Symbol: RCVD_COUNT_ONE(0.00); Message has one Received header [1]
+ X-Symbol: MIME_TRACE(0.00) [0:+]
+ X-Symbol: RCPT_COUNT_ONE(0.00); One recipient [1]
+ X-Symbol: R_MISSING_CHARSET(0.50); Charset header is missing
+ Message-ID: 20261112105159.163730-1-jussi.laakkonen@jolla.com
+ X-Milter-Del: X-Spam
 
-OnlineCheckConnectTimeout already bounds an online check from the
-start of its connection until the first data of the response
-arrives; gweb cancels it then. A response that stops after that, for
-example one whose headers and part of whose body arrive and then
-nothing more, without the connection closing, leaves the check
-incomplete indefinitely and, in continuous mode, no further check is
-scheduled.
+For IPv6 it is preferred to use the defined structs when communicating
+with kernel. Use the proper in6_rtmsg in both set and clear interface as
+it was already used in clear gateway address.
 
-Set the gweb receive inactivity timeout for online checks to the
-same OnlineCheckConnectTimeout value, so that each wait for further
-response data is bounded the same way as the wait for the first.
-Expiry fails the check with "no data from <address> for <timeout>ms",
-so it is logged and counted like any other failure.
-
-This extends the meaning of an existing setting rather than adding a
-new one: the setting already bounds more than the TCP connection, and
-it now bounds every wait for the endpoint rather than only the first.
-It bounds each wait rather than the total duration of a check, so a
-slow link or endpoint that continues to make progress is not failed,
-and there is no new setting whose value could conflict with it.
-A value of zero continues to mean "no explicit timeout".
-
-Update connman.conf(5) and the sample main.conf to describe the
-extended meaning.
+Keep the interface name check but use connman_inet_ifname() to ensure
+that the interface is up before trying to set/clear gw route for the
+interface.
 ---
- doc/connman.conf.5.in | 16 +++++++++++-----
- src/main.conf         | 16 +++++++++++-----
- src/wispr.c           |  9 +++++++++
- 3 files changed, 31 insertions(+), 10 deletions(-)
+ src/inet.c | 76 +++++++++++++++++++++---------------------------------
+ 1 file changed, 30 insertions(+), 46 deletions(-)
 
-diff --git a/doc/connman.conf.5.in b/doc/connman.conf.5.in
-index a81ac7bb1e45..f81603196b67 100644
---- a/doc/connman.conf.5.in
-+++ b/doc/connman.conf.5.in
-@@ -224,11 +224,17 @@ http://ipv6.connman.net/online/status.html respectively.
- .BI OnlineCheckConnectTimeout= secs[.milliseconds]
- The time, in decimal seconds (for example, 12.3), to wait for a
- successful TCP connection to the host associated with
--\fBOnlineCheckIPv4URL\fR or \fBOnlineCheckIPv6URL\fR (see above). Connections
--that take longer than \fBOnlineCheckConnectTimeout\fR will be aborted. The
--default value is zero ('0') which indicates that no explicit
--connection timeout will be used, leaving the timeout to the underlying
--operating system and network stack.
-+\fBOnlineCheckIPv4URL\fR or \fBOnlineCheckIPv6URL\fR (see above) and
-+for the first data of its response, and thereafter for each further
-+piece of the response. A check that waits longer than
-+\fBOnlineCheckConnectTimeout\fR for any of these is aborted and counted
-+as a failed check. Because the timeout bounds each wait rather than
-+the whole check, a slow endpoint that continues to send its response
-+is not failed. The default value is zero ('0') which indicates that
-+no explicit timeout will be used, leaving the timeout to the
-+underlying operating system and network stack; with zero, an endpoint
-+that stops sending part way through its response, without closing
-+the connection, leaves the check incomplete indefinitely.
- .TP
- .BI OnlineCheckInitialInterval= interval, OnlineCheckMaxInterval= interval
- Range of intervals between two online check requests.
-diff --git a/src/main.conf b/src/main.conf
-index da1307d9ed09..e3c96eae3903 100644
---- a/src/main.conf
-+++ b/src/main.conf
-@@ -179,11 +179,17 @@
+diff --git a/src/inet.c b/src/inet.c
+index 54c283ff..0d459ef9 100644
+--- a/src/inet.c
++++ b/src/inet.c
+@@ -2310,43 +2310,35 @@ out:
  
- # The time, in decimal seconds (for example, 12.3), to wait for a
- # successful TCP connection to the host associated with
--# "OnlineCheckIPv4URL" or "OnlineCheckIPv6URL". Connections that take
--# longer than "OnlineCheckConnectTimeout" will be aborted. The default
--# value is zero ('0') which indicates that no explicit connection
--# timeout will be used, leaving the timeout to the underlying operating
--# system and network stack.
-+# "OnlineCheckIPv4URL" or "OnlineCheckIPv6URL" and for the first data
-+# of its response, and thereafter for each further piece of the
-+# response. A check that waits longer than "OnlineCheckConnectTimeout"
-+# for any of these is aborted and counted as a failed check. Because
-+# the timeout bounds each wait rather than the whole check, a slow
-+# endpoint that continues to send its response is not failed. The
-+# default value is zero ('0') which indicates that no explicit timeout
-+# will be used, leaving the timeout to the underlying operating system
-+# and network stack; with zero, an endpoint that stops sending part
-+# way through its response, without closing the connection, leaves
-+# the check incomplete indefinitely.
- # OnlineCheckConnectTimeout=0
+ int connman_inet_set_ipv6_gateway_interface(int index)
+ {
+-	struct ifreq ifr;
+-	struct rtentry rt;
+-	struct sockaddr_in6 addr;
++	struct in6_rtmsg rt = { 0 };
+ 	const struct in6_addr any = IN6ADDR_ANY_INIT;
++	char *ifname;
+ 	int sk, err = 0;
  
- # Range of intervals between two online check requests.
-diff --git a/src/wispr.c b/src/wispr.c
-index 013afe241054..ce03aec16858 100644
---- a/src/wispr.c
-+++ b/src/wispr.c
-@@ -1556,6 +1556,15 @@ static int wispr_portal_detect(struct connman_wispr_portal_context *wp_context,
+ 	DBG("index %d", index);
  
- 	g_web_set_connect_timeout(wp_context->web, connect_timeout_ms);
+-	sk = socket(PF_INET6, SOCK_DGRAM | SOCK_CLOEXEC, 0);
+-	if (sk < 0) {
++	ifname = connman_inet_ifname(index);
++	if (!ifname) {
+ 		err = -errno;
+ 		goto out;
+ 	}
  
-+	/*
-+	 * Use the same timeout to bound each gap between receipts of
-+	 * response data once the connect timeout has ended with the
-+	 * first of them. Otherwise, an endpoint, or a router answering in
-+	 * its place, that sends part of a response and then nothing more
-+	 * leaves this check incomplete indefinitely.
-+	 */
-+	g_web_set_inactivity_timeout(wp_context->web, connect_timeout_ms);
-+
- 	if (wp_context->type == CONNMAN_IPCONFIG_TYPE_IPV4) {
- 		g_web_set_address_family(wp_context->web, AF_INET);
- 		wp_context->status_url = online_check_ipv4_url;
+-	memset(&ifr, 0, sizeof(ifr));
+-	ifr.ifr_ifindex = index;
++	DBG("ifname %s", ifname);
++	g_free(ifname);
+ 
+-	if (ioctl(sk, SIOCGIFNAME, &ifr) < 0) {
++	sk = socket(PF_INET6, SOCK_DGRAM | SOCK_CLOEXEC, 0);
++	if (sk < 0) {
+ 		err = -errno;
+-		close(sk);
+ 		goto out;
+ 	}
+ 
+-	DBG("ifname %s", ifr.ifr_name);
+-
+-	memset(&rt, 0, sizeof(rt));
+-	rt.rt_flags = RTF_UP;
+-
+-	memset(&addr, 0, sizeof(addr));
+-	addr.sin6_family = AF_INET6;
+-	addr.sin6_addr = any;
+-
+-	memcpy(&rt.rt_genmask, &addr, sizeof(rt.rt_genmask));
+-	memcpy(&rt.rt_dst, &addr, sizeof(rt.rt_dst));
+-	memcpy(&rt.rt_gateway, &addr, sizeof(rt.rt_gateway));
+-
+-	rt.rt_dev = ifr.ifr_name;
++	rt.rtmsg_dst = any;
++	rt.rtmsg_src = any;
++	rt.rtmsg_gateway = any;
++	rt.rtmsg_dst_len = 0;
++	rt.rtmsg_src_len = 0;
++	rt.rtmsg_flags = RTF_UP;
++	rt.rtmsg_ifindex = index;
+ 
+ 	if (ioctl(sk, SIOCADDRT, &rt) < 0 && errno != EEXIST)
+ 		err = -errno;
+@@ -2472,43 +2464,35 @@ out:
+ 
+ int connman_inet_clear_ipv6_gateway_interface(int index)
+ {
+-	struct ifreq ifr;
+-	struct rtentry rt;
+-	struct sockaddr_in6 addr;
++	struct in6_rtmsg rt = { 0 };
+ 	const struct in6_addr any = IN6ADDR_ANY_INIT;
++	char *ifname;
+ 	int sk, err = 0;
+ 
+ 	DBG("index %d", index);
+ 
+-	sk = socket(PF_INET6, SOCK_DGRAM | SOCK_CLOEXEC, 0);
+-	if (sk < 0) {
++	ifname = connman_inet_ifname(index);
++	if (!ifname) {
+ 		err = -errno;
+ 		goto out;
+ 	}
+ 
+-	memset(&ifr, 0, sizeof(ifr));
+-	ifr.ifr_ifindex = index;
++	DBG("ifname %s", ifname);
++	g_free(ifname);
+ 
+-	if (ioctl(sk, SIOCGIFNAME, &ifr) < 0) {
++	sk = socket(PF_INET6, SOCK_DGRAM | SOCK_CLOEXEC, 0);
++	if (sk < 0) {
+ 		err = -errno;
+-		close(sk);
+ 		goto out;
+ 	}
+ 
+-	DBG("ifname %s", ifr.ifr_name);
+-
+-	memset(&rt, 0, sizeof(rt));
+-	rt.rt_flags = RTF_UP;
+-
+-	memset(&addr, 0, sizeof(addr));
+-	addr.sin6_family = AF_INET6;
+-	addr.sin6_addr = any;
+-
+-	memcpy(&rt.rt_genmask, &addr, sizeof(rt.rt_genmask));
+-	memcpy(&rt.rt_dst, &addr, sizeof(rt.rt_dst));
+-	memcpy(&rt.rt_gateway, &addr, sizeof(rt.rt_gateway));
+-
+-	rt.rt_dev = ifr.ifr_name;
++	rt.rtmsg_dst = any;
++	rt.rtmsg_src = any;
++	rt.rtmsg_gateway = any;
++	rt.rtmsg_dst_len = 0;
++	rt.rtmsg_src_len = 0;
++	rt.rtmsg_flags = RTF_UP;
++	rt.rtmsg_ifindex = index;
+ 
+ 	if (ioctl(sk, SIOCDELRT, &rt) < 0 && errno != ESRCH)
+ 		err = -errno;
 -- 
-2.52.0
+2.47.3
 
