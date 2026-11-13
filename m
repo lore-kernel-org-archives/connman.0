@@ -1,58 +1,53 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=66.39.139.36
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794540909;
-	b=TXIS2ccbH8Yxy0Ogn4c77XCS1jxaDJfAIHDEqsZdsRBBSaTCOXa2NRoQOLyB14vUY6BJ
-	 v+KWgmRKTRpqiC2McPxvIDv/c3DnW5jbUjgEsp7ShBQqhg8DIljgoXPuuMm0QCyT4nvpz
-	 u7ATdpZLFH9V0ysUdFNcmB0Z+DfJRy/r2TB3AyZj+A3IHe0BRXNberUL4CV8QgIeELZ+m
-	 nLsyDHGrheT3L0yh4qHfDz+2xWvklEQQQfvdBcnuHRM5kCxNlyQk2HEVCbVmUASxXQAOE
-	 o/Hcz2nW6LoDrhm1u/vmQaUJkq5MBui78+juTXXeUPfNq/ISghz88+gzCLkeWlkL1WA==
+	t=1794541563;
+	b=qUrdZy3OBxWJfWnC5OKrowO1cwe2t5RJFuFlp79agENFLFqS6G2p9wXtk90C3t6lhAt1
+	 o/u3noS8EEz9YHXNKCXTprmerJRg0niq5t71BebeAcNII1K4BIs9siECsys6rKS5pxxi6
+	 xN5IiQbiGwcL74vX0Lb8reB4QQ/rvd1CbXy8PYi48PgwzDz8e09q/uerThPLUnf5QT0Sk
+	 ornYAb+eZ7yaVD3Xpj4VyptMCse8awEFHkW6jNo9YchCW+l0pwe7/0a1eEdA7tTspd5V2
+	 wdgA4TfjQ4rp9/PmQzbaRtjnROcTVMr3FHXZzdYl7ikz9RnamyVdEBIAO4GXJZueOyQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794540909;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794541563;
 	h=DMARC-Filter:Received:Received:From:To:Subject:Date:Message-ID:
-	 X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding:DKIM-Signature:X-Scanned-By;
-	bh=2vUqdrKIaRBN+ZLWQxwv5w1bJh6a8i2CnbDdHCBuIV4=;
-	b=sLgs1xR5Oow9MXg1fz4qL1t98XXGVP6+XFIFkCtMHxIQeXQOCICY8u/OSREpLMLyLc88
-	 K/ARdR76CHzb2797o7ZIbohiqBRaj0tuK9RjS6Mm3A5SLBugZtKtNJ92qFuxktN+w5syP
-	 yMbhf4qRPkOOy2U2lFeIcSFEnOpup3BZ9s5Gh/YAYQJ+YZmTkXkvs4LgMGejjbkEk13lE
-	 H10FT/LsMIOpTR95VNGnbIPknVTa1n+/ldxbK0oUfwdvflwB5aU5t80J59iJageIEbl1Z
-	 vk3/gfyYs9SDOqbMr1glbg8u8ssp0jtbYSXqPoIi96MvXeOFvNUljSi4u3daGM2DMKg==
+	 X-Mailer:MIME-Version:Content-Transfer-Encoding:DKIM-Signature:
+	 X-Scanned-By;
+	bh=qpVV2l8c1qC80aWfbOtcT/j+3QY0N2oqLXUj4/nzJq8=;
+	b=RUu4/QNhLgUBijePYBi8zcpUmnZN7eyrt/XcaL1GwI8Wei+PaDG4f5AQlv+I+ChNA2XC
+	 hCkXEA5boZe6w6K0WPjHeIYteWYeIYIWj1b7exqU7haDXR3UfcrfKUdaRuglcchsOdGdy
+	 fVGtLOaB9ATmayMnV15FIUWcwQh0KqN3zyEinoAx90GT/QG4edBEnDGP07a4+JxsaoCGC
+	 9rWnXtab8Kk1DMnHj3P3qgY3nZfKoRXaHNu/UPIqvnBu6IRy6ufIGWqUorGUeRFB9Q4xn
+	 Jf3Lh/h4BWqRlqjvEt7BiSCDxZlbPKsfswCeu61bVbhNhTW4tHrt1cuwBNvrFFpnSHg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=nuovations.com;
 	spf=pass smtp.mailfrom=nuovations.com;
-	dkim=pass header.d=nuovations.com header.i=@nuovations.com header.a=rsa-sha256 header.s=pair-202401062137 header.b=OFvBLk7O;
+	dkim=pass header.d=nuovations.com header.i=@nuovations.com header.a=rsa-sha256 header.s=pair-202401062137 header.b=tSyGW2jB;
 	arc=none smtp.remote-ip=66.39.139.36
 Received: from mail5.g24.pair.com (mail5.g24.pair.com [66.39.139.36])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C45D5606A334
-	for <connman@lists.linux.dev>; Fri, 13 Nov 2026 03:35:08 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C45D5606A334
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37259606A31C
+	for <connman@lists.linux.dev>; Fri, 13 Nov 2026 03:46:03 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 37259606A31C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nuovations.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nuovations.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nuovations.com header.i=@nuovations.com header.a=rsa-sha256 header.s=pair-202401062137 header.b=OFvBLk7O
+	dkim=pass (2048-bit key) header.d=nuovations.com header.i=@nuovations.com header.a=rsa-sha256 header.s=pair-202401062137 header.b=tSyGW2jB
 Received: from mail5.g24.pair.com (localhost [127.0.0.1])
-	by mail5.g24.pair.com (Postfix) with ESMTP id 42B761602AC;
-	Thu, 12 Nov 2026 22:35:08 -0500 (EST)
+	by mail5.g24.pair.com (Postfix) with ESMTP id 451B0160279;
+	Thu, 12 Nov 2026 22:46:02 -0500 (EST)
 Received: from ubuntu-aesop (c-73-202-172-31.hsd1.ca.comcast.net [73.202.172.31])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mail5.g24.pair.com (Postfix) with ESMTPSA id DB779124C62;
-	Thu, 12 Nov 2026 22:35:07 -0500 (EST)
+	by mail5.g24.pair.com (Postfix) with ESMTPSA id CDAE7124BEC;
+	Thu, 12 Nov 2026 22:46:01 -0500 (EST)
 From: Grant Erickson <gerickson@nuovations.com>
 To: connman@lists.linux.dev
-Subject: [PATCH 4/4] doc: Describe link-local-only services under PreferredTechnologies
-Date: Thu, 12 Nov 2026 19:35:04 -0800
-Message-ID: <20261113033504.1828738-5-gerickson@nuovations.com>
+Subject: [PATCH] gateway: Promote a low-priority default service gateway
+Date: Thu, 12 Nov 2026 19:46:00 -0800
+Message-ID: <20261113034600.1828963-1-gerickson@nuovations.com>
 X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20261113033504.1828738-4-gerickson@nuovations.com>
-References: <20261113033504.1828738-1-gerickson@nuovations.com>
- <20261113033504.1828738-2-gerickson@nuovations.com>
- <20261113033504.1828738-3-gerickson@nuovations.com>
- <20261113033504.1828738-4-gerickson@nuovations.com>
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Post: <mailto:connman@lists.linux.dev>
@@ -63,35 +58,69 @@ List-Owner: <mailto:connman+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nuovations.com; h=from:to:subject:date:message-id:in-reply-to:references:mime-version:content-transfer-encoding; s=pair-202401062137; bh=2vUqdrKIaRBN+ZLWQxwv5w1bJh6a8i2CnbDdHCBuIV4=; b=OFvBLk7OANd1STAPRPIxqZyIvb6zdWmmyM3GlCUPPV6GIR5k8L4lXWCiHU2y/phfqyjbe+Vbfey4P+Wnr72Ve/R6I0+EMPQ5vHi0nG9FRs819+j9wr85qXPcahPK3CzJr6g7gRzS4aZc1dl5kzfoVoa/327pEEPmXHCgE5b/oYq7YWCUfQxJJNexiUE8PHKxZ//778/N+uqm50yiE/OrmwUy7ERPkb4AZqKILpmNKazq/1SEP7tpWWxmO7GQhMGKi4z3tw4Q1uPlfVMDMj3QkocLVr2ldqBjHW+nxNLbCXVPyCvMuxk3BCS34lWILcuXzrWOMlLqH4700qImrlBURg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nuovations.com; h=from:to:subject:date:message-id:mime-version:content-transfer-encoding; s=pair-202401062137; bh=qpVV2l8c1qC80aWfbOtcT/j+3QY0N2oqLXUj4/nzJq8=; b=tSyGW2jB0usmahZZNI63S4K423q+8g2yxr+pszqVh8W0t4X0ofzmctVEUHDvB4ytA81rRm4GG3mNfQ6wtv7tbPufkSoJ1URIiBkEETlZKwKMqwOoPTFv1K+Hli+G0d9wTzAAUAosu+2+yUtXKvk1J6kGqPUE8kdUkN4vD3xB3jwMqq154b+BgPQUaAUXBib6iIHJPRVLIDtqbm4IaXg5weADdk4Yot12ZnuQLnnZD3IJvxMlLgfhD0VAei53i0vicfwgKssnf+e7UdIgsD4gaBpdw4EmaH4ds51dBHEXytbmK49HIHQKfc2qLkgcWqodesPtD7mUsr6c79rxT39cTA==
 X-Scanned-By: mailmunge 3.10 on 66.39.139.36
 
-Note in connman.conf(5) that a service connected only by link-local
-addressing is not preferred over a connected service that can reach
-beyond its link, whatever the PreferredTechnologies list says, and
-gets the default route only when no such service is connected.
----
- doc/connman.conf.5.in | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+__connman_gateway_update gives the default service's gateway the
+high-priority default route only if demoting another gateway
+succeeded, or if the default service's gateway is not yet active.
 
-diff --git a/doc/connman.conf.5.in b/doc/connman.conf.5.in
-index a81ac7bb1e45..33a3c272b678 100644
---- a/doc/connman.conf.5.in
-+++ b/doc/connman.conf.5.in
-@@ -105,7 +105,12 @@ compared to another preferred type further down the list
- with state 'ready' or with a non-preferred type; a service
- of a preferred technology type in state 'online' will get
- the default route when compared to either a non-preferred
--type or a preferred type further down in the list.
-+type or a preferred type further down in the list. A
-+service connected only by link-local addressing (for
-+example, Ethernet with no DHCP server or IPv6 router on
-+its link) is not preferred over a connected service that
-+can reach beyond its link, whatever its type; it gets the
-+default route only when no such service is connected.
- .TP
- .BI NetworkInterfaceBlacklist= interface\fR[,...]
- List of blacklisted network interfaces separated by ",".
+Since low-priority default routes were introduced 5083062922e5
+("connection: Add support for low-priority default routes."), every
+connected service's gateway is active. When the default service's
+gateway is removed rather than demoted (for example, when its DHCP
+lease expires with no server to renew it), nothing is demoted. The
+service that is default once the list is re-sorted then keeps its
+low-priority default route, active, and is never promoted. No default
+route has metric 0, and, since only a promotion calls
+__connman_service_indicate_default, the new default service may not be
+signaled as such or online checked.
+
+Also promote the default service's gateway when it is active but only
+as a low-priority default gateway.
+---
+ src/gateway.c | 14 ++++++++++----
+ 1 file changed, 10 insertions(+), 4 deletions(-)
+
+diff --git a/src/gateway.c b/src/gateway.c
+index b2c211e2dc8d..86221be5ead9 100644
+--- a/src/gateway.c
++++ b/src/gateway.c
+@@ -3976,8 +3976,10 @@ bool __connman_gateway_update(void)
+ 	DBG("updated4 %u updated6 %u", updated4, updated6);
+ 
+ 	/*
+-	 * Set default gateway if it has been updated or if it has not been
+-	 * set as active yet.
++	 * Set default gateway if it has been updated, if it has not been
++	 * set as active yet, or if it is active but only as a
++	 * low-priority default gateway, for example after the gateway of
++	 * the former default service was removed rather than demoted.
+ 	 */
+ 	if (default_gateway) {
+ 		const struct gateway_config *default_config;
+@@ -3987,7 +3989,9 @@ bool __connman_gateway_update(void)
+ 
+ 		if (default_config &&
+ 			(updated4 ||
+-			!is_gateway_config_state_active(default_config)))
++			!is_gateway_config_state_active(default_config) ||
++			is_gateway_config_type(default_config,
++				CONNMAN_GATEWAY_CONFIG_TYPE_LOW_PRIORITY_DEFAULT)))
+ 			PROMOTE_DEFAULT_GATEWAY(default_gateway, type);
+ 
+ 		type = CONNMAN_IPCONFIG_TYPE_IPV6;
+@@ -3995,7 +3999,9 @@ bool __connman_gateway_update(void)
+ 
+ 		if (default_config &&
+ 			(updated6 ||
+-			!is_gateway_config_state_active(default_config)))
++			!is_gateway_config_state_active(default_config) ||
++			is_gateway_config_type(default_config,
++				CONNMAN_GATEWAY_CONFIG_TYPE_LOW_PRIORITY_DEFAULT)))
+ 			PROMOTE_DEFAULT_GATEWAY(default_gateway, type);
+ 	}
+ 
 -- 
 2.52.0
 
