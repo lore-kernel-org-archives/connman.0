@@ -1,56 +1,53 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=66.39.139.36
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
 	t=1794540908;
-	b=svHzZIjD8h8mambYYXAUwy+/wEAq7dpUw1wPL0JV5uxKpG68wDdHtlyZShBICKQD1dyq
-	 /YKskHdciOK6/b76LS4XX/aV0Nari6grm+T7VzaKKEjcCWQHnj+LWO1yI+iCjEM8BwsnO
-	 KtZQS2DW8mpEfqxjkGUG+Z6j3kt/ZZWnQUdZTerCff9CVU1d2jJeWex8daarc4htzy0xO
-	 WHyx5/irdrDq2UBCqpsIKISR8xg8vxtzShIS2EkE9ibroiQ0aqXUk8TK5Gw8n51OZoMKP
-	 gO8kzz2LByOg8Ylt+p4sQ+qKau0BMSZ7/OPJ92HMgT7czLc+S4IYSWhtBgoh6oHrLcA==
+	b=SyNlaIDZtHwRDK68n7zUz+p8C2cps73cvl1X0b+JcKX/+rhXpzS8udRkUR+bTOvea/dJ
+	 2LIr7rdjG1ms4S6GLmpqYVmifyKny6il6zN22vn5+9LuiWOXCef9/sSs2myIHIdKWkbOT
+	 BWnHkEVPVrStZt+LgNsS93C4mslX8DYwspbqWisagEAb++J+qMNqL210dqAZoH63FKHHu
+	 2wLawigfIp1RvFWdmPHZhPJREc4cvZMzmrg3tkCYPjNXsZYJCZM9xGcsAyrmmptbFppJJ
+	 nn65LGZySK7EesaRjCGr0pCUnrf741QSLwyP6aBfV0pr8HrQ1fBWmJNKEK1O7km+vTw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
 	a=rsa-sha256; c=relaxed/relaxed; t=1794540908;
 	h=DMARC-Filter:Received:Received:From:To:Subject:Date:Message-ID:
-	 X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding:DKIM-Signature:X-Scanned-By;
-	bh=E/Ybfjr/ox+YNf1WBeMehLVlgYZEMHxumIbMfVQ/tbc=;
-	b=Qtn/Z2LIEQsTQiYk5omK7xX5KXQT2n8E/nvczMa95/P6U1fGz/2RESroYRWiDvVAiLbr
-	 +Bd8lCYRSN1VQVqJClLd64GdfGQ1+wQm7BjpUZuzqLrCXosy3MpNFXyYWXEeDMNIv5iKm
-	 4bBp3t9Wng+ev/if4nirYSV1LOaQgtLXmPW9hwui5yRmanFAvG78J7DIqXkjiH5rGtn6B
-	 uynyBTNeNq8yM6lIkQgp1ha+PCjxJ7wJqtJTsRDPvuteVvCE9eiObk0jH4Gda60knPmh/
-	 uUuQ1OmJ5rt8YkXdtv5MoLpyouAi0J3KQt882GXRZf+xXeYn/47ET2Q1/qh3rU9n0cQ==
+	 X-Mailer:MIME-Version:Content-Transfer-Encoding:DKIM-Signature:
+	 X-Scanned-By;
+	bh=Ur0jflhBs8Vc2Zu0+skbmKpn/JLd4kMPh6XZhDQKIX8=;
+	b=Rmupkb2cp+EbEwpQnK1SVQvFenh7YZEYwaqAL5KSkv7Xl/T+ywKYBeneFUiGytTPBDry
+	 ooJuv1JeQ2XRSvwgJvTXhtA1f2J2qMIDfTBJmecC//UT7+amN9J9sry8hJacgWo61Lh8K
+	 WPpDTr9OOgr9NnD0QxUGkgDsYxANwRHnJfti+vJ0sUMbz6WVf6mZTW+Da0kTIcNMK9nH8
+	 WWu5go6loQW1qOcMtgoKXU2C6Yh2CYLVE/p+Vd5e2BmY0pX9I6kf4Yhsw+OjijEbOFWcC
+	 /Nbw4blfFzcvHvUKr80EoNpYjRygMLJNCQzPZUfF0jGkxC37bPNSbdO9k0vJSj/j8JA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=nuovations.com;
 	spf=pass smtp.mailfrom=nuovations.com;
-	dkim=pass header.d=nuovations.com header.i=@nuovations.com header.a=rsa-sha256 header.s=pair-202401062137 header.b=MpWqqcOJ;
+	dkim=pass header.d=nuovations.com header.i=@nuovations.com header.a=rsa-sha256 header.s=pair-202401062137 header.b=JAGm5XRR;
 	arc=none smtp.remote-ip=66.39.139.36
 Received: from mail5.g24.pair.com (mail5.g24.pair.com [66.39.139.36])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5D47606A887
-	for <connman@lists.linux.dev>; Fri, 13 Nov 2026 03:35:07 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A5D47606A887
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38D07606A88D
+	for <connman@lists.linux.dev>; Fri, 13 Nov 2026 03:35:06 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 38D07606A88D
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nuovations.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nuovations.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=nuovations.com header.i=@nuovations.com header.a=rsa-sha256 header.s=pair-202401062137 header.b=MpWqqcOJ
+	dkim=pass (2048-bit key) header.d=nuovations.com header.i=@nuovations.com header.a=rsa-sha256 header.s=pair-202401062137 header.b=JAGm5XRR
 Received: from mail5.g24.pair.com (localhost [127.0.0.1])
-	by mail5.g24.pair.com (Postfix) with ESMTP id 351831602D1;
-	Thu, 12 Nov 2026 22:35:07 -0500 (EST)
+	by mail5.g24.pair.com (Postfix) with ESMTP id 26BDF160279;
+	Thu, 12 Nov 2026 22:35:06 -0500 (EST)
 Received: from ubuntu-aesop (c-73-202-172-31.hsd1.ca.comcast.net [73.202.172.31])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mail5.g24.pair.com (Postfix) with ESMTPSA id CB216124C62;
-	Thu, 12 Nov 2026 22:35:06 -0500 (EST)
+	by mail5.g24.pair.com (Postfix) with ESMTPSA id BA177124C53;
+	Thu, 12 Nov 2026 22:35:05 -0500 (EST)
 From: Grant Erickson <gerickson@nuovations.com>
 To: connman@lists.linux.dev
-Subject: [PATCH 2/4] service: Rank link-local-only services below others when reordering
-Date: Thu, 12 Nov 2026 19:35:02 -0800
-Message-ID: <20261113033504.1828738-3-gerickson@nuovations.com>
+Subject: [PATCH 0/4] Keep link-local-only services from displacing the default
+Date: Thu, 12 Nov 2026 19:35:00 -0800
+Message-ID: <20261113033504.1828738-1-gerickson@nuovations.com>
 X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20261113033504.1828738-2-gerickson@nuovations.com>
-References: <20261113033504.1828738-1-gerickson@nuovations.com>
- <20261113033504.1828738-2-gerickson@nuovations.com>
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Post: <mailto:connman@lists.linux.dev>
@@ -61,73 +58,55 @@ List-Owner: <mailto:connman+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nuovations.com; h=from:to:subject:date:message-id:in-reply-to:references:mime-version:content-transfer-encoding; s=pair-202401062137; bh=E/Ybfjr/ox+YNf1WBeMehLVlgYZEMHxumIbMfVQ/tbc=; b=MpWqqcOJb5/+k+ILFvEx9OrosTLPW2QnF8WdN/OC0CjrN7J5SmgkEWn1SEYNbWRdKGOHTj092p08ipEg1q23yvVam2vsyigR75/7xFmRortDhNezKPFHidTYXEUv062kRyA2MZOWKlZzLb/nKX13rWzwcEuV9OmF/kw2YoWyVZ/RsSODcrdK8Rtxl1gjH1EbGtyabQe4lNbcJTrdzFCU4LfPCf1dQ9jYBXFw74B06xyCfBH8blPm6soIkt6bZ9Rgqm3iJ+t+gu3JovOVuJYiIPWwJSR6/KqOFY8AfALwYsrbL4OnzP+9EUKzruKa4eL9fpITcDBq/UUfae0AHgtaxQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nuovations.com; h=from:to:subject:date:message-id:mime-version:content-transfer-encoding; s=pair-202401062137; bh=Ur0jflhBs8Vc2Zu0+skbmKpn/JLd4kMPh6XZhDQKIX8=; b=JAGm5XRRl8/XXGKeEvJMYkYTQ15hDyTd6ySX5N8WTbv05GBMvJyp9sxS0MSyDmGOLbD3WB5p4rJWVwaX3e0XwQI6VnZ85ILWxxdZ2cr0pekEUSxY1JNUF/xQIl/oTrbj3gwKkKw4lxsY/Qt1/up5+CQmJTzU1EYF4obt8V5Prxht6oz+SmPGIlyyiPEc+z0SiP39Yhi/WW+NWTfT+qhbQjVabSezlRjyO0rRcnnXAwdF8kXOOCTYwD3bnbhfxLsX0opH6DEIwGoCLnfNkUmThxlT/yL+WeEN9+paJyvyFsAvXi66BXXvT07/k6OC3Fy/5oGpIZQxNcsZGTGvxJ4TVw==
 X-Scanned-By: mailmunge 3.10 on 66.39.139.36
 
-'service_update_preferred_order' runs when a service becomes "ready"
-or "online". It switches the service ahead of the default service,
-downgrading an "online" default to "ready", whenever the
-PreferredTechnologies list prefers the new service's technology.
+When DHCP gets no lease, connman falls back to IPv4 link-local
+addressing and the service becomes "ready" with a "default dev
+<interface> scope link" route and no gateway. Ethernet cabled directly
+to a phone or laptop, or to a switch with nothing else on it, ends up
+this way. It reaches only its own link and never passes an online
+check.
 
-So when a link-local-only Ethernet service becomes "ready" next to an
-"online" Wi-Fi default, with ethernet listed first, Wi-Fi is demoted to
-"ready" at once and Ethernet becomes the default, whatever
-'service_compare' later says. In the other direction, when Wi-Fi
-becomes "ready" while a link-local-only Ethernet service is the
-default, the list prefers Ethernet and Wi-Fi is left behind it.
+With PreferredTechnologies listing ethernet first, such a service
+outranks an "online" Wi-Fi or cellular service: 'service_compare' and
+'service_update_preferred_order' consult PreferredTechnologies before
+online-over-ready. Ethernet takes the default route, Wi-Fi is demoted
+to "ready", and only Ethernet is online checked. The system is offline
+until Ethernet meets the online check failures threshold, every time
+such a cable is plugged in, and at every start with one plugged in.
 
-Decide by 'service_compare_link_local_only' first and fall back to the
-PreferredTechnologies list only when it ties. A link-local-only service
-then never displaces a default that can reach beyond its link, and is
-always displaced by one, consistent with 'service_compare'.
----
- src/service.c | 19 ++++++++++++++++---
- 1 file changed, 16 insertions(+), 3 deletions(-)
+This series ranks a service connected only by link-local addressing
+below any connected service that can reach beyond its link, whatever
+its technology, in both places. For IPv4 that means connected with the
+"auto" (IPv4 link-local) method; for IPv6 it means not connected, since
+connman drops IPv6 link-local addresses as they arrive and becomes
+"ready" for IPv6 only with some other address. It also re-sorts when a
+connected service gains or loses that reach with no change in its
+state, as when a DHCP server later appears on the link of a
+link-local-only Ethernet service. A link-local-only service alone is
+still the default, as before.
 
-diff --git a/src/service.c b/src/service.c
-index 2348b65663af..d566fcaa6019 100644
---- a/src/service.c
-+++ b/src/service.c
-@@ -9286,8 +9286,9 @@ static void downgrade_connected_services(void)
-  *  This attempts to switch the order of the specified services in the
-  *  network service list if and only if a) the services are non-null,
-  *  b) do not have pointer equivalence, and c) if @a new_service
-- *  should sort before @a default_service according to the @a
-- *  PreferredTechnologies list.
-+ *  should sort before @a default_service, first according to whether
-+ *  either is connected only by link-local addressing and then
-+ *  according to the @a PreferredTechnologies list.
-  *
-  *  @param[in,out]  default_service  A pointer to the mutable, default
-  *                                   network service to potentially
-@@ -9312,6 +9313,8 @@ static int service_update_preferred_order(struct connman_service *default_servic
- 		struct connman_service *new_service,
- 		enum connman_service_state new_state)
- {
-+	gint rval;
-+
- 	DBG("default_service %p (%s) new_service %p (%s) new_state %d (%s)",
- 		default_service, connman_service_get_identifier(default_service),
- 		new_service, connman_service_get_identifier(new_service),
-@@ -9320,7 +9323,17 @@ static int service_update_preferred_order(struct connman_service *default_servic
- 	if (!default_service || default_service == new_service)
- 		return 0;
- 
--	if (service_compare_preferred(default_service, new_service) > 0) {
-+	/*
-+	 * A service connected only by link-local addressing never
-+	 * displaces a default service that can reach beyond its own
-+	 * link, and is always displaced by one, whatever the
-+	 * PreferredTechnologies list says.
-+	 */
-+	rval = service_compare_link_local_only(default_service, new_service);
-+	if (!rval)
-+		rval = service_compare_preferred(default_service, new_service);
-+
-+	if (rval > 0) {
- 		switch_service_order(default_service,
- 				new_service);
- 		__connman_gateway_update();
+The IPv4 test keys on the method, not on the gateway address, because
+point-to-point links such as many cellular bearers have no gateway
+either but reach beyond their link.
+
+Note: This adds a new log entry: "Interface <name> [ <type> ] is now
+link-local only" and "... is no longer link-local only" once per
+change.
+
+Grant Erickson (4):
+  service: Rank link-local-only services below others in
+    'service_compare'
+  service: Rank link-local-only services below others when reordering
+  service: Re-sort when a connected service's link-local-only state
+    changes
+  doc: Describe link-local-only services under PreferredTechnologies
+
+ doc/connman.conf.5.in |   7 +-
+ src/service.c         | 276 +++++++++++++++++++++++++++++++++++++++++-
+ 2 files changed, 276 insertions(+), 7 deletions(-)
+
 -- 
 2.52.0
 
