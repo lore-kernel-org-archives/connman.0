@@ -1,53 +1,80 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=66.39.139.36
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794541563;
-	b=qUrdZy3OBxWJfWnC5OKrowO1cwe2t5RJFuFlp79agENFLFqS6G2p9wXtk90C3t6lhAt1
-	 o/u3noS8EEz9YHXNKCXTprmerJRg0niq5t71BebeAcNII1K4BIs9siECsys6rKS5pxxi6
-	 xN5IiQbiGwcL74vX0Lb8reB4QQ/rvd1CbXy8PYi48PgwzDz8e09q/uerThPLUnf5QT0Sk
-	 ornYAb+eZ7yaVD3Xpj4VyptMCse8awEFHkW6jNo9YchCW+l0pwe7/0a1eEdA7tTspd5V2
-	 wdgA4TfjQ4rp9/PmQzbaRtjnROcTVMr3FHXZzdYl7ikz9RnamyVdEBIAO4GXJZueOyQ==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794541563;
-	h=DMARC-Filter:Received:Received:From:To:Subject:Date:Message-ID:
-	 X-Mailer:MIME-Version:Content-Transfer-Encoding:DKIM-Signature:
-	 X-Scanned-By;
-	bh=qpVV2l8c1qC80aWfbOtcT/j+3QY0N2oqLXUj4/nzJq8=;
-	b=RUu4/QNhLgUBijePYBi8zcpUmnZN7eyrt/XcaL1GwI8Wei+PaDG4f5AQlv+I+ChNA2XC
-	 hCkXEA5boZe6w6K0WPjHeIYteWYeIYIWj1b7exqU7haDXR3UfcrfKUdaRuglcchsOdGdy
-	 fVGtLOaB9ATmayMnV15FIUWcwQh0KqN3zyEinoAx90GT/QG4edBEnDGP07a4+JxsaoCGC
-	 9rWnXtab8Kk1DMnHj3P3qgY3nZfKoRXaHNu/UPIqvnBu6IRy6ufIGWqUorGUeRFB9Q4xn
-	 Jf3Lh/h4BWqRlqjvEt7BiSCDxZlbPKsfswCeu61bVbhNhTW4tHrt1cuwBNvrFFpnSHg==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=nuovations.com;
-	spf=pass smtp.mailfrom=nuovations.com;
-	dkim=pass header.d=nuovations.com header.i=@nuovations.com header.a=rsa-sha256 header.s=pair-202401062137 header.b=tSyGW2jB;
-	arc=none smtp.remote-ip=66.39.139.36
-Received: from mail5.g24.pair.com (mail5.g24.pair.com [66.39.139.36])
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1794584092;
+	b=dB6MNIxhyjz484CPAzWqnE+GrF+cyNC5rjDl+jziaY9v2YgukiKJ1V9FyU1HXR7Eo+jm
+	 wpsKWWdenLJe6nYCCf+GJlti8frw6JHRrPAdUAQnGFB3ctVobtCKV/oOQrezXPKap9/Pu
+	 8/MoLZBV7Rsj7UuH09zEQOl5nTSXKmHdStsy4RKf3G7jOQaFy8L8fvj5sH5KBx6JgWvQO
+	 ko1oM0Ugk0afwvVc7mJtDoa6Gg6KcLARkMyoHzJI7R9Gf8osL9oqRO6ZgQ3Yueje2uwFq
+	 In/k+qAQttpq39Dg7l1jPYBSuRCnARvA+HlfbtBNhVrqlND/9NIP8ocbf6jIq9l3dpQ==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794584092;
+	h=Received:DKIM-Signature:Received:From:Subject:Date:Message-Id:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding:X-B4-Tracking:To:
+	 X-Mailer:X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To;
+	bh=gzDOroWBdE6XFkaxlqkT5zzrZDLCIng5jWEs4rHVdVk=;
+	b=yhuEEIpP295L5Hf2ScO7akn53q15Rr4pM5rUWMlnniLA0w9AhkdCwPyFurIJcKcDGJ4q
+	 mn2rEbHKiVAl5mY9hMXJmVxZpXvHz710t2q7O8dhpn9wtFvgxW8uSulUmY8Ep3/qWyjCL
+	 +wEtyRpN7JxAY0uhO1S+zIkb0By9PxPomwKcCFfjpP68DFlt/VVTwLBCGiG21JPW6KYOv
+	 xTN3FrocXBEl1D9Yigie/r1fN56EZGXGf40evvXOP1N3fhfehDkxzJkAp2q7j8LawdnkG
+	 POfazsUg4b0l3lGmnpkDjBsnmNBl9+nSRMdAKReGCXKz+t5/yxsKFN1Wp5RenLKOHoA==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=aMLGB2gP;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F184606A32E
+	for <connman@lists.linux.dev>; Fri, 13 Nov 2026 15:34:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=aMLGB2gP
+Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
+ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
+	t=1794584092;
+	b=vL9Es8M8mg5xLQh34hFKmIC/bbGBcF6oba7VrV320NmahyHiSJmxJoZW5ZocM/X5dCgu
+	 GFcoZ2cblQGK1RxZmostBMdEbnzHA9tUjIdF0g7WfAugMpRdJeE6C+yrBlUpJl9Mzh//c
+	 faQD+WGLw+q+u/6xhOQdZt1Ynb+CCtY7J2zy95fPzKxrIDya5Ou9OxfCDNFRhOqJsdzsI
+	 zQ3tZ76YBVbt1xNVHQfB4LcLAzCTrJUfUe2KhUT/zBP+rsf+RSyDA17DBq5FZRCGF8a/N
+	 WFVGx1J/IDWv6wCdg1uyhcMpyZbGPJmR/WCEMNTq6DfV5qwgtwwDQQq/gNmkWH7RKpg==
+ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
+	c=relaxed/relaxed; t=1794584092;
+	h=DKIM-Signature:Received:From:Subject:Date:Message-Id:MIME-Version:
+	 Content-Type:Content-Transfer-Encoding:X-B4-Tracking:To:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To;
+	bh=gzDOroWBdE6XFkaxlqkT5zzrZDLCIng5jWEs4rHVdVk=;
+	b=Xpt+hLjP+2+4bMGnx2NUR2fK8iy6sbYdYn/SK6fgg2bvWc5A7zP/UO9hfQ2bG5ZT/Jjx
+	 DrHQFqJrk0aPPU7sor4Nxfl8JeINOJmoFrlBIOsrlkDF1qNom8lGiCmRXiJa/0I11+9pj
+	 reZRRLN3vOGCElSZdSw5spQBA9S/ov9WSHFRqBVcZmDYoiAEwqnImsBGhuCHha8br94Xs
+	 dQcBjyJ8M9ce7BBbKUJDLmkum+e3sw8/uJ1i3RzCOVRoB8/M0ZzZrrWveshveayY/8Oel
+	 JAt2A7dgOM2vS50e3fhMzLrFBvb2eGnIyDAqIYOaQpMHHH90SAdXx6RlV7aDQiWSh7A==
+ARC-Authentication-Results: i=1; smtp.kernel.org; 
+	arc=none smtp.remote-ip=100.80.115.77
+Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37259606A31C
-	for <connman@lists.linux.dev>; Fri, 13 Nov 2026 03:46:03 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 37259606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nuovations.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nuovations.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nuovations.com header.i=@nuovations.com header.a=rsa-sha256 header.s=pair-202401062137 header.b=tSyGW2jB
-Received: from mail5.g24.pair.com (localhost [127.0.0.1])
-	by mail5.g24.pair.com (Postfix) with ESMTP id 451B0160279;
-	Thu, 12 Nov 2026 22:46:02 -0500 (EST)
-Received: from ubuntu-aesop (c-73-202-172-31.hsd1.ca.comcast.net [73.202.172.31])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mail5.g24.pair.com (Postfix) with ESMTPSA id CDAE7124BEC;
-	Thu, 12 Nov 2026 22:46:01 -0500 (EST)
-From: Grant Erickson <gerickson@nuovations.com>
-To: connman@lists.linux.dev
-Subject: [PATCH] gateway: Promote a low-priority default service gateway
-Date: Thu, 12 Nov 2026 19:46:00 -0800
-Message-ID: <20261113034600.1828963-1-gerickson@nuovations.com>
-X-Mailer: git-send-email 2.52.0
+	by smtp.kernel.org (Postfix) with ESMTPS id B6C091F000C4
+	for <connman@lists.linux.dev>; Fri, 13 Nov 2026 15:34:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794584092;
+	bh=gzDOroWBdE6XFkaxlqkT5zzrZDLCIng5jWEs4rHVdVk=;
+	h=From:Subject:Date:To:Reply-To;
+	b=aMLGB2gPOccWu7m9Cquooy5ADRNTBv/cf04dAktIh+ofp3pbYgC6rd7cgwm7/L4Z8
+	 JPWhPOmWP/mCR3JaMNywSoLccPS8fHpT8y+eTWI3ZOJ5zpHBfVIhYQZfsFon0k4THo
+	 EZyCXn2OEYLP3JplfHepD24beGyZAsrrkadFqKt141YpdyPyFzyOGsKz9oruLSEduL
+	 QctE1z6jjnqmGGg8F7N+ffUVsNqHApVrXq5L0fkmfC2uAhqOfE0LSjgnW0UraXByl8
+	 L6+KkcUbLr6EEcJIFF74RCrS+mKh1amrOLx9Dc2oz+JaPO6oDnPp6X3Bb9QZ0v9W3J
+	 qrTrZmyc1jMjQ==
+Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
+	by lkml.kernel.org (Postfix) with ESMTP id 3108047811
+	for <connman@lists.linux.dev>; Fri, 13 Nov 2026 15:34:51 +0000 (UTC)
+From: =?utf-8?q?St=C3=A9phane_COLIN_via_B4_Relay?= <devnull+bigbob.fun.gmail.com@kernel.org>
+Subject: [PATCH 0/7] openconnect: Fix GlobalProtect authentication,
+ reconnect and split routes
+Date: Fri, 13 Nov 2026 16:34:50 +0100
+Message-Id: <20261113-openconnect-gp-fixes-v1-0-1f7f6922d88f@gmail.com>
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Post: <mailto:connman@lists.linux.dev>
@@ -57,70 +84,71 @@ List-Unsubscribe: <mailto:connman+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:connman+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nuovations.com; h=from:to:subject:date:message-id:mime-version:content-transfer-encoding; s=pair-202401062137; bh=qpVV2l8c1qC80aWfbOtcT/j+3QY0N2oqLXUj4/nzJq8=; b=tSyGW2jB0usmahZZNI63S4K423q+8g2yxr+pszqVh8W0t4X0ofzmctVEUHDvB4ytA81rRm4GG3mNfQ6wtv7tbPufkSoJ1URIiBkEETlZKwKMqwOoPTFv1K+Hli+G0d9wTzAAUAosu+2+yUtXKvk1J6kGqPUE8kdUkN4vD3xB3jwMqq154b+BgPQUaAUXBib6iIHJPRVLIDtqbm4IaXg5weADdk4Yot12ZnuQLnnZD3IJvxMlLgfhD0VAei53i0vicfwgKssnf+e7UdIgsD4gaBpdw4EmaH4ds51dBHEXytbmK49HIHQKfc2qLkgcWqodesPtD7mUsr6c79rxT39cTA==
-X-Scanned-By: mailmunge 3.10 on 66.39.139.36
+X-B4-Tracking: v=1; b=H4sIABou92oC/x3LQQqAIBBA0avErBvIQoWuEi1immw2o2hEEN49a
+ fn4/BcKZ+ECc/dC5luKRG0wfQd0bhoYZW+GcRidMWbCmFgpqjJdGBIe8nBBbydLnqw7dgdtTZn
+ /0M5lrfUDK3AYmmYAAAA=
+To: connman@lists.linux.dev
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1794584090; l=2284;
+ i=bigbob.fun@gmail.com; s=20261113; h=from:subject:message-id;
+ bh=EFshlAO7+Q6jxcB9wR4fbD3C3/tlBTEQaI4mKje+WMw=;
+ b=SdVZd3+7ZlUU4lH5iCbIgmO2SD6E/Lq3ZRYnrb81TxSKZZb/pyUJ7/eK9nOEVAwfrzOuSmLLW
+ 1xaLTMWn3fEB+FJI0HRnrqXh2OeUNG7RXY/Iu/OV1zrpBEMABE5QrDU
+X-Developer-Key: i=bigbob.fun@gmail.com; a=ed25519;
+ pk=MoY1DAn0hlhveZhsN9JyLnuWS/CGqJHTad4MaTL8HgY=
+X-Endpoint-Received: by B4 Relay for bigbob.fun@gmail.com/20261113 with
+ auth_id=1512
+X-Original-From: =?utf-8?q?St=C3=A9phane_COLIN?= <bigbob.fun@gmail.com>
+Reply-To: bigbob.fun@gmail.com
 
-__connman_gateway_update gives the default service's gateway the
-high-priority default route only if demoting another gateway
-succeeded, or if the default service's gateway is not yet active.
+This series fixes the OpenConnect plugin with a Palo Alto GlobalProtect
+gateway (AuthType userpass, built-in authentication of connman-vpnd), the
+handling of openconnect's own reconnection after a suspend, and split
+routes pushed by the gateway.
 
-Since low-priority default routes were introduced 5083062922e5
-("connection: Add support for low-priority default routes."), every
-connected service's gateway is active. When the default service's
-gateway is removed rather than demoted (for example, when its DHCP
-lease expires with no server to renew it), nothing is demoted. The
-service that is default once the list is re-sorted then keeps its
-low-priority default route, active, and is never promoted. No default
-route has metric 0, and, since only a promotion calls
-__connman_service_indicate_default, the new default service may not be
-signaled as such or online checked.
+1. The protocol was only given to the openconnect process started after
+   authentication: the built-in authentication always used AnyConnect,
+   POSTed to /gateway and got 404 from a GlobalProtect gateway.
+2. "attempt-reconnect" and "reconnect" from the vpnc-script were handled
+   as a disconnect: the provider was torn down while openconnect was
+   still running, leaving an orphaned process.
+3. GlobalProtect names its password field "passwd": an empty password
+   was sent...
+4. ...and the rejected credentials were resubmitted in a tight loop
+   (~50 times), which can lock an account.
+5. Split routes without a gateway (CISCO_SPLIT_INC_*) were never
+   signalled to connmand.
+6. _MASKLEN was matched as _MASK, so IPv4 netmasks became "16", "32"...
+7. The username was never offered again in the credentials request.
 
-Also promote the default service's gateway when it is active but only
-as a low-priority default gateway.
+Tested on a phone running a ConnMan 1.40 based build (Sailfish OS) against
+a GlobalProtect gateway with MFA: login from the native UI, several
+reconnections after suspend, 25 split routes installed with the right
+netmasks. This series is the same change ported to current master; it
+builds without warnings here but was not run on master itself.
+
 ---
- src/gateway.c | 14 ++++++++++----
- 1 file changed, 10 insertions(+), 4 deletions(-)
+Stéphane COLIN (7):
+      openconnect: Set protocol before obtaining the cookie
+      openconnect: Do not treat reconnect reasons as disconnect
+      openconnect: Fill the GlobalProtect "passwd" form field
+      openconnect: Limit repeated credential forms
+      vpn-provider: Signal routes without gateway
+      openconnect: Do not take _MASKLEN for _MASK in split routes
+      openconnect: Offer the username again on the next login
 
-diff --git a/src/gateway.c b/src/gateway.c
-index b2c211e2dc8d..86221be5ead9 100644
---- a/src/gateway.c
-+++ b/src/gateway.c
-@@ -3976,8 +3976,10 @@ bool __connman_gateway_update(void)
- 	DBG("updated4 %u updated6 %u", updated4, updated6);
- 
- 	/*
--	 * Set default gateway if it has been updated or if it has not been
--	 * set as active yet.
-+	 * Set default gateway if it has been updated, if it has not been
-+	 * set as active yet, or if it is active but only as a
-+	 * low-priority default gateway, for example after the gateway of
-+	 * the former default service was removed rather than demoted.
- 	 */
- 	if (default_gateway) {
- 		const struct gateway_config *default_config;
-@@ -3987,7 +3989,9 @@ bool __connman_gateway_update(void)
- 
- 		if (default_config &&
- 			(updated4 ||
--			!is_gateway_config_state_active(default_config)))
-+			!is_gateway_config_state_active(default_config) ||
-+			is_gateway_config_type(default_config,
-+				CONNMAN_GATEWAY_CONFIG_TYPE_LOW_PRIORITY_DEFAULT)))
- 			PROMOTE_DEFAULT_GATEWAY(default_gateway, type);
- 
- 		type = CONNMAN_IPCONFIG_TYPE_IPV6;
-@@ -3995,7 +3999,9 @@ bool __connman_gateway_update(void)
- 
- 		if (default_config &&
- 			(updated6 ||
--			!is_gateway_config_state_active(default_config)))
-+			!is_gateway_config_state_active(default_config) ||
-+			is_gateway_config_type(default_config,
-+				CONNMAN_GATEWAY_CONFIG_TYPE_LOW_PRIORITY_DEFAULT)))
- 			PROMOTE_DEFAULT_GATEWAY(default_gateway, type);
- 	}
- 
+ vpn/plugins/openconnect.c | 53 ++++++++++++++++++++++++++++++++++++++++-------
+ vpn/vpn-agent.c           |  3 ++-
+ vpn/vpn-provider.c        |  7 ++++++-
+ 3 files changed, 53 insertions(+), 10 deletions(-)
+---
+base-commit: 9e46e4a021cd8566b942d1a72b41b14a0a58f506
+change-id: 20261113-openconnect-gp-fixes-7535c7c56fd6
+
+Best regards,
 -- 
-2.52.0
+Stéphane COLIN <bigbob.fun@gmail.com>
+
 
