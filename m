@@ -1,79 +1,78 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794584094;
-	b=bQAIz8Ft/n3qE5vf8bgjHwkPdYnNtYtJnuQ5VRxYtd5z3VvEBn1dHR1pvSn8HNs9BUOo
-	 1HLkTinvUKNApvVPj6x7jokAQ+dP1S8YEvnxXiwTs3UMfPSClS0zko/4CxIUPiTTkGwId
-	 RW8QvrG55E8PgbuxtJBw7aqIn36wsa38YKxKArLq+HIbYzLf2L6JEXAddJo7zMgPphB8g
-	 BVujL+ahDmVIHPCwwhhpe8zFv3rURMYCKoRvXEMkaKmn9l/IFrkdMl0s0kx1BouMTvEH3
-	 1V4GFfumeXixBD4NmKXDcbT6cOqt6XePkxWwlgHhIEgIK3vZwarEYeUMbd79IPN7TxQ==
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.remote-ip=100.103.45.18
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=fail;
+	t=1794584092;
+	b=mps90oUZkR3XlBKfpyOwR6Eazn8ap8wpujPd9WaJNPz4r8eTu1Ct5D1xIL3UwSFulkj1
+	 mn6//Vabza2vvxh96g9jw7cyK2y2HlK81XN6FL/oqMyt808QRuXc14fms2sGBLSFdJ7EE
+	 x1RKKf6cUTs2unBSOwVj0x3sEMt0k8L3z4W/iMQieu9JKRYyk60gX0Sqm7U0LrILe+PQE
+	 5++Z4g6E8gsvNdz1o1FO/PDBxCGrk0HVAaIbahvnr8mu8o/APNeIKhpe8w1gocRJ+2e5J
+	 WcnIFFHK8dDxep1p/SFcMX8nAjGafdnlPQwWE7UuX7z3DkWGuCJyFyBxBUvkWHSA4uQ==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794584094;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794584092;
 	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
 	 Content-Type:Message-Id:References:In-Reply-To:To:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
 	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=2dF7f1eoeHnw/x4PKO4ZX7eCZJn5rdFe06kw29o5fk8=;
-	b=FeO5RrEJUavXnpFIEsU8Nsb08lGoFalgRo8mqw5/+B6UfOHr6OCFQYUITfzCX7k4sxl+
-	 Q8m8/fscBH/GJZj5WTVvpdPYsxkvrw4N0cdMSteG2NJ9egxnqpPdUbq0XNlxH+STwtmHk
-	 HoISt9hayENOdMyrxSzIwmoLhccS0ZeJbe/S1bR5hq15EEzLZdVANTUr9rbBkEnFkLM7j
-	 bG39MbtoeIhSe7nwvCo5m3ZyhhNkep53KjWpuGQvGFG9sj35FKKLwfxwontJ7n22mRqiT
-	 Y2tF+g1WwDrKQDpdBVJfZ/XetAVUoXU+j2AKSuAHXqGXMZncIkzyqZcAQ9zR9m+l0Jw==
+	bh=w92mUEJBQu9FDtF+cS0UJD/Q1YR1jstJw2Rr57Dob0U=;
+	b=MB7/5uyf74i8cyvh5T6jq86x9j1pxhO5a/ldo3oICQs68xMMRrS9feWwPL7t666DLFb0
+	 zl/Kyb0TN11CJ/fTVEarBM5chjwfizrceERg1bR1yqE5++tabbb62ulmr4BiFNCCflC5d
+	 9/+xLXOAQ1Z4ZUrHtkaQ27i8aqGUfsoarteuH0pe4A89RHTqquml/MtTpli7pp+VoiG3Z
+	 pZ+nPZoj9WkXEhgl5bdIVXUIjE9iw68vMuNGszajBc3HG7YVuBP9TbHZDENEfVXAeDXSH
+	 VZoFVYEUonvxtlBO6xxSNcIF1qdh7Em66JdtpASd2GODRi2P86fzHGXm3cT83UwZieg==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ODUgmaZp;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=WFZzOn94;
+	arc=fail smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A02D606A335
-	for <connman@lists.linux.dev>; Fri, 13 Nov 2026 15:34:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F0D2606A32D
+	for <connman@lists.linux.dev>; Fri, 13 Nov 2026 15:34:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ODUgmaZp
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=WFZzOn94
 Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
 ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1794584093;
-	b=IQFH915/qyqW3Cp+f6McQ65T5ujJTblz/YaGpar+yWrAdlaXhwOQ6qXzjUUke+CCGFVF
-	 ems3CHUpaEkmouFg4c+CfvYZYq/gyL0MQzY8L0K2FZ/YtVzbheDM7iH8KC/mSofOiTeq8
-	 9bXZ5MoTTllHUxtWyH7jODR76EU2vP2oTfWXctUx48drYf6A6YzGVFtVfvwWCwhCBUwD1
-	 dhwKE81S+yRw4lJ3W+8vSJr17oleEL2H3eVKdVLZsWO+LL9oUOrLUMPItI82tk53eEfXr
-	 K220DUwOXDhWi1G1uUep8go3Z0dnlk6JSeMX337LfrITJPThNXYzevvL7ZSjTMRXqMA==
+	t=1794584092;
+	b=xhqiTStJPfZV0Spzq+Y67O6voZu9V7a/zhII+8/bN+BuqkptbuCcpmzQGqGjxEMxft1v
+	 Z8hSlBEXGVAKn3PyzeBBSw0iBg/sCLD8s5tblKSwgE+9ARLnoCwhaza4ZxC2k08sJ6rUU
+	 WQOwnEiNycvq2vPQTgezldHZ0YlC92VKOisbmac9UycJ3X6wDVSJtpcQuOvZkygOmuVR8
+	 K39XxYOcB/5lxQFoUMkaNoPRqD1dCFEnjQE2t8jA8F7CEbhr6/OHIHxIYvoqDrS5Wwfhh
+	 2uqmxLAEK61n8SjA9rrH3fFFZFCMCWfRI632PYvzl43SHqJ8/SfZJlz1LdLHJYU66cA==
 ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1794584093;
+	c=relaxed/relaxed; t=1794584092;
 	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
 	 Message-Id:References:In-Reply-To:To:X-Mailer:X-Developer-Signature:
 	 X-Developer-Key:X-Endpoint-Received:X-Original-From:Reply-To:
 	 Content-Transfer-Encoding;
-	bh=2dF7f1eoeHnw/x4PKO4ZX7eCZJn5rdFe06kw29o5fk8=;
-	b=XZRCpsr+ImzNaNrOVPsx3i2ctDsGKDB+b6I4gLjNYiPlvWvPn9Rg0h5B9N+8lW+qrfrK
-	 ooEyGe9zI88IMcePzXu5rqoK3SUoSCfz/dlxWPQx1MAg3Mo7FDeto8r4RzKldLN6sfRoV
-	 UwpmZ8tsaOn3RXJNwkkON+GMhv4AoJ2Ko1pyz2k13fzsRefu5NYwTni5zeMQIl+NENKkY
-	 yz/exRU9ARvEZukgPQ+hD2Nd9cvTQjO4RwB4+SzHt3a3SargR/JlTUkFngQffZh4bnxQF
-	 WFbFKZdUJASr9lw2NebpVa9Xz9LTHmhAWaXkL13EiO5CpcLFusZ+H81FbhCQasHMdDg==
+	bh=w92mUEJBQu9FDtF+cS0UJD/Q1YR1jstJw2Rr57Dob0U=;
+	b=1rioetpc76YYADrE4k/S/VCZQRC07iz5ClYgXjB5WqHM0pOOqWZaOsObadKT20S+krSj
+	 SWTso9pjb/P1B1FiW06T7z23AhzVKoC3p0SFOMYNeKhHHPch/ycIUO1e2DML5yZIrmOqu
+	 0WLzhp1eC/B2eSjj8bLDGlJjLLIVEzYi/F0awPL2Z4DV3WaLISH5enRGeVnOHWI4d34cn
+	 Anp6EREZosRvNyzcGKr+XPQJOQPFbbB6mC+smK30jaMWInHffWxzYdZPTXUp9IMRIf7XU
+	 cjEDMkDVW5Q51FELSXhS+aSY0b1QaMO9unxCk+G45Oyl6W+5EdwJJs0UhtA4Os0VPLg==
 ARC-Authentication-Results: i=1; smtp.kernel.org; 
 	arc=none smtp.remote-ip=100.80.115.77
 Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id CAE771F000C5
-	for <connman@lists.linux.dev>; Fri, 13 Nov 2026 15:34:52 +0000 (UTC)
+	by smtp.kernel.org (Postfix) with ESMTPS id C517C1F000C5
+	for <connman@lists.linux.dev>; Fri, 13 Nov 2026 15:34:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794584093;
-	bh=2dF7f1eoeHnw/x4PKO4ZX7eCZJn5rdFe06kw29o5fk8=;
+	s=k20260515; t=1794584092;
+	bh=w92mUEJBQu9FDtF+cS0UJD/Q1YR1jstJw2Rr57Dob0U=;
 	h=From:Date:Subject:References:In-Reply-To:To:Reply-To;
-	b=ODUgmaZpmE3GjG8C0kOzxyvW8sayTzUIULNhWNJh4NoINKCYAT2fb9DyrH0vb9eGr
-	 Q5nIwqt0JfKit+Gq1TxHZZ6xaFIsg+qNvt1wv3KSeFibk4/VyiiFtkk4fZpdfJVAE0
-	 2jICeisJSFX5iWlKzFKmCJDDMWUtnxnSmZQPA0g4eYFuObXq0wzvCtT8IOX1AhIFcT
-	 xRrTJVKuFZcS6gGLDrOEUYf6fLfYmiQlEu+etXl/0YKRyC5NzQ8clXphtJ99ppTxJK
-	 cFbnxK5d0H6isOMAzCbt/5jS8g5Obf9nhn53wbJC5qqm7gmk9fgyuUuTfx+6W9mTMZ
-	 T2QC6Xt4EjN2g==
+	b=WFZzOn94wGuclsVUeE4cR1J9+BB2xm1u/W7A0Se50CyeYBVtpsTam77w8wiy2/mXi
+	 QxreExxd4zIGt7sSLumV5dOcHksQo2fXdvAJHC+AyVbUVqqE8AmbATcDBsdlI4BnHw
+	 cLnzpvp8dg8s4BJZK/liVb/M6tuvCyT8nyvu6nUq0afeY1Q5niNxBzsb2RBfLyTccG
+	 ekE1tZdtp81YO1z5mYd/gbK/z/D0H6D+kTTyQTp2fj+QNtudiCQAN/paJgqWGuspS3
+	 cLDPioR0gG86jw5KfL9OwwetHa+5pWXzJNHTsXEjZm7uQ2N1uCyrNwJ9S4cXl5asSh
+	 oudUiWCjRV5zQ==
 Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id BFDEE4996F
+	by lkml.kernel.org (Postfix) with ESMTP id 4E477477FE
 	for <connman@lists.linux.dev>; Fri, 13 Nov 2026 15:34:51 +0000 (UTC)
 From: =?utf-8?q?St=C3=A9phane_COLIN_via_B4_Relay?= <devnull+bigbob.fun.gmail.com@kernel.org>
-Date: Fri, 13 Nov 2026 16:34:56 +0100
-Subject: [PATCH 6/7] openconnect: Do not take _MASKLEN for _MASK in split
- routes
+Date: Fri, 13 Nov 2026 16:34:51 +0100
+Subject: [PATCH 1/7] openconnect: Set protocol before obtaining the cookie
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Post: <mailto:connman@lists.linux.dev>
@@ -84,16 +83,16 @@ List-Owner: <mailto:connman+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Message-Id: <20261113-openconnect-gp-fixes-v1-6-1f7f6922d88f@gmail.com>
+Message-Id: <20261113-openconnect-gp-fixes-v1-1-1f7f6922d88f@gmail.com>
 References: <20261113-openconnect-gp-fixes-v1-0-1f7f6922d88f@gmail.com>
 In-Reply-To: <20261113-openconnect-gp-fixes-v1-0-1f7f6922d88f@gmail.com>
 To: connman@lists.linux.dev
 X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1794584090; l=1287;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1794584090; l=1759;
  i=bigbob.fun@gmail.com; s=20261113; h=from:subject:message-id;
- bh=QZ8vedk6HgQFH3L8Fjs7zuQ1HtVz3MBoj3nizmjgk7g=;
- b=AIPHSIV5g8xRn4ibUefkGDGJcoi5oAVpp+xEnSjThggCjpnxSn8T9tyOmeWKN4bOTKEOVZeuY
- 4Pj24t5lmngBER8z2814rq0+aqhvS454L4UzqbQiM/hGtQ9wb4ofMm0
+ bh=B2eOoJPDN7wXiN/iF0W3kHne01yKJDfCDB/JMINC1P4=;
+ b=KW2ueShkRyjnFkIucNm3yfB6r9aDchQd/sr1Ye/FRm8LjeaCdBQ+zo6UKZnwSB+P7MT967DCL
+ j+4O3IbYngWCcORmo1KoFw2BXMZnd8ffVvXE2GK9qjex/ZYHHWb8hAy
 X-Developer-Key: i=bigbob.fun@gmail.com; a=ed25519;
  pk=MoY1DAn0hlhveZhsN9JyLnuWS/CGqJHTad4MaTL8HgY=
 X-Endpoint-Received: by B4 Relay for bigbob.fun@gmail.com/20261113 with
@@ -104,37 +103,51 @@ Content-Transfer-Encoding: 8bit
 
 From: Stéphane COLIN <bigbob.fun@gmail.com>
 
-oc_route_env_parse() tested "_MASK" with strncmp() before "_MASKLEN",
-so CISCO_SPLIT_INC_n_MASKLEN also matched and, depending on the order of
-the environment, the IPv4 dotted netmask was replaced by the prefix
-length that connmand then passed to inet_addr().
+[openconnect] Set protocol before obtaining the cookie.
 
-Compare the suffixes exactly: _MASK for IPv4, _MASKLEN for IPv6.
+OpenConnect.Protocol was only passed to the openconnect process started
+after authentication. The built-in authentication done by connman-vpnd
+with openconnect_obtain_cookie() therefore always used the default
+AnyConnect protocol, even for GlobalProtect and Pulse/NC servers.
+
+With a GlobalProtect gateway this sends an AnyConnect POST to the
+gateway, which answers 404, and the connection can never be established
+with the userpass authentication type.
+
+Call openconnect_set_protocol() before obtaining the cookie, as the
+openconnect --protocol option does.
 
 Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
 ---
- vpn/plugins/openconnect.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ vpn/plugins/openconnect.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
 diff --git a/vpn/plugins/openconnect.c b/vpn/plugins/openconnect.c
-index 7901a8d7..876d4142 100644
+index fb63a1a3..5ea12c62 100644
 --- a/vpn/plugins/openconnect.c
 +++ b/vpn/plugins/openconnect.c
-@@ -1831,11 +1831,11 @@ static int oc_route_env_parse(struct vpn_provider *provider, const char *key,
+@@ -1004,6 +1004,7 @@ static int authenticate(struct oc_private_data *data)
+ 	const char *cert = NULL;
+ 	const char *key = NULL;
+ 	const char *urlpath;
++	const char *protocol;
+ 	const char *vpnhost;
  
- 	*idx = g_ascii_strtoull(start, &end, 10);
+ 	DBG("");
+@@ -1036,6 +1037,13 @@ static int authenticate(struct oc_private_data *data)
+ 			oc_progress,
+ 			data);
  
--	if (strncmp(end, "_ADDR", 5) == 0)
-+	if (strcmp(end, "_ADDR") == 0)
- 		*type = VPN_PROVIDER_ROUTE_TYPE_ADDR;
--	else if (strncmp(end, "_MASK", 5) == 0)
-+	else if (strcmp(end, "_MASKLEN") == 0 && *family == AF_INET6)
- 		*type = VPN_PROVIDER_ROUTE_TYPE_MASK;
--	else if (strncmp(end, "_MASKLEN", 8) == 0 && *family == AF_INET6)
-+	else if (strcmp(end, "_MASK") == 0 && *family == AF_INET)
- 		*type = VPN_PROVIDER_ROUTE_TYPE_MASK;
- 	else
- 		return -EINVAL;
++	/* Same as openconnect's --protocol, needed before obtaining the cookie */
++	protocol = vpn_provider_get_string(data->provider,
++						"OpenConnect.Protocol");
++	if (protocol && *protocol &&
++			openconnect_set_protocol(data->vpninfo, protocol))
++		connman_warn("Unsupported OpenConnect protocol %s", protocol);
++
+ 	/* Replicating how openconnect's --usergroup argument works */
+ 	urlpath = vpn_provider_get_string(data->provider,
+ 						"OpenConnect.Usergroup");
 
 -- 
 2.50.1
