@@ -1,80 +1,79 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
 	t=1794584092;
-	b=dB6MNIxhyjz484CPAzWqnE+GrF+cyNC5rjDl+jziaY9v2YgukiKJ1V9FyU1HXR7Eo+jm
-	 wpsKWWdenLJe6nYCCf+GJlti8frw6JHRrPAdUAQnGFB3ctVobtCKV/oOQrezXPKap9/Pu
-	 8/MoLZBV7Rsj7UuH09zEQOl5nTSXKmHdStsy4RKf3G7jOQaFy8L8fvj5sH5KBx6JgWvQO
-	 ko1oM0Ugk0afwvVc7mJtDoa6Gg6KcLARkMyoHzJI7R9Gf8osL9oqRO6ZgQ3Yueje2uwFq
-	 In/k+qAQttpq39Dg7l1jPYBSuRCnARvA+HlfbtBNhVrqlND/9NIP8ocbf6jIq9l3dpQ==
+	b=b05v37TiG0rjKzhhdzZv3zkIyWYlslH3TdRaVv696GwFJwXXIfCtQPYHEoRHdQ8pp2My
+	 em/fPfP6k1ubNTZFcMXc7qnLWoZsCFndw250Zpkf9rFYkaUyYsjegNCUCmgva1TNQApN3
+	 V6kItmqDtw5PRTnF1mQsuWfMF9t4yq5sBksQgXh4r3DCNV/Z4CRHfSfJmkjXVQQhLMMq0
+	 mD3c7lu3W+SirWC/0DFiQQuY1FPuD5CtZbvi/wKjM1R9FLn6dS4tEOwP8QgS/ot10s480
+	 6MmfTZmfO0Z/7mIE17W48jymq5hIhfnjnIrvna7Mv/fiEOR0samZuIAvZMASLawnODA==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
 	a=rsa-sha256; c=relaxed/relaxed; t=1794584092;
-	h=Received:DKIM-Signature:Received:From:Subject:Date:Message-Id:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding:X-B4-Tracking:To:
-	 X-Mailer:X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To;
-	bh=gzDOroWBdE6XFkaxlqkT5zzrZDLCIng5jWEs4rHVdVk=;
-	b=yhuEEIpP295L5Hf2ScO7akn53q15Rr4pM5rUWMlnniLA0w9AhkdCwPyFurIJcKcDGJ4q
-	 mn2rEbHKiVAl5mY9hMXJmVxZpXvHz710t2q7O8dhpn9wtFvgxW8uSulUmY8Ep3/qWyjCL
-	 +wEtyRpN7JxAY0uhO1S+zIkb0By9PxPomwKcCFfjpP68DFlt/VVTwLBCGiG21JPW6KYOv
-	 xTN3FrocXBEl1D9Yigie/r1fN56EZGXGf40evvXOP1N3fhfehDkxzJkAp2q7j8LawdnkG
-	 POfazsUg4b0l3lGmnpkDjBsnmNBl9+nSRMdAKReGCXKz+t5/yxsKFN1Wp5RenLKOHoA==
+	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
+	 Content-Type:Message-Id:References:In-Reply-To:To:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=LKqiusUC6k9CAUQl7ntCz1PVVX8cHh5vew/gb3VI4mc=;
+	b=CHYS2sdCsyXhyYqGIr2D6UYsk008MnqwHhe4g0wSrUH5XTPlP4eVeAh0OSGfJKfunR7r
+	 mlOC3ts3sovSt2n0g0MyefCY16AQ6DuYsja1cVG+y1gJAX0SSA5FsBMycSDcVqIuvO0Fx
+	 Aq7Hyl1cP4/48Uu7ytVEYiVU1pqW1fEaSXupFVsDcdm8eWIMy+2IMQUwzhZ/0bLm0SL+g
+	 9sbTDdQMxmxH1k30PwDYqdlRCLlW69m8ChXdfW2hmjdrbLxSHoj2TMLk5ZRkcEBh5XNN0
+	 yPR90iTyF6LNmnSCNhdZvdTqPkK6rtQEKEBShZeO6KoLheLA/VoXm+CjnkneAnyhV6g==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=aMLGB2gP;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="KEnTDu/O";
 	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F184606A32E
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC2E0606A331
 	for <connman@lists.linux.dev>; Fri, 13 Nov 2026 15:34:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=aMLGB2gP
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=KEnTDu/O
 Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
 ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
 	t=1794584092;
-	b=vL9Es8M8mg5xLQh34hFKmIC/bbGBcF6oba7VrV320NmahyHiSJmxJoZW5ZocM/X5dCgu
-	 GFcoZ2cblQGK1RxZmostBMdEbnzHA9tUjIdF0g7WfAugMpRdJeE6C+yrBlUpJl9Mzh//c
-	 faQD+WGLw+q+u/6xhOQdZt1Ynb+CCtY7J2zy95fPzKxrIDya5Ou9OxfCDNFRhOqJsdzsI
-	 zQ3tZ76YBVbt1xNVHQfB4LcLAzCTrJUfUe2KhUT/zBP+rsf+RSyDA17DBq5FZRCGF8a/N
-	 WFVGx1J/IDWv6wCdg1uyhcMpyZbGPJmR/WCEMNTq6DfV5qwgtwwDQQq/gNmkWH7RKpg==
+	b=U5Bezg+sj7QAxOuaE/4fSeUrZ4OWlXvUNQKKlWGvlEPlz2YyaEGIe/ZfL5e4hLct587s
+	 Vrp34k0KiG/PzMmVMEpJZb3lnti7IJK8UVJNaFGHxuWrrRa0TSxxMHQ4wBEKri/Njtk9Q
+	 egqU+YNWSYDJ7CW4mUai7e3tan+9pil4oW1XrxGYh/lEKTKS71meiwh5uHTnLhNNE9axt
+	 AOVKgv6GCBvwVYO4KfmQF2mA+Z0B+k6DMM9VzrWs1wz5qEnxfziv3JllA3V6ArGVBNCy2
+	 oZpMiB5lNph6nUH9eWI0yIMWTKxo1+XUZlk3eUJ0ed2lVH+rZcG+qOic+zok/pnqZpw==
 ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
 	c=relaxed/relaxed; t=1794584092;
-	h=DKIM-Signature:Received:From:Subject:Date:Message-Id:MIME-Version:
-	 Content-Type:Content-Transfer-Encoding:X-B4-Tracking:To:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To;
-	bh=gzDOroWBdE6XFkaxlqkT5zzrZDLCIng5jWEs4rHVdVk=;
-	b=Xpt+hLjP+2+4bMGnx2NUR2fK8iy6sbYdYn/SK6fgg2bvWc5A7zP/UO9hfQ2bG5ZT/Jjx
-	 DrHQFqJrk0aPPU7sor4Nxfl8JeINOJmoFrlBIOsrlkDF1qNom8lGiCmRXiJa/0I11+9pj
-	 reZRRLN3vOGCElSZdSw5spQBA9S/ov9WSHFRqBVcZmDYoiAEwqnImsBGhuCHha8br94Xs
-	 dQcBjyJ8M9ce7BBbKUJDLmkum+e3sw8/uJ1i3RzCOVRoB8/M0ZzZrrWveshveayY/8Oel
-	 JAt2A7dgOM2vS50e3fhMzLrFBvb2eGnIyDAqIYOaQpMHHH90SAdXx6RlV7aDQiWSh7A==
+	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
+	 Message-Id:References:In-Reply-To:To:X-Mailer:X-Developer-Signature:
+	 X-Developer-Key:X-Endpoint-Received:X-Original-From:Reply-To:
+	 Content-Transfer-Encoding;
+	bh=LKqiusUC6k9CAUQl7ntCz1PVVX8cHh5vew/gb3VI4mc=;
+	b=pWhqgQhs02bVyF2NZBxiivnpVHU8TaJ5WGLXb35vzQ9PdcvUp4jPNQ1cDxKd08x9R7mn
+	 br14TzulzPLTpvCGAuPqfRiv6j6CfYBt3cbZN/FML0DAcGdNTeTn6IdbOaf8xGOsRcZiu
+	 mqneWl1Smkoj2r63oovnTQu/3qjKerwWYBJ2zp5xcLjuoyxSwkBXmK59RF8Arw5N0y2Yy
+	 HjyfnxethwAY5Hxd8yrkTnHt8EKPBdtiCta980+D+fvHmzumjZtGA0HWivsxLV4IwU5lu
+	 qM/SIFnPuNqdZnhj+0boTTeSY6VyhnK8NRqrHzs5y0u6kNXY8dWw68iqZLspDHSkPGg==
 ARC-Authentication-Results: i=1; smtp.kernel.org; 
 	arc=none smtp.remote-ip=100.80.115.77
 Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id B6C091F000C4
+	by smtp.kernel.org (Postfix) with ESMTPS id DAEB31F000C6
 	for <connman@lists.linux.dev>; Fri, 13 Nov 2026 15:34:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
 	s=k20260515; t=1794584092;
-	bh=gzDOroWBdE6XFkaxlqkT5zzrZDLCIng5jWEs4rHVdVk=;
-	h=From:Subject:Date:To:Reply-To;
-	b=aMLGB2gPOccWu7m9Cquooy5ADRNTBv/cf04dAktIh+ofp3pbYgC6rd7cgwm7/L4Z8
-	 JPWhPOmWP/mCR3JaMNywSoLccPS8fHpT8y+eTWI3ZOJ5zpHBfVIhYQZfsFon0k4THo
-	 EZyCXn2OEYLP3JplfHepD24beGyZAsrrkadFqKt141YpdyPyFzyOGsKz9oruLSEduL
-	 QctE1z6jjnqmGGg8F7N+ffUVsNqHApVrXq5L0fkmfC2uAhqOfE0LSjgnW0UraXByl8
-	 L6+KkcUbLr6EEcJIFF74RCrS+mKh1amrOLx9Dc2oz+JaPO6oDnPp6X3Bb9QZ0v9W3J
-	 qrTrZmyc1jMjQ==
+	bh=LKqiusUC6k9CAUQl7ntCz1PVVX8cHh5vew/gb3VI4mc=;
+	h=From:Date:Subject:References:In-Reply-To:To:Reply-To;
+	b=KEnTDu/OucE9lrC0IHwqsMZIMi9s+4NVdSvexRlLm+Jcbb1rE3cIKqQp0v82JbPNm
+	 0zJzL9Z8/Sn/+QgkOOKb6RQbWzt3rQtLkSklHMCCif/5BGuqXHguDxMYsu3sMqRkZT
+	 +qTcOnWqITX+Fc+YJUhXlwVvMULFQrUKZCRpbAm0YEqvUr8teL8LygdKhMHbrGcmWO
+	 WAcRm4w9W88TZG30sojZYFF1H8tc3CV8FzvYzGjCXSKdrSjBnORv1uAcWZm/u8Al/V
+	 TAUYsrCdOtDTonIt6P1bHYS++hgl4RfRSuhDDIU30uRI75ou8tMfEaNHMvj59WzeW2
+	 xnK/ESMs5hXPA==
 Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id 3108047811
+	by lkml.kernel.org (Postfix) with ESMTP id 660FD47815
 	for <connman@lists.linux.dev>; Fri, 13 Nov 2026 15:34:51 +0000 (UTC)
 From: =?utf-8?q?St=C3=A9phane_COLIN_via_B4_Relay?= <devnull+bigbob.fun.gmail.com@kernel.org>
-Subject: [PATCH 0/7] openconnect: Fix GlobalProtect authentication,
- reconnect and split routes
-Date: Fri, 13 Nov 2026 16:34:50 +0100
-Message-Id: <20261113-openconnect-gp-fixes-v1-0-1f7f6922d88f@gmail.com>
+Date: Fri, 13 Nov 2026 16:34:52 +0100
+Subject: [PATCH 2/7] openconnect: Do not treat reconnect reasons as
+ disconnect
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
 List-Post: <mailto:connman@lists.linux.dev>
@@ -85,70 +84,68 @@ List-Owner: <mailto:connman+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-B4-Tracking: v=1; b=H4sIABou92oC/x3LQQqAIBBA0avErBvIQoWuEi1immw2o2hEEN49a
- fn4/BcKZ+ECc/dC5luKRG0wfQd0bhoYZW+GcRidMWbCmFgpqjJdGBIe8nBBbydLnqw7dgdtTZn
- /0M5lrfUDK3AYmmYAAAA=
+Message-Id: <20261113-openconnect-gp-fixes-v1-2-1f7f6922d88f@gmail.com>
+References: <20261113-openconnect-gp-fixes-v1-0-1f7f6922d88f@gmail.com>
+In-Reply-To: <20261113-openconnect-gp-fixes-v1-0-1f7f6922d88f@gmail.com>
 To: connman@lists.linux.dev
 X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1794584090; l=2284;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1794584090; l=1525;
  i=bigbob.fun@gmail.com; s=20261113; h=from:subject:message-id;
- bh=EFshlAO7+Q6jxcB9wR4fbD3C3/tlBTEQaI4mKje+WMw=;
- b=SdVZd3+7ZlUU4lH5iCbIgmO2SD6E/Lq3ZRYnrb81TxSKZZb/pyUJ7/eK9nOEVAwfrzOuSmLLW
- 1xaLTMWn3fEB+FJI0HRnrqXh2OeUNG7RXY/Iu/OV1zrpBEMABE5QrDU
+ bh=h8wCuXfu5LBZiPAFN7yuQFV+dbuBM65vaTOmx5XuB0w=;
+ b=+PbEDTbxNakDh3cLgOwSwS0bxDEXPYUwbcuFtNLWEkrPlOab2GYxf8LbNkjRJLMhAr7HDxCIr
+ JipgzeI2skhBoEenpHX98b+sveU5capAjMHE86+HebuQ8M78fTAmLnH
 X-Developer-Key: i=bigbob.fun@gmail.com; a=ed25519;
  pk=MoY1DAn0hlhveZhsN9JyLnuWS/CGqJHTad4MaTL8HgY=
 X-Endpoint-Received: by B4 Relay for bigbob.fun@gmail.com/20261113 with
  auth_id=1512
 X-Original-From: =?utf-8?q?St=C3=A9phane_COLIN?= <bigbob.fun@gmail.com>
 Reply-To: bigbob.fun@gmail.com
+Content-Transfer-Encoding: 8bit
 
-This series fixes the OpenConnect plugin with a Palo Alto GlobalProtect
-gateway (AuthType userpass, built-in authentication of connman-vpnd), the
-handling of openconnect's own reconnection after a suspend, and split
-routes pushed by the gateway.
+From: Stéphane COLIN <bigbob.fun@gmail.com>
 
-1. The protocol was only given to the openconnect process started after
-   authentication: the built-in authentication always used AnyConnect,
-   POSTed to /gateway and got 404 from a GlobalProtect gateway.
-2. "attempt-reconnect" and "reconnect" from the vpnc-script were handled
-   as a disconnect: the provider was torn down while openconnect was
-   still running, leaving an orphaned process.
-3. GlobalProtect names its password field "passwd": an empty password
-   was sent...
-4. ...and the rejected credentials were resubmitted in a tight loop
-   (~50 times), which can lock an account.
-5. Split routes without a gateway (CISCO_SPLIT_INC_*) were never
-   signalled to connmand.
-6. _MASKLEN was matched as _MASK, so IPv4 netmasks became "16", "32"...
-7. The username was never offered again in the credentials request.
+[openconnect] Do not treat reconnect reasons as disconnect.
 
-Tested on a phone running a ConnMan 1.40 based build (Sailfish OS) against
-a GlobalProtect gateway with MFA: login from the native UI, several
-reconnections after suspend, 25 split routes installed with the right
-netmasks. This series is the same change ported to current master; it
-builds without warnings here but was not run on master itself.
+When the connection is interrupted, e.g. after the device has been
+suspended, openconnect keeps the tun device and reconnects by itself.
+It calls the vpnc-script with the "attempt-reconnect" and "reconnect"
+reasons, but oc_notify() handles every reason other than "connect" as
+VPN_STATE_DISCONNECT.
 
+As a result connman-vpnd tears the provider down while openconnect is
+still running: the tunnel is lost, the openconnect process is left
+orphaned and the UI stays in the "Disconnecting" state.
+
+Return VPN_STATE_UNKNOWN for these two reasons so that the state is
+kept as is while openconnect reconnects.
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
 ---
-Stéphane COLIN (7):
-      openconnect: Set protocol before obtaining the cookie
-      openconnect: Do not treat reconnect reasons as disconnect
-      openconnect: Fill the GlobalProtect "passwd" form field
-      openconnect: Limit repeated credential forms
-      vpn-provider: Signal routes without gateway
-      openconnect: Do not take _MASKLEN for _MASK in split routes
-      openconnect: Offer the username again on the next login
+ vpn/plugins/openconnect.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
- vpn/plugins/openconnect.c | 53 ++++++++++++++++++++++++++++++++++++++++-------
- vpn/vpn-agent.c           |  3 ++-
- vpn/vpn-provider.c        |  7 ++++++-
- 3 files changed, 53 insertions(+), 10 deletions(-)
----
-base-commit: 9e46e4a021cd8566b942d1a72b41b14a0a58f506
-change-id: 20261113-openconnect-gp-fixes-7535c7c56fd6
+diff --git a/vpn/plugins/openconnect.c b/vpn/plugins/openconnect.c
+index 5ea12c62..4585d785 100644
+--- a/vpn/plugins/openconnect.c
++++ b/vpn/plugins/openconnect.c
+@@ -292,6 +292,15 @@ static int oc_notify(DBusMessage *msg, struct vpn_provider *provider)
+ 		return VPN_STATE_FAILURE;
+ 	}
+ 
++	/*
++	 * openconnect keeps the tunnel up while it reconnects (e.g. after the
++	 * device has been suspended) and reports it with these two reasons.
++	 * They must not be treated as a disconnect.
++	 */
++	if (!strcmp(reason, "attempt-reconnect") ||
++				!strcmp(reason, "reconnect"))
++		return VPN_STATE_UNKNOWN;
++
+ 	if (strcmp(reason, "connect"))
+ 		return VPN_STATE_DISCONNECT;
+ 
 
-Best regards,
 -- 
-Stéphane COLIN <bigbob.fun@gmail.com>
+2.50.1
 
 
