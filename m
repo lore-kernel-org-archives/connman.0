@@ -1,13 +1,13 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.70.108
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795479218;
-	b=iUV3jx4dGnbxuc/5f7TAMhb1aiXFWIka6JiSO7OwQfNya5GJZB55MlYBqvyeSVlFc6vG
-	 53xpWRe4sFpGR7fsfrz6PY8OgE+AYrkuOzvCQcH14KQ9s530AoI+bShW1lZ1gsvlAF26e
-	 N5+yJUOMzLldxwja7mKptJaqAGxR//bulEwpuvgUSXhfTKhKj+rAtRbqmEmggqtakBHxa
-	 E/1dKIFsK2DEx2ZWfR35u8wYKCRJW6uYvdCxALCzIe/c5ADzzxsVFVVtyS3WuE8v1loAe
-	 bmCCW5tq6R3zvvqYTtNcsb5Cjj6gFEaCML94J5lNc8dw4jUefJ0kDGSSjoLTjBzt/Lw==
+	t=1795479219;
+	b=LzQukYNCd538i16r9q7secDudbrPRc5miAUO5gGidg8IeYVtysQZWRSB/oswutTzfPOL
+	 B6BX3qNDg3GVFDUe2871EXr+eQLjmomKFZ5yRIR8KY5Ny64eo8GyWAE8wxWs7YYjXHIYA
+	 yyiYSC+HVB6DHqYrrjsoRz5m54tfLZakopOjoNz9DyQs81m9K9N9KOW+qWAL+7DtmNDt5
+	 i18nPndOhQLfjPmNG0yGIJRmp0ZUv0BHx7km6kX2+DXKiAQCvtwuuRDFdrEAr2pN0VHuK
+	 xsdj9CjUaT2FrCOcajjYa/Kwjrp25TC5itpNdDbxmKoYtStOi5Do1vMiU/zAe3+w7bw==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795479218;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795479219;
 	h=DMARC-Filter:DKIM-Signature:Received:Received:From:To:Cc:Subject:
 	 Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 Content-Transfer-Encoding:Content-Type:X-ClientProxiedBy:MIME-Version:
@@ -25,69 +25,69 @@ ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
 	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
 	 X-MS-Exchange-CrossTenant-UserPrincipalName:
 	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=QG0MftIquPfCJLvdYiGl1QL/xcOOmy/VHtr3OLBIPCA=;
-	b=xs9K2FbXXcWa52RwqTjUJWzVA19UejKyqIowIpVqIdHctqWx24ugquiYKDxjZin8Qqak
-	 j1TOchiPA6BYiqKKD8gUCHjgUHO++kP7Yhd2F31k2S3Jwx8/2arRrrkPHJJ8HM8Ud0MPS
-	 KTMAuUrZMCs3U5JqKOwl+pcqVvyv9DKHtNt4ly9y7H5BcNmVlmYnRRB1aUpOLoEKaGddM
-	 Zr3XhSMjWKaOsLn0RpCmxwTE4JX37jVnRzaCw73rqXlcFXpPTwnVOeQtOZjHEtK0YjO5P
-	 TD0PibY3zt2GH5ab6Ud9Azqut0HXv5v++fDuuuKBof8EJPZosgbOu0rnQDSW8rI9JZg==
+	bh=9bLrEhKHZgpj99iTumPTUYLmkdoPOvwebWnnxnCbjGY=;
+	b=2tQnXt9dfDdYPplB2KLg+Jx/Q9XIGWU/vkanYMPDPBBLIAFWHGF42OifmfnWckSptuQj
+	 aeSDpkHJm2C69w9hYZ9d5eM2rAHXQg9kD+TMpzyvee+qmDDEGop6/Zd8o5IxhuE6OYiTZ
+	 GLdqj5na1tnY3med8H7HK5QjEpBf18OrNjcUMj3yCPSOumXc5EbCYniCLDWUuL4zqnlww
+	 NW/pPO+SE3kgaK7iA8R2xeXbnLZxv/8dk5RMw5jRBXncfkHJbnWZCJcW8bT2GWQiFY0Er
+	 xNsokISQcaJubdD8i8FfNeo4Z6mDt9ZAIux3xRG9Vo+hXc6cOiHT+UcU9kTLzCxD7Eg==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=kuleuven.be;
 	spf=pass smtp.mailfrom=kuleuven.be;
-	dkim=pass header.d=kuleuven.be header.i=@kuleuven.be header.a=rsa-sha256 header.s=selector1 header.b=FhUes68k;
+	dkim=pass header.d=kuleuven.be header.i=@kuleuven.be header.a=rsa-sha256 header.s=selector1 header.b=F9gPyabf;
 	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.70.108
 Received: from AS8PR04CU009.outbound.protection.outlook.com (mail-westeuropeazon11021108.outbound.protection.outlook.com [52.101.70.108])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B10D606A31E
-	for <connman@lists.linux.dev>; Tue, 24 Nov 2026 00:13:38 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1B10D606A31E
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00D4A606A31E
+	for <connman@lists.linux.dev>; Tue, 24 Nov 2026 00:13:39 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 00D4A606A31E
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=kuleuven.be
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kuleuven.be
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=kuleuven.be header.i=@kuleuven.be header.a=rsa-sha256 header.s=selector1 header.b=FhUes68k
+	dkim=pass (1024-bit key, unprotected) header.d=kuleuven.be header.i=@kuleuven.be header.a=rsa-sha256 header.s=selector1 header.b=F9gPyabf
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=aDc0WLKlrGDDbAuW2Mzv9NGWzxCq16Bo3VjCT/CdcvZhM5nus2OAepFG+mPrSS9HbhOX1WKYXs3craMzlRlMDSnxjYj9oDyQUTnPP6rQnJZGZAXNODR+IvmQVxk4PiDWCVSHVEfOR3miCc3HXnGpyNPfEC6wk6NER3MtDsR6fRCDY7d362+ptDFImiMXxAOSTgv59s9VwlRf5Y1upJwPFX2noE/1kpYA/kifGDNd+WIz1KWahUDnHrMofo7izfbWrkm/WIJjoIyyjE68NcoesMfsfIwsq0nJdC7UDze5c57MpuKc7VupjxiPVBhQ7Zux69tqpuwFHD/1/Y9i7ZMGQQ==
+ b=IcdAzdTGMfT95B8xoS3C3QHTFkiKfcqIZ+vwJlnjSThtba0i+Zvaoucga/9lT7IVJBxXrByR03aiSNKvSvlfHcl5UrKGxJscR64jfghg/MYlHOE9DysyMPO0slH2XgaSpVuKbz41XJJdLiJrJ0jgjZa7Kjx5ThPWKc7k9sJoPCbEuElluDkhInOs3eXeDkI6MQnLdrkH9glMeIUapIPwPuxC+vcxdb/NKOEl5ePVEgvkcF4siYCx2h/DBJerZBEc+2FONk4kNGKy79B4Jg/ggzLv3aEvnmtS7EJQ8XUhrgfKqrwpZHBMNtIXzCpYk4VXOEXftJwGWgXEhK1x9B6ODA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=QG0MftIquPfCJLvdYiGl1QL/xcOOmy/VHtr3OLBIPCA=;
- b=nBNy2b3kkZVnDClAqBA1X40xkEouVnIf1uiGrdRHqZkFuU5H8QDSujD7RRbDcif2CDQrmmPEYqYUMMEDKTjZd3g0PTMCLUPUmdb3uTsSTciW87f35B/fUDIy778iwGPl8WFAFUjA3g/e0X3fXnJ3fOG7a0uqKZWDnapYp/vhkF3DxFrQCxRqwNqDbANEcPvsQUgdMQ/C6GN0Zg4ks7H/4CC32TgpMnWiTvpaUydvIVCGPiy/0GnENGJjqCw7/OoMLTS+ACWXaQ+LTU6gImSb7/dzcRRIMC3xgsF147yWfJ0jt3NIzFMXCGvvMQrO9l035ok9XxMXgI/fpjCJ6dq2Jg==
+ bh=9bLrEhKHZgpj99iTumPTUYLmkdoPOvwebWnnxnCbjGY=;
+ b=Fw27eZ8dXV1JADR4TUtQzqM+r4udO9V4Sx+8hkV28hDLmne2rDuupirtAcND16x2AUfIWB63QqAhITmPDoGjOvivMtGDYMUR+ld0LtbYThjxpXp8288Y4axhAj5WbELnyIHLzjAsAYuAdGrtV/BrdZPa3mtAZM3CgWnrS/+vDL30m8rQ1NfAAcA6BO81PUfizySAncDC84MQPniwXzcsU7aGu5V5HbSR2a/hvOpELAp7QnSMm6R9pIZql5ITSaXGS/h4J04BngZk9FQApLjVsfde7Xr4Mn1gxEyQHNunFOn7Wo6iRALt9L9cEeL1Mur+8nqnq8Wjq8eOVQlkkkdMEg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=kuleuven.be; dmarc=pass action=none header.from=kuleuven.be;
  dkim=pass header.d=kuleuven.be; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kuleuven.be;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=QG0MftIquPfCJLvdYiGl1QL/xcOOmy/VHtr3OLBIPCA=;
- b=FhUes68kvqVjLASOaDjCbqk+T4jFXEIkT8wKBuDovKnpYuNSi/QpcgYUJWUur0Y5bliVmIP9OWU4vWe5e+gelMO3RIqzPybOyF8ERoJVvTCh/CB2UbZC/HAhd1YVlhOI0xNsTB4IXw9/awzPm6l3XS5k181fQDTwabv5oysAC3E=
+ bh=9bLrEhKHZgpj99iTumPTUYLmkdoPOvwebWnnxnCbjGY=;
+ b=F9gPyabfRixSqdq8CXYeyMuRRDSNv3jks7PPjlCofFg961T86vcLYBHLwm8fJlWb/V+qJaq6UIYV6+6dbOPqcb8ugno1j9VhkWrEpSuutsr4Nxhb+nPRNbW2XVSo13YFaVs57cMGYpHhaDCNmdCSu7fN5fwLmWl/D6lHAAPdL4U=
 Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=kuleuven.be;
 Received: from MI9PR08MB763857.eurprd08.prod.outlook.com
  (2603:10a6:290:c0::16) by VI1PR08MB10200.eurprd08.prod.outlook.com
  (2603:10a6:800:1bd::21) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.639.13; Tue, 24 Nov
- 2026 00:13:33 +0000
+ 2026 00:13:34 +0000
 Received: from MI9PR08MB763857.eurprd08.prod.outlook.com
  ([fe80::4f1d:a35e:c1b6:8b48]) by MI9PR08MB763857.eurprd08.prod.outlook.com
  ([fe80::4f1d:a35e:c1b6:8b48%7]) with mapi id 15.21.0639.012; Tue, 24 Nov 2026
- 00:13:32 +0000
+ 00:13:34 +0000
 From: Mathy Vanhoef <Mathy.Vanhoef@kuleuven.be>
 To: connman@lists.linux.dev
 Cc: denkenz@gmail.com,
 	marcel@holtmann.org,
 	Mathy Vanhoef <Mathy.Vanhoef@kuleuven.be>
-Subject: [PATCH 12/15] agent: Add RequestCertificateAuthorization method
-Date: Tue, 24 Nov 2026 01:13:08 +0100
-Message-ID: <20261124001311.1161845-13-Mathy.Vanhoef@kuleuven.be>
+Subject: [PATCH 14/15] doc: Add RequestCertificateAuthorization to agent API
+Date: Tue, 24 Nov 2026 01:13:10 +0100
+Message-ID: <20261124001311.1161845-15-Mathy.Vanhoef@kuleuven.be>
 X-Mailer: git-send-email 2.56.1
 In-Reply-To: <20261124001311.1161845-1-Mathy.Vanhoef@kuleuven.be>
 References: <20261124001311.1161845-1-Mathy.Vanhoef@kuleuven.be>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ClientProxiedBy: AS9PR0301CA0016.eurprd03.prod.outlook.com
- (2603:10a6:20b:468::34) To MI9PR08MB763857.eurprd08.prod.outlook.com
+X-ClientProxiedBy: AM6PR04CA0004.eurprd04.prod.outlook.com
+ (2603:10a6:20b:92::26) To MI9PR08MB763857.eurprd08.prod.outlook.com
  (2603:10a6:290:c0::16)
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
@@ -100,213 +100,144 @@ Precedence: list
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: MI9PR08MB763857:EE_|VI1PR08MB10200:EE_
-X-MS-Office365-Filtering-Correlation-Id: e37d904e-5281-4c82-fc9d-08df49bfc60d
+X-MS-Office365-Filtering-Correlation-Id: dbe4a109-a93a-47aa-f51c-08df49bfc784
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|376014|1800799024|10070799003|786006|23010399003|18002099003|22082099003|11063799006|56012099006|261021121427099003|261026121527099003|261102123227099003|261028144727099003|261026140227099003|261009223027099003|261026135527099003|261022115727099003|261022105027099003|261021133027099003|261021130227099003|261022113327099003|261021135927099003|261021123027099003|261026130827099003|261022075727099003|10067099003;
+	BCL:0;ARA:13230040|366016|376014|1800799024|10070799003|786006|23010399003|18002099003|22082099003|11063799006|56012099006|261021121427099003|261026121527099003|261102123227099003|261028144727099003|261026140227099003|261009223027099003|261022105027099003|261021123027099003|5023799004|10067099003;
 X-Microsoft-Antispam-Message-Info:
-	QOvXAHmJe54oqIw62jglwXzrTWu1nqROpUC8p7CdEtLYZ9c/rvqTXLwg5DSwfKycQ4vr7t8MtBF+Ifmn/AjK7IyqetimQIUo5nSA6GHPA02e9nQRcSdyTmnnOeQT6y1JeD4hbuGImCsWLqjTteGVoyTtC02YWq5D3jAnBIFK7KvwHaBzQos1l/iaZUWvLrlOlXLO5/V4LXu3m3LO9KJmNJi7jX81D36FYkl88X/PALXoscz2lHSj74v+ltcTu6LBVrQA5yrStsPwnWzGP4Ci3+G6w2a3kB1CRfmVv95LDYoEohSIPPv/9B+oJKX7q/OTU2qByowFgKaS0k8Qceae2K3Tq+CF3LlpzuULNFzj38zYknCds+AhSCU7R1e/v0mTik+shyUpaEZbl9zGx/zlLpR2CB2drPKEXmIW9HKMQiBguQ/ue4aXIZhN43a6XamT5Bqg0OqzCHn4ILukfu9Ahet6DozPm6iqVoJpc99hS4R1h4qa43Wjwk5jgajzkZ/B1on0tGQ7xFNwmMngW+OuTKTrtkbS39RpmcJr+xA4LJZVzmgyK6vRjNt3ff7rbr6iDFKiIUhK6hOtT2G+tZZ/jgoTXSozq+B71MS/uwJ3SRcCcfF8r1Wo3VWEQiqEeqDZi3ZBrhrNwwuvudOTqtuCJLhSyjxLdBtXH1QeMC3UK5o=
+	lroIpu67xxOZQv9xVSlec5rCeysJ4P7APjz77/zTg9hHTr1ckFkfN3/ZbE0RTPEiq75nOqLV23pd84FLFZ8vfPUs1tRcSxpaSZ2hK4oLKw90/pXVrnBxNImpZnvPuqpBOIYZbimz+eNif91xSu3c4mvNvqHv+cm8MuR1rVqhNLvNKX9wm+SkuMbG0bGJjMw8bXMmjYy9+XloGS58EcVFQywC9m8iCiSCCCc4YdBhwIQNxLGcroTe74TgwStGAtcbV+lG7wJAXsiEMcC7mu53N0QrkRI1IA6Hv7a/NO0mtjZxIFtIUlI3PRNed/8wcF2L2/qYGet/rhBTQAWI3SWzOYYwsFs32LfKXvsQO1opvXlDSwQdt0/TIS9OXqP7gMWI0CDe/DyAjH4bBA/WloGRaSTSEfwaZpsveFszq9D4tQ7OXaBHGnQ+Jf8D5JOAkqwo+0WHyHiHcoSEAk8Uq8iL1Uu/5XNG7Fa3aGCxi+9GbG7G9bZAWRmBEnG1JjPYjSC7f6IumZSIxZWzb2aWWd7ukxfxK3HoJZoJDJGpKpMbq+kc3Q0MsNimXborL8JROkoS6x7fvu3UdZXejnorp/oDQq4JukIK2c/Uh40k4Z9ldhGIM5z2g0RICS5yfrNFddoQeyZCk0AbpnGXZDiYJvMC8Lm11bdioH9mEcw4ceFD/N4=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MI9PR08MB763857.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(10070799003)(786006)(23010399003)(18002099003)(22082099003)(11063799006)(56012099006)(261021121427099003)(261026121527099003)(261102123227099003)(261028144727099003)(261026140227099003)(261009223027099003)(261026135527099003)(261022115727099003)(261022105027099003)(261021133027099003)(261021130227099003)(261022113327099003)(261021135927099003)(261021123027099003)(261026130827099003)(261022075727099003)(10067099003);DIR:OUT;SFP:1102;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MI9PR08MB763857.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(10070799003)(786006)(23010399003)(18002099003)(22082099003)(11063799006)(56012099006)(261021121427099003)(261026121527099003)(261102123227099003)(261028144727099003)(261026140227099003)(261009223027099003)(261022105027099003)(261021123027099003)(5023799004)(10067099003);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?OQsH0aEm768BMxNEHo4Lit59PoyUYe3pqMtuXu18PBRj6safFf2eRuqrd83Z?=
- =?us-ascii?Q?V7KHQgSLYEkEfEve0cdCMiVrZDb8K1IjAiQKGnTWnOX8sDjHmvC5Kn6wYQ7i?=
- =?us-ascii?Q?/R2V2ZSuZo+Sx+RJyQgn8GFKqF133FgOrNYBr133ACEXQWYBJqR9gqvUZvA0?=
- =?us-ascii?Q?7Jxt++4+4JlmYX4lqJHM6Kq4uFix3agRd0V+n7bvkZNBqtsGhKDOnoQ1VpwK?=
- =?us-ascii?Q?YXhBEm+d9t87WujAjQYWgsoLBCOrSbYdlzpIhanzK4FgXBBQ81g4R8afA8Iq?=
- =?us-ascii?Q?KAO/s8Cu6mOC4T+8zgJ7g4Xb47a7LNpQ6aefU66/gsP+9mvvD4pFIu0f8SzV?=
- =?us-ascii?Q?mescruZA00KTG0kefKp9G+48vi76izqreHezd074k1JbQjC6LvWM3a0GPQA+?=
- =?us-ascii?Q?Mzy8I/ShwVTJctNkRLjsdBGEIwh6uA3OQbpvfGHz/BRAp5gTQehHyEx/kfZ9?=
- =?us-ascii?Q?CF+1S7kWNf5AkAPWxaIsW05gBeV70aCFOalRZJuaYczqINGKfQMetW3hZz+q?=
- =?us-ascii?Q?EUGCyWMgq30g0DgHGl3yWOAE5JGQZsmlIGQR/q5ifCqE7n9a+TfSy9O4Gi1u?=
- =?us-ascii?Q?zI8hEP7nkhQ1yzSmcQBKkiQzYEnezoiyjPwoqRIP6oickm7uW0xUr6cRLt/6?=
- =?us-ascii?Q?62T0rme3JYlDGQigx3AVALM0ZPpShnicZo0f7hsHCTX7STH+dWlvBUWm2c9g?=
- =?us-ascii?Q?lC3MZMA5sfcGS+uCeM3UIBCYuA6Nk2b1+IsIyj/Tu5zvvH/K75hEjhKOuCmD?=
- =?us-ascii?Q?KXAE3eB7Rzm7+f+7vpeSynJqyHMIbZS4Tf8oziUY5tqdztAj9K7r08xSDa46?=
- =?us-ascii?Q?dP/s9/unTRpqNbSd4+aCHGMgwJ9uMz0QaD2MEkzgKuBfiaYBJl6ctGMrlBIm?=
- =?us-ascii?Q?kgx8pS+kHonpb+nIpxBTe9+IJFzoBNJVBklJLgpOLmz2VxQbG2AptnI4VFpS?=
- =?us-ascii?Q?jPJ7dWnU0mqabqLzoGM365JSBfwp4Hi5A5dpffrEOZ5lTw84atiqB4N1L0G0?=
- =?us-ascii?Q?yLt/bTS0OEocx24i4xknzOlcNtvhzTQw1PZ+Oa0q7uPfbRktP6i2BqAW3Wzo?=
- =?us-ascii?Q?vq49dI7sWtfpheatOzFv/hCX8IYaIv7e4TBP1swbciMP4zLS02EJWpnkMzzK?=
- =?us-ascii?Q?cuHPHiKnROP5nzxkcw28vxNA2/D5UivGVsBARgccaNxCF6w6PziMcqYhLFdo?=
- =?us-ascii?Q?2ayc5uTstegJ8fi35LaK9F7sRf2R+TbSSZn932hYsLI/x3NzXUqG8gv5z+ty?=
- =?us-ascii?Q?12XqHfChXQAM+LzI7+9nTkx8qs8Td68+Xa1DuY5g6sLwjiq3kph4Fh4Ip/+f?=
- =?us-ascii?Q?sCE57dg+G6ssXmE/QiPSSyWQXauNwM347PrDuK9rj9VybG/IC8HBjct4mZRW?=
- =?us-ascii?Q?hn1cjGZ2xyEuvsr5TngwuyQiw7WCo9BxfZghFQQ4XTWMEeBvolnUxIER4+wW?=
- =?us-ascii?Q?lYIaZru7mFAgqyVPv81FO3iBHyxbXfZde7emPH6T4+nvypDJSq1CyvSSFNcz?=
- =?us-ascii?Q?Oj/M302ZekkmsK34bccXC5wwn2MDHA9O2q9852jk2IGyhb4O6K0u644lRHEp?=
- =?us-ascii?Q?itt8WsoGXlOaT6HO5msDYQbfODbyspMJZ6Sh+ZiPw4WGCbeX9/H6tTOLHEce?=
- =?us-ascii?Q?ZhhBsM/TSk1JhzhRRbOrU271ijuOM1m3QnwOSX/HXMr7Q2tkZgDiCRluYH1z?=
- =?us-ascii?Q?i1ncchP/Cta9B3AwuDD/G7NMwJaJWlhy9HUCAeDmEmu5soCZT9nNrbjReaFR?=
- =?us-ascii?Q?irBJoHLbSYkCNq+ADzjB6vSxFFcu+SThR/SkiR1/M3jxd80s0iyOxqU2fK1u?=
-X-MS-Exchange-AntiSpam-MessageData-1: 2Sj/y2XGEtW8orkuSSYB0A+EV/VXgb6A5XU=
+	=?us-ascii?Q?o0Cl4cqM59Qw/b9wZfxpeV4fNYfCC1h93pC//yV3DacmgJPOfbbynkfr/0GK?=
+ =?us-ascii?Q?xSCjgrM/Bu0O2yc0obRFbJg/lg+HMuQjEPTgSLR7xDSOBv7ynteQ3FOrxIQc?=
+ =?us-ascii?Q?K8b4Wz9IrQY45CWtcaur5b+AdEYb+LiLTLLyxi6lamEVor3QiyIAP88cedL3?=
+ =?us-ascii?Q?VIK3av4GTrjj0Vm3pHmX1mRSC7i/Im+aq5sXYDBOcqsO0s5v2+l4cXUA+/wI?=
+ =?us-ascii?Q?A3GytgDaFjcSxOO8MebhXa0mxxXHWnmH2nO/hr4537Lqr16D3iLTVRr7GrTt?=
+ =?us-ascii?Q?IcEXM5JHvgphTkQDgcCq1wTF2IxBGwqr34upVMkQR5zEvq5iNF2YR1LKA1Bp?=
+ =?us-ascii?Q?4vm3ZbjFDTzHIYsRM+Mc6bHwgZEIDB/1qw4zbtrLn22SPRWn7kbUP1C01rN+?=
+ =?us-ascii?Q?dpNngH3Qf5DlDE6xWMAWgQsJTKL5W5WAeTJfGwa/FKzxg7FwcgY5zWu8tte8?=
+ =?us-ascii?Q?tONspxAEW6tnt66g0qAFR8t5lY16+7bobJRUr5tgg7Q7WuRKvrDhD30CJ1ZX?=
+ =?us-ascii?Q?2PHDGQfpn1vPpzmEUayrctYWVpIBmpaSMqSkyLBLCOfhst8CbCwtWsRqO7fP?=
+ =?us-ascii?Q?ZoZZhJ9Je2ot8o+10EvQ0XEJvbWcUD44nuKGA1hu+0CYTllf1fGjfCUjXIf2?=
+ =?us-ascii?Q?+sc7NK6OQOr+zxlVRUDmD3QJAnFcV81oY0arZSjZi+eiB15gZkCv2Ta1m4bC?=
+ =?us-ascii?Q?6dn0oVg8Bppjr/cPE+4xxSlWFEuybJjsRi46go90oyiWIUBp+ykRzfuk9wu7?=
+ =?us-ascii?Q?eQddM8SFonK28SjulSBJpaqwk38aEDcfTaRdO5cCp0hgnYN+TuWFU+MpFwzE?=
+ =?us-ascii?Q?JvNLTMw0+ek5fqDw6HhyG987ohonRYuOO1lak2BSqWcBNSer52dzJIMEpiKc?=
+ =?us-ascii?Q?3j4K2HIOloQSeTAt3+VIWeyMvbjjUh50KfMk6EzrykZAKJeroerch1OZM6h7?=
+ =?us-ascii?Q?8OlnZmQ8DbPRLfvwkKKAoipTjcvxjw8HZ6k93Nlb6neLUhN5hmCPkgR7e50Q?=
+ =?us-ascii?Q?aPLWdYZ7iUvOx3SD93dbv0PY7VMxgLGpdx5KmDmW72uQLQ6RCfAEuXRDCXyl?=
+ =?us-ascii?Q?dO1HBZng/4CC8F67hAiQm8w30s10P7mXkIfihkvhdc0y82cgMskC3Zpk6tzW?=
+ =?us-ascii?Q?TJnSBz/1J62aIs+jHyxXJwN9Wv8BYpGkm5sPiWuXjYulnPml7iZ3FsG+VsNu?=
+ =?us-ascii?Q?JSJiPSera2gQ2/C7pA9j4zPuF+qTXO3t2pydM5Oj8EsgbmHwsQJmJPLPWcW6?=
+ =?us-ascii?Q?meiA6Z2JQc1t8qoe97A8vcAZPXFnph/hMmFSxXASKVsoclqA7touZ+8+MN2e?=
+ =?us-ascii?Q?Whxn7s1pHbm+gaPne3Vs2MLrAOHHBE45nbfwGKCCfu+lK8dfdCQkDcqYrA6w?=
+ =?us-ascii?Q?dRZ2sjDfn58foM5QXAVXncE6nTc50r30YCFlvYNQ02gP4/ulyh6RkI6KgLr3?=
+ =?us-ascii?Q?iwk/aw3zkciotTCutAPIsAfZBA4HgCHED3vLJPGNxz9yhQsDM+y7Oo+DpkYh?=
+ =?us-ascii?Q?Y8oCx1gTMMDrljR7qbPAHMclUw4VU+/snLfcFex4nxgJb/WGVSdFA0VRElxF?=
+ =?us-ascii?Q?WWuf8Kh3Dt0biMwV69Ea/zy6yKvimiXMwy47fKZiONC9OdjvnY6QCosYfm+o?=
+ =?us-ascii?Q?t8/gQ3LU9ybOJlppfeFKW8YaLyrvV/GxNY3DZGtsrP/bO0yeue+EhB6Onnlk?=
+ =?us-ascii?Q?stmcQhtmWCuOcBOg8A3/4ZzuYD3Sy+L+07drg72FdP4RxmLT16/nHdZQR94Z?=
+ =?us-ascii?Q?QionhktTRyIo6amv6rE9wxetcCaUoj/tZa7p1w3E9a64pCqOtHwlDCED30Xc?=
+X-MS-Exchange-AntiSpam-MessageData-1: emRsKqKjWYMAz7FUEXYgB/NPlA5dZ6vWrSA=
 X-OriginatorOrg: kuleuven.be
-X-MS-Exchange-CrossTenant-Network-Message-Id: e37d904e-5281-4c82-fc9d-08df49bfc60d
+X-MS-Exchange-CrossTenant-Network-Message-Id: dbe4a109-a93a-47aa-f51c-08df49bfc784
 X-MS-Exchange-CrossTenant-AuthSource: MI9PR08MB763857.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Nov 2026 00:13:32.1286
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Nov 2026 00:13:34.5769
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3973589b-9e40-4eb5-800e-b0b6383d1621
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: IEM0VXV9eYHc5fOZFy0/GWqoLbXc4DfujekpDuuSTmYogVkNZWoY9kCYmrnPYNlwvj3c4r/1JdqU9mhCjDMbCeNf/KuBF590qN3UDnXhVeg=
+X-MS-Exchange-CrossTenant-UserPrincipalName: JR09W+TGeUxhuTKqyF44dgkXKw2B2LPmV+pdF4d3mdP7d520BL9bGVKvgoLM9kUel2DHZoFlaNlQduZIosF+nCppR5Aj+rfjc25ro4n1O88=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR08MB10200
-
-Add a request asking the agent whether to trust a certificate seen on
-a TOFU probe connection. The certificate is described by informational
-fields only; an empty reply accepts it and an error rejects it.
 
 Co-authored-by: Rathan Appana <rathan.appana@kuleuven.be>
 ---
- src/agent-connman.c | 112 ++++++++++++++++++++++++++++++++++++++++++++
- src/connman.h       |   9 ++++
- 2 files changed, 121 insertions(+)
+ doc/agent-api.txt     | 42 ++++++++++++++++++++++++++++++++++++++++++
+ doc/config-format.txt |  7 ++++---
+ 2 files changed, 46 insertions(+), 3 deletions(-)
 
-diff --git a/src/agent-connman.c b/src/agent-connman.c
-index 2bd33e04..61f43605 100644
---- a/src/agent-connman.c
-+++ b/src/agent-connman.c
-@@ -722,6 +722,118 @@ int __connman_agent_request_browser(struct connman_service *service,
- 	return -EINPROGRESS;
- }
+diff --git a/doc/agent-api.txt b/doc/agent-api.txt
+index b2becd2a..e498b432 100644
+--- a/doc/agent-api.txt
++++ b/doc/agent-api.txt
+@@ -89,6 +89,24 @@ Methods		void Release()
+ 			Possible Errors: net.connman.Agent.Error.Canceled
+ 			                 net.connman.Agent.Error.Rejected
  
-+struct request_certificate_reply_data {
-+	struct connman_service *service;
-+	certificate_authorization_cb_t callback;
-+	void *user_data;
-+};
++		dict RequestCertificateAuthorization(object service,
++							dict fields) [experimental]
 +
-+static void request_certificate_reply(DBusMessage *reply, void *user_data)
-+{
-+	struct request_certificate_reply_data *reply_data = user_data;
-+	bool accepted = false;
++			This method gets called when a service with TOFU
++			(Trust On First Use) enabled has seen the certificate
++			of its authentication server for the first time, on a
++			connection that did not verify it. The fields describe
++			the certificate; none of them is requested back.
 +
-+	if (reply && dbus_message_get_type(reply) != DBUS_MESSAGE_TYPE_ERROR)
-+		accepted = true;
++			An empty dictionary should be returned to trust the
++			certificate. It is then pinned and the service is
++			connected, verifying the server against it. Returning
++			an error rejects the certificate: nothing is pinned
++			and the connection fails.
 +
-+	reply_data->callback(reply_data->service, accepted,
-+						reply_data->user_data);
-+	g_free(reply_data);
-+}
++			Possible Errors: net.connman.Agent.Error.Canceled
++			                 net.connman.Agent.Error.Rejected
 +
-+static void request_certificate_append_field(DBusMessageIter *iter,
-+							void *user_data)
-+{
-+	const char *value = user_data;
-+	const char *str = "string";
+ 		void Cancel()
+ 
+ 			This method gets called to indicate that the agent
+@@ -151,6 +169,30 @@ Fields		string Name
+ 			Password for WISPr authentication. This field will be
+ 			requested when connecting to a WISPr-enabled hotspot.
+ 
++		string CertificateType
 +
-+	connman_dbus_dict_append_basic(iter, "Type", DBUS_TYPE_STRING, &str);
-+	str = "informational";
-+	connman_dbus_dict_append_basic(iter, "Requirement",
-+						DBUS_TYPE_STRING, &str);
-+	connman_dbus_dict_append_basic(iter, "Value",
-+						DBUS_TYPE_STRING, &value);
-+}
++			Informational field of RequestCertificateAuthorization.
++			Either "ServerCertificate" for the certificate of the
++			authentication server itself, or "CACertificate" for
++			the self-signed root CA certificate it was issued by.
 +
-+int __connman_agent_request_certificate_authorization(
-+				struct connman_service *service,
-+				certificate_authorization_cb_t callback,
-+				bool is_ca, const char *subject,
-+				const char *hash, const char *domain,
-+				const char *dbus_sender, void *user_data)
-+{
-+	struct request_certificate_reply_data *reply_data;
-+	DBusMessage *message;
-+	DBusMessageIter iter, dict;
-+	const char *path, *agent_sender, *agent_path;
-+	const char *type = is_ca ? "CACertificate" : "ServerCertificate";
-+	void *agent;
-+	int err;
++		string Subject
 +
-+	agent = connman_agent_get_info(dbus_sender, &agent_sender,
-+							&agent_path);
-+	if (!service || !agent || !agent_path || !callback || !hash)
-+		return -ESRCH;
++			Informational field of RequestCertificateAuthorization.
++			Subject name of the certificate.
 +
-+	message = dbus_message_new_method_call(agent_sender, agent_path,
-+					CONNMAN_AGENT_INTERFACE,
-+					"RequestCertificateAuthorization");
-+	if (!message)
-+		return -ENOMEM;
++		string Hash
 +
-+	dbus_message_iter_init_append(message, &iter);
++			Informational field of RequestCertificateAuthorization.
++			SHA-256 fingerprint of the certificate, as colon
++			separated hex pairs.
 +
-+	path = __connman_service_get_path(service);
-+	dbus_message_iter_append_basic(&iter, DBUS_TYPE_OBJECT_PATH, &path);
++		string Domain
 +
-+	connman_dbus_dict_open(&iter, &dict);
++			Informational field of RequestCertificateAuthorization.
++			Only for a "CACertificate": the domain name the
++			authentication server certificate must match.
 +
-+	connman_dbus_dict_append_dict(&dict, "CertificateType",
-+				request_certificate_append_field,
-+				(void *) type);
-+
-+	if (subject)
-+		connman_dbus_dict_append_dict(&dict, "Subject",
-+				request_certificate_append_field,
-+				(void *) subject);
-+
-+	connman_dbus_dict_append_dict(&dict, "Hash",
-+				request_certificate_append_field,
-+				(void *) hash);
-+
-+	if (domain)
-+		connman_dbus_dict_append_dict(&dict, "Domain",
-+				request_certificate_append_field,
-+				(void *) domain);
-+
-+	connman_dbus_dict_close(&iter, &dict);
-+
-+	reply_data = g_try_new0(struct request_certificate_reply_data, 1);
-+	if (!reply_data) {
-+		dbus_message_unref(message);
-+		return -ENOMEM;
-+	}
-+
-+	reply_data->service = service;
-+	reply_data->callback = callback;
-+	reply_data->user_data = user_data;
-+
-+	err = connman_agent_queue_message(service, message,
-+				connman_timeout_input_request(),
-+				request_certificate_reply, reply_data, agent);
-+
-+	if (err < 0 && err != -EBUSY) {
-+		DBG("error %d sending certificate authorization request", err);
-+		dbus_message_unref(message);
-+		g_free(reply_data);
-+		return err;
-+	}
-+
-+	dbus_message_unref(message);
-+
-+	return -EINPROGRESS;
-+}
-+
- int __connman_agent_report_peer_error(struct connman_peer *peer,
- 					const char *path, const char *error,
- 					report_error_cb_t callback,
-diff --git a/src/connman.h b/src/connman.h
-index d86ceb02..1eb24ae6 100644
---- a/src/connman.h
-+++ b/src/connman.h
-@@ -123,6 +123,15 @@ int __connman_agent_request_login_input(struct connman_service *service,
- int __connman_agent_request_browser(struct connman_service *service,
- 				browser_authentication_cb_t callback,
- 				const char *url, void *user_data);
-+typedef void (* certificate_authorization_cb_t) (
-+				struct connman_service *service,
-+				bool accepted, void *user_data);
-+int __connman_agent_request_certificate_authorization(
-+				struct connman_service *service,
-+				certificate_authorization_cb_t callback,
-+				bool is_ca, const char *subject,
-+				const char *hash, const char *domain,
-+				const char *dbus_sender, void *user_data);
- int __connman_agent_report_peer_error(struct connman_peer *peer,
- 					const char *path, const char *error,
- 					report_error_cb_t callback,
+ Arguments	string Type
+ 
+ 			Contains the type of a field. For example "psk", "wep"
+diff --git a/doc/config-format.txt b/doc/config-format.txt
+index 04a09cda..70d052fa 100644
+--- a/doc/config-format.txt
++++ b/doc/config-format.txt
+@@ -120,9 +120,10 @@ The following options are valid if Type is "wifi"
+   does not send the password. The certificate seen is pinned and used to
+   verify the server from then on: a self-signed root CA sent by the server
+   together with the server domain name as DomainMatch, or otherwise the
+-  server certificate hash. The pinned certificate is kept in the service
+-  settings, not in this file, and is forgotten when the service is removed.
+-  If missing or set to false, TOFU is not used.
++  server certificate hash. If an agent is registered, it is asked to
++  confirm the certificate first. The pinned certificate is kept in the
++  service settings, not in this file, and is forgotten when the service is
++  removed. If missing or set to false, TOFU is not used.
+ 
+ 
+ Examples
 -- 
 2.56.1
 
