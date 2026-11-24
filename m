@@ -1,13 +1,13 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.69.134
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.69.123
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795472541;
-	b=Chj2bjfJvtpDGXNJRasLaYnvPgiz9+gw6bsCl00vmqFi6SMjIlSPVPR2yBQxGULTATUg
-	 TEKtfVIHwuZ3LhwYm29oegGAczhPjHc0qmEz1olwMYM8FVI0U5pB1BvJY/aMB6e06lq1O
-	 P0x35UY57sdmW9k/wfVF176Hl/EEzkeLnV6Nn5B/SmGJS0Aa4Ts2gfTuobYeW4LKObIeG
-	 B4O/wnaqQ/GLuxw11WXQC+MwntPJy99YWVjEOeifjAow1Oo9DANbkKI3MAj5kddsjIBVM
-	 qRbOqRaCQyLRedGx3AqiqUGyyLnygMCvgXprpv1j2N5UiPjPKxbEMKx/4cxCe4+JyFg==
+	t=1795479203;
+	b=EnaN8GFvhoAi+gwkE1CDYgi9D5/HW5OFjp+O+BFyhPKPxKUKFqTTLDZCnGOyeMUseNbk
+	 SvNST6Du2CnuU90LLfgRSIWhY0aH6yKceqJwbkPU0Aia6z8DDw6qRfQnf+TI1DsxTYbjf
+	 DKz5a1cjbEbxi0puhjhIyDwzuBgC22WSedBwm18s+vpXic0Qu9Rf2Iq1yvrSFnkWoPvIv
+	 HhOpeIAOqXOazVZMSyCvJj4S2J7yULxu5SXFxevFaYDMilLYRzMcUavMhNBIu6WVqXSTu
+	 GgslSO691JchpNWHA93m5yOP1AC2dQSIac7Lhg7W2Ox74iHqI8SN5+f8YT9HVydUOMw==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795472541;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795479203;
 	h=DMARC-Filter:DKIM-Signature:Received:Received:From:To:Cc:Subject:
 	 Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 Content-Transfer-Encoding:Content-Type:X-ClientProxiedBy:MIME-Version:
@@ -25,69 +25,69 @@ ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
 	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
 	 X-MS-Exchange-CrossTenant-UserPrincipalName:
 	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=niqgQEurXsTQtisla8d1NYmMI3QrflI+TIhztgeuo/0=;
-	b=NC3tbArDzYzGNYBdZJLSm38+wUnoy9RMUro8j1TPcLN4bUfwPMkTqUfISE4FprZfxxJE
-	 a3oXiV9ACq6YqmxB5u9cKdUfLV7oIHkOh0LXJPSKgzWLO4F0PlpC+hvG044Bujx8F/osH
-	 8FQ4tN3UsnqXLVCCTk0jbd5WjkxbciWis2JS8/GeYVCJXqK/Vv8AFIExDet5zlgIN1LrW
-	 HTgbZm+yXZRGCwqDyYcV8S8EYzRuLidza283nKiGgPwI7UmBhD2uY150Tkmd6ON46U20n
-	 t8L5xXR/4RoNzbw01jl41LsNgxefAJvoZntIyaSo1vvvHkmtY+zVIAAqofa8OPTYwEw==
+	bh=ibjaA7iJRMzWJt2kN/obmb62Jjl6fRWVav5rDQd6mNA=;
+	b=wsUv3GBgSS53Qup1G9vLorMm/3eEvJ0q4cM5xLlB1l5tlWSr83G+aTR14O5CAgmtfoBj
+	 vRWg4SxSejo+HITdvKqqwBBtt6Mda4U5Xgth8cqVxsTjyR+zg7bj/n2QVWpyC+P/OQI4K
+	 ISHQX1cF75aUKpG4pgdEVKfS9oTFmvHjcpkPFMaAQR1kCCasgBIwIwauUJ9n9aZ8paE8G
+	 4YMct3PeHm0tvN2Oklpfni0PR7fE6dzni9+3UwbPo6p9UWkkT8Yj0Cfe3OzH7W8BuI6Le
+	 Oom8x0t0BuIgdJAkHVZRUSo+yJn8zrCenCipf+lgitNt8x2DN0IHYHvRMlK3Y2gfkjA==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=kuleuven.be;
 	spf=pass smtp.mailfrom=kuleuven.be;
-	dkim=pass header.d=kuleuven.be header.i=@kuleuven.be header.a=rsa-sha256 header.s=selector1 header.b=SipqWsoq;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.69.134
-Received: from AM0PR83CU005.outbound.protection.outlook.com (mail-westeuropeazon11020134.outbound.protection.outlook.com [52.101.69.134])
+	dkim=pass header.d=kuleuven.be header.i=@kuleuven.be header.a=rsa-sha256 header.s=selector1 header.b=axhwMiU9;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.69.123
+Received: from AM0PR83CU005.outbound.protection.outlook.com (mail-westeuropeazon11020123.outbound.protection.outlook.com [52.101.69.123])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79F5D606A31E
-	for <connman@lists.linux.dev>; Mon, 23 Nov 2026 22:22:20 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 79F5D606A31E
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FE51606A31E
+	for <connman@lists.linux.dev>; Tue, 24 Nov 2026 00:13:21 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1FE51606A31E
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=kuleuven.be
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kuleuven.be
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=kuleuven.be header.i=@kuleuven.be header.a=rsa-sha256 header.s=selector1 header.b=SipqWsoq
+	dkim=pass (1024-bit key, unprotected) header.d=kuleuven.be header.i=@kuleuven.be header.a=rsa-sha256 header.s=selector1 header.b=axhwMiU9
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=R6m+JBnagRMsaV+EVZilgPsjKBb90SzkkeqD2hi6qgakiF5xv1fe5o2PNMFRCepyGDYHx5wTO39uAHgxQr66kvr9Pz8kM9qzKR7Ena36L2qGv/jo9fNbjiMCHyb8j+QqW0jW824wNdKN99zl5SNbeddlmh4zy3aZZgY3Bwzpa4bejzSyGzu8kNJt2uNo+jOWEa03rpOjGuPQmfD8YDTJdKwYbWVdue4/GTDiVwkOcqI4FsQqRkdsSNU5Uo0RFjg3BGTmab3yIW1ixm1ONAssovLgg6pLncr5PQSDVUw4TKZT54OSdAPtiQ+4TR2HDBQwY/vrJ5rsceamAMuXU7i+hg==
+ b=S7zW1r6G76E9I+vknAMjtOPpdwdNU8rCRzIOPNX677XEm3bLk8mTP/D91YuAKlvc4I/BwA5S++Xdu74Ecn1Uj04okq0DiEbQh1Bjs1EmJk5Q8aSOuv9y1/TGT1vZmA895rQwAZkSwX7jWWZV8vp+4LhoEjnFlJWz6958c2PgO11Vf4znxKshltbEFzDdsb31ZOtvEfUrIxxqD0MN+WDzk6MLu6xYnCusE9xb1MFxUKy8RlYVO0MXMKqZl6s2uSKnWUmG0uOlN+DVEzeItRy9hSYH5C3srzfP9ttHJqCdCvw4uA2qVv/RSpzvdwhiR9Hg3/YtAnM4oOU9+n1+wR+xCA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=niqgQEurXsTQtisla8d1NYmMI3QrflI+TIhztgeuo/0=;
- b=aGcbfORVrwxiAG+kekialTD05Nujaadlm+lzUSjEp3JOYczvVmMNhhbiIkJ9YAAY+l+HC8xyb4R3QBfXi4juI2CLL+N+tW3akvjkQz+mVfaYXHUuGP3XDRtC6YhbZrO2YQKdnxwALXrRKL34ib0trnechP0o0HJkeuSj5MHCmt5Jcer+9p3+XbuMhpQSSGtAzGsyTAaKM7+fdq4RxD6a9Eo2ZgAZffoNCVr4t7gSToRvx977MeG0b91OpU7if6v8ojSO/ZYBAMY9fN8SAclQ6Q9zL9aaphGp0Oq9T3WqLtIv7Wge162sNhqv9Bhhj/sPG7JBp8ozvfE5vIfVicQwHA==
+ bh=ibjaA7iJRMzWJt2kN/obmb62Jjl6fRWVav5rDQd6mNA=;
+ b=dDomf6KG+GlHTX36Z1CB8Sve8NdZoeF2Uk4moj4T/rono5Eu+UiBY/eiStFtTEA2sbJ6uj8sHXOwZg26cpjOfDMkwg8IfEt1dEL3RAEe6xLX+pji3m8gknm+VwcPbXEPhN5LITVuTXMwkfK7Jj/gnb9L4duLlezRaJkQlsaPrxhLeUhRLt8z8cDeA9vu/et73Ve1rZX5Bv3IVIUpFsahycjbQzfK58ONcJuSm0uyLRffCvei1Fejgtm+z4j8j7dMUQwDxPJNIHHhkQcl/awf+dksLTg8PLUbuBNPJgqiVN6o8c1DVpvovHjXI6hfri5vZ1/0p4l2wi5Kg28sj/XyXQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=kuleuven.be; dmarc=pass action=none header.from=kuleuven.be;
  dkim=pass header.d=kuleuven.be; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kuleuven.be;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=niqgQEurXsTQtisla8d1NYmMI3QrflI+TIhztgeuo/0=;
- b=SipqWsoq5Pn0wjuWfPr/A8kcdmiaZtfwBYnAH0kRWo/6vV5286IQBdujPQhtMEvPfuwyajUiN+4xP3A9uJW8vLlmklbEUEK7x8/LBh2AA1DT5DLZEfbnsbROuwJ7ddLv5FBjDw97SI5trWKQQY56HuQ7PNHSvQyYdFGZljYdGZ4=
+ bh=ibjaA7iJRMzWJt2kN/obmb62Jjl6fRWVav5rDQd6mNA=;
+ b=axhwMiU9dhvXmoFlLRcV+KN+KQKEGu0qJl3fOOZqwE3813wI04rxfH4M8FoC8uljo6Kl92pt7RPOUleGcW6koGQl4ljm+7v2MQOj+G8ZhYdDwbCEtzBAlNc/lnXodkwb7rIPeBaAJPM2UIXBeAWY4dRl5Tc1d/Q19a2IuFOdsKs=
 Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=kuleuven.be;
 Received: from MI9PR08MB763857.eurprd08.prod.outlook.com
- (2603:10a6:290:c0::16) by AS8PR08MB6728.eurprd08.prod.outlook.com
- (2603:10a6:20b:396::19) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.639.14; Mon, 23 Nov
- 2026 22:22:18 +0000
+ (2603:10a6:290:c0::16) by VI1PR08MB10200.eurprd08.prod.outlook.com
+ (2603:10a6:800:1bd::21) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.639.13; Tue, 24 Nov
+ 2026 00:13:19 +0000
 Received: from MI9PR08MB763857.eurprd08.prod.outlook.com
  ([fe80::4f1d:a35e:c1b6:8b48]) by MI9PR08MB763857.eurprd08.prod.outlook.com
- ([fe80::4f1d:a35e:c1b6:8b48%7]) with mapi id 15.21.0639.012; Mon, 23 Nov 2026
- 22:22:17 +0000
+ ([fe80::4f1d:a35e:c1b6:8b48%7]) with mapi id 15.21.0639.012; Tue, 24 Nov 2026
+ 00:13:19 +0000
 From: Mathy Vanhoef <Mathy.Vanhoef@kuleuven.be>
 To: connman@lists.linux.dev
 Cc: denkenz@gmail.com,
 	marcel@holtmann.org,
 	Mathy Vanhoef <Mathy.Vanhoef@kuleuven.be>
-Subject: [PATCH 3/3] wifi: Keep disconnecting flag set until the disconnect completes
-Date: Mon, 23 Nov 2026 23:21:42 +0100
-Message-ID: <20261123222142.1092055-4-Mathy.Vanhoef@kuleuven.be>
+Subject: [PATCH 01/15] gsupplicant: Add support for server certificate hash
+Date: Tue, 24 Nov 2026 01:12:57 +0100
+Message-ID: <20261124001311.1161845-2-Mathy.Vanhoef@kuleuven.be>
 X-Mailer: git-send-email 2.56.1
-In-Reply-To: <20261123222142.1092055-1-Mathy.Vanhoef@kuleuven.be>
-References: <20261123222142.1092055-1-Mathy.Vanhoef@kuleuven.be>
+In-Reply-To: <20261124001311.1161845-1-Mathy.Vanhoef@kuleuven.be>
+References: <20261124001311.1161845-1-Mathy.Vanhoef@kuleuven.be>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ClientProxiedBy: AS8PR04CA0003.eurprd04.prod.outlook.com
- (2603:10a6:20b:310::8) To MI9PR08MB763857.eurprd08.prod.outlook.com
+X-ClientProxiedBy: AM8P191CA0028.EURP191.PROD.OUTLOOK.COM
+ (2603:10a6:20b:21a::33) To MI9PR08MB763857.eurprd08.prod.outlook.com
  (2603:10a6:290:c0::16)
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
@@ -99,139 +99,158 @@ List-Owner: <mailto:connman+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MI9PR08MB763857:EE_|AS8PR08MB6728:EE_
-X-MS-Office365-Filtering-Correlation-Id: a6886f47-e242-4d5e-0c73-08df49b03bb9
+X-MS-TrafficTypeDiagnostic: MI9PR08MB763857:EE_|VI1PR08MB10200:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2c8207a0-c499-4fc3-9553-08df49bfbe33
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|23010399003|10070799003|1800799024|786006|376014|366016|261026121527099003|261102123227099003|261022075727099003|261022105027099003|261026140227099003|261028144727099003|261021121427099003|261021123027099003|10067099003|5023799004|11063799006|56012099006|261009223027099003|18002099003|22082099003|6133799003;
+	BCL:0;ARA:13230040|366016|376014|1800799024|10070799003|786006|23010399003|18002099003|22082099003|11063799006|56012099006|261021121427099003|261026121527099003|261102123227099003|261028144727099003|261026140227099003|261009223027099003|261022105027099003|261021123027099003|10067099003;
 X-Microsoft-Antispam-Message-Info:
-	1Vpkgixvu0g7ag+mtyGOU0cJ1Z4xEncAEMy+L2EcgDczv/v8GwLYkTT5wWKyMqu1z+cqCsf9v6xBslawbN5JuaBliB12rR/p+oJgFt5SDuvcFc3zsrOynEPCmC3ZK2l2XlnpY+SoRgJom1X9gEbEP5kzQvGVGJn1BIZ8Op84nGGwfRF176GtjUWbwdBUDuRPeO/z+ONDxJgSzUsda2P+EalnVq00Mh5vMZSaT/ZQaeEngnLP2RoEgMiUxxr4QDcRfXdjG4MIQ0Ot4iM9JsnUY/NnEaPJVrHofesL8Vv8Tuv4Vt5ZHvlQ2spIHB0eiTA7yVHhM2GnOIwmwGgOM+ZYSOvWMJmEASVIIyTeKwYMvXaFjzyZmg1hq+JzmuL04yiDyPr+5r8Eo7ZZ7BMJGdHYNSmvkx/MtkRxka7Fcd+sO2RpTMjU6zov6NeVJEpiygLwblXSUnQg0Eyql9Zf/53Tc6PFT6D6Q324suT6aaaJQjomWWy76fXMS/YUHtH1Jj9watyXdoC1o1kSFVV8YXlItAb9e2WYxMwJZNy+EcqrMzVzmEXyYAgv6wu2y2hdxs6IesniFZnN8+RrYSRwRi00EUqBlUSP0Ylg6SVuDbALXa9P58iDgaRDlrx2Mv4GF9ngmOsmJ8AZRpsbXzWZcpNQCnbe+1etH/bHrh934CZw3hM=
+	jg0G/AwuyVIvSFjR0FQb3p4xoWGmt5FUnOSnT70Q+it9pjQs6qPLDprklzmGUT+bqTdRWEno9GI2tG4yvaClF6ZbcQdXox+mAjnEp5PzGFCMCQKkOqSbWHZU59snkIlhcfZ4OMG0RQRAoI8efJDnQBepqbTgoBGJOFmSlAWphfPCqvlduzsm/zQC3mbtDTm+bFjrN3r+C7C41mLRp3FJmBZ0lvra49S0SU8q3CnaZ8Gg4lH2FvDGwI0dlokbbHym28SpY8zqFUsIn/aAWgE4ZBNvAzXIo+7Pqqm7UV2QKsaRAA47IK/mHGHKVxaFXBwx0Knx3+d8fHQlnGd80Ja56L1hmaReESPz1mPn7TLUUm+iCsfvLCDpv9nWCOMVli+VrFrWfVTkTzFK0Fj5wOWIDkGfpIXrA+w7mUtD3DHbhCKfUcHSowmXVlxI3gqNuhuA+y3lzSb6k3RVqL56jp06BStIH/yZVQ3cON6pO5VNOJcxU3QBslxA9NKbM/3YJt7akOkpb8pD/F9bvvHa60DWNYOUNEEuCXwbg/1zQE5rMmDHBZcrZxAsNr+mGWw4nyjI43AwLi5k4Fr64cB5tUtdu2wcdKQDDeMMhp6Ps8UWFX0kbGCK9JVhW+lfCVp/WFwE6r4w4595UkVKFEcBPGb8m/XptY9p6q4+AY+xCAsDB1E=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MI9PR08MB763857.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(10070799003)(1800799024)(786006)(376014)(366016)(261026121527099003)(261102123227099003)(261022075727099003)(261022105027099003)(261026140227099003)(261028144727099003)(261021121427099003)(261021123027099003)(10067099003)(5023799004)(11063799006)(56012099006)(261009223027099003)(18002099003)(22082099003)(6133799003);DIR:OUT;SFP:1102;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MI9PR08MB763857.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(10070799003)(786006)(23010399003)(18002099003)(22082099003)(11063799006)(56012099006)(261021121427099003)(261026121527099003)(261102123227099003)(261028144727099003)(261026140227099003)(261009223027099003)(261022105027099003)(261021123027099003)(10067099003);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?sLa/OH2o0rfjpWv8l075053p1EzL+AbbsPT2WD76+U26fMqO4qwP1E3w5x1X?=
- =?us-ascii?Q?bTZ5E4hUBOTaiYjDKYQZ/m3Lvz/BKURc+mpzB1baw/B4wAtklC7HlDw5t5IQ?=
- =?us-ascii?Q?2jhHchlPI+F11VRGfNxbLN+BFCZwgTiY7PA8Ht+UrjQyBTT2QXsbJxeB1Eer?=
- =?us-ascii?Q?pMBnmrTFAgj+A8qKQKR4eEQ0naOk96DwSKgbl/6U5S1otR8rZNmlVCbHrjf5?=
- =?us-ascii?Q?mqK6f/c60JQQvlSeejWqchBycNCHrrN9mz1Uc9wrjwLWW2Ej+PDFCwghw/od?=
- =?us-ascii?Q?3lxmashP0LpRLQKNTz7Jdle++ZWbgk1/368p/W3LEqwoF4T2xI43DEBJ5bGY?=
- =?us-ascii?Q?skFfodGEYJNNeiZYOre37Gi+guwTvNrRQ0jZTshMnDMxecbA0/eMRwfrhfZV?=
- =?us-ascii?Q?4ck979+gpjfBfCV3H30bswX0Idb958u1rjLk/CV8VaH+pEZsHCCXb6pTJwrq?=
- =?us-ascii?Q?aeJBFzbSsHEdLFf4QSQXX+wIIpElIA0sC2BazN+yeVkXHKoLPmgtWLludlyk?=
- =?us-ascii?Q?3Z8r8VuVuNZR/YmTJOVoWWBIif79TnAZP/awdQBnveg9wsilPW+7FI2Q99kJ?=
- =?us-ascii?Q?lQDXnJWviN6+87mmHe6QOtLbR+Zdn9QHyI7eM3NiFZNEG9vrqB/Xb592f1bX?=
- =?us-ascii?Q?WR+OSQ2Jb4KKsBu7KnYhCkAMGDV3HiA5MWETukQwTOxP1OGEyQpSJLV1qxjK?=
- =?us-ascii?Q?YQDWblLBLr9YHsiXc22x1PhdMlxsF6+deg567slH6LGnv2BjJ0wkFP+WJ42r?=
- =?us-ascii?Q?OTo1YQXXsPub2yoBfDiuwNV5Q1uo/3r94BJ7Yncxgy8yM1a49SXI+FEUnJPE?=
- =?us-ascii?Q?cQ9/0sYCW9l4BoPYoE8vWasCbCvbh4cLfoEfc3pQ01XAZYfe0YCaW8OK/euO?=
- =?us-ascii?Q?bsuyMSvXtuvIWicZezqLcUAkfPJY4vSvdB2ItwaUlpvTdhriIwoJcphXUWk/?=
- =?us-ascii?Q?5b3cA4fwDpwl8E8gSlkylzm0Ukm9+bP56Ex0eIFR3Rh4AobAGdw9ZG57zmVO?=
- =?us-ascii?Q?0lIvK1eCcZ8uhRJyFgH1ahdnQOq8NflU9mOcgk5Et8BSGzbUl3fxKWMiOf6e?=
- =?us-ascii?Q?Ud5nqsHJkz3LKvScJYsTgOm+Z6ypdPGuYZg7h/ysE/YkJ/C88qARf5xb5QgV?=
- =?us-ascii?Q?91bJybU7S1i2F6YD7eCgp/Fabat7jWLvOMMMm02A9M9P6ffOpPZS2xBtG82P?=
- =?us-ascii?Q?qXej4wgwUJNDZ5tC5JMYp/k4x17Hh/2kLFDEVT5btEacnrZEgPU2ru2kaHM8?=
- =?us-ascii?Q?AeynnlFYEQbdzX1cOakCNom4XSuXz91hINPLD5WNow2B8YF/GvUrx8Vn1NG7?=
- =?us-ascii?Q?oXglJmv4a066U7rKE56LLY+91wAn+ET84n14WXRIUUIvVvo2kmriPCo4lial?=
- =?us-ascii?Q?udLRBKV9Nst/rWag5PZ0u4oy2bwDGdLOXFSI9Q2wM8gcjdmaM9YoCUQMY39Q?=
- =?us-ascii?Q?06jSGcAnlnx6fBZJgnEIbb635iXVkiXxsTOplEJs/KMdCm0cTzK1aiaI8HKs?=
- =?us-ascii?Q?yoHPEGrUpzb/FARSI/BzN069o0crAnQyio9CldaPHa479YuaXzjR2KDvNM6V?=
- =?us-ascii?Q?wOjcbURaWt7jDhjKtwm6RtDff0hW96Y/avWc188vy5C7iGe+JBi+qHOqwWcD?=
- =?us-ascii?Q?rsprqjjN3uryjCUXPhdbo3fS5jBqcuXxQkC6z7hm85iYtmES2Wkt9JqSq7Yu?=
- =?us-ascii?Q?WIPjAPtj945xCGfN8gXEI+g7YJRNO8COO5gP4pkvfj61XhF4L0yGRqUHepve?=
- =?us-ascii?Q?o8M+ZH6+qzFHtb3i4FY0sgFpuW+WdVAJZ2kIqFOjfMKF0PjKK7huwTTs5Zns?=
-X-MS-Exchange-AntiSpam-MessageData-1: R3UyDnOX9SxTgE0ndHZTcypAKzAI8rONrk0=
+	=?us-ascii?Q?RyB52llZDFw3tXZnllFOE7tkTb1h6jX4hNCfUOOa5a1SuAal/62WkZC1jSVD?=
+ =?us-ascii?Q?N8yGu60PWVfsJhkGoF+iLRP7VPLj+EcAGAzcDN1sBbKflhDIrXhO4EIzfXvu?=
+ =?us-ascii?Q?y4nH9bRjC9TnKDt6B8SPWs3f90PgRy7MDw4OgABIGRokpTl/hG1iqNhxjJiF?=
+ =?us-ascii?Q?wns2St/yhlU37W7lfniRhEJ3Y8JmoyJqGv+aW76LH89sou849Bt/NGcpr9hI?=
+ =?us-ascii?Q?t3T76QBtIP1lZ74QxmkdhVs5ZICGhQTItfZw+nX9IWasYulu0v2ORooFwZ7e?=
+ =?us-ascii?Q?DQLZYv7a3Uw2EQGRhyH2aqOzdAqrDyx7ESBEeNeP+hmSIrmic1QA/b6mnTW3?=
+ =?us-ascii?Q?42lI+GKR3KUbZc53fLY07kL7NPjzZHvG3JsgBM9N6nfswwFLZAVIwyVik1tF?=
+ =?us-ascii?Q?zWy/QUORSilVd/L6yeqfB6cIA0xZDWdOJPaLzTMJ6UAYdrjJfLm/gOUQonhs?=
+ =?us-ascii?Q?3YdUqzzMFOwezM+FKMcu8J4l6zOr8pMcjGLGjLOM2MMJxrla3w9eXzwpMs9q?=
+ =?us-ascii?Q?P34G9ZTsdfF9UV/bw6RbflxDqyFXvRd2pI/rrI6FTn42xLeeOG1ko9xvVw3J?=
+ =?us-ascii?Q?notddEeGaIJpa8cHgwA3fisEc23rm96W07+GUmjmt7oSlr3EG1g4B6hoSxoc?=
+ =?us-ascii?Q?OFvSb42IbCHjuUQAj1bba6C8TdGni4sdlZusC66qcBn182ejpvNH9ct+FU3w?=
+ =?us-ascii?Q?EjrSRky9E4/lBtnX/nNSPJF5AEBsngBSBQ3zurpkqqYTOrmz5ZqOfmn0SbXT?=
+ =?us-ascii?Q?87chAsK2oNdCu1bfx/TJkVxMoc6jy2Jujz7Afr/Ooyu9UtTPw1K9esqn4x88?=
+ =?us-ascii?Q?l4wg6EprK/3f3+YY/MCSur46T3IqI1OiAB/DdKARVHghGmIjeAWhj21ZW5dS?=
+ =?us-ascii?Q?8/ySp+GT8ZfOk+6l3s0XUkvg71qjf0UKYD6igciG3pa3HC/3q9Hzw6MvpXGn?=
+ =?us-ascii?Q?cEig+WWExFlCOsFRvzXaC82pIhErcESbzbiouUvah16VOvD8IjN7wPqfHZ4W?=
+ =?us-ascii?Q?xfrHzMEK1eVYMJacsvisJb2/EWfV5L/lGzq6ptO7KMX5yjb1avToP7c8/0lL?=
+ =?us-ascii?Q?JuO1yqwoC19A6gpP7cEirOgSVlDwh37pokwnLqaYSBeDD/oMz6Ac8j1CDSoN?=
+ =?us-ascii?Q?ZfIOksPC2kehWHPiAqp4bunv3iB+uCN5xN+syYbfXIs75sq6wIAoscwvHnmR?=
+ =?us-ascii?Q?NlumAjLQgtPN5EdaRontbXbPCDNz8SJwE42nW3Y6iimozV3nHlXX7dAZ5+N/?=
+ =?us-ascii?Q?+USsUFpc6cUFXGCFzYCrUXgp/+Ic/QPI1/prXXAv3QDtUGk17lzqkIySnNC/?=
+ =?us-ascii?Q?nGd0+4YftTt3qxGM2woclYRHAeOMexFYyVaMetBhZfgr9wmKOkoNUpQMftp3?=
+ =?us-ascii?Q?enYSTCeaj5ACrIS5lpT57d0QtOEalk6iLPX2tFRVi85djkEQmxH6Fi2suD85?=
+ =?us-ascii?Q?4FVXTs7GgYuNCb3bKr7DHR8J9sj3waw9vmNAYcOm+VVt0GBs8iocCI4WRhaR?=
+ =?us-ascii?Q?hXDZp8lEhliAXhOwdKvSXeBsiNAUqbEYTmbL+DV+s49Iif866cGDxooXVsFN?=
+ =?us-ascii?Q?PWlXIhgLqUCQ0TOPgDLQ8Jaz271bVW8EQE7cvBzLDH8lR5Jgb7h60qQqLSpC?=
+ =?us-ascii?Q?1b23h+OK9Wjuqs4bjo+toRoI7qknH4sOLMD6fpkaB0CTll6CKSoha408WBjF?=
+ =?us-ascii?Q?g+7WQ324x/C3aAcP6mW8JKPxy9agsdz97M8bmQMVG6H/6QqpGYcnlmdlM5k8?=
+ =?us-ascii?Q?elEeTMsvpqyp67VqpxB6PVdqm5Qg5m4k4hQ1KpICB73aHKqa3vKcqfZjprTU?=
+X-MS-Exchange-AntiSpam-MessageData-1: Fd2D2vEJP/lbgnE8yu+HYl0qFePQC0rsseE=
 X-OriginatorOrg: kuleuven.be
-X-MS-Exchange-CrossTenant-Network-Message-Id: a6886f47-e242-4d5e-0c73-08df49b03bb9
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2c8207a0-c499-4fc3-9553-08df49bfbe33
 X-MS-Exchange-CrossTenant-AuthSource: MI9PR08MB763857.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Nov 2026 22:22:17.5522
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Nov 2026 00:13:18.9616
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3973589b-9e40-4eb5-800e-b0b6383d1621
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 3gSRzGNXCaicIMfIVh8euF6lg0DrDxC1bmFUuyTlSGrIU2/MsFg9ECu3NlB8dKpalzL8sltUeHH4e0qsrvjhF/4Zx4eLF5XxgYN4KOxce08=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB6728
+X-MS-Exchange-CrossTenant-UserPrincipalName: mCt8MgEzg3q9+N/sMIhlxRDWLcQT1eQFd6GT/PAVVIgApf8NAXY/ZzYqPWi5O5UHEyiioNIjQZ+UtlafofYKk1vLkTIG28yt42UXbCgDo+A=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR08MB10200
 
-When disconnecting and immediately reconnecting to the same network,
-the reconnection can also fail when network_connect() is called after
-interface_state() handled the disconnected state reported by
-wpa_supplicant. This is the second sequence mentioned in commit
-"wifi: Do not mark pending network as disconnected". It can be
-reproduced with a client that calls Connect() as soon as its
-Disconnect() call returns.
+Allow an EAP network to pin the authentication server by the SHA-256
+hash of its certificate instead of a CA certificate. The hash is
+passed to wpa_supplicant as a hash://server/sha256/ ca_cert value,
+which wpa_supplicant then compares against the certificate the server
+presents. A configured CA certificate takes precedence.
 
-In this sequence, the following happens:
-
-1. network_disconnect() is called and sets the wifi->disconnecting
-   flag.
-2. wpa_supplicant replies to the Disconnect call. As a result,
-   gsupplicant sends the RemoveNetwork call to wpa_supplicant.
-3. wpa_supplicant signals that its state changed to disconnected. As
-   a result, interface_state() clears wifi->disconnecting, even
-   though the disconnect has not completed yet: the reply to the
-   RemoveNetwork call has not yet been received.
-4. network_connect() is called. Because wifi->disconnecting is now
-   cleared, network_connect() does not make the network pending, but
-   immediately starts the new connection and sets the network as the
-   current network.
-5. wpa_supplicant replies to the RemoveNetwork call. This is where
-   the problem occurs: since the new connection uses the same network
-   object as the one being disconnected, disconnect_callback() marks
-   it as disconnected and clears wifi->network. This means the new
-   connection fails.
-
-The same happens without any client involvement when a connection
-fails: connman_network_set_error() disconnects the network from within
-interface_state(), which then clears wifi->disconnecting right after
-that disconnect was started. A connection started directly afterwards,
-such as the real connection after a Trust On First Use probe, then
-fails as well.
-
-Fix this by only clearing wifi->disconnecting in disconnect_callback(),
-so that a new connection waits until the disconnect has completed.
-Also set the flag when disconnecting after WPS, and clear it when the
-interface is no longer available, so that it cannot remain set.
+Co-authored-by: Rathan Appana <rathan.appana@kuleuven.be>
 ---
- plugins/wifi.c | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
+ gsupplicant/gsupplicant.h |  1 +
+ gsupplicant/supplicant.c  | 41 ++++++++++++++++++++++++++++++++-------
+ 2 files changed, 35 insertions(+), 7 deletions(-)
 
-diff --git a/plugins/wifi.c b/plugins/wifi.c
-index f51c3acc..6ce6bb91 100644
---- a/plugins/wifi.c
-+++ b/plugins/wifi.c
-@@ -2289,6 +2289,7 @@ static void disconnect_callback(int result, GSupplicantInterface *interface,
- 
- 	if (result == -ECONNABORTED) {
- 		DBG("wifi interface no longer available");
-+		wifi->disconnecting = false;
- 		return;
+diff --git a/gsupplicant/gsupplicant.h b/gsupplicant/gsupplicant.h
+index eab6293f..fe842696 100644
+--- a/gsupplicant/gsupplicant.h
++++ b/gsupplicant/gsupplicant.h
+@@ -151,6 +151,7 @@ struct _GSupplicantSSID {
+ 	const char *identity;
+ 	const char *anonymous_identity;
+ 	const char *ca_cert_path;
++	const char *server_cert_hash;
+ 	const char *subject_match;
+ 	const char *altsubject_match;
+ 	const char *domain_suffix_match;
+diff --git a/gsupplicant/supplicant.c b/gsupplicant/supplicant.c
+index 50cdeca3..83eac964 100644
+--- a/gsupplicant/supplicant.c
++++ b/gsupplicant/supplicant.c
+@@ -823,6 +823,7 @@ static void remove_ssid(gpointer data)
+ 	g_free((char *) ssid->identity);
+ 	g_free((char *) ssid->anonymous_identity);
+ 	g_free((char *) ssid->ca_cert_path);
++	g_free((char *) ssid->server_cert_hash);
+ 	g_free((char *) ssid->subject_match);
+ 	g_free((char *) ssid->altsubject_match);
+ 	g_free((char *) ssid->domain_suffix_match);
+@@ -4684,6 +4685,37 @@ static void add_network_security_psk(DBusMessageIter *dict,
  	}
+ }
  
-@@ -2472,8 +2473,12 @@ static bool handle_wps_completion(GSupplicantInterface *interface,
- 			dd->network = network;
++/*
++ * The server certificate hash is stored as colon separated hex pairs,
++ * wpa_supplicant expects it as hash://server/sha256/<lowercase hex>.
++ */
++static void add_network_ca_cert(DBusMessageIter *dict, GSupplicantSSID *ssid)
++{
++	GString *uri;
++	char *str;
++	const char *p;
++
++	if (ssid->ca_cert_path) {
++		supplicant_dbus_dict_append_basic(dict, "ca_cert",
++					DBUS_TYPE_STRING, &ssid->ca_cert_path);
++		return;
++	}
++
++	if (!ssid->server_cert_hash)
++		return;
++
++	uri = g_string_new("hash://server/sha256/");
++	for (p = ssid->server_cert_hash; *p; p++) {
++		if (*p != ':')
++			g_string_append_c(uri, g_ascii_tolower(*p));
++	}
++
++	str = g_string_free(uri, FALSE);
++	supplicant_dbus_dict_append_basic(dict, "ca_cert",
++					DBUS_TYPE_STRING, &str);
++	g_free(str);
++}
++
+ static void add_network_security_tls(DBusMessageIter *dict,
+ 					GSupplicantSSID *ssid)
+ {
+@@ -4704,9 +4736,7 @@ static void add_network_security_tls(DBusMessageIter *dict,
+ 	if (!ssid->private_key_passphrase)
+ 		return;
  
- 			connman_network_set_associating(network, false);
--			g_supplicant_interface_disconnect(wifi->interface,
--						disconnect_callback, dd);
-+			wifi->disconnecting = true;
-+			if (g_supplicant_interface_disconnect(wifi->interface,
-+						disconnect_callback, dd) < 0) {
-+				wifi->disconnecting = false;
-+				g_free(dd);
-+			}
- 			return false;
- 		}
+-	if (ssid->ca_cert_path)
+-		supplicant_dbus_dict_append_basic(dict, "ca_cert",
+-					DBUS_TYPE_STRING, &ssid->ca_cert_path);
++	add_network_ca_cert(dict, ssid);
  
-@@ -2675,7 +2680,6 @@ static void interface_state(GSupplicantInterface *interface)
- 			connman_network_set_connected(network, false);
- 			connman_network_set_associating(network, false);
- 		}
--		wifi->disconnecting = false;
+ 	supplicant_dbus_dict_append_basic(dict, "private_key",
+ 						DBUS_TYPE_STRING,
+@@ -4774,10 +4804,7 @@ static void add_network_security_peap(DBusMessageIter *dict,
+ 						DBUS_TYPE_STRING,
+ 						&ssid->passphrase);
  
- 		start_autoscan(device);
+-	if (ssid->ca_cert_path)
+-		supplicant_dbus_dict_append_basic(dict, "ca_cert",
+-						DBUS_TYPE_STRING,
+-						&ssid->ca_cert_path);
++	add_network_ca_cert(dict, ssid);
  
+ 	supplicant_dbus_dict_append_basic(dict, "phase2",
+ 						DBUS_TYPE_STRING,
 -- 
 2.56.1
 
