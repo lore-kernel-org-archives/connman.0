@@ -1,20 +1,20 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.69.123
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795479206;
-	b=eq/a3E8j6iWXeScRxUYQ2JgPhJNHel6ZBuQl58OV4/tN+AEoQhzBvGMR73K8ss4zP6Zo
-	 MsWxfUf3oCUPR2ULvqYYfk8zl+rl57voVx38q789j0LsafOt09WJakJ99vFPqVslPeEQ3
-	 YOrLUtckLhskjs2as4ikGbYWlgx/E4Ci8OCE7BcVhnEVoS1VcIyc/GXDfyUCQBnd8ejQV
-	 2bkjBI3in2c1NV8u/PgqjJsn5wo/bmYmZJbV+PsToNKNULA8EpsaaAoRc/j14vs13zJUD
-	 kWer62arD+bTMGmLEcYEsZyPVeAJqCwKRWeNKKoSMfbvl9hl3DslZf6G19yJW0aIgzw==
+	t=1795479207;
+	b=Ae6WJjPMC9Cc7/m7lPl5B7lLUDwJAFENuxxHE9uIsJgTiyVEsOUhxzphH2woknipDy5S
+	 At7BV78OtPKQr6kmhTr6Qo3IoQ449wW7l9Onbqbf3/k8lvls22jecyA1JIgHVo5D6otGP
+	 jHKPIyykwH5wjb+LHvJSsSkUYaTOU4vfjKrerKZTIVOAyeirZdvQkb7SzpvLCSR8QVznD
+	 KaY6MjBUMD6L1o6nVTTcxryhafjS2wTLdyKjV3NwCS4ehVVUWWDwNJINfpYXcQqhThQue
+	 vt2l/OLRvlg8K4jTnun+2tKvJ2uhuBDdlIsID1vdIw8m+8bcSOx6trvAK5sXWBLxBEQ==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795479206;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795479207;
 	h=DMARC-Filter:DKIM-Signature:Received:Received:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:Content-Transfer-Encoding:Content-Type:
-	 X-ClientProxiedBy:MIME-Version:X-MS-PublicTrafficType:
-	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
-	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
-	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
-	 X-Forefront-Antispam-Report:
+	 Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 Content-Transfer-Encoding:Content-Type:X-ClientProxiedBy:MIME-Version:
+	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
+	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
+	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
+	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
 	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
 	 X-MS-Exchange-AntiSpam-MessageData-0:
 	 X-MS-Exchange-AntiSpam-MessageData-1:X-OriginatorOrg:
@@ -25,67 +25,69 @@ ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
 	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
 	 X-MS-Exchange-CrossTenant-UserPrincipalName:
 	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=xLrCtitvLwyRAAqkf8d3xGCmcBE8lTqUYNupf+ysAN8=;
-	b=xYzt9DcIvCUCG7tB3BNAtt7ZkTQW8JyZhmlJtvR65jsksirVhwvvNBGIaZ4BO5gP+Xu5
-	 9COhM0Z3lboTAXisIbQT78uqks0ETcvbkpB0E4uRMmHQBxIUHQ8g4BdSbLF36HnQOHObm
-	 sWB1Jqscj9QV0RPU8ph7rvjbIOQQihrVK7HSsWUBVMjDk/WhGY9hK/aPtD3UdOVYgwr9J
-	 wUpq03KWBz3t01XiZVSm9H01v7g3c04g8yNe/U1D0fMEsLxRHqlXUZ7qqFXNyiyFX9V3L
-	 7ZYUbHGhrFSQJ/HeSHgj+Igp7EQK7rFMKNah6RCvW8Oml2U7y7TrDzMMumr4KGi1Gpg==
+	bh=uWhQvkA4BTbOdqmXIy3xlRk4HZQayc2nnOZIghiGIaA=;
+	b=UL9m6efX3BRAguEcx3XFbwWvDzBS01AeV9D80Dr9mAN1eUWNgLr1LJTbLM5EH240yzgJ
+	 kED1hjI+4PPB6SdhzLpd4qqUa92tQ0Eg0gb7SRx4EsNjslWFtjMPWHFR6CA5ozwgCFvCu
+	 rSQEr87bvmyMNeT4NgY9eCrVmA27kxGb8Ieg/s9c3k4vRGBxUODA8z1EtfIsaKrK0Anwo
+	 BvUdDWl+UfalYuqUVF19tngUZESYu7+2ynFXrJ7za3AXTDQyhE8TEu7JJJ2n1Pa0zOhJS
+	 iv3VRedSiQjofl4ulNzAFwlU/rVmV4vhFZxmzTeM2WGu6+px/LhQSoCwRw73YS6JhxA==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=kuleuven.be;
 	spf=pass smtp.mailfrom=kuleuven.be;
-	dkim=pass header.d=kuleuven.be header.i=@kuleuven.be header.a=rsa-sha256 header.s=selector1 header.b=Nk2dsuES;
+	dkim=pass header.d=kuleuven.be header.i=@kuleuven.be header.a=rsa-sha256 header.s=selector1 header.b=cJtCIdr6;
 	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.69.123
 Received: from AM0PR83CU005.outbound.protection.outlook.com (mail-westeuropeazon11020123.outbound.protection.outlook.com [52.101.69.123])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACF97606A31E
-	for <connman@lists.linux.dev>; Tue, 24 Nov 2026 00:13:25 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org ACF97606A31E
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AF42606A31E
+	for <connman@lists.linux.dev>; Tue, 24 Nov 2026 00:13:26 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8AF42606A31E
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=kuleuven.be
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kuleuven.be
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=kuleuven.be header.i=@kuleuven.be header.a=rsa-sha256 header.s=selector1 header.b=Nk2dsuES
+	dkim=pass (1024-bit key, unprotected) header.d=kuleuven.be header.i=@kuleuven.be header.a=rsa-sha256 header.s=selector1 header.b=cJtCIdr6
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ZPRICL2zYHB7GCkXRycluhXVdCnL4uioVk+oa65kzHsbzkmHbLHkDwjRS9sBc4B8UAE1AMarkoAi6oqX3jH06JWGarg2BdN0DbAW/rF1BBuwrpZkrQme1cD7/UrmlRjZCPuu/YN/bdp4/cQfFhhtTAkVDDuRCQTDtvYQZymhV07C8qQiRYyvZWxEwbW1dv94O5PYDCPSLe8821t59NO3JVf9X71G4b8/09FPOAsYYAo21z7pnaAlVG3Wkbfx9iLzq7ohErbBRtc4l5P20A2x3M3ULJhPOLECVM1G4D/VrYtKP5AtzKnEEBNI1wQRtr84at3Jm2xxXu+3j+x4P1t/yw==
+ b=olFX5sEY0HZwbQSilnYgiMV7C86PM7GuU51+65NT7hmio3Ydy6XrEFPulTrE9veRrSVlZV0f6OlxjOR+3IRcMfZJLw9G+qLU6L19B/Z7VtDUHasEKVntDxBG0B1Ma4TdwNbifgix487NhTGgtAsI4NFuMu6WTV6E08ePqiRS/zEDr11mPkurR8fJHfcvZmLOORYDNy+30R7vFFSrGpmz20XL2vp7ae39YwE7+Q3rRre0YmJWzg2ZPjP35S5OkTNTOoQab/XSOMZHi0dtvzzWCBo33rbgR+iNla1TYuzHKkvnOZxrvGuOfYkRToBow0pA0dJgyFwebC4oL4tuPPcGCQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=xLrCtitvLwyRAAqkf8d3xGCmcBE8lTqUYNupf+ysAN8=;
- b=gzUgrZFdm5iHE7QWcAt9KtajCOXRr9RG3sCP6kBlKlt4AO2Ztexa7xDVkuJcdpI7l/EKUr+iHycbLjbwQ2ItFVynVydhV3+pLfAYUtsdZr9iZzFCR+Dgw58CVByNp8vPijXwMDJe2N56CyV0ADJTkpFRZ5/mYJfliMRn6PMkEaec7Wi3QSnfxnPEw7joQDDMFOp5it2glK6aMP/mwW63RPiyGoZwjFP9zZUshHNyqpE/latyGnbjax6QEBwru4tk2QQ4mXVK7JC1QAT4At8eE+gWg+uCfsFuqpA2yTVfCIhITvfWm8rLqhvXPOHa6kXlAd3cfOIbL/n7qAVkW5qbpg==
+ bh=uWhQvkA4BTbOdqmXIy3xlRk4HZQayc2nnOZIghiGIaA=;
+ b=pwIKacSw/2zQnJd4Pj5A2bqDQmcz70RxUC5RPLzGEwYkuCueHwN8V47mjE9k1ctdKM5TaIr4QOZlxSlbbKts05wBTr4YN4QpyJ2IzUKp9dUzWCrNkEM1+fGE6PidOjGP1x7mHVzTylrPtJSLW9Db/ZcIcyMjiISqDhl1XuZZkXNqPLDn5z2KcW2xerJP6vzAKbmU3/m2afakDLQA9EfXtkVsWaToP5iNOMa00Tku3wGhMNtee5r3j3LnrBc9bEiRJUlRcW9OgVzxZxZAuCSwq09Fg4murf4RNDBB5Tv1+DdYApJWiHT3p3SL5cwwteMA4m57JK7oF/mv/TZVKWj4MQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=kuleuven.be; dmarc=pass action=none header.from=kuleuven.be;
  dkim=pass header.d=kuleuven.be; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kuleuven.be;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=xLrCtitvLwyRAAqkf8d3xGCmcBE8lTqUYNupf+ysAN8=;
- b=Nk2dsuES1C0ft6l7JPxHOtQOejpLbSlkCgs8/97KYt8o+g2knuPifriat5atQltshge0m9vRQ95CPEmPUI3lEppQOgMSTvRv+/mltcwDclTGRGC9iPCUbUTwb8KphnMsYTbyj7/ciMvKVkJHs2rJiuV5q18tWT19NC9ppfJne2g=
+ bh=uWhQvkA4BTbOdqmXIy3xlRk4HZQayc2nnOZIghiGIaA=;
+ b=cJtCIdr6txZISVzEvyu6GjMXe3/9/p3Fv7K24cNHp0fllg0GKUkpbVUWYMjXwVLr3TRZMZTr9fsbmCmwThiFKiZOYvlU3ItiCxrhmoqY12E2+VTZUgvuQ04Gv17yTPxVLKCybgdZkbty3WICYTJOVHx2aX3LDIqaOPsZ9E1saVw=
 Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=kuleuven.be;
 Received: from MI9PR08MB763857.eurprd08.prod.outlook.com
  (2603:10a6:290:c0::16) by VI1PR08MB10200.eurprd08.prod.outlook.com
  (2603:10a6:800:1bd::21) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.639.13; Tue, 24 Nov
- 2026 00:13:17 +0000
+ 2026 00:13:23 +0000
 Received: from MI9PR08MB763857.eurprd08.prod.outlook.com
  ([fe80::4f1d:a35e:c1b6:8b48]) by MI9PR08MB763857.eurprd08.prod.outlook.com
  ([fe80::4f1d:a35e:c1b6:8b48%7]) with mapi id 15.21.0639.012; Tue, 24 Nov 2026
- 00:13:17 +0000
+ 00:13:23 +0000
 From: Mathy Vanhoef <Mathy.Vanhoef@kuleuven.be>
 To: connman@lists.linux.dev
 Cc: denkenz@gmail.com,
 	marcel@holtmann.org,
 	Mathy Vanhoef <Mathy.Vanhoef@kuleuven.be>
-Subject: [PATCH 00/15] Add Trust On First Use (TOFU) for EAP networks
-Date: Tue, 24 Nov 2026 01:12:56 +0100
-Message-ID: <20261124001311.1161845-1-Mathy.Vanhoef@kuleuven.be>
+Subject: [PATCH 04/15] wifi: Pass ServerCertHash to wpa_supplicant
+Date: Tue, 24 Nov 2026 01:13:00 +0100
+Message-ID: <20261124001311.1161845-5-Mathy.Vanhoef@kuleuven.be>
 X-Mailer: git-send-email 2.56.1
+In-Reply-To: <20261124001311.1161845-1-Mathy.Vanhoef@kuleuven.be>
+References: <20261124001311.1161845-1-Mathy.Vanhoef@kuleuven.be>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ClientProxiedBy: AM9P195CA0029.EURP195.PROD.OUTLOOK.COM
- (2603:10a6:20b:21f::34) To MI9PR08MB763857.eurprd08.prod.outlook.com
+X-ClientProxiedBy: AM0PR02CA0166.eurprd02.prod.outlook.com
+ (2603:10a6:20b:28d::33) To MI9PR08MB763857.eurprd08.prod.outlook.com
  (2603:10a6:290:c0::16)
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
@@ -98,139 +100,78 @@ Precedence: list
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: MI9PR08MB763857:EE_|VI1PR08MB10200:EE_
-X-MS-Office365-Filtering-Correlation-Id: 278fccb6-0546-49b9-fb5c-08df49bfbd71
+X-MS-Office365-Filtering-Correlation-Id: 25f40a69-2413-4c13-9d6c-08df49bfc0c6
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|376014|1800799024|10070799003|786006|23010399003|6133799003|18002099003|11063799006|56012099006|261021121427099003|261026121527099003|261102123227099003|261028144727099003|261026140227099003|261009223027099003|261022105027099003|261021135927099003|261021123027099003|5023799004|10067099003;
+	BCL:0;ARA:13230040|366016|376014|1800799024|10070799003|786006|23010399003|6133799003|18002099003|22082099003|11063799006|56012099006|261021121427099003|261026121527099003|261102123227099003|261009223027099003|261022075727099003|10067099003;
 X-Microsoft-Antispam-Message-Info:
-	WIgd2AfVhNA77p1VGe9Il3DhWXvphdG0Df79mD1Q7JxW9pfyJUtyAHUlqaBAOJOVfi18ch+EoaMHtnYBk45EJX60qZwy+Bwi/JVcGerijtMHBU/pJXZhxvVcbQLRIXU8wniw/H/G7rgnBXGrl/oriyVqk70CNSvoVKLcbRHTfD1u0FUp8XJAGSCxpvWZJkJsryh49oaGlxivkQ3K0IzOclLHH8Ch6yDE+cwbVU7hdGkUbYQmWcCRpSLQsRGA7VjeOplad5MJouRejkbu96VhPBAsyBNagtM4ihGTOqeiW/t23OG+WSDzyrG0ZDnOPCGW83zQNLtBmPdaCPVm2ZOT8ibUMTk+EwG1lFmvCjudHf+tp1a7T4908DCXl3pAK3jlZUqy0o92XW0Mvts3VY8HZV6DfzodjHPuPvYSPGXwgJJhfUmNSQc5s7rZzG7Q2psr8tGSePIxsJQXszS0fNOEuHyNXQYCJtG9787DtssxmHVmHQ4ac2Y/uTtp+s9WvpplrLPTkxJbfd/TDBCxa94fqpxe8PnFAqCFemUyMA0ZXABmg8agCoMyzPN3dBGH93CycLtRg4QrQn7cisnOR6NZmVVVYob90wsfjiFCWEYrBZhRt1NfZ2YtHOdewrD/jR/l
+	rrVgIBHHPBYQLra318cKQ7V/Wkczqqifu2aXfyfHI6p5WTjB5Aozt3ySOA0wyZzEK3tQ6iNSZvyhJzTLWVDdalr05+kLx72DsL3iqVsusGMckIU7kYNB+vMbYf7E3k3oFrbx5LJNc767jaICcTht5nI28UpLq6uqfSLblU2TTlp2oKDADSRHfywRWjnZ8JbHZ+HqS13cEb0cmWmlJwI0I579NGpmwjMcSzSwERV2JaTMOXXI6dkFKZ893qkNRHQtMqAOgRI//ZnTpMusYALYzJc7rAGZM/Hp2P+hQmCc9f2ntvhbhj6c0OlDL9PHNgGkg8kXmLRZOJATb+V/fIAHPCLW9a1/QyUchJl7G1HyIm13aZm219iVHvDTYZnbAwXqtYCgzE9PdJv/F095/dIH2JVRMo2KT+LpIL68nLsk6lil42RYjj/S9CYIBjVrF6k3L9k4QXyq8bKCyBqAwU9JnmtEdXMT28hLqbzmrEoMHr/dTXx0PlZICSFzCy2s5mlIGGFcPdUANDPQ6LFiQuw00531kwOMXKigyXSD4MaflSPx/XfZh53WlQLDkGTIxWL0m+Q+8t0f3Ii50a6aTOw8RY4sQk1V54WFagVeIrU67olj7LnyagUypHoecFUGvXV+l7INYHcYIiJNgm2Bqg3sPRoeZBxgFXlJeG0NGAZ8pVg=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MI9PR08MB763857.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(10070799003)(786006)(23010399003)(6133799003)(18002099003)(11063799006)(56012099006)(261021121427099003)(261026121527099003)(261102123227099003)(261028144727099003)(261026140227099003)(261009223027099003)(261022105027099003)(261021135927099003)(261021123027099003)(5023799004)(10067099003);DIR:OUT;SFP:1102;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MI9PR08MB763857.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(10070799003)(786006)(23010399003)(6133799003)(18002099003)(22082099003)(11063799006)(56012099006)(261021121427099003)(261026121527099003)(261102123227099003)(261009223027099003)(261022075727099003)(10067099003);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?7n1+3fAe6nxw4KNOfLPI4qRK5rGAVmBlKrSlgWBpvz1CTlJO9PAD8IhT7ncE?=
- =?us-ascii?Q?RSknI79nH15Knzr7qVRKHL3EYsz6XFP8i3YwZun/Jfa8nlSZ1L3E6h34GTHU?=
- =?us-ascii?Q?wKLU+x/YE8/hC0q7sIINx6XX3ZP85oCncrIHrbg73IbdN83BDnvUGT4bItaU?=
- =?us-ascii?Q?cXqP0Mj838M4bwQe/YrWM9I4W6HRhadnjEN289k7DK2lWfyOy8ECInerKDyP?=
- =?us-ascii?Q?TCDXvGAiwi8eZgQbKVxIvz7bZUuZEW9BCaXF2FWoppGyH+CZOGQ1GFgamTml?=
- =?us-ascii?Q?mObvhrQzZxlwrSk+lckou38lBALUhaEDnaZHvBzCv0LRQr0S7LGz5kfgpNSS?=
- =?us-ascii?Q?iECQT2Zax36jJxHiNy3lLoWwmcAPmJLWYARJ6hucv/7Vb4kUqtR6njHeqWDt?=
- =?us-ascii?Q?2JQu/6rysLq89UuYZPHXHUOgEMF+2EqJMl2gVXYRjRseJoPvCT26XfKcUxIy?=
- =?us-ascii?Q?/DLTcgLVwfdtoOuZ8hCG+NowvYePN31W56F3NeCdqw5MfPK2byQDjjKYeZ1x?=
- =?us-ascii?Q?qt1M04w3vaP7a7O3LZl39Y6FfbqC4h/5eFxhBWrw0g4IY+YSMMtZcp3cVqgw?=
- =?us-ascii?Q?vzHsAc0M7uw1Lny2gRtvRgW4X6oyxMU7d4FicTspo+u4Prccmtzvp1QuUC9Q?=
- =?us-ascii?Q?0jdZaKKLcJK3NG85Y5ZxSlcRM7JgO63loRvRIHz6o2JmPFqI019nr8ZZsp6n?=
- =?us-ascii?Q?7uYl0cMmCBHdYHc9GtuA4xq6GTobdpfF/RXof1qRL9MZkdI13ObovDTwFHuA?=
- =?us-ascii?Q?pg71q13JhOOku+KTqXnzWk6w2vzFUWky4KrQ6jUEYEadfqUKcVOe2K+QNJyY?=
- =?us-ascii?Q?KpojgyTJKLui0ZggVjGbPsNXTYzHqD1NkfD6Vtnjd/H7Pt1OsE1gMHui/XPK?=
- =?us-ascii?Q?l8ZMzabo9vB0YDeWB51RpOSCUOTFLieEhzsnAjlUz5bqbFLEa2LXpl3oqU9X?=
- =?us-ascii?Q?zeAJsDBkBvLItSzbxWwXCL6qKw6CxTUmz2mYqQtoSetexdzsUzU0Y9UBnmi8?=
- =?us-ascii?Q?+XFGDdbK/3odG4O77iEypBHvLYyS/0qQ5jRvOxlpOB6bV8UCHVNInYLDcHcV?=
- =?us-ascii?Q?YI5aCHyv6b7A+weTAtrSjsFf3qE//pwISIWXmoQTUiRVXPwAZotpDpp2xKoy?=
- =?us-ascii?Q?xWTHDsXOQ8z4U38uBlsrzss0FWORBLL3GRKFAFnTGSfyQT5/8Ow4rBE5n2Lx?=
- =?us-ascii?Q?fFiBYof65jm4dZpjw4U3+7SDrKjY4A3uas5NWanjMJuubvFmK5rH6JPXPzqQ?=
- =?us-ascii?Q?glGzswJZbaixJ2DAWw3/zSfsuB3WHI/7OxsjSO/NLo6GOoPRXq+LGhrbl2ur?=
- =?us-ascii?Q?B4CNhaEc5TUkakv6DmS3cixsCgGKwwDNkv94fNeaGVcQ+nMmYtEtBCg3+isx?=
- =?us-ascii?Q?T/8L5WTRo4AyPNUinZqksHVkpaXa/vebcEVFcGVwxBQPvkEy4zPo+eVX88Mo?=
- =?us-ascii?Q?NTC/gyhMBu1Hj2b87+qZIzQl6HOE5xAD/h3AXoiPZGkVon0SlN0AJqYNqlil?=
- =?us-ascii?Q?xqRlQGJt+yXkH+memLsFQmTK9e2z9s68UEb0s9MVK+/d56sXB1x9ftBJtyV1?=
- =?us-ascii?Q?q6JI8yD/T+Bm+WDQRQckZoPTRMR1bxZZ34h5OzlO2Q0Ak/hRwTFF4QjlmtpJ?=
- =?us-ascii?Q?4tZ7RLDUxoxlEzlNUjBuaA7O/GN9EgdbPWyifaQfA8HR002LhQ9beJ4X5k3R?=
- =?us-ascii?Q?H5tohwngFAFeFgoz+oCFjA1W5N7FQgCm+HSQsiV2lC3qFd3MwJITOauNPbtN?=
- =?us-ascii?Q?3Wgkd6CvmEaxABgvRnr5OR4ekj50rPrDWCaAjPNQwsljEPz0Hq/gfN7Qb9LR?=
-X-MS-Exchange-AntiSpam-MessageData-1: g1q7qiYvUHtlvODRu2yXUX0O4eBBre+aP58=
+	=?us-ascii?Q?18aCLiN35vRNjkB8UvB6XuO+rEjUDTwKp43p0cNOXbcP9C06DuC0NxL91qLy?=
+ =?us-ascii?Q?O+rwqxA5wchGCbV76rJkGCt9JGgHLwZzOx5jUlAazXNZEQ3OX4EmJLBdtXkH?=
+ =?us-ascii?Q?5VFtmEtnu6taR1+oIRmRLOUp+WS14WrEv2GfKvkdGL4FMHZCqflqE5UBCjC1?=
+ =?us-ascii?Q?mJko0gPCDjzcEgBRvchROCzcD9xmKBCYtVMiQ+8S7EXkPNq1gd9/C3dFAm/6?=
+ =?us-ascii?Q?rmiPE/qQEsMpbUrh1DwyxzGV3SOHF2GS3o2GxmJGhzI8TczgU2zo3XVkg+WP?=
+ =?us-ascii?Q?Klhs6AxifuXbIMSlilgVJYoI4JQg+xM8LSp691D6LVIqLMnxTFeePfJ1EPkJ?=
+ =?us-ascii?Q?ukKNbd6U6XLTHdq3aSUJd7s1UU8+Fags90BjCxhN0gtPC2KmO5bm+S7l3MEA?=
+ =?us-ascii?Q?OTljw8sReSNcWinaSQ0ez9u+NAKI9Eexm36PaJqmLRWwvbxlvVuxXL3U29t4?=
+ =?us-ascii?Q?sItWuFn4SIxw3YhyTiaBEjduTwvR0jlDuYHzbSqyJN3GIlzwshbjFnAYBoFX?=
+ =?us-ascii?Q?r3vFIoQu+E3M+/rLKhoBmsOSTXy1pfcYsymu1XCZl6nR/hkHQb+YjlbqLSSD?=
+ =?us-ascii?Q?cIa6xAnPdomIiV6XHP5c0jboDpbidNdDGgQJjgwdTbiHbhbIq2mf+4uE+oNC?=
+ =?us-ascii?Q?rBkJ3oVA2238hcRYuRCptRJUOt5xz9mDQ0cWQzhoJjB7IAvVF5siT1zIJZZo?=
+ =?us-ascii?Q?dkADoS/fuN/V+kwy8O64sOTEjI5UeC4dIWEgxAsengWEikPEF4Tnfl8+IwgT?=
+ =?us-ascii?Q?KGQ6SFCw1ZYdqFN5HUykFzMn1sEhHEYXxDvh+PHGEFsi9tWFsdCOXlbi0B4Y?=
+ =?us-ascii?Q?awYQ4iwzHomVoRAmdY+j3aHcSruIp179M7so2DDyhOOQy08xv5t4ZguxXP0D?=
+ =?us-ascii?Q?7jiHhy8uwaK9vFWMdCsvslc7nIP0Wvp11RcwBS2QosKkffitF9iDu0mTFOMD?=
+ =?us-ascii?Q?+at1Q16oTyKaSTnPY0g1Po4Lub4TrxpSOlEIxuttxJkH63Su4KDVPZlSyja1?=
+ =?us-ascii?Q?3xMmmcxxX0Xnm3kG8Gwq/I6X1HiyvXnQRiqbiNB4z16QcoMt2SELj4umsQ5y?=
+ =?us-ascii?Q?aKh8NOmhcm2JWJMGN/C/dmeU1jFzhj7hKIDm9xcVXTYiN4/rrKEjwhu78zQT?=
+ =?us-ascii?Q?7Suqg3To4vpKJmNJGvzs4JBLSSGAjjQMLUUfkncqI1Rn1tNMG998OBK7QG0j?=
+ =?us-ascii?Q?qqJI5RvYnYlxWw7abWf4Ktm/dpLO8+f317qAt0TsPstol4en+MxZsChAfxPF?=
+ =?us-ascii?Q?CnTfcPIiVO1EVyyOdE9r7xrsR4YnqA3xovG0wgQej6EOI7B3qVBpEAXb9ca5?=
+ =?us-ascii?Q?h3/JKM9XFbgerJgCTXok+qh8NS4SOxU8AYGeOWBueKZ3jDscVFYMNSoHvDmV?=
+ =?us-ascii?Q?SqRh+W6tROm3o/sv+cMQLZoJ3l1NEVWqWcw//BnlH+3M1omTfYksHeNyv3a1?=
+ =?us-ascii?Q?+n+H8YgzAGE2Wxkb7TgY6B/8AwJIK0jUKtqA3XXeQwoKDpi9kq92XLVCKhBG?=
+ =?us-ascii?Q?yD3mqFVGXBWZNqcVDCLk+CSqYU0O3fSueg6xCJU+c53lYXMwYD2JlHUWxbdp?=
+ =?us-ascii?Q?uL8NxZGsNPRCvzHR8mZs5u3DzRVqp+KqxXhwTVx0nSm4xyndgyZboaUoIpDL?=
+ =?us-ascii?Q?DYbGozS7205sBRyBej0warHggyb9J923myOcdzFeK97hWOb0ej9yzBExt3CN?=
+ =?us-ascii?Q?n33bEhYMdPccAsd5viwRgAykCn+bvI2ltraNOLDS0Wm5RLlPoZK1NgnsMvwJ?=
+ =?us-ascii?Q?Nzsm6TADWNbPASJ/bKDE6gx2zBYCgPQPFvjr5Si5n6e1+JO8MqBwqkt9ssfS?=
+X-MS-Exchange-AntiSpam-MessageData-1: E1vqp7ICNBFQwtqZjCh9byOlGCPR2GhlM6M=
 X-OriginatorOrg: kuleuven.be
-X-MS-Exchange-CrossTenant-Network-Message-Id: 278fccb6-0546-49b9-fb5c-08df49bfbd71
+X-MS-Exchange-CrossTenant-Network-Message-Id: 25f40a69-2413-4c13-9d6c-08df49bfc0c6
 X-MS-Exchange-CrossTenant-AuthSource: MI9PR08MB763857.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Nov 2026 00:13:17.6960
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Nov 2026 00:13:23.2233
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3973589b-9e40-4eb5-800e-b0b6383d1621
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: diRm0EINHMK2/jEWfJKY5kDi+RfwhoGH6Twab1bj7EyxsOpem0e0gC+5XDjcXVFRJpFq/T/11YsjlMSV8oau0gSU1CrZqGIB5HH1YTTZ/lc=
+X-MS-Exchange-CrossTenant-UserPrincipalName: oVvpSKjkgm3AotGErbdsQhWFbE7SqnOsPu8XTzpglC/UIbjSEtS0psQsFTavHnDxQIGQ3FpI5nt5/9lamac4KC05r0YA9OgzW0nr53h80g8=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR08MB10200
 
-Connecting securely to an Enterprise Wi-Fi network requires configuring
-a CA certificate and a domain to match. In practice many users forget
-doing this, meaning the authentication server is never properly
-authenticated. An attacker can then impersonate the network with a rogue
-access point and capture the user's credentials. This series adds Trust
-On First Use (TOFU) as a more secure fallback: the authentication
-server's certificate is pinned the first time the network is used and
-verified on every later connection.
+Co-authored-by: Rathan Appana <rathan.appana@kuleuven.be>
+---
+ plugins/wifi.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-The series consists of three parts:
-
-- Patches 1-5 add a ServerCertHash provisioning option. It pins the
-  server by the SHA-256 hash of its certificate, which is passed to
-  wpa_supplicant as a hash://server/sha256/ ca_cert value. This is
-  useful on its own, e.g. for servers with a self-signed certificate.
-  Patch 2 also fixes reusing a wpa_supplicant network whose 802.1X
-  verification settings have changed.
-
-- Patches 6-11 add a TOFU provisioning option. While nothing is
-  pinned yet, ConnMan first makes a probe connection on which no
-  password is sent. The certificates of the server are observed
-  through wpa_supplicant's Certification signal, after which the
-  probe is left to fail. If the server sent a self-signed root CA,
-  that CA is pinned together with a domain to match, so certificate
-  renewals keep working. Otherwise the server certificate hash is
-  pinned. The real connection is then made against the pinned
-  certificate. Pinned certificates are stored in the service
-  settings; the provisioning file is never modified.
-
-- Patches 12-15 add a RequestCertificateAuthorization agent method,
-  so that a registered agent can ask the user to confirm the
-  certificate before it is pinned, plus support for it in connmanctl.
-  Without a registered agent the certificate is accepted.
-
-This series applies on top of my series "wifi: Fix reconnecting to
-the same network right after a disconnect" [1], which fixes races
-that the connection after the probe otherwise runs into.
-
-[1] https://lore.kernel.org/connman/20261123222142.1092055-1-Mathy.Vanhoef@kuleuven.be/T/#t
-
-Mathy Vanhoef (15):
-  gsupplicant: Add support for server certificate hash
-  gsupplicant: Compare 802.1X verification settings when reusing a
-    network
-  service: Add ServerCertHash option for EAP networks
-  wifi: Pass ServerCertHash to wpa_supplicant
-  doc: Add ServerCertHash to config format
-  gsupplicant: Add support for Certification signal
-  service: Add TOFU option for EAP networks
-  service: Pin the certificate seen on a TOFU probe connection
-  wifi: Add support for TOFU probe connections
-  wifi: Report the root CA seen on a TOFU probe connection
-  doc: Add TOFU to config format
-  agent: Add RequestCertificateAuthorization method
-  service: Ask agent to confirm TOFU certificate
-  doc: Add RequestCertificateAuthorization to agent API
-  client: Add support for RequestCertificateAuthorization
-
- client/agent.c            |  38 ++++
- configure.ac              |   1 +
- doc/agent-api.txt         |  42 ++++
- doc/config-format.txt     |  14 ++
- gsupplicant/gsupplicant.h |  19 ++
- gsupplicant/supplicant.c  | 169 ++++++++++++++-
- include/service.h         |  17 ++
- plugins/wifi.c            | 224 ++++++++++++++++++++
- src/agent-connman.c       | 112 ++++++++++
- src/config.c              |  38 ++++
- src/connman.h             |  13 ++
- src/network.c             |  12 ++
- src/service.c             | 420 +++++++++++++++++++++++++++++++++++++-
- src/storage.c             |   5 +
- 14 files changed, 1106 insertions(+), 18 deletions(-)
-
-
-base-commit: 9e46e4a021cd8566b942d1a72b41b14a0a58f506
-prerequisite-patch-id: a32722e01b5672b188522283cf94e9a01bbf027d
-prerequisite-patch-id: a7f74eb8692d927f32ea30c7e49226c8eb0e2149
-prerequisite-patch-id: c8d2af71df5918931cfeca0f851a77234fe89d5e
+diff --git a/plugins/wifi.c b/plugins/wifi.c
+index 6ce6bb91..741962d5 100644
+--- a/plugins/wifi.c
++++ b/plugins/wifi.c
+@@ -2211,6 +2211,8 @@ static void ssid_init(GSupplicantSSID *ssid, struct connman_network *network)
+ 		connman_network_get_string(network, "WiFi.AnonymousIdentity"));
+ 	ssid->ca_cert_path = g_strdup(
+ 		connman_network_get_string(network, "WiFi.CACertFile"));
++	ssid->server_cert_hash = g_strdup(
++		connman_network_get_string(network, "WiFi.ServerCertHash"));
+ 	ssid->subject_match = g_strdup(
+ 		connman_network_get_string(network, "WiFi.SubjectMatch"));
+ 	ssid->altsubject_match = g_strdup(
 -- 
 2.56.1
 
