@@ -1,13 +1,13 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.72.108
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.84.120
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795521641;
-	b=mQyWl1agBPoeVY17Z+EmABzX6oh/KcwddZgkIRTa+xXvgyCf7xmW9y6H2ZpELUKK5tbV
-	 ORzoSJFw6BX9bqX2UAxpfcqCBcLwsHaqvBdMfiYhE6vDLNF+S2OEKlSG2OuIgmcJ8nkNx
-	 sL/s7VSvdifIlgqq3RUFtvKDj2zMzQPVYSGKDz+iQPgKJGFWq1GgI8OAfsmQdcfnvgYe5
-	 veJAXzftXjpoGoINPz9g1hGbwJQGxi9srqAne77iJFpgMJzH9IWaXJbAu5C5WgoRNbQ2F
-	 M7MK9ilgv4TJAbY22Qv8OzGPOJRpZvwjrUeBG0RwVQWIktCpZPlhvU1OK45/980QIYg==
+	t=1795521642;
+	b=Vsxg68DKZhB600Ui3psYoyRxXK0k3YePSv2XKz1ecOZ43wG83JdBKG68Ea13xqCINqeP
+	 u4TATIRRXRwTYpg37xN2sJvHQuXMSCAoOajuDrqonsGh/METbyPex98JkxGrw2L4fclFG
+	 zKlc0EedIOGRgWY9XjxHuNAT7/fqtnG7Q5RIIKrRlAPVB2QApKT5LIU9t128a+BPxYAsv
+	 Y0FFlKwOWqFRPwwmIhd02a/9yh1fIPkm42GkarV8I2FbVwDDl9lfAenC/ZU9VOkbbI6Ky
+	 PWCYJ/BEnWTXaidP247YKFw8tkVUmKWWv1aHhWHmvuFuYoqJzl0c5o5ZI6+JlSJuTKQ==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795521641;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795521642;
 	h=DMARC-Filter:DKIM-Signature:Received:Received:From:To:Cc:Subject:
 	 Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 Content-Transfer-Encoding:Content-Type:X-ClientProxiedBy:MIME-Version:
@@ -24,69 +24,69 @@ ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
 	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
 	 X-MS-Exchange-CrossTenant-UserPrincipalName:
 	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=JC67rzKy/xDNijsAJ0wV7ggcIryZ5OeoyRjKW7aMiu8=;
-	b=5ZmZG/qJTIozSTIxrTPY6FtPgtwXgkQ8D8onZwbvxDpajK1MAgF9TIzY5al8TAmr6QCh
-	 IXny+5nsWA4Yt/gF63fSSJq2quqktxQ/ptj8G/jIDAervIpeBSncby+DKCxcv3zPVGY0H
-	 39HjhzvjyiQEHVwzWFGjVHrGz+BBV31OpWqn5qLqU55z/EakrCbt7/rvCcNM4Omvs0fLz
-	 NcgIoniTLTKrZZQ313i6YWgk0y69CC9eY9oOKLHtByVrLBk4rtvQEo0LFJsNKgJxRWHWM
-	 UXvjcbkO71DgIEXxNGsyBhtDBZgQ6XOcEeUNunQ9vhM82icOd6odT1eR40CWNcqq8tg==
+	bh=9QHcW+vu46HxhEHfLNXBqeIM03jqdlHiQ3NfNS3dYG8=;
+	b=zyOetxE079Ff6yyU75CrOCA8XnDNuasZ3bHfCLTmDI6QR9k8tp5Vciw/eEcPt98hRaR5
+	 CpdOepLuqYIArnQ5w2c5LvWSfJz6fIhpRqptkBBqEe7BMAi4lr0pTK+G0y4yhaUqX7kyb
+	 Qhj6CuBKSN1MwDj2D4renI4aaxRAf/vg0XqUz523CXArk6NCDvn9Rk2vwXwaoOz2i57G4
+	 QaDJyTH+6YjjdLtJloLHW7WHcP6v+hfOoelcIiFxk4qZ/Ac9vjSKHsiS5BN1WPCrTk0Lm
+	 zHQsynG8jAdYB9bwDV9zLUdCDtYICFREVUivMfuMQv+LRVXrpjKKSLFEe1bisUXXG4Q==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=kuleuven.be;
 	spf=pass smtp.mailfrom=kuleuven.be;
-	dkim=pass header.d=kuleuven.be header.i=@kuleuven.be header.a=rsa-sha256 header.s=selector1 header.b=fKf+kHhV;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.72.108
-Received: from AM0PR02CU008.outbound.protection.outlook.com (mail-westeuropeazon11023108.outbound.protection.outlook.com [52.101.72.108])
+	dkim=pass header.d=kuleuven.be header.i=@kuleuven.be header.a=rsa-sha256 header.s=selector1 header.b=rotFWghq;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.84.120
+Received: from DB3PR0202CU003.outbound.protection.outlook.com (mail-northeuropeazon11020120.outbound.protection.outlook.com [52.101.84.120])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D11EB606A322
-	for <connman@lists.linux.dev>; Tue, 24 Nov 2026 12:00:40 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D11EB606A322
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EDE4606A321
+	for <connman@lists.linux.dev>; Tue, 24 Nov 2026 12:00:41 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2EDE4606A321
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=kuleuven.be
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kuleuven.be
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=kuleuven.be header.i=@kuleuven.be header.a=rsa-sha256 header.s=selector1 header.b=fKf+kHhV
+	dkim=pass (1024-bit key, unprotected) header.d=kuleuven.be header.i=@kuleuven.be header.a=rsa-sha256 header.s=selector1 header.b=rotFWghq
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=n3NzdESY32rT57olkFP9EZtXoFSUlALeH1QtnQ9WucgGx/cZg2/TXts3/6TuW2GMaWnZpe6H3Za8WjhO5Hsp9SzUTY34G9+sK+yQb7SLrUyseHR0FslLbdPkQOhuKBFwJ1Q2md5RIHX+30zArXZQNMzSeTsuKTipPH9d8bTjcW/R0xwshb6NYS1S/8s/MPKml3fJP048qlobZIxX1oVlEZ0fCHi7PzBHVsRRg1q2lWnojTuNsujDjyy+qsFYR2dKX3TwLyVe2sz1SPa2rczs9tq6RCcJ5j01vod6zJR3Kpjq+nUEZhScjvZsQ8cyW4RFdE2PtdW5dSa6RkS1rBC8zA==
+ b=xKYtdukuQlVlFt4OvdC/eR+36Y6Dt2relkW4d2vtacJ6MQsZmiX3wsVGdo6Z0Ep+ZlfRdAyqVy5rboxuatnZlUju2lSh9NRGm156Gv/YdO1NrLxRF62aWSJG4sEb8WML4K7h0rR0y30ZWWBCJJGJysh17SownW/Pvz5yspXZaNHju0fd6tQ17cq6nojlxipROF4inE6LGT+PJvbqpjLriW3gOfFXzQyw9tt1Wz/A8PGFj3bRL3CCgJr8Oc19ACQzjc4bFG9ybEzYfgd3aeln5yTE/P7lALL7QAJ8dHtKB1vdql+uAVLuJQWRIXXBQOQSDlrHdtAGHTlvdTbbj9rCYg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=JC67rzKy/xDNijsAJ0wV7ggcIryZ5OeoyRjKW7aMiu8=;
- b=Lk2QGP7BxkAtlO4bj7Nto2qvVq0wM2eqaot4EK6dGsZODrJUTyDC6L7CiUIqNSKX+iHF/IjBz9Ug78FkanFegEJYciGRNpidqwKTUcNp4AB0iaEsrq3bS0EXhIELDMM9vBLYLJ0zUBwBU9XqxYGltLyPwteb+5LYxZ+58TRDuMXpKXA9B3sNvp6qmFzDnMGksgEKl0vNfF/cnMp7d4cbA1aITyPLI2isE7Ru/gD0+4K7oPrII1m50/RElvSnMjfAe5IUZITpNvNeL5FrQCZSniN0fPmfD02svekSDfqLYKPRvr/AqqCyzc1qniPgbG51hvzmzNyDGGRtRsy1/AafOg==
+ bh=9QHcW+vu46HxhEHfLNXBqeIM03jqdlHiQ3NfNS3dYG8=;
+ b=R4JlmoDZQvM5dSluO+XG+8gMDQ3+vUilkjmWVNcehVPwLbDLGJzk8BZxCnOtWxoI8OQqKaf6MGMwlaXVBabn7Wc0Cyx2GK9PzIUqfFfpPumuaMrfYIigOsBNIgxZrR/09c1XFna7GgRFecbr1Sczi/vW8LMTt7YXgT9h2kUrnkEmv2VI+jYef9ilBaEejwcNIrVRo5jn4+ocZJWqvVl55A0Hf9vUZ1w4OuKicOo9RLpYUEdnuAMzqHz3M3HSYWd87uqNjSlmiRGnFR3JVDkXszlL5hTX2PtTvshE4yK9sx5LFSqfUpZC3v7K+sDuVUqmFT7F3BiCcG6ko0aixPIbRA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=kuleuven.be; dmarc=pass action=none header.from=kuleuven.be;
  dkim=pass header.d=kuleuven.be; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kuleuven.be;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=JC67rzKy/xDNijsAJ0wV7ggcIryZ5OeoyRjKW7aMiu8=;
- b=fKf+kHhVfnZQokW6gpTMzo8bIT+Q/xBdeSnhughiAD640PXwrPXTEETrNzafuQhZgCc8KFZPfa1mZTUtyOOK6ZW2mfC8jrXGKyeVfXoL8T9V/NWeAZAVB8bQwzhc4nGhqKkKLFoIFjLGcTIjU6ZAAljaijCHh4z6sCXW1DYqBPY=
+ bh=9QHcW+vu46HxhEHfLNXBqeIM03jqdlHiQ3NfNS3dYG8=;
+ b=rotFWghqnvWe7CZP0FoAUqcl0QiE4hZNLT74N500ECMOkJfHjZ6T2jz1akhY17uvrlMw4FhdiFBDSMe8BFRb941l6qNJHESKmVlWYrhPN3AHMxbg74+Oc5kcZ2ZhPeniyTjuR5FbER4p5Jh5bke4fqZ5P6gLVqbMxPYBMyU2lmM=
 Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=kuleuven.be;
 Received: from MI9PR08MB763857.eurprd08.prod.outlook.com
- (2603:10a6:290:c0::16) by PAXPR08MB6416.eurprd08.prod.outlook.com
- (2603:10a6:102:152::22) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.639.13; Tue, 24 Nov
- 2026 12:00:37 +0000
+ (2603:10a6:290:c0::16) by DBBPR08MB6026.eurprd08.prod.outlook.com
+ (2603:10a6:10:1f6::22) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.639.14; Tue, 24 Nov
+ 2026 12:00:32 +0000
 Received: from MI9PR08MB763857.eurprd08.prod.outlook.com
  ([fe80::4f1d:a35e:c1b6:8b48]) by MI9PR08MB763857.eurprd08.prod.outlook.com
  ([fe80::4f1d:a35e:c1b6:8b48%7]) with mapi id 15.21.0639.012; Tue, 24 Nov 2026
- 12:00:37 +0000
+ 12:00:32 +0000
 From: Mathy Vanhoef <Mathy.Vanhoef@kuleuven.be>
 To: connman@lists.linux.dev
 Cc: denkenz@gmail.com,
 	marcel@holtmann.org,
 	Mathy Vanhoef <Mathy.Vanhoef@kuleuven.be>
-Subject: [PATCH 5/5] iwd: Add support for TOFU probe connections
-Date: Tue, 24 Nov 2026 13:00:29 +0100
-Message-ID: <20261124120029.1288258-6-Mathy.Vanhoef@kuleuven.be>
+Subject: [PATCH 1/5] network: Handle the TOFU certificate chain in the core
+Date: Tue, 24 Nov 2026 13:00:25 +0100
+Message-ID: <20261124120029.1288258-2-Mathy.Vanhoef@kuleuven.be>
 X-Mailer: git-send-email 2.56.1
 In-Reply-To: <20261124120029.1288258-1-Mathy.Vanhoef@kuleuven.be>
 References: <20261124120029.1288258-1-Mathy.Vanhoef@kuleuven.be>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ClientProxiedBy: AS9PR04CA0100.eurprd04.prod.outlook.com
- (2603:10a6:20b:50e::16) To MI9PR08MB763857.eurprd08.prod.outlook.com
+X-ClientProxiedBy: AS9PR06CA0118.eurprd06.prod.outlook.com
+ (2603:10a6:20b:465::20) To MI9PR08MB763857.eurprd08.prod.outlook.com
  (2603:10a6:290:c0::16)
 X-Mailing-List: connman@lists.linux.dev
 List-Id: <connman.lists.linux.dev>
@@ -98,382 +98,688 @@ List-Owner: <mailto:connman+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MI9PR08MB763857:EE_|PAXPR08MB6416:EE_
-X-MS-Office365-Filtering-Correlation-Id: a50e4762-a3e8-49b0-1002-08df4a228d96
+X-MS-TrafficTypeDiagnostic: MI9PR08MB763857:EE_|DBBPR08MB6026:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2b7022fd-e424-4b35-ce6d-08df4a228a51
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|1800799024|366016|786006|10070799003|23010399003|10067099003|261021123027099003|261009223027099003|11063799006|56012099006|261021121427099003|261009221227099003|261028144727099003|261102123227099003|261022105027099003|261026121527099003|261026140227099003|18002099003|22082099003|6133799003;
+	BCL:0;ARA:13230040|10070799003|23010399003|366016|786006|376014|1800799024|6133799003|18002099003|22082099003|3023799007|56012099006|5023799004|11063799006|261102123227099003|261021123027099003|261022105027099003|261021121427099003|261022075727099003|261026140227099003|261026121527099003|261009223027099003|10067099003|261028144727099003;
 X-Microsoft-Antispam-Message-Info:
-	7efV1pdj6lJukHSXGCXsMYlv83PPXUShojdo1PNbJF7uc9K3rQQXogCBXSsEiOy1O477nkgdMc7OZHeN7qAbE/2QuVyKHNcWPtrpAD0vboUoH14ptTRznQlwAiNF7aizf6W04IFSN8SpVwsTQFiEdtBX9nBd9u88KMOd7saS/KTra+8neWrlT15xLdd++5eiwzL7cFZX0Juij2O8WUeB0xwDVDHCCuIwfIYdLGzkD8FkRpl39/NH2iTPCqqdQDg0BBOA+Jis8vKcUQ9sNnGcy0lK90Y9HQpyP2sLpJyMXp4dsiEADZFxm+7niJLeZXK3gO/Nb+ZYuQrQgEuJ7bIFLFVi9RCcZHXh3yPu2icQ+7o+aDrNmQRK/FMS6FCc8k9CLkdMiMgHEotWXBlhSx6B7Z8jQHgTc6oIX0Ba2GFz6Yv9G5aXmGaR5dksuyeSivysLsxawDfHaxWcTjjB0TQH06/FPGr1afutnLjoJ+8QhSt5ckUFp98/vO2zAX0/txa0hGzWA2WLxwAZepMC4E0DA1MVPqGqTeQDHhSPVs2qbF5UDyjS1C61UDZiAKsghoAnEL/kCka94QErmSE16I3rU2C4yf9RjWQj8d15Zmyr3TOu7z51VQKFM1BsGRNAzzNtsu1mjypa+5imzokgx9293NQnHY5fXJdW0yHsBbTGD+4=
+	uGfvgqVeIzXtThYQdZ7fyMZgwWiZc7Tm9NDs31mBteDRdTZQx2pmzyvGmCZdXCQGyyBaYUQ3sDNh/i/cNW1iT6U+xhWNBOOmVY6kkH3E9sI5PtfCcDO5ixLrCyePMzDVDuuNDKU2DYuvEXGVL/2hJvcG006Agtswl9vthmvmIqnsEQDGnUCa8KB1knNgqQpI2xqdRCUT4vlBiPiz4lSSG1+RIsP6gMjF18xcAG9cSoyGTERY/PoUZr/hx32RYykrFlGSEp48e7ezhabuvb6pAaP6pO6FQik2GdcvULrVkDMMf2lgpDQ1yvdrmcqyp6MuR5RjLulvq0p0GDh7Ckp4ihreFcBvj42y8RaYOezQ7jAyuohTftL8h5eJDTgN8S1wfAvZfQGSJHTMjuODhAkQqRpTQHs/wBo6VdcSIwRVi+WyzxWzI7ShyQlMRiN5r716n5XIfAnonXIiFTqemp6AvqXcaJbx6dsS5R30nqA39W0gunMjKBLk6J1I3lSfEN2jxKTphD0mdljTrt6Ish2UfgwvY8FbEdDpGWNEQZFytczfdHEsij8fCqJOrFEUEKXGdaN1y1nSuV1SBvnTIIFeZTlnkf1YC2+P/trfDaJFpUIiuj2HgZLUlCb7f1w4ylVUL3U4jF18L45yKKMTV0TJKczoaGfu/QPXl1yM0DedlSQ=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MI9PR08MB763857.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(786006)(10070799003)(23010399003)(10067099003)(261021123027099003)(261009223027099003)(11063799006)(56012099006)(261021121427099003)(261009221227099003)(261028144727099003)(261102123227099003)(261022105027099003)(261026121527099003)(261026140227099003)(18002099003)(22082099003)(6133799003);DIR:OUT;SFP:1102;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MI9PR08MB763857.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(10070799003)(23010399003)(366016)(786006)(376014)(1800799024)(6133799003)(18002099003)(22082099003)(3023799007)(56012099006)(5023799004)(11063799006)(261102123227099003)(261021123027099003)(261022105027099003)(261021121427099003)(261022075727099003)(261026140227099003)(261026121527099003)(261009223027099003)(10067099003)(261028144727099003);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?2wxkNbO0/us1YWkqBbW9450rYMw1su3FkPsnMVvuCbSR32crH8R+g7YABOXF?=
- =?us-ascii?Q?D2iX7GYw47QjAGl1MUNy8IWUjeKMWBGa6ww0rMIzG4wvpZmJInlrYtlL7vx3?=
- =?us-ascii?Q?OcFeGhNv/1kn12y7n0hpQLQCnx0dHqR5hKIwkBVpT2dSwppy7+m0Kxo75e7N?=
- =?us-ascii?Q?tbhTZjpR/MQZgy9Slrx/aW7B9gmch1MOW8be0+wijHng2vlO6sR7Zb202DU+?=
- =?us-ascii?Q?SvQaPh1h3H4nrdRUHhy+4i9ss6AH4uo/clFWw/J9+7ORpRKXHRPhaDwzsxwK?=
- =?us-ascii?Q?gEC+c+1unbf5RhYXA3jJYtSgBz5yg85d2Q/6pcBQHmnKRcKc9N5gYaS/fVYZ?=
- =?us-ascii?Q?NnM3//NsXeHrBIg25B0tJLBJ3GCSYKxcld8XIS3G4YS/k/XVll43dRa254+u?=
- =?us-ascii?Q?N5Q8KhNHh6p9YHpQd41cX4vtux1kc/2XXjSWpAHwgxpDuZqfFFb7amww+0wi?=
- =?us-ascii?Q?tn1ycLpZSfHP5agiU9cAW/PXB5+5g2SUHj0WKeQVVAM7wnlbRfCiTLrh+e6D?=
- =?us-ascii?Q?yWrHD4nIXDVGNDNYsmNd3d84PNWgJJoBlHqJX4tY6PZxhc7shzb1Q8CAYyhK?=
- =?us-ascii?Q?kpSGlBd8/JO3T6/CJYvsMlnA+u25Z5YCGTqmXuwcYTlYzQ+X/K5q4VaPQjlg?=
- =?us-ascii?Q?11+XsY8ARO/uxzidZkvW/NO0+S48n6BssWNpTnsp830Up7VJYe9LN2/SMXsO?=
- =?us-ascii?Q?DV1x2GdW7NY4HZPJln2dq9obem2Vnb+L9t9i31baqBAtY4tR3IDwji1THfjS?=
- =?us-ascii?Q?KGrrxu7kABmqyMPSA9UwHNL0bSbfos+/f/8D2emaPjkA+vpvOo9h3ccm4yZr?=
- =?us-ascii?Q?IUnGzwdYDPC9UF/ZhKKH3jnPugg0/5TCo7TWD3/4cQg7xY9HtdEhlD96vYmb?=
- =?us-ascii?Q?NlhnI7m6WVCunjw/7M4KNIdrLTmwpNJQaOt9vzzbFs0fQ/jDwBCs3iAP/j/d?=
- =?us-ascii?Q?2UorPekToiwhsVN1XtaZF4QMapsD3QXtAAPqdwW+/49mr/k1fcLsAUlwkYwm?=
- =?us-ascii?Q?SlJW7os1ks+VMsXy2v8I8g9raZsiVEo8wgiA/dKi9dD11xOURovyckjZcYur?=
- =?us-ascii?Q?wGyZ9TnM4B1V/l/46LD/eGpchiIo2IMNNtfVXinhcMRnIuHvTBnBZuRXS2w7?=
- =?us-ascii?Q?+qhvWULfAvY6sQ/WOArwvhNlmHG0pG0wuWUxqaKx0y6UKSJyH2m38+fHsNR/?=
- =?us-ascii?Q?S1qMDunMVNgDyP6UBQdePbGTI+EOLJ7mJTN6YdLgyWKg8s6cGQfcvKFRoyUS?=
- =?us-ascii?Q?IQLW0z2rifcKz7RPUoqTrbJUQySDlA7H3RoT3REa57vG8MmMVAOT/6bVSg8i?=
- =?us-ascii?Q?H/Z2icMg6s8MX7LBbo7XmiAMXdMcbT+jK4kPmw+OnlPq+DgWYGg168vNFQrR?=
- =?us-ascii?Q?mJHOJdMRcAJhiuqFCMsQNwW4BZph8BRhV64hJ0WFBajNUy+yOQG+QrQ4T+7j?=
- =?us-ascii?Q?xwp0dGPB+bM7XpVC1dyykd3+2ZioGSnbA3w8RJ3j9tvrUzNIyHCo+0xH64Y1?=
- =?us-ascii?Q?bQf4sqrb9idLUawR7PzTvgXiNfroo3h2B2Evrb8aNyYL/gdrrTGBzoOokWfK?=
- =?us-ascii?Q?zKWta+YP77hCtrGdycA3msGvAvowyCNDaRRWPDjFKNz4Dzy8yia/zKjGRCgL?=
- =?us-ascii?Q?zoJAMsswgveFfQyOzNq1FkYUqkQ5nqYzpWkeAuClKkJtqvBOChAYpJubKq6w?=
- =?us-ascii?Q?W82Oy4mzgbMgWBszW88EXC38N9XY6aqMt51toBpKoC0tPrnMXyow0v+n55n8?=
- =?us-ascii?Q?D42krNZH12dG01RB5nZ1X/nwEenldaEbm/V0yb1yh3Kkva396bht?=
+	=?us-ascii?Q?qe791fsM8WtFr+v9e+lEce0inc/jmDz47ZjnFa9qWgKasU7tMB81dr316rfr?=
+ =?us-ascii?Q?qmqrX06KKuzD7Isu/tD68nhKTU+1wjldvc7FzvXoI2FfARhw5lbOd6uXkVDF?=
+ =?us-ascii?Q?+3psde6ihbtx4j8qoAPTiGRDTzXgHnlUGvq4Zik74t6qJ/PASSGD8l1opZeg?=
+ =?us-ascii?Q?yyMtngW+gIxEK1WUf5m3M8wZFwN1+d253rVsgq0VC3syT8ACxUdze2/va2as?=
+ =?us-ascii?Q?f3KudzwPxsBmiXKgEBTfNj1KT9LBYDyY2+Dm1NwLdh+2blYQJQJZrcor3rnS?=
+ =?us-ascii?Q?i1QjBGK088OkLZjSetOrIu14wlixkN0Nay+eapyZRvZ3ouVuP9EgJHz6k7VM?=
+ =?us-ascii?Q?7ya8hupWtYj17fw0PAPQ9evZby+piKb46TnUbGTl0jQ5wpMQDB0nQwuhWqcH?=
+ =?us-ascii?Q?LCG+ZPO4QT7utAXBRqVAVb2J63meGrVJlzSyXU0t4uMqxhCNeTrc2NwfCJjm?=
+ =?us-ascii?Q?CaR7jFaQ8ejzE2lTeOR9qiB1DaEoRYkgnQZdafrNxW1ByTii1z24egzTlWt8?=
+ =?us-ascii?Q?toZ70M8KPIWcSTpe1eTGVbs+rVkAWCbX4X2tsLAjWTh+rwEvuMRCTrCQl5rQ?=
+ =?us-ascii?Q?IEPmSoCnk9k/REn53mbzPmJSkI3jHciIvnPyeJfTmg+RZvjZmK3Z6ETS4sqE?=
+ =?us-ascii?Q?7i2hsPF7fc6QW2lXyIYwQNk02v3cFHgdXTskyLokObvw9PD8B8evxk/eMqTy?=
+ =?us-ascii?Q?MxNOSr+wC7BkylyCJqo/O2QUmHS4qtPN64Co+LWV6LO5ZWysnd+eQaW9xfO1?=
+ =?us-ascii?Q?8tqU3LpZMQkGuKMwu6cpsxCTmLyMh1D1vT8kW6dIxNg/GQTjsIXdifgXYQ8z?=
+ =?us-ascii?Q?qQk9l1u7IxTIrOlfwNeeZrxIzVXCqI1BuxmU03gq9Ot7cnNNDIT/yZLhY6Kx?=
+ =?us-ascii?Q?P0lZx7GZ4aCl8qaJZpb/LzjQnLOGd96dKYrLn05uuey//t0sbj5HVB2E3YOM?=
+ =?us-ascii?Q?wUml2YZi8dDMAj7/D5UexhAFtOzUTBcj2Lg9QQ8hrRxy/65/OwLaBzLjX4ci?=
+ =?us-ascii?Q?6uJ2se5pm4repXy9FgKlYNrjutKDzbZiQYG2JlktjlcVrJYF2tcilKgICXnV?=
+ =?us-ascii?Q?gS/253LGlFj66Xg0UUWKijc58aGZs6FW+kS+36tsUy2Vt/KwxVMBBDaEspb5?=
+ =?us-ascii?Q?ET7tJavwXOo1Kw25QtpTWSYqXdHRWymp/S2Q2IVgtEsnwXizhA0y1Yjdsm7Z?=
+ =?us-ascii?Q?lZzhurVAf/5McTJlVVPl3dx4ztRd+1e2NSoH4ECnRe7hqO6D1wXDvbxHCKoq?=
+ =?us-ascii?Q?TPv2DuOfLY9YtsH4/bneh6nMEK+NPV876AfMiD9oFjucCtJAIx8Cw7WU3g24?=
+ =?us-ascii?Q?eGA+IDb+TlfYTkf7/43m+i3qKQl3Imsf91mKqwdwkWnG+QSA1oztFYKcUv7e?=
+ =?us-ascii?Q?u4ArtZCnHAJjSoU3SWyNEzrl1mAJ1wzwoTb6LNNfh0UUGwinEKPGHMr2DDMz?=
+ =?us-ascii?Q?rEmKVnFOEoW7Eew5FOLS/qWJ1NFTEa+nTqjvBJ6Wj1eyS+Wi9Kwrl9Wzsigc?=
+ =?us-ascii?Q?RuBjF820SVWurKeP/ivvKt90c+nfQf6jVmaojAkKwB3IPwDdIlLuqP6wVk60?=
+ =?us-ascii?Q?+87gVB3xUC3jntCQQl2IQsyHUSvuAYFaQvjyuCXul2nvvxIMTkHZlBCJXJM2?=
+ =?us-ascii?Q?C1gyhoyRY9ME90lEge8FDX61ku2NK22oGWCeJkNOzLzVHerhIEWIKYITk8tG?=
+ =?us-ascii?Q?Ou2PqreWKSa7aq+tgkpfAPYjU1b/tYtlSNwl98gHBMMpi9Sc8EdhSNHCCSCO?=
+ =?us-ascii?Q?2eRvdmhNFO2vSet7wbktx1HGuqYEiQxpXYUkSTbnuFWR6nvoHbHa?=
 X-OriginatorOrg: kuleuven.be
-X-MS-Exchange-CrossTenant-Network-Message-Id: a50e4762-a3e8-49b0-1002-08df4a228d96
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2b7022fd-e424-4b35-ce6d-08df4a228a51
 X-MS-Exchange-CrossTenant-AuthSource: MI9PR08MB763857.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Nov 2026 12:00:37.5520
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Nov 2026 12:00:32.2798
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3973589b-9e40-4eb5-800e-b0b6383d1621
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: OIv4Pjr9qhXqkwc/uNYXyPr4gCIuQVgf2/Wu9oCg0nfC6DrJYXE25gWCQ8EnQUyg8GMiXDeLGsWSmf9+skPL4++zUrp9Mcxned6ih9q1cJ0=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR08MB6416
+X-MS-Exchange-CrossTenant-UserPrincipalName: Q//t2bU0+ooao5XrhxQgrWt5e7Gcpv132hLcMSQcKuRl1YTt31OSj2x6w9vYa5Mcn2au/m+ntGUFj3X80LZjb51AoOSo5RkBugF+thyzCbg=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBBPR08MB6026
 
-iwd reports the server's certificate chain with the Certification signal
-of its Station interface, with the same fields and in the same order as
-the Certification signal of wpa_supplicant. Hand these certificates to
-the core, so that TOFU works with iwd as well.
+The certificates seen on a TOFU probe connection were processed by the
+wifi plugin: it kept the highest depth certificate of the chain, checked
+whether it is a self-signed root CA and derived the domain from the
+server certificate, before reporting them to the service.
 
-The probe connection must not send the password, as the server has not
-been verified yet. The password is therefore left out of iwd's settings
-file, so that iwd asks the agent for it, which answers with an empty
-password. As long as the next connection is a probe, iwd's autoconnect
-is disabled, so that iwd does not connect to the network on its own. A
-failed probe is reported as a connection failure, rather than as an
-invalid password.
+Move this to the core, so other Wi-Fi backends can report the server's
+certificate chain as well. Plugins now report each certificate with
+connman_network_tofu_certificate(), and the chain seen is kept per
+network and reset when connecting. Reporting the certificates to the
+service is no longer part of the plugin API.
 
-As with ServerCertHash, an iwd without the Certification signal cannot
-be used: connecting with a probe then fails right away.
+No functional change.
 
 Co-authored-by: Rathan Appana <rathan.appana@kuleuven.be>
 ---
- plugins/iwd.c | 218 ++++++++++++++++++++++++++++++++++++++++++++++----
- 1 file changed, 204 insertions(+), 14 deletions(-)
+ include/network.h |   4 +
+ include/service.h |  17 ----
+ plugins/wifi.c    | 203 +-----------------------------------------
+ src/connman.h     |  18 ++++
+ src/network.c     | 219 ++++++++++++++++++++++++++++++++++++++++++++++
+ src/service.c     |   2 +-
+ 6 files changed, 246 insertions(+), 217 deletions(-)
 
-diff --git a/plugins/iwd.c b/plugins/iwd.c
-index 16488bb2..1a81255c 100644
---- a/plugins/iwd.c
-+++ b/plugins/iwd.c
-@@ -283,7 +283,15 @@ static void cm_network_connect_cb(DBusMessage *message, void *user_data)
- 			return;
+diff --git a/include/network.h b/include/network.h
+index 2078509e..d8ebb232 100644
+--- a/include/network.h
++++ b/include/network.h
+@@ -97,6 +97,10 @@ int connman_network_set_available(struct connman_network *network,
+ bool connman_network_get_available(struct connman_network *network);
+ int connman_network_set_associating(struct connman_network *network,
+ 						bool associating);
++void connman_network_tofu_certificate(struct connman_network *network,
++				unsigned int depth, const char *subject,
++				const char **altsubject, const char *cert_hash,
++				const unsigned char *cert, size_t cert_len);
+ void connman_network_set_error(struct connman_network *network,
+ 					enum connman_network_error error);
+ int connman_network_set_connected(struct connman_network *network,
+diff --git a/include/service.h b/include/service.h
+index 385e0c42..f194422f 100644
+--- a/include/service.h
++++ b/include/service.h
+@@ -153,23 +153,6 @@ struct connman_service *connman_service_get_default(void);
+ struct connman_service *connman_service_lookup_from_network(struct connman_network *network);
+ struct connman_service *connman_service_lookup_from_identifier(const char* identifier);
  
- 		DBG("%s connect failed: %s", path, dbus_error);
--		if (!strcmp(dbus_error, "net.connman.iwd.Failed") ||
-+
-+		/*
-+		 * The TOFU probe is expected to fail, as an empty password is
-+		 * sent, which does not mean that the password is wrong.
-+		 */
-+		if (connman_network_get_bool(iwdn->network, "WiFi.TOFUProbe"))
-+			connman_network_set_error(iwdn->network,
-+					CONNMAN_NETWORK_ERROR_CONNECT_FAIL);
-+		else if (!strcmp(dbus_error, "net.connman.iwd.Failed") ||
- 				!strcmp(dbus_error,
- 					"net.connman.iwd.InvalidFormat"))
- 			connman_network_set_error(iwdn->network,
-@@ -387,11 +395,11 @@ static void set_8021x_string(GKeyFile *keyfile, const char *prefix,
- static int sync_auto_connect(struct iwd_network *iwdn);
+-/*
+- * Certificates seen on a TOFU probe connection. Hashes are SHA-256 as
+- * colon separated hex pairs. The CA fields are only set when the server
+- * sent a self-signed root CA certificate.
+- */
+-struct connman_service_tofu_cert {
+-	const char *hash;
+-	const char *subject;
+-	const char *domain;
+-	const char *ca_pem;
+-	const char *ca_hash;
+-	const char *ca_subject;
+-};
+-
+-void connman_service_tofu_certificate(struct connman_service *service,
+-				const struct connman_service_tofu_cert *cert);
+-
+ void connman_service_create_ip4config(struct connman_service *service,
+ 								int index);
+ void connman_service_create_ip6config(struct connman_service *service,
+diff --git a/plugins/wifi.c b/plugins/wifi.c
+index 8ddaed33..2a3fa318 100644
+--- a/plugins/wifi.c
++++ b/plugins/wifi.c
+@@ -41,10 +41,6 @@
+ #include <dbus/dbus.h>
+ #include <glib.h>
  
- /*
-- * EAP-*-ServerCertHash is only supported by an iwd that also reports the
-- * server certificate chain with the Station.Certification signal. Other
-- * versions ignore it, and would accept any server certificate. Whether iwd
-- * has the signal is found out by introspecting the first station object,
-- * if that fails it is assumed not to.
-+ * TOFU probes and EAP-*-ServerCertHash need an iwd that reports the server
-+ * certificate chain with the Station.Certification signal. An iwd without
-+ * that support also ignores ServerCertHash, and would accept any server
-+ * certificate. Whether iwd has the signal is found out by introspecting the
-+ * first station object, if that fails it is assumed not to.
-  */
- enum cert_support {
- 	CERT_SUPPORT_UNKNOWN,
-@@ -402,19 +410,25 @@ enum cert_support {
- static enum cert_support cert_support;
- static DBusPendingCall *cert_support_call;
- 
-+static bool tofu_probe(struct iwd_network *iwdn)
-+{
-+	return connman_network_get_bool(iwdn->network, "WiFi.TOFUProbe");
-+}
-+
- static bool needs_cert_support(struct iwd_network *iwdn)
- {
--	return connman_network_get_string(iwdn->network,
-+	return tofu_probe(iwdn) || connman_network_get_string(iwdn->network,
- 						"WiFi.ServerCertHash");
- }
- 
- /*
-- * Whether iwd connects without verifying the server: when the server
-- * certificate hash is pinned but iwd cannot check it.
-+ * Whether iwd connects without verifying the server: on a TOFU probe, and
-+ * when the server certificate hash is pinned but iwd cannot check it.
-  */
- static bool server_unverified(struct iwd_network *iwdn)
- {
--	return needs_cert_support(iwdn) && cert_support != CERT_SUPPORT_YES;
-+	return tofu_probe(iwdn) || (needs_cert_support(iwdn) &&
-+					cert_support != CERT_SUPPORT_YES);
- }
- 
- /*
-@@ -525,8 +539,9 @@ static int provision_8021x(struct iwd_network *iwdn)
- 		set_8021x_string(keyfile, prefix, "Phase2-Identity", identity);
- 
- 		/*
--		 * Without verifying the server the password is left out, so
--		 * that iwd cannot send it.
-+		 * Without verifying the server the password is left out: iwd
-+		 * then asks our agent for it, which answers with an empty
-+		 * one, see agent_password().
- 		 */
- 		if (!unverified)
- 			set_8021x_string(keyfile, prefix, "Phase2-Password",
-@@ -615,7 +630,7 @@ static int cm_network_connect(struct connman_network *network)
- 			}
- 
- 			if (cert_support == CERT_SUPPORT_NO) {
--				connman_warn("%s: ServerCertHash needs "
-+				connman_warn("%s: TOFU and ServerCertHash need "
- 					"an iwd with the Station.Certification "
- 					"signal", iwdn->name);
- 				return -EOPNOTSUPP;
-@@ -698,7 +713,7 @@ static void cert_support_reply(DBusPendingCall *call, void *user_data)
- 		cert_support = CERT_SUPPORT_YES;
- 	} else {
- 		connman_info("iwd has no Station.Certification signal, "
--				"ServerCertHash is not available");
-+				"TOFU and ServerCertHash are not available");
- 		cert_support = CERT_SUPPORT_NO;
+-#ifdef HAVE_GNUTLS
+-#include <gnutls/x509.h>
+-#endif
+-
+ #define CONNMAN_API_SUBJECT_TO_CHANGE
+ #include <connman/plugin.h>
+ #include <connman/inet.h>
+@@ -151,12 +147,6 @@ struct wifi_data {
+ 	unsigned int watch;
+ 	int retries;
+ 	int load_shaping_retries;
+-	struct {
+-		bool done;
+-		unsigned int ca_depth;
+-		GBytes *ca_cert;
+-		char *ca_subject;
+-	} tofu;
+ 	struct hidden_params *hidden;
+ 	bool postpone_hidden;
+ 	struct wifi_tethering_info *tethering_param;
+@@ -908,15 +898,6 @@ static void check_p2p_technology(void)
  	}
- 
-@@ -2148,6 +2163,76 @@ static DBusMessage *agent_request_passphrase(DBusConnection *dbus_conn,
- 					DBUS_TYPE_INVALID);
  }
  
-+static struct iwd_network *agent_network(DBusMessage *message)
-+{
-+	const char *path;
-+
-+	if (!dbus_message_get_args(message, NULL,
-+					DBUS_TYPE_OBJECT_PATH, &path,
-+					DBUS_TYPE_INVALID))
-+		return NULL;
-+
-+	return g_hash_table_lookup(networks, path);
-+}
-+
-+/*
-+ * EAP password for iwd. With the settings file written by provision_8021x()
-+ * iwd only asks for it when it does not verify the server, e.g. on a TOFU
-+ * probe connection: an empty password is sent then, so that the
-+ * authentication fails after the server certificate has been seen.
-+ */
-+static const char *agent_password(struct iwd_network *iwdn)
-+{
-+	if (server_unverified(iwdn))
-+		return "";
-+
-+	return connman_network_get_string(iwdn->network, "WiFi.Passphrase");
-+}
-+
-+static DBusMessage *agent_request_user_password(DBusConnection *dbus_conn,
-+						DBusMessage *message,
-+						void *user_data)
-+{
-+	struct iwd_network *iwdn;
-+	const char *passwd;
-+
-+	DBG("");
-+
-+	iwdn = agent_network(message);
-+	if (!iwdn)
-+		return get_reply_on_error(message, EINVAL);
-+
-+	passwd = agent_password(iwdn);
-+	if (!passwd)
-+		return get_reply_on_error(message, ENOKEY);
-+
-+	return g_dbus_create_reply(message, DBUS_TYPE_STRING, &passwd,
-+					DBUS_TYPE_INVALID);
-+}
-+
-+static DBusMessage *agent_request_user_name_password(DBusConnection *dbus_conn,
-+						DBusMessage *message,
-+						void *user_data)
-+{
-+	struct iwd_network *iwdn;
-+	const char *user, *passwd;
-+
-+	DBG("");
-+
-+	iwdn = agent_network(message);
-+	if (!iwdn)
-+		return get_reply_on_error(message, EINVAL);
-+
-+	user = connman_network_get_string(iwdn->network, "WiFi.Identity");
-+	passwd = agent_password(iwdn);
-+	if (!user || !passwd)
-+		return get_reply_on_error(message, ENOKEY);
-+
-+	return g_dbus_create_reply(message, DBUS_TYPE_STRING, &user,
-+					DBUS_TYPE_STRING, &passwd,
-+					DBUS_TYPE_INVALID);
-+}
-+
- static DBusMessage *agent_cancel(DBusConnection *dbus_conn,
- 					DBusMessage *message, void *user_data)
+-static void tofu_reset(struct wifi_data *wifi)
+-{
+-	wifi->tofu.done = false;
+-	wifi->tofu.ca_depth = 0;
+-	g_clear_pointer(&wifi->tofu.ca_cert, g_bytes_unref);
+-	g_free(wifi->tofu.ca_subject);
+-	wifi->tofu.ca_subject = NULL;
+-}
+-
+ static void wifi_remove(struct connman_device *device)
  {
-@@ -2179,6 +2264,14 @@ static const GDBusMethodTable agent_methods[] = {
- 			GDBUS_ARGS({ "path", "o" }),
- 			GDBUS_ARGS({ "passphrase", "s" }),
- 			agent_request_passphrase)},
-+	{ GDBUS_METHOD("RequestUserPassword",
-+			GDBUS_ARGS({ "path", "o" }, { "user", "s" }),
-+			GDBUS_ARGS({ "password", "s" }),
-+			agent_request_user_password)},
-+	{ GDBUS_METHOD("RequestUserNameAndPassword",
-+			GDBUS_ARGS({ "path", "o" }),
-+			GDBUS_ARGS({ "user", "s" }, { "password", "s" }),
-+			agent_request_user_name_password)},
- 	{ GDBUS_METHOD("Cancel",
- 			GDBUS_ARGS({ "reason", "s" }),
- 			NULL, agent_cancel) },
-@@ -2504,6 +2597,102 @@ static void object_removed(GDBusProxy *proxy, void *user_data)
- 		g_hash_table_remove(access_points, path);
+ 	struct wifi_data *wifi = connman_device_get_data(device);
+@@ -960,8 +941,6 @@ static void wifi_remove(struct connman_device *device)
+ 	if (wifi->scan_params)
+ 		g_supplicant_free_scan_params(wifi->scan_params);
+ 
+-	tofu_reset(wifi);
+-
+ 	g_free(wifi->autoscan);
+ 	g_free(wifi->identifier);
+ 	g_free(wifi);
+@@ -2299,7 +2278,6 @@ static int network_connect(struct connman_network *network)
+ 
+ 		wifi->network = connman_network_ref(network);
+ 		wifi->retries = 0;
+-		tofu_reset(wifi);
+ 
+ 		return g_supplicant_interface_connect(interface, ssid,
+ 						connect_callback, network);
+@@ -3376,161 +3354,6 @@ static void assoc_status_code(GSupplicantInterface *interface, int status_code)
+ 	}
  }
  
+-static char *colon_hex(const unsigned char *data, size_t len)
+-{
+-	GString *str = g_string_sized_new(len * 3);
+-	size_t i;
+-
+-	for (i = 0; i < len; i++)
+-		g_string_append_printf(str, "%s%02X", i ? ":" : "", data[i]);
+-
+-	return g_string_free(str, FALSE);
+-}
+-
+-static char *hex_to_colon_hex(const char *hex)
+-{
+-	GString *str = g_string_new(NULL);
+-	size_t i;
+-
+-	for (i = 0; hex[i]; i++) {
+-		if (i > 0 && i % 2 == 0)
+-			g_string_append_c(str, ':');
+-		g_string_append_c(str, g_ascii_toupper(hex[i]));
+-	}
+-
+-	return g_string_free(str, FALSE);
+-}
+-
+-static char *der_to_pem(GBytes *der)
+-{
+-	GString *pem;
+-	const guint8 *data;
+-	gsize size, len, i;
+-	char *b64;
+-
+-	data = g_bytes_get_data(der, &size);
+-	b64 = g_base64_encode(data, size);
+-	len = strlen(b64);
+-
+-	pem = g_string_new("-----BEGIN CERTIFICATE-----\n");
+-	for (i = 0; i < len; i += 64) {
+-		g_string_append_len(pem, b64 + i, MIN(64, len - i));
+-		g_string_append_c(pem, '\n');
+-	}
+-	g_string_append(pem, "-----END CERTIFICATE-----\n");
+-
+-	g_free(b64);
+-
+-	return g_string_free(pem, FALSE);
+-}
+-
+-/*
+- * Only the issuer and subject names are compared: the certificate becomes
+- * a trust anchor, whose own signature is not verified by wpa_supplicant
+- * either.
+- */
+-static bool is_self_signed(GBytes *der)
+-{
+-#ifdef HAVE_GNUTLS
+-	gnutls_x509_crt_t crt;
+-	gnutls_datum_t datum;
+-	gsize size;
+-	bool self_signed = false;
+-
+-	datum.data = (unsigned char *) g_bytes_get_data(der, &size);
+-	datum.size = size;
+-
+-	if (gnutls_x509_crt_init(&crt) < 0)
+-		return false;
+-
+-	if (gnutls_x509_crt_import(crt, &datum, GNUTLS_X509_FMT_DER) >= 0 &&
+-			gnutls_x509_crt_check_issuer(crt, crt) > 0)
+-		self_signed = true;
+-
+-	gnutls_x509_crt_deinit(crt);
+-
+-	return self_signed;
+-#else
+-	/* Without a certificate parser fall back to pinning the server */
+-	return false;
+-#endif
+-}
+-
+-/* First DNS subject alternative name, or the common name otherwise */
+-static char *domain_from_cert(const GSupplicantCertification *cert)
+-{
+-	const char *cn, *end;
+-	int i;
+-
+-	for (i = 0; cert->altsubject && cert->altsubject[i]; i++) {
+-		if (g_str_has_prefix(cert->altsubject[i], "DNS:"))
+-			return g_strdup(cert->altsubject[i] + 4);
+-	}
+-
+-	if (!cert->subject)
+-		return NULL;
+-
+-	cn = strstr(cert->subject, "/CN=");
+-	if (!cn)
+-		return NULL;
+-
+-	cn += 4;
+-	end = strchr(cn, '/');
+-
+-	return end ? g_strndup(cn, end - cn) : g_strdup(cn);
+-}
+-
+-static void tofu_report(struct wifi_data *wifi,
+-				const GSupplicantCertification *cert)
+-{
+-	struct connman_service_tofu_cert tofu = { };
+-	struct connman_service *service;
+-	char *hash, *domain, *ca_pem = NULL, *ca_hash = NULL;
+-
+-	service = connman_service_lookup_from_network(wifi->network);
+-	if (!service)
+-		return;
+-
+-	hash = hex_to_colon_hex(cert->cert_hash);
+-	domain = domain_from_cert(cert);
+-
+-	if (wifi->tofu.ca_cert && is_self_signed(wifi->tofu.ca_cert)) {
+-		GChecksum *checksum;
+-		guint8 digest[32];
+-		gsize digest_len = sizeof(digest);
+-		const guint8 *data;
+-		gsize size;
+-
+-		data = g_bytes_get_data(wifi->tofu.ca_cert, &size);
+-		checksum = g_checksum_new(G_CHECKSUM_SHA256);
+-		g_checksum_update(checksum, data, size);
+-		g_checksum_get_digest(checksum, digest, &digest_len);
+-		g_checksum_free(checksum);
+-
+-		ca_pem = der_to_pem(wifi->tofu.ca_cert);
+-		ca_hash = colon_hex(digest, digest_len);
+-	}
+-
+-	tofu.hash = hash;
+-	tofu.subject = cert->subject;
+-	tofu.domain = domain;
+-	tofu.ca_pem = ca_pem;
+-	tofu.ca_hash = ca_hash;
+-	tofu.ca_subject = wifi->tofu.ca_subject;
+-
+-	connman_service_tofu_certificate(service, &tofu);
+-
+-	g_free(hash);
+-	g_free(domain);
+-	g_free(ca_pem);
+-	g_free(ca_hash);
+-}
+-
+-/*
+- * The chain is reported from the highest depth down, so the highest
+- * depth certificate seen is the root, if the server sent it, and the
+- * server certificate (depth 0) comes last.
+- */
+ static void certification(GSupplicantInterface *interface,
+ 				const GSupplicantCertification *cert)
+ {
+@@ -3539,30 +3362,12 @@ static void certification(GSupplicantInterface *interface,
+ 	DBG("depth %u subject %s hash %s", cert->depth, cert->subject,
+ 							cert->cert_hash);
+ 
+-	if (!wifi || !wifi->network || wifi->tofu.done)
+-		return;
+-
+-	if (!connman_network_get_bool(wifi->network, "WiFi.TOFUProbe"))
+-		return;
+-
+-	if (cert->depth > 0) {
+-		if (!cert->cert || cert->cert_len <= 0 ||
+-				cert->depth <= wifi->tofu.ca_depth)
+-			return;
+-
+-		g_clear_pointer(&wifi->tofu.ca_cert, g_bytes_unref);
+-		wifi->tofu.ca_cert = g_bytes_new(cert->cert, cert->cert_len);
+-		g_free(wifi->tofu.ca_subject);
+-		wifi->tofu.ca_subject = g_strdup(cert->subject);
+-		wifi->tofu.ca_depth = cert->depth;
+-		return;
+-	}
+-
+-	if (!cert->cert_hash || strlen(cert->cert_hash) != 64)
++	if (!wifi || !wifi->network || cert->cert_len < 0)
+ 		return;
+ 
+-	wifi->tofu.done = true;
+-	tofu_report(wifi, cert);
++	connman_network_tofu_certificate(wifi->network, cert->depth,
++				cert->subject, cert->altsubject,
++				cert->cert_hash, cert->cert, cert->cert_len);
+ }
+ 
+ static const GSupplicantCallbacks callbacks = {
+diff --git a/src/connman.h b/src/connman.h
+index 1eb24ae6..1afa02d1 100644
+--- a/src/connman.h
++++ b/src/connman.h
+@@ -859,6 +859,24 @@ int __connman_service_get_index(const struct connman_service *service);
+ void __connman_service_set_hidden(struct connman_service *service);
+ void __connman_service_set_tofu(struct connman_service *service, bool tofu);
+ bool __connman_service_server_cert_hash_valid(const char *value);
++
 +/*
-+ * Station.Certification: one signal per certificate of the server's chain,
-+ * with the same fields and in the same order as wpa_supplicant's
-+ * Certification signal.
++ * Certificates seen on a TOFU probe connection. Hashes are SHA-256 as
++ * colon separated hex pairs. The CA fields are only set when the server
++ * sent a self-signed root CA certificate.
 + */
-+static void certification_signal(const char *path, DBusMessageIter *dict)
++struct connman_service_tofu_cert {
++	const char *hash;
++	const char *subject;
++	const char *domain;
++	const char *ca_pem;
++	const char *ca_hash;
++	const char *ca_subject;
++};
++
++void __connman_service_tofu_certificate(struct connman_service *service,
++				const struct connman_service_tofu_cert *cert);
++
+ void __connman_service_set_hostname(struct connman_service *service,
+ 						const char *hostname);
+ const char *__connman_service_get_hostname(const struct connman_service *service);
+diff --git a/src/network.c b/src/network.c
+index 3de64f57..5b81c225 100644
+--- a/src/network.c
++++ b/src/network.c
+@@ -26,6 +26,10 @@
+ #include <errno.h>
+ #include <string.h>
+ 
++#ifdef HAVE_GNUTLS
++#include <gnutls/x509.h>
++#endif
++
+ #include "connman.h"
+ #include <connman/acd.h>
+ #include "src/shared/arp.h"
+@@ -110,6 +114,14 @@ struct connman_network {
+ 		char *pin_wps;
+ 	} wifi;
+ 
++	/* Server certificate chain seen on a TOFU probe connection */
++	struct {
++		bool done;
++		unsigned int ca_depth;
++		GBytes *ca_cert;
++		char *ca_subject;
++	} tofu;
++
+ };
+ 
+ static const char *type2string(enum connman_network_type type)
+@@ -1221,10 +1233,21 @@ void connman_network_driver_unregister(struct connman_network_driver *driver)
+ 	}
+ }
+ 
++static void tofu_reset(struct connman_network *network)
 +{
-+	struct iwd_device *iwdd;
-+	struct iwd_network *iwdn;
-+	DBusMessageIter entry, value, array;
-+	dbus_uint32_t depth = 0;
-+	const char *subject = NULL, *cert_hash = NULL;
-+	const unsigned char *cert = NULL;
-+	int cert_len = 0;
-+	GPtrArray *altsubject = g_ptr_array_new();
++	network->tofu.done = false;
++	network->tofu.ca_depth = 0;
++	g_clear_pointer(&network->tofu.ca_cert, g_bytes_unref);
++	g_free(network->tofu.ca_subject);
++	network->tofu.ca_subject = NULL;
++}
 +
-+	while (dbus_message_iter_get_arg_type(dict) == DBUS_TYPE_DICT_ENTRY) {
-+		const char *key;
-+		int type;
+ static void network_destruct(struct connman_network *network)
+ {
+ 	DBG("network %p name %s", network, network->name);
+ 
++	tofu_reset(network);
 +
-+		dbus_message_iter_recurse(dict, &entry);
-+		dbus_message_iter_get_basic(&entry, &key);
-+		dbus_message_iter_next(&entry);
-+		dbus_message_iter_recurse(&entry, &value);
-+		type = dbus_message_iter_get_arg_type(&value);
+ 	g_free(network->wifi.ssid);
+ 	g_free(network->wifi.mode);
+ 	g_free(network->wifi.security);
+@@ -1643,6 +1666,200 @@ void connman_network_set_ipv6_method(struct connman_network *network,
+ 	__connman_ipconfig_set_method(ipconfig, method);
+ }
+ 
++static char *colon_hex(const unsigned char *data, size_t len)
++{
++	GString *str = g_string_sized_new(len * 3);
++	size_t i;
 +
-+		if (!strcmp(key, "depth") && type == DBUS_TYPE_UINT32) {
-+			dbus_message_iter_get_basic(&value, &depth);
-+		} else if (!strcmp(key, "subject") &&
-+				type == DBUS_TYPE_STRING) {
-+			dbus_message_iter_get_basic(&value, &subject);
-+		} else if (!strcmp(key, "cert_hash") &&
-+				type == DBUS_TYPE_STRING) {
-+			dbus_message_iter_get_basic(&value, &cert_hash);
-+		} else if (!strcmp(key, "cert") && type == DBUS_TYPE_ARRAY &&
-+				dbus_message_iter_get_element_type(&value) ==
-+							DBUS_TYPE_BYTE) {
-+			dbus_message_iter_recurse(&value, &array);
-+			dbus_message_iter_get_fixed_array(&array, &cert,
-+								&cert_len);
-+		} else if (!strcmp(key, "altsubject") &&
-+				type == DBUS_TYPE_ARRAY &&
-+				dbus_message_iter_get_element_type(&value) ==
-+							DBUS_TYPE_STRING) {
-+			dbus_message_iter_recurse(&value, &array);
-+			while (dbus_message_iter_get_arg_type(&array) ==
-+							DBUS_TYPE_STRING) {
-+				const char *str;
++	for (i = 0; i < len; i++)
++		g_string_append_printf(str, "%s%02X", i ? ":" : "", data[i]);
 +
-+				dbus_message_iter_get_basic(&array, &str);
-+				g_ptr_array_add(altsubject, (gpointer) str);
-+				dbus_message_iter_next(&array);
-+			}
-+		}
++	return g_string_free(str, FALSE);
++}
 +
-+		dbus_message_iter_next(dict);
++static char *hex_to_colon_hex(const char *hex)
++{
++	GString *str = g_string_new(NULL);
++	size_t i;
++
++	for (i = 0; hex[i]; i++) {
++		if (i > 0 && i % 2 == 0)
++			g_string_append_c(str, ':');
++		g_string_append_c(str, g_ascii_toupper(hex[i]));
 +	}
 +
-+	DBG("depth %u subject %s hash %s", depth, subject, cert_hash);
-+
-+	iwdd = g_hash_table_lookup(devices, path);
-+	if (!iwdd || !iwdd->network)
-+		goto out;
-+
-+	iwdn = g_hash_table_lookup(networks, iwdd->network);
-+	if (!iwdn)
-+		goto out;
-+
-+	g_ptr_array_add(altsubject, NULL);
-+
-+	connman_network_tofu_certificate(iwdn->network, depth, subject,
-+				(const char **) altsubject->pdata, cert_hash,
-+				cert, cert_len);
-+
-+out:
-+	g_ptr_array_free(altsubject, TRUE);
++	return g_string_free(str, FALSE);
 +}
 +
-+static void iwd_signal(DBusConnection *conn, DBusMessage *message,
-+							void *user_data)
++static char *der_to_pem(GBytes *der)
 +{
-+	DBusMessageIter iter, dict;
++	GString *pem;
++	const guint8 *data;
++	gsize size, len, i;
++	char *b64;
 +
-+	if (!dbus_message_is_signal(message, IWD_STATION_INTERFACE,
-+							"Certification"))
-+		return;
++	data = g_bytes_get_data(der, &size);
++	b64 = g_base64_encode(data, size);
++	len = strlen(b64);
 +
-+	if (!dbus_message_iter_init(message, &iter) ||
-+			dbus_message_iter_get_arg_type(&iter) !=
-+							DBUS_TYPE_ARRAY)
-+		return;
++	pem = g_string_new("-----BEGIN CERTIFICATE-----\n");
++	for (i = 0; i < len; i += 64) {
++		g_string_append_len(pem, b64 + i, MIN(64, len - i));
++		g_string_append_c(pem, '\n');
++	}
++	g_string_append(pem, "-----END CERTIFICATE-----\n");
 +
-+	dbus_message_iter_recurse(&iter, &dict);
-+	certification_signal(dbus_message_get_path(message), &dict);
++	g_free(b64);
++
++	return g_string_free(pem, FALSE);
 +}
 +
- static int iwd_init(void)
++/*
++ * Only the issuer and subject names are compared: the certificate becomes
++ * a trust anchor, whose own signature is not verified when it is used
++ * either.
++ */
++static bool is_self_signed(GBytes *der)
++{
++#ifdef HAVE_GNUTLS
++	gnutls_x509_crt_t crt;
++	gnutls_datum_t datum;
++	gsize size;
++	bool self_signed = false;
++
++	datum.data = (unsigned char *) g_bytes_get_data(der, &size);
++	datum.size = size;
++
++	if (gnutls_x509_crt_init(&crt) < 0)
++		return false;
++
++	if (gnutls_x509_crt_import(crt, &datum, GNUTLS_X509_FMT_DER) >= 0 &&
++			gnutls_x509_crt_check_issuer(crt, crt) > 0)
++		self_signed = true;
++
++	gnutls_x509_crt_deinit(crt);
++
++	return self_signed;
++#else
++	/* Without a certificate parser fall back to pinning the server */
++	return false;
++#endif
++}
++
++/* First DNS subject alternative name, or the common name otherwise */
++static char *domain_from_cert(const char *subject, const char **altsubject)
++{
++	const char *cn, *end;
++	int i;
++
++	for (i = 0; altsubject && altsubject[i]; i++) {
++		if (g_str_has_prefix(altsubject[i], "DNS:"))
++			return g_strdup(altsubject[i] + 4);
++	}
++
++	if (!subject)
++		return NULL;
++
++	cn = strstr(subject, "/CN=");
++	if (!cn)
++		return NULL;
++
++	cn += 4;
++	end = strchr(cn, '/');
++
++	return end ? g_strndup(cn, end - cn) : g_strdup(cn);
++}
++
++static void tofu_report(struct connman_network *network,
++				const char *subject, const char **altsubject,
++				const char *cert_hash)
++{
++	struct connman_service_tofu_cert tofu = { };
++	struct connman_service *service;
++	char *hash, *domain, *ca_pem = NULL, *ca_hash = NULL;
++
++	service = connman_service_lookup_from_network(network);
++	if (!service)
++		return;
++
++	hash = hex_to_colon_hex(cert_hash);
++	domain = domain_from_cert(subject, altsubject);
++
++	if (network->tofu.ca_cert && is_self_signed(network->tofu.ca_cert)) {
++		GChecksum *checksum;
++		guint8 digest[32];
++		gsize digest_len = sizeof(digest);
++		const guint8 *data;
++		gsize size;
++
++		data = g_bytes_get_data(network->tofu.ca_cert, &size);
++		checksum = g_checksum_new(G_CHECKSUM_SHA256);
++		g_checksum_update(checksum, data, size);
++		g_checksum_get_digest(checksum, digest, &digest_len);
++		g_checksum_free(checksum);
++
++		ca_pem = der_to_pem(network->tofu.ca_cert);
++		ca_hash = colon_hex(digest, digest_len);
++	}
++
++	tofu.hash = hash;
++	tofu.subject = subject;
++	tofu.domain = domain;
++	tofu.ca_pem = ca_pem;
++	tofu.ca_hash = ca_hash;
++	tofu.ca_subject = network->tofu.ca_subject;
++
++	__connman_service_tofu_certificate(service, &tofu);
++
++	g_free(hash);
++	g_free(domain);
++	g_free(ca_pem);
++	g_free(ca_hash);
++}
++
++/**
++ * connman_network_tofu_certificate:
++ * @network: network being connected
++ * @depth: depth of the certificate in the chain, 0 for the server
++ * @subject: subject of the certificate
++ * @altsubject: NULL terminated subject alternative names, or NULL
++ * @cert_hash: SHA-256 hash of the certificate as 64 hex digits
++ * @cert: DER encoded certificate
++ * @cert_len: length of @cert
++ *
++ * Report a certificate of the server's chain seen while connecting. The
++ * chain must be reported from the highest depth down to the server
++ * certificate (depth 0), the order in which TLS libraries verify it:
++ * the highest depth certificate seen is then the root, if the server
++ * sent it. Certificates are only used on a TOFU probe connection.
++ */
++void connman_network_tofu_certificate(struct connman_network *network,
++				unsigned int depth, const char *subject,
++				const char **altsubject, const char *cert_hash,
++				const unsigned char *cert, size_t cert_len)
++{
++	if (!network || network->tofu.done || !network->wifi.tofu_probe)
++		return;
++
++	if (depth > 0) {
++		if (!cert || cert_len == 0 || depth <= network->tofu.ca_depth)
++			return;
++
++		g_clear_pointer(&network->tofu.ca_cert, g_bytes_unref);
++		network->tofu.ca_cert = g_bytes_new(cert, cert_len);
++		g_free(network->tofu.ca_subject);
++		network->tofu.ca_subject = g_strdup(subject);
++		network->tofu.ca_depth = depth;
++		return;
++	}
++
++	if (!cert_hash || strlen(cert_hash) != 64)
++		return;
++
++	network->tofu.done = true;
++	tofu_report(network, subject, altsubject, cert_hash);
++}
++
+ void connman_network_set_error(struct connman_network *network,
+ 					enum connman_network_error error)
  {
- 	connection = connman_dbus_get_connection();
-@@ -2557,6 +2746,7 @@ static int iwd_init(void)
- 	g_dbus_client_set_disconnect_watch(client, iwd_is_out, NULL);
- 	g_dbus_client_set_proxy_handlers(client, object_added, object_removed,
- 			NULL, NULL);
-+	g_dbus_client_set_signal_watch(client, iwd_signal, NULL);
+@@ -1805,6 +2022,8 @@ int __connman_network_connect(struct connman_network *network)
  
- 	return 0;
+ 	network->connecting = true;
  
++	tofu_reset(network);
++
+ 	err = network->driver->connect(network);
+ 	if (err < 0) {
+ 		if (err == -EINPROGRESS)
+diff --git a/src/service.c b/src/service.c
+index 44928978..6109eef6 100644
+--- a/src/service.c
++++ b/src/service.c
+@@ -7680,7 +7680,7 @@ static void tofu_check_probe(struct connman_service *service)
+ 	g_idle_add(tofu_probe_finished, connman_service_ref(service));
+ }
+ 
+-void connman_service_tofu_certificate(struct connman_service *service,
++void __connman_service_tofu_certificate(struct connman_service *service,
+ 				const struct connman_service_tofu_cert *cert)
+ {
+ 	struct tofu_request *req;
 -- 
 2.53.0
 
